@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flaschenzug-Labor</title>
+<style>
+/* Labor-Kern (CROSS-001) – Gestaltung aller Labor-Apps.
+   Farben: Palette „Mathe 10 G-Kurs“ (01_PERSOENLICH/gestaltungsrichtlinien.md §4), für Text auf Weiß
+   abgedunkelt bis Kontrast ≥ 4,5 : 1 (§2). Fachgrößen-Farben: Farbcode Dreifach Mathe 10 G
+   (08_QUELLEN/Schulbuecher/Dreifach_Mathe_10_G/DARSTELLUNGSKONVENTIONEN.md §1). */
+:root {
+  --dunkel: #1F2A44;        /* Nachtblau: Kopf */
+  --haupt: #23705A;         /* Grün #2E8B6F abgedunkelt (5,9 : 1) für Text und Knöpfe */
+  --haupt-hell: #2E8B6F;
+  --akzent: #E07B39;        /* Orange: nur Rahmen/Flächen, nie Text */
+  --hell: #EEF2F8;
+  --text: #111827;
+  --neben: #374151;
+  --linie: #9AA8BF;         /* kräftiger Rahmen statt blasser Fläche (Beamer) */
+  --fehler: #B3261E;
+  /* Fachgrößen (Buchfarben) */
+  --f-hk: #C62828;          /* Körperhöhe h_K: rot */
+  --f-ha: #7B3FA0;          /* Seitenhöhen h_a, h_b: lila */
+  --f-s: #23705A;           /* Seitenkante s: grün (im Buch für die Pyramide nicht festgelegt) */
+  --f-g: #1F5FAD;           /* Grundfläche und Strecken darin (a/2, b/2, d/2): blau */
+  --f-m: #9A4A12;           /* Mantel/Seitenflächen: orange (abgedunkelt für Text) */
+  --schrift: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 18px/1.45 var(--schrift); color: var(--text); background: #fff; }
+button, input, select { font: inherit; color: inherit; }
+sub, sup { font-size: 0.72em; line-height: 0; }
+
+/* ---------- ohne JavaScript / Fehler ---------- */
+.ohne-js { margin: 24px 16px; padding: 16px 18px; border: 3px solid var(--akzent); border-radius: 10px;
+  background: #FFF4E8; font-size: 20px; }
+.fehlerbox { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 50; padding: 12px 16px;
+  border: 3px solid var(--fehler); border-radius: 10px; background: #fff; color: var(--fehler); font-weight: 600; }
+.hinweis-fehler { padding: 10px 12px; border: 2px solid var(--fehler); border-radius: 8px; color: var(--fehler); font-weight: 600; }
+
+/* ---------- Seitengerüst ---------- */
+.kopf { background: var(--dunkel); color: #fff; padding: 12px 16px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 8px 16px; }
+.kopf-text { flex: 1 1 260px; }
+.kopf h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+.kopf .frage { margin: 2px 0 0; font-size: 19px; }
+.kopf .ziel { margin: 2px 0 0; font-size: 16px; opacity: 0.92; }
+.kopf .knopf { border-color: #fff; color: #fff; background: transparent; }
+.kopf .knopf[aria-pressed="true"] { background: #fff; color: var(--dunkel); }
+
+.lab { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 12px 16px; max-width: 1280px; margin: 0 auto; }
+.buehne-feld { position: sticky; top: 0; z-index: 5; align-self: start; background: #fff; padding-top: 4px; }
+.buehne { position: relative; height: min(88vw, 46vh); min-height: 260px; border: 2px solid var(--linie);
+  border-radius: 10px; background: #fff; overflow: hidden; touch-action: none; cursor: grab; outline: none; }
+.buehne:active { cursor: grabbing; }
+.buehne:focus-visible { box-shadow: 0 0 0 3px var(--akzent); }
+.buehne svg { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
+.buehne-info { margin: 4px 2px 0; font-size: 16px; color: var(--neben); }
+.steuer { min-width: 0; }
+.unten { max-width: 1280px; margin: 0 auto; padding: 0 16px 24px; }
+@media (min-width: 900px) {
+  .lab { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); align-items: start; }
+  .buehne-feld { top: 8px; }
+  .buehne { height: min(72vh, 640px); }
+}
+
+/* ---------- Karten, Knöpfe, Regler ---------- */
+.karte { border: 2px solid var(--linie); border-radius: 10px; padding: 10px 14px 12px; margin: 0 0 12px; background: #fff; }
+.karte > h2, .karte > summary { margin: 0 0 6px; font-size: 19px; font-weight: 700; }
+.karte p { margin: 4px 0; }
+.klein { font-size: 16px; color: var(--neben); }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.knopfreihe-titel { font-size: 16px; color: var(--neben); margin: 6px 0 0; }
+.knopf { min-height: 44px; padding: 6px 14px; border: 2px solid var(--haupt); border-radius: 8px; background: #fff;
+  color: var(--haupt); font-weight: 600; cursor: pointer; }
+.knopf[aria-pressed="true"] { background: var(--haupt); color: #fff; }
+.knopf:focus-visible, .schritt:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--akzent); outline-offset: 2px; }
+.knopf:disabled { opacity: 0.45; cursor: default; }
+.regler { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 10px; margin: 8px 0 4px; }
+.regler label { font-weight: 600; }
+.regler output { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 4.5em; text-align: right; }
+.regler-zeile { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.regler input[type="range"] { flex: 1; min-width: 0; height: 36px; margin: 0; accent-color: var(--haupt); }
+.schritt { width: 44px; height: 44px; flex: none; border: 2px solid var(--haupt); border-radius: 8px; background: #fff;
+  color: var(--haupt); font-size: 22px; font-weight: 700; line-height: 1; cursor: pointer; }
+.regler.aus { opacity: 0.5; }
+.schalter { display: flex; align-items: center; gap: 10px; min-height: 40px; margin: 2px 0; cursor: pointer; }
+.schalter input { width: 22px; height: 22px; margin: 0; accent-color: var(--haupt); flex: none; }
+.auswahl { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.auswahl select { min-height: 40px; padding: 4px 8px; border: 2px solid var(--haupt); border-radius: 8px; background: #fff; }
+
+/* ---------- Annahmen-Kasten ---------- */
+.annahmen { border-color: var(--haupt-hell); background: #F5F9F7; }
+.annahmen summary { cursor: pointer; }
+.annahmen ul { margin: 6px 0 0; padding-left: 22px; }
+
+/* ---------- Tafel, Gleichungen ---------- */
+.tafel { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tafel th, .tafel td { padding: 5px 6px; border-bottom: 1px solid #C9D3E3; text-align: left; vertical-align: top; }
+.tafel th { font-weight: 700; width: 5.5em; }
+.tafel td.wert { font-weight: 600; }
+.tafel tr.rw td { padding-top: 0; font-size: 16px; color: var(--neben); }
+.gleichung { margin: 6px 0 0; }
+.gleichung .zeile { padding: 3px 0; font-size: 19px; line-height: 1.6; }
+.gleichung .zeile.vor { font-size: 16px; color: var(--neben); }
+.gleichung .zeile.ergebnis { font-weight: 700; }
+.gleichung .rand { color: var(--neben); margin-left: 16px; white-space: nowrap; }
+.bruch { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; font-size: 0.82em;
+  line-height: 1.05; margin: 0 1px; }
+.bruch > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 2px; }
+.wz { white-space: nowrap; }
+.wz .rad { border-top: 1.5px solid currentColor; padding: 0 2px; }
+.c-hk { color: var(--f-hk); font-weight: 700; }
+.c-ha { color: var(--f-ha); font-weight: 700; }
+.c-s  { color: var(--f-s); font-weight: 700; }
+.c-g  { color: var(--f-g); font-weight: 700; }
+.c-m  { color: var(--f-m); font-weight: 700; }
+
+/* ---------- Aufgaben ---------- */
+.aufgaben { list-style: none; margin: 0; padding: 0; }
+.aufgaben li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #C9D3E3; }
+.niveau { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  border-radius: 6px; font-size: 20px; font-weight: 700; color: #111827; }
+.niveau.n1 { background: #FFD84D; }   /* ▽ gelb  */
+.niveau.n2 { background: #F4A259; }   /* ◪ orange */
+.niveau.n3 { background: #C9A3E0; }   /* ☒ lila  */
+.aufgaben details { margin-top: 4px; font-size: 16px; color: var(--neben); }
+.aufgaben summary { cursor: pointer; color: var(--haupt); font-weight: 600; }
+
+/* ---------- Zeichnungen (SVG) ---------- */
+.gitter line { stroke: #CBD5E3; stroke-width: 1; }
+.fl-g { fill: #8FBDEB; fill-opacity: 0.75; }
+.fl-m { fill: #F5B37E; fill-opacity: 0.3; }
+.fl-d { fill: #FFD84D; fill-opacity: 0.72; }
+.k { stroke: #111827; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+.k-d { stroke: #374151; stroke-width: 1.5; fill: none; }
+.s-hk { stroke: var(--f-hk); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.s-ha { stroke: var(--f-ha); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.s-s  { stroke: var(--f-s); stroke-width: 3.6; fill: none; stroke-linecap: round; }
+.s-g  { stroke: var(--f-g); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.v { stroke-dasharray: 7 6; stroke-linecap: butt; }
+.k.v { stroke-width: 1.6; stroke: #374151; }
+.s-hk.v, .s-ha.v, .s-s.v, .s-g.v { stroke-dasharray: 10 5; }   /* farbige Strecken im Inneren: lange Striche */
+.wi { fill: none; stroke-width: 1.8; }
+.wi.s-hk, .wi.s-ha, .wi.s-g, .wi.s-s { stroke-width: 1.8; }
+.pk { fill: #111827; }
+.t { font-family: var(--schrift); font-weight: 700; fill: #111827; paint-order: stroke; stroke: #fff;
+  stroke-width: 4px; stroke-linejoin: round; }
+.t-hk { fill: var(--f-hk); }
+.t-ha { fill: var(--f-ha); }
+.t-s  { fill: var(--f-s); }
+.t-g  { fill: var(--f-g); }
+.t-m  { fill: var(--f-m); }
+.bs { stroke-width: 1.6; }
+.bs.t-hk { stroke: var(--f-hk); } .bs.t-ha { stroke: var(--f-ha); } .bs.t-s { stroke: var(--f-s); }
+.bs.t-g { stroke: var(--f-g); } .bs.t { stroke: #111827; }
+.flach { display: block; width: 100%; max-width: 460px; height: auto; margin: 4px auto 0; }
+
+/* ---------- Beamer-Modus: große Schrift, dicke Linien, große Zeichenfläche ---------- */
+body.beamer { font-size: 22px; }
+body.beamer .kopf h1 { font-size: 34px; }
+body.beamer .kopf .frage { font-size: 26px; }
+body.beamer .kopf .ziel { font-size: 20px; }
+body.beamer .klein, body.beamer .buehne-info, body.beamer .tafel tr.rw td, body.beamer .gleichung .zeile.vor { font-size: 19px; }
+body.beamer .gleichung .zeile { font-size: 24px; }
+body.beamer .lab { max-width: none; }
+body.beamer .unten { max-width: none; }
+@media (min-width: 900px) {
+  body.beamer .lab { grid-template-columns: minmax(0, 2fr) minmax(360px, 1fr); }
+  body.beamer .buehne { height: 80vh; }
+}
+body.beamer .k { stroke-width: 3.4; }
+body.beamer .k.v { stroke-width: 2.4; }
+body.beamer .k-d { stroke-width: 2.2; }
+body.beamer .s-hk, body.beamer .s-ha, body.beamer .s-g { stroke-width: 5; }
+body.beamer .s-s { stroke-width: 5.4; }
+body.beamer .wi { stroke-width: 2.6; }
+body.beamer .v { stroke-dasharray: 10 8; }
+body.beamer .s-hk.v, body.beamer .s-ha.v, body.beamer .s-s.v, body.beamer .s-g.v { stroke-dasharray: 14 7; }
+body.beamer .t { stroke-width: 5px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+@media (max-width: 699px) {          /* Handy: Kopf kompakt, Beamer-Knopf weg */
+  .kopf { padding: 8px 16px; }
+  .kopf h1 { font-size: 22px; }
+  .kopf .frage { font-size: 18px; }
+  .kopf .ziel, .kopf .knopf { display: none; }
+  .knopf { padding: 6px 10px; font-size: 17px; }
+  .knopfreihe { gap: 5px; }
+  .karte { padding: 8px 10px 10px; }
+}
+
+/* Fachfarben Physik 10 (CROSS-001, Zusatz) – nach labor.css einbinden.
+   Palette „Physik 10“ aus 01_PERSOENLICH/gestaltungsrichtlinien.md §4; Petrol #0E7C7B hat auf Weiß 5,0 : 1.
+   Energieformen: feste Farben für alle Physik-Apps („immer dieselbe Legende“, RP 10e UV 1 §3).
+   Farbe ist nie das einzige Merkmal – jede Fläche trägt zusätzlich ihren Namen. */
+:root {
+  --dunkel: #34434F;        /* Schiefer: Kopf */
+  --haupt: #0E7C7B;         /* Petrol: Text, Knöpfe */
+  --haupt-hell: #0E7C7B;
+  --akzent: #E4572E;        /* Rotorange: nur Rahmen/Fokus */
+  --hell: #F0F3F5;
+  --text: #16202A;
+  /* Energieformen */
+  --e-elektrisch: #2B6CB0;
+  --e-licht: #E3B505;
+  --e-thermisch: #D9480F;
+  --e-bewegung: #2F9E44;
+  --e-lage: #8D6E63;
+  --e-chemisch: #7B3FA0;
+  --e-kern: #5F6B76;
+  --e-spann: #C2255C;
+}
+.annahmen { background: #F2F7F7; }
+
+/* Energiefluss-Bänder (SVG) */
+.ef-elektrisch { fill: var(--e-elektrisch); }
+.ef-licht { fill: var(--e-licht); }
+.ef-thermisch { fill: var(--e-thermisch); }
+.ef-bewegung { fill: var(--e-bewegung); }
+.ef-lage { fill: var(--e-lage); }
+.ef-chemisch { fill: var(--e-chemisch); }
+.ef-kern { fill: var(--e-kern); }
+.ef-spann { fill: var(--e-spann); }
+.band { fill-opacity: 0.88; stroke: #16202A; stroke-width: 1; stroke-linejoin: round; }
+.band.kette { fill-opacity: 0.7; }
+.wandler { fill: #fff; stroke: #16202A; stroke-width: 2; }
+.wandler-text { font-family: var(--schrift); font-size: 15px; font-weight: 700; fill: #16202A; }
+.ef-text { font-family: var(--schrift); font-size: 15px; fill: #16202A; paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+.ef-text.form { font-weight: 700; }
+.ef-text.hinweis { font-size: 13px; fill: #374151; }
+.farbpunkt { display: inline-block; width: 0.9em; height: 0.9em; border: 1px solid #16202A; border-radius: 2px;
+  vertical-align: -0.1em; margin-right: 4px; }
+body.beamer .wandler-text, body.beamer .ef-text { font-size: 18px; }
+body.beamer .ef-text.hinweis { font-size: 15px; }
+
+/* Farbfelder in Legende und Texten */
+.ef-bg-elektrisch { background: var(--e-elektrisch); } .ef-bg-licht { background: var(--e-licht); }
+.ef-bg-thermisch { background: var(--e-thermisch); } .ef-bg-bewegung { background: var(--e-bewegung); }
+.ef-bg-lage { background: var(--e-lage); } .ef-bg-chemisch { background: var(--e-chemisch); }
+.ef-bg-kern { background: var(--e-kern); } .ef-bg-spann { background: var(--e-spann); }
+
+/* Bühne für flache, breite Diagramme (keine 3D-Gesten): volle Breite, nicht festgeheftet, seitlich wischbar;
+   Einstellungen darunter in Spalten */
+.buehne-feld.ef-feld { position: static; }
+.lab.ef-lab, body.beamer .lab.ef-lab { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 700px) { .ef-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 12px; align-items: start; } }
+.ef-buehne { border: 2px solid var(--linie); border-radius: 10px; background: #fff; padding: 6px; overflow-x: auto;
+  -webkit-overflow-scrolling: touch; margin-bottom: 6px; }
+.ef-buehne svg { display: block; margin: 0 auto; }
+.ef-titel { margin: 6px 2px 4px; font-weight: 700; }
+.ef-platzhalter { margin: 0; padding: 40px 16px; text-align: center; color: var(--neben); }
+.ef-eigen { display: grid; gap: 0 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.ef-stufe[hidden], .ef-eigen[hidden] { display: none; }
+.ef-ergebnis p { margin: 4px 0; }
+
+/* Niveau-Sterne (Physik) brauchen mehr Platz als die Mathe-Symbole */
+.niveau.p { width: auto; min-width: 34px; padding: 0 6px; font-size: 15px; letter-spacing: -1px; }
+
+/* Üben */
+.ueben-text { font-size: 19px; }
+.ef-feldzeile { margin: 8px 0; }
+.ef-feldzeile label { display: block; font-weight: 600; }
+.ef-eingabe-zeile { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+.ef-eingabe { width: 9em; min-height: 44px; padding: 4px 10px; border: 2px solid var(--haupt); border-radius: 8px; font-size: 20px; }
+.rueck { margin: 2px 0 0; font-size: 16px; min-height: 0; }
+.rueck.ok { color: #1E6B34; font-weight: 700; }
+.rueck.falsch { color: var(--fehler); font-weight: 600; }
+.ef-meldung { font-weight: 700; color: var(--haupt); }
+
+/* Drucken: Diagramme, Legende und Ergebnis – keine Bedienelemente */
+@media print {
+  .kopf .knopf, .unten, .steuer .karte:not(.ef-druck), .ef-druck .knopfreihe, .ef-druck .schalter, .fehlerbox { display: none !important; }
+  .buehne-feld.ef-feld { position: static; }
+  .lab { display: block; }
+  .ef-buehne { overflow: visible; border-color: #999; }
+  .ef-buehne svg { width: 100% !important; height: auto !important; }
+  .kopf { background: #fff; color: #000; border-bottom: 2px solid #000; }
+}
+
+/* Bausteine für virtuelle Experimente (CROSS-006) – Kraftmesser, Seile, Rollen, Kräfte, Maße, Messtabelle.
+   Konventionen wie im Buch und auf unseren Blättern: Kräfte rot, tragende Seilstücke grün (PRISMA S. 152, 160). */
+:root { --kraft: #C62828; --seil-gruen: #2B8A3E; }
+.fz-buehne { cursor: default; }
+.fz-buehne svg { display: block; width: 100%; height: 100%; }
+.fz-decke { fill: #5F6B76; }
+.fz-schraffur { stroke: #5F6B76; stroke-width: 1.2; }
+.fz-seil { stroke: #3A3F44; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+.fz-seil.tragend { stroke: var(--seil-gruen); stroke-width: 4.2; }
+.fz-stange { stroke: #3A3F44; stroke-width: 2.4; }
+.fz-rolle { fill: #D5DCE1; stroke: #16202A; stroke-width: 2; }
+.fz-achse { fill: #16202A; }
+.fz-last { fill: #4B5660; stroke: #16202A; stroke-width: 1.5; }
+.fz-last-text { font-family: var(--schrift); font-size: 12px; font-weight: 700; fill: #fff; }
+.fz-kraft { stroke: var(--kraft); stroke-width: 3.2; }
+.fz-kraft-spitze { fill: var(--kraft); }
+.fz-kraft-text { font-family: var(--schrift); font-size: 16px; font-weight: 700; fill: var(--kraft); paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.tief { font-size: 0.72em; }
+.fz-start { stroke: #76838D; stroke-width: 1.4; stroke-dasharray: 4 4; }
+.fz-mass { stroke: #16202A; stroke-width: 1.5; }
+.fz-mass-text { font-family: var(--schrift); font-size: 14px; font-weight: 700; fill: #16202A; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.fz-anzeige { font-family: var(--schrift); font-size: 15px; font-weight: 700; fill: #16202A; }
+.fz-anzeige.kraft { fill: var(--kraft); }
+.fz-nr { fill: var(--seil-gruen); }
+.fz-nr-text { font-family: var(--schrift); font-size: 11px; font-weight: 700; fill: #fff; }
+.fz-griff-g { cursor: grab; }
+.fz-griff-g:active { cursor: grabbing; }
+.fz-griff-feld { fill: transparent; }
+.fz-griff { fill: #fff; stroke: #16202A; stroke-width: 3; }
+.km-gehaeuse { fill: #F4F6F8; stroke: #16202A; stroke-width: 2; }
+.km-gehaeuse.ueber { fill: #FDECEC; stroke: var(--fehler); stroke-width: 3; }
+.km-strich { stroke: #16202A; stroke-width: 1; }
+.km-zeiger { stroke: var(--kraft); stroke-width: 3; }
+.km-haken { stroke: #16202A; stroke-width: 2.2; }
+body.beamer .fz-seil { stroke-width: 3.2; } body.beamer .fz-seil.tragend { stroke-width: 5.5; }
+body.beamer .fz-kraft-text, body.beamer .fz-anzeige { font-size: 18px; } body.beamer .fz-mass-text { font-size: 16px; }
+
+.knopf.haupt { background: var(--haupt); color: #fff; }
+.tabelle-scroll { overflow-x: auto; }
+.messtabelle { font-size: 16px; margin: 6px 0; }
+.messtabelle th { width: auto; white-space: nowrap; }
+.messtabelle td { white-space: nowrap; }
+.vorhersage-rueck p { margin: 4px 0; }
+.fz-ergebnis p { margin: 6px 0; }
+
+</style>
+</head>
+<body>
+<div id="ohne-js" class="ohne-js"><strong>Flaschenzug-Labor</strong><br>Bitte im Browser öffnen (Safari oder Chrome). Diese Seite braucht JavaScript – die Vorschau auf dem iPhone (z. B. aus „Dateien“ oder einer Mail) zeigt sie nicht richtig.</div>
+<div id="app" hidden></div>
+<script>
+/* LAB – Labor-Kern (CROSS-001), erste Fassung für MATH-3D-001.
+   Enthält: Zahlformat (deutsch, Komma, „≈“), Speicher (nur Komfort), Seitengerüst, Regler mit Label,
+   Schalter, Knopfgruppe, Auswahl, Annahmen-Kasten, Beamer-Modus, Fehlermeldung, Hinweis ohne JavaScript.
+   Zahlformat übernommen aus werkzeuge/lernseite_mathe10g/kern/ml_basis.js (ML.runde, ML.zahl, ML.ungefaehr).
+   Beim Laden wird die Seite nicht angefasst – die Rechenteile laufen auch in den Tests (ohne Seite). */
+var LAB = (function () {
+  'use strict';
+
+  /* ---------- Zahlen (aus ML übernommen) ---------- */
+  // kaufmännisch runden; toPrecision(15) entfernt Gleitkomma-Rauschen (2,675 · 100 = 267,49999…)
+  function runde(x, stellen) {
+    if (!isFinite(x)) return x;
+    var f = Math.pow(10, stellen), y = Number((Math.abs(x) * f).toPrecision(15));
+    return (x < 0 ? -1 : 1) * Math.round(y) / f;
+  }
+  // deutsche Schreibweise: Komma, höchstens maxSt Nachkommastellen, Nullen am Ende weg, Tausender mit Leerzeichen
+  function zahl(x, maxSt) {
+    if (maxSt === undefined) maxSt = 2;
+    if (!isFinite(x)) return '–';
+    var r = runde(x, maxSt), neg = r < 0;
+    var s = Math.abs(r).toFixed(maxSt).split('.');
+    var ganz = s[0], dez = (s[1] || '').replace(/0+$/, '');
+    if (ganz.length > 3) ganz = ganz.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (neg && r !== 0 ? '−' : '') + ganz + (dez ? ',' + dez : '');
+  }
+  function istGenau(x, st) { return Math.abs(x - runde(x, st)) < 1e-9; }
+  function zeichen(x, st) { return istGenau(x, st) ? '=' : '≈'; }
+  // genaue Werte ohne Nullen am Ende (5), gerundete mit fester Stellenzahl (6,40) – wie im Buch
+  function wert(x, st) {
+    if (st === undefined) st = 2;
+    if (!isFinite(x) || istGenau(x, st)) return zahl(x, st);
+    var t = zahl(x, st), k = t.indexOf(','), hat = k < 0 ? 0 : t.length - k - 1;
+    return hat >= st ? t : t + (k < 0 ? ',' : '') + new Array(st - hat + 1).join('0');
+  }
+  function ungefaehr(x, st) { return zeichen(x, st) + ' ' + wert(x, st); }
+
+  /* ---------- Speicher: nur Komfort, Seite läuft auch ohne ---------- */
+  var speicher = {
+    lies: function (k, std) {
+      try { var w = window.localStorage.getItem('labor.' + k); return w === null ? std : JSON.parse(w); } catch (e) { return std; }
+    },
+    schreib: function (k, w) { try { window.localStorage.setItem('labor.' + k, JSON.stringify(w)); } catch (e) { /* egal */ } }
+  };
+
+  /* ---------- Seitenbausteine ---------- */
+  var zaehler = 0;
+  function neueId(p) { zaehler += 1; return (p || 'lab') + '-' + zaehler; }
+  // el('div', {class: 'x', html: '…', onclick: f}, [kinder])
+  function el(tag, attr, kinder) {
+    var e = document.createElement(tag);
+    Object.keys(attr || {}).forEach(function (k) {
+      var w = attr[k];
+      if (w === undefined || w === null || w === false) return;
+      if (k === 'html') e.innerHTML = w;
+      else if (k === 'text') e.textContent = w;
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), w);
+      else e.setAttribute(k, w === true ? '' : w);
+    });
+    (kinder || []).forEach(function (c) { if (c) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return e;
+  }
+
+  // Regler mit Label, Anzeige und −/+-Knöpfen. opt: label (HTML), name (für Vorlesen), min, max, schritt, wert,
+  // anzeige(wert) → Text, beiAenderung(wert)
+  function regler(opt) {
+    var id = neueId('regler'), schritt = opt.schritt || 1;
+    var anzeige = opt.anzeige || function (w) { return zahl(w, 2); };
+    var input = el('input', { type: 'range', id: id, min: opt.min, max: opt.max, step: schritt, value: opt.wert });
+    var out = el('output', { 'for': id });
+    function zeige() {
+      var t = anzeige(Number(input.value));
+      out.textContent = t;
+      input.setAttribute('aria-valuetext', t);
+    }
+    function setze(w, melden) {
+      w = Math.min(opt.max, Math.max(opt.min, Math.round(w / schritt) * schritt));
+      input.value = String(w); zeige();
+      if (melden && opt.beiAenderung) opt.beiAenderung(Number(input.value));
+    }
+    input.addEventListener('input', function () { zeige(); if (opt.beiAenderung) opt.beiAenderung(Number(input.value)); });
+    var minus = el('button', { type: 'button', 'class': 'schritt', 'aria-label': (opt.name || 'Wert') + ' verkleinern', text: '−',
+      onclick: function () { setze(Number(input.value) - schritt, true); } });
+    var plus = el('button', { type: 'button', 'class': 'schritt', 'aria-label': (opt.name || 'Wert') + ' vergrößern', text: '+',
+      onclick: function () { setze(Number(input.value) + schritt, true); } });
+    var box = el('div', { 'class': 'regler' }, [el('label', { 'for': id, html: opt.label }), out,
+      el('div', { 'class': 'regler-zeile' }, [minus, input, plus])]);
+    zeige();
+    return {
+      el: box, input: input,
+      wert: function () { return Number(input.value); },
+      setze: function (w) { setze(w, false); },
+      aktiv: function (ja) { input.disabled = minus.disabled = plus.disabled = !ja; box.classList.toggle('aus', !ja); },
+      neuAnzeigen: zeige
+    };
+  }
+
+  function schalter(opt) {
+    var id = neueId('schalter');
+    var input = el('input', { type: 'checkbox', id: id, checked: !!opt.wert,
+      onchange: function () { if (opt.beiAenderung) opt.beiAenderung(input.checked); } });
+    var box = el('label', { 'class': 'schalter', 'for': id }, [input, el('span', { html: opt.label })]);
+    return { el: box, input: input, wert: function () { return input.checked; }, setze: function (w) { input.checked = !!w; } };
+  }
+
+  // Knopfgruppe (eine Wahl aus mehreren). opt: titel, optionen [{wert, text (HTML), titel}], wert, beiAenderung
+  function knopfgruppe(opt) {
+    var aktuell = opt.wert, knoepfe = [];
+    var reihe = el('div', { 'class': 'knopfreihe', role: 'group', 'aria-label': opt.titel || '' });
+    opt.optionen.forEach(function (o) {
+      var k = el('button', { type: 'button', 'class': 'knopf', html: o.text, title: o.titel,
+        onclick: function () { setze(o.wert); if (opt.beiAenderung) opt.beiAenderung(o.wert); } });
+      k.dataset.wert = o.wert; knoepfe.push(k); reihe.appendChild(k);
+    });
+    function setze(w) {
+      aktuell = w;
+      knoepfe.forEach(function (k) { k.setAttribute('aria-pressed', String(k.dataset.wert === String(w))); });
+    }
+    setze(aktuell);
+    var box = el('div', {}, [opt.titel ? el('p', { 'class': 'knopfreihe-titel', html: opt.titel }) : null, reihe]);
+    return {
+      el: box, wert: function () { return aktuell; }, setze: setze,
+      sichtbar: function (w, ja) { knoepfe.forEach(function (k) { if (k.dataset.wert === String(w)) k.hidden = !ja; }); }
+    };
+  }
+
+  function auswahl(opt) {
+    var id = neueId('auswahl');
+    var s = el('select', { id: id, onchange: function () { if (opt.beiAenderung) opt.beiAenderung(s.value); } });
+    opt.optionen.forEach(function (o) { s.appendChild(el('option', { value: o.wert, text: o.text, selected: o.wert === opt.wert })); });
+    return { el: el('div', { 'class': 'auswahl' }, [el('label', { 'for': id, html: opt.label }), s]), wert: function () { return s.value; } };
+  }
+
+  function karte(titel, kinder, klasse) {
+    return el('section', { 'class': 'karte' + (klasse ? ' ' + klasse : '') }, [titel ? el('h2', { html: titel }) : null].concat(kinder || []));
+  }
+
+  // Kasten „So ist das Modell gebaut“: Annahmen, Vereinfachungen, Grenzen
+  function annahmen(titel, punkte) {
+    return el('details', { 'class': 'karte annahmen' }, [el('summary', { html: titel || 'So ist das Modell gebaut' }),
+      el('ul', {}, punkte.map(function (p) { return el('li', { html: p }); }))]);
+  }
+
+  // Beamer-Modus: große Schrift, dicke Linien, große Zeichenfläche. Zustand bleibt (localStorage, wenn möglich).
+  function beamerKnopf(beiWechsel) {
+    var an = speicher.lies('beamer', false);
+    var k = el('button', { type: 'button', 'class': 'knopf', text: 'Beamer',
+      title: 'Große Schrift und dicke Linien für den Beamer',
+      onclick: function () { setze(!an); speicher.schreib('beamer', an); if (beiWechsel) beiWechsel(an); } });
+    function setze(w) { an = !!w; document.body.classList.toggle('beamer', an); k.setAttribute('aria-pressed', String(an)); }
+    setze(an);
+    return k;
+  }
+  function istBeamer() { return typeof document !== 'undefined' && document.body.classList.contains('beamer'); }
+
+  // Seitengerüst: Kopf (Titel, Frage, Ziel, Beamer-Knopf), zweispaltiger Hauptteil, unterer Teil
+  function seite(opt) {
+    var wurzel = document.getElementById('app');
+    var kopf = el('header', { 'class': 'kopf' }, [
+      el('div', { 'class': 'kopf-text' }, [el('h1', { text: opt.titel }), opt.frage ? el('p', { 'class': 'frage', text: opt.frage }) : null,
+        opt.ziel ? el('p', { 'class': 'ziel', text: opt.ziel }) : null]),
+      beamerKnopf(opt.beiBeamer)]);
+    var buehneFeld = el('div', { 'class': 'buehne-feld' });
+    var steuer = el('div', { 'class': 'steuer' });
+    var unten = el('div', { 'class': 'unten' });
+    wurzel.appendChild(kopf);
+    wurzel.appendChild(el('main', { 'class': 'lab' }, [buehneFeld, steuer]));
+    wurzel.appendChild(unten);
+    return { kopf: kopf, buehneFeld: buehneFeld, steuer: steuer, unten: unten };
+  }
+
+  function fehler(text) {
+    if (typeof document === 'undefined') return;
+    var alt = document.getElementById('lab-fehler');
+    if (alt) return;
+    document.body.appendChild(el('div', { id: 'lab-fehler', 'class': 'fehlerbox', role: 'alert', text: text }));
+  }
+
+  // Start: Hinweis „Bitte im Browser öffnen“ verstecken, App zeigen, Fehler abfangen
+  function start(fn) {
+    function los() {
+      var ohne = document.getElementById('ohne-js'), app = document.getElementById('app');
+      window.addEventListener('error', function () { fehler('Da ist etwas schiefgegangen. Bitte Seite neu laden.'); });
+      try {
+        if (ohne) ohne.hidden = true;
+        if (app) app.hidden = false;
+        fn();
+      } catch (e) {
+        fehler('Da ist etwas schiefgegangen. Bitte Seite neu laden. (' + e.message + ')');
+        if (window.console) console.error(e);
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', los); else los();
+  }
+
+  function weniger() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+  }
+
+  return { runde: runde, zahl: zahl, wert: wert, istGenau: istGenau, zeichen: zeichen, ungefaehr: ungefaehr, speicher: speicher,
+    el: el, regler: regler, schalter: schalter, knopfgruppe: knopfgruppe, auswahl: auswahl, karte: karte,
+    annahmen: annahmen, beamerKnopf: beamerKnopf, istBeamer: istBeamer, seite: seite, fehler: fehler, start: start,
+    wenigerBewegung: weniger };
+})();
+
+</script>
+<script>
+/* VERSUCH – Bausteine für virtuelle Experimente (CROSS-006, erste Fassung 11.10.2026 mit PHYS-EXP-002 Flaschenzug).
+   Enthält: Federkraftmesser (Messbereich, Skalenteil, Ablesen, Überlastung, SVG-Zeichnung), Zufall mit Startwert
+   (wiederholbar, CROSS-003 Kern), Messtabelle mit CSV-Datei (Semikolon, Dezimalkomma – öffnet in Numbers/Excel),
+   Vorhersage-Karte. Die Rechenteile (ablesen, zufall) laufen ohne Seite und werden in den Tests geprüft. */
+var VERSUCH = (function () {
+  'use strict';
+
+  /* ---------- Federkraftmesser ---------- */
+  // Annahme: übliche Schul-Kraftmesser; Skalenteil = kleinster Strich. Abgelesen wird auf einen HALBEN Skalenteil
+  // (man schätzt zwischen zwei Strichen) – so erscheint z. B. 0,25 N am 2-N-Kraftmesser auch als 0,25 N.
+  var KRAFTMESSER = [
+    { bereich: 1, teil: 0.01 }, { bereich: 2, teil: 0.02 }, { bereich: 5, teil: 0.05 }, { bereich: 10, teil: 0.1 }
+  ];
+  function messer(bereich) {
+    for (var i = 0; i < KRAFTMESSER.length; i++) if (KRAFTMESSER[i].bereich === bereich) return KRAFTMESSER[i];
+    return KRAFTMESSER[1];
+  }
+  // F in N → {anzeige (auf einen halben Skalenteil gerundet), ueber (Messbereich überschritten), teil, stufe}
+  // abweichung: ganze Zahl von Ablesestufen (zufälliger Ablesefehler), Standard 0
+  function ablesen(F, bereich, abweichung) {
+    var m = messer(bereich), stufe = m.teil / 2, stufen = Math.round(F / stufe + 1e-9) + (abweichung || 0);
+    var anzeige = Number((Math.max(0, stufen) * stufe).toFixed(4));
+    return { anzeige: Math.min(anzeige, m.bereich), ueber: F > m.bereich + 1e-9, teil: m.teil, stufe: stufe, bereich: m.bereich };
+  }
+
+  /* ---------- Zufall mit Startwert (mulberry32) – gleiche Zahlenfolge bei gleichem Startwert ---------- */
+  function zufall(start) {
+    var a = (start >>> 0) || 1;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0;
+      var t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  /* ---------- SVG: Federkraftmesser senkrecht ----------
+     x = Mitte, y0 = oberer Haken, laenge = Gehäuse, F und bereich in N. Der rote Zeiger wandert mit F nach unten. */
+  function kraftmesserSvg(x, y0, laenge, F, bereich, ueber) {
+    var b = 26, top = y0 + 10, unten = top + laenge, rand = 10, skala = laenge - 2 * rand, t = '';
+    var m = messer(bereich), anteil = Math.min(F / m.bereich, 1);
+    t += '<line class="km-haken" x1="' + x + '" y1="' + y0 + '" x2="' + x + '" y2="' + top + '"/>';
+    t += '<rect class="km-gehaeuse' + (ueber ? ' ueber' : '') + '" x="' + (x - b / 2) + '" y="' + top + '" width="' + b + '" height="' + laenge + '" rx="5"/>';
+    var schritte = m.bereich <= 2 ? m.bereich * 10 : m.bereich;      // 1 N: 0,1-N-Striche · 5 N: 1-N-Striche
+    for (var i = 0; i <= schritte; i++) {
+      var yy = top + rand + skala * i / schritte, gross = (m.bereich <= 2 ? i % 5 === 0 : true);
+      t += '<line class="km-strich" x1="' + (x - b / 2 + 3) + '" y1="' + yy.toFixed(1) + '" x2="' + (x - b / 2 + (gross ? 12 : 8)) + '" y2="' + yy.toFixed(1) + '"/>';
+    }
+    var yz = top + rand + skala * anteil;
+    t += '<line class="km-zeiger" x1="' + (x - b / 2 + 2) + '" y1="' + yz.toFixed(1) + '" x2="' + (x + b / 2 - 2) + '" y2="' + yz.toFixed(1) + '"/>';
+    t += '<line class="km-haken" x1="' + x + '" y1="' + unten + '" x2="' + x + '" y2="' + (unten + 10) + '"/>';
+    return { svg: t, oben: y0, unten: unten + 10 };
+  }
+
+  /* ---------- Seite: Messtabelle mit CSV ---------- */
+  // opt: titel, spalten [{key, titel (HTML), csv (Text), stellen}], dateiname, leerText
+  function messtabelle(opt) {
+    var el = LAB.el, zeilen = [], sichtbar = {};
+    opt.spalten.forEach(function (s) { sichtbar[s.key] = s.sichtbar !== false; });
+    var tabelle = el('table', { 'class': 'tafel messtabelle' }), leer = el('p', { 'class': 'klein', text: opt.leerText || 'Noch keine Messwerte.' });
+    function zahl(x, st) { return typeof x === 'number' ? LAB.zahl(x, st === undefined ? 2 : st) : String(x); }
+    function zeichnen() {
+      var sp = opt.spalten.filter(function (s) { return sichtbar[s.key]; });
+      var kopf = '<thead><tr><th>Nr.</th>' + sp.map(function (s) { return '<th>' + s.titel + '</th>'; }).join('') + '</tr></thead>';
+      var rumpf = '<tbody>' + zeilen.map(function (z, i) {
+        return '<tr><td>' + (i + 1) + '</td>' + sp.map(function (s) { return '<td>' + zahl(z[s.key], s.stellen) + '</td>'; }).join('') + '</tr>';
+      }).join('') + '</tbody>';
+      tabelle.innerHTML = kopf + rumpf;
+      tabelle.hidden = !zeilen.length; leer.hidden = !!zeilen.length;
+    }
+    function csv() {
+      var sp = opt.spalten, z = ['Nr.;' + sp.map(function (s) { return s.csv; }).join(';')];
+      zeilen.forEach(function (r, i) {
+        z.push((i + 1) + ';' + sp.map(function (s) { return typeof r[s.key] === 'number' ? String(LAB.runde(r[s.key], 4)).replace('.', ',') : String(r[s.key]); }).join(';'));
+      });
+      return '﻿' + z.join('\r\n') + '\r\n';
+    }
+    function speichern() {
+      try {
+        var blob = new Blob([csv()], { type: 'text/csv;charset=utf-8' }), a = el('a', { href: URL.createObjectURL(blob), download: opt.dateiname || 'messwerte.csv' });
+        document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+      } catch (e) { LAB.fehler('Speichern ging nicht. Bitte die Tabelle abschreiben.'); }
+    }
+    var knoepfe = el('div', { 'class': 'knopfreihe' }, [
+      el('button', { type: 'button', 'class': 'knopf', text: 'Als Tabelle speichern (CSV)', onclick: function () { if (zeilen.length) speichern(); } }),
+      el('button', { type: 'button', 'class': 'knopf', text: 'Tabelle leeren', onclick: function () { zeilen = []; zeichnen(); } })]);
+    var box = el('div', { 'class': 'messtabelle-box' }, [leer, el('div', { 'class': 'tabelle-scroll' }, [tabelle]), knoepfe]);
+    zeichnen();
+    return {
+      el: box, csv: csv, zeilen: function () { return zeilen.slice(); },
+      hinzu: function (r) { zeilen.push(r); zeichnen(); },
+      spalte: function (key, ja) { sichtbar[key] = !!ja; zeichnen(); }
+    };
+  }
+
+  /* ---------- Seite: Vorhersage-Karte ---------- */
+  // opt: frage (HTML), felder [{key, label (HTML), einheit}], beiVergleich(werte) → HTML-Rückmeldung
+  function vorhersage(opt) {
+    var el = LAB.el, inputs = {}, rueck = el('div', { 'class': 'vorhersage-rueck', 'aria-live': 'polite' });
+    var teile = [el('p', { html: opt.frage })];
+    opt.felder.forEach(function (f, i) {
+      var id = 'vh-' + f.key + '-' + i;
+      inputs[f.key] = el('input', { type: 'text', id: id, inputmode: 'decimal', autocomplete: 'off', 'class': 'ef-eingabe' });
+      teile.push(el('div', { 'class': 'ef-feldzeile' }, [el('label', { 'for': id, html: f.label }),
+        el('div', { 'class': 'ef-eingabe-zeile' }, [inputs[f.key], el('span', { text: f.einheit || '' })])]));
+    });
+    teile.push(el('div', { 'class': 'knopfreihe' }, [el('button', { type: 'button', 'class': 'knopf', text: 'Mit dem Versuch vergleichen', onclick: function () {
+      var w = {};
+      Object.keys(inputs).forEach(function (k) { w[k] = inputs[k].value; });
+      rueck.innerHTML = opt.beiVergleich(w);
+    } })]));
+    teile.push(rueck);
+    return { el: el('div', {}, teile), leeren: function () { Object.keys(inputs).forEach(function (k) { inputs[k].value = ''; }); rueck.innerHTML = ''; } };
+  }
+
+  // Zahl aus einer Eingabe (Komma oder Punkt, Einheit am Ende erlaubt)
+  function parseZahl(t) {
+    var s = String(t === undefined || t === null ? '' : t).replace(/\s+/g, '').replace(/(N|cm|m|g|J|%)$/i, '').replace(',', '.');
+    return /^\d*\.?\d+$/.test(s) ? Number(s) : NaN;
+  }
+
+  return { KRAFTMESSER: KRAFTMESSER, messer: messer, ablesen: ablesen, zufall: zufall, kraftmesserSvg: kraftmesserSvg,
+    messtabelle: messtabelle, vorhersage: vorhersage, parseZahl: parseZahl };
+})();
+
+</script>
+<script>
+var INHALT = {
+ "titel": "Flaschenzug-Labor",
+ "frage": "Wie hebt man eine schwere Last mit wenig Kraft?",
+ "ziel": "Ziel: Du misst Zugkraft und Kraftweg bei Rollen und Flaschenzug und findest die Regel dahinter.",
+ "aufbauten": {
+  "ohne": "ohne Rolle",
+  "fest": "feste Rolle",
+  "lose": "lose Rolle",
+  "lose_fest": "lose + feste Rolle",
+  "fz4": "Flaschenzug (4 Rollen)"
+ },
+ "bedienung": "Ziehen: Griff mit Finger oder Maus bewegen – oder den Regler „Kraftweg s“ benutzen.",
+ "buehne_label": "Versuchsaufbau. Den Griff ziehen oder den Regler Kraftweg benutzen.",
+ "ueberlast": "Achtung: Messbereich überschritten! Ein echter Kraftmesser würde überdehnt. Nimm einen größeren Kraftmesser.",
+ "noch_nicht_gezogen": "Zieh zuerst am Seil, damit die Last steigt (Lastweg h > 0).",
+ "vorhersage_frage": "Vermute zuerst – dann miss nach: Wie groß ist die Zugkraft beim gewählten Aufbau und der eingestellten Last? Wie lang ist der Kraftweg, wenn die Last 10 cm steigt?",
+ "einfuehrung": "Mit Rollen kann man Lasten mit weniger Kraft heben. Aber das hat einen Preis. Miss die Zugkraft F am Kraftmesser, den Lastweg h (wie hoch die Last steigt) und den Kraftweg s (wie viel Seil du ziehst) – genau wie im Versuch im Physikraum. Zähle die tragenden Seilstücke n.",
+ "aufgaben": [
+  {
+   "niveau": "★",
+   "text": "Hebe 100 g ohne Rolle und mit der festen Rolle jeweils 10 cm hoch. Vergleiche Zugkraft und Kraftweg. Was ändert die feste Rolle?",
+   "tipp": "Achte auch auf die Zugrichtung."
+  },
+  {
+   "niveau": "★",
+   "text": "Schalte „tragende Seilstücke zählen“ ein. Wie viele tragende Seilstücke hat jeder Aufbau?",
+   "tipp": "Tragend sind die Seilstücke, an denen die Last (mit den losen Rollen) hängt."
+  },
+  {
+   "niveau": "★★",
+   "text": "Miss für alle Aufbauten Zugkraft und Kraftweg bei h = 10 cm (Last 100 g) und notiere die Messwerte. Formuliere eine Regel: Je mehr tragende Seilstücke …, desto …",
+   "tipp": "Vergleiche F mit F_G und s mit h. Teile durch n."
+  },
+  {
+   "niveau": "★★",
+   "text": "Schalte auf „realistisch“. Warum zeigt der Kraftmesser jetzt mehr an als die Regel vorhersagt? Nenne zwei Gründe.",
+   "tipp": "Was hängt außer der Last noch an den tragenden Seilstücken? Was passiert in den Rollen?"
+  },
+  {
+   "niveau": "★★★",
+   "text": "Schalte „Arbeit zeigen“ ein. Vergleiche F · s mit F_G · h – einmal ideal, einmal realistisch. Was sagt die Goldene Regel der Mechanik?",
+   "tipp": "Ideal sind beide Produkte gleich. Realistisch ist F · s größer – wohin geht der Rest?"
+  },
+  {
+   "niveau": "★★★",
+   "text": "Du hast nur einen 2-N-Kraftmesser. Welche Last kannst du mit welchem Aufbau höchstens heben (ideal)? Prüfe deine Rechnung.",
+   "tipp": "Höchste Zugkraft 2 N. Last F_G = n · F."
+  }
+ ],
+ "annahmen": [
+  "Gewichtskraft: 1 kg ≈ 10 N wie im Buch (S. 154), also 100 g ≈ 1 N.",
+  "Ideal: Rollen und Seil wiegen nichts, es gibt keine Reibung, es wird genau senkrecht gezogen. Dann gilt F = F_G : n und s = n · h.",
+  "Realistisch: Jede lose Rolle wiegt mit (einstellbar, Standard 40 g). Reibung: Jede Rolle erhöht die Zugkraft beim gleichmäßigen Hochziehen um einen festen Anteil (Standard 5 %) – ein vereinfachtes Modell.",
+  "Kraftweg s = n · Lastweg h gilt immer – auch realistisch –, weil sich das Seil nicht dehnt.",
+  "Kraftmesser: Skalenteile 1 N: 0,01 N · 2 N: 0,02 N · 5 N: 0,05 N · 10 N: 0,1 N. Abgelesen wird auf einen halben Skalenteil (man schätzt zwischen zwei Strichen). „Zufällige Ablesefehler“ verschiebt den Wert um bis zu eine Ablesestufe.",
+  "Gemessen wird beim langsamen, gleichmäßigen Ziehen. Last 50 g bis 1000 g, Kraftweg bis 40 cm.",
+  "Arbeit in Joule: F · s mit s in Metern (20 cm = 0,2 m)."
+ ],
+ "ohne_js": "Bitte im Browser öffnen (Safari oder Chrome). Diese Seite braucht JavaScript – die Vorschau auf dem iPhone (z. B. aus „Dateien“ oder einer Mail) zeigt sie nicht richtig.",
+ "fusszeile": "Flaschenzug-Labor · Version 0.1 · Digitales Labor Physik · läuft offline, speichert keine Daten."
+};
+</script>
+<script>
+/* Modell PHYS-EXP-002 Flaschenzug-Labor – reine Rechnung und Geometrie, ohne Seite (testbar mit osascript).
+   Physik (Buch PRISMA Physik 2, S. 158–160; unser Arbeitsblatt Flaschenzug):
+     Gewichtskraft    F_G = m · 10 N/kg (Buch S. 154: 1 kg ≈ 10 N)
+     ideal            Zugkraft F = F_G : n        Kraftweg s = n · Lastweg h      (n = tragende Seilstücke)
+     realistisch      F = (F_G + F_G,lose Rollen) : n · (1 + Reibung · Zahl der Rollen)   (vereinfachtes Modell)
+     Goldene Regel    ideal: F · s = F_G · h      realistisch: F · s > F_G · h, η = F_G · h : (F · s)
+   Geometrie: Pixel in der Zeichnung (viewBox 360 × 510), 2,5 Pixel je cm. Das Seil dehnt sich nicht:
+   Die Summe aller Seilstücke bleibt beim Ziehen gleich (wird getestet). */
+var FZ = (function () {
+  'use strict';
+  var ORTSFAKTOR = 10, K = 2.5, S_MAX = 40, BREITE = 360, HOEHE = 510, DECKE_Y = 24, KM_LAENGE = 100;
+  var AUFBAU = {
+    ohne:      { n: 1, lose: 0, rollen: 0, zug: 'oben' },
+    fest:      { n: 1, lose: 0, rollen: 1, zug: 'unten' },
+    lose:      { n: 2, lose: 1, rollen: 1, zug: 'oben' },
+    lose_fest: { n: 2, lose: 1, rollen: 2, zug: 'unten' },
+    fz4:       { n: 4, lose: 2, rollen: 4, zug: 'unten' }
+  };
+  var ARTEN = ['ohne', 'fest', 'lose', 'lose_fest', 'fz4'];
+
+  // mLast, opt.mRolle in g · opt.reibung als Anteil je Rolle (0,05 = 5 %) · opt.real true/false
+  function kraefte(art, mLast, opt) {
+    var a = AUFBAU[art], real = !!(opt && opt.real);
+    var FG = mLast / 1000 * ORTSFAKTOR, FR = real ? a.lose * opt.mRolle / 1000 * ORTSFAKTOR : 0;
+    var faktor = real ? 1 + opt.reibung * a.rollen : 1;
+    return { n: a.n, FG: FG, FRollen: FR, Fideal: FG / a.n, F: (FG + FR) / a.n * faktor, faktor: faktor };
+  }
+
+  function wege(art, s) { return { s: s, h: s / AUFBAU[art].n }; }
+
+  // Arbeit in J (Kraft in N, Wege in cm)
+  function arbeit(F, FG, w) {
+    var Wzug = F * w.s / 100, Whub = FG * w.h / 100;
+    return { Wzug: Wzug, Whub: Whub, eta: Wzug > 0 ? Whub / Wzug : null };
+  }
+
+  /* Geometrie bei Kraftweg s (cm). Rückgabe in Pixeln:
+     decke {x0, x1, y} · aufhaengung [{x1,y1,x2,y2}] · feste/lose [{cx, cy, r}] · boegen [{cx, cy, r, oben}]
+     seile [{x, y1, y2, tragend, nr}] (senkrecht, y1 < y2) · verbindungen [{x1,y1,x2,y2}]
+     last {x, haken, y, w, h} (y = Oberkante Klotz) · km {x, oben, unten, griffY} · zug 'oben'|'unten' · start {lastY, endY} */
+  function geometrie(art, s) {
+    var a = AUFBAU[art], h = s / a.n, dh = h * K, ds = s * K, g = { zug: a.zug, aufhaengung: [], feste: [], lose: [], boegen: [], seile: [], verbindungen: [] };
+    function kmUnten(x, yEnde) { g.km = { x: x, oben: yEnde, unten: yEnde + KM_LAENGE + 20, griffY: yEnde + KM_LAENGE + 34 }; }
+    function kmOben(x, yEnde) { g.km = { x: x, oben: yEnde - KM_LAENGE - 20, unten: yEnde, griffY: yEnde - KM_LAENGE - 34 }; }
+    function last(x, haken) { g.last = { x: x, haken: haken, y: haken + 12, w: 46, h: 34 }; }
+    var Ly = 290 - dh, yF = 80;
+    if (art === 'ohne') {
+      g.decke = null;
+      kmOben(180, 260 - ds); last(180, 260 - ds);
+      g.start = { lastY: 272, endY: 260 };
+    } else if (art === 'fest') {
+      var R = 22, cx = 190;
+      g.decke = { x0: 130, x1: 250, y: DECKE_Y };
+      g.aufhaengung.push({ x1: cx, y1: DECKE_Y, x2: cx, y2: yF }); g.feste.push({ cx: cx, cy: yF, r: R });
+      g.boegen.push({ cx: cx, cy: yF, r: R, oben: true });
+      g.seile.push({ x: cx - R, y1: yF, y2: 300 - dh, tragend: true, nr: 1 });
+      g.seile.push({ x: cx + R, y1: yF, y2: 200 + ds, tragend: false });
+      last(cx - R, 300 - dh); kmUnten(cx + R, 200 + ds);
+      g.start = { lastY: 312, endY: 200 };
+    } else if (art === 'lose') {
+      R = 22; cx = 170;
+      g.decke = { x0: 104, x1: 168, y: DECKE_Y };
+      g.lose.push({ cx: cx, cy: Ly, r: R }); g.boegen.push({ cx: cx, cy: Ly, r: R, oben: false });
+      g.seile.push({ x: cx - R, y1: DECKE_Y, y2: Ly, tragend: true, nr: 1 });
+      g.seile.push({ x: cx + R, y1: 250 - ds, y2: Ly, tragend: true, nr: 2 });
+      g.verbindungen.push({ x1: cx, y1: Ly, x2: cx, y2: Ly + R + 12 });
+      last(cx, Ly + R + 12); kmOben(cx + R, 250 - ds);
+      g.start = { lastY: 290 + R + 24, endY: 250 };
+    } else if (art === 'lose_fest') {
+      R = 22; var lx = 130, fx = 174;
+      g.decke = { x0: 90, x1: 240, y: DECKE_Y };
+      g.aufhaengung.push({ x1: fx, y1: DECKE_Y, x2: fx, y2: yF }); g.feste.push({ cx: fx, cy: yF, r: R });
+      g.lose.push({ cx: lx, cy: Ly, r: R });
+      g.boegen.push({ cx: fx, cy: yF, r: R, oben: true }, { cx: lx, cy: Ly, r: R, oben: false });
+      g.seile.push({ x: lx - R, y1: DECKE_Y, y2: Ly, tragend: true, nr: 1 });
+      g.seile.push({ x: lx + R, y1: yF, y2: Ly, tragend: true, nr: 2 });
+      g.seile.push({ x: fx + R, y1: yF, y2: 200 + ds, tragend: false });
+      g.verbindungen.push({ x1: lx, y1: Ly, x2: lx, y2: Ly + R + 12 });
+      last(lx, Ly + R + 12); kmUnten(fx + R, 200 + ds);
+      g.start = { lastY: 290 + R + 24, endY: 200 };
+    } else {   // fz4: zwei feste Rollen oben, zwei lose Rollen unten an einer Flasche
+      R = 20; var l1 = 110, f1 = 150, l2 = 190, f2 = 230, yb = Ly + R + 10;
+      g.decke = { x0: 70, x1: 262, y: DECKE_Y };
+      [f1, f2].forEach(function (x) {
+        g.aufhaengung.push({ x1: x, y1: DECKE_Y, x2: x, y2: yF }); g.feste.push({ cx: x, cy: yF, r: R }); g.boegen.push({ cx: x, cy: yF, r: R, oben: true });
+      });
+      [l1, l2].forEach(function (x) { g.lose.push({ cx: x, cy: Ly, r: R }); g.boegen.push({ cx: x, cy: Ly, r: R, oben: false }); });
+      g.seile.push({ x: l1 - R, y1: DECKE_Y, y2: Ly, tragend: true, nr: 1 });
+      g.seile.push({ x: l1 + R, y1: yF, y2: Ly, tragend: true, nr: 2 });
+      g.seile.push({ x: l2 - R, y1: yF, y2: Ly, tragend: true, nr: 3 });
+      g.seile.push({ x: l2 + R, y1: yF, y2: Ly, tragend: true, nr: 4 });
+      g.seile.push({ x: f2 + R, y1: yF, y2: 200 + ds, tragend: false });
+      g.verbindungen.push({ x1: l1, y1: Ly, x2: l1, y2: yb }, { x1: l2, y1: Ly, x2: l2, y2: yb }, { x1: l1, y1: yb, x2: l2, y2: yb });
+      last(f1, yb); kmUnten(f2 + R, 200 + ds);
+      g.start = { lastY: 290 + R + 22, endY: 200 };
+    }
+    return g;
+  }
+
+  // Länge aller Seilstücke (ohne die Bögen, die bleiben gleich) – muss beim Ziehen konstant sein
+  function seillaenge(g) { return g.seile.reduce(function (summe, st) { return summe + (st.y2 - st.y1); }, 0); }
+
+  return { ORTSFAKTOR: ORTSFAKTOR, K: K, S_MAX: S_MAX, BREITE: BREITE, HOEHE: HOEHE, KM_LAENGE: KM_LAENGE, AUFBAU: AUFBAU, ARTEN: ARTEN,
+    kraefte: kraefte, wege: wege, arbeit: arbeit, geometrie: geometrie, seillaenge: seillaenge };
+})();
+
+</script>
+<script>
+/* App PHYS-EXP-002 Flaschenzug-Labor (Version 0.1) – Bedienung und Darstellung.
+   Rechnet keine Formeln selbst: Kräfte, Wege, Arbeit und Geometrie aus FZ (modell.js), Kraftmesser, Zufall,
+   Messtabelle und Vorhersage aus VERSUCH (kern/versuch.js), Seitenbausteine aus LAB, Texte aus INHALT (inhalt.py). */
+LAB.start(function () {
+  'use strict';
+  var T = INHALT, el = LAB.el, A = FZ.AUFBAU;
+  var Z = { art: 'fest', m: 100, bereich: 2, s: 0, real: false, mRolle: 40, reibung: 5, zufaellig: false, zaehlen: false, arbeit: false, abw: 0 };
+  var zufall = VERSUCH.zufall(20261127), ui = {}, drag = null;
+
+  /* ---------- Schreibweise ---------- */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function fmt(s) { return esc(s).replace(/F_G/g, 'F<sub>G</sub>'); }
+  function kraft(x) { return x.toFixed(2).replace('.', ',') + ' N'; }               // Ablesewert wie am Kraftmesser: 0,50 N
+  function cm(x) { return LAB.zahl(x, 2) + ' cm'; }
+  function opt() { return { real: Z.real, mRolle: Z.mRolle, reibung: Z.reibung / 100 }; }
+  function neueAbweichung() { Z.abw = Z.real && Z.zufaellig ? Math.floor(zufall() * 3) - 1 : 0; }
+
+  /* ---------- Seite ---------- */
+  var s = LAB.seite({ titel: T.titel, frage: T.frage, ziel: T.ziel, beiBeamer: function () { zeichnen(); } });
+  ui.buehne = el('div', { 'class': 'buehne fz-buehne', tabindex: '0', 'aria-label': T.buehne_label });
+  ui.info = el('p', { 'class': 'buehne-info', 'aria-live': 'polite' });
+  ui.warnung = el('p', { 'class': 'hinweis-fehler', role: 'status', hidden: true });
+  [ui.buehne, ui.info, ui.warnung, el('p', { 'class': 'buehne-info', text: T.bedienung })].forEach(function (e) { s.buehneFeld.appendChild(e); });
+
+  ui.aufbau = LAB.knopfgruppe({ titel: 'Wähle einen Aufbau', wert: Z.art, beiAenderung: function (w) { Z.art = w; setzeS(0); neueAbweichung(); ui.vorhersage.leeren(); zeichnen(); },
+    optionen: FZ.ARTEN.map(function (a) { return { wert: a, text: T.aufbauten[a] }; }) });
+  ui.last = LAB.regler({ label: 'Last', name: 'Last', min: 50, max: 1000, schritt: 50, wert: Z.m,
+    anzeige: function (w) { return w + ' g'; },
+    beiAenderung: function (w) { Z.m = w; neueAbweichung(); zeichnen(); } });
+  ui.messer = LAB.auswahl({ label: 'Kraftmesser', wert: String(Z.bereich), beiAenderung: function (w) { Z.bereich = Number(w); neueAbweichung(); zeichnen(); },
+    optionen: VERSUCH.KRAFTMESSER.map(function (k) { return { wert: String(k.bereich), text: k.bereich + ' N (Skalenteil ' + LAB.zahl(k.teil, 2) + ' N)' }; }) });
+  ui.rs = LAB.regler({ label: 'Kraftweg s (Seil ziehen)', name: 'Kraftweg', min: 0, max: FZ.S_MAX, schritt: 1, wert: 0,
+    anzeige: function (w) { return w + ' cm'; }, beiAenderung: function (w) { Z.s = w; zeichnen(); } });
+  ui.zehn = el('button', { type: 'button', 'class': 'knopf', text: 'Last 10 cm heben', onclick: function () { setzeS(A[Z.art].n * 10); } });
+  ui.null = el('button', { type: 'button', 'class': 'knopf', text: 'Last absetzen', onclick: function () { setzeS(0); } });
+  ui.zaehlen = LAB.schalter({ label: 'tragende Seilstücke zählen', wert: false, beiAenderung: function (w) { Z.zaehlen = w; zeichnen(); } });
+
+  ui.modell = LAB.knopfgruppe({ titel: 'Modell', wert: 'ideal', beiAenderung: function (w) { Z.real = w === 'real'; neueAbweichung(); zeichnen(); },
+    optionen: [{ wert: 'ideal', text: 'ideal' }, { wert: 'real', text: 'realistisch' }] });
+  ui.mRolle = LAB.regler({ label: 'Masse einer losen Rolle', name: 'Masse einer losen Rolle', min: 0, max: 100, schritt: 5, wert: Z.mRolle,
+    anzeige: function (w) { return w + ' g'; }, beiAenderung: function (w) { Z.mRolle = w; zeichnen(); } });
+  ui.reibung = LAB.regler({ label: 'Reibung je Rolle', name: 'Reibung je Rolle', min: 0, max: 10, schritt: 1, wert: Z.reibung,
+    anzeige: function (w) { return w + ' %'; }, beiAenderung: function (w) { Z.reibung = w; zeichnen(); } });
+  ui.zufaellig = LAB.schalter({ label: 'zufällige Ablesefehler', wert: false, beiAenderung: function (w) { Z.zufaellig = w; neueAbweichung(); zeichnen(); } });
+
+  ui.tabelle = VERSUCH.messtabelle({ dateiname: 'flaschenzug-messwerte.csv', leerText: 'Noch keine Messwerte. Zieh am Seil und tippe auf „Messwert notieren“.',
+    spalten: [
+      { key: 'aufbau', titel: 'Aufbau', csv: 'Aufbau' }, { key: 'n', titel: 'n', csv: 'tragende Seilstücke n', stellen: 0 },
+      { key: 'FG', titel: 'F<sub>G</sub> in N', csv: 'Gewichtskraft F_G in N' }, { key: 'F', titel: 'F in N', csv: 'Zugkraft F in N' },
+      { key: 'h', titel: 'h in cm', csv: 'Lastweg h in cm' }, { key: 's', titel: 's in cm', csv: 'Kraftweg s in cm' },
+      { key: 'Wzug', titel: 'F · s in J', csv: 'F · s in J', stellen: 3, sichtbar: false },
+      { key: 'Whub', titel: 'F<sub>G</sub> · h in J', csv: 'F_G · h in J', stellen: 3, sichtbar: false }] });
+  ui.notieren = el('button', { type: 'button', 'class': 'knopf haupt', text: 'Messwert notieren', onclick: notieren });
+  ui.arbeit = LAB.schalter({ label: 'Arbeit zeigen (F · s und F<sub>G</sub> · h)', wert: false, beiAenderung: function (w) {
+    Z.arbeit = w; ui.tabelle.spalte('Wzug', w); ui.tabelle.spalte('Whub', w); zeichnen(); } });
+  ui.ergebnis = el('div', { 'class': 'fz-ergebnis' });
+
+  ui.vorhersage = VERSUCH.vorhersage({ frage: fmt(T.vorhersage_frage),
+    felder: [{ key: 'F', label: 'Zugkraft F', einheit: 'N' }, { key: 's', label: 'Kraftweg s bei h = 10 cm', einheit: 'cm' }],
+    beiVergleich: vergleichen });
+
+  [LAB.karte('Versuchsaufbau', [ui.aufbau.el]),
+    LAB.karte('Versuch', [ui.last.el, ui.messer.el, ui.rs.el, el('div', { 'class': 'knopfreihe' }, [ui.zehn, ui.null]), ui.zaehlen.el]),
+    LAB.karte('Vorhersage', [ui.vorhersage.el]),
+    LAB.karte('Messwerte', [el('div', { 'class': 'knopfreihe' }, [ui.notieren]), ui.ergebnis, ui.tabelle.el, ui.arbeit.el]),
+    LAB.karte('Modell', [ui.modell.el, ui.mRolle.el, ui.reibung.el, ui.zufaellig.el])
+  ].forEach(function (k) { s.steuer.appendChild(k); });
+
+  var NIV = { '★': 'n1', '★★': 'n2', '★★★': 'n3' };
+  s.unten.appendChild(LAB.karte('Aufgaben', [el('p', { html: fmt(T.einfuehrung) }), el('ul', { 'class': 'aufgaben' }, T.aufgaben.map(function (a) {
+    return el('li', {}, [el('span', { 'class': 'niveau p ' + (NIV[a.niveau] || 'n1'), 'aria-label': 'Niveau ' + a.niveau.length + ' Stern', text: a.niveau }),
+      el('div', {}, [el('div', { html: fmt(a.text) }), a.tipp ? el('details', {}, [el('summary', { text: 'Tipp' }), el('p', { html: fmt(a.tipp) })]) : null])]);
+  }))]));
+  s.unten.appendChild(LAB.annahmen('So ist das Modell gebaut', T.annahmen.map(fmt)));
+  s.unten.appendChild(el('p', { 'class': 'klein', text: T.fusszeile }));
+
+  /* ---------- Zustand ---------- */
+  function setzeS(v) {
+    v = Math.max(0, Math.min(FZ.S_MAX, Math.round(v)));
+    if (v === Z.s && ui.rs.wert() === v) return;
+    Z.s = v; ui.rs.setze(v); zeichnen();
+  }
+
+  function messung() {
+    var k = FZ.kraefte(Z.art, Z.m, opt()), w = FZ.wege(Z.art, Z.s), r = VERSUCH.ablesen(k.F, Z.bereich, Z.abw);
+    return { k: k, w: w, r: r, a: FZ.arbeit(r.anzeige, k.FG, w) };
+  }
+
+  function notieren() {
+    var m = messung();
+    if (!(m.w.h > 0)) { ui.warnung.hidden = false; ui.warnung.textContent = T.noch_nicht_gezogen; return; }
+    if (m.r.ueber) { ui.warnung.hidden = false; ui.warnung.textContent = T.ueberlast; return; }
+    ui.tabelle.hinzu({ aufbau: T.aufbauten[Z.art] + (Z.real ? ' (real.)' : ''), n: m.k.n, FG: m.k.FG, F: m.r.anzeige, h: m.w.h, s: m.w.s, Wzug: m.a.Wzug, Whub: m.a.Whub });
+    neueAbweichung(); zeichnen();
+  }
+
+  function vergleichen(werte) {
+    var m = messung(), n = A[Z.art].n, Fv = VERSUCH.parseZahl(werte.F), sv = VERSUCH.parseZahl(werte.s);
+    var Fmess = VERSUCH.ablesen(m.k.F, Z.bereich, 0).anzeige, z = [];
+    z.push('<p><strong>Versuch:</strong> Der Kraftmesser zeigt <strong>' + kraft(Fmess) + '</strong>. Für h = 10 cm musst du <strong>' + (n * 10) + ' cm</strong> Seil ziehen.</p>');
+    if (isFinite(Fv)) z.push('<p>' + (Math.abs(Fv - Fmess) <= Math.max(0.05, 0.05 * Fmess) ? '✓ Deine Zugkraft passt.' : '✗ Deine Zugkraft weicht ab (' + kraft(Fv) + ').') + '</p>');
+    if (isFinite(sv)) z.push('<p>' + (Math.abs(sv - n * 10) < 0.5 ? '✓ Dein Kraftweg passt.' : '✗ Dein Kraftweg weicht ab (' + cm(sv) + ').') + '</p>');
+    if (!isFinite(Fv) && !isFinite(sv)) z.push('<p class="klein">Trage zuerst eine Vermutung ein.</p>');
+    z.push('<p class="klein">Prüfe selbst: „Last 10 cm heben“ und den Kraftmesser ablesen.</p>');
+    return z.join('');
+  }
+
+  /* ---------- Zeichnen ---------- */
+  function linie(x1, y1, x2, y2, klasse) { return '<line class="' + klasse + '" x1="' + LAB.runde(x1, 1) + '" y1="' + LAB.runde(y1, 1) + '" x2="' + LAB.runde(x2, 1) + '" y2="' + LAB.runde(y2, 1) + '"/>'; }
+  function text(x, y, t, klasse, anker) { return '<text class="' + klasse + '" x="' + LAB.runde(x, 1) + '" y="' + LAB.runde(y, 1) + '" text-anchor="' + (anker || 'start') + '">' + t + '</text>'; }
+  function pfeil(x, y1, y2, klasse) {          // senkrechter Kraftpfeil von y1 nach y2
+    var d = y2 > y1 ? 1 : -1;
+    return linie(x, y1, x, y2 - d * 9, klasse) + '<polygon class="' + klasse + '-spitze" points="' + x + ',' + LAB.runde(y2, 1) + ' ' + (x - 6) + ',' + LAB.runde(y2 - d * 11, 1) + ' ' + (x + 6) + ',' + LAB.runde(y2 - d * 11, 1) + '"/>';
+  }
+  function mass(x, y1, y2, label, anker) {     // Maßpfeil mit Beschriftung (h oder s)
+    if (Math.abs(y2 - y1) < 3) return '';
+    var o = Math.min(y1, y2), u = Math.max(y1, y2);
+    return linie(x, o, x, u, 'fz-mass') + linie(x - 5, o, x + 5, o, 'fz-mass') + linie(x - 5, u, x + 5, u, 'fz-mass') +
+      text(anker === 'end' ? x - 8 : x + 8, (o + u) / 2 + 5, label, 'fz-mass-text', anker);
+  }
+  function S(x, rest) { return '<tspan class="tief" dy="4">' + x + '</tspan><tspan dy="-4">' + (rest || '\u200B') + '</tspan>'; }   // tiefgestellt, danach zurück
+
+  function zeichnen() {
+    var g = FZ.geometrie(Z.art, Z.s), m = messung(), t = [], n = A[Z.art].n;
+    ui.last.el.querySelector('output').innerHTML = Z.m + ' g (F<sub>G</sub> ≈ ' + LAB.zahl(m.k.FG, 2) + ' N)';
+    [ui.mRolle, ui.reibung].forEach(function (r) { r.aktiv(Z.real); });
+    ui.zufaellig.input.disabled = !Z.real;
+    // Decke mit Schraffur
+    if (g.decke) {
+      var d = g.decke;
+      t.push('<rect class="fz-decke" x="' + d.x0 + '" y="' + (d.y - 8) + '" width="' + (d.x1 - d.x0) + '" height="8"/>');
+      for (var x = d.x0; x < d.x1 - 4; x += 10) t.push(linie(x, d.y - 8, x + 7, d.y - 15, 'fz-schraffur'));
+    }
+    // Startmarken (gestrichelt): wo Last und Seilende am Anfang waren
+    t.push(linie(g.last.x - 30, g.start.lastY, g.last.x + 30, g.start.lastY, 'fz-start'));
+    var ende = g.zug === 'unten' ? g.km.oben : g.km.unten;
+    t.push(linie(g.km.x - 22, g.start.endY, g.km.x + 22, g.start.endY, 'fz-start'));
+    g.aufhaengung.forEach(function (l) { t.push(linie(l.x1, l.y1, l.x2, l.y2, 'fz-seil')); });
+    g.verbindungen.forEach(function (l) { t.push(linie(l.x1, l.y1, l.x2, l.y2, 'fz-stange')); });
+    g.seile.forEach(function (st) { t.push(linie(st.x, st.y1, st.x, st.y2, 'fz-seil' + (Z.zaehlen && st.tragend ? ' tragend' : ''))); });
+    g.boegen.forEach(function (b) {
+      var gruen = Z.zaehlen && !b.oben;   // Bogen unter einer losen Rolle gehört zu den tragenden Seilstücken
+      t.push('<path class="fz-seil' + (gruen ? ' tragend' : '') + '" d="M ' + (b.cx - b.r) + ' ' + LAB.runde(b.cy, 1) + ' A ' + b.r + ' ' + b.r + ' 0 0 ' + (b.oben ? 1 : 0) + ' ' + (b.cx + b.r) + ' ' + LAB.runde(b.cy, 1) + '"/>');
+    });
+    g.feste.concat(g.lose).forEach(function (r) {
+      t.push('<circle class="fz-rolle" cx="' + r.cx + '" cy="' + LAB.runde(r.cy, 1) + '" r="' + (r.r - 3) + '"/><circle class="fz-achse" cx="' + r.cx + '" cy="' + LAB.runde(r.cy, 1) + '" r="3.5"/>');
+    });
+    if (Z.zaehlen) g.seile.forEach(function (st) {
+      if (!st.tragend) return;
+      var ym = (st.y1 + st.y2) / 2 + (st.nr % 2 ? -10 : 10);
+      t.push('<circle class="fz-nr" cx="' + st.x + '" cy="' + LAB.runde(ym, 1) + '" r="9"/>' + text(st.x, ym + 4, String(st.nr), 'fz-nr-text', 'middle'));
+    });
+    // Last mit Gewichtskraft
+    var L = g.last;
+    t.push(linie(L.x, L.haken, L.x, L.y, 'fz-stange'));
+    t.push('<polygon class="fz-last" points="' + (L.x - L.w / 2) + ',' + LAB.runde(L.y + L.h, 1) + ' ' + (L.x + L.w / 2) + ',' + LAB.runde(L.y + L.h, 1) + ' ' +
+      (L.x + L.w / 2 - 5) + ',' + LAB.runde(L.y, 1) + ' ' + (L.x - L.w / 2 + 5) + ',' + LAB.runde(L.y, 1) + '"/>');
+    t.push(text(L.x, L.y + L.h / 2 + 5, Z.m + ' g', 'fz-last-text', 'middle'));
+    t.push(pfeil(L.x, L.y + L.h + 2, L.y + L.h + 40, 'fz-kraft') + text(L.x + 10, L.y + L.h + 34, 'F' + S('G'), 'fz-kraft-text'));
+    // Kraftmesser, Griff, Zugkraftpfeil
+    var km = VERSUCH.kraftmesserSvg(g.km.x, g.km.oben, FZ.KM_LAENGE, m.k.F, Z.bereich, m.r.ueber);
+    t.push(km.svg);
+    var gy = g.km.griffY, hand = g.zug === 'unten' ? g.km.unten : g.km.oben;
+    t.push(linie(g.km.x, hand, g.km.x, gy, 'fz-stange'));
+    t.push('<g data-griff="1" class="fz-griff-g"><circle class="fz-griff-feld" cx="' + g.km.x + '" cy="' + LAB.runde(gy, 1) + '" r="24"/><circle class="fz-griff" cx="' + g.km.x + '" cy="' + LAB.runde(gy, 1) + '" r="10"/></g>');
+    var richtung = g.zug === 'unten' ? 1 : -1;
+    t.push(pfeil(g.km.x + 22, gy, gy + richtung * 38, 'fz-kraft') + text(g.km.x + 30, gy + richtung * 30, 'F', 'fz-kraft-text'));
+    // Maße h und s
+    var w = m.w;
+    t.push(mass(L.x - L.w / 2 - 14, g.start.lastY, L.y, 'h = ' + cm(w.h), 'end'));
+    t.push(mass(g.km.x + 34, g.start.endY, ende, 's = ' + cm(w.s), 'start'));
+    // Anzeige unten
+    t.push(text(10, FZ.HOEHE - 12, 'Last ' + Z.m + ' g · F' + S('G', ' ≈ ' + LAB.zahl(m.k.FG, 2) + ' N'), 'fz-anzeige', 'start'));
+    t.push(text(FZ.BREITE - 10, FZ.HOEHE - 12, m.r.ueber ? 'über ' + m.r.bereich + ' N!' : 'Kraftmesser: ' + kraft(m.r.anzeige), 'fz-anzeige kraft', 'end'));
+    var label = T.aufbauten[Z.art] + '. Last ' + Z.m + ' Gramm. Kraftmesser zeigt ' + kraft(m.r.anzeige) + '. Lastweg ' + cm(w.h) + ', Kraftweg ' + cm(w.s) + '.';
+    ui.buehne.innerHTML = '<svg viewBox="0 0 ' + FZ.BREITE + ' ' + FZ.HOEHE + '" role="img" aria-label="' + esc(label) + '">' + t.join('') + '</svg>';
+
+    ui.info.innerHTML = '<strong>' + esc(T.aufbauten[Z.art]) + '</strong> · tragende Seilstücke n = ' + (Z.zaehlen ? n : '?') +
+      ' · Zugkraft F = ' + (m.r.ueber ? 'über ' + m.r.bereich + ' N' : kraft(m.r.anzeige)) + ' · Lastweg h = ' + cm(w.h) + ' · Kraftweg s = ' + cm(w.s);
+    ui.warnung.hidden = !m.r.ueber; if (m.r.ueber) ui.warnung.textContent = T.ueberlast;
+    ui.notieren.disabled = !(w.h > 0) || m.r.ueber;
+    if (Z.arbeit && w.h > 0) {
+      ui.ergebnis.innerHTML = '<p>F · s = ' + kraft(m.r.anzeige) + ' · ' + LAB.zahl(w.s / 100, 4) + ' m ≈ <strong>' + LAB.zahl(m.a.Wzug, 3) + ' J</strong> · ' +
+        'F<sub>G</sub> · h = ' + LAB.zahl(m.k.FG, 2) + ' N · ' + LAB.zahl(w.h / 100, 4) + ' m ≈ <strong>' + LAB.zahl(m.a.Whub, 3) + ' J</strong>' +
+        (Z.real && m.a.eta ? ' · Wirkungsgrad η ≈ ' + LAB.zahl(m.a.eta * 100, 0) + ' %' : '') + '</p>';
+    } else ui.ergebnis.innerHTML = '';
+  }
+
+  /* ---------- Ziehen mit Finger, Maus, Pfeiltasten ---------- */
+  function svgY(e) {
+    var svg = ui.buehne.querySelector('svg'), pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse()).y;
+  }
+  ui.buehne.addEventListener('pointerdown', function (e) {
+    if (!e.target.closest || !e.target.closest('[data-griff]')) return;
+    drag = { y0: svgY(e), s0: Z.s };
+    try { ui.buehne.setPointerCapture(e.pointerId); } catch (x) { /* egal */ }
+    e.preventDefault();
+  });
+  ui.buehne.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var dy = (svgY(e) - drag.y0) / FZ.K;
+    setzeS(drag.s0 + (A[Z.art].zug === 'unten' ? dy : -dy));
+  });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { ui.buehne.addEventListener(ev, function () { drag = null; }); });
+  ui.buehne.addEventListener('keydown', function (e) {
+    var unten = A[Z.art].zug === 'unten', d = 0;
+    if (e.key === 'ArrowDown') d = unten ? 1 : -1;
+    else if (e.key === 'ArrowUp') d = unten ? -1 : 1;
+    if (!d) return;
+    e.preventDefault(); setzeS(Z.s + d);
+  });
+
+  zeichnen();
+});
+
+</script>
+</body>
+</html>
