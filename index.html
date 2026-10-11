@@ -1,0 +1,1931 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<meta name="theme-color" content="#1F2A44">
+<title>Mathe-Sprint 10 G</title>
+<meta name="description" content="Mathe-Sprint für den hilfsmittelfreien Teil der ZP 10: 20 Aufgaben in 5 Minuten, Themen-Training mit Erklärungen, eigener Verlauf.">
+<style>
+/* Mathe-Sprint 10 G · Farben wie Lernseite 10 G (Nachtblau, Grün, Orange) */
+:root{
+  --dunkel:#1F2A44; --haupt:#2E8B6F; --haupt-dunkel:#236B55; --akzent:#E07B39; --akzent-text:#A04A12;
+  --hell:#EEF2F8; --text:#1F2A44; --grau:#55607A; --linie:#DCE4F0; --weiss:#FFFFFF;
+  --ok:#1F7A55; --ok-hg:#E2F3EC; --falsch:#B3332B; --falsch-hg:#FCECEA; --fast:#A35F00; --fast-hg:#FFF1D6; --leer-hg:#F1F3F7;
+  --merk-hg:#FFF4DC; --merk-rand:#E0A030; --bsp-hg:#F3F5F9; --bsp-rand:#8A95A8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--hell);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.5}
+button,input,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:Cambria,Georgia,"Times New Roman",serif;line-height:1.25;color:var(--dunkel)}
+h1{font-size:1.7rem;margin:.2rem 0 .4rem} h2{font-size:1.35rem;margin:1.6rem 0 .6rem} h3{font-size:1.1rem;margin:1rem 0 .4rem}
+p{margin:.4rem 0 .8rem}
+.klein{font-size:.88rem;color:var(--grau)}
+sup{font-size:.7em;line-height:0}
+
+/* Kopf mit Reitern – bleibt oben */
+.kopf{position:sticky;top:0;z-index:20;background:var(--dunkel);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.kopf-innen{max-width:820px;margin:0 auto;padding:.45rem 16px .35rem;display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .8rem}
+.logo{font-weight:700;font-size:1.05rem;white-space:nowrap}
+.logo .g{background:var(--haupt);border-radius:.35rem;padding:0 .35rem;margin-left:.15rem;font-size:.85rem}
+.blitz{color:#FFC14D}
+.reiter{display:flex;gap:.25rem;overflow-x:auto;margin-left:auto;-webkit-overflow-scrolling:touch}
+.reiter button{background:transparent;border:0;color:#D5DCEA;padding:.35rem .6rem;border-radius:.5rem;cursor:pointer;white-space:nowrap;font-size:.95rem}
+.reiter button.aktiv{background:rgba(255,255,255,.16);color:#fff;font-weight:600}
+.versteckt-im-sprint .kopf{display:none}
+
+.inhalt{max-width:820px;margin:0 auto;padding:12px 16px 80px}
+.karte{background:var(--weiss);border:1px solid var(--linie);border-radius:14px;padding:16px;margin:12px 0;box-shadow:0 1px 2px rgba(31,42,68,.05)}
+.karte.held{background:linear-gradient(135deg,var(--dunkel),#2B3A5E);color:#fff;border:0}
+.karte.held h1{color:#fff}
+.karte.held .klein{color:#C9D2E6}
+.zeile{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.raster2{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:640px){.raster2{grid-template-columns:1fr 1fr}}
+
+/* Knöpfe */
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:0;border-radius:10px;padding:.65rem 1.1rem;font-weight:600;cursor:pointer;background:var(--linie);color:var(--dunkel);text-decoration:none;min-height:44px}
+.knopf.haupt{background:var(--haupt);color:#fff}
+.knopf.haupt:active{background:var(--haupt-dunkel)}
+.knopf.akzent{background:var(--akzent);color:#fff}
+.knopf.rand{background:transparent;border:2px solid var(--haupt);color:var(--haupt-dunkel)}
+.knopf.klein{padding:.35rem .7rem;font-size:.9rem;min-height:36px}
+.knopf.gross{font-size:1.15rem;padding:.85rem 1.4rem;width:100%}
+.knopf:disabled{opacity:.45;cursor:default}
+.textlink{background:none;border:0;padding:0;color:var(--haupt-dunkel);text-decoration:underline;cursor:pointer;font-size:.95rem}
+
+label.feldname{display:block;font-weight:600;margin:.6rem 0 .25rem}
+select,input.text{width:100%;padding:.6rem .7rem;border:2px solid var(--linie);border-radius:10px;background:#fff;min-height:44px}
+.wahlkacheln{display:grid;grid-template-columns:1fr;gap:.5rem;margin:.4rem 0 .8rem}
+@media(min-width:520px){.wahlkacheln{grid-template-columns:1fr 1fr}}
+.wahlkacheln label{display:flex;gap:.6rem;align-items:flex-start;border:2px solid var(--linie);border-radius:10px;padding:.6rem .7rem;cursor:pointer;background:#fff}
+.wahlkacheln input{margin-top:.25rem;accent-color:var(--haupt)}
+.wahlkacheln label:has(input:checked){border-color:var(--haupt);background:#F2FAF6}
+
+.hinweis{background:var(--merk-hg);border-left:4px solid var(--merk-rand);border-radius:8px;padding:.6rem .8rem;margin:.6rem 0}
+.regeln{margin:.3rem 0 0;padding-left:1.2rem}
+.regeln li{margin:.2rem 0}
+
+/* Kennzahlen */
+.kacheln{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:.6rem 0}
+@media(min-width:640px){.kacheln{grid-template-columns:repeat(4,1fr)}}
+.kachel{background:#fff;border:1px solid var(--linie);border-radius:12px;padding:.6rem .7rem}
+.kachel b{display:block;font-size:1.5rem;color:var(--dunkel)}
+.kachel span{font-size:.85rem;color:var(--grau)}
+
+/* Sprint */
+.sprintleiste{position:sticky;top:0;z-index:25;background:var(--dunkel);color:#fff;margin:-12px -16px 10px;padding:.55rem 16px;display:flex;align-items:center;gap:.8rem;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.uhr{font-variant-numeric:tabular-nums;font-size:1.7rem;font-weight:700;min-width:4.2rem}
+.uhr.knapp{color:#FFB37A}
+.uhr.vorbei{color:#FF8A80}
+.stand{font-size:.95rem;color:#C9D2E6;flex:1;line-height:1.3}
+.stand b{color:#fff}
+.klein-hell{font-size:.82rem;color:#AEB9D0}
+.balken{height:5px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:3px;overflow:hidden}
+.balken i{display:block;height:100%;background:#7FD3B4;width:0;transition:width .2s}
+.aufgaben{list-style:none;margin:0;padding:0}
+.aufgabe{display:grid;grid-template-columns:2.1rem minmax(0,1fr);gap:.2rem .6rem;align-items:start}
+.aufgabe > div{min-width:0}
+.aufgabe .nr{width:2rem;height:2rem;border-radius:50%;background:var(--dunkel);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;margin-top:.1rem}
+.aufgabe.beantwortet .nr{background:var(--haupt)}
+.aufgabe .thema{font-size:.78rem;color:var(--grau);text-transform:uppercase;letter-spacing:.03em}
+.atext{font-size:1.08rem}
+.antwort{grid-column:2;margin-top:.35rem}
+.feld{display:flex;align-items:center;gap:.4rem}
+.feld input{flex:1;min-width:0;width:100%;font-size:1.2rem;padding:.5rem .7rem;border:2px solid var(--linie);border-radius:10px;background:#fff;min-height:46px}
+.feld input:focus{outline:none;border-color:var(--haupt);box-shadow:0 0 0 3px rgba(46,139,111,.18)}
+.einh{color:var(--grau);font-weight:600;min-width:1.5rem}
+.tasten{display:flex;gap:.35rem;margin-top:.35rem;flex-wrap:wrap}
+.tasten button{border:1px solid var(--linie);background:var(--hell);border-radius:8px;padding:.25rem .7rem;font-weight:700;min-height:36px;min-width:44px;cursor:pointer}
+.optionen{display:flex;flex-wrap:wrap;gap:.45rem}
+.optionen .opt{border:2px solid var(--linie);background:#fff;border-radius:10px;padding:.45rem .9rem;min-height:46px;min-width:3.2rem;cursor:pointer;font-size:1.08rem}
+.optionen .opt.gewaehlt{border-color:var(--haupt);background:#E5F4EE;font-weight:700}
+.optionen .opt.richtig{border-color:var(--ok);background:var(--ok-hg)}
+.optionen .opt.falsch{border-color:var(--falsch);background:var(--falsch-hg)}
+
+/* Brüche, Wurzeln, Tabellen (wie Lernseite) */
+.bruch{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;font-size:.88em;margin:0 .12em}
+.bruch > span:first-child{border-bottom:2px solid currentColor;padding:0 .2em .05em}
+.bruch > span:last-child{padding:.05em .2em 0}
+.wz{white-space:nowrap}
+.rad{border-top:1.5px solid currentColor;padding:0 .1em;margin-left:.02em}
+.wexp{font-size:.7em;vertical-align:.55em;margin-right:-.3em}
+.lcd{display:inline-block;font-family:"Courier New",Courier,monospace;font-weight:700;background:#DDE6D5;color:#1C2A17;border:2px solid #7C8A74;border-radius:.35rem;padding:.05rem .5rem;white-space:nowrap}
+table.wt{border-collapse:collapse;margin:.5rem 0;font-size:1rem}
+table.wt th,table.wt td{border:1px solid var(--bsp-rand);padding:.25rem .65rem;text-align:center}
+table.wt th{background:var(--hell)}
+
+/* Ergebnis */
+.ergebnis-kopf{text-align:center}
+.punkte{font-size:3.4rem;font-weight:800;line-height:1;color:#fff}
+.punkte small{font-size:1.4rem;color:#C9D2E6}
+.lob{font-size:1.15rem;margin:.4rem 0 .2rem}
+.rekord{display:inline-block;background:#FFC14D;color:#3A2600;border-radius:999px;padding:.2rem .8rem;font-weight:700;margin-top:.4rem}
+.vergleich{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:.6rem;color:#DDE3F0;font-size:.95rem}
+details.erg{border:1px solid var(--linie);border-radius:12px;margin:.45rem 0;background:#fff;overflow:hidden}
+details.erg > summary{list-style:none;cursor:pointer;padding:.6rem .75rem;display:grid;grid-template-columns:1.8rem 1fr auto;gap:.5rem;align-items:center}
+details.erg > summary::-webkit-details-marker{display:none}
+details.erg > summary .zeichen{font-size:1.2rem;text-align:center}
+details.erg.richtig > summary{background:var(--ok-hg)}
+details.erg.falsch > summary{background:var(--falsch-hg)}
+details.erg.fast > summary{background:var(--fast-hg)}
+details.erg.leer > summary{background:var(--leer-hg)}
+details.erg > summary .mehr{font-size:.85rem;color:var(--haupt-dunkel);white-space:nowrap}
+details.erg[open] > summary .mehr{visibility:hidden}
+.erg-innen{padding:.6rem .8rem .8rem;border-top:1px solid var(--linie)}
+.paar{display:grid;grid-template-columns:7.5rem 1fr;gap:.2rem .6rem;margin:.3rem 0}
+.paar dt{color:var(--grau);font-size:.92rem}
+.paar dd{margin:0}
+.weg{background:var(--bsp-hg);border-left:4px solid var(--bsp-rand);border-radius:8px;padding:.5rem .7rem;margin:.5rem 0}
+.tipp{background:var(--merk-hg);border-left:4px solid var(--merk-rand);border-radius:8px;padding:.5rem .7rem;margin:.5rem 0}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .8rem}
+.chip{background:var(--hell);border:1px solid var(--linie);border-radius:999px;padding:.25rem .7rem;font-size:.92rem}
+
+/* Training */
+.rueckmeldung{border-radius:10px;padding:.7rem .8rem;margin:.7rem 0}
+.rueckmeldung.richtig{background:var(--ok-hg);border-left:5px solid var(--ok)}
+.rueckmeldung.falsch{background:var(--falsch-hg);border-left:5px solid var(--falsch)}
+.rueckmeldung.fast{background:var(--fast-hg);border-left:5px solid var(--fast)}
+.fortschritt{display:flex;gap:4px;margin:.4rem 0 .8rem}
+.fortschritt i{flex:1;height:7px;border-radius:4px;background:var(--linie)}
+.fortschritt i.r{background:var(--ok)} .fortschritt i.f{background:var(--falsch)} .fortschritt i.j{background:var(--akzent)}
+
+/* Themenliste */
+.thema-zeile{display:grid;grid-template-columns:1fr auto;gap:.3rem .6rem;align-items:center;padding:.55rem 0;border-top:1px solid var(--linie)}
+.thema-zeile:first-of-type{border-top:0}
+.thema-name{font-weight:600}
+.thema-knoepfe{display:flex;gap:.35rem}
+.ampel{display:inline-block;width:.8rem;height:.8rem;border-radius:50%;margin-right:.35rem;vertical-align:-.05rem;background:#C5CCD9}
+.ampel.gruen{background:#2E9E6B} .ampel.gelb{background:#E7B416} .ampel.rot{background:#D2453B}
+
+/* Verlauf */
+table.liste{width:100%;border-collapse:collapse;font-size:.95rem}
+table.liste th,table.liste td{padding:.4rem .35rem;border-bottom:1px solid var(--linie);text-align:left}
+table.liste th{color:var(--grau);font-weight:600;font-size:.85rem}
+table.liste td.zahl,table.liste th.zahl{text-align:right;font-variant-numeric:tabular-nums}
+.platz{font-size:1.1rem}
+.tabelle-scroll{overflow-x:auto}
+svg.kurve{width:100%;height:auto;display:block}
+
+/* Erklärungen */
+details.erkl{border:1px solid var(--linie);border-radius:12px;margin:.45rem 0;background:#fff}
+details.erkl > summary{cursor:pointer;padding:.65rem .8rem;font-weight:600}
+.erkl-innen{padding:0 .8rem .8rem}
+.merk{background:var(--merk-hg);border-left:4px solid var(--merk-rand);border-radius:8px;padding:.55rem .75rem;margin:.4rem 0}
+.bsp{background:var(--bsp-hg);border-left:4px solid var(--bsp-rand);border-radius:8px;padding:.55rem .75rem;margin:.4rem 0}
+.falle{background:var(--falsch-hg);border-left:4px solid var(--falsch);border-radius:8px;padding:.55rem .75rem;margin:.4rem 0}
+.merk b,.bsp b{color:var(--dunkel)}
+
+/* Lehrkraft: Beamer und Druck */
+.beamer{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:700px){.beamer{grid-template-columns:1fr 1fr}}
+.beamer .b-aufg{display:grid;grid-template-columns:2rem 1fr;gap:.5rem;background:#fff;border:1px solid var(--linie);border-radius:10px;padding:.5rem .6rem;font-size:1.05rem;break-inside:avoid}
+.beamer .b-aufg .nr{font-weight:800;color:var(--haupt-dunkel)}
+.beamer .b-loes{grid-column:2;color:var(--ok);font-weight:700}
+.beamer .b-opt{color:var(--grau);font-size:.95rem}
+
+/* Fenster für Erklärungen */
+.modal{position:fixed;inset:0;background:rgba(20,26,40,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center;padding:0}
+.modal[hidden]{display:none}
+.modal-box{background:#fff;width:100%;max-width:640px;max-height:88vh;overflow:auto;border-radius:16px 16px 0 0;padding:18px 16px 24px;position:relative}
+@media(min-width:640px){.modal{align-items:center}.modal-box{border-radius:16px}}
+.modal-zu{position:absolute;top:8px;right:10px;border:0;background:var(--hell);width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer}
+
+@media print{
+  .kopf,.nicht-drucken,.modal{display:none!important}
+  body{background:#fff;font-size:13pt}
+  .inhalt{max-width:none;padding:0}
+  .karte{box-shadow:none;border:0;padding:0}
+  .beamer{grid-template-columns:1fr 1fr}
+}
+
+</style>
+</head>
+<body>
+<header class="kopf">
+  <div class="kopf-innen">
+    <div class="logo"><span class="blitz">⚡</span> Mathe-Sprint <span class="g">10 G</span></div>
+    <nav class="reiter" id="reiter" aria-label="Bereiche">
+      <button type="button" data-ansicht="start">Start</button>
+      <button type="button" data-ansicht="themen">Üben</button>
+      <button type="button" data-ansicht="verlauf">Verlauf</button>
+      <button type="button" data-ansicht="hilfe">Erklärungen</button>
+    </nav>
+  </div>
+</header>
+<main id="app" class="inhalt">
+  <section class="karte" style="border-left:6px solid #E07B39">
+    <h1>Bitte im Browser öffnen</h1>
+    <p>Du siehst gerade nur die <b>Vorschau</b> der Datei. Der Sprint-Trainer funktioniert nur in einem Browser (Safari, Chrome …).</p>
+    <p><b>So geht’s:</b> Öffne den <b>Link</b>, den du von deiner Lehrkraft bekommen hast, oder scanne den QR-Code. Dann startet der Trainer direkt.</p>
+    <p class="klein">Diese Meldung verschwindet von selbst, sobald die Seite im Browser läuft.</p>
+  </section>
+</main>
+<div id="modal" class="modal" hidden><div class="modal-box" role="dialog" aria-modal="true"><button type="button" class="modal-zu" aria-label="Schließen">×</button><div id="modal-inhalt"></div></div></div>
+<script>
+/* ML – gemeinsame Logik: Zahlen lesen, schreiben, runden, Eingaben prüfen, Selbsttest-Gerüst.
+   Läuft ohne Seitenzugriff und wird auch automatisch getestet (tests/pruefe_logik.py). */
+var ML = (function () {
+  'use strict';
+
+  /* ---------- Zahlen lesen ---------- */
+  var HOCH = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-' };
+  var BRUCH = { '½': 0.5, '¼': 0.25, '¾': 0.75, '⅓': 1 / 3, '⅔': 2 / 3, '⅕': 0.2, '⅛': 0.125 };
+  var EINHEIT = /(mm|cm|dm|km|m|mℓ|ml|ℓ|l|kg|mg|g|t|min|h|s|€|eur|euro|grad|°c|°|stück|personen|punkte|zoll|filme|fotos|lieder|busse|brötchen|felder)(\^[23])?\.?$/;
+
+  // Eingabe vereinheitlichen: Hochzahlen → ^n, Minuszeichen, Leerzeichen und Einheit am Ende weg
+  function normal(eingabe) {
+    var s = String(eingabe === null || eingabe === undefined ? '' : eingabe).toLowerCase();
+    s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+/g, function (m) {
+      return '^' + m.split('').map(function (c) { return HOCH[c]; }).join('');
+    });
+    s = s.replace(/[−–]/g, '-').replace(/[\s  ]/g, '');
+    for (var i = 0; i < 2; i++) s = s.replace(EINHEIT, '');
+    return s;
+  }
+  // alle sinnvollen Lesarten einer einfachen Zahl (mehrdeutig nur „1.250“)
+  function kandidatenEinfach(s) {
+    if (s === '') return [];
+    if (BRUCH.hasOwnProperty(s)) return [BRUCH[s]];
+    var m = s.match(/^(-?\d+)([½¼¾])$/);
+    if (m) return [parseInt(m[1], 10) + (m[1].charAt(0) === '-' ? -1 : 1) * BRUCH[m[2]]];
+    m = s.match(/^([^/]+)\/([^/]+)$/);
+    if (m) {
+      var z = kandidatenEinfach(m[1]), n = kandidatenEinfach(m[2]);
+      if (z.length !== 1 || n.length !== 1 || n[0] === 0) return [];
+      return [z[0] / n[0]];
+    }
+    var komma = s.indexOf(',') >= 0, punkt = s.indexOf('.') >= 0;
+    if (komma && punkt) {
+      if (s.lastIndexOf(',') > s.lastIndexOf('.')) {
+        if (!/^-?\d{1,3}(\.\d{3})+,\d+$/.test(s)) return [];
+        s = s.replace(/\./g, '').replace(',', '.');
+      } else {
+        if (!/^-?\d{1,3}(,\d{3})+\.\d+$/.test(s)) return [];
+        s = s.replace(/,/g, '');
+      }
+      return ziffern(s);
+    }
+    if (komma) {
+      if ((s.match(/,/g) || []).length > 1) return [];
+      return ziffern(s.replace(',', '.'));
+    }
+    if (punkt) {
+      var anzahl = (s.match(/\./g) || []).length;
+      if (anzahl > 1) {
+        if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) return ziffern(s.replace(/\./g, ''));
+        return [];
+      }
+      if (/^-?[1-9]\d{0,2}\.\d{3}$/.test(s)) return [parseFloat(s), parseFloat(s.replace('.', ''))];
+    }
+    return ziffern(s);
+  }
+  function ziffern(s) {
+    if (!/^-?(\d+(\.\d*)?|\.\d+)$/.test(s)) return [];
+    return [parseFloat(s)];
+  }
+  function glatt(x) { return isFinite(x) ? Number(x.toPrecision(12)) : x; }
+
+  // Liest auch die wissenschaftliche Schreibweise: 3,2·10^6 · 3,2*10^6 · 3,2x10⁶ · 3,2e6 · 10^6
+  // Ergebnis: { werte: [...], wiss: true/false, a: Faktor, n: Exponent }
+  function lies(eingabe) {
+    var s = normal(eingabe).replace(/%$/, '');
+    var m = s.match(/^(-?[\d.,]+)(?:\*|·|x|×)10\^\(?(-?\d+)\)?$/) || s.match(/^(-?[\d.,]+)e(-?\d+)$/);
+    if (m) {
+      var ka = kandidatenEinfach(m[1]), n = parseInt(m[2], 10);
+      if (ka.length === 0 || Math.abs(n) > 30) return { werte: [] };
+      var a = ka[0];
+      return { werte: [glatt(a * Math.pow(10, n))], wiss: true, a: a, n: n };
+    }
+    m = s.match(/^10\^\(?(-?\d+)\)?$/);
+    if (m) { var n2 = parseInt(m[1], 10); return { werte: [glatt(Math.pow(10, n2))], wiss: true, a: 1, n: n2 }; }
+    return { werte: kandidatenEinfach(s), wiss: false };
+  }
+  function parseZahl(eingabe) { var w = lies(eingabe).werte; return w.length ? w[w.length > 1 ? 1 : 0] : NaN; }
+
+  /* ---------- Runden und Schreiben (deutsch, Tausender mit Leerzeichen wie im Buch) ---------- */
+  // kaufmännisch runden; toPrecision(15) entfernt Gleitkomma-Rauschen (2,675 · 100 = 267,49999…)
+  function runde(x, stellen) {
+    if (!isFinite(x)) return x;
+    var f = Math.pow(10, stellen), y = Number((Math.abs(x) * f).toPrecision(15));
+    return (x < 0 ? -1 : 1) * Math.round(y) / f;
+  }
+  function zahl(x, maxSt) {
+    if (maxSt === undefined) maxSt = 2;
+    var r = runde(x, maxSt), neg = r < 0;
+    var s = Math.abs(r).toFixed(maxSt).split('.');
+    var ganz = s[0], dez = (s[1] || '').replace(/0+$/, '');
+    if (ganz.length > 3) ganz = ganz.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (neg && r !== 0 ? '−' : '') + ganz + (dez ? ',' + dez : '');
+  }
+  function istGenau(x, st) { return Math.abs(x - runde(x, st)) < 1e-9; }
+  function ungefaehr(x, st) { return (istGenau(x, st) ? '= ' : '≈ ') + zahl(x, st); }
+  function hoch(n) { return '<sup>' + n + '</sup>'; }
+  function wissText(a, n) { return zahl(a, 6) + ' · 10' + hoch(n); }
+  function klammer(b) { return b < 0 ? '(' + zahl(b, 6) + ')' : zahl(b, 6); }
+
+  function waehle(liste, rnd) { return liste[Math.floor(rnd() * liste.length) % liste.length]; }
+  function ganzzahl(von, bis, rnd) { return von + Math.floor(rnd() * (bis - von + 1)); }
+  function wurzelZeichen(n) { return n === 2 ? '√' : '<span class="wexp">' + n + '</span>√'; }
+  function wurzel(n, r) { return '<span class="wz">' + wurzelZeichen(n) + '<span class="rad">' + zahl(r, 6) + '</span></span>'; }
+  function nachkomma(x) { var s = String(glatt(x)); return s.indexOf('.') < 0 ? 0 : s.length - s.indexOf('.') - 1; }
+  function bruchText(z, n) { return '<span class="bruch"><span>' + z + '</span><span>' + n + '</span></span>'; }
+  function ggt(x, y) { return y ? ggt(y, x % y) : x; }
+  function gekuerzt(z, n) { var t = ggt(z, n); return (z / t) + '/' + (n / t); }
+
+  /* ---------- Prüfen einer Eingabe ---------- */
+  function gleich(x, y, tol) { return Math.abs(x - y) <= (tol === undefined ? 1e-9 * Math.max(1, Math.abs(y)) : tol); }
+  function pruefe(a, eingabe) {
+    var l = lies(eingabe), roh = String(eingabe || '');
+    if (l.werte.length === 0) return { status: 'ungueltig', text: 'Bitte gib eine Zahl ein, zum Beispiel 12,5' + (a.art === 'wiss' ? ' oder 3,2·10^6.' : '.') };
+    var werte = l.werte.slice();
+    if (a.art === 'wahrsch' && /%/.test(roh)) werte = werte.map(function (x) { return x / 100; });
+    var tol = a.art === 'wahrsch' ? 0.0051 : a.runden !== undefined ? 0.5 * Math.pow(10, -a.runden) + 1e-9 : undefined;
+    var best = werte[0];
+    werte.forEach(function (x) { if (Math.abs(x - a.loesung) < Math.abs(best - a.loesung)) best = x; });
+    var stimmt = gleich(best, a.loesung, tol);
+    if (a.art === 'wiss') {
+      if (!stimmt) {
+        if (l.wiss && gleich(l.a, a.aSoll, 1e-9)) return { status: 'falsch', text: 'Der Faktor stimmt, der Exponent nicht. Zähle die Stellen nach der ersten Ziffer.' };
+        return { status: 'falsch', text: 'Noch nicht. Tipp: ' + a.tipp };
+      }
+      if (!l.wiss) return { status: 'fast', text: 'Der Wert stimmt. Schreibe ihn aber als Faktor · 10^n, zum Beispiel ' + zahl(a.aSoll, 6).replace(/ /g, '') + '·10^' + a.nSoll + '.' };
+      if (l.a < 1 || l.a >= 10) return { status: 'fast', text: 'Der Wert stimmt, aber der Faktor muss zwischen 1 und 10 liegen: ' + zahl(a.aSoll, 6) + ' · 10^' + a.nSoll + '.' };
+      return { status: 'richtig', text: 'Richtig!' };
+    }
+    if (stimmt) {
+      if (a.art === 'aus' && l.wiss) return { status: 'fast', text: 'Der Wert stimmt – schreibe die Zahl aber ganz aus, ohne Zehnerpotenz.' };
+      return { status: 'richtig', text: 'Richtig!' };
+    }
+    for (var i = 0; i < a.fehler.length; i++) {
+      var f = a.fehler[i];
+      for (var j = 0; j < werte.length; j++) {
+        var tf = Math.max(tol || 0, Math.abs(f.wert) * 1e-9, a.runden !== undefined ? 0.0051 : 0);
+        if (Math.abs(werte[j] - f.wert) <= tf && !gleich(f.wert, a.loesung, tol)) return { status: 'falsch', text: 'Noch nicht. Tipp: ' + f.tipp };
+      }
+    }
+    if (a.runden !== undefined && Math.abs(best - a.loesung) <= 0.11) return { status: 'fast', text: 'Fast! Prüfe das Runden: auf Hundertstel (zweite Nachkommastelle), und runde erst am Ende.' };
+    return { status: 'falsch', text: 'Noch nicht. Tipp: ' + a.tipp };
+  }
+
+  /* ---------- Aufgabentypen: jedes Kapitel trägt seine eigenen ein ---------- */
+  var TYPEN = {}, TESTS = {}, TRAINER = {};
+
+  // reihe: Typen eines Selbsttests, ersatz: Typen als Ersatz für „kommt noch“; noch: Schlüssel noch nicht unterrichteter Teile
+  function erzeugeTest(kap, rnd, noch, nurDran) {
+    rnd = rnd || Math.random; noch = noch || [];
+    var t = TESTS[kap], e = 0;
+    return t.reihe.map(function (typ) {
+      var a = TYPEN[typ](rnd);
+      if (nurDran && noch.indexOf(a.kap) >= 0) { typ = t.ersatz[e++ % t.ersatz.length]; a = TYPEN[typ](rnd); }
+      a.typ = typ; a.kommtNoch = noch.indexOf(a.kap) >= 0;
+      return a;
+    });
+  }
+  // Trainer: stufen = { 1: [Typnamen], 2: [...], ... }; gibt eine neue Aufgabe zurück, die sich vom vorherigen Text unterscheidet
+  function trainerAufgabe(name, stufe, rnd, vorher) {
+    rnd = rnd || Math.random;
+    if (typeof TRAINER[name] === 'function') return TRAINER[name](stufe, rnd, vorher);   // eigene Auswahl-Logik (z. B. Themen)
+    var liste = TRAINER[name][stufe], a, versuche = 0;
+    do { var typ = waehle(liste, rnd); a = TYPEN[typ](rnd); a.typ = typ; versuche++; }
+    while (vorher && a.text === vorher && versuche < 10);
+    return a;
+  }
+
+  return { lies: lies, parseZahl: parseZahl, runde: runde, zahl: zahl, glatt: glatt, istGenau: istGenau, ungefaehr: ungefaehr, hoch: hoch, wissText: wissText,
+    klammer: klammer, waehle: waehle, ganzzahl: ganzzahl, wurzel: wurzel, nachkomma: nachkomma, bruchText: bruchText, ggt: ggt, gekuerzt: gekuerzt,
+    gleich: gleich, pruefe: pruefe, TYPEN: TYPEN, TESTS: TESTS, TRAINER: TRAINER, erzeugeTest: erzeugeTest, trainerAufgabe: trainerAufgabe };
+})();
+
+/* ZP-Training · Teil-1-Trainer (Wiederholung ohne Taschenrechner) */
+(function (ML) {
+  'use strict';
+  var waehle = ML.waehle, ganzzahl = ML.ganzzahl, glatt = ML.glatt, zahl = ML.zahl, hoch = ML.hoch, klammer = ML.klammer, wissText = ML.wissText,
+      wurzel = ML.wurzel, nachkomma = ML.nachkomma, runde = ML.runde, istGenau = ML.istGenau, ungefaehr = ML.ungefaehr, bruchText = ML.bruchText,
+      ggt = ML.ggt, gekuerzt = ML.gekuerzt;
+  /* ---------- Teil-1-Trainer (Wiederholung, ohne Taschenrechner) ---------- */
+  var EINH = [
+    ['km', 'm', 1000, [0.5, 1.2, 2.5, 3.4, 0.35, 4.05, 12, 0.08]], ['m', 'cm', 100, [0.5, 1.25, 2.4, 3.05, 0.8, 4.5]], ['cm', 'mm', 10, [3.5, 12, 0.8, 25.4]],
+    ['m', 'dm', 10, [6.3, 0.4, 2.5, 12]], ['kg', 'g', 1000, [0.5, 1.2, 2.75, 0.08, 3.321]], ['g', 'kg', 0.001, [250, 1500, 2750, 40, 3321]],
+    ['t', 'kg', 1000, [1.5, 2.05, 0.3, 12]], ['ℓ', 'mℓ', 1000, [0.5, 1.2, 0.25, 0.8, 2]], ['mℓ', 'ℓ', 0.001, [250, 1500, 750, 50, 5000]],
+    ['h', 'min', 60, [0.5, 1.5, 2.25, 0.25, 0.75, 3]], ['min', 's', 60, [2, 5, 1.5, 8, 0.5]], ['s', 'min', 1 / 60, [120, 180, 90, 30, 300, 240]],
+    ['min', 'h', 1 / 60, [30, 90, 15, 45, 150, 120]], ['m²', 'dm²', 100, [0.8, 3, 1.25, 0.06]], ['m²', 'cm²', 10000, [0.6, 2, 0.35]],
+    ['dm³', 'ℓ', 1, [2, 0.5, 12]], ['m³', 'ℓ', 1000, [1, 0.5, 2.4]], ['m', 'km', 0.001, [350, 1200, 4500, 80]], ['cm', 'm', 0.01, [45, 250, 1230, 7]]
+  ];
+  var BRUECHE = [[1, 2], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5], [1, 8], [3, 8], [1, 10], [3, 10], [7, 10], [1, 20], [3, 20], [7, 20], [1, 25], [9, 25], [12, 25], [1, 50], [7, 50]];
+
+  var T1 = {
+    einheiten: function (rnd) {
+      var e = waehle(EINH, rnd), x = waehle(e[3], rnd), w = glatt(x * e[2]);
+      var gross = e[2] >= 1, fehl = [];
+      if (e[2] !== 1) {
+        fehl.push({ wert: glatt(x / e[2]), tipp: gross ? 'Andere Richtung: von der großen zur kleinen Einheit wird es mehr – also mal.' : 'Andere Richtung: von der kleinen zur großen Einheit wird es weniger – also geteilt.' });
+        [10, 100, 1000].forEach(function (f) { if (Math.abs(f - (gross ? e[2] : 1 / e[2])) > 1e-9) fehl.push({ wert: glatt(gross ? x * f : x / f), tipp: 'Die Umrechnungszahl stimmt nicht. Schau in die Tabelle im Kapitel Einheiten.' }); });
+      }
+      return { titel: 'Einheiten umrechnen', art: 'zahl', einheit: e[1], text: zahl(x, 6) + ' ' + e[0] + ' = ? ' + e[1], loesung: w, fehler: fehl,
+        weg: zahl(x, 6) + ' ' + e[0] + ' = ' + zahl(w, 6) + ' ' + e[1], tipp: 'Große Einheit → kleine Einheit: mal. Kleine → große: geteilt.' };
+    },
+    prozent: function (rnd) {
+      var art = ganzzahl(0, 2, rnd);
+      if (art === 0) {
+        var p = waehle([10, 20, 25, 50, 5, 1, 75, 30, 40], rnd), G = waehle([20, 40, 60, 80, 120, 200, 240, 360, 400, 500, 1200], rnd), W = glatt(G * p / 100);
+        return { titel: 'Prozentwert', art: 'zahl', einheit: '', text: p + ' % von ' + zahl(G, 0), loesung: W, weg: zahl(G, 0) + ' · ' + zahl(p / 100, 4) + ' = ' + zahl(W, 4),
+          fehler: [{ wert: G * p, tipp: 'Rechne mit p % als Dezimalzahl: ' + p + ' % = ' + zahl(p / 100, 4) + '.' }, { wert: glatt(G - W), tipp: 'Gefragt ist der Anteil, nicht der Rest.' }],
+          tipp: '10 % = : 10 · 1 % = : 100 · 25 % = : 4 · 50 % = : 2' };
+      }
+      if (art === 1) {
+        var preis = waehle([20, 40, 50, 60, 80, 120, 150, 200], rnd), r = waehle([10, 20, 25, 50, 30, 15], rnd), neu = glatt(preis * (100 - r) / 100);
+        return { titel: 'Rabatt', art: 'zahl', einheit: '€', text: 'Ein Artikel kostet ' + preis + ' €. Es gibt ' + r + ' % Rabatt. Neuer Preis?', loesung: neu,
+          weg: r + ' % von ' + preis + ' € = ' + zahl(preis * r / 100, 2) + ' € → ' + preis + ' € − ' + zahl(preis * r / 100, 2) + ' € = ' + zahl(neu, 2) + ' €',
+          fehler: [{ wert: glatt(preis * r / 100), tipp: 'Das ist der Rabatt. Ziehe ihn noch vom Preis ab.' }, { wert: glatt(preis - r), tipp: 'Nicht ' + r + ' € abziehen, sondern ' + r + ' % vom Preis.' }],
+          tipp: 'Erst den Rabatt ausrechnen, dann abziehen.' };
+      }
+      var G2 = waehle([20, 25, 40, 50, 200], rnd), p2 = waehle([10, 20, 25, 40, 50, 60, 75], rnd), W2 = glatt(G2 * p2 / 100);
+      return { titel: 'Prozentsatz', art: 'zahl', einheit: '%', text: zahl(W2, 2) + ' von ' + G2 + ' sind wie viel Prozent?', loesung: p2,
+        weg: zahl(W2, 2) + ' : ' + G2 + ' = ' + zahl(p2 / 100, 4) + ' = ' + p2 + ' %',
+        fehler: [{ wert: glatt(p2 / 100), tipp: 'Das ist die Dezimalzahl. Mal 100, dann hast du Prozent.' }], tipp: 'Anteil : Ganzes, dann mal 100.' };
+    },
+    rechnen: function (rnd) {
+      var art = ganzzahl(0, 4, rnd), a, b, c, d, w, text, weg, fehl = [];
+      if (art === 0) { a = ganzzahl(2, 12, rnd); b = ganzzahl(2, 6, rnd); d = ganzzahl(1, 9, rnd); c = d + ganzzahl(1, 5, rnd); w = a + b * (c - d); text = a + ' + ' + b + ' · (' + c + ' − ' + d + ')'; weg = a + ' + ' + b + ' · ' + (c - d) + ' = ' + a + ' + ' + b * (c - d) + ' = ' + w; fehl.push({ wert: (a + b) * (c - d), tipp: 'Punkt vor Strich: erst ' + b + ' · ' + (c - d) + '.' }); }
+      else if (art === 1) { a = ganzzahl(2, 15, rnd); b = ganzzahl(2, 15, rnd); var neg = ganzzahl(0, 2, rnd); if (neg === 0) { w = -a + b; text = '−' + a + ' + ' + b; } else if (neg === 1) { w = -a - b; text = '−' + a + ' − ' + b; } else { w = a * b; text = '(−' + a + ') · (−' + b + ')'; fehl.push({ wert: -a * b, tipp: 'Minus mal Minus ergibt Plus.' }); } weg = text + ' = ' + zahl(w, 0); if (neg < 2) fehl.push({ wert: -w, tipp: 'Achte aufs Vorzeichen – denk an die Zahlengerade.' }); }
+      else if (art === 2) { a = ganzzahl(1, 9, rnd); b = ganzzahl(1, 9, rnd); w = glatt(a * b / 100); text = zahl(a / 10, 1) + ' · ' + zahl(b / 10, 1); weg = a + ' · ' + b + ' = ' + (a * b) + ', zwei Nachkommastellen → ' + zahl(w, 4); fehl.push({ wert: glatt(a * b / 10), tipp: 'Zähle die Nachkommastellen beider Faktoren zusammen: 1 + 1 = 2.' }); }
+      else if (art === 3) { b = waehle([2, 3, 4, 5, 6, 8], rnd); w = ganzzahl(2, 12, rnd) * 10; a = glatt(w * b / 100); text = zahl(a, 2) + ' : ' + zahl(b / 100, 2); weg = 'Komma bei beiden 2 Stellen nach rechts: ' + zahl(a * 100, 0) + ' : ' + b + ' = ' + w; fehl.push({ wert: glatt(w / 10), tipp: 'Verschiebe das Komma bei beiden Zahlen gleich weit.' }, { wert: glatt(w / 100), tipp: 'Verschiebe das Komma bei beiden Zahlen gleich weit.' }); }
+      else { a = waehle([0.4, 0.6, 0.3, 0.7, 0.25, 0.75], rnd); b = glatt(1 - a); c = ganzzahl(12, 48, rnd); w = c; text = zahl(a, 2) + ' · ' + c + ' + ' + zahl(b, 2) + ' · ' + c; weg = '(' + zahl(a, 2) + ' + ' + zahl(b, 2) + ') · ' + c + ' = 1 · ' + c + ' = ' + c; }
+      return { titel: 'Rechnen im Kopf', art: 'zahl', einheit: '', text: 'Berechne: ' + text, loesung: w, weg: weg, fehler: fehl, tipp: 'Klammer vor Punkt vor Strich. Bei Kommazahlen die Stellen zählen.' };
+    },
+    bruch: function (rnd) {
+      var b = waehle(BRUECHE, rnd), dez = glatt(b[0] / b[1]), prozent = rnd() < 0.5;
+      if (prozent) return { titel: 'Bruch → Prozent', art: 'zahl', einheit: '%', text: 'Schreibe ' + bruchText(b[0], b[1]) + ' in Prozent.', loesung: glatt(dez * 100),
+        weg: b[0] + '/' + b[1] + ' = ' + zahl(dez, 4) + ' = ' + zahl(dez * 100, 2) + ' %', fehler: [{ wert: dez, tipp: 'Das ist die Dezimalzahl. Mal 100 für Prozent.' }], tipp: 'Erweitere auf Hundertstel oder rechne Zähler : Nenner.' };
+      return { titel: 'Bruch → Dezimalzahl', art: 'zahl', einheit: '', text: 'Schreibe ' + bruchText(b[0], b[1]) + ' als Dezimalzahl.', loesung: dez,
+        weg: b[0] + ' : ' + b[1] + ' = ' + zahl(dez, 4), fehler: [{ wert: glatt(dez * 100), tipp: 'Das wäre die Prozentzahl. Als Dezimalzahl ohne · 100.' }, { wert: glatt(b[0] + b[1] / 10), tipp: 'Zähler und Nenner sind keine Ziffern vor und nach dem Komma. Rechne Zähler : Nenner.' }],
+        tipp: 'Zähler : Nenner – oder auf Zehntel/Hundertstel erweitern.' };
+    },
+    daten: function (rnd) {
+      var art = ganzzahl(0, 2, rnd), werte = [], i;
+      for (i = 0; i < 5; i++) werte.push(ganzzahl(1, 20, rnd));
+      if (art === 0) {
+        var summe = werte.reduce(function (s, x) { return s + x; }, 0), rest = summe % 5;
+        if (rest) { werte[4] += 5 - rest; summe += 5 - rest; }
+        return { titel: 'Mittelwert', art: 'zahl', einheit: '', text: 'Berechne den Mittelwert: ' + werte.join(' · '), loesung: summe / 5,
+          weg: '(' + werte.join(' + ') + ') : 5 = ' + summe + ' : 5 = ' + (summe / 5), fehler: [{ wert: summe, tipp: 'Das ist die Summe. Teile noch durch die Anzahl (5).' }], tipp: 'Summe : Anzahl.' };
+      }
+      if (art === 1) {
+        if (rnd() < 0.4) werte.push(ganzzahl(1, 20, rnd));
+        var sort = werte.slice().sort(function (x, y) { return x - y; }), n = sort.length;
+        var med = n % 2 ? sort[(n - 1) / 2] : (sort[n / 2 - 1] + sort[n / 2]) / 2;
+        return { titel: 'Median', art: 'zahl', einheit: '', text: 'Bestimme den Median: ' + werte.join(' · '), loesung: med,
+          weg: 'geordnet: ' + sort.join(' · ') + ' → Median ' + zahl(med, 1), fehler: [{ wert: n % 2 ? werte[(n - 1) / 2] : (werte[n / 2 - 1] + werte[n / 2]) / 2, tipp: 'Erst der Größe nach ordnen, dann den mittleren Wert nehmen.' }],
+          tipp: 'Ordnen, dann die Mitte. Bei gerader Anzahl: Mitte der beiden mittleren Werte.' };
+      }
+      var mx = Math.max.apply(null, werte), mn = Math.min.apply(null, werte);
+      if (mx === mn) { werte[0] = mn + 7; mx = mn + 7; }
+      return { titel: 'Spannweite', art: 'zahl', einheit: '', text: 'Bestimme die Spannweite: ' + werte.join(' · '), loesung: mx - mn,
+        weg: mx + ' − ' + mn + ' = ' + (mx - mn), fehler: [{ wert: mx, tipp: 'Spannweite = größter Wert − kleinster Wert.' }], tipp: 'größter Wert − kleinster Wert' };
+    },
+    wahrsch: function (rnd) {
+      var r = ganzzahl(1, 9, rnd), b = ganzzahl(1, 9, rnd), g = ganzzahl(1, 6, rnd), n = r + b + g;
+      var farben = [['rote', r], ['blaue', b], ['gelbe', g]], f = waehle(farben, rnd), nicht = rnd() < 0.3;
+      var gunst = nicht ? n - f[1] : f[1], p = gunst / n;
+      return { titel: 'Wahrscheinlichkeit', art: 'wahrsch', einheit: '',
+        text: 'Im Beutel sind ' + r + ' rote, ' + b + ' blaue und ' + g + ' gelbe Kugeln. Wie groß ist die Wahrscheinlichkeit für ' + (nicht ? '„keine ' + f[0].replace(/e$/, 'e') + ' Kugel“' : 'eine ' + f[0] + ' Kugel') + '? <span class="klein">(als Bruch, z. B. 3/8)</span>',
+        loesung: p, weg: (nicht ? 'nicht ' + f[0].replace(/e$/, '') + ': ' + n + ' − ' + f[1] + ' = ' + gunst + ' · ' : '') + 'P = ' + gunst + '/' + n + (gekuerzt(gunst, n) !== gunst + '/' + n ? ' = ' + gekuerzt(gunst, n) : '') + ' ≈ ' + zahl(p * 100, 1) + ' %',
+        fehler: [{ wert: gunst / (n - gunst || 1), tipp: 'Teile durch die Anzahl ALLER Kugeln (' + n + '), nicht nur der anderen.' }, { wert: nicht ? f[1] / n : (n - f[1]) / n, tipp: nicht ? 'Gefragt ist „nicht ' + f[0].replace(/e$/, '') + '“ – zähle alle anderen Kugeln.' : 'Das ist die Gegenwahrscheinlichkeit.' }],
+        tipp: 'P = günstige : alle.' };
+    },
+    gleichung: function (rnd) {
+      var art = ganzzahl(0, 2, rnd), x = ganzzahl(-5, 12, rnd), a = ganzzahl(2, 9, rnd), b = ganzzahl(-20, 20, rnd);
+      if (art === 0) {
+        var c = a * x + b;
+        return { titel: 'Gleichung', art: 'zahl', einheit: '', text: 'Löse: ' + a + 'x ' + (b < 0 ? '− ' + (-b) : '+ ' + b) + ' = ' + zahl(c, 0), loesung: x,
+          weg: a + 'x = ' + zahl(c - b, 0) + ' | : ' + a + ' → x = ' + zahl(x, 0), fehler: [{ wert: (c + b) / a, tipp: 'Auf beiden Seiten dasselbe rechnen: ' + (b < 0 ? '+ ' + (-b) : '− ' + b) + '.' }], tipp: 'Erst die Zahl ohne x auf die andere Seite, dann durch ' + a + ' teilen.' };
+      }
+      if (art === 1) {
+        var c2 = ganzzahl(1, a - 1, rnd), d = (a - c2) * x + b;
+        return { titel: 'Gleichung', art: 'zahl', einheit: '', text: 'Löse: ' + a + 'x ' + (b < 0 ? '− ' + (-b) : '+ ' + b) + ' = ' + (c2 === 1 ? '' : c2) + 'x ' + (d < 0 ? '− ' + (-d) : '+ ' + d), loesung: x,
+          weg: '| − ' + (c2 === 1 ? '' : c2) + 'x → ' + (a - c2) + 'x ' + (b < 0 ? '− ' + (-b) : '+ ' + b) + ' = ' + d + ' → x = ' + zahl(x, 0), fehler: [], tipp: 'Erst alle x auf eine Seite, dann die Zahlen auf die andere.' };
+      }
+      var st = ganzzahl(2, 6, rnd), preis = waehle([1.2, 1.5, 2.5, 3.5, 0.8, 4], rnd), m = ganzzahl(3, 12, rnd);
+      return { titel: 'Dreisatz', art: 'zahl', einheit: '€', text: st + ' Hefte kosten ' + zahl(st * preis, 2) + ' €. Was kosten ' + m + ' Hefte?', loesung: glatt(m * preis),
+        weg: '1 Heft: ' + zahl(st * preis, 2) + ' € : ' + st + ' = ' + zahl(preis, 2) + ' € → ' + m + ' Hefte: ' + zahl(m * preis, 2) + ' €', fehler: [{ wert: glatt(preis), tipp: 'Das ist der Preis für 1 Heft. Rechne noch mal ' + m + '.' }], tipp: 'Erst auf 1 Heft rechnen, dann auf ' + m + ' Hefte.' };
+    }
+  };
+  var T1_THEMEN = ['einheiten', 'prozent', 'rechnen', 'bruch', 'daten', 'wahrsch', 'gleichung'];
+  function t1Aufgabe(thema, rnd, vorher) {
+    rnd = rnd || Math.random;
+    var a, v = 0;
+    do { var t = thema === 'mix' ? waehle(T1_THEMEN, rnd) : thema; a = T1[t](rnd); a.thema = t; v++; } while (vorher && a.text === vorher && v < 10);
+    return a;
+  }
+
+  ML.T1 = T1; ML.T1_THEMEN = T1_THEMEN; ML.t1Aufgabe = t1Aufgabe;
+  ML.TRAINER.t1 = t1Aufgabe;
+})(ML);
+
+/* Kapitel 1 · Potenzen und Wurzeln: Aufgabentypen für Selbsttest und Trainer */
+(function (ML) {
+  'use strict';
+  var waehle = ML.waehle, ganzzahl = ML.ganzzahl, glatt = ML.glatt, zahl = ML.zahl, hoch = ML.hoch, klammer = ML.klammer, wissText = ML.wissText,
+      wurzel = ML.wurzel, nachkomma = ML.nachkomma, runde = ML.runde, istGenau = ML.istGenau, ungefaehr = ML.ungefaehr, bruchText = ML.bruchText,
+      ggt = ML.ggt, gekuerzt = ML.gekuerzt;
+  var NAMEN = ['Mia', 'Can', 'Dilek', 'Luca', 'Sofia', 'Emre', 'Lea', 'Jonas', 'Aylin', 'Ben'];
+
+  var TYPEN = {
+    potenz: function (rnd) {
+      var p = waehle([[2, 5], [2, 6], [2, 7], [3, 3], [3, 4], [4, 3], [5, 3], [6, 2], [7, 2], [10, 4], [10, 6], [-2, 3], [-2, 4], [-3, 2], [-3, 3], [-1, 5],
+        [0.2, 2], [0.3, 2], [0.4, 2], [0.5, 2], [0.2, 3], [0.1, 3], [1.2, 2], [1.5, 2]], rnd);
+      var b = p[0], n = p[1], ohneKlammer = b < 0 && b !== -1 && rnd() < 0.4;
+      var w = ohneKlammer ? -glatt(Math.pow(-b, n)) : glatt(Math.pow(b, n));
+      var faktoren = [];
+      for (var i = 0; i < n; i++) faktoren.push(ohneKlammer ? zahl(-b, 6) : klammer(b));
+      var aufg = ohneKlammer ? '−' + zahl(-b, 6) + hoch(n) : klammer(b) + hoch(n);
+      var weg = aufg + ' = ' + (ohneKlammer ? '−(' + faktoren.join(' · ') + ')' : faktoren.join(' · ')) + ' = ' + zahl(w, 6);
+      var fehler = [{ wert: glatt(b * n), tipp: 'Du hast Basis mal Exponent gerechnet (Falle 1). Nimm die Basis ' + n + '-mal als Faktor.' }];
+      if (nachkomma(b) > 0) fehler.push({ wert: glatt(w * 10), tipp: 'Pro Faktor eine Nachkommastelle! Zähle die Stellen aller Faktoren zusammen (Falle 2).' },
+        { wert: glatt(w * 100), tipp: 'Pro Faktor eine Nachkommastelle! Zähle die Stellen aller Faktoren zusammen (Falle 2).' });
+      if (b < 0) fehler.push({ wert: -w, tipp: ohneKlammer ? 'Ohne Klammer gilt der Exponent nur für die Zahl. Das Minus kommt am Ende davor.' : 'Achte aufs Vorzeichen: Exponent gerade → positiv, ungerade → negativ.' });
+      return { stufe: 1, kap: 'pot', titel: 'Potenz berechnen', art: 'zahl', einheit: '',
+        text: 'Berechne ohne Taschenrechner: ' + aufg, loesung: w, weg: weg, fehler: fehler,
+        tipp: 'Schreibe die Potenz als Produkt: die Basis ' + n + '-mal als Faktor.' };
+    },
+    quadratzahl: function (rnd) {
+      var k = ganzzahl(2, 20, rnd), w = k * k;
+      return { stufe: 1, kap: 'pot', titel: 'Quadratzahl', art: 'zahl', einheit: '',
+        text: 'Berechne: ' + k + hoch(2), loesung: w, weg: k + hoch(2) + ' = ' + k + ' · ' + k + ' = ' + zahl(w, 0),
+        fehler: [{ wert: 2 * k, tipp: 'Nicht mal 2! ' + k + hoch(2) + ' heißt ' + k + ' · ' + k + '.' }],
+        tipp: 'Quadrieren heißt: die Zahl mit sich selbst multiplizieren.' };
+    },
+    quadratwurzel: function (rnd) {
+      var k = rnd() < 0.7 ? ganzzahl(2, 20, rnd) : waehle([0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.1, 1.2, 1.3, 1.4, 1.5], rnd);
+      var r = glatt(k * k);
+      return { stufe: 1, kap: 'pot', titel: 'Quadratwurzel', art: 'zahl', einheit: '',
+        text: 'Berechne ohne Taschenrechner: ' + wurzel(2, r), loesung: k,
+        weg: wurzel(2, r) + ' = ' + zahl(k, 6) + ', denn ' + zahl(k, 6) + ' · ' + zahl(k, 6) + ' = ' + zahl(r, 6),
+        fehler: [{ wert: glatt(r / 2), tipp: 'Die Wurzel ist nicht die Hälfte! Suche die Zahl, die mal sich selbst ' + zahl(r, 6) + ' ergibt.' },
+          { wert: r, tipp: 'Du hast den Radikanden abgeschrieben. Welche Zahl mal sich selbst ergibt ' + zahl(r, 6) + '?' }],
+        tipp: 'Kontrolliere mit „denn“: Welche Zahl mal sich selbst ergibt ' + zahl(r, 6) + '?' };
+    },
+    nteWurzel: function (rnd) {
+      var p = waehle([[3, 8], [3, 27], [3, 64], [3, 125], [3, 216], [3, 343], [3, 1000], [4, 16], [4, 81], [4, 625], [4, 10000], [5, 32], [5, 100000]], rnd);
+      var n = p[0], r = p[1], w = Math.round(Math.pow(r, 1 / n));
+      var hochText = []; for (var i = 0; i < n; i++) hochText.push(w);
+      return { stufe: 2, kap: 'pot', titel: 'n-te Wurzel', art: 'zahl', einheit: '',
+        text: 'Berechne ohne Taschenrechner: ' + wurzel(n, r), loesung: w,
+        weg: wurzel(n, r) + ' = ' + w + ', denn ' + w + hoch(n) + ' = ' + hochText.join(' · ') + ' = ' + zahl(r, 0),
+        fehler: [{ wert: glatt(r / n), tipp: 'Du hast durch ' + n + ' geteilt. Gesucht ist die Zahl, die hoch ' + n + ' genau ' + zahl(r, 0) + ' ergibt.' }],
+        tipp: 'Probiere: Welche Zahl ' + n + '-mal mit sich selbst multipliziert ergibt ' + zahl(r, 0) + '?' };
+    },
+    vorrang: function (rnd) {
+      var art = ganzzahl(0, 3, rnd), a = ganzzahl(2, 5, rnd), b = ganzzahl(2, 4, rnd), c = ganzzahl(2, 3, rnd);
+      var text, w, weg, fehler;
+      if (art === 0) { w = a * Math.pow(b, c); text = a + ' · ' + b + hoch(c); weg = a + ' · ' + zahl(Math.pow(b, c), 0) + ' = ' + zahl(w, 0); fehler = [{ wert: Math.pow(a * b, c), tipp: 'Erst die Potenz, dann mal! Ohne Klammer gilt der Exponent nur für ' + b + '.' }]; }
+      else if (art === 1) { w = Math.pow(a * b, c); text = '(' + a + ' · ' + b + ')' + hoch(c); weg = (a * b) + hoch(c) + ' = ' + zahl(w, 0); fehler = [{ wert: a * Math.pow(b, c), tipp: 'Die Klammer zuerst: ' + a + ' · ' + b + ' = ' + (a * b) + ', dann hoch ' + c + '.' }]; }
+      else if (art === 2) { var d = Math.pow(b, c) + ganzzahl(1, 20, rnd); w = d - Math.pow(b, c); text = d + ' − ' + b + hoch(c); weg = d + ' − ' + zahl(Math.pow(b, c), 0) + ' = ' + zahl(w, 0); fehler = [{ wert: Math.pow(d - b, c), tipp: 'Potenz vor Strich: erst ' + b + hoch(c) + ' ausrechnen.' }]; }
+      else { w = Math.pow(a, 2) + Math.pow(b, 3); text = a + hoch(2) + ' + ' + b + hoch(3); weg = (a * a) + ' + ' + (b * b * b) + ' = ' + w; fehler = [{ wert: 2 * a + 3 * b, tipp: 'Potenz ist nicht Basis mal Exponent (Falle 1).' }]; }
+      return { stufe: 2, kap: 'pot', titel: 'Vorrangregeln', art: 'zahl', einheit: '', text: 'Berechne: ' + text, loesung: w, weg: weg, fehler: fehler,
+        tipp: 'Klammer vor Potenz vor Punkt vor Strich.' };
+    },
+    wissZurueck: function (rnd) {
+      var a = waehle([1.5, 2.4, 3.05, 4.2, 6.8, 7.25, 9.1, 5.5, 8.04], rnd), n = ganzzahl(3, 9, rnd);
+      var w = glatt(a * Math.pow(10, n)), d = nachkomma(a), tr = rnd() < 0.4;
+      return { stufe: 1, kap: 'pot', titel: 'Zehnerpotenz ausschreiben', art: 'aus', einheit: '',
+        text: tr ? 'Der Taschenrechner zeigt <span class="lcd">' + zahl(a, 6) + ' × 10' + hoch(n) + '</span>. Schreibe die Zahl ohne Zehnerpotenz.' : 'Schreibe ohne Zehnerpotenz: ' + wissText(a, n),
+        loesung: w, weg: wissText(a, n) + ' = ' + zahl(a, 6) + ' · ' + zahl(Math.pow(10, n), 0) + ' = ' + zahl(w, 0),
+        fehler: [{ wert: glatt(a * Math.pow(10, d) * Math.pow(10, n)), tipp: 'Das Komma wandert ' + n + ' Stellen nach rechts – es werden nicht einfach ' + n + ' Nullen angehängt.' },
+          { wert: glatt(a * Math.pow(10, n - 1)), tipp: 'Eine Stelle zu wenig. 10' + hoch(n) + ' ist eine 1 mit ' + n + ' Nullen.' },
+          { wert: glatt(a * Math.pow(10, n + 1)), tipp: 'Eine Stelle zu viel. 10' + hoch(n) + ' ist eine 1 mit ' + n + ' Nullen.' }],
+        tipp: 'Schreibe 10' + hoch(n) + ' aus (1 mit ' + n + ' Nullen) und rechne mal.' };
+    },
+    wissHin: function (rnd) {
+      var a = waehle([1.2, 2.5, 3.4, 4.05, 5.6, 6.02, 7.3, 8.8, 9.45], rnd), n = ganzzahl(4, 9, rnd);
+      var w = glatt(a * Math.pow(10, n));
+      return { stufe: 2, kap: 'pot', titel: 'Wissenschaftliche Schreibweise', art: 'wiss', einheit: '', aSoll: a, nSoll: n,
+        text: 'Schreibe in wissenschaftlicher Schreibweise: ' + zahl(w, 0) + ' <span class="klein">(tippe z. B. 3,2·10^6)</span>',
+        loesung: w, weg: zahl(w, 0) + ' = ' + zahl(a, 6) + ' · ' + zahl(Math.pow(10, n), 0) + ' = ' + wissText(a, n) + '<br>Nach der ersten Ziffer gibt es noch ' + n + ' Stellen.',
+        fehler: [], tipp: 'Nach der ersten Ziffer die Stellen zählen: Das ist der Exponent.' };
+    },
+    quadratSeite: function (rnd) {
+      var k = rnd() < 0.7 ? ganzzahl(4, 20, rnd) : waehle([0.5, 0.8, 1.1, 1.2, 1.5, 2.5], rnd), A = glatt(k * k), e = k < 3 ? 'm' : waehle(['cm', 'm'], rnd);
+      return { stufe: 1, kap: 'pot', titel: 'Seitenlänge eines Quadrats', art: 'zahl', einheit: e,
+        text: 'Ein Quadrat hat den Flächeninhalt ' + zahl(A, 6) + ' ' + e + hoch(2) + '. Wie lang ist eine Seite?',
+        loesung: k, weg: zahl(A, 6) + ' ' + e + hoch(2) + ' = a' + hoch(2) + ' | √ → a = ' + zahl(k, 6) + ' ' + e + ', denn ' + zahl(k, 6) + ' · ' + zahl(k, 6) + ' = ' + zahl(A, 6),
+        fehler: [{ wert: glatt(A / 4), tipp: 'Du hast durch 4 geteilt – das wäre beim Umfang richtig. Beim Flächeninhalt ziehst du die Wurzel.' },
+          { wert: glatt(A / 2), tipp: 'Die Wurzel ist nicht die Hälfte.' }],
+        tipp: 'A = a' + hoch(2) + ' → Wurzel ziehen.' };
+    },
+    wuerfel: function (rnd) {
+      var k = waehle([2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 20], rnd), vonO = rnd() < 0.35;
+      if (vonO) {
+        var O = 6 * k * k;
+        return { stufe: 2, kap: 'pot', titel: 'Würfel: Kante aus der Oberfläche', art: 'zahl', einheit: 'cm',
+          text: 'Ein Würfel hat den Oberflächeninhalt ' + zahl(O, 0) + ' cm' + hoch(2) + '. Wie lang ist eine Kante?',
+          loesung: k, weg: 'Eine Fläche: ' + zahl(O, 0) + ' cm' + hoch(2) + ' : 6 = ' + zahl(k * k, 0) + ' cm' + hoch(2) + '<br>a = ' + wurzel(2, k * k) + ' cm = ' + k + ' cm',
+          fehler: [{ wert: k * k, tipp: 'Das ist eine Fläche (a' + hoch(2) + '). Ziehe noch die Wurzel.' }, { wert: glatt(O / 6 / 4), tipp: 'Aus der Fläche eines Quadrats bekommst du die Seite mit der Wurzel, nicht mit : 4.' }],
+          tipp: 'O = 6 · a' + hoch(2) + ': erst durch 6 teilen, dann die Wurzel ziehen.' };
+      }
+      var V = k * k * k;
+      return { stufe: 2, kap: 'pot', titel: 'Würfel: Kante aus dem Volumen', art: 'zahl', einheit: 'cm',
+        text: 'Ein Würfel hat das Volumen ' + zahl(V, 0) + ' cm' + hoch(3) + '. Wie lang ist eine Kante?',
+        loesung: k, weg: 'a = ' + wurzel(3, V) + ' cm = ' + k + ' cm, denn ' + k + hoch(3) + ' = ' + zahl(V, 0),
+        fehler: [{ wert: glatt(V / 3), tipp: 'Nicht durch 3 teilen! Gesucht ist die dritte Wurzel.' }, { wert: glatt(V / 6), tipp: 'Das Volumen hat nichts mit den 6 Flächen zu tun. a = ³√V.' }],
+        tipp: 'V = a' + hoch(3) + ' → a = ³√V.' };
+    },
+  };
+  Object.keys(TYPEN).forEach(function (k) { ML.TYPEN[k] = TYPEN[k]; });
+  ML.TESTS.kap1 = { reihe: ['potenz', 'quadratzahl', 'quadratwurzel', 'nteWurzel', 'vorrang', 'wissZurueck', 'wissHin', 'quadratSeite', 'wuerfel', 'potenz'],
+    ersatz: ['potenz', 'quadratwurzel'] };
+  ML.TRAINER.pw = { 1: ['quadratzahl', 'quadratwurzel', 'quadratzahl', 'quadratwurzel', 'quadratSeite'], 2: ['potenz', 'nteWurzel', 'potenz', 'vorrang'], 3: ['wissZurueck', 'wissHin'] };
+})(ML);
+
+/* Mathe-Sprint 10 G · Aufgabentypen für den hilfsmittelfreien Teil der ZP 10 (ganze Sek I)
+   Baut auf ml_basis.js, ml_zp.js (ML.T1) und ml_kap1.js (Potenzen und Wurzeln) der Lernseite 10 G auf.
+   Jede Aufgabe: { titel, art: 'zahl'|'wahrsch'|'wiss'|'aus'|'wahl', einheit, text, loesung, weg, fehler, tipp [, optionen, otipp] }
+   art 'wahl' = Auswahl: optionen (HTML), loesung = Index der richtigen Option, otipp = Tipp je falscher Option. */
+(function (ML) {
+  'use strict';
+  var waehle = ML.waehle, gz = ML.ganzzahl, glatt = ML.glatt, zahl = ML.zahl, hoch = ML.hoch, klammer = ML.klammer,
+      bruchText = ML.bruchText, gekuerzt = ML.gekuerzt, wurzel = ML.wurzel;
+
+  /* ---------- Hilfen ---------- */
+  function A(o) { o.art = o.art || 'zahl'; o.einheit = o.einheit || ''; o.fehler = (o.fehler || []).filter(function (f) { return isFinite(f.wert) && Math.abs(f.wert - o.loesung) > 1e-9; }); return o; }
+  function vz(b) { return b < 0 ? '− ' + zahl(-b, 6) : '+ ' + zahl(b, 6); }               // „+ 3“ / „− 3“
+  function B(z, n) { return bruchText(z, n); }
+  function Bk(z, n) { var g = ML.ggt(Math.abs(z), n), zz = z / g, nn = n / g; return nn === 1 ? zahl(zz, 0) : (zz < 0 ? '−' : '') + B(Math.abs(zz), nn); }
+  // Term aus Teilen [[Faktor, 'x'], [Zahl, '']] → „3x − 5“
+  function term(teile) {
+    var s = '';
+    teile.forEach(function (t) {
+      var c = t[0], v = t[1]; if (c === 0) return;
+      var abs = Math.abs(c), st = (abs === 1 && v ? '' : zahl(abs, 6)) + v;
+      s += s === '' ? (c < 0 ? '−' : '') + st : (c < 0 ? ' − ' : ' + ') + st;
+    });
+    return s || '0';
+  }
+  function mischen(liste, rnd) { var l = liste.slice(); for (var i = l.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var t = l[i]; l[i] = l[j]; l[j] = t; } return l; }
+  // Auswahlaufgabe. o.richtig + o.falsch (+ o.ftipp) werden gemischt; mit o.optionen + o.index bleibt die Reihenfolge fest (z. B. <, >, =)
+  function wahl(rnd, o) {
+    var opts, tipps, los;
+    if (o.optionen) { opts = o.optionen; tipps = o.otipp || opts.map(function () { return null; }); los = o.index; }
+    else {
+      var roh = [o.richtig], rt = [null];
+      o.falsch.forEach(function (f, i) { if (roh.indexOf(f) < 0) { roh.push(f); rt.push((o.ftipp || [])[i] || null); } });   // keine doppelten Optionen
+      var idx = mischen(roh.map(function (_, i) { return i; }), rnd);
+      opts = idx.map(function (i) { return roh[i]; }); tipps = idx.map(function (i) { return rt[i] || null; }); los = idx.indexOf(0);
+    }
+    return { titel: o.titel, art: 'wahl', einheit: '', text: o.text, optionen: opts, otipp: tipps, loesung: los, weg: o.weg, tipp: o.tipp, fehler: [] };
+  }
+  // Dezimalzahl → gekürzter Bruch (für die Anzeige von Wahrscheinlichkeiten)
+  function alsBruch(x) {
+    for (var n = 1; n <= 400; n++) { var z = x * n; if (Math.abs(z - Math.round(z)) < 1e-9) return n === 1 ? zahl(Math.round(z), 0) : gekuerzt(Math.round(z), n); }
+    return zahl(x, 4);
+  }
+  var NAMEN = ['Mia', 'Can', 'Dilek', 'Luca', 'Sofia', 'Emre', 'Lea', 'Jonas', 'Aylin', 'Ben', 'Elif', 'Noah'];
+  var GRAD = '°';
+
+  /* =========================================================
+     ZAHLEN UND RECHNEN
+     ========================================================= */
+  var S = {};
+
+  S.kopf = function (rnd) {
+    var art = gz(0, 5, rnd), a, b, w;
+    if (art === 0) {
+      a = gz(12, 19, rnd); b = gz(3, 9, rnd); w = a * b;
+      return A({ titel: 'Kopfrechnen', text: 'Berechne: ' + a + ' · ' + b, loesung: w,
+        weg: a + ' · ' + b + ' = 10 · ' + b + ' + ' + (a - 10) + ' · ' + b + ' = ' + (10 * b) + ' + ' + ((a - 10) * b) + ' = ' + w,
+        tipp: 'Zerlegen: erst 10 · ' + b + ', dann ' + (a - 10) + ' · ' + b + ', dann addieren.' });
+    }
+    if (art === 1) {
+      var q = gz(2, 9, rnd) * 10, d = gz(2, 9, rnd) * 10, n = q * d;
+      return A({ titel: 'Kopfrechnen', text: 'Berechne: ' + zahl(n, 0) + ' : ' + d, loesung: q,
+        weg: zahl(n, 0) + ' : ' + d + ' = ' + zahl(n / 10, 0) + ' : ' + (d / 10) + ' = ' + q + ' &nbsp;(bei beiden eine Null streichen)',
+        fehler: [{ wert: q * 10, tipp: 'Streiche bei beiden Zahlen gleich viele Nullen.' }, { wert: q / 10, tipp: 'Streiche bei beiden Zahlen gleich viele Nullen.' }],
+        tipp: 'Bei beiden Zahlen dieselbe Anzahl Nullen streichen, dann teilen.' });
+    }
+    if (art === 2) {
+      a = gz(11, 99, rnd) / 10; b = gz(101, 999, rnd) / 100;
+      if (Math.round(a * 10) % 10 === 0) a = glatt(a + 0.3);
+      w = glatt(a + b);
+      var ai = Math.floor(a), ad = Math.round((a - ai) * 10), bi = Math.floor(b), bd = Math.round((b - bi) * 100), falschW = ad + bd < 100 ? glatt(ai + bi + (ad + bd) / 100) : NaN;
+      return A({ titel: 'Kommazahlen addieren', text: 'Berechne: ' + zahl(a, 2) + ' + ' + zahl(b, 2), loesung: w,
+        weg: 'Komma unter Komma: ' + zahl(a, 2) + '0 + ' + zahl(b, 2) + ' = ' + zahl(w, 2),
+        fehler: [{ wert: falschW, tipp: 'Komma unter Komma! Schreibe ' + zahl(a, 2) + ' als ' + zahl(a, 2) + '0.' }],
+        tipp: 'Komma unter Komma schreiben, fehlende Stellen mit 0 auffüllen.' });
+    }
+    if (art === 3) {
+      a = gz(1, 9, rnd); b = gz(2, 9, rnd); w = glatt(a * b / 100);
+      return A({ titel: 'Kommazahlen multiplizieren', text: 'Berechne: ' + zahl(a / 10, 1) + ' · ' + zahl(b / 10, 1), loesung: w,
+        weg: a + ' · ' + b + ' = ' + (a * b) + '; zusammen 2 Nachkommastellen → ' + zahl(w, 4),
+        fehler: [{ wert: glatt(a * b / 10), tipp: 'Zähle die Nachkommastellen beider Faktoren zusammen: 1 + 1 = 2.' }],
+        tipp: 'Erst ohne Komma rechnen, dann so viele Nachkommastellen wie beide Faktoren zusammen.' });
+    }
+    if (art === 4) {
+      var x = gz(3, 48, rnd), v = gz(0, 3, rnd), txt, wert, f;
+      if (v === 0) { txt = x + ' : 0,5'; wert = 2 * x; f = [{ wert: x / 2, tipp: 'Durch 0,5 teilen heißt verdoppeln: Wie oft passt ein halbes in ' + x + '?' }]; }
+      else if (v === 1) { txt = x + ' · 0,5'; wert = glatt(x / 2); f = [{ wert: 2 * x, tipp: 'Mal 0,5 heißt halbieren.' }]; }
+      else if (v === 2) { txt = x + ' : 0,1'; wert = 10 * x; f = [{ wert: glatt(x / 10), tipp: 'Durch 0,1 teilen heißt mal 10.' }]; }
+      else { txt = x + ' · 0,1'; wert = glatt(x / 10); f = [{ wert: 10 * x, tipp: 'Mal 0,1 heißt durch 10.' }]; }
+      return A({ titel: 'Rechnen mit 0,5 und 0,1', text: 'Berechne: ' + txt, loesung: wert, weg: txt + ' = ' + zahl(wert, 4), fehler: f,
+        tipp: '· 0,5 = halbieren · : 0,5 = verdoppeln · · 0,1 = : 10 · : 0,1 = · 10' });
+    }
+    var bb = waehle([2, 3, 4, 5, 6, 8], rnd), ww = gz(2, 12, rnd) * 10, aa = glatt(ww * bb / 100);
+    return A({ titel: 'Durch eine Kommazahl teilen', text: 'Berechne: ' + zahl(aa, 2) + ' : ' + zahl(bb / 100, 2), loesung: ww,
+      weg: 'Komma bei beiden Zahlen 2 Stellen nach rechts: ' + zahl(aa * 100, 0) + ' : ' + bb + ' = ' + ww,
+      fehler: [{ wert: glatt(ww / 10), tipp: 'Verschiebe das Komma bei beiden Zahlen gleich weit.' }, { wert: glatt(ww / 100), tipp: 'Verschiebe das Komma bei beiden Zahlen gleich weit.' }],
+      tipp: 'Komma bei beiden Zahlen gleich weit nach rechts, bis du durch eine ganze Zahl teilst.' });
+  };
+
+  S.vorrang = function (rnd) {
+    var art = gz(0, 5, rnd), a, b, c, d, w, t, weg, f = [];
+    if (art === 0) { a = gz(2, 20, rnd); b = gz(2, 9, rnd); c = gz(2, 9, rnd); w = a + b * c; t = a + ' + ' + b + ' · ' + c; weg = a + ' + ' + (b * c) + ' = ' + w; f = [{ wert: (a + b) * c, tipp: 'Punkt vor Strich: erst ' + b + ' · ' + c + '.' }]; }
+    else if (art === 1) { b = gz(5, 19, rnd); c = gz(3, 15, rnd); a = b + c + gz(1, 40, rnd); w = a - (b + c); t = a + ' − (' + b + ' + ' + c + ')'; weg = a + ' − ' + (b + c) + ' = ' + w; f = [{ wert: a - b + c, tipp: 'Die Klammer zuerst: ' + b + ' + ' + c + ' = ' + (b + c) + '.' }]; }
+    else if (art === 2) { a = gz(4, 9, rnd); b = gz(4, 9, rnd); c = gz(2, 6, rnd); d = gz(2, 6, rnd); if (a * b < c * d) { var h = a; a = c; c = h; h = b; b = d; d = h; } w = a * b - c * d; t = a + ' · ' + b + ' − ' + c + ' · ' + d; weg = (a * b) + ' − ' + (c * d) + ' = ' + w; f = [{ wert: (a * b - c) * d, tipp: 'Punkt vor Strich: beide Produkte zuerst.' }]; }
+    else if (art === 3) { c = gz(2, 9, rnd); var k = gz(2, 9, rnd); a = c * k; d = gz(2, 9, rnd); var e = gz(2, 9, rnd); w = k + d * e; t = a + ' : ' + c + ' + ' + d + ' · ' + e; weg = k + ' + ' + (d * e) + ' = ' + w; f = [{ wert: (k + d) * e, tipp: 'Punkt vor Strich: erst ' + a + ' : ' + c + ' und ' + d + ' · ' + e + '.' }]; }
+    else if (art === 4) { a = gz(6, 12, rnd); b = gz(1, 5, rnd); c = gz(2, 6, rnd); d = gz(1, 9, rnd); w = (a - b) * c - d; t = '(' + a + ' − ' + b + ') · ' + c + ' − ' + d; weg = (a - b) + ' · ' + c + ' − ' + d + ' = ' + ((a - b) * c) + ' − ' + d + ' = ' + w; f = [{ wert: (a - b) * (c - d), tipp: 'Nur die Klammer wird zuerst gerechnet, danach Punkt vor Strich.' }]; }
+    else return ML.TYPEN.vorrang(rnd);
+    return A({ titel: 'Vorrangregeln', text: 'Berechne: ' + t, loesung: w, weg: weg, fehler: f, tipp: 'Klammer vor Potenz vor Punkt vor Strich.' });
+  };
+
+  S.negativ = function (rnd) {
+    var art = gz(0, 5, rnd), a, b, c, w, t, f = [];
+    if (art === 0) { a = gz(2, 12, rnd); b = a + gz(2, 12, rnd); w = a - b; t = a + ' − ' + b; f = [{ wert: b - a, tipp: 'Das Ergebnis ist negativ: Auf der Zahlengeraden gehst du über die 0 hinaus nach links.' }]; }
+    else if (art === 1) { a = gz(2, 15, rnd); b = gz(2, 15, rnd); w = -a + b; t = '−' + a + ' − (−' + b + ')'; f = [{ wert: -a - b, tipp: 'Minus und Minus: − (−' + b + ') = + ' + b + '.' }]; }
+    else if (art === 2) { a = gz(2, 9, rnd); b = gz(2, 9, rnd); if (rnd() < 0.5) { w = -a * b; t = '(−' + a + ') · ' + b; } else { w = a * b; t = '(−' + a + ') · (−' + b + ')'; } f = [{ wert: -w, tipp: 'Vorzeichenregel: gleiche Vorzeichen → plus, verschiedene → minus.' }]; }
+    else if (art === 3) { a = gz(2, 4, rnd); b = gz(2, 5, rnd); c = gz(2, 3, rnd); w = -a * b * c; t = '(−' + a + ') · (−' + b + ') · (−' + c + ')'; f = [{ wert: a * b * c, tipp: 'Drei Minuszeichen – eine ungerade Anzahl – also ist das Ergebnis negativ.' }]; }
+    else if (art === 4) { b = gz(2, 9, rnd); var k = gz(2, 9, rnd); a = b * k; if (rnd() < 0.5) { w = -k; t = '(−' + a + ') : ' + b; } else { w = k; t = '(−' + a + ') : (−' + b + ')'; } f = [{ wert: -w, tipp: 'Beim Teilen gilt dieselbe Vorzeichenregel wie beim Multiplizieren.' }]; }
+    else {
+      var t1 = -gz(2, 9, rnd);
+      if (rnd() < 0.5) {
+        var dt = gz(3, 15, rnd); w = t1 + dt;
+        return A({ titel: 'Negative Zahlen', einheit: '°C', text: 'Am Morgen ist es ' + zahl(t1, 0) + ' °C. Bis zum Mittag wird es ' + dt + ' Grad wärmer. Wie warm ist es mittags?', loesung: w,
+          weg: zahl(t1, 0) + ' + ' + dt + ' = ' + zahl(w, 0) + ' (°C)', fehler: [{ wert: -t1 + dt, tipp: 'Du startest bei ' + zahl(t1, 0) + ' °C, nicht bei ' + (-t1) + ' °C.' }, { wert: t1 - dt, tipp: 'Wärmer heißt: auf dem Thermometer nach oben, also plus.' }],
+          tipp: 'Denk an das Thermometer: wärmer = nach oben.' });
+      }
+      var t2 = gz(1, 9, rnd); w = t2 - t1;
+      return A({ titel: 'Negative Zahlen', einheit: 'Grad', text: 'Die Temperatur steigt von ' + zahl(t1, 0) + ' °C auf ' + t2 + ' °C. Um wie viel Grad steigt sie?', loesung: w,
+        weg: t2 + ' − (' + zahl(t1, 0) + ') = ' + t2 + ' + ' + (-t1) + ' = ' + w + ' Grad', fehler: [{ wert: t2 + t1, tipp: 'Zähle über die 0: ' + (-t1) + ' Grad bis 0 und dann noch ' + t2 + ' Grad.' }],
+        tipp: 'Zähle auf dem Thermometer: bis zur 0 und dann weiter.' });
+    }
+    return A({ titel: 'Negative Zahlen', text: 'Berechne: ' + t, loesung: w, weg: t + ' = ' + zahl(w, 0), fehler: f, tipp: 'Zahlengerade und Vorzeichenregeln: gleiche Vorzeichen → plus, verschiedene → minus.' });
+  };
+
+  S.umwandeln = function (rnd) {
+    var art = gz(0, 4, rnd);
+    if (art <= 1) return ML.T1.bruch(rnd);
+    if (art === 2) {
+      var p = waehle([5, 7, 12, 25, 35, 40, 75, 80, 150, 2.5, 60, 3], rnd), w = glatt(p / 100);
+      return A({ titel: 'Prozent → Dezimalzahl', text: 'Schreibe ' + zahl(p, 1) + ' % als Dezimalzahl.', loesung: w, weg: zahl(p, 1) + ' % = ' + zahl(p, 1) + ' : 100 = ' + zahl(w, 4),
+        fehler: [{ wert: glatt(p / 10), tipp: 'Prozent heißt „von Hundert“: durch 100, also Komma 2 Stellen nach links.' }, { wert: p, tipp: 'Als Dezimalzahl ohne Prozentzeichen: durch 100 teilen.' }],
+        tipp: 'p % = p : 100 → Komma zwei Stellen nach links.' });
+    }
+    if (art === 3) {
+      var d = waehle([0.07, 0.3, 0.45, 0.125, 1.2, 0.05, 0.62, 0.9, 0.025, 0.8], rnd), w2 = glatt(d * 100);
+      return A({ titel: 'Dezimalzahl → Prozent', einheit: '%', text: 'Schreibe ' + zahl(d, 4) + ' in Prozent.', loesung: w2, weg: zahl(d, 4) + ' = ' + zahl(d, 4) + ' · 100 % = ' + zahl(w2, 2) + ' %',
+        fehler: [{ wert: glatt(d * 10), tipp: 'Mal 100, also Komma 2 Stellen nach rechts.' }, { wert: d, tipp: 'Für Prozent mal 100 rechnen.' }],
+        tipp: 'Dezimalzahl · 100 = Prozent → Komma zwei Stellen nach rechts.' });
+    }
+    var L = [[25, 1, 4], [20, 1, 5], [75, 3, 4], [50, 1, 2], [10, 1, 10], [40, 2, 5], [5, 1, 20], [60, 3, 5], [80, 4, 5], [30, 3, 10]];
+    var r = waehle(L, rnd), andere = mischen(L.filter(function (x) { return x[0] !== r[0]; }), rnd).slice(0, 3);
+    var falsch = andere.map(function (x) { return B(x[1], x[2]); }), ft = andere.map(function (x) { return 'Das sind ' + x[0] + ' %. Schreibe ' + r[0] + ' % als ' + r[0] + '/100 und kürze.'; });
+    return wahl(rnd, { titel: 'Prozent → Bruch', text: 'Welcher Bruch ist gleich ' + r[0] + ' %?', richtig: B(r[1], r[2]), falsch: falsch, ftipp: ft,
+      weg: r[0] + ' % = ' + B(r[0], 100) + ' = ' + B(r[1], r[2]) + ' (gekürzt)', tipp: 'p % = p/100, dann kürzen.' });
+  };
+
+  S.bruchrechnen = function (rnd) {
+    var art = gz(0, 4, rnd), z, n;
+    var HINW = ' <span class="klein">(als Bruch, z. B. 3/8)</span>';
+    if (art === 0) {
+      n = gz(5, 12, rnd); var a = gz(1, n - 2, rnd), b = gz(1, n - 1 - a, rnd);
+      return A({ titel: 'Brüche addieren', text: 'Berechne: ' + B(a, n) + ' + ' + B(b, n) + HINW, loesung: (a + b) / n,
+        weg: B(a, n) + ' + ' + B(b, n) + ' = ' + B(a + b, n) + (ML.ggt(a + b, n) > 1 ? ' = ' + Bk(a + b, n) : ''),
+        fehler: [{ wert: (a + b) / (2 * n), tipp: 'Gleiche Nenner: Nur die Zähler addieren, der Nenner bleibt.' }], tipp: 'Gleiche Nenner: Zähler addieren, Nenner beibehalten.' });
+    }
+    if (art === 1) {
+      var P = waehle([[1, 2, 1, 4], [1, 2, 1, 3], [2, 3, 1, 6], [3, 4, 1, 8], [1, 3, 1, 6], [1, 4, 1, 8], [2, 5, 1, 10], [1, 2, 3, 8], [3, 4, 1, 2], [1, 2, 1, 6], [3, 5, 1, 10]], rnd);
+      var plus = rnd() < 0.6 || P[0] / P[1] <= P[2] / P[3];
+      var hn = P[1] * P[3] / ML.ggt(P[1], P[3]), z1 = P[0] * hn / P[1], z2 = P[2] * hn / P[3], zs = plus ? z1 + z2 : z1 - z2;
+      return A({ titel: plus ? 'Brüche addieren' : 'Brüche subtrahieren', text: 'Berechne: ' + B(P[0], P[1]) + (plus ? ' + ' : ' − ') + B(P[2], P[3]) + HINW, loesung: zs / hn,
+        weg: 'Hauptnenner ' + hn + ': ' + B(z1, hn) + (plus ? ' + ' : ' − ') + B(z2, hn) + ' = ' + B(zs, hn) + (ML.ggt(zs, hn) > 1 ? ' = ' + Bk(zs, hn) : ''),
+        fehler: [{ wert: plus ? (P[0] + P[2]) / (P[1] + P[3]) : NaN, tipp: 'Nicht Zähler + Zähler und Nenner + Nenner! Erst auf einen gemeinsamen Nenner erweitern.' }],
+        tipp: 'Erst auf einen gemeinsamen Nenner erweitern, dann die Zähler verrechnen.' });
+    }
+    if (art === 2) {
+      n = waehle([3, 4, 5, 8, 10], rnd); z = gz(1, n - 1, rnd); while (ML.ggt(z, n) > 1) z = gz(1, n - 1, rnd);
+      var G = n * gz(2, 12, rnd), w = z * G / n, eur = rnd() < 0.5;
+      return A({ titel: 'Anteile berechnen', einheit: eur ? '€' : '', text: 'Wie viel sind ' + B(z, n) + ' von ' + G + (eur ? ' €' : '') + '?', loesung: w,
+        weg: G + ' : ' + n + ' = ' + (G / n) + ' → ' + (G / n) + ' · ' + z + ' = ' + w + (eur ? ' €' : ''),
+        fehler: [{ wert: G / n, tipp: 'Das ist erst ' + B(1, n) + '. Rechne noch mal ' + z + '.' }], tipp: 'Durch den Nenner teilen, dann mit dem Zähler malnehmen.' });
+    }
+    if (art === 3) {
+      var M = waehle([[2, 3, 3, 5], [1, 2, 4, 5], [3, 4, 2, 3], [1, 3, 3, 7], [2, 5, 5, 6], [3, 8, 4, 9], [1, 2, 2, 3], [3, 5, 1, 2], [4, 5, 3, 4]], rnd);
+      var zz = M[0] * M[2], nn = M[1] * M[3];
+      return A({ titel: 'Brüche multiplizieren', text: 'Berechne: ' + B(M[0], M[1]) + ' · ' + B(M[2], M[3]) + HINW, loesung: zz / nn,
+        weg: B(M[0] + ' · ' + M[2], M[1] + ' · ' + M[3]) + ' = ' + B(zz, nn) + (ML.ggt(zz, nn) > 1 ? ' = ' + Bk(zz, nn) : ''),
+        fehler: [{ wert: (M[0] * M[3]) / (M[1] * M[2]), tipp: 'Beim Multiplizieren: Zähler mal Zähler, Nenner mal Nenner (nicht über Kreuz).' }, { wert: (M[0] + M[2]) / (M[1] + M[3]), tipp: 'Nicht addieren – Zähler mal Zähler, Nenner mal Nenner.' }],
+        tipp: 'Zähler mal Zähler, Nenner mal Nenner.' });
+    }
+    var D = waehle([[1, 3, 3], [1, 2, 4], [2, 3, 2], [3, 4, 3], [1, 4, 2], [4, 5, 2], [1, 5, 3]], rnd);
+    return A({ titel: 'Bruch durch Zahl teilen', text: 'Berechne: ' + B(D[0], D[1]) + ' : ' + D[2] + HINW, loesung: D[0] / (D[1] * D[2]),
+      weg: B(D[0], D[1]) + ' : ' + D[2] + ' = ' + B(D[0], D[1]) + ' · ' + B(1, D[2]) + ' = ' + B(D[0], D[1] * D[2]) + (ML.ggt(D[0], D[1] * D[2]) > 1 ? ' = ' + Bk(D[0], D[1] * D[2]) : ''),
+      fehler: [{ wert: D[0] * D[2] / D[1], tipp: 'Du hast multipliziert. Durch ' + D[2] + ' teilen heißt: mit dem Kehrwert ' + B(1, D[2]) + ' malnehmen.' }],
+      tipp: 'Durch eine Zahl teilen = den Nenner mit der Zahl malnehmen.' });
+  };
+
+  S.vergleich = function (rnd) {
+    var art = gz(0, 6, rnd), L, R, lv, rv;
+    if (art === 0) {
+      var b = waehle([[1, 2], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5], [1, 8], [3, 8], [3, 10], [7, 10], [1, 3], [2, 3]], rnd);
+      lv = b[0] / b[1]; var basis = Math.round(lv * 100) / 100, dlt = waehle([-0.1, -0.05, 0, 0, 0.05, 0.1, -0.02, 0.03], rnd);
+      rv = glatt(basis + dlt); if (rv <= 0) rv = glatt(basis + 0.05);
+      if (b[1] === 3 && Math.abs(rv - lv) < 0.004) rv = b[0] === 1 ? 0.3 : 0.6;
+      L = B(b[0], b[1]); R = zahl(rv, 3);
+    } else if (art === 1) {
+      var p = waehle([[2, 3, 3, 2], [2, 4, 4, 2], [2, 5, 5, 2], [3, 3, 5, 2], [2, 6, 6, 2], [10, 2, 2, 7], [3, 4, 9, 2], [10, 3, 2, 10], [4, 3, 8, 2], [5, 3, 11, 2], [3, 2, 2, 3]], rnd);
+      if (rnd() < 0.5) p = [p[2], p[3], p[0], p[1]];
+      L = p[0] + hoch(p[1]); R = p[2] + hoch(p[3]); lv = Math.pow(p[0], p[1]); rv = Math.pow(p[2], p[3]);
+    } else if (art === 2) {
+      var q = waehle([['(−2)' + hoch(3), -8, '−8', -8], ['(−2)' + hoch(4), 16, '−16', -16], ['−3' + hoch(2), -9, '9', 9], ['(−3)' + hoch(2), 9, '9', 9], ['(−1)' + hoch(5), -1, '1', 1], ['(−5)' + hoch(2), 25, '−25', -25], ['−2' + hoch(4), -16, '−16', -16]], rnd);
+      L = q[0]; lv = q[1]; R = q[2]; rv = q[3];
+    } else if (art === 3) {
+      var r = waehle([[25, 1, 4], [20, 1, 4], [30, 1, 3], [75, 3, 4], [60, 3, 5], [45, 1, 2], [80, 3, 4], [40, 2, 5], [12, 1, 8], [35, 1, 3]], rnd);
+      L = r[0] + ' %'; lv = r[0] / 100; R = B(r[1], r[2]); rv = r[1] / r[2];
+    } else if (art === 4) {
+      var s = waehle([[49, 7], [50, 7], [80, 9], [144, 13], [0.25, 0.5], [121, 11], [99, 10], [64, 7], [0.09, 0.3], [30, 6]], rnd);
+      L = wurzel(2, s[0]); lv = Math.sqrt(s[0]); R = zahl(s[1], 2); rv = s[1];
+    } else if (art === 5) {
+      var t = waehle([[1.2, 3, 1020], [3.5, 4, 35000], [2.5, 2, 25], [4, 5, 40000], [6.1, 3, 6100], [1.05, 4, 15000], [7, 6, 700000]], rnd);
+      L = zahl(t[0], 2) + ' · 10' + hoch(t[1]); lv = glatt(t[0] * Math.pow(10, t[1])); R = zahl(t[2], 0); rv = t[2];
+    } else {
+      var a = -gz(10, 50, rnd) / 10, d = waehle([-0.05, 0.05, -0.5, 0.5, 0, 0.04, -0.3], rnd);
+      lv = a; rv = glatt(a + d); L = zahl(lv, 2); R = zahl(rv, 2);
+    }
+    var idx = Math.abs(lv - rv) < 1e-9 ? 2 : (lv < rv ? 0 : 1), zeichen = ['<', '>', '='][idx];
+    return wahl(rnd, { titel: 'Zahlen vergleichen', text: 'Setze das richtige Zeichen ein: &nbsp;' + L + ' &nbsp;☐&nbsp; ' + R,
+      optionen: ['&lt;', '&gt;', '='], index: idx, otipp: [null, null, null],
+      weg: L + ' = ' + zahl(lv, 4) + ' und ' + R + ' = ' + zahl(rv, 4) + ' → ' + L + ' ' + zeichen.replace('<', '&lt;').replace('>', '&gt;') + ' ' + R,
+      tipp: 'Schreibe beide Seiten als Dezimalzahl. Bei negativen Zahlen: Je weiter links auf der Zahlengeraden, desto kleiner.' });
+  };
+
+  S.groesste = function (rnd) {
+    var b = waehle([[1, 2], [3, 4], [1, 4], [2, 5], [3, 5], [4, 5], [3, 8], [7, 10], [1, 5]], rnd), v = b[0] / b[1];
+    var d = mischen([-0.1, -0.05, -0.02, 0.02, 0.03, 0.05, 0.1], rnd).slice(0, 3);
+    var werte = [v].concat(d.map(function (x) { return glatt(Math.round((v + x) * 1000) / 1000); }));
+    var texte = [B(b[0], b[1]), zahl(werte[1], 3), zahl(werte[2] * 100, 1) + ' %', zahl(werte[3], 3)];
+    var klein = rnd() < 0.35, best = 0;
+    werte.forEach(function (w, i) { if (klein ? w < werte[best] : w > werte[best]) best = i; });
+    var reihe = [best].concat([0, 1, 2, 3].filter(function (i) { return i !== best; }));
+    return wahl(rnd, { titel: klein ? 'Kleinste Zahl' : 'Größte Zahl', text: 'Welche Zahl ist am ' + (klein ? 'kleinsten' : 'größten') + '?',
+      richtig: texte[reihe[0]], falsch: reihe.slice(1).map(function (i) { return texte[i]; }),
+      ftipp: reihe.slice(1).map(function (i) { return texte[i] + ' = ' + zahl(werte[i], 3) + '. Schreibe alle als Dezimalzahl und vergleiche.'; }),
+      weg: texte.map(function (t, i) { return t + ' = ' + zahl(werte[i], 3); }).join(' · '), tipp: 'Alle in Dezimalzahlen umwandeln, dann vergleichen.' });
+  };
+
+  S.potenzen = function (rnd) {
+    var typ = waehle(['potenz', 'potenz', 'quadratzahl', 'quadratwurzel', 'quadratwurzel', 'nteWurzel', 'vorrang', 'wissZurueck', 'wissHin', 'quadratSeite', 'wuerfel'], rnd);
+    return A(ML.TYPEN[typ](rnd));
+  };
+
+  S.ueberschlag = function (rnd) {
+    var art = gz(0, 2, rnd), opts, wert, text, weg, tipp, ft;
+    if (art === 0) {
+      var a = gz(120, 980, rnd), b = gz(12, 98, rnd), p = a * b, e = waehle([1, 2, 3, 4, 6, 7, 8, 9], rnd);
+      var ra = Math.round(a / 100) * 100, rb = Math.round(b / 10) * 10, ez = ((a % 10) * (b % 10)) % 10;
+      text = 'Welches Ergebnis stimmt? Entscheide mit Überschlag und Endziffer: &nbsp;' + a + ' · ' + b;
+      opts = [p, p * 10, Math.round(p / 10), p + e];
+      tipp = 'Überschlag: ' + ra + ' · ' + rb + ' = ' + zahl(ra * rb, 0) + '. Endziffer: ' + (a % 10) + ' · ' + (b % 10) + ' endet auf ' + ez + '.';
+      weg = 'Überschlag ' + ra + ' · ' + rb + ' ≈ ' + zahl(ra * rb, 0) + ' · Endziffer ' + ez + ' → ' + zahl(p, 0);
+    } else if (art === 1) {
+      var d = gz(12, 98, rnd), q = gz(105, 980, rnd), n = d * q, e2 = 1;
+      for (var k = 1; k <= 9; k++) { if ((d * k) % 10 !== 0) { e2 = k; break; } }
+      if (rnd() < 0.5) { for (var k2 = 9; k2 >= 1; k2--) { if ((d * k2) % 10 !== 0) { e2 = k2; break; } } }
+      text = 'Welches Ergebnis stimmt? Entscheide mit Überschlag und Probe: &nbsp;' + zahl(n, 0) + ' : ' + d;
+      opts = [q, q * 10, Math.round(q / 10), q + e2];
+      var rd = Math.round(d / 10) * 10;
+      tipp = 'Überschlag: ' + zahl(n, 0) + ' : ' + d + ' ≈ ' + zahl(Math.round(n / 1000) * 1000, 0) + ' : ' + rd + '. Probe mit der Endziffer: Ergebnis · ' + d + ' muss auf ' + (n % 10) + ' enden.';
+      weg = zahl(n, 0) + ' : ' + d + ' = ' + zahl(q, 0) + ', denn ' + zahl(q, 0) + ' · ' + d + ' = ' + zahl(n, 0);
+    } else {
+      var x = gz(1000, 9999, rnd), y = gz(10, 99, rnd), z = gz(1000, 9999, rnd), s = x + y + z;
+      text = 'Welches Ergebnis stimmt? &nbsp;' + zahl(x, 0) + ' + ' + y + ' + ' + zahl(z, 0);
+      opts = [s, s - 1000, s + waehle([1, 2, 3, 7], rnd), s + 100];
+      tipp = 'Überschlag: ' + zahl(Math.round(x / 1000) * 1000, 0) + ' + ' + zahl(Math.round(z / 1000) * 1000, 0) + ' ≈ ' + zahl(Math.round(x / 1000) * 1000 + Math.round(z / 1000) * 1000, 0) + '. Endziffer: ' + (x % 10) + ' + ' + (y % 10) + ' + ' + (z % 10) + ' endet auf ' + (s % 10) + '.';
+      weg = 'schriftlich: ' + zahl(s, 0);
+    }
+    ft = [null, 'Eine Stelle zu viel – mach einen Überschlag.', 'Eine Stelle zu wenig – mach einen Überschlag.', 'Die Größenordnung passt, aber prüfe die letzte Ziffer.'];
+    if (art === 2) ft = [null, 'Hier fehlt ein Tausender – denk an den Übertrag.', 'Prüfe die letzte Ziffer.', 'Prüfe die Hunderterstelle mit dem Übertrag.'];
+    wert = opts.map(function (o) { return zahl(o, 0); });
+    return wahl(rnd, { titel: 'Überschlag und Endziffer', text: text, richtig: wert[0], falsch: wert.slice(1), ftipp: ft.slice(1), weg: weg, tipp: tipp });
+  };
+
+  S.folgen = function (rnd) {
+    var art = gz(0, 5, rnd), f = [], w, regel, a;
+    if (art === 0) {
+      a = gz(1, 40, rnd); var d = waehle([2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, -3, -4, -5, -6, -7], rnd); if (d < 0) a += 40;
+      f = [a, a + d, a + 2 * d, a + 3 * d]; w = a + 4 * d; regel = 'immer ' + (d > 0 ? '+ ' + d : '− ' + (-d));
+    } else if (art === 1) {
+      if (rnd() < 0.6) { a = gz(1, 5, rnd); var q = waehle([2, 3], rnd); f = [a, a * q, a * q * q, a * q * q * q]; w = a * Math.pow(q, 4); regel = 'immer · ' + q; }
+      else { a = waehle([800, 640, 960, 1600, 480], rnd); f = [a, a / 2, a / 4, a / 8]; w = a / 16; regel = 'immer : 2'; }
+    } else if (art === 2) {
+      a = gz(1, 20, rnd); var p = gz(3, 9, rnd), m = gz(1, p - 1, rnd);
+      f = [a, a + p, a + p - m, a + 2 * p - m, a + 2 * p - 2 * m]; w = a + 3 * p - 2 * m; regel = 'abwechselnd + ' + p + ' und − ' + m;
+    } else if (art === 3) {
+      var k = gz(1, 6, rnd); f = [k * k, (k + 1) * (k + 1), (k + 2) * (k + 2), (k + 3) * (k + 3)]; w = (k + 4) * (k + 4); regel = 'Quadratzahlen: ' + k + '², ' + (k + 1) + '², … (Abstand wächst um 2)';
+    } else if (art === 4) {
+      var x = gz(1, 5, rnd), y = gz(x, 8, rnd); f = [x, y, x + y, x + 2 * y, 2 * x + 3 * y]; w = 3 * x + 5 * y; regel = 'jede Zahl ist die Summe der beiden davor';
+    } else {
+      a = gz(1, 20, rnd); f = [a, a + 1, a + 3, a + 6, a + 10]; w = a + 15; regel = 'der Abstand wächst: + 1, + 2, + 3, + 4, …';
+    }
+    return A({ titel: 'Zahlenfolgen', text: 'Setze die Zahlenfolge fort: &nbsp;' + f.map(function (z) { return zahl(z, 2); }).join(', ') + ', …', loesung: w,
+      weg: 'Regel: ' + regel.replace(/²/g, hoch(2)) + ' → nächste Zahl ' + zahl(w, 2), tipp: 'Schau dir die Abstände zwischen den Zahlen an (plus? mal? abwechselnd?).' });
+  };
+
+  /* =========================================================
+     GRÖSSEN UND MESSEN
+     ========================================================= */
+  S.einheiten = function (rnd) { return A(ML.T1.einheiten(rnd)); };
+
+  S.flaeche = function (rnd) {
+    var art = gz(0, 7, rnd), a, b, w;
+    if (art === 0 || art === 1) {
+      a = gz(3, 15, rnd); b = gz(2, 12, rnd); if (a === b) a++;
+      if (art === 0) return A({ titel: 'Rechteck: Flächeninhalt', einheit: 'cm²', text: 'Ein Rechteck ist ' + a + ' cm lang und ' + b + ' cm breit. Berechne den Flächeninhalt.', loesung: a * b,
+        weg: 'A = a · b = ' + a + ' cm · ' + b + ' cm = ' + (a * b) + ' cm' + hoch(2), fehler: [{ wert: 2 * (a + b), tipp: 'Das ist der Umfang. Flächeninhalt: Länge · Breite.' }], tipp: 'A = Länge · Breite' });
+      return A({ titel: 'Rechteck: Umfang', einheit: 'cm', text: 'Ein Rechteck ist ' + a + ' cm lang und ' + b + ' cm breit. Berechne den Umfang.', loesung: 2 * (a + b),
+        weg: 'u = 2 · a + 2 · b = ' + (2 * a) + ' cm + ' + (2 * b) + ' cm = ' + (2 * (a + b)) + ' cm',
+        fehler: [{ wert: a * b, tipp: 'Das ist der Flächeninhalt. Umfang: alle vier Seiten addieren.' }, { wert: a + b, tipp: 'Ein Rechteck hat vier Seiten – jede Länge kommt zweimal vor.' }], tipp: 'u = 2 · a + 2 · b' });
+    }
+    if (art === 2) {
+      var s = gz(2, 15, rnd), U = 4 * s;
+      return A({ titel: 'Quadrat: vom Umfang zur Fläche', einheit: 'cm²', text: 'Ein Quadrat hat den Umfang ' + U + ' cm. Berechne den Flächeninhalt.', loesung: s * s,
+        weg: 'a = ' + U + ' cm : 4 = ' + s + ' cm → A = ' + s + ' cm · ' + s + ' cm = ' + (s * s) + ' cm' + hoch(2),
+        fehler: [{ wert: s, tipp: 'Das ist die Seitenlänge. Der Flächeninhalt ist a · a.' }, { wert: U, tipp: 'Das ist der Umfang. Erst die Seite (: 4), dann a · a.' }], tipp: 'Erst die Seitenlänge: Umfang : 4. Dann A = a · a.' });
+    }
+    if (art === 3) {
+      a = gz(3, 12, rnd); b = gz(2, 12, rnd); var Ar = a * b;
+      return A({ titel: 'Rechteck: Seite gesucht', einheit: 'cm', text: 'Ein Rechteck hat den Flächeninhalt ' + Ar + ' cm' + hoch(2) + ' und ist ' + a + ' cm lang. Wie breit ist es?', loesung: b,
+        weg: 'b = A : a = ' + Ar + ' : ' + a + ' = ' + b + ' (cm)', fehler: [{ wert: Ar - a, tipp: 'Nicht subtrahieren: A = a · b, also b = A : a.' }], tipp: 'A = a · b → b = A : a' });
+    }
+    if (art === 4) {
+      var g = gz(3, 14, rnd), h = gz(2, 12, rnd); if ((g * h) % 2) h++;
+      return A({ titel: 'Dreieck: Flächeninhalt', einheit: 'cm²', text: 'Ein Dreieck hat die Grundseite g = ' + g + ' cm und die Höhe h = ' + h + ' cm. Berechne den Flächeninhalt.', loesung: g * h / 2,
+        weg: 'A = g · h : 2 = ' + g + ' · ' + h + ' : 2 = ' + (g * h) + ' : 2 = ' + (g * h / 2) + ' cm' + hoch(2), fehler: [{ wert: g * h, tipp: 'Beim Dreieck noch durch 2 teilen.' }], tipp: 'A = g · h : 2' });
+    }
+    if (art === 5) {
+      var g2 = gz(3, 14, rnd), h2 = gz(2, 10, rnd);
+      return A({ titel: 'Parallelogramm: Flächeninhalt', einheit: 'cm²', text: 'Ein Parallelogramm hat die Grundseite g = ' + g2 + ' cm und die Höhe h = ' + h2 + ' cm. Berechne den Flächeninhalt.', loesung: g2 * h2,
+        weg: 'A = g · h = ' + g2 + ' · ' + h2 + ' = ' + (g2 * h2) + ' cm' + hoch(2), fehler: [{ wert: g2 * h2 / 2, tipp: 'Das Parallelogramm ist kein Dreieck – nicht durch 2 teilen.' }], tipp: 'A = g · h (Höhe senkrecht zur Grundseite)' });
+    }
+    if (art === 6) {
+      var ta = gz(4, 14, rnd), tc = gz(2, ta - 1, rnd), th = gz(2, 8, rnd); if ((ta + tc) % 2) tc = tc > 2 ? tc - 1 : tc + 1; if (tc >= ta) tc = ta - 2;
+      return A({ titel: 'Trapez: Flächeninhalt', einheit: 'cm²', text: 'Ein Trapez hat die parallelen Seiten a = ' + ta + ' cm und c = ' + tc + ' cm und die Höhe h = ' + th + ' cm. Berechne den Flächeninhalt.', loesung: (ta + tc) / 2 * th,
+        weg: 'A = (a + c) : 2 · h = ' + (ta + tc) + ' : 2 · ' + th + ' = ' + ((ta + tc) / 2) + ' · ' + th + ' = ' + ((ta + tc) / 2 * th) + ' cm' + hoch(2),
+        fehler: [{ wert: (ta + tc) * th, tipp: 'Du musst (a + c) noch durch 2 teilen.' }], tipp: 'A = (a + c) : 2 · h' });
+    }
+    var fall = waehle([['die Seitenlänge eines Quadrats', 'den Flächeninhalt', 1], ['die Seitenlänge eines Quadrats', 'den Umfang', 0], ['die Kantenlänge eines Würfels', 'das Volumen', 2]], rnd);
+    var namen = ['verdoppelt (· 2)', 'vervierfacht (· 4)', 'verachtfacht (· 8)'], richtig = namen[fall[2]];
+    return wahl(rnd, { titel: 'Verdoppeln', text: 'Man verdoppelt ' + fall[0] + '. Wie verändert sich ' + fall[1] + '?',
+      richtig: richtig, falsch: namen.filter(function (n) { return n !== richtig; }).concat(['bleibt gleich']),
+      ftipp: [null, null, null].map(function () { return 'Probiere es mit Zahlen aus: Seite 1 → 2. Vergleiche vorher und nachher.'; }),
+      weg: fall[2] === 0 ? 'u = 4 · a: doppelte Seite → doppelter Umfang (z. B. 4 cm → 8 cm).' : fall[2] === 1 ? 'A = a · a: 1 · 1 = 1 → 2 · 2 = 4, also · 4.' : 'V = a · a · a: 1 → 2 · 2 · 2 = 8, also · 8.',
+      tipp: 'Probiere es mit Zahlen aus: Seite 1 → 2.' });
+  };
+
+  S.kreis = function (rnd) {
+    var r = gz(1, 10, rnd), d = 2 * r, mitD = rnd() < 0.4, frageA = rnd() < 0.55;
+    var Aw = glatt(3.14 * r * r), Uw = glatt(3.14 * d), kand = frageA ? [Aw, glatt(3.14 * d * d), glatt(2 * 3.14 * r), glatt(3.14 * r), glatt(r * r)] : [Uw, glatt(3.14 * r), glatt(3.14 * r * r), glatt(2 * r * r), glatt(4 * d)];
+    var richtig = kand[0], falsch = [];
+    kand.slice(1).forEach(function (x) { if (falsch.length < 3 && Math.abs(x - richtig) > 1e-9 && falsch.every(function (y) { return Math.abs(y - x) > 1e-9; })) falsch.push(x); });
+    var e = frageA ? ' cm' + hoch(2) : ' cm';
+    return wahl(rnd, { titel: frageA ? 'Kreis: Flächeninhalt' : 'Kreis: Umfang',
+      text: 'Ein Kreis hat ' + (mitD ? 'den Durchmesser d = ' + d : 'den Radius r = ' + r) + ' cm. Welcher ' + (frageA ? 'Flächeninhalt' : 'Umfang') + ' stimmt? <span class="klein">(π ≈ 3,14)</span>',
+      richtig: zahl(richtig, 2) + e, falsch: falsch.map(function (x) { return zahl(x, 2) + e; }),
+      ftipp: falsch.map(function () { return frageA ? 'A = π · r · r. ' + (mitD ? 'Erst den Radius: r = d : 2.' : '') : 'u = π · d = 2 · π · r.'; }),
+      weg: (mitD ? 'r = ' + d + ' : 2 = ' + r + ' cm · ' : '') + (frageA ? 'A = π · r' + hoch(2) + ' ≈ 3,14 · ' + (r * r) + ' = ' + zahl(Aw, 2) + ' cm' + hoch(2) : 'u = π · d ≈ 3,14 · ' + d + ' = ' + zahl(Uw, 2) + ' cm'),
+      tipp: frageA ? 'A = π · r² – zuerst den Radius bestimmen.' : 'u = π · d (d = 2 · r)' });
+  };
+
+  S.koerper = function (rnd) {
+    var art = gz(0, 5, rnd), a, b, c, w;
+    if (art === 0) {
+      a = gz(2, 10, rnd); b = gz(2, 6, rnd); c = gz(2, 5, rnd); w = a * b * c;
+      return A({ titel: 'Quader: Volumen', einheit: 'cm³', text: 'Ein Quader ist ' + a + ' cm lang, ' + b + ' cm breit und ' + c + ' cm hoch. Berechne das Volumen.', loesung: w,
+        weg: 'V = a · b · c = ' + a + ' · ' + b + ' · ' + c + ' = ' + w + ' cm' + hoch(3),
+        fehler: [{ wert: 2 * (a * b + a * c + b * c), tipp: 'Das ist der Oberflächeninhalt. Volumen: Länge · Breite · Höhe.' }, { wert: a + b + c, tipp: 'Volumen heißt multiplizieren: a · b · c.' }], tipp: 'V = a · b · c' });
+    }
+    if (art === 1) {
+      a = gz(1, 5, rnd); b = gz(1, 5, rnd); c = gz(1, 4, rnd); if (a === b && b === c) a++;
+      w = 2 * (a * b + a * c + b * c);
+      return A({ titel: 'Quader: Oberflächeninhalt', einheit: 'cm²', text: 'Ein Quader ist ' + a + ' cm lang, ' + b + ' cm breit und ' + c + ' cm hoch. Berechne den Oberflächeninhalt.', loesung: w,
+        weg: 'O = 2 · (a · b + a · c + b · c) = 2 · (' + (a * b) + ' + ' + (a * c) + ' + ' + (b * c) + ') = ' + w + ' cm' + hoch(2),
+        fehler: [{ wert: a * b * c, tipp: 'Das ist das Volumen. Für O die sechs Flächen addieren.' }, { wert: a * b + a * c + b * c, tipp: 'Jede der drei Flächen gibt es zweimal (oben/unten, vorne/hinten, links/rechts).' }], tipp: 'O = 2 · (a · b + a · c + b · c)' });
+    }
+    if (art === 2) {
+      a = gz(2, 6, rnd); var vO = rnd() < 0.5;
+      if (vO) return A({ titel: 'Würfel: Oberflächeninhalt', einheit: 'cm²', text: 'Ein Würfel hat die Kantenlänge ' + a + ' cm. Berechne den Oberflächeninhalt.', loesung: 6 * a * a,
+        weg: 'O = 6 · a' + hoch(2) + ' = 6 · ' + (a * a) + ' = ' + (6 * a * a) + ' cm' + hoch(2), fehler: [{ wert: a * a * a, tipp: 'Das ist das Volumen.' }, { wert: 4 * a * a, tipp: 'Ein Würfel hat 6 Flächen, nicht 4.' }], tipp: 'O = 6 · a · a' });
+      return A({ titel: 'Würfel: Volumen', einheit: 'cm³', text: 'Ein Würfel hat die Kantenlänge ' + a + ' cm. Berechne das Volumen.', loesung: a * a * a,
+        weg: 'V = a' + hoch(3) + ' = ' + a + ' · ' + a + ' · ' + a + ' = ' + (a * a * a) + ' cm' + hoch(3), fehler: [{ wert: 3 * a, tipp: 'a³ heißt a · a · a, nicht 3 · a.' }, { wert: 6 * a * a, tipp: 'Das ist der Oberflächeninhalt.' }], tipp: 'V = a · a · a' });
+    }
+    if (art === 3) {
+      var m = waehle([[10, 10, 10], [20, 10, 5], [25, 20, 10], [50, 20, 10], [20, 20, 25], [40, 25, 10], [10, 10, 20], [30, 20, 10]], rnd), V = m[0] * m[1] * m[2];
+      return A({ titel: 'Volumen in Liter', einheit: 'ℓ', text: 'Ein Aquarium (Quader) ist innen ' + m[0] + ' cm lang, ' + m[1] + ' cm breit und ' + m[2] + ' cm hoch. Wie viele Liter passen hinein?', loesung: V / 1000,
+        weg: 'V = ' + m[0] + ' · ' + m[1] + ' · ' + m[2] + ' = ' + zahl(V, 0) + ' cm' + hoch(3) + ' = ' + zahl(V / 1000, 2) + ' dm' + hoch(3) + ' = ' + zahl(V / 1000, 2) + ' ℓ',
+        fehler: [{ wert: V, tipp: 'Das ist das Volumen in cm³. 1 ℓ = 1 dm³ = 1 000 cm³.' }, { wert: V / 100, tipp: '1 ℓ = 1 000 cm³, also durch 1 000.' }], tipp: '1 ℓ = 1 dm³ = 1 000 cm³' });
+    }
+    if (art === 4) {
+      a = gz(2, 10, rnd); var h = a % 3 === 0 ? gz(2, 12, rnd) : 3 * gz(1, 5, rnd); w = a * a * h / 3;
+      return A({ titel: 'Pyramide: Volumen', einheit: 'cm³', text: 'Eine quadratische Pyramide hat die Grundkante a = ' + a + ' cm und die Körperhöhe h = ' + h + ' cm. Berechne das Volumen.', loesung: w,
+        weg: 'V = ⅓ · G · h = ⅓ · ' + (a * a) + ' · ' + h + ' = ' + (a * a * h) + ' : 3 = ' + w + ' cm' + hoch(3),
+        fehler: [{ wert: a * a * h, tipp: 'Das wäre ein Quader. Die Pyramide hat nur ein Drittel davon: ⅓ · G · h.' }, { wert: a * h / 3, tipp: 'Die Grundfläche ist ein Quadrat: G = a · a.' }], tipp: 'V = ⅓ · G · h, bei quadratischer Grundfläche G = a · a.' });
+    }
+    var g = gz(2, 8, rnd), hg = gz(2, 6, rnd); if ((g * hg) % 2) hg++; var hk = gz(2, 10, rnd), G = g * hg / 2;
+    return A({ titel: 'Prisma: Volumen', einheit: 'cm³', text: 'Ein Prisma hat als Grundfläche ein Dreieck mit g = ' + g + ' cm und h<sub>g</sub> = ' + hg + ' cm. Das Prisma ist ' + hk + ' cm hoch. Berechne das Volumen.', loesung: G * hk,
+      weg: 'G = ' + g + ' · ' + hg + ' : 2 = ' + G + ' cm' + hoch(2) + ' → V = G · h = ' + G + ' · ' + hk + ' = ' + (G * hk) + ' cm' + hoch(3),
+      fehler: [{ wert: g * hg * hk, tipp: 'Die Grundfläche ist ein Dreieck: g · h : 2.' }], tipp: 'V = G · h; erst die Grundfläche ausrechnen.' });
+  };
+
+  S.pythagoras = function (rnd) {
+    var T = waehle([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20], [7, 24, 25], [15, 20, 25], [30, 40, 50], [1.5, 2, 2.5], [0.6, 0.8, 1]], rnd);
+    var art = gz(0, 3, rnd), a = T[0], b = T[1], c = T[2];
+    if (rnd() < 0.5) { a = T[1]; b = T[0]; }
+    var Q = function (x) { return zahl(x, 2) + hoch(2); };
+    if (art === 0) return A({ titel: 'Pythagoras: Hypotenuse', einheit: 'cm', text: 'In einem rechtwinkligen Dreieck sind die Katheten ' + zahl(a, 2) + ' cm und ' + zahl(b, 2) + ' cm lang. Wie lang ist die Hypotenuse?', loesung: c,
+      weg: 'c' + hoch(2) + ' = ' + Q(a) + ' + ' + Q(b) + ' = ' + zahl(a * a, 4) + ' + ' + zahl(b * b, 4) + ' = ' + zahl(c * c, 4) + ' → c = ' + wurzel(2, glatt(c * c)) + ' = ' + zahl(c, 2) + ' cm',
+      fehler: [{ wert: glatt(a + b), tipp: 'Nicht die Seiten addieren, sondern die Quadrate: a² + b² = c².' }, { wert: glatt(c * c), tipp: 'Das ist c². Ziehe noch die Wurzel.' }], tipp: 'a² + b² = c², dann die Wurzel ziehen.' });
+    if (art === 1) return A({ titel: 'Pythagoras: Kathete', einheit: 'cm', text: 'In einem rechtwinkligen Dreieck ist die Hypotenuse ' + zahl(c, 2) + ' cm und eine Kathete ' + zahl(a, 2) + ' cm lang. Wie lang ist die andere Kathete?', loesung: b,
+      weg: 'b' + hoch(2) + ' = ' + Q(c) + ' − ' + Q(a) + ' = ' + zahl(c * c, 4) + ' − ' + zahl(a * a, 4) + ' = ' + zahl(b * b, 4) + ' → b = ' + zahl(b, 2) + ' cm',
+      fehler: [{ wert: glatt(c - a), tipp: 'Nicht die Seiten subtrahieren, sondern die Quadrate: b² = c² − a².' }, { wert: glatt(b * b), tipp: 'Das ist b². Ziehe noch die Wurzel.' }], tipp: 'Kathete: b² = c² − a², dann die Wurzel.' });
+    if (art === 2) return A({ titel: 'Pythagoras: Diagonale', einheit: 'cm', text: 'Ein Rechteck ist ' + zahl(a, 2) + ' cm lang und ' + zahl(b, 2) + ' cm breit. Wie lang ist die Diagonale?', loesung: c,
+      weg: 'd' + hoch(2) + ' = ' + Q(a) + ' + ' + Q(b) + ' = ' + zahl(c * c, 4) + ' → d = ' + zahl(c, 2) + ' cm', fehler: [{ wert: glatt(a + b), tipp: 'Die Diagonale teilt das Rechteck in zwei rechtwinklige Dreiecke: a² + b² = d².' }],
+      tipp: 'Die Diagonale ist die Hypotenuse: d² = a² + b².' });
+    var stoer = rnd() < 0.5, s3 = stoer ? glatt(c + waehle([1, 2, -1], rnd) * (c < 3 ? 0.5 : 1)) : c;
+    return wahl(rnd, { titel: 'Pythagoras: rechtwinklig?', text: 'Ein Dreieck hat die Seiten ' + zahl(a, 2) + ' cm, ' + zahl(b, 2) + ' cm und ' + zahl(s3, 2) + ' cm. Ist es rechtwinklig?',
+      optionen: ['ja', 'nein'], index: stoer ? 1 : 0, otipp: [null, null],
+      weg: Q(a) + ' + ' + Q(b) + ' = ' + zahl(a * a + b * b, 4) + ' und ' + Q(s3) + ' = ' + zahl(s3 * s3, 4) + (stoer ? ' → nicht gleich, also nicht rechtwinklig.' : ' → gleich, also rechtwinklig.'),
+      tipp: 'Prüfe: Ist (kurz)² + (mittel)² = (lang)²?' });
+  };
+
+  /* =========================================================
+     TERME, GLEICHUNGEN, FUNKTIONEN (auch Prozent und Zinsen)
+     ========================================================= */
+  S.prozent = function (rnd) {
+    var art = gz(0, 4, rnd);
+    if (art <= 2) return A(ML.T1.prozent(rnd));
+    if (art === 3) {
+      var p = waehle([10, 20, 25, 50, 5, 75, 40], rnd), G = waehle([20, 40, 60, 80, 120, 200, 240, 300, 400, 500, 800], rnd), W = glatt(G * p / 100);
+      return A({ titel: 'Grundwert', einheit: '€', text: p + ' % sind ' + zahl(W, 2) + ' €. Wie viel sind 100 %?', loesung: G,
+        weg: '1 % = ' + zahl(W, 2) + ' € : ' + p + ' = ' + zahl(W / p, 4) + ' € → 100 % = ' + zahl(G, 2) + ' €',
+        fehler: [{ wert: glatt(W * p / 100), tipp: 'Gesucht ist das Ganze (100 %). Rechne erst 1 %, dann mal 100.' }, { wert: glatt(W + p), tipp: 'Rechne mit dem Dreisatz: erst auf 1 %, dann auf 100 %.' }],
+        tipp: 'Dreisatz: p % → 1 % → 100 %. Oder G = W : p %.' });
+    }
+    var P0 = waehle([20, 40, 50, 60, 80, 120, 200, 250, 300], rnd), q = waehle([10, 20, 25, 5, 50, 15], rnd), neu = glatt(P0 * (100 + q) / 100);
+    return A({ titel: 'Preiserhöhung', einheit: '€', text: 'Ein Preis von ' + P0 + ' € steigt um ' + q + ' %. Wie hoch ist der neue Preis?', loesung: neu,
+      weg: q + ' % von ' + P0 + ' € = ' + zahl(P0 * q / 100, 2) + ' € → ' + P0 + ' € + ' + zahl(P0 * q / 100, 2) + ' € = ' + zahl(neu, 2) + ' €',
+      fehler: [{ wert: glatt(P0 * q / 100), tipp: 'Das ist nur die Erhöhung. Addiere sie zum alten Preis.' }, { wert: P0 + q, tipp: 'Nicht ' + q + ' € addieren, sondern ' + q + ' % vom Preis.' }],
+      tipp: 'Erst die Erhöhung ausrechnen, dann addieren (oder mal ' + zahl(1 + q / 100, 2) + ').' });
+  };
+
+  S.zinsen = function (rnd) {
+    var art = gz(0, 4, rnd), K = waehle([200, 400, 500, 800, 1000, 1200, 1500, 2000, 2500, 3000, 5000], rnd), p = waehle([1, 2, 3, 4, 5, 1.5, 2.5], rnd), Z = glatt(K * p / 100);
+    if (art === 0) return A({ titel: 'Jahreszinsen', einheit: '€', text: zahl(K, 0) + ' € werden ein Jahr lang zu ' + zahl(p, 1) + ' % angelegt. Wie viel Zinsen gibt es?', loesung: Z,
+      weg: 'Z = K · p % = ' + zahl(K, 0) + ' € · ' + zahl(p / 100, 3) + ' = ' + zahl(Z, 2) + ' €',
+      fehler: [{ wert: glatt(K + Z), tipp: 'Gefragt sind nur die Zinsen, nicht das neue Guthaben.' }, { wert: glatt(K * p), tipp: 'p % heißt p : 100.' }], tipp: 'Z = K · p : 100' });
+    if (art === 1) return A({ titel: 'Kapital gesucht', einheit: '€', text: 'Bei einem Zinssatz von ' + zahl(p, 1) + ' % gibt es nach einem Jahr ' + zahl(Z, 2) + ' € Zinsen. Wie hoch ist das Kapital?', loesung: K,
+      weg: '1 % = ' + zahl(Z, 2) + ' € : ' + zahl(p, 1) + ' = ' + zahl(Z / p, 2) + ' € → 100 % = ' + zahl(K, 0) + ' €',
+      fehler: [{ wert: glatt(Z * p / 100), tipp: 'Das Kapital ist der Grundwert (100 %). Erst 1 %, dann mal 100.' }, { wert: glatt(Z * p), tipp: 'Rechne erst 1 % aus: Zinsen : Zinssatz.' }], tipp: 'K = Z : p % (Dreisatz über 1 %).' });
+    if (art === 2) return A({ titel: 'Zinssatz gesucht', einheit: '%', text: zahl(K, 0) + ' € bringen in einem Jahr ' + zahl(Z, 2) + ' € Zinsen. Wie hoch ist der Zinssatz?', loesung: p,
+      weg: 'p % = Z : K = ' + zahl(Z, 2) + ' : ' + zahl(K, 0) + ' = ' + zahl(p / 100, 4) + ' = ' + zahl(p, 1) + ' %',
+      fehler: [{ wert: glatt(p / 100), tipp: 'Das ist die Dezimalzahl. Mal 100 für Prozent.' }], tipp: 'p % = Z : K, dann in Prozent umwandeln.' });
+    if (art === 3) return A({ titel: 'Guthaben nach einem Jahr', einheit: '€', text: zahl(K, 0) + ' € werden ein Jahr lang zu ' + zahl(p, 1) + ' % angelegt. Wie hoch ist das Guthaben am Ende des Jahres?', loesung: glatt(K + Z),
+      weg: 'Z = ' + zahl(Z, 2) + ' € → ' + zahl(K, 0) + ' € + ' + zahl(Z, 2) + ' € = ' + zahl(K + Z, 2) + ' €', fehler: [{ wert: Z, tipp: 'Das sind nur die Zinsen. Addiere sie zum Kapital.' }], tipp: 'Guthaben = Kapital + Zinsen' });
+    var K2 = waehle([100, 200, 400, 1000, 2000], rnd), q = K2 === 400 ? 5 : waehle([10, 5], rnd), E = glatt(K2 * Math.pow(1 + q / 100, 2)), E1 = glatt(K2 * (1 + q / 100));
+    return A({ titel: 'Zinseszins (2 Jahre)', einheit: '€', text: zahl(K2, 0) + ' € werden 2 Jahre lang zu ' + q + ' % angelegt. Die Zinsen bleiben auf dem Konto. Wie hoch ist das Guthaben nach 2 Jahren?', loesung: E,
+      weg: '1. Jahr: ' + zahl(K2, 0) + ' € + ' + zahl(K2 * q / 100, 2) + ' € = ' + zahl(E1, 2) + ' € · 2. Jahr: ' + zahl(E1, 2) + ' € + ' + zahl(E1 * q / 100, 2) + ' € = ' + zahl(E, 2) + ' €',
+      fehler: [{ wert: glatt(K2 * (1 + 2 * q / 100)), tipp: 'Im 2. Jahr gibt es auch Zinsen auf die Zinsen (Zinseszins). Rechne Jahr für Jahr.' }, { wert: E1, tipp: 'Das ist erst nach einem Jahr.' }],
+      tipp: 'Jahr für Jahr rechnen: Das neue Guthaben ist das Kapital für das nächste Jahr.' });
+  };
+
+  S.dreisatz = function (rnd) {
+    var art = gz(0, 2, rnd);
+    if (art === 0) {
+      var DING = waehle([['Brötchen', 'Brötchen'], ['Hefte', 'Hefte'], ['Kugeln Eis', 'Kugeln'], ['Flaschen Wasser', 'Flaschen']], rnd);
+      var n1 = gz(2, 6, rnd), pr = waehle([0.5, 1.5, 2, 2.5, 3, 4, 1.2, 0.8, 0.4], rnd), n2 = gz(3, 12, rnd); if (n2 === n1) n2++;
+      return A({ titel: 'Dreisatz (proportional)', einheit: '€', text: n1 + ' ' + DING[0] + ' kosten ' + zahl(n1 * pr, 2) + ' €. Was kosten ' + n2 + ' ' + DING[1] + '?', loesung: glatt(n2 * pr),
+        weg: n1 + ' → ' + zahl(n1 * pr, 2) + ' € | : ' + n1 + ' → 1 → ' + zahl(pr, 2) + ' € | · ' + n2 + ' → ' + n2 + ' → ' + zahl(n2 * pr, 2) + ' €',
+        fehler: [{ wert: pr, tipp: 'Das ist der Preis für 1 Stück. Rechne noch mal ' + n2 + '.' }], tipp: 'Erst auf 1 Stück, dann auf die gesuchte Anzahl.' });
+    }
+    if (art === 1) {
+      var S1 = waehle([['Personen brauchen', 'Stunden für eine Arbeit', 'Personen (gleiches Tempo)', 'h'], ['Pumpen leeren ein Becken in', 'Stunden', 'gleiche Pumpen', 'h'], ['Pferde reicht ein Futtervorrat', 'Tage', 'Pferde', 'Tage']], rnd);
+      var a = gz(2, 6, rnd), b = gz(2, 8, rnd); if (b === a) b++; var k = gz(1, 4, rnd), t = b * k, w = a * k;
+      var txt = S1[0] === 'Pferde reicht ein Futtervorrat' ? 'Für ' + a + ' Pferde reicht ein Futtervorrat ' + t + ' Tage. Wie lange reicht er für ' + b + ' Pferde?' : a + ' ' + S1[0] + ' ' + t + ' ' + S1[1] + '. Wie lange brauchen ' + b + ' ' + S1[2] + '?';
+      return A({ titel: 'Dreisatz (antiproportional)', einheit: S1[3], text: txt, loesung: w,
+        weg: a + ' → ' + t + ' | · ' + a + ' → 1 → ' + (a * t) + ' | : ' + b + ' → ' + b + ' → ' + w,
+        fehler: [{ wert: glatt(t * b / a), tipp: 'Mehr ' + (S1[3] === 'Tage' ? 'Pferde → weniger Tage' : 'Helfer → weniger Zeit') + '. Das ist antiproportional: erst mal, dann geteilt.' }],
+        tipp: 'Je mehr …, desto weniger … → antiproportional: auf 1 rechnen heißt hier MAL.' });
+    }
+    var v, m, w2, n = 0;
+    do { v = waehle([60, 80, 100, 120, 90], rnd); m = waehle([15, 30, 45, 90, 20, 40, 150], rnd); w2 = v * m / 60; n++; } while (w2 % 1 !== 0 && n < 30);
+    if (w2 % 1 !== 0) { v = 60; m = 30; w2 = 30; }
+    return A({ titel: 'Weg und Zeit', einheit: 'km', text: 'Ein Zug fährt gleichmäßig ' + v + ' km in einer Stunde. Wie weit kommt er in ' + m + ' Minuten?', loesung: w2,
+      weg: '60 min → ' + v + ' km | : 60 → 1 min → ' + zahl(v / 60, 3) + ' km | · ' + m + ' → ' + zahl(w2, 2) + ' km',
+      fehler: [{ wert: glatt(v * m / 100), tipp: 'Eine Stunde hat 60 Minuten, nicht 100.' }], tipp: '1 h = 60 min. Rechne über 1 Minute oder mit Bruchteilen der Stunde.' });
+  };
+
+  S.terme = function (rnd) {
+    var art = gz(0, 4, rnd);
+    if (art === 0) {
+      var a = gz(2, 6, rnd) * (rnd() < 0.25 ? -1 : 1), b = gz(-9, 9, rnd), x = gz(-4, 5, rnd); if (x === 0) x = -2;
+      var tt = term([[a, 'x'], [b, '']]), w = a * x + b;
+      return A({ titel: 'Termwert berechnen', text: 'Berechne den Wert des Terms ' + tt + ' für x = ' + zahl(x, 0) + '.', loesung: w,
+        weg: (a === 1 ? '' : a === -1 ? '−' : zahl(a, 0) + ' · ') + klammer(x) + (b ? ' ' + vz(b) : '') + ' = ' + zahl(a * x, 0) + (b ? ' ' + vz(b) : '') + ' = ' + zahl(w, 0),
+        fehler: [{ wert: x < 0 ? a * (-x) + b : NaN, tipp: 'Setze x mit Vorzeichen in Klammern ein: ' + a + ' · (' + zahl(x, 0) + ').' }], tipp: 'x durch die Zahl ersetzen (negative Zahlen in Klammern), dann Punkt vor Strich.' });
+    }
+    if (art === 1) {
+      var k = gz(2, 5, rnd), x2 = gz(-4, 4, rnd); if (x2 === 0) x2 = 3;
+      return A({ titel: 'Termwert mit Quadrat', text: 'Berechne den Wert des Terms ' + k + 'x' + hoch(2) + ' für x = ' + zahl(x2, 0) + '.', loesung: k * x2 * x2,
+        weg: k + ' · ' + klammer(x2) + hoch(2) + ' = ' + k + ' · ' + (x2 * x2) + ' = ' + (k * x2 * x2),
+        fehler: [{ wert: (k * x2) * (k * x2), tipp: 'Erst x² ausrechnen, dann mal ' + k + ' (Potenz vor Punkt).' }, { wert: k * 2 * x2, tipp: 'x² heißt x · x, nicht 2 · x.' }, { wert: -k * x2 * x2, tipp: 'Eine negative Zahl zum Quadrat ist positiv: (' + zahl(x2, 0) + ')² = ' + (x2 * x2) + '.' }],
+        tipp: 'Potenz vor Punkt: erst x², dann mal ' + k + '.' });
+    }
+    if (art === 2) {
+      var p = gz(2, 7, rnd), q = gz(1, 6, rnd), r = gz(1, p - 1, rnd), s = gz(1, 6, rnd);
+      var richtig = term([[p - r, 'a'], [q + s, 'b']]);
+      var falsch = [term([[p + r, 'a'], [q + s, 'b']]), term([[p - r, 'a'], [q - s, 'b']]), zahl(p - r + q + s, 0) + 'ab'];
+      return wahl(rnd, { titel: 'Terme vereinfachen', text: 'Vereinfache: &nbsp;' + term([[p, 'a'], [q, 'b']]) + ' − ' + (r === 1 ? '' : r) + 'a + ' + (s === 1 ? '' : s) + 'b',
+        richtig: richtig, falsch: falsch, ftipp: ['Achte auf das Minus vor ' + (r === 1 ? '' : r) + 'a.', 'Vor ' + (s === 1 ? '' : s) + 'b steht ein Plus.', 'a und b sind verschiedene Variablen – sie lassen sich nicht zusammenfassen.'],
+        weg: 'a-Glieder: ' + p + 'a − ' + r + 'a = ' + (p - r) + 'a · b-Glieder: ' + q + 'b + ' + s + 'b = ' + (q + s) + 'b → ' + richtig,
+        tipp: 'Nur gleichartige Glieder zusammenfassen: a mit a, b mit b.' });
+    }
+    if (art === 3) {
+      var f = gz(2, 7, rnd), c = gz(1, 9, rnd), minus = rnd() < 0.45;
+      var r3 = term([[f, 'x'], [minus ? -f * c : f * c, '']]);
+      return wahl(rnd, { titel: 'Klammern auflösen', text: 'Multipliziere aus: &nbsp;' + f + '(x ' + (minus ? '− ' : '+ ') + c + ')',
+        richtig: r3, falsch: [term([[f, 'x'], [minus ? -c : c, '']]), term([[1, 'x'], [minus ? -f * c : f * c, '']]), term([[f, 'x'], [minus ? f * c : -f * c, '']])],
+        ftipp: ['Jedes Glied in der Klammer wird mit ' + f + ' malgenommen – auch die ' + c + '.', 'Auch x wird mit ' + f + ' malgenommen.', 'Das Vorzeichen in der Klammer bleibt erhalten.'],
+        weg: f + ' · x ' + (minus ? '− ' : '+ ') + f + ' · ' + c + ' = ' + r3, tipp: 'Den Faktor vor der Klammer mit jedem Glied in der Klammer malnehmen.' });
+    }
+    var n = gz(2, 9, rnd), m = gz(2, 9, rnd), V = waehle([0, 1, 2, 3], rnd), wo = ['Doppelte', 'Dreifache', 'Vierfache', 'Fünffache', 'Sechsfache', 'Siebenfache', 'Achtfache', 'Neunfache'][n - 2];
+    var T4 = [
+      ['das ' + wo + ' einer Zahl x, vermindert um ' + m, term([[n, 'x'], [-m, '']]), [n + '(x − ' + m + ')', m + ' − ' + n + 'x', 'x' + hoch(n) + ' − ' + m]],
+      ['die Summe aus einer Zahl x und ' + m + ', multipliziert mit ' + n, n + '(x + ' + m + ')', [n + 'x + ' + m, 'x + ' + (n * m), 'x + ' + m + ' · ' + n + 'x']],
+      ['das Quadrat einer Zahl x, vermehrt um ' + m, 'x' + hoch(2) + ' + ' + m, ['2x + ' + m, '(x + ' + m + ')' + hoch(2), m + 'x' + hoch(2)]],
+      ['die Hälfte einer Zahl x, vermehrt um ' + m, 'x : 2 + ' + m, ['(x + ' + m + ') : 2', '2x + ' + m, 'x : ' + m + ' + 2']]
+    ][V];
+    return wahl(rnd, { titel: 'Text → Term', text: 'Welcher Term passt? &nbsp;„' + T4[0] + '“', richtig: T4[1], falsch: T4[2],
+      ftipp: T4[2].map(function () { return 'Lies den Text Schritt für Schritt: Was passiert zuerst mit x?'; }), weg: '„' + T4[0] + '“ → ' + T4[1], tipp: 'Übersetze Stück für Stück. „Summe … multipliziert mit“ braucht eine Klammer.' });
+  };
+
+  S.gleichungen = function (rnd) {
+    var art = gz(0, 4, rnd), x, a, b, c;
+    if (art === 0) { var g, v = 0; do { g = ML.T1.gleichung(rnd); v++; } while (g.titel !== 'Gleichung' && v < 30); return A(g); }
+    if (art === 1) {
+      a = gz(2, 6, rnd); x = gz(-3, 10, rnd); b = gz(1, 6, rnd); c = a * (x - b);
+      return A({ titel: 'Gleichung mit Klammer', text: 'Löse: ' + a + '(x − ' + b + ') = ' + zahl(c, 0), loesung: x,
+        weg: a + 'x − ' + (a * b) + ' = ' + zahl(c, 0) + ' | + ' + (a * b) + ' → ' + a + 'x = ' + zahl(c + a * b, 0) + ' | : ' + a + ' → x = ' + zahl(x, 0),
+        fehler: [{ wert: (c + b) / a, tipp: 'Beim Ausmultiplizieren auch ' + b + ' mit ' + a + ' malnehmen: ' + a + ' · ' + b + ' = ' + (a * b) + '.' }],
+        tipp: 'Erst die Klammer auflösen (oder durch ' + a + ' teilen), dann umformen.' });
+    }
+    if (art === 2) {
+      a = gz(2, 9, rnd); b = gz(2, 12, rnd);
+      return A({ titel: 'Gleichung mit Division', text: 'Löse: x : ' + a + ' = ' + b, loesung: a * b, weg: 'x : ' + a + ' = ' + b + ' | · ' + a + ' → x = ' + (a * b),
+        fehler: [{ wert: b / a, tipp: 'Die Umkehrung von „: ' + a + '“ ist „· ' + a + '“.' }], tipp: 'Umkehroperation: aus „geteilt“ wird „mal“.' });
+    }
+    if (art === 3) {
+      x = gz(2, 15, rnd); a = gz(2, 9, rnd); b = gz(2, 20, rnd); c = a * x + b;
+      return A({ titel: 'Zahlenrätsel', text: 'Ich denke mir eine Zahl. Wenn ich sie mit ' + a + ' multipliziere und dann ' + b + ' addiere, erhalte ich ' + c + '. Welche Zahl ist es?', loesung: x,
+        weg: a + 'x + ' + b + ' = ' + c + ' | − ' + b + ' → ' + a + 'x = ' + (c - b) + ' | : ' + a + ' → x = ' + x, fehler: [{ wert: (c + b) / a, tipp: 'Rückwärts rechnen: erst ' + b + ' abziehen, dann durch ' + a + ' teilen.' }],
+        tipp: 'Gleichung aufstellen oder rückwärts rechnen: erst − ' + b + ', dann : ' + a + '.' });
+    }
+    var n1 = waehle(NAMEN, rnd), n2 = waehle(NAMEN.filter(function (n) { return n !== n1; }), rnd), t = gz(5, 16, rnd), d = gz(2, 9, rnd), s = 2 * t + d;
+    return A({ titel: 'Altersrätsel', text: n1 + ' ist ' + d + ' Jahre älter als ' + n2 + '. Zusammen sind beide ' + s + ' Jahre alt. Wie alt ist ' + n2 + '?', loesung: t,
+      weg: n2 + ': x · ' + n1 + ': x + ' + d + ' → x + x + ' + d + ' = ' + s + ' → 2x = ' + (s - d) + ' → x = ' + t,
+      fehler: [{ wert: t + d, tipp: 'Das ist das Alter von ' + n1 + '. Gefragt ist ' + n2 + '.' }, { wert: s / 2, tipp: 'Beide sind nicht gleich alt: Erst die ' + d + ' Jahre abziehen, dann halbieren.' }],
+      tipp: 'Erst den Altersunterschied abziehen, dann den Rest halbieren.' });
+  };
+
+  function gerade(m, b) { return 'y = ' + term([[m, 'x'], [b, '']]); }
+  S.linear = function (rnd) {
+    var art = gz(0, 5, rnd), m = gz(-4, 5, rnd), b = gz(-6, 6, rnd); if (m === 0) m = 2;
+    if (art === 0) {
+      var x = gz(-3, 5, rnd), w = m * x + b, ft = 'f(x) = ' + term([[m, 'x'], [b, '']]);
+      return A({ titel: 'Funktionswert', text: 'Gegeben ist ' + ft + '. Berechne f(' + zahl(x, 0) + ').', loesung: w,
+        weg: 'f(' + zahl(x, 0) + ') = ' + (m === 1 ? '' : m === -1 ? '−' : zahl(m, 0) + ' · ') + klammer(x) + (b ? ' ' + vz(b) : '') + ' = ' + zahl(w, 0),
+        fehler: [{ wert: x < 0 ? m * (-x) + b : NaN, tipp: 'Setze ' + zahl(x, 0) + ' mit Vorzeichen ein.' }, { wert: m + x + b, tipp: 'Zwischen ' + zahl(m, 0) + ' und x steht ein Malpunkt.' }], tipp: 'x durch die Zahl ersetzen und ausrechnen.' });
+    }
+    if (art === 1) {
+      var x1 = gz(-2, 3, rnd), dx = gz(1, 4, rnd), y1 = gz(-5, 5, rnd), y2 = y1 + m * dx, x2 = x1 + dx;
+      return A({ titel: 'Steigung aus zwei Punkten', text: 'Eine Gerade geht durch P(' + zahl(x1, 0) + ' | ' + zahl(y1, 0) + ') und Q(' + zahl(x2, 0) + ' | ' + zahl(y2, 0) + '). Wie groß ist die Steigung m?', loesung: m,
+        weg: 'm = (y₂ − y₁) : (x₂ − x₁) = ' + klammer(y2) + ' − ' + klammer(y1) + ' : (' + zahl(x2, 0) + ' − ' + klammer(x1) + ') = ' + zahl(m * dx, 0) + ' : ' + dx + ' = ' + zahl(m, 0),
+        fehler: [{ wert: dx / (m * dx), tipp: 'Steigung = y-Unterschied : x-Unterschied, nicht umgekehrt.' }, { wert: -m, tipp: 'Achte auf die Reihenfolge und die Vorzeichen: beide Male „Q minus P“.' }], tipp: 'm = Höhenunterschied : Seitenunterschied = (y₂ − y₁) : (x₂ − x₁)' });
+    }
+    if (art === 2) {
+      if (b === 0) b = -3;
+      return A({ titel: 'y-Achsenabschnitt', text: 'An welcher Stelle schneidet die Gerade ' + gerade(m, b) + ' die y-Achse? <span class="klein">(gib den y-Wert an)</span>', loesung: b,
+        weg: 'x = 0 einsetzen: y = ' + zahl(b, 0) + ' → Schnittpunkt S(0 | ' + zahl(b, 0) + ')', fehler: [{ wert: m, tipp: 'Das ist die Steigung (die Zahl vor dem x). Der y-Achsenabschnitt ist die Zahl ohne x.' }],
+        tipp: 'Bei y = m · x + b ist b der y-Achsenabschnitt.' });
+    }
+    if (art === 3) {
+      var mm = waehle([1, 2, 3, 4, 5, -2, -3], rnd), x0 = gz(-5, 6, rnd); if (x0 === 0) x0 = 3; var bb = -mm * x0;
+      return A({ titel: 'Nullstelle', text: 'An welcher Stelle x schneidet die Gerade ' + gerade(mm, bb) + ' die x-Achse?', loesung: x0,
+        weg: '0 = ' + term([[mm, 'x'], [bb, '']]) + ' | ' + vz(-bb) + ' → ' + term([[mm, 'x']]) + ' = ' + zahl(-bb, 0) + ' | : ' + klammer(mm) + ' → x = ' + zahl(x0, 0),
+        fehler: [{ wert: bb, tipp: 'Das ist der Schnittpunkt mit der y-Achse. Für die x-Achse setzt du y = 0.' }, { wert: -x0, tipp: 'Achte beim Umformen auf das Vorzeichen.' }], tipp: 'y = 0 setzen und nach x auflösen.' });
+    }
+    if (art === 4) {
+      var xp = gz(-3, 4, rnd), yp = m * xp + b, liegt = rnd() < 0.5; if (!liegt) yp += waehle([-2, -1, 1, 2], rnd);
+      return wahl(rnd, { titel: 'Punktprobe', text: 'Liegt der Punkt P(' + zahl(xp, 0) + ' | ' + zahl(yp, 0) + ') auf der Geraden ' + gerade(m, b) + '?',
+        optionen: ['ja', 'nein'], index: liegt ? 0 : 1, otipp: [null, null],
+        weg: 'x = ' + zahl(xp, 0) + ' einsetzen: y = ' + zahl(m * xp + b, 0) + (liegt ? ' = ' : ' ≠ ') + zahl(yp, 0) + ' → ' + (liegt ? 'P liegt auf der Geraden.' : 'P liegt nicht auf der Geraden.'),
+        tipp: 'x-Wert einsetzen und prüfen, ob der y-Wert herauskommt.' });
+    }
+    if (b === 0) b = 2; if (m === b) b = b > 0 ? b + 1 : b - 1;
+    var tab = '<table class="wt"><tr><th>x</th><td>0</td><td>1</td><td>2</td><td>3</td></tr><tr><th>y</th><td>' + [0, 1, 2, 3].map(function (x) { return zahl(m * x + b, 0); }).join('</td><td>') + '</td></tr></table>';
+    return wahl(rnd, { titel: 'Wertetabelle → Gleichung', text: 'Welche Gleichung passt zur Wertetabelle?' + tab,
+      richtig: gerade(m, b), falsch: [gerade(b, m), gerade(-m, b), gerade(m, -b)],
+      ftipp: ['Steigung und y-Achsenabschnitt vertauscht.', 'Prüfe, ob y beim Schritt nach rechts größer oder kleiner wird.', 'Bei x = 0 steht y = ' + zahl(b, 0) + ' – das ist b.'],
+      weg: 'bei x = 0: y = ' + zahl(b, 0) + ' → b = ' + zahl(b, 0) + ' · pro Schritt ' + (m > 0 ? '+ ' : '− ') + Math.abs(m) + ' → m = ' + zahl(m, 0) + ' → ' + gerade(m, b),
+      tipp: 'b = y-Wert bei x = 0, m = Änderung von y, wenn x um 1 wächst.' });
+  };
+
+  /* =========================================================
+     GEOMETRIE UND RAUM
+     ========================================================= */
+  S.winkel = function (rnd) {
+    var art = gz(0, 5, rnd), a, b, c, w;
+    if (art === 0) { a = gz(25, 90, rnd); b = gz(20, 150 - a, rnd); w = 180 - a - b;
+      return A({ titel: 'Winkelsumme im Dreieck', einheit: GRAD, text: 'In einem Dreieck ist α = ' + a + '° und β = ' + b + '°. Wie groß ist γ?', loesung: w,
+        weg: 'γ = 180° − ' + a + '° − ' + b + '° = ' + w + '°', fehler: [{ wert: 360 - a - b, tipp: 'Im Dreieck ist die Winkelsumme 180°, nicht 360°.' }], tipp: 'α + β + γ = 180°' }); }
+    if (art === 1) { var n = 0; do { a = gz(60, 120, rnd); b = gz(60, 120, rnd); c = gz(50, 130, rnd); w = 360 - a - b - c; n++; } while ((w < 30 || w > 200) && n < 30);
+      return A({ titel: 'Winkelsumme im Viereck', einheit: GRAD, text: 'In einem Viereck sind drei Winkel ' + a + '°, ' + b + '° und ' + c + '° groß. Wie groß ist der vierte Winkel?', loesung: w,
+        weg: '360° − ' + a + '° − ' + b + '° − ' + c + '° = ' + w + '°', fehler: [{ wert: 180 - a - b - c, tipp: 'Im Viereck ist die Winkelsumme 360°.' }], tipp: 'Winkelsumme im Viereck: 360°' }); }
+    if (art === 2) { a = gz(15, 165, rnd); if (a === 90) a = 75;
+      return A({ titel: 'Nebenwinkel', einheit: GRAD, text: 'α und β sind Nebenwinkel. α = ' + a + '°. Wie groß ist β?', loesung: 180 - a,
+        weg: 'β = 180° − ' + a + '° = ' + (180 - a) + '°', fehler: [{ wert: a < 90 ? 90 - a : NaN, tipp: 'Nebenwinkel ergänzen sich zu 180°, nicht zu 90°.' }, { wert: a, tipp: 'Gleich groß sind Scheitelwinkel. Nebenwinkel ergänzen sich zu 180°.' }], tipp: 'Nebenwinkel: zusammen 180°' }); }
+    if (art === 3) {
+      if (rnd() < 0.5) { a = gz(30, 80, rnd); return A({ titel: 'Gleichschenkliges Dreieck', einheit: GRAD, text: 'In einem gleichschenkligen Dreieck ist ein Basiswinkel ' + a + '° groß. Wie groß ist der Winkel an der Spitze?', loesung: 180 - 2 * a,
+        weg: 'Beide Basiswinkel sind gleich: 180° − 2 · ' + a + '° = ' + (180 - 2 * a) + '°', fehler: [{ wert: 180 - a, tipp: 'Es gibt zwei gleich große Basiswinkel.' }], tipp: 'Die beiden Basiswinkel sind gleich groß.' }); }
+      var s = 2 * gz(10, 70, rnd);
+      return A({ titel: 'Gleichschenkliges Dreieck', einheit: GRAD, text: 'In einem gleichschenkligen Dreieck ist der Winkel an der Spitze ' + s + '° groß. Wie groß ist ein Basiswinkel?', loesung: (180 - s) / 2,
+        weg: '(180° − ' + s + '°) : 2 = ' + ((180 - s) / 2) + '°', fehler: [{ wert: 180 - s, tipp: 'Der Rest verteilt sich auf zwei gleich große Basiswinkel: noch durch 2.' }], tipp: 'Die beiden Basiswinkel sind gleich groß.' });
+    }
+    if (art === 4) { a = gz(20, 160, rnd); if (a === 90) a = 70;
+      return A({ titel: 'Scheitelwinkel', einheit: GRAD, text: 'Zwei Geraden schneiden sich. Ein Winkel ist ' + a + '° groß. Wie groß ist sein Scheitelwinkel (der gegenüberliegende Winkel)?', loesung: a,
+        weg: 'Scheitelwinkel sind gleich groß: ' + a + '°', fehler: [{ wert: 180 - a, tipp: 'Das ist der Nebenwinkel. Scheitelwinkel liegen gegenüber und sind gleich groß.' }], tipp: 'Scheitelwinkel sind gleich groß.' }); }
+    var g = waehle([35, 90, 120, 200, 89, 91, 175, 270, 60, 150, 300, 15], rnd), idx = g < 90 ? 0 : g === 90 ? 1 : g < 180 ? 2 : 3;
+    return wahl(rnd, { titel: 'Winkelarten', text: 'Welche Winkelart hat ein Winkel von ' + g + '°?', optionen: ['spitz', 'recht', 'stumpf', 'überstumpf'], index: idx, otipp: [null, null, null, null],
+      weg: 'spitz: unter 90° · recht: 90° · stumpf: zwischen 90° und 180° · überstumpf: zwischen 180° und 360° → ' + ['spitz', 'recht', 'stumpf', 'überstumpf'][idx], tipp: 'Vergleiche mit 90° und 180°.' });
+  };
+
+  S.koerperform = function (rnd) {
+    var n = waehle([3, 4, 5, 6, 8], rnd), pyr = rnd() < 0.5, frage = waehle(['Ecken', 'Kanten', 'Flächen'], rnd);
+    var WORT = { 3: 'dreiseitig', 4: 'vierseitig', 5: 'fünfseitig', 6: 'sechsseitig', 8: 'achtseitig' };
+    var E = pyr ? n + 1 : 2 * n, K = pyr ? 2 * n : 3 * n, F = pyr ? n + 1 : n + 2;
+    var name = pyr ? (n === 4 ? 'eine quadratische Pyramide' : 'eine ' + WORT[n] + 'e Pyramide') : (n === 4 ? (rnd() < 0.5 ? 'ein Würfel' : 'ein Quader') : 'ein ' + WORT[n] + 'es Prisma');
+    var w = frage === 'Ecken' ? E : frage === 'Kanten' ? K : F;
+    var f = [{ wert: E, tipp: 'Das ist die Anzahl der Ecken.' }, { wert: K, tipp: 'Das ist die Anzahl der Kanten.' }, { wert: F, tipp: 'Das ist die Anzahl der Flächen.' }].filter(function (x) { return x.wert !== w; });
+    return A({ titel: 'Ecken, Kanten, Flächen', text: 'Wie viele ' + frage + ' hat ' + name + '?', loesung: w, fehler: f,
+      weg: (pyr ? 'Pyramide mit ' + n + '-eckiger Grundfläche: ' + n + ' Ecken unten + 1 Spitze = ' + E + ' Ecken · ' + n + ' Kanten unten + ' + n + ' zur Spitze = ' + K + ' Kanten · Grundfläche + ' + n + ' Dreiecke = ' + F + ' Flächen'
+        : 'Prisma mit ' + n + '-eckiger Grundfläche: 2 · ' + n + ' = ' + E + ' Ecken · ' + n + ' unten + ' + n + ' oben + ' + n + ' senkrecht = ' + K + ' Kanten · 2 Grundflächen + ' + n + ' Seitenflächen = ' + F + ' Flächen'),
+      tipp: 'Stell dir den Körper vor: erst die Grundfläche zählen, dann oben (Deckfläche oder Spitze) und die Seiten.' });
+  };
+
+  S.massstab = function (rnd) {
+    var art = gz(0, 2, rnd);
+    if (art === 0) {
+      var M = waehle([10000, 25000, 50000, 100000, 20000], rnd), k = waehle([2, 3, 4, 5, 6, 8], rnd), cm = M * k, km = cm >= 100000, w = glatt(km ? cm / 100000 : cm / 100);
+      return A({ titel: 'Maßstab: Karte → Wirklichkeit', einheit: km ? 'km' : 'm', text: 'Auf einer Karte im Maßstab 1 : ' + zahl(M, 0) + ' sind zwei Orte ' + k + ' cm voneinander entfernt. Wie weit ist das in Wirklichkeit (in ' + (km ? 'km' : 'm') + ')?', loesung: w,
+        weg: k + ' cm · ' + zahl(M, 0) + ' = ' + zahl(cm, 0) + ' cm = ' + zahl(w, 3) + (km ? ' km' : ' m'), fehler: [{ wert: glatt(w * 10), tipp: 'Prüfe die Umrechnung: 1 m = 100 cm, 1 km = 100 000 cm.' }, { wert: glatt(w / 10), tipp: 'Prüfe die Umrechnung: 1 m = 100 cm, 1 km = 100 000 cm.' }],
+        tipp: '1 cm auf der Karte = ' + zahl(M, 0) + ' cm in Wirklichkeit. Dann in m oder km umrechnen.' });
+    }
+    if (art === 1) {
+      var mm = waehle([3, 4.5, 6, 7.5, 12, 8.2, 5, 9.6], rnd), M2 = waehle([100, 50], rnd), w2 = glatt(mm * 100 / M2);
+      return A({ titel: 'Maßstab: Wirklichkeit → Plan', einheit: 'cm', text: 'Ein Zimmer ist ' + zahl(mm, 2) + ' m lang. Wie lang ist es im Bauplan im Maßstab 1 : ' + M2 + ' (in cm)?', loesung: w2,
+        weg: zahl(mm, 2) + ' m = ' + zahl(mm * 100, 0) + ' cm → ' + zahl(mm * 100, 0) + ' cm : ' + M2 + ' = ' + zahl(w2, 2) + ' cm', fehler: [{ wert: glatt(mm * 100), tipp: 'Im Plan ist alles ' + M2 + '-mal kleiner: noch durch ' + M2 + ' teilen.' }],
+        tipp: 'In cm umrechnen, dann durch ' + M2 + ' teilen.' });
+    }
+    var bb = waehle([4, 6, 8, 9, 10, 12], rnd), hh = waehle([3, 4, 5, 6, 8], rnd); if (hh === bb) hh = bb - 1; var k2 = waehle([2, 3, 4, 1.5, 2.5], rnd), nb = glatt(bb * k2), nh = glatt(hh * k2);
+    return A({ titel: 'Vergrößern', einheit: 'cm', text: 'Ein Foto ist ' + bb + ' cm breit und ' + hh + ' cm hoch. Es wird ohne Verzerrung vergrößert und ist dann ' + zahl(nb, 2) + ' cm breit. Wie hoch ist es dann?', loesung: nh,
+      weg: 'Faktor k = ' + zahl(nb, 2) + ' : ' + bb + ' = ' + zahl(k2, 2) + ' → ' + hh + ' cm · ' + zahl(k2, 2) + ' = ' + zahl(nh, 2) + ' cm', fehler: [{ wert: glatt(hh + nb - bb), tipp: 'Beim Vergrößern wird malgenommen, nicht addiert: beide Seiten mit demselben Faktor.' }],
+      tipp: 'Erst den Vergrößerungsfaktor bestimmen (neu : alt), dann die andere Seite damit malnehmen.' });
+  };
+
+  /* =========================================================
+     DATEN UND ZUFALL
+     ========================================================= */
+  S.daten = function (rnd) {
+    var art = gz(0, 4, rnd);
+    if (art <= 1) return A(ML.T1.daten(rnd));
+    if (art === 2) {
+      var a = gz(1, 10, rnd), b = gz(1, 10, rnd), c = gz(1, 10, rnd), x = gz(1, 12, rnd); x += (4 - (a + b + c + x) % 4) % 4; var M = (a + b + c + x) / 4;
+      return A({ titel: 'Fehlender Wert beim Mittelwert', text: 'Der Mittelwert von vier Zahlen ist ' + M + '. Drei der Zahlen sind ' + a + ', ' + b + ' und ' + c + '. Wie heißt die vierte Zahl?', loesung: x,
+        weg: 'Summe aller vier: 4 · ' + M + ' = ' + (4 * M) + ' → ' + (4 * M) + ' − ' + a + ' − ' + b + ' − ' + c + ' = ' + x,
+        fehler: [{ wert: M, tipp: 'Gesucht ist die vierte Zahl, nicht der Mittelwert.' }, { wert: 4 * M, tipp: 'Das ist die Summe aller vier Zahlen. Ziehe noch die drei bekannten ab.' }], tipp: 'Mittelwert · Anzahl = Summe. Dann die bekannten Zahlen abziehen.' });
+    }
+    if (art === 3) {
+      var N = waehle([20, 25, 40, 50, 200], rnd), p, k, v = 0; do { p = 5 * gz(1, 19, rnd); k = N * p / 100; v++; } while (k % 1 !== 0 && v < 30);
+      return A({ titel: 'Relative Häufigkeit', einheit: '%', text: 'Von ' + N + ' Befragten antworten ' + k + ' mit „Ja“. Wie viel Prozent sind das?', loesung: p,
+        weg: k + ' : ' + N + ' = ' + zahl(p / 100, 2) + ' = ' + p + ' %', fehler: [{ wert: glatt(p / 100), tipp: 'Das ist die Dezimalzahl. Mal 100 für Prozent.' }], tipp: 'Anteil : Ganzes, dann · 100.' });
+    }
+    var pk = waehle([10, 20, 25, 50, 75, 30, 40, 5, 15], rnd);
+    return A({ titel: 'Kreisdiagramm', einheit: GRAD, text: 'Ein Anteil von ' + pk + ' % soll in einem Kreisdiagramm dargestellt werden. Wie groß ist der Winkel des Kreisausschnitts?', loesung: glatt(3.6 * pk),
+      weg: '100 % ≙ 360° → 1 % ≙ 3,6° → ' + pk + ' % ≙ ' + zahl(3.6 * pk, 1) + '°', fehler: [{ wert: pk, tipp: 'Der ganze Kreis hat 360°, nicht 100°: 1 % ≙ 3,6°.' }], tipp: '100 % ≙ 360°, also 1 % ≙ 3,6°.' });
+  };
+
+  S.wahrsch = function (rnd) {
+    var art = gz(0, 3, rnd), HINW = ' <span class="klein">(als Bruch, Dezimalzahl oder in %)</span>';
+    if (art === 0) return A(ML.T1.wahrsch(rnd));
+    if (art === 1) {
+      var E = waehle([['eine 6', 1], ['eine gerade Zahl', 3], ['eine Zahl größer als 4', 2], ['eine Zahl kleiner als 3', 2], ['eine Primzahl (2, 3 oder 5)', 3], ['eine 7', 0], ['eine Zahl von 1 bis 6', 6], ['höchstens eine 4', 4]], rnd);
+      return A({ titel: 'Würfel', art: 'wahrsch', text: 'Ein normaler Würfel wird einmal geworfen. Wie groß ist die Wahrscheinlichkeit für ' + E[0] + '?' + HINW, loesung: E[1] / 6,
+        weg: 'günstige Ergebnisse: ' + E[1] + ' von 6 → P = ' + E[1] + '/6' + (E[1] && E[1] !== 6 && ML.ggt(E[1], 6) > 1 ? ' = ' + gekuerzt(E[1], 6) : '') + (E[1] === 0 ? ' = 0 (unmögliches Ereignis)' : E[1] === 6 ? ' = 1 (sicheres Ereignis)' : ''),
+        fehler: [{ wert: E[1] > 0 && E[1] < 6 ? E[1] / (6 - E[1]) : NaN, tipp: 'Teile durch die Anzahl ALLER Ergebnisse (6).' }], tipp: 'P = Anzahl günstige : Anzahl aller Ergebnisse (6).' });
+    }
+    if (art === 2) {
+      var n = waehle([4, 5, 8, 10, 6], rnd), r = gz(1, n - 1, rnd);
+      return A({ titel: 'Glücksrad', art: 'wahrsch', text: 'Ein Glücksrad hat ' + n + ' gleich große Felder. ' + r + ' davon sind rot. Wie groß ist die Wahrscheinlichkeit für „Rot“?' + HINW, loesung: r / n,
+        weg: 'P(Rot) = ' + r + '/' + n + (ML.ggt(r, n) > 1 ? ' = ' + gekuerzt(r, n) : '') + ' = ' + zahl(100 * r / n, 1) + ' %', fehler: [{ wert: r / (n - r), tipp: 'Teile durch die Anzahl ALLER Felder (' + n + ').' }], tipp: 'P = günstige Felder : alle Felder' });
+    }
+    var N = waehle([100, 200, 500, 50, 400], rnd), pp = waehle([5, 10, 15, 20, 25, 30, 40], rnd), g = N * pp / 100;
+    return A({ titel: 'Lostrommel', art: 'wahrsch', text: 'In einer Lostrommel sind ' + N + ' Lose, davon ' + g + ' Gewinne. Wie groß ist die Wahrscheinlichkeit, einen Gewinn zu ziehen?' + HINW, loesung: g / N,
+      weg: 'P = ' + g + '/' + N + ' = ' + gekuerzt(g, N) + ' = ' + zahl(g / N, 2) + ' = ' + pp + ' %', fehler: [{ wert: g / (N - g), tipp: 'Teile durch die Anzahl ALLER Lose (' + N + '), nicht nur der Nieten.' }], tipp: 'P = Gewinne : alle Lose' });
+  };
+
+  ML.SPRINT = { S: S, alsBruch: alsBruch, mischen: mischen };
+})(ML);
+
+/* Mathe-Sprint 10 G · Themen, Erklärungen und Bauplan eines Sprints
+   Ein Sprint = 20 Aufgaben in fester Reihenfolge der Plätze (PLAN). Sprint-Nummer n → immer dieselben Aufgaben (Zufallszahlen mit festem Startwert).
+   ACHTUNG: Wer Aufgabentypen oder PLAN ändert, ändert auch die Aufgaben der nummerierten Sprints. */
+(function (ML) {
+  'use strict';
+  var S = ML.SPRINT.S, h2 = '<sup>2</sup>', h3 = '<sup>3</sup>';
+  function Br(z, n) { return ML.bruchText(z, n); }
+
+  var BEREICHE = [
+    { id: 'zahl', name: 'Zahlen und Rechnen', kurz: 'Zahlen' },
+    { id: 'groesse', name: 'Größen und Messen', kurz: 'Größen' },
+    { id: 'funktion', name: 'Prozent, Terme, Gleichungen, Funktionen', kurz: 'Terme & Funktionen' },
+    { id: 'raum', name: 'Geometrie und Raum', kurz: 'Geometrie' },
+    { id: 'daten', name: 'Daten und Zufall', kurz: 'Daten & Zufall' }
+  ];
+
+  // merk = Merkwissen · bsp = durchgerechnetes Beispiel · falle = typische Fehler
+  var THEMEN = [
+    { id: 'kopf', bereich: 'zahl', name: 'Kopfrechnen und Kommazahlen', klasse: '5–7',
+      merk: 'Große Aufgaben <b>zerlegen</b>: 14 · 6 = 10 · 6 + 4 · 6.<br>Kommazahlen addieren: <b>Komma unter Komma</b>, leere Stellen mit 0 füllen.<br>Kommazahlen multiplizieren: erst ohne Komma rechnen, dann so viele Nachkommastellen wie <b>beide Faktoren zusammen</b>.<br>Durch eine Kommazahl teilen: Komma bei <b>beiden</b> Zahlen gleich weit nach rechts.',
+      bsp: '0,3 · 0,4: 3 · 4 = 12, zwei Nachkommastellen → <b>0,12</b><br>2,4 : 0,06 = 240 : 6 = <b>40</b><br>36 : 0,5 = <b>72</b> (durch ein Halb teilen = verdoppeln)',
+      falle: '0,3 · 0,4 = 1,2 ✗ (Nachkommastellen nicht gezählt) · 3,7 + 4,65 = 7,72 ✗ (Komma nicht untereinander)' },
+    { id: 'vorrang', bereich: 'zahl', name: 'Vorrangregeln', klasse: '5–6',
+      merk: '<b>Klammer</b> vor <b>Potenz</b> vor <b>Punkt</b> (· und :) vor <b>Strich</b> (+ und −).<br>Sonst wird von links nach rechts gerechnet.',
+      bsp: '10 + 4 · 5 = 10 + 20 = <b>30</b><br>50 − (17 + 12) = 50 − 29 = <b>21</b><br>2 · 3' + h2 + ' = 2 · 9 = <b>18</b>',
+      falle: '10 + 4 · 5 = 14 · 5 = 70 ✗ · 2 · 3² = 6² = 36 ✗' },
+    { id: 'negativ', bereich: 'zahl', name: 'Negative Zahlen', klasse: '6–7',
+      merk: 'Auf der <b>Zahlengeraden</b>: plus → nach rechts, minus → nach links.<br>Minus und Minus: − (−3) = + 3.<br>Mal und geteilt: <b>gleiche Vorzeichen → plus</b>, <b>verschiedene Vorzeichen → minus</b>.<br>Viele Faktoren: gerade Anzahl Minus → plus, ungerade → minus.',
+      bsp: '7 − 12 = <b>−5</b><br>−4 − (−9) = −4 + 9 = <b>5</b><br>(−3) · (−4) · (−2) = 12 · (−2) = <b>−24</b>',
+      falle: '7 − 12 = 5 ✗ (Vorzeichen vergessen) · (−3) · (−4) = −12 ✗' },
+    { id: 'umwandeln', bereich: 'zahl', name: 'Bruch, Dezimalzahl, Prozent', klasse: '6–7',
+      merk: 'Bruch → Dezimalzahl: <b>Zähler : Nenner</b> oder auf Zehntel/Hundertstel erweitern.<br>Dezimalzahl → Prozent: <b>· 100</b> (Komma 2 Stellen nach rechts).<br>Prozent → Dezimalzahl: <b>: 100</b> (Komma 2 Stellen nach links).<br>Wichtige Paare: ' + Br(1, 2) + ' = 0,5 = 50 % · ' + Br(1, 4) + ' = 0,25 = 25 % · ' + Br(3, 4) + ' = 75 % · ' + Br(1, 5) + ' = 20 % · ' + Br(1, 10) + ' = 10 % · ' + Br(1, 8) + ' = 12,5 %',
+      bsp: Br(3, 5) + ' = ' + Br(6, 10) + ' = <b>0,6</b> = <b>60 %</b><br>7 % = <b>0,07</b> · 0,125 = <b>12,5 %</b><br>40 % = ' + Br(40, 100) + ' = <b>' + Br(2, 5) + '</b>',
+      falle: '7 % = 0,7 ✗ (richtig: 0,07) · ' + Br(3, 5) + ' = 3,5 ✗' },
+    { id: 'bruchrechnen', bereich: 'zahl', name: 'Bruchrechnung', klasse: '6–7',
+      merk: '<b>Plus/Minus:</b> auf einen gemeinsamen Nenner erweitern, dann nur die Zähler rechnen.<br><b>Mal:</b> Zähler · Zähler, Nenner · Nenner.<br><b>Geteilt:</b> mit dem Kehrwert malnehmen.<br><b>Anteil von:</b> durch den Nenner teilen, mal den Zähler.',
+      bsp: Br(1, 2) + ' + ' + Br(1, 4) + ' = ' + Br(2, 4) + ' + ' + Br(1, 4) + ' = <b>' + Br(3, 4) + '</b><br>' + Br(2, 3) + ' · ' + Br(3, 5) + ' = ' + Br(6, 15) + ' = <b>' + Br(2, 5) + '</b><br>' + Br(1, 3) + ' : 3 = ' + Br(1, 3) + ' · ' + Br(1, 3) + ' = <b>' + Br(1, 9) + '</b><br>' + Br(3, 4) + ' von 20 € = 20 : 4 · 3 = <b>15 €</b>',
+      falle: Br(1, 2) + ' + ' + Br(1, 4) + ' = ' + Br(2, 6) + ' ✗ (Nenner addiert) · ' + Br(1, 3) + ' : 3 = 1 ✗' },
+    { id: 'vergleich', bereich: 'zahl', name: 'Zahlen vergleichen und ordnen', klasse: '6–10',
+      merk: 'Zum Vergleichen alles in dieselbe Form bringen – am einfachsten <b>Dezimalzahlen</b>.<br>Potenzen erst ausrechnen: 2' + h3 + ' = 8, 3' + h2 + ' = 9.<br>Negative Zahlen: Je <b>weiter links</b> auf der Zahlengeraden, desto <b>kleiner</b>: −0,5 &lt; −0,45.<br>Klammer beachten: (−2)' + h2 + ' = 4, aber −2' + h2 + ' = −4.',
+      bsp: Br(3, 4) + ' = 0,75 &gt; 0,7 → ' + Br(3, 4) + ' <b>&gt;</b> 0,7<br>2' + h3 + ' = 8 &lt; 9 = 3' + h2 + ' → 2' + h3 + ' <b>&lt;</b> 3' + h2 + '<br>1,2 · 10' + h3 + ' = 1 200 <b>&gt;</b> 1 020',
+      falle: '−0,5 &gt; −0,45 ✗ (bei negativen Zahlen ist die mit dem größeren Betrag kleiner)' },
+    { id: 'potenzen', bereich: 'zahl', name: 'Potenzen und Wurzeln', klasse: '9–10',
+      merk: 'a' + h3 + ' = a · a · a (Basis 3-mal als Faktor). <b>Nicht</b> Basis · Exponent!<br>Quadratwurzel: √49 = 7, denn 7 · 7 = 49.<br>Negative Basis: Exponent gerade → positiv, ungerade → negativ.<br>Zehnerpotenz: 10<sup>6</sup> = 1 mit 6 Nullen. Wissenschaftliche Schreibweise: 3 400 000 = 3,4 · 10<sup>6</sup>.',
+      bsp: '2<sup>5</sup> = 2 · 2 · 2 · 2 · 2 = <b>32</b><br>(−3)' + h3 + ' = <b>−27</b> · 0,2' + h2 + ' = <b>0,04</b><br>√144 = <b>12</b> · ³√125 = <b>5</b><br>2,5 · 10<sup>4</sup> = <b>25 000</b>',
+      falle: '2<sup>5</sup> = 10 ✗ (Basis mal Exponent) · 0,2² = 0,4 ✗ · √36 = 18 ✗' },
+    { id: 'ueberschlag', bereich: 'zahl', name: 'Überschlag und schriftliches Rechnen', klasse: '5–6',
+      merk: 'Ohne Taschenrechner das richtige Ergebnis erkennen:<br>① <b>Überschlag</b> mit gerundeten Zahlen → Größenordnung (Anzahl der Stellen).<br>② <b>Endziffer</b> prüfen: Bei 396 · 524 endet 6 · 4 = 24 auf 4, also endet auch das Ergebnis auf 4.',
+      bsp: '396 · 524 ≈ 400 · 500 = 200 000 → Endziffer 4 → <b>207 504</b><br>201 880 : 98 ≈ 200 000 : 100 = 2 000 → <b>2 060</b> (Probe: 2 060 · 98 = 201 880)',
+      falle: 'Nur auf die ersten Ziffern achten und die Stellenzahl übersehen (20 750 statt 207 504).' },
+    { id: 'folgen', bereich: 'zahl', name: 'Zahlenfolgen', klasse: '5–10',
+      merk: 'Schreibe die <b>Abstände</b> zwischen den Zahlen darunter. Typische Regeln:<br>immer + d · immer · q (oder : 2) · abwechselnd + und − · Quadratzahlen · Abstand wächst (+1, +2, +3 …) · jede Zahl = Summe der beiden davor.',
+      bsp: '3, 7, 11, 15, … → immer + 4 → <b>19</b><br>2, 6, 18, 54, … → immer · 3 → <b>162</b><br>1, 1, 2, 3, 5, 8, … → Summe der beiden davor → <b>13</b>',
+      falle: 'Nur die ersten beiden Zahlen anschauen – immer die ganze Folge prüfen.' },
+    { id: 'einheiten', bereich: 'groesse', name: 'Einheiten umrechnen', klasse: '5–7',
+      merk: 'Große → kleine Einheit: <b>mal</b>. Kleine → große Einheit: <b>geteilt</b>.<br>Länge: km –1000– m –10– dm –10– cm –10– mm<br>Masse: t –1000– kg –1000– g · Zeit: h –60– min –60– s<br>Fläche: Umrechnungszahl <b>100</b> (m' + h2 + ' –100– dm' + h2 + ' –100– cm' + h2 + ')<br>Volumen: Umrechnungszahl <b>1000</b>; 1 dm' + h3 + ' = 1 ℓ, 1 cm' + h3 + ' = 1 mℓ',
+      bsp: '7 m = <b>70 dm</b> · 1,5 h = <b>90 min</b> · 45 min = <b>0,75 h</b><br>2,5 kg = <b>2 500 g</b> · 3 dm' + h2 + ' = <b>300 cm' + h2 + '</b> · 2 ℓ = <b>2 dm' + h3 + '</b>',
+      falle: '1,5 h = 150 min ✗ (eine Stunde hat 60 min) · 3 dm² = 30 cm² ✗ (Flächen: · 100)' },
+    { id: 'flaeche', bereich: 'groesse', name: 'Flächen und Umfang', klasse: '5–8',
+      merk: 'Rechteck: A = a · b, u = 2 · a + 2 · b · Quadrat: A = a · a, u = 4 · a<br>Dreieck: A = g · h : 2 · Parallelogramm: A = g · h<br>Trapez: A = (a + c) : 2 · h<br>Seitenlänge verdoppeln → Umfang · 2, Fläche · 4.',
+      bsp: 'Quadrat mit u = 20 cm: a = 20 : 4 = 5 cm → A = 5 · 5 = <b>25 cm' + h2 + '</b><br>Dreieck g = 8 cm, h = 5 cm: A = 8 · 5 : 2 = <b>20 cm' + h2 + '</b>',
+      falle: 'Fläche und Umfang verwechseln · beim Dreieck „: 2“ vergessen' },
+    { id: 'kreis', bereich: 'groesse', name: 'Kreis', klasse: '9',
+      merk: 'r = Radius, d = Durchmesser = 2 · r<br>Umfang: <b>u = π · d = 2 · π · r</b><br>Flächeninhalt: <b>A = π · r' + h2 + '</b><br>π ≈ 3,14 (zum Schätzen reicht π ≈ 3).',
+      bsp: 'r = 5 cm: u ≈ 3,14 · 10 = <b>31,4 cm</b> · A ≈ 3,14 · 25 = <b>78,5 cm' + h2 + '</b>',
+      falle: 'Mit dem Durchmesser statt dem Radius in A = π · r² rechnen · r² als 2 · r rechnen' },
+    { id: 'koerper', bereich: 'groesse', name: 'Körper: Volumen und Oberfläche', klasse: '6–10',
+      merk: 'Quader: V = a · b · c, O = 2 · (ab + ac + bc) · Würfel: V = a' + h3 + ', O = 6 · a' + h2 + '<br>Prisma: V = G · h · <b>Pyramide: V = ⅓ · G · h</b><br>1 ℓ = 1 dm' + h3 + ' = 1 000 cm' + h3,
+      bsp: 'Quader 4 cm × 3 cm × 2 cm: V = <b>24 cm' + h3 + '</b>, O = 2 · (12 + 8 + 6) = <b>52 cm' + h2 + '</b><br>Pyramide a = 6 cm, h = 5 cm: V = ⅓ · 36 · 5 = <b>60 cm' + h3 + '</b>',
+      falle: 'Volumen und Oberfläche verwechseln · bei der Pyramide das ⅓ vergessen · cm³ und ℓ verwechseln' },
+    { id: 'pythagoras', bereich: 'groesse', name: 'Satz des Pythagoras', klasse: '9–10',
+      merk: 'Im <b>rechtwinkligen</b> Dreieck: a' + h2 + ' + b' + h2 + ' = c' + h2 + ' (c = Hypotenuse, liegt gegenüber dem rechten Winkel, ist die längste Seite).<br>Hypotenuse: c = √(a' + h2 + ' + b' + h2 + ') · Kathete: b = √(c' + h2 + ' − a' + h2 + ')<br>Merke dir die Zahlentripel: <b>3–4–5</b>, 6–8–10, <b>5–12–13</b>, 8–15–17.',
+      bsp: 'a = 6 cm, b = 8 cm: c' + h2 + ' = 36 + 64 = 100 → c = <b>10 cm</b><br>Ist 5, 12, 13 rechtwinklig? 25 + 144 = 169 = 13' + h2 + ' → <b>ja</b>',
+      falle: 'c = a + b ✗ · c² ausgerechnet, aber die Wurzel vergessen' },
+    { id: 'prozent', bereich: 'funktion', name: 'Prozentrechnung', klasse: '7–8',
+      merk: 'G = Grundwert (100 %), W = Prozentwert, p % = Prozentsatz<br><b>W = G · p %</b> · <b>p % = W : G</b> · <b>G = W : p %</b><br>Oder mit dem Dreisatz über 1 %.<br>Im Kopf: 10 % = : 10 · 25 % = : 4 · 50 % = : 2 · 1 % = : 100',
+      bsp: '15 % von 500 € = 10 % + 5 % = 50 € + 25 € = <b>75 €</b><br>12 € von 40 € = 12 : 40 = 0,3 = <b>30 %</b><br>20 % sind 30 € → 100 % = 30 · 5 = <b>150 €</b>',
+      falle: 'Bei Rabatt nur den Rabatt angeben statt den neuen Preis · Grundwert und Prozentwert verwechseln' },
+    { id: 'zinsen', bereich: 'funktion', name: 'Zinsrechnung', klasse: '8',
+      merk: 'K = Kapital (wie G), Z = Zinsen (wie W), p % = Zinssatz<br>Jahreszinsen: <b>Z = K · p %</b><br>Zinseszins: Die Zinsen werden mitverzinst – Jahr für Jahr rechnen (oder · q mit q = 1 + p %).',
+      bsp: '1 200 € zu 3 %: Z = 1 200 · 0,03 = <b>36 €</b><br>36 € Zinsen bei 3 % → 1 % = 12 € → K = <b>1 200 €</b><br>1 000 € zu 10 % für 2 Jahre: 1 100 € → <b>1 210 €</b>',
+      falle: 'Zinsen und Guthaben verwechseln · beim Zinseszins einfach 2 · 10 % = 20 % rechnen' },
+    { id: 'dreisatz', bereich: 'funktion', name: 'Dreisatz und Zuordnungen', klasse: '7',
+      merk: '<b>Proportional</b> (je mehr, desto mehr): auf 1 teilen, dann malnehmen.<br><b>Antiproportional</b> (je mehr, desto weniger): auf 1 <b>mal</b>nehmen, dann teilen.<br>Erst prüfen, welche Art vorliegt!',
+      bsp: '3 Hefte → 4,50 € → 1 Heft → 1,50 € → 7 Hefte → <b>10,50 €</b><br>4 Personen → 6 h → 1 Person → 24 h → 3 Personen → <b>8 h</b>',
+      falle: 'Bei „mehr Arbeiter“ proportional rechnen (dann bräuchten mehr Leute länger)' },
+    { id: 'terme', bereich: 'funktion', name: 'Terme', klasse: '7–8',
+      merk: '<b>Termwert:</b> Variable durch die Zahl ersetzen (negative Zahlen in Klammern).<br><b>Zusammenfassen:</b> nur gleichartige Glieder: 3a + 2a = 5a, aber 3a + 2b bleibt.<br><b>Ausmultiplizieren:</b> Faktor mit <b>jedem</b> Glied der Klammer: 3(x + 4) = 3x + 12.',
+      bsp: '3x − 5 für x = −2: 3 · (−2) − 5 = −6 − 5 = <b>−11</b><br>4a + 3b − a + 2b = <b>3a + 5b</b><br>„das Doppelte einer Zahl, vermindert um 3“ → <b>2x − 3</b>',
+      falle: '2x² für x = 3 als (2 · 3)² = 36 rechnen ✗ (richtig: 2 · 9 = 18) · 3(x + 4) = 3x + 4 ✗' },
+    { id: 'gleichungen', bereich: 'funktion', name: 'Gleichungen lösen', klasse: '7–8',
+      merk: 'Auf <b>beiden Seiten dasselbe</b> rechnen (Äquivalenzumformung).<br>Reihenfolge: Klammern auflösen → x-Glieder auf eine Seite → Zahlen auf die andere Seite → durch die Zahl vor x teilen.<br><b>Probe:</b> Lösung einsetzen.',
+      bsp: '5x + 3 = 23 | − 3 → 5x = 20 | : 5 → <b>x = 4</b><br>2(x − 4) = 6 → 2x − 8 = 6 | + 8 → 2x = 14 → <b>x = 7</b>',
+      falle: 'Nur auf einer Seite umformen · beim Ausmultiplizieren die Zahl in der Klammer vergessen' },
+    { id: 'linear', bereich: 'funktion', name: 'Lineare Funktionen', klasse: '9',
+      merk: '<b>y = m · x + b</b>: m = Steigung, b = y-Achsenabschnitt (Schnittpunkt S(0 | b)).<br>Steigung aus zwei Punkten: <b>m = (y₂ − y₁) : (x₂ − x₁)</b><br>Nullstelle: y = 0 setzen und nach x auflösen.<br>Punktprobe: x einsetzen, stimmt y?',
+      bsp: 'y = 2x − 3: Steigung 2, schneidet die y-Achse bei <b>−3</b><br>P(1 | 3), Q(3 | 7): m = (7 − 3) : (3 − 1) = <b>2</b><br>0 = 2x − 8 → <b>x = 4</b>',
+      falle: 'm und b verwechseln · Steigung „x durch y“ rechnen' },
+    { id: 'winkel', bereich: 'raum', name: 'Winkel', klasse: '6–8',
+      merk: 'Winkelsumme: <b>Dreieck 180°</b>, <b>Viereck 360°</b>.<br>Nebenwinkel ergänzen sich zu 180°, Scheitelwinkel sind gleich groß.<br>Gleichschenkliges Dreieck: Die beiden Basiswinkel sind gleich groß.<br>spitz &lt; 90° · recht = 90° · stumpf 90°–180° · überstumpf 180°–360°',
+      bsp: 'α = 50°, β = 70° → γ = 180° − 120° = <b>60°</b><br>Nebenwinkel von 65° → <b>115°</b>',
+      falle: 'Im Dreieck mit 360° rechnen · Neben- und Scheitelwinkel verwechseln' },
+    { id: 'koerperform', bereich: 'raum', name: 'Körper erkennen (Ecken, Kanten, Flächen)', klasse: '5–10',
+      merk: 'Prisma mit n-eckiger Grundfläche: <b>2n Ecken, 3n Kanten, n + 2 Flächen</b>.<br>Pyramide mit n-eckiger Grundfläche: <b>n + 1 Ecken, 2n Kanten, n + 1 Flächen</b>.<br>Würfel und Quader sind vierseitige Prismen: 8 Ecken, 12 Kanten, 6 Flächen.',
+      bsp: 'quadratische Pyramide: <b>5</b> Ecken, <b>8</b> Kanten, <b>5</b> Flächen<br>sechsseitiges Prisma: <b>12</b> Ecken, <b>18</b> Kanten, <b>8</b> Flächen',
+      falle: 'Bei der Pyramide die Spitze oder die Grundfläche vergessen' },
+    { id: 'massstab', bereich: 'raum', name: 'Maßstab und Vergrößern', klasse: '6–9',
+      merk: 'Maßstab 1 : 25 000 heißt: <b>1 cm</b> auf der Karte = <b>25 000 cm</b> = 250 m in Wirklichkeit.<br>1 m = 100 cm, 1 km = 100 000 cm.<br>Vergrößern/Verkleinern: <b>alle</b> Längen mit demselben Faktor malnehmen (nicht addieren!).',
+      bsp: '4 cm bei 1 : 25 000 → 100 000 cm = <b>1 km</b><br>Foto 9 cm × 6 cm, neue Breite 27 cm → Faktor 3 → Höhe <b>18 cm</b>',
+      falle: 'Beim Vergrößern dieselbe Zahl addieren (6 + 18 = 24 ✗)' },
+    { id: 'daten', bereich: 'daten', name: 'Daten auswerten', klasse: '6–10',
+      merk: '<b>Mittelwert</b> = Summe : Anzahl · <b>Median</b> = mittlerer Wert der <b>geordneten</b> Liste (bei gerader Anzahl: Mitte der beiden mittleren)<br><b>Spannweite</b> = größter − kleinster Wert<br>Relative Häufigkeit = Anzahl : Gesamtzahl · Kreisdiagramm: 1 % ≙ 3,6°',
+      bsp: '2, 9, 4, 7, 3 → Mittelwert 25 : 5 = <b>5</b>, Median (2, 3, <b>4</b>, 7, 9) = <b>4</b>, Spannweite 9 − 2 = <b>7</b>',
+      falle: 'Median ohne Ordnen ablesen · Summe statt Mittelwert angeben' },
+    { id: 'wahrsch', bereich: 'daten', name: 'Wahrscheinlichkeit', klasse: '7–8',
+      merk: 'Bei gleich wahrscheinlichen Ergebnissen (Laplace):<br><b>P = Anzahl günstige Ergebnisse : Anzahl aller Ergebnisse</b><br>P liegt zwischen 0 (unmöglich) und 1 (sicher). Als Bruch, Dezimalzahl oder Prozent angeben.',
+      bsp: 'Würfel, gerade Zahl: 3 von 6 → P = ' + Br(3, 6) + ' = <b>' + Br(1, 2) + '</b> = 50 %<br>3 rote, 5 blaue Kugeln: P(rot) = <b>' + Br(3, 8) + '</b>',
+      falle: 'Durch die „anderen“ statt durch alle teilen: 3 : 5 ✗ statt 3 : 8' }
+  ];
+  var GEN = { kopf: S.kopf, vorrang: S.vorrang, negativ: S.negativ, umwandeln: S.umwandeln, bruchrechnen: S.bruchrechnen,
+    vergleich: function (rnd) { return rnd() < 0.7 ? S.vergleich(rnd) : S.groesste(rnd); }, potenzen: S.potenzen, ueberschlag: S.ueberschlag, folgen: S.folgen,
+    einheiten: S.einheiten, flaeche: S.flaeche, kreis: S.kreis, koerper: S.koerper, pythagoras: S.pythagoras,
+    prozent: S.prozent, zinsen: S.zinsen, dreisatz: S.dreisatz, terme: S.terme, gleichungen: S.gleichungen, linear: S.linear,
+    winkel: S.winkel, koerperform: S.koerperform, massstab: S.massstab, daten: S.daten, wahrsch: S.wahrsch };
+  var THEMA = {}; THEMEN.forEach(function (t) { t.gen = GEN[t.id]; THEMA[t.id] = t; });
+
+  // Bauplan: 20 Plätze, je Platz eines der Themen (einfach → schwerer, alle fünf Leitideen der ZP)
+  var PLAN = [['kopf'], ['vorrang'], ['negativ'], ['einheiten'], ['einheiten'], ['umwandeln'], ['bruchrechnen'], ['vergleich', 'ueberschlag', 'folgen'],
+    ['potenzen'], ['prozent'], ['zinsen', 'dreisatz'], ['terme'], ['gleichungen'], ['linear'],
+    ['flaeche', 'kreis'], ['pythagoras'], ['koerper'], ['winkel', 'koerperform', 'massstab'], ['daten'], ['wahrsch']];
+  var ANZAHL_NUMMERN = 60;
+
+  // Zufallszahlen mit festem Startwert (mulberry32): gleiche Nummer → gleiche Aufgaben auf jedem Gerät
+  function rng(seed) { var a = seed >>> 0; return function () { a = (a + 0x6D2B79F5) >>> 0; var t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  function aufgabe(themaId, rnd, vorher) {
+    var a, v = 0;
+    do { a = THEMA[themaId].gen(rnd); v++; } while (vorher && vorher.indexOf(a.text) >= 0 && v < 15);
+    a.thema = themaId; return a;
+  }
+  // nummer 1–60 = fester Sprint; nummer ≥ 1000 = Zufalls-Sprint mit Code
+  function sprint(nummer) {
+    var rnd = rng(nummer * 7919 + 104729), texte = [];
+    return PLAN.map(function (platz) {
+      var a = aufgabe(ML.waehle(platz, rnd), rnd, texte); texte.push(a.text); return a;
+    });
+  }
+  // Übungspaket: anzahl Aufgaben aus den Themen (abwechselnd), Zufall
+  function paket(themenIds, anzahl, rnd) {
+    rnd = rnd || Math.random; var liste = [], texte = [], reihe = ML.SPRINT.mischen(themenIds, rnd);
+    for (var i = 0; i < anzahl; i++) { var a = aufgabe(reihe[i % reihe.length], rnd, texte); texte.push(a.text); liste.push(a); }
+    return liste;
+  }
+
+  ML.SPRINT.BEREICHE = BEREICHE; ML.SPRINT.THEMEN = THEMEN; ML.SPRINT.THEMA = THEMA; ML.SPRINT.PLAN = PLAN; ML.SPRINT.ANZAHL_NUMMERN = ANZAHL_NUMMERN;
+  ML.SPRINT.rng = rng; ML.SPRINT.sprint = sprint; ML.SPRINT.paket = paket; ML.SPRINT.aufgabe = aufgabe;
+})(ML);
+
+/* Mathe-Sprint 10 G · Oberfläche: Start, Sprint mit Uhr, Auswertung, Themen-Training, Verlauf/Rangliste, Erklärungen, Lehrer-Ansicht.
+   Gespeichert wird NUR im Browser dieses Geräts (localStorage, Schlüssel m10g-sprint-v1). */
+(function (ML) {
+  'use strict';
+  var SP = ML.SPRINT, app = document.getElementById('app'), SCHLUESSEL = 'm10g-sprint-v1', ZEIT = 300;
+  document.documentElement.classList.add('js');
+
+  /* ---------- Speicher ---------- */
+  var D = laden();
+  function leer() { return { name: '', sprints: [], uebungen: [], themen: {} }; }
+  function laden() {
+    try { var s = localStorage.getItem(SCHLUESSEL); if (s) { var d = JSON.parse(s); var l = leer(); Object.keys(l).forEach(function (k) { if (d[k] === undefined) d[k] = l[k]; }); return d; } } catch (e) { /* privat/gesperrt */ }
+    return leer();
+  }
+  function speichern() { try { localStorage.setItem(SCHLUESSEL, JSON.stringify(D)); } catch (e) { /* ohne Speicher weiter */ } }
+  function merkeThema(id, ok) { var l = D.themen[id] || (D.themen[id] = []); l.push(ok ? 1 : 0); if (l.length > 30) l.splice(0, l.length - 30); }
+  function quote(id) { var l = D.themen[id] || []; if (!l.length) return null; var r = 0; l.forEach(function (x) { r += x; }); return { r: r, n: l.length, q: r / l.length }; }
+  function ampel(q) { return !q ? '' : q.n < 3 ? 'gelb' : q.q >= 0.8 ? 'gruen' : q.q >= 0.5 ? 'gelb' : 'rot'; }
+  function gewertet() { return D.sprints.filter(function (s) { return s.mitZeit; }); }
+
+  /* ---------- kleine Hilfen ---------- */
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function uhr(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function datum(iso) { var d = new Date(iso); return ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + String(d.getFullYear()).slice(-2) + ', ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); }
+  function bruchHTML(t) { var m = String(t).match(/^(-?)(\d+)\/(\d+)$/); return m ? (m[1] ? '−' : '') + ML.bruchText(m[2], m[3]) : t; }
+  function sprintName(nr) { return nr >= 1000 ? 'Zufall Z-' + (nr - 1000) : 'Sprint ' + nr; }
+  function themaName(id) { return SP.THEMA[id] ? SP.THEMA[id].name : id; }
+  function loesungText(a) {
+    if (a.art === 'wahl') return a.optionen[a.loesung];
+    if (a.art === 'wiss') return ML.wissText(a.aSoll, a.nSoll);
+    var x = a.loesung, z = ML.zahl(x, 6), exakt = Math.abs(ML.parseZahl(z) - x) < 1e-9 * Math.max(1, Math.abs(x));
+    if (a.art === 'wahrsch') { var b = SP.alsBruch(x); return bruchHTML(b) + (b.indexOf('/') > 0 ? ' = ' + (ML.istGenau(x * 100, 1) ? '' : '≈ ') + ML.zahl(x * 100, 1) + ' %' : ''); }
+    return (exakt ? z : bruchHTML(SP.alsBruch(x))) + (a.einheit ? ' ' + a.einheit : '');
+  }
+  function bewerte(a, e) {
+    if (e === undefined || e === null || String(e).trim() === '') return { status: 'leer', text: 'Nicht beantwortet.' };
+    if (a.art === 'wahl') { var i = +e; return i === a.loesung ? { status: 'richtig', text: 'Richtig!' } : { status: 'falsch', text: 'Noch nicht. Tipp: ' + (a.otipp && a.otipp[i] ? a.otipp[i] : a.tipp) }; }
+    var p = ML.pruefe(a, e);
+    if (p.status === 'ungueltig') return { status: 'falsch', text: 'Diese Eingabe kann ich nicht als Zahl lesen. ' + p.text };
+    return p;
+  }
+  function antwortText(a, e) {
+    if (e === undefined || e === null || String(e).trim() === '') return '<span class="klein">– (leer)</span>';
+    return a.art === 'wahl' ? a.optionen[+e] : esc(e) + (a.einheit ? ' ' + a.einheit : '');
+  }
+  function antwortFeld(a, i, wert) {
+    if (a.art === 'wahl') {
+      return '<div class="optionen" role="group" aria-label="Antwort wählen">' + a.optionen.map(function (o, k) {
+        return '<button type="button" class="opt' + (String(wert) === String(k) ? ' gewaehlt' : '') + '" data-i="' + i + '" data-o="' + k + '">' + o + '</button>';
+      }).join('') + '</div>';
+    }
+    var bruch = a.art === 'wahrsch' || /als Bruch/.test(a.text), wiss = a.art === 'wiss';
+    return '<div class="feld"><input type="text" inputmode="decimal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="next" data-i="' + i + '" value="' + esc(wert || '') + '" aria-label="Antwort zu Aufgabe ' + (i + 1) + '">' +
+      (a.einheit ? '<span class="einh">' + a.einheit + '</span>' : '') + '</div>' +
+      '<div class="tasten"><button type="button" data-taste="minus" data-i="' + i + '" aria-label="Minuszeichen">−</button>' +
+      (bruch ? '<button type="button" data-taste="/" data-i="' + i + '">/</button>' : '') + (a.art === 'wahrsch' ? '<button type="button" data-taste="%" data-i="' + i + '">%</button>' : '') +
+      (wiss ? '<button type="button" data-taste="·10^" data-i="' + i + '">·10^</button>' : '') + '</div>';
+  }
+  function taste(inp, t) {
+    if (!inp) return;
+    if (t === 'minus') inp.value = /^\s*[-−]/.test(inp.value) ? inp.value.replace(/^\s*[-−]/, '') : '−' + inp.value;
+    else inp.value += t;
+    inp.focus(); inp.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  /* ---------- Fenster (Erklärung) ---------- */
+  var modal = document.getElementById('modal');
+  function erklaerungHTML(id) {
+    var t = SP.THEMA[id];
+    return '<p class="klein">' + SP.BEREICHE.filter(function (b) { return b.id === t.bereich; })[0].name + ' · Klasse ' + t.klasse + '</p><h2 style="margin-top:.2rem">' + t.name + '</h2>' +
+      '<div class="merk"><b>Das musst du wissen</b><br>' + t.merk + '</div><div class="bsp"><b>Beispiele</b><br>' + t.bsp + '</div><div class="falle"><b>Typische Falle</b><br>' + t.falle.split(' · ').join('<br>') + '</div>';
+  }
+  function zeigeErklaerung(id) {
+    document.getElementById('modal-inhalt').innerHTML = erklaerungHTML(id) + '<p style="margin-top:1rem"><button type="button" class="knopf haupt" data-aktion="ueben" data-themen="' + id + '">10 Aufgaben dazu üben</button></p>';
+    modal.hidden = false; modal.querySelector('.modal-zu').focus();
+  }
+  function modalZu() { modal.hidden = true; }
+  modal.addEventListener('click', function (e) { if (e.target === modal || e.target.classList.contains('modal-zu')) modalZu(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) modalZu(); });
+
+  /* ---------- Navigation ---------- */
+  var ansicht = 'start', laufend = null, training = null;
+  function zeige(name, opt) {
+    if (laufend && name !== 'sprint' && name !== 'ergebnis') {
+      if (!confirm('Der Sprint läuft noch. Wirklich abbrechen? Das Ergebnis wird nicht gespeichert.')) return;
+      stoppeUhr(); aufraeumen(); laufend = null;
+    }
+    ansicht = name; modalZu();
+    document.body.classList.toggle('versteckt-im-sprint', name === 'sprint');
+    [].forEach.call(document.querySelectorAll('#reiter button'), function (b) { b.classList.toggle('aktiv', b.getAttribute('data-ansicht') === name || (name === 'training' && b.getAttribute('data-ansicht') === 'themen')); });
+    ({ start: startAnsicht, sprint: sprintAnsicht, ergebnis: ergebnisAnsicht, themen: themenAnsicht, training: trainingAnsicht, verlauf: verlaufAnsicht, hilfe: hilfeAnsicht, lehrer: lehrerAnsicht })[name](opt);
+    window.scrollTo(0, 0);
+  }
+  document.getElementById('reiter').addEventListener('click', function (e) { var b = e.target.closest('button[data-ansicht]'); if (b) zeige(b.getAttribute('data-ansicht')); });
+  window.addEventListener('beforeunload', function (e) { if (laufend) { e.preventDefault(); e.returnValue = ''; } });
+
+  // Knöpfe mit data-aktion überall (auch im Fenster)
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-aktion]'); if (!b) return;
+    var a = b.getAttribute('data-aktion');
+    if (a === 'erklaerung') zeigeErklaerung(b.getAttribute('data-thema'));
+    else if (a === 'ueben') { modalZu(); starteTraining(b.getAttribute('data-themen').split(','), b.getAttribute('data-titel') || null); }
+    else if (a === 'zeige') zeige(b.getAttribute('data-ziel'));
+    else if (a === 'sprint') starteSprint(+b.getAttribute('data-nr'), b.getAttribute('data-zeit') !== '0');
+  });
+
+  /* =========================================================
+     START
+     ========================================================= */
+  function naechsteNummer() { for (var n = 1; n <= SP.ANZAHL_NUMMERN; n++) { if (!D.sprints.some(function (s) { return s.nr === n; })) return n; } return 0; }
+  function bestZu(nr) { var b = null; D.sprints.forEach(function (s) { if (s.nr === nr && (b === null || s.punkte > b)) b = s.punkte; }); return b; }
+  function startAnsicht() {
+    var g = gewertet(), letzter = D.sprints[D.sprints.length - 1], best = g.length ? Math.max.apply(null, g.map(function (s) { return s.punkte; })) : null, nn = naechsteNummer();
+    var opts = '<option value="zufall"' + (nn === 0 ? ' selected' : '') + '>Zufalls-Sprint (immer neue Aufgaben)</option>';
+    for (var n = 1; n <= SP.ANZAHL_NUMMERN; n++) { var b = bestZu(n); opts += '<option value="' + n + '"' + (n === nn ? ' selected' : '') + '>Sprint ' + n + (b !== null ? '  ✓ bisher ' + b + '/20' : '') + '</option>'; }
+    var baustellen = schwacheThemen(3);
+    app.innerHTML =
+      '<section class="karte held"><h1>' + (D.name ? 'Hallo ' + esc(D.name) + '!' : 'Mathe-Sprint') + '</h1>' +
+      '<p>20 Aufgaben · 5 Minuten · ohne Taschenrechner – wie im <b>ersten Teil der ZP 10</b>. Alles aus der Sek I, was ihr schon gemacht habt.</p>' +
+      (letzter ? '<p class="klein">Zuletzt: ' + sprintName(letzter.nr) + ' – ' + letzter.punkte + '/20 am ' + datum(letzter.datum) + (best !== null ? ' · dein Bestwert: ' + best + '/20' : '') + '</p>' : '') + '</section>' +
+      '<section class="karte"><h2 style="margin-top:0">⚡ Sprint starten</h2>' +
+      '<label class="feldname" for="wahl-nr">Welcher Sprint?</label><select id="wahl-nr">' + opts + '</select>' +
+      '<p class="klein">Sprint 1 bis ' + SP.ANZAHL_NUMMERN + ' sind auf jedem Handy gleich – so könnt ihr euch vergleichen. Der Zufalls-Sprint ist jedes Mal neu.</p>' +
+      '<div class="wahlkacheln" role="radiogroup"><label><input type="radio" name="modus" value="1" checked><span><b>Mit Uhr (5:00)</b><br><span class="klein">zählt für deinen Verlauf und deine Rangliste</span></span></label>' +
+      '<label><input type="radio" name="modus" value="0"><span><b>Ohne Zeitdruck</b><br><span class="klein">in Ruhe üben, zählt nicht für die Rangliste</span></span></label></div>' +
+      '<button type="button" class="knopf haupt gross" id="los">Los geht’s!</button></section>' +
+      '<section class="karte"><h3 style="margin-top:0">So tippst du die Ergebnisse ein</h3><ul class="regeln">' +
+      '<li>Nur das <b>Ergebnis</b> eintippen, kein Rechenweg. Die Einheit steht schon da.</li><li>Komma mit <b>,</b> (z. B. 0,75) · negative Zahlen mit der Taste <b>−</b> unter dem Feld</li>' +
+      '<li>Brüche mit <b>/</b> (z. B. 3/8) – die Taste erscheint, wenn ein Bruch passt</li><li>Bei Auswahlaufgaben tippst du die richtige Antwort an.</li><li>Überspringen ist erlaubt – du kannst zurückscrollen.</li><li>Schmierpapier ist erlaubt, Taschenrechner nicht.</li></ul></section>' +
+      '<div class="raster2"><section class="karte"><h3 style="margin-top:0">🎯 Gezielt üben</h3>' +
+      (baustellen.length ? '<p>Deine Baustellen:</p><div class="chips">' + baustellen.map(function (id) { return '<span class="chip">' + themaName(id) + '</span>'; }).join('') + '</div><button type="button" class="knopf akzent" data-aktion="ueben" data-themen="' + baustellen.join(',') + '" data-titel="Meine Baustellen">Baustellen üben</button>'
+        : '<p>25 Themen mit Erklärungen und Übungspaketen – von Kopfrechnen bis Pythagoras.</p>') +
+      ' <button type="button" class="knopf rand" data-aktion="zeige" data-ziel="themen">Alle Themen</button></section>' +
+      '<section class="karte"><h3 style="margin-top:0">📈 Mein Verlauf</h3>' + (g.length ? miniKurve(g) : '<p>Nach deinem ersten Sprint mit Uhr siehst du hier deine Entwicklung und deine Rangliste.</p>') +
+      '<button type="button" class="knopf rand" data-aktion="zeige" data-ziel="verlauf">Verlauf und Rangliste</button></section></div>' +
+      '<section class="karte"><label class="feldname" for="name">Dein Vorname oder Spitzname (freiwillig)</label><input class="text" id="name" maxlength="30" value="' + esc(D.name) + '" placeholder="z. B. Mia">' +
+      '<p class="klein">Alle Ergebnisse bleiben <b>nur auf diesem Gerät</b> gespeichert. Nichts wird ins Internet geschickt.</p></section>' +
+      '<p class="klein" style="text-align:center"><button type="button" class="textlink" data-aktion="zeige" data-ziel="lehrer">Für die Lehrkraft: Sprint am Beamer zeigen oder drucken</button></p>';
+    document.getElementById('name').addEventListener('change', function () { D.name = this.value.trim().slice(0, 30); speichern(); });
+    document.getElementById('los').addEventListener('click', function () {
+      var w = document.getElementById('wahl-nr').value, nr = w === 'zufall' ? 1000 + Math.floor(Math.random() * 90000) : +w;
+      starteSprint(nr, document.querySelector('input[name=modus]:checked').value === '1');
+    });
+  }
+
+  /* =========================================================
+     SPRINT
+     ========================================================= */
+  var uhrId = null;
+  function stoppeUhr() { if (uhrId) { clearInterval(uhrId); uhrId = null; } }
+  function starteSprint(nr, mitZeit) {
+    stoppeUhr();
+    laufend = { nr: nr, mitZeit: mitZeit, aufgaben: SP.sprint(nr), antworten: [], start: Date.now() };
+    zeige('sprint');
+  }
+  function sprintAnsicht() {
+    var L = laufend; aufraeumen();
+    app.innerHTML = '<div class="sprintleiste"><div class="uhr" id="uhr">' + (L.mitZeit ? '5:00' : '0:00') + '</div><div class="stand"><b id="stand">0/20</b> beantwortet<br><span class="klein-hell">' + sprintName(L.nr) + (L.mitZeit ? '' : ' · ohne Zeitdruck') + '</span><div class="balken"><i id="balken"></i></div></div>' +
+      '<button type="button" class="knopf akzent" id="abgeben">Abgeben</button></div>' +
+      '<ol class="aufgaben">' + L.aufgaben.map(function (a, i) {
+        return '<li class="karte aufgabe" id="a' + i + '"><div class="nr">' + (i + 1) + '</div><div><div class="thema">' + themaName(a.thema) + '</div><div class="atext">' + a.text + '</div></div><div class="antwort">' + antwortFeld(a, i, L.antworten[i]) + '</div></li>';
+      }).join('') + '</ol><button type="button" class="knopf haupt gross" id="abgeben2">Fertig – abgeben</button>';
+    app.addEventListener('input', sprintEingabe);
+    app.addEventListener('keydown', sprintTaste);
+    app.addEventListener('click', sprintKlick);
+    zaehle();
+    uhrId = setInterval(tick, 250); tick();
+    var erstes = app.querySelector('input[data-i]'); if (erstes && window.matchMedia('(min-width: 700px)').matches) erstes.focus();
+  }
+  function aufraeumen() { app.removeEventListener('input', sprintEingabe); app.removeEventListener('keydown', sprintTaste); app.removeEventListener('click', sprintKlick); }
+  function sprintEingabe(e) { var i = e.target.getAttribute('data-i'); if (i === null || !laufend) return; laufend.antworten[+i] = e.target.value; zaehle(); }
+  function sprintTaste(e) {
+    if (!laufend || e.key !== 'Enter' || !e.target.matches('input[data-i]')) return;
+    e.preventDefault(); var i = +e.target.getAttribute('data-i'), weiter = document.getElementById('a' + (i + 1));
+    if (weiter) { var inp = weiter.querySelector('input'); if (inp) inp.focus(); else { e.target.blur(); weiter.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
+    else e.target.blur();
+  }
+  function sprintKlick(e) {
+    if (!laufend) return;
+    var o = e.target.closest('.opt');
+    if (o) { var i = +o.getAttribute('data-i'); laufend.antworten[i] = o.getAttribute('data-o'); [].forEach.call(o.parentNode.children, function (b) { b.classList.toggle('gewaehlt', b === o); }); zaehle(); return; }
+    var t = e.target.closest('[data-taste]');
+    if (t) { taste(app.querySelector('input[data-i="' + t.getAttribute('data-i') + '"]'), t.getAttribute('data-taste')); return; }
+    if (e.target.id === 'abgeben' || e.target.id === 'abgeben2') {
+      var offen = 20 - anzahlBeantwortet();
+      if (offen > 0 && !confirm('Noch ' + offen + (offen === 1 ? ' Aufgabe' : ' Aufgaben') + ' ohne Antwort. Trotzdem abgeben?')) return;
+      abgeben(false);
+    }
+  }
+  function anzahlBeantwortet() { var n = 0; for (var i = 0; i < 20; i++) { if (laufend.antworten[i] !== undefined && String(laufend.antworten[i]).trim() !== '') n++; } return n; }
+  function zaehle() {
+    var n = anzahlBeantwortet(), s = document.getElementById('stand'), b = document.getElementById('balken');
+    if (s) s.textContent = n + '/20'; if (b) b.style.width = (n * 5) + '%';
+    for (var i = 0; i < 20; i++) { var li = document.getElementById('a' + i); if (li) li.classList.toggle('beantwortet', laufend.antworten[i] !== undefined && String(laufend.antworten[i]).trim() !== ''); }
+  }
+  function tick() {
+    if (!laufend) return stoppeUhr();
+    var vergangen = (Date.now() - laufend.start) / 1000, u = document.getElementById('uhr');
+    if (laufend.mitZeit) {
+      var rest = ZEIT - vergangen; if (u) { u.textContent = uhr(rest); u.classList.toggle('knapp', rest <= 60); }
+      if (rest <= 0) abgeben(true);
+    } else if (u) u.textContent = uhr(vergangen);
+  }
+  function abgeben(zeitUm) {
+    var L = laufend; if (!L) return; stoppeUhr(); aufraeumen();
+    var zeit = Math.min(L.mitZeit ? ZEIT : 99 * 60, Math.round((Date.now() - L.start) / 1000));
+    var bew = L.aufgaben.map(function (a, i) { return bewerte(a, L.antworten[i]); }), punkte = bew.filter(function (b) { return b.status === 'richtig'; }).length;
+    var frueher = gewertet(), bestVorher = frueher.length ? Math.max.apply(null, frueher.map(function (s) { return s.punkte; })) : null;
+    var gleicheNr = D.sprints.filter(function (s) { return s.nr === L.nr; }).pop() || null;
+    var eintrag = { nr: L.nr, datum: new Date().toISOString(), punkte: punkte, zeit: zeit, mitZeit: L.mitZeit, themen: L.aufgaben.map(function (a) { return a.thema; }), ok: bew.map(function (b) { return b.status === 'richtig' ? 1 : 0; }) };
+    D.sprints.push(eintrag);
+    L.aufgaben.forEach(function (a, i) { if (bew[i].status !== 'leer') merkeThema(a.thema, eintrag.ok[i]); });   // Unbeantwortetes zählt nicht als Schwäche
+    speichern();
+    var erg = { L: L, bew: bew, punkte: punkte, zeit: zeit, zeitUm: zeitUm, bestVorher: bestVorher, gleicheNr: gleicheNr, eintrag: eintrag };
+    laufend = null;
+    zeige('ergebnis', erg);
+  }
+
+  /* =========================================================
+     ERGEBNIS
+     ========================================================= */
+  function lob(p) { return p >= 19 ? 'Überragend! 🏆' : p >= 16 ? 'Stark gemacht! 💪' : p >= 12 ? 'Gut – schau dir die Fehler genau an.' : p >= 8 ? 'Solide Basis. Üb gezielt die Themen unten.' : 'Dranbleiben! Jeder Sprint macht dich schneller.'; }
+  function ergebnisAnsicht(E) {
+    var L = E.L, neuRekord = L.mitZeit && (E.bestVorher === null || E.punkte > E.bestVorher) && gewertet().length > 1;
+    var falscheThemen = [], leere = 0; L.aufgaben.forEach(function (a, i) { var st = E.bew[i].status; if (st === 'leer') leere++; else if (st !== 'richtig' && falscheThemen.indexOf(a.thema) < 0) falscheThemen.push(a.thema); });
+    var symbol = { richtig: '✅', falsch: '❌', fast: '🟠', leer: '⬜' };
+    app.innerHTML =
+      '<section class="karte held ergebnis-kopf">' + (E.zeitUm ? '<p class="klein">⏰ Die Zeit ist um!</p>' : '') +
+      '<div class="punkte">' + E.punkte + '<small> / 20</small></div><p class="lob">' + lob(E.punkte) + '</p>' +
+      (neuRekord ? '<span class="rekord">Neuer Bestwert!</span>' : '') +
+      '<div class="vergleich"><span>⏱ ' + uhr(E.zeit) + (L.mitZeit ? '' : ' (ohne Zeitdruck)') + '</span><span>' + sprintName(L.nr) + '</span>' +
+      (E.bestVorher !== null && L.mitZeit ? '<span>Bestwert vorher: ' + E.bestVorher + '/20</span>' : '') +
+      (E.gleicheNr ? '<span>Dieser Sprint am ' + datum(E.gleicheNr.datum).split(',')[0] + ': ' + E.gleicheNr.punkte + '/20 → ' + (E.punkte - E.gleicheNr.punkte >= 0 ? '+' : '') + (E.punkte - E.gleicheNr.punkte) + '</span>' : '') + '</div></section>' +
+      (falscheThemen.length ? '<section class="karte"><h3 style="margin-top:0">Das solltest du üben</h3><div class="chips">' + falscheThemen.map(function (id) { return '<span class="chip">' + themaName(id) + '</span>'; }).join('') + '</div>' +
+        '<button type="button" class="knopf akzent" data-aktion="ueben" data-themen="' + falscheThemen.join(',') + '" data-titel="Fehler aus ' + sprintName(L.nr) + '">Genau diese Themen üben (10 Aufgaben)</button>' +
+        (leere ? '<p class="klein">' + leere + (leere === 1 ? ' Aufgabe hast du' : ' Aufgaben hast du') + ' nicht geschafft – die zählen hier nicht als Fehler. Schau sie dir trotzdem unten an.</p>' : '') + '</section>'
+        : (leere === 20 ? '<section class="karte"><p>Du hast keine Aufgabe beantwortet. Fang ruhig mit den ersten Aufgaben an – die sind am leichtesten. Unten findest du alle Lösungen.</p></section>'
+        : leere ? '<section class="karte"><p>Kein einziger Fehler bei den bearbeiteten Aufgaben! ' + leere + (leere === 1 ? ' Aufgabe hast du' : ' Aufgaben hast du') + ' nicht geschafft – nächstes Mal etwas schneller. 🚀</p></section>' : '')) +
+      '<section class="karte"><h2 style="margin-top:0">Deine Aufgaben</h2><p class="klein">Tippe eine Aufgabe an: Du siehst die richtige Lösung, den Rechenweg und einen Tipp. Zu jedem Thema gibt es eine Erklärung.</p>' +
+      L.aufgaben.map(function (a, i) {
+        var b = E.bew[i];
+        return '<details class="erg ' + b.status + '"' + '><summary><span class="zeichen">' + symbol[b.status] + '</span><span><b>' + (i + 1) + '.</b> ' + themaName(a.thema) + '</span><span class="mehr">Lösung ›</span></summary>' +
+          '<div class="erg-innen"><div class="atext">' + a.text + '</div><dl class="paar"><dt>Deine Antwort</dt><dd>' + antwortText(a, L.antworten[i]) + '</dd><dt>Richtig ist</dt><dd><b>' + loesungText(a) + '</b></dd></dl>' +
+          '<div class="weg"><b>So geht’s:</b> ' + a.weg + '</div>' + (b.status !== 'richtig' ? '<div class="tipp">' + (b.status === 'leer' ? 'Tipp: ' + a.tipp : b.text) + '</div>' : '') +
+          '<div class="zeile"><button type="button" class="knopf klein rand" data-aktion="erklaerung" data-thema="' + a.thema + '">Erklärung zum Thema</button>' +
+          '<button type="button" class="knopf klein" data-aktion="ueben" data-themen="' + a.thema + '">Ähnliche Aufgaben üben</button></div></div></details>';
+      }).join('') + '</section>' +
+      '<div class="zeile nicht-drucken"><button type="button" class="knopf haupt" data-aktion="sprint" data-nr="' + (L.nr < 1000 && L.nr < SP.ANZAHL_NUMMERN ? L.nr + 1 : 1000 + Math.floor(Math.random() * 90000)) + '" data-zeit="' + (L.mitZeit ? 1 : 0) + '">Nächster Sprint</button>' +
+      '<button type="button" class="knopf rand" data-aktion="sprint" data-nr="' + L.nr + '" data-zeit="' + (L.mitZeit ? 1 : 0) + '">Diesen Sprint wiederholen</button>' +
+      '<button type="button" class="knopf" data-aktion="zeige" data-ziel="verlauf">Mein Verlauf</button></div>';
+  }
+
+  /* =========================================================
+     THEMEN UND TRAINING
+     ========================================================= */
+  function schwacheThemen(n) {
+    return SP.THEMEN.map(function (t) { return { id: t.id, q: quote(t.id) }; })
+      .filter(function (x) { return x.q && x.q.n >= 3 && x.q.q < 0.8; })
+      .sort(function (a, b) { return a.q.q - b.q.q; }).slice(0, n).map(function (x) { return x.id; });
+  }
+  function themenAnsicht() {
+    var bs = schwacheThemen(4);
+    app.innerHTML = '<h1>Gezielt üben</h1><p>Wähle ein Thema: 10 Aufgaben, sofort Rückmeldung, bei Fehlern ein Tipp und ein zweiter Versuch. Die Punkte zeigen, wie sicher du bist ' +
+      '(<span class="ampel gruen"></span>sicher <span class="ampel gelb"></span>geht so <span class="ampel rot"></span>Baustelle).</p>' +
+      '<section class="karte"><h3 style="margin-top:0">🎯 Meine Baustellen</h3>' + (bs.length ? '<div class="chips">' + bs.map(function (id) { return '<span class="chip">' + themaName(id) + '</span>'; }).join('') + '</div><button type="button" class="knopf akzent" data-aktion="ueben" data-themen="' + bs.join(',') + '" data-titel="Meine Baustellen">Baustellen üben</button>'
+        : '<p class="klein">Noch keine Baustellen bekannt. Mach einen Sprint – danach schlage ich dir hier deine schwächsten Themen vor.</p>') +
+      ' <button type="button" class="knopf rand" data-aktion="ueben" data-themen="' + SP.THEMEN.map(function (t) { return t.id; }).join(',') + '" data-titel="ZP-Mix">ZP-Mix (alles gemischt)</button></section>' +
+      SP.BEREICHE.map(function (b) {
+        var ts = SP.THEMEN.filter(function (t) { return t.bereich === b.id; });
+        return '<section class="karte"><div class="zeile" style="justify-content:space-between"><h2 style="margin:0">' + b.name + '</h2><button type="button" class="knopf klein rand" data-aktion="ueben" data-themen="' + ts.map(function (t) { return t.id; }).join(',') + '" data-titel="' + b.name + '">ganzen Bereich üben</button></div>' +
+          ts.map(function (t) {
+            var q = quote(t.id);
+            return '<div class="thema-zeile"><div><span class="ampel ' + ampel(q) + '"></span><span class="thema-name">' + t.name + '</span><br><span class="klein">Klasse ' + t.klasse + (q ? ' · zuletzt ' + q.r + ' von ' + q.n + ' richtig' : ' · noch nicht geübt') + '</span></div>' +
+              '<div class="thema-knoepfe"><button type="button" class="knopf klein rand" data-aktion="erklaerung" data-thema="' + t.id + '" aria-label="Erklärung ' + t.name + '">?</button><button type="button" class="knopf klein haupt" data-aktion="ueben" data-themen="' + t.id + '">Üben</button></div></div>';
+          }).join('') + '</section>';
+      }).join('');
+  }
+  function starteTraining(ids, titel) {
+    ids = ids.filter(function (id) { return SP.THEMA[id]; }); if (!ids.length) return;
+    training = { ids: ids, titel: titel || (ids.length === 1 ? themaName(ids[0]) : ids.length + ' Themen'), aufgaben: SP.paket(ids, 10), i: 0, versuch: 0, erst: [], fertig: false };
+    zeige('training');
+  }
+  function trainingAnsicht() {
+    var T = training; if (!T) return zeige('themen');
+    var bar = '<div class="fortschritt">' + T.aufgaben.map(function (_, k) { return '<i class="' + (k < T.erst.length ? (T.erst[k] === 1 ? 'r' : T.erst[k] === 2 ? 'j' : 'f') : '') + '"></i>'; }).join('') + '</div>';
+    if (T.i >= T.aufgaben.length) {
+      var r = T.erst.filter(function (x) { return x === 1; }).length, zweiter = T.erst.filter(function (x) { return x === 2; }).length;
+      D.uebungen.push({ datum: new Date().toISOString(), titel: T.titel, themen: T.ids, richtig: r, anzahl: T.aufgaben.length }); if (D.uebungen.length > 200) D.uebungen.shift(); speichern();
+      app.innerHTML = '<h1>' + esc(T.titel) + '</h1>' + bar + '<section class="karte held ergebnis-kopf"><div class="punkte">' + r + '<small> / ' + T.aufgaben.length + '</small></div><p class="lob">beim ersten Versuch richtig' + (zweiter ? ' · ' + zweiter + '× im zweiten Versuch' : '') + '</p></section>' +
+        '<div class="zeile"><button type="button" class="knopf haupt" data-aktion="ueben" data-themen="' + T.ids.join(',') + '" data-titel="' + esc(T.titel) + '">Noch 10 Aufgaben</button>' +
+        (T.ids.length === 1 ? '<button type="button" class="knopf rand" data-aktion="erklaerung" data-thema="' + T.ids[0] + '">Erklärung ansehen</button>' : '') +
+        '<button type="button" class="knopf" data-aktion="zeige" data-ziel="themen">Andere Themen</button><button type="button" class="knopf" data-aktion="zeige" data-ziel="start">Zum Sprint</button></div>';
+      return;
+    }
+    var a = T.aufgaben[T.i];
+    app.innerHTML = '<p class="klein" style="margin-bottom:0">' + esc(T.titel) + '</p><h1 style="margin-top:0">Aufgabe ' + (T.i + 1) + ' von ' + T.aufgaben.length + '</h1>' + bar +
+      '<section class="karte aufgabe" id="a0"><div class="nr">' + (T.i + 1) + '</div><div><div class="thema">' + themaName(a.thema) + ' · <button type="button" class="textlink" data-aktion="erklaerung" data-thema="' + a.thema + '">Erklärung</button></div><div class="atext">' + a.text + '</div></div>' +
+      '<div class="antwort">' + antwortFeld(a, 0, '') + '</div></section><div id="rm"></div>' +
+      '<div class="zeile" id="tknoepfe"><button type="button" class="knopf haupt" id="pruefen">Prüfen</button><button type="button" class="textlink" id="zeigen">Lösung zeigen</button></div>';
+    var gewaehlt = null, inp = app.querySelector('input[data-i]');
+    if (inp) { inp.setAttribute('enterkeyhint', 'done'); inp.focus(); inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); pruefen(); } }); }
+    app.querySelectorAll('.opt').forEach(function (o) { o.addEventListener('click', function () { gewaehlt = o.getAttribute('data-o'); app.querySelectorAll('.opt').forEach(function (x) { x.classList.toggle('gewaehlt', x === o); }); }); });
+    app.querySelectorAll('[data-taste]').forEach(function (t) { t.addEventListener('click', function () { taste(inp, t.getAttribute('data-taste')); }); });
+    document.getElementById('pruefen').addEventListener('click', pruefen);
+    document.getElementById('zeigen').addEventListener('click', function () { aufloesen(false); });
+    function pruefen() {
+      var e = a.art === 'wahl' ? gewaehlt : (inp ? inp.value : ''), b = bewerte(a, e);
+      if (b.status === 'leer') { document.getElementById('rm').innerHTML = '<div class="rueckmeldung fast">Gib zuerst eine Antwort ein.</div>'; return; }
+      T.versuch++;
+      if (b.status === 'richtig') { merkeThema(a.thema, T.versuch === 1); T.erst.push(T.versuch === 1 ? 1 : 2); speichern(); fertigKarte('richtig', '✅ <b>Richtig!</b>'); return; }
+      if (T.versuch === 1) {
+        document.getElementById('rm').innerHTML = '<div class="rueckmeldung ' + (b.status === 'fast' ? 'fast' : 'falsch') + '">' + (b.status === 'fast' ? '🟠 ' : '❌ ') + b.text + '<br><span class="klein">Du hast noch einen Versuch.</span></div>';
+        if (a.art === 'wahl') app.querySelectorAll('.opt').forEach(function (x) { if (x.getAttribute('data-o') === String(e)) { x.classList.add('falsch'); x.disabled = true; } });
+        if (inp) { inp.select(); }
+        return;
+      }
+      aufloesen(true, b);
+    }
+    function aufloesen(nachZweitemVersuch, b) {
+      merkeThema(a.thema, false); T.erst.push(0); speichern();
+      fertigKarte('falsch', (nachZweitemVersuch ? '❌ ' + (b && b.status === 'fast' ? b.text : 'Leider noch nicht.') + '<br>' : '') + 'Richtig ist: <b>' + loesungText(a) + '</b>');
+    }
+    function fertigKarte(art, kopf) {
+      if (inp) inp.disabled = true;
+      var seg = app.querySelectorAll('.fortschritt i')[T.i]; if (seg) seg.className = T.erst[T.i] === 1 ? 'r' : T.erst[T.i] === 2 ? 'j' : 'f';
+      app.querySelectorAll('.opt').forEach(function (x) { x.disabled = true; if (+x.getAttribute('data-o') === a.loesung) x.classList.add('richtig'); });
+      document.getElementById('rm').innerHTML = '<div class="rueckmeldung ' + art + '">' + kopf + '</div><div class="weg"><b>So geht’s:</b> ' + a.weg + '</div>' + (art === 'falsch' ? '<div class="tipp"><b>Merke:</b> ' + a.tipp + '</div>' : '');
+      document.getElementById('tknoepfe').innerHTML = '<button type="button" class="knopf haupt" id="weiter">' + (T.i + 1 < T.aufgaben.length ? 'Nächste Aufgabe' : 'Auswertung') + '</button>' +
+        (art === 'falsch' ? '<button type="button" class="knopf rand" data-aktion="erklaerung" data-thema="' + a.thema + '">Erklärung zum Thema</button>' : '');
+      var w = document.getElementById('weiter'); w.focus();
+      w.addEventListener('click', function () { T.i++; T.versuch = 0; trainingAnsicht(); window.scrollTo(0, 0); });
+    }
+  }
+
+  /* =========================================================
+     VERLAUF UND RANGLISTE
+     ========================================================= */
+  function kurve(liste, hoch) {
+    var W = 420, H = hoch || 230, l = 30, r = 12, o = 12, u = 26, n = liste.length, x = function (i) { return l + (n === 1 ? (W - l - r) / 2 : i * (W - l - r) / (n - 1)); }, y = function (p) { return o + (20 - p) * (H - o - u) / 20; };
+    var s = '<svg class="kurve" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Punkte deiner Sprints">';
+    [0, 5, 10, 15, 20].forEach(function (p) { s += '<line x1="' + l + '" x2="' + (W - r) + '" y1="' + y(p) + '" y2="' + y(p) + '" stroke="#DCE4F0"/><text x="' + (l - 8) + '" y="' + (y(p) + 4) + '" font-size="14" text-anchor="end" fill="#55607A">' + p + '</text>'; });
+    s += '<polyline fill="none" stroke="#2E8B6F" stroke-width="3" stroke-linejoin="round" points="' + liste.map(function (sp, i) { return x(i) + ',' + y(sp.punkte); }).join(' ') + '"/>';
+    var best = Math.max.apply(null, liste.map(function (sp) { return sp.punkte; }));
+    liste.forEach(function (sp, i) { s += '<circle cx="' + x(i) + '" cy="' + y(sp.punkte) + '" r="' + (sp.punkte === best ? 6 : 4.5) + '" fill="' + (sp.punkte === best ? '#E07B39' : '#2E8B6F') + '" stroke="#fff" stroke-width="2"><title>' + sprintName(sp.nr) + ': ' + sp.punkte + '/20 (' + datum(sp.datum) + ')</title></circle>'; });
+    s += '<text x="' + l + '" y="' + (H - 6) + '" font-size="14" fill="#55607A">1. Sprint</text><text x="' + (W - r) + '" y="' + (H - 6) + '" font-size="14" text-anchor="end" fill="#55607A">' + n + '. Sprint</text></svg>';
+    return s;
+  }
+  function miniKurve(g) { var t = g.slice(-15); return kurve(t, 150) + '<p class="klein">Letzte ' + t.length + ' Sprints mit Uhr · orange = dein Bestwert</p>'; }
+  function schnitt(l) { if (!l.length) return 0; var s = 0; l.forEach(function (x) { s += x.punkte; }); return s / l.length; }
+  function verlaufAnsicht() {
+    var g = gewertet();
+    if (!D.sprints.length && !D.uebungen.length) {
+      app.innerHTML = '<h1>Mein Verlauf</h1><section class="karte"><p>Hier erscheinen deine Ergebnisse, deine Rangliste und deine Entwicklung – sobald du deinen ersten Sprint gemacht hast.</p><button type="button" class="knopf haupt" data-aktion="zeige" data-ziel="start">Ersten Sprint starten</button></section>';
+      return;
+    }
+    var best = g.length ? Math.max.apply(null, g.map(function (s) { return s.punkte; })) : null, trend = '';
+    if (g.length >= 6) { var d = schnitt(g.slice(-5)) - schnitt(g.slice(0, 5)); trend = (d >= 0 ? '+' : '−') + ML.zahl(Math.abs(d), 1); }
+    var rang = g.map(function (s, i) { s._i = i; return s; }).slice().sort(function (a, b) { return b.punkte - a.punkte || a.zeit - b.zeit || a._i - b._i; }).slice(0, 10);
+    var medaille = ['🥇', '🥈', '🥉'];
+    var themen = SP.THEMEN.map(function (t) { return { t: t, q: quote(t.id) }; }).filter(function (x) { return x.q; }).sort(function (a, b) { return a.q.q - b.q.q; });
+    app.innerHTML = '<h1>' + (D.name ? 'Verlauf von ' + esc(D.name) : 'Mein Verlauf') + '</h1>' +
+      '<div class="kacheln"><div class="kachel"><b>' + g.length + '</b><span>Sprints mit Uhr</span></div><div class="kachel"><b>' + (best === null ? '–' : best + '/20') + '</b><span>Bestwert</span></div>' +
+      '<div class="kachel"><b>' + (g.length ? ML.zahl(schnitt(g.slice(-5)), 1) : '–') + '</b><span>Schnitt der letzten 5</span></div><div class="kachel"><b>' + (trend || '–') + '</b><span>' + (trend ? 'Punkte gegenüber deinen ersten 5' : 'Trend ab 6 Sprints') + '</span></div></div>' +
+      (g.length ? '<section class="karte"><h2 style="margin-top:0">Deine Entwicklung</h2>' + kurve(g) + '<p class="klein">Jeder Punkt ist ein Sprint mit Uhr. Orange = Bestwert. Tippe auf einen Punkt für Details.</p></section>' : '') +
+      (rang.length ? '<section class="karte"><h2 style="margin-top:0">🏆 Deine Rangliste (Top 10)</h2><div class="tabelle-scroll"><table class="liste"><thead><tr><th>Platz</th><th class="zahl">Punkte</th><th class="zahl">Zeit</th><th>Sprint</th><th>Wann</th></tr></thead><tbody>' +
+        rang.map(function (s, k) { return '<tr><td class="platz">' + (medaille[k] || (k + 1) + '.') + '</td><td class="zahl"><b>' + s.punkte + '</b>/20</td><td class="zahl">' + uhr(s.zeit) + '</td><td>' + sprintName(s.nr) + '</td><td>' + datum(s.datum) + '</td></tr>'; }).join('') +
+        '</tbody></table></div><p class="klein">Bei gleicher Punktzahl gewinnt die kürzere Zeit.</p></section>' : '') +
+      (themen.length ? '<section class="karte"><h2 style="margin-top:0">Themen-Ampel</h2><p class="klein">Deine letzten Versuche je Thema (aus Sprints und Übungen), schwächste zuerst.</p><div class="tabelle-scroll"><table class="liste"><tbody>' +
+        themen.map(function (x) { return '<tr><td><span class="ampel ' + ampel(x.q) + '"></span>' + x.t.name + '</td><td class="zahl">' + x.q.r + '/' + x.q.n + '</td><td class="zahl"><button type="button" class="knopf klein haupt" data-aktion="ueben" data-themen="' + x.t.id + '">Üben</button></td></tr>'; }).join('') +
+        '</tbody></table></div></section>' : '') +
+      '<section class="karte"><h2 style="margin-top:0">Alle Sprints</h2><div class="tabelle-scroll"><table class="liste"><thead><tr><th>Wann</th><th>Sprint</th><th class="zahl">Punkte</th><th class="zahl">Zeit</th><th></th></tr></thead><tbody>' +
+      D.sprints.slice().reverse().map(function (s) { return '<tr><td>' + datum(s.datum) + '</td><td>' + sprintName(s.nr) + (s.mitZeit ? '' : ' <span class="klein">(ohne Uhr)</span>') + '</td><td class="zahl"><b>' + s.punkte + '</b>/20</td><td class="zahl">' + uhr(s.zeit) + '</td><td class="zahl"><button type="button" class="knopf klein" data-aktion="sprint" data-nr="' + s.nr + '" data-zeit="1" aria-label="' + sprintName(s.nr) + ' wiederholen">↻</button></td></tr>'; }).join('') +
+      '</tbody></table></div></section>' +
+      (D.uebungen.length ? '<section class="karte"><h2 style="margin-top:0">Übungen</h2><div class="tabelle-scroll"><table class="liste"><tbody>' + D.uebungen.slice(-15).reverse().map(function (u) { return '<tr><td>' + datum(u.datum) + '</td><td>' + esc(u.titel) + '</td><td class="zahl">' + u.richtig + '/' + u.anzahl + '</td></tr>'; }).join('') + '</tbody></table></div></section>' : '') +
+      '<section class="karte"><p class="klein">Deine Daten liegen nur in diesem Browser auf diesem Gerät. Wenn du den Browserverlauf löschst oder im privaten Modus surfst, sind sie weg.</p><button type="button" class="knopf klein" id="loeschen">Alle meine Ergebnisse löschen</button></section>';
+    document.getElementById('loeschen').addEventListener('click', function () {
+      if (confirm('Wirklich alle Ergebnisse auf diesem Gerät löschen? Das kann man nicht rückgängig machen.')) { var n = D.name; D = leer(); D.name = n; speichern(); verlaufAnsicht(); }
+    });
+  }
+
+  /* =========================================================
+     ERKLÄRUNGEN
+     ========================================================= */
+  function hilfeAnsicht() {
+    app.innerHTML = '<h1>Erklärungen</h1><p>Zu jedem Thema: das Wichtigste in Kürze, Beispiele und die typische Falle. Mit „Üben“ bekommst du sofort 10 passende Aufgaben.</p>' +
+      SP.BEREICHE.map(function (b) {
+        return '<h2>' + b.name + '</h2>' + SP.THEMEN.filter(function (t) { return t.bereich === b.id; }).map(function (t) {
+          return '<details class="erkl" id="e-' + t.id + '"><summary>' + t.name + ' <span class="klein">· Kl. ' + t.klasse + '</span></summary><div class="erkl-innen"><div class="merk"><b>Das musst du wissen</b><br>' + t.merk + '</div><div class="bsp"><b>Beispiele</b><br>' + t.bsp + '</div><div class="falle"><b>Typische Falle</b><br>' + t.falle.split(' · ').join('<br>') + '</div>' +
+            '<button type="button" class="knopf klein haupt" data-aktion="ueben" data-themen="' + t.id + '">10 Aufgaben üben</button></div></details>';
+        }).join('');
+      }).join('');
+  }
+
+  /* =========================================================
+     LEHRKRAFT: Sprint am Beamer / drucken
+     ========================================================= */
+  function lehrerAnsicht(opt) {
+    var nr = (opt && opt.nr) || naechsteNummer() || 1, mitLoes = !!(opt && opt.loes), A = SP.sprint(nr), opts = '';
+    for (var n = 1; n <= SP.ANZAHL_NUMMERN; n++) opts += '<option value="' + n + '"' + (n === nr ? ' selected' : '') + '>Sprint ' + n + '</option>';
+    app.innerHTML = '<div class="nicht-drucken"><h1>Für die Lehrkraft</h1><p>Sprint ' + 1 + '–' + SP.ANZAHL_NUMMERN + ' sind auf allen Geräten identisch. So kann die Klasse denselben Sprint auf Papier oder am Handy schreiben und vergleichen.</p>' +
+      '<div class="zeile"><select id="l-nr" style="max-width:12rem">' + opts + '</select><label><input type="checkbox" id="l-loes"' + (mitLoes ? ' checked' : '') + '> Lösungen zeigen</label>' +
+      '<button type="button" class="knopf rand" id="l-druck">Drucken</button></div></div>' +
+      '<section class="karte"><h2 style="margin-top:0">Mathe-Sprint ' + nr + ' · 20 Aufgaben · 5 Minuten' + (mitLoes ? ' · Lösungen' : '') + '</h2><div class="beamer">' +
+      A.map(function (a, i) {
+        return '<div class="b-aufg"><span class="nr">' + (i + 1) + '</span><div>' + a.text + (a.art === 'wahl' ? '<div class="b-opt">' + a.optionen.map(function (o, k) { return String.fromCharCode(65 + k) + ') ' + o; }).join(' &nbsp; ') + '</div>' : '') + '</div>' +
+          (mitLoes ? '<div class="b-loes">→ ' + (a.art === 'wahl' ? String.fromCharCode(65 + a.loesung) + ') ' : '') + loesungText(a) + '</div>' : '') + '</div>';
+      }).join('') + '</div></section>';
+    function neu() { lehrerAnsicht({ nr: +document.getElementById('l-nr').value, loes: document.getElementById('l-loes').checked }); }
+    document.getElementById('l-nr').addEventListener('change', neu); document.getElementById('l-loes').addEventListener('change', neu);
+    document.getElementById('l-druck').addEventListener('click', function () { window.print(); });
+  }
+
+  zeige('start');
+})(ML);
+
+</script>
+</body>
+</html>
