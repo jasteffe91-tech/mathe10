@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pyramiden-Labor 3D</title>
+<style>
+/* Labor-Kern (CROSS-001) – Gestaltung aller Labor-Apps.
+   Farben: Palette „Mathe 10 G-Kurs“ (01_PERSOENLICH/gestaltungsrichtlinien.md §4), für Text auf Weiß
+   abgedunkelt bis Kontrast ≥ 4,5 : 1 (§2). Fachgrößen-Farben: Farbcode Dreifach Mathe 10 G
+   (08_QUELLEN/Schulbuecher/Dreifach_Mathe_10_G/DARSTELLUNGSKONVENTIONEN.md §1). */
+:root {
+  --dunkel: #1F2A44;        /* Nachtblau: Kopf */
+  --haupt: #23705A;         /* Grün #2E8B6F abgedunkelt (5,9 : 1) für Text und Knöpfe */
+  --haupt-hell: #2E8B6F;
+  --akzent: #E07B39;        /* Orange: nur Rahmen/Flächen, nie Text */
+  --hell: #EEF2F8;
+  --text: #111827;
+  --neben: #374151;
+  --linie: #9AA8BF;         /* kräftiger Rahmen statt blasser Fläche (Beamer) */
+  --fehler: #B3261E;
+  /* Fachgrößen (Buchfarben) */
+  --f-hk: #C62828;          /* Körperhöhe h_K: rot */
+  --f-ha: #7B3FA0;          /* Seitenhöhen h_a, h_b: lila */
+  --f-s: #23705A;           /* Seitenkante s: grün (im Buch für die Pyramide nicht festgelegt) */
+  --f-g: #1F5FAD;           /* Grundfläche und Strecken darin (a/2, b/2, d/2): blau */
+  --f-m: #9A4A12;           /* Mantel/Seitenflächen: orange (abgedunkelt für Text) */
+  --schrift: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 18px/1.45 var(--schrift); color: var(--text); background: #fff; }
+button, input, select { font: inherit; color: inherit; }
+sub, sup { font-size: 0.72em; line-height: 0; }
+
+/* ---------- ohne JavaScript / Fehler ---------- */
+.ohne-js { margin: 24px 16px; padding: 16px 18px; border: 3px solid var(--akzent); border-radius: 10px;
+  background: #FFF4E8; font-size: 20px; }
+.fehlerbox { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 50; padding: 12px 16px;
+  border: 3px solid var(--fehler); border-radius: 10px; background: #fff; color: var(--fehler); font-weight: 600; }
+.hinweis-fehler { padding: 10px 12px; border: 2px solid var(--fehler); border-radius: 8px; color: var(--fehler); font-weight: 600; }
+
+/* ---------- Seitengerüst ---------- */
+.kopf { background: var(--dunkel); color: #fff; padding: 12px 16px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 8px 16px; }
+.kopf-text { flex: 1 1 260px; }
+.kopf h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+.kopf .frage { margin: 2px 0 0; font-size: 19px; }
+.kopf .ziel { margin: 2px 0 0; font-size: 16px; opacity: 0.92; }
+.kopf .knopf { border-color: #fff; color: #fff; background: transparent; }
+.kopf .knopf[aria-pressed="true"] { background: #fff; color: var(--dunkel); }
+
+.lab { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 12px 16px; max-width: 1280px; margin: 0 auto; }
+.buehne-feld { position: sticky; top: 0; z-index: 5; align-self: start; background: #fff; padding-top: 4px; }
+.buehne { position: relative; height: min(88vw, 46vh); min-height: 260px; border: 2px solid var(--linie);
+  border-radius: 10px; background: #fff; overflow: hidden; touch-action: none; cursor: grab; outline: none; }
+.buehne:active { cursor: grabbing; }
+.buehne:focus-visible { box-shadow: 0 0 0 3px var(--akzent); }
+.buehne svg { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
+.buehne-info { margin: 4px 2px 0; font-size: 16px; color: var(--neben); }
+.steuer { min-width: 0; }
+.unten { max-width: 1280px; margin: 0 auto; padding: 0 16px 24px; }
+@media (min-width: 900px) {
+  .lab { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); align-items: start; }
+  .buehne-feld { top: 8px; }
+  .buehne { height: min(72vh, 640px); }
+}
+
+/* ---------- Karten, Knöpfe, Regler ---------- */
+.karte { border: 2px solid var(--linie); border-radius: 10px; padding: 10px 14px 12px; margin: 0 0 12px; background: #fff; }
+.karte > h2, .karte > summary { margin: 0 0 6px; font-size: 19px; font-weight: 700; }
+.karte p { margin: 4px 0; }
+.klein { font-size: 16px; color: var(--neben); }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.knopfreihe-titel { font-size: 16px; color: var(--neben); margin: 6px 0 0; }
+.knopf { min-height: 44px; padding: 6px 14px; border: 2px solid var(--haupt); border-radius: 8px; background: #fff;
+  color: var(--haupt); font-weight: 600; cursor: pointer; }
+.knopf[aria-pressed="true"] { background: var(--haupt); color: #fff; }
+.knopf:focus-visible, .schritt:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--akzent); outline-offset: 2px; }
+.knopf:disabled { opacity: 0.45; cursor: default; }
+.regler { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 10px; margin: 8px 0 4px; }
+.regler label { font-weight: 600; }
+.regler output { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 4.5em; text-align: right; }
+.regler-zeile { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.regler input[type="range"] { flex: 1; min-width: 0; height: 36px; margin: 0; accent-color: var(--haupt); }
+.schritt { width: 44px; height: 44px; flex: none; border: 2px solid var(--haupt); border-radius: 8px; background: #fff;
+  color: var(--haupt); font-size: 22px; font-weight: 700; line-height: 1; cursor: pointer; }
+.regler.aus { opacity: 0.5; }
+.schalter { display: flex; align-items: center; gap: 10px; min-height: 40px; margin: 2px 0; cursor: pointer; }
+.schalter input { width: 22px; height: 22px; margin: 0; accent-color: var(--haupt); flex: none; }
+.auswahl { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.auswahl select { min-height: 40px; padding: 4px 8px; border: 2px solid var(--haupt); border-radius: 8px; background: #fff; }
+
+/* ---------- Annahmen-Kasten ---------- */
+.annahmen { border-color: var(--haupt-hell); background: #F5F9F7; }
+.annahmen summary { cursor: pointer; }
+.annahmen ul { margin: 6px 0 0; padding-left: 22px; }
+
+/* ---------- Tafel, Gleichungen ---------- */
+.tafel { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tafel th, .tafel td { padding: 5px 6px; border-bottom: 1px solid #C9D3E3; text-align: left; vertical-align: top; }
+.tafel th { font-weight: 700; width: 5.5em; }
+.tafel td.wert { font-weight: 600; }
+.tafel tr.rw td { padding-top: 0; font-size: 16px; color: var(--neben); }
+.gleichung { margin: 6px 0 0; }
+.gleichung .zeile { padding: 3px 0; font-size: 19px; line-height: 1.6; }
+.gleichung .zeile.vor { font-size: 16px; color: var(--neben); }
+.gleichung .zeile.ergebnis { font-weight: 700; }
+.gleichung .rand { color: var(--neben); margin-left: 16px; white-space: nowrap; }
+.bruch { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; font-size: 0.82em;
+  line-height: 1.05; margin: 0 1px; }
+.bruch > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 2px; }
+.wz { white-space: nowrap; }
+.wz .rad { border-top: 1.5px solid currentColor; padding: 0 2px; }
+.c-hk { color: var(--f-hk); font-weight: 700; }
+.c-ha { color: var(--f-ha); font-weight: 700; }
+.c-s  { color: var(--f-s); font-weight: 700; }
+.c-g  { color: var(--f-g); font-weight: 700; }
+.c-m  { color: var(--f-m); font-weight: 700; }
+
+/* ---------- Aufgaben ---------- */
+.aufgaben { list-style: none; margin: 0; padding: 0; }
+.aufgaben li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #C9D3E3; }
+.niveau { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  border-radius: 6px; font-size: 20px; font-weight: 700; color: #111827; }
+.niveau.n1 { background: #FFD84D; }   /* ▽ gelb  */
+.niveau.n2 { background: #F4A259; }   /* ◪ orange */
+.niveau.n3 { background: #C9A3E0; }   /* ☒ lila  */
+.aufgaben details { margin-top: 4px; font-size: 16px; color: var(--neben); }
+.aufgaben summary { cursor: pointer; color: var(--haupt); font-weight: 600; }
+
+/* ---------- Zeichnungen (SVG) ---------- */
+.gitter line { stroke: #CBD5E3; stroke-width: 1; }
+.fl-g { fill: #8FBDEB; fill-opacity: 0.75; }
+.fl-m { fill: #F5B37E; fill-opacity: 0.3; }
+.fl-d { fill: #FFD84D; fill-opacity: 0.72; }
+.k { stroke: #111827; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+.k-d { stroke: #374151; stroke-width: 1.5; fill: none; }
+.s-hk { stroke: var(--f-hk); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.s-ha { stroke: var(--f-ha); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.s-s  { stroke: var(--f-s); stroke-width: 3.6; fill: none; stroke-linecap: round; }
+.s-g  { stroke: var(--f-g); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.v { stroke-dasharray: 7 6; stroke-linecap: butt; }
+.k.v { stroke-width: 1.6; stroke: #374151; }
+.s-hk.v, .s-ha.v, .s-s.v, .s-g.v { stroke-dasharray: 10 5; }   /* farbige Strecken im Inneren: lange Striche */
+.wi { fill: none; stroke-width: 1.8; }
+.wi.s-hk, .wi.s-ha, .wi.s-g, .wi.s-s { stroke-width: 1.8; }
+.pk { fill: #111827; }
+.t { font-family: var(--schrift); font-weight: 700; fill: #111827; paint-order: stroke; stroke: #fff;
+  stroke-width: 4px; stroke-linejoin: round; }
+.t-hk { fill: var(--f-hk); }
+.t-ha { fill: var(--f-ha); }
+.t-s  { fill: var(--f-s); }
+.t-g  { fill: var(--f-g); }
+.t-m  { fill: var(--f-m); }
+.bs { stroke-width: 1.6; }
+.bs.t-hk { stroke: var(--f-hk); } .bs.t-ha { stroke: var(--f-ha); } .bs.t-s { stroke: var(--f-s); }
+.bs.t-g { stroke: var(--f-g); } .bs.t { stroke: #111827; }
+.flach { display: block; width: 100%; max-width: 460px; height: auto; margin: 4px auto 0; }
+
+/* ---------- Beamer-Modus: große Schrift, dicke Linien, große Zeichenfläche ---------- */
+body.beamer { font-size: 22px; }
+body.beamer .kopf h1 { font-size: 34px; }
+body.beamer .kopf .frage { font-size: 26px; }
+body.beamer .kopf .ziel { font-size: 20px; }
+body.beamer .klein, body.beamer .buehne-info, body.beamer .tafel tr.rw td, body.beamer .gleichung .zeile.vor { font-size: 19px; }
+body.beamer .gleichung .zeile { font-size: 24px; }
+body.beamer .lab { max-width: none; }
+body.beamer .unten { max-width: none; }
+@media (min-width: 900px) {
+  body.beamer .lab { grid-template-columns: minmax(0, 2fr) minmax(360px, 1fr); }
+  body.beamer .buehne { height: 80vh; }
+}
+body.beamer .k { stroke-width: 3.4; }
+body.beamer .k.v { stroke-width: 2.4; }
+body.beamer .k-d { stroke-width: 2.2; }
+body.beamer .s-hk, body.beamer .s-ha, body.beamer .s-g { stroke-width: 5; }
+body.beamer .s-s { stroke-width: 5.4; }
+body.beamer .wi { stroke-width: 2.6; }
+body.beamer .v { stroke-dasharray: 10 8; }
+body.beamer .s-hk.v, body.beamer .s-ha.v, body.beamer .s-s.v, body.beamer .s-g.v { stroke-dasharray: 14 7; }
+body.beamer .t { stroke-width: 5px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+@media (max-width: 699px) {          /* Handy: Kopf kompakt, Beamer-Knopf weg */
+  .kopf { padding: 8px 16px; }
+  .kopf h1 { font-size: 22px; }
+  .kopf .frage { font-size: 18px; }
+  .kopf .ziel, .kopf .knopf { display: none; }
+  .knopf { padding: 6px 10px; font-size: 17px; }
+  .knopfreihe { gap: 5px; }
+  .karte { padding: 8px 10px 10px; }
+}
+
+</style>
+</head>
+<body>
+<div id="ohne-js" class="ohne-js"><strong>Pyramiden-Labor 3D</strong><br>Bitte im Browser öffnen (Safari oder Chrome). Diese Seite braucht JavaScript – die Vorschau auf dem iPhone (z. B. aus „Dateien“ oder einer Mail) zeigt sie nicht richtig.</div>
+<div id="app" hidden></div>
+<script>
+/* LAB – Labor-Kern (CROSS-001), erste Fassung für MATH-3D-001.
+   Enthält: Zahlformat (deutsch, Komma, „≈“), Speicher (nur Komfort), Seitengerüst, Regler mit Label,
+   Schalter, Knopfgruppe, Auswahl, Annahmen-Kasten, Beamer-Modus, Fehlermeldung, Hinweis ohne JavaScript.
+   Zahlformat übernommen aus werkzeuge/lernseite_mathe10g/kern/ml_basis.js (ML.runde, ML.zahl, ML.ungefaehr).
+   Beim Laden wird die Seite nicht angefasst – die Rechenteile laufen auch in den Tests (ohne Seite). */
+var LAB = (function () {
+  'use strict';
+
+  /* ---------- Zahlen (aus ML übernommen) ---------- */
+  // kaufmännisch runden; toPrecision(15) entfernt Gleitkomma-Rauschen (2,675 · 100 = 267,49999…)
+  function runde(x, stellen) {
+    if (!isFinite(x)) return x;
+    var f = Math.pow(10, stellen), y = Number((Math.abs(x) * f).toPrecision(15));
+    return (x < 0 ? -1 : 1) * Math.round(y) / f;
+  }
+  // deutsche Schreibweise: Komma, höchstens maxSt Nachkommastellen, Nullen am Ende weg, Tausender mit Leerzeichen
+  function zahl(x, maxSt) {
+    if (maxSt === undefined) maxSt = 2;
+    if (!isFinite(x)) return '–';
+    var r = runde(x, maxSt), neg = r < 0;
+    var s = Math.abs(r).toFixed(maxSt).split('.');
+    var ganz = s[0], dez = (s[1] || '').replace(/0+$/, '');
+    if (ganz.length > 3) ganz = ganz.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (neg && r !== 0 ? '−' : '') + ganz + (dez ? ',' + dez : '');
+  }
+  function istGenau(x, st) { return Math.abs(x - runde(x, st)) < 1e-9; }
+  function zeichen(x, st) { return istGenau(x, st) ? '=' : '≈'; }
+  // genaue Werte ohne Nullen am Ende (5), gerundete mit fester Stellenzahl (6,40) – wie im Buch
+  function wert(x, st) {
+    if (st === undefined) st = 2;
+    if (!isFinite(x) || istGenau(x, st)) return zahl(x, st);
+    var t = zahl(x, st), k = t.indexOf(','), hat = k < 0 ? 0 : t.length - k - 1;
+    return hat >= st ? t : t + (k < 0 ? ',' : '') + new Array(st - hat + 1).join('0');
+  }
+  function ungefaehr(x, st) { return zeichen(x, st) + ' ' + wert(x, st); }
+
+  /* ---------- Speicher: nur Komfort, Seite läuft auch ohne ---------- */
+  var speicher = {
+    lies: function (k, std) {
+      try { var w = window.localStorage.getItem('labor.' + k); return w === null ? std : JSON.parse(w); } catch (e) { return std; }
+    },
+    schreib: function (k, w) { try { window.localStorage.setItem('labor.' + k, JSON.stringify(w)); } catch (e) { /* egal */ } }
+  };
+
+  /* ---------- Seitenbausteine ---------- */
+  var zaehler = 0;
+  function neueId(p) { zaehler += 1; return (p || 'lab') + '-' + zaehler; }
+  // el('div', {class: 'x', html: '…', onclick: f}, [kinder])
+  function el(tag, attr, kinder) {
+    var e = document.createElement(tag);
+    Object.keys(attr || {}).forEach(function (k) {
+      var w = attr[k];
+      if (w === undefined || w === null || w === false) return;
+      if (k === 'html') e.innerHTML = w;
+      else if (k === 'text') e.textContent = w;
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), w);
+      else e.setAttribute(k, w === true ? '' : w);
+    });
+    (kinder || []).forEach(function (c) { if (c) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return e;
+  }
+
+  // Regler mit Label, Anzeige und −/+-Knöpfen. opt: label (HTML), name (für Vorlesen), min, max, schritt, wert,
+  // anzeige(wert) → Text, beiAenderung(wert)
+  function regler(opt) {
+    var id = neueId('regler'), schritt = opt.schritt || 1;
+    var anzeige = opt.anzeige || function (w) { return zahl(w, 2); };
+    var input = el('input', { type: 'range', id: id, min: opt.min, max: opt.max, step: schritt, value: opt.wert });
+    var out = el('output', { 'for': id });
+    function zeige() {
+      var t = anzeige(Number(input.value));
+      out.textContent = t;
+      input.setAttribute('aria-valuetext', t);
+    }
+    function setze(w, melden) {
+      w = Math.min(opt.max, Math.max(opt.min, Math.round(w / schritt) * schritt));
+      input.value = String(w); zeige();
+      if (melden && opt.beiAenderung) opt.beiAenderung(Number(input.value));
+    }
+    input.addEventListener('input', function () { zeige(); if (opt.beiAenderung) opt.beiAenderung(Number(input.value)); });
+    var minus = el('button', { type: 'button', 'class': 'schritt', 'aria-label': (opt.name || 'Wert') + ' verkleinern', text: '−',
+      onclick: function () { setze(Number(input.value) - schritt, true); } });
+    var plus = el('button', { type: 'button', 'class': 'schritt', 'aria-label': (opt.name || 'Wert') + ' vergrößern', text: '+',
+      onclick: function () { setze(Number(input.value) + schritt, true); } });
+    var box = el('div', { 'class': 'regler' }, [el('label', { 'for': id, html: opt.label }), out,
+      el('div', { 'class': 'regler-zeile' }, [minus, input, plus])]);
+    zeige();
+    return {
+      el: box, input: input,
+      wert: function () { return Number(input.value); },
+      setze: function (w) { setze(w, false); },
+      aktiv: function (ja) { input.disabled = minus.disabled = plus.disabled = !ja; box.classList.toggle('aus', !ja); },
+      neuAnzeigen: zeige
+    };
+  }
+
+  function schalter(opt) {
+    var id = neueId('schalter');
+    var input = el('input', { type: 'checkbox', id: id, checked: !!opt.wert,
+      onchange: function () { if (opt.beiAenderung) opt.beiAenderung(input.checked); } });
+    var box = el('label', { 'class': 'schalter', 'for': id }, [input, el('span', { html: opt.label })]);
+    return { el: box, input: input, wert: function () { return input.checked; }, setze: function (w) { input.checked = !!w; } };
+  }
+
+  // Knopfgruppe (eine Wahl aus mehreren). opt: titel, optionen [{wert, text (HTML), titel}], wert, beiAenderung
+  function knopfgruppe(opt) {
+    var aktuell = opt.wert, knoepfe = [];
+    var reihe = el('div', { 'class': 'knopfreihe', role: 'group', 'aria-label': opt.titel || '' });
+    opt.optionen.forEach(function (o) {
+      var k = el('button', { type: 'button', 'class': 'knopf', html: o.text, title: o.titel,
+        onclick: function () { setze(o.wert); if (opt.beiAenderung) opt.beiAenderung(o.wert); } });
+      k.dataset.wert = o.wert; knoepfe.push(k); reihe.appendChild(k);
+    });
+    function setze(w) {
+      aktuell = w;
+      knoepfe.forEach(function (k) { k.setAttribute('aria-pressed', String(k.dataset.wert === String(w))); });
+    }
+    setze(aktuell);
+    var box = el('div', {}, [opt.titel ? el('p', { 'class': 'knopfreihe-titel', html: opt.titel }) : null, reihe]);
+    return {
+      el: box, wert: function () { return aktuell; }, setze: setze,
+      sichtbar: function (w, ja) { knoepfe.forEach(function (k) { if (k.dataset.wert === String(w)) k.hidden = !ja; }); }
+    };
+  }
+
+  function auswahl(opt) {
+    var id = neueId('auswahl');
+    var s = el('select', { id: id, onchange: function () { if (opt.beiAenderung) opt.beiAenderung(s.value); } });
+    opt.optionen.forEach(function (o) { s.appendChild(el('option', { value: o.wert, text: o.text, selected: o.wert === opt.wert })); });
+    return { el: el('div', { 'class': 'auswahl' }, [el('label', { 'for': id, html: opt.label }), s]), wert: function () { return s.value; } };
+  }
+
+  function karte(titel, kinder, klasse) {
+    return el('section', { 'class': 'karte' + (klasse ? ' ' + klasse : '') }, [titel ? el('h2', { html: titel }) : null].concat(kinder || []));
+  }
+
+  // Kasten „So ist das Modell gebaut“: Annahmen, Vereinfachungen, Grenzen
+  function annahmen(titel, punkte) {
+    return el('details', { 'class': 'karte annahmen' }, [el('summary', { html: titel || 'So ist das Modell gebaut' }),
+      el('ul', {}, punkte.map(function (p) { return el('li', { html: p }); }))]);
+  }
+
+  // Beamer-Modus: große Schrift, dicke Linien, große Zeichenfläche. Zustand bleibt (localStorage, wenn möglich).
+  function beamerKnopf(beiWechsel) {
+    var an = speicher.lies('beamer', false);
+    var k = el('button', { type: 'button', 'class': 'knopf', text: 'Beamer',
+      title: 'Große Schrift und dicke Linien für den Beamer',
+      onclick: function () { setze(!an); speicher.schreib('beamer', an); if (beiWechsel) beiWechsel(an); } });
+    function setze(w) { an = !!w; document.body.classList.toggle('beamer', an); k.setAttribute('aria-pressed', String(an)); }
+    setze(an);
+    return k;
+  }
+  function istBeamer() { return typeof document !== 'undefined' && document.body.classList.contains('beamer'); }
+
+  // Seitengerüst: Kopf (Titel, Frage, Ziel, Beamer-Knopf), zweispaltiger Hauptteil, unterer Teil
+  function seite(opt) {
+    var wurzel = document.getElementById('app');
+    var kopf = el('header', { 'class': 'kopf' }, [
+      el('div', { 'class': 'kopf-text' }, [el('h1', { text: opt.titel }), opt.frage ? el('p', { 'class': 'frage', text: opt.frage }) : null,
+        opt.ziel ? el('p', { 'class': 'ziel', text: opt.ziel }) : null]),
+      beamerKnopf(opt.beiBeamer)]);
+    var buehneFeld = el('div', { 'class': 'buehne-feld' });
+    var steuer = el('div', { 'class': 'steuer' });
+    var unten = el('div', { 'class': 'unten' });
+    wurzel.appendChild(kopf);
+    wurzel.appendChild(el('main', { 'class': 'lab' }, [buehneFeld, steuer]));
+    wurzel.appendChild(unten);
+    return { kopf: kopf, buehneFeld: buehneFeld, steuer: steuer, unten: unten };
+  }
+
+  function fehler(text) {
+    if (typeof document === 'undefined') return;
+    var alt = document.getElementById('lab-fehler');
+    if (alt) return;
+    document.body.appendChild(el('div', { id: 'lab-fehler', 'class': 'fehlerbox', role: 'alert', text: text }));
+  }
+
+  // Start: Hinweis „Bitte im Browser öffnen“ verstecken, App zeigen, Fehler abfangen
+  function start(fn) {
+    function los() {
+      var ohne = document.getElementById('ohne-js'), app = document.getElementById('app');
+      window.addEventListener('error', function () { fehler('Da ist etwas schiefgegangen. Bitte Seite neu laden.'); });
+      try {
+        if (ohne) ohne.hidden = true;
+        if (app) app.hidden = false;
+        fn();
+      } catch (e) {
+        fehler('Da ist etwas schiefgegangen. Bitte Seite neu laden. (' + e.message + ')');
+        if (window.console) console.error(e);
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', los); else los();
+  }
+
+  function weniger() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+  }
+
+  return { runde: runde, zahl: zahl, wert: wert, istGenau: istGenau, zeichen: zeichen, ungefaehr: ungefaehr, speicher: speicher,
+    el: el, regler: regler, schalter: schalter, knopfgruppe: knopfgruppe, auswahl: auswahl, karte: karte,
+    annahmen: annahmen, beamerKnopf: beamerKnopf, istBeamer: istBeamer, seite: seite, fehler: fehler, start: start,
+    wenigerBewegung: weniger };
+})();
+
+</script>
+<script>
+/* R3D – 3D-Kern (CROSS-002) für Körper aus ebenen Flächen, Ausgabe als SVG.
+   Koordinaten: x nach rechts, y nach oben, z zum Betrachter (Ansicht „von vorn“). Längen in Einheiten (z. B. cm).
+   Kamera:  {art: 'dreh', dreh: Grad, kipp: Grad}  – senkrechte Parallelprojektion, Blick von schräg oben
+            {art: 'schraeg'}                         – Schrägbild wie im Buch: Tiefe halbiert unter 45°
+   Eine Kamera ergibt eine Abbildungsmatrix M = {r, u}: Bild-x = p·r, Bild-y = p·u (nach oben).
+   Blickrichtung zum Betrachter d = r × u. Sichtbarkeit: exakte Verdeckungsrechnung je Strecke
+   (verdeckte Teile gestrichelt), Flächen nach Tiefe ihres Mittelpunkts sortiert.
+   Mathe-Teil ohne Seite (testbar mit osascript); nur steuerung() braucht die Seite. */
+var R3D = (function () {
+  'use strict';
+  var GRAD = Math.PI / 180, KIPP_MIN = 5, KIPP_MAX = 85;
+
+  /* ---------- Vektoren ---------- */
+  function plus(a, b) { return [a[0] + b[0], a[1] + b[1], a[2] + b[2]]; }
+  function minus(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+  function mal(a, k) { return [a[0] * k, a[1] * k, a[2] * k]; }
+  function punkt(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+  function kreuz(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+  function laenge(a) { return Math.sqrt(punkt(a, a)); }
+  function einheit(a) { var l = laenge(a); return l > 0 ? mal(a, 1 / l) : [0, 0, 0]; }
+  function abstand(a, b) { return laenge(minus(a, b)); }
+  function mitte(a, b) { return mal(plus(a, b), 0.5); }
+  function schwerpunkt(ps) {
+    var s = [0, 0, 0];
+    ps.forEach(function (p) { s = plus(s, p); });
+    return mal(s, 1 / ps.length);
+  }
+  // Normale eines ebenen Vielecks (Newell-Verfahren, Länge = doppelter Flächeninhalt)
+  function normale(ps) {
+    var n = [0, 0, 0];
+    for (var i = 0; i < ps.length; i++) {
+      var p = ps[i], q = ps[(i + 1) % ps.length];
+      n[0] += (p[1] - q[1]) * (p[2] + q[2]);
+      n[1] += (p[2] - q[2]) * (p[0] + q[0]);
+      n[2] += (p[0] - q[0]) * (p[1] + q[1]);
+    }
+    return n;
+  }
+  function flaecheninhalt(ps) { return laenge(normale(ps)) / 2; }
+
+  // Punkt p um die Achse durch A und B drehen (Rechte-Hand-Regel in Richtung A → B), Winkel im Bogenmaß
+  function dreheUmAchse(p, A, B, winkel) {
+    var k = einheit(minus(B, A)), v = minus(p, A), c = Math.cos(winkel), s = Math.sin(winkel);
+    var r = plus(plus(mal(v, c), mal(kreuz(k, v), s)), mal(k, punkt(k, v) * (1 - c)));
+    return plus(A, r);
+  }
+
+  /* ---------- Kamera ---------- */
+  function begrenzeKipp(k) { return Math.min(KIPP_MAX, Math.max(KIPP_MIN, k)); }
+  function normWinkel(w) { w = ((w + 180) % 360 + 360) % 360 - 180; return w === -180 ? 180 : w; }
+  var FREI_START = { art: 'dreh', dreh: 21, kipp: 22 };   // ähnlich wie das Schrägbild
+  var ANSICHTEN = {
+    schraeg: { art: 'schraeg' },
+    vorn: { art: 'dreh', dreh: 0, kipp: 0 },     // Ansicht: genau von vorn (Sonderfall außerhalb 5°–85°)
+    oben: { art: 'dreh', dreh: 0, kipp: 90 }     // Ansicht: genau von oben (Draufsicht)
+  };
+  // Ziehen oder Pfeiltaste: Drehwinkel frei, Kippwinkel immer 5°–85°
+  function drehen(kam, dDreh, dKipp) {
+    var k = kam && kam.art === 'dreh' ? kam : FREI_START;
+    return { art: 'dreh', dreh: normWinkel(k.dreh + dDreh), kipp: begrenzeKipp(k.kipp + dKipp) };
+  }
+  function matrix(kam) {
+    if (kam.art === 'schraeg') {
+      var f = 0.5, w = 45 * GRAD;      // Tiefe halbiert, unter 45° nach hinten rechts
+      return { r: [1, 0, -f * Math.cos(w)], u: [0, 1, -f * Math.sin(w)] };
+    }
+    var t = kam.dreh * GRAD, p = kam.kipp * GRAD;
+    return { r: [Math.cos(t), 0, -Math.sin(t)], u: [-Math.sin(t) * Math.sin(p), Math.cos(p), -Math.cos(t) * Math.sin(p)] };
+  }
+  function blick(M) { return einheit(kreuz(M.r, M.u)); }
+  function mische(M1, M2, s) {
+    function m(a, b) { return [a[0] + (b[0] - a[0]) * s, a[1] + (b[1] - a[1]) * s, a[2] + (b[2] - a[2]) * s]; }
+    return { r: m(M1.r, M2.r), u: m(M1.u, M2.u) };
+  }
+  // größte Streckung einer Länge durch die Abbildung (1 bei senkrechter Projektion)
+  function streckung(M) {
+    var a = punkt(M.r, M.r), b = punkt(M.r, M.u), c = punkt(M.u, M.u);
+    return Math.sqrt((a + c) / 2 + Math.sqrt((a - c) * (a - c) / 4 + b * b));
+  }
+  // Koordinaten im Blick-System (nur Drehung, Abstände bleiben gleich): [rechts, oben, zum Betrachter]
+  function inSicht(p, kam) { var M = matrix(kam), d = blick(M); return [punkt(p, M.r), punkt(p, M.u), punkt(p, d)]; }
+
+  /* ---------- Abbildung auf die Zeichenfläche ---------- */
+  // umschließende Kugel – unabhängig von der Drehung. Annähernd kleinste Kugel (Verfahren von Bădoiu–Clarkson:
+  // Mitte schrittweise zum fernsten Punkt schieben), danach Radius exakt über alle Punkte.
+  function umkugel(ps) {
+    var m = schwerpunkt(ps), r = 0;
+    for (var i = 1; i <= 300; i++) {
+      var weit = ps[0], dw = -1;
+      ps.forEach(function (p) { var d = abstand(p, m); if (d > dw) { dw = d; weit = p; } });
+      m = plus(m, mal(minus(weit, m), 1 / (i + 1)));
+    }
+    ps.forEach(function (p) { r = Math.max(r, abstand(p, m)); });
+    return { mitte: m, radius: Math.max(r, 1e-9) };
+  }
+  // Maßstab (Pixel je Einheit), so dass die Kugel bei jeder Drehung in die Fläche passt
+  function passend(kugel, M, breite, hoehe, rand) {
+    var platz = Math.min(breite, hoehe) / 2 - (rand || 0);
+    return Math.max(platz, 1) / (kugel.radius * streckung(M));
+  }
+  function abbildung(M, mitte3, massstab, breite, hoehe) {
+    return { M: M, d: blick(M), m: massstab, cx: breite / 2, cy: hoehe / 2, ox: punkt(mitte3, M.r), oy: punkt(mitte3, M.u) };
+  }
+  // Bild so verschieben, dass die Figur mittig steht (der Maßstab bleibt; passt weiter, weil die Box kleiner als die Kugel ist)
+  function zentriere(B, ps) {
+    var x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    ps.forEach(function (p) { var q = bild(p, B); x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]); });
+    var C = {}; Object.keys(B).forEach(function (k) { C[k] = B[k]; });
+    C.ox += ((x0 + x1) / 2 - B.cx) / B.m;
+    C.oy -= ((y0 + y1) / 2 - B.cy) / B.m;
+    return C;
+  }
+  // 3D-Punkt → [x, y, Tiefe] (x, y in Pixeln, SVG-y nach unten; größere Tiefe = näher am Betrachter)
+  function bild(p, B) {
+    return [B.cx + (punkt(p, B.M.r) - B.ox) * B.m, B.cy - (punkt(p, B.M.u) - B.oy) * B.m, punkt(p, B.d)];
+  }
+
+  /* ---------- Verdeckung ---------- */
+  function vorbereiten(flaechen, B) {
+    return flaechen.filter(function (f) { return f.deckt !== false; }).map(function (f) {
+      var n = einheit(normale(f.punkte)), poly = f.punkte.map(function (p) { return bild(p, B); });
+      var fl = 0;
+      for (var i = 0; i < poly.length; i++) { var a = poly[i], b = poly[(i + 1) % poly.length]; fl += a[0] * b[1] - b[0] * a[1]; }
+      return { n: n, c: punkt(n, f.punkte[0]), poly: poly, dreh: fl > 0 ? 1 : -1, flaeche: Math.abs(fl) / 2, nd: punkt(n, B.d) };
+    });
+  }
+  // Teile der Strecke PQ, die hinter einer Fläche liegen → [{von, bis, verdeckt}] mit 0 ≤ von < bis ≤ 1
+  function abschnitte(P, Q, vorb, B) {
+    var p = bild(P, B), q = bild(Q, B), dx = q[0] - p[0], dy = q[1] - p[1], lpx = Math.sqrt(dx * dx + dy * dy);
+    if (lpx < 1e-6) return [{ von: 0, bis: 1, verdeckt: false }];
+    var groesse = Math.max(1, abstand(P, Q)), verdeckt = [];
+    vorb.forEach(function (f) {
+      if (f.flaeche < 0.5 || Math.abs(f.nd) < 1e-9) return;                    // Fläche von der Kante gesehen
+      var eP = punkt(f.n, P) - f.c, eQ = punkt(f.n, Q) - f.c;
+      if (Math.abs(eP) < 1e-7 * groesse && Math.abs(eQ) < 1e-7 * groesse) return;  // Strecke liegt in der Fläche
+      // 1) Ausschnitt der Strecke im Bild der Fläche (Cyrus-Beck)
+      var t0 = 0, t1 = 1, poly = f.poly;
+      for (var i = 0; i < poly.length; i++) {
+        var a = poly[i], b = poly[(i + 1) % poly.length];
+        var nx = -(b[1] - a[1]) * f.dreh, ny = (b[0] - a[0]) * f.dreh, nl = Math.sqrt(nx * nx + ny * ny);
+        if (nl < 1e-12) continue;
+        var w0 = (nx * (p[0] - a[0]) + ny * (p[1] - a[1])) / nl - 0.01, dw = (nx * dx + ny * dy) / nl;
+        if (Math.abs(dw) < 1e-12) { if (w0 < 0) return; continue; }
+        var t = -w0 / dw;
+        if (dw > 0) t0 = Math.max(t0, t); else t1 = Math.min(t1, t);
+        if (t0 >= t1) return;
+      }
+      // 2) Liegt die Fläche dort vor der Strecke? Abstand λ entlang der Blickrichtung (linear in t)
+      var l0 = -eP / f.nd, l1 = -eQ / f.nd, eps = 1e-6 * groesse;
+      var la = l0 + (l1 - l0) * t0, lb = l0 + (l1 - l0) * t1;
+      if (la <= eps && lb <= eps) return;
+      if (la > eps && lb > eps) { verdeckt.push([t0, t1]); return; }
+      var ts = t0 + (t1 - t0) * (eps - la) / (lb - la);
+      verdeckt.push(la > eps ? [t0, ts] : [ts, t1]);
+    });
+    verdeckt.sort(function (x, y) { return x[0] - y[0]; });
+    var luecke = 1.5 / lpx, zus = [];
+    verdeckt.forEach(function (iv) {
+      var l = zus[zus.length - 1];
+      if (l && iv[0] <= l[1] + luecke) l[1] = Math.max(l[1], iv[1]); else zus.push(iv.slice());
+    });
+    zus = zus.filter(function (iv) { return (iv[1] - iv[0]) * lpx >= 1; });
+    var teile = [], pos = 0;
+    zus.forEach(function (iv) {
+      var von = iv[0] * lpx < 2 ? 0 : iv[0], bis = (1 - iv[1]) * lpx < 2 ? 1 : iv[1];
+      if (von > pos) teile.push({ von: pos, bis: von, verdeckt: false });
+      teile.push({ von: von, bis: bis, verdeckt: true });
+      pos = bis;
+    });
+    if (pos < 1) teile.push({ von: pos, bis: 1, verdeckt: false });
+    return teile;
+  }
+
+  /* ---------- SVG-Ausgabe ---------- */
+  function z(x) { return Math.round(x * 10) / 10; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  // Beschriftung mit Kurzschrift: „h_K“ tiefgestellt, „cm^2“ hochgestellt, „a/2“ als Bruch übereinander
+  function text(x, y, inhalt, klasse, schrift) {
+    var kl = 't' + (klasse ? ' ' + klasse : ''), s = String(inhalt), f = schrift || 17;
+    var bruch = s.match(/^([A-Za-z])\/(\d)$/);
+    if (bruch) {
+      var b = f * 0.42;
+      return '<g class="bruch-svg"><text class="' + kl + '" x="' + z(x) + '" y="' + z(y - f * 0.18) + '" text-anchor="middle">' + esc(bruch[1]) + '</text>' +
+        '<line class="bs ' + kl + '" x1="' + z(x - b) + '" y1="' + z(y) + '" x2="' + z(x + b) + '" y2="' + z(y) + '"/>' +
+        '<text class="' + kl + '" x="' + z(x) + '" y="' + z(y + f * 0.86) + '" text-anchor="middle">' + esc(bruch[2]) + '</text></g>';
+    }
+    var teile = [], re = /([_^])([A-Za-z0-9]+)/g, m, letzt = 0;
+    while ((m = re.exec(s))) {
+      if (m.index > letzt) teile.push({ t: s.slice(letzt, m.index), v: 0 });
+      teile.push({ t: m[2], v: m[1] === '_' ? 0.3 : -0.45 });
+      letzt = re.lastIndex;
+    }
+    if (letzt < s.length) teile.push({ t: s.slice(letzt), v: 0 });
+    var innen = '', jetzt = 0;
+    teile.forEach(function (t) {
+      var klein = t.v !== 0, dy = t.v - jetzt;
+      innen += '<tspan' + (dy ? ' dy="' + z((klein ? dy / 0.72 : dy) * 100) / 100 + 'em"' : '') +
+        (klein ? ' font-size="0.72em"' : '') + '>' + esc(t.t) + '</tspan>';
+      jetzt = t.v;
+    });
+    return '<text class="' + kl + '" x="' + z(x) + '" y="' + z(y + f * 0.35) + '" text-anchor="middle">' + innen + '</text>';
+  }
+  // Szene: {gitter: {n}, flaechen: [{punkte, klasse, ebene, deckt}], strecken: [{a, b, klasse, verdeckbar, text, textKlasse, bezug}],
+  //         winkel: [{ecke, zu1, zu2, klasse}], marken: [{p, text, bezug}], flaechenTexte: [{p, text, klasse}], bezug}
+  function svgSzene(sz, B, opt) {
+    opt = opt || {};
+    var f = opt.schrift || 17, out = [], vorb = vorbereiten(sz.flaechen || [], B);
+    var bezug = bild(sz.bezug || [0, 0, 0], B);
+    if (sz.gitter) {
+      var n = sz.gitter.n, g = ['<g class="gitter">'];
+      for (var i = -n; i <= n; i++) {
+        var a1 = bild([i, 0, -n], B), a2 = bild([i, 0, n], B), b1 = bild([-n, 0, i], B), b2 = bild([n, 0, i], B);
+        g.push('<line x1="' + z(a1[0]) + '" y1="' + z(a1[1]) + '" x2="' + z(a2[0]) + '" y2="' + z(a2[1]) + '"/>');
+        g.push('<line x1="' + z(b1[0]) + '" y1="' + z(b1[1]) + '" x2="' + z(b2[0]) + '" y2="' + z(b2[1]) + '"/>');
+      }
+      g.push('</g>'); out.push(g.join(''));
+    }
+    // Flächen: erst nach Ebene (Grundfläche zuerst), dann von hinten nach vorn
+    var fl = (sz.flaechen || []).map(function (fa) {
+      var bp = fa.punkte.map(function (p) { return bild(p, B); });
+      return { fa: fa, bp: bp, tiefe: bild(schwerpunkt(fa.punkte), B)[2] };
+    });
+    fl.sort(function (x, y) { return ((x.fa.ebene || 0) - (y.fa.ebene || 0)) || (x.tiefe - y.tiefe); });
+    fl.forEach(function (e) {
+      out.push('<polygon class="' + (e.fa.klasse || '') + '" points="' + e.bp.map(function (q) { return z(q[0]) + ',' + z(q[1]); }).join(' ') + '"/>');
+    });
+    // Strecken: verdeckte Teile gestrichelt (zuerst), sichtbare Teile durchgezogen (darüber)
+    var unten = [], oben = [], texte = [];
+    (sz.strecken || []).forEach(function (s) {
+      var p = bild(s.a, B), q = bild(s.b, B);
+      var teile = s.verdeckbar === false ? [{ von: 0, bis: 1, verdeckt: false }] : abschnitte(s.a, s.b, vorb, B);
+      teile.forEach(function (t) {
+        var x1 = p[0] + (q[0] - p[0]) * t.von, y1 = p[1] + (q[1] - p[1]) * t.von;
+        var x2 = p[0] + (q[0] - p[0]) * t.bis, y2 = p[1] + (q[1] - p[1]) * t.bis;
+        (t.verdeckt ? unten : oben).push('<line class="' + (s.klasse || 'k') + (t.verdeckt ? ' v' : '') + '" x1="' + z(x1) + '" y1="' + z(y1) +
+          '" x2="' + z(x2) + '" y2="' + z(y2) + '"/>');
+      });
+      if (s.text && Math.sqrt((q[0] - p[0]) * (q[0] - p[0]) + (q[1] - p[1]) * (q[1] - p[1])) >= f * 1.2) {   // zu kurz im Bild: ohne Beschriftung
+        var mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2, ln = Math.sqrt((q[0] - p[0]) * (q[0] - p[0]) + (q[1] - p[1]) * (q[1] - p[1])) || 1;
+        var nx = -(q[1] - p[1]) / ln, ny = (q[0] - p[0]) / ln, bz = s.bezug ? bild(s.bezug, B) : bezug;
+        if ((mx - bz[0]) * nx + (my - bz[1]) * ny < 0) { nx = -nx; ny = -ny; }
+        var weg = f * (/\//.test(s.text) ? 1.25 : 0.95);
+        texte.push(text(mx + nx * weg, my + ny * weg, s.text, s.textKlasse, f));
+      }
+    });
+    out.push(unten.join(''), oben.join(''));
+    // rechte Winkel: kleines Quadrat in der Ebene der beiden Schenkel, im Bild etwa 13 px groß
+    (sz.winkel || []).forEach(function (w) {
+      var e1 = minus(w.zu1, w.ecke), e2 = minus(w.zu2, w.ecke);
+      var g = Math.min(13 / B.m, 0.3 * Math.min(laenge(e1), laenge(e2)));
+      var u1 = mal(einheit(e1), g), u2 = mal(einheit(e2), g);
+      var a = bild(plus(w.ecke, u1), B), b = bild(plus(plus(w.ecke, u1), u2), B), c = bild(plus(w.ecke, u2), B);
+      out.push('<polyline class="wi ' + (w.klasse || 'k') + '" points="' + [a, b, c].map(function (q) { return z(q[0]) + ',' + z(q[1]); }).join(' ') + '"/>');
+    });
+    (sz.flaechenTexte || []).forEach(function (t) { var q = bild(t.p, B); texte.push(text(q[0], q[1], t.text, t.klasse, f)); });
+    var belegt = [];
+    (sz.marken || []).forEach(function (mk) {
+      var q = bild(mk.p, B), bz = mk.bezug ? bild(mk.bezug, B) : bezug;
+      var vx = q[0] - bz[0], vy = q[1] - bz[1], vl = Math.sqrt(vx * vx + vy * vy);
+      if (vl < 1e-6) { vx = 0; vy = -1; vl = 1; }
+      var tx = q[0] + vx / vl * f * 0.95, ty = q[1] + vy / vl * f * 0.95;
+      // fallen zwei Punkte im Bild zusammen (z. B. S und F von oben), rückt die zweite Beschriftung zur Seite
+      belegt.forEach(function (b) { if (Math.abs(b[0] - tx) < f && Math.abs(b[1] - ty) < f) { tx = b[0] + f * 1.1; ty = b[1]; } });
+      belegt.push([tx, ty]);
+      out.push('<circle class="pk" cx="' + z(q[0]) + '" cy="' + z(q[1]) + '" r="3.5"/>');
+      texte.push(text(tx, ty, mk.text, mk.klasse, f));
+    });
+    out.push(texte.join(''));
+    return '<g font-size="' + f + '">' + out.join('') + '</g>';
+  }
+
+  /* ---------- Bedienung: Ziehen (Maus/Finger) und Pfeiltasten (5° je Druck) ---------- */
+  function steuerung(element, beiDrehen) {
+    var aktiv = null;
+    element.addEventListener('pointerdown', function (e) {
+      aktiv = { id: e.pointerId, x: e.clientX, y: e.clientY };
+      try { element.setPointerCapture(e.pointerId); } catch (err) { /* älterer Browser */ }
+      try { element.focus({ preventScroll: true }); } catch (err) { /* egal */ }
+      e.preventDefault();
+    });
+    element.addEventListener('pointermove', function (e) {
+      if (!aktiv || e.pointerId !== aktiv.id) return;
+      var dx = e.clientX - aktiv.x, dy = e.clientY - aktiv.y;
+      aktiv.x = e.clientX; aktiv.y = e.clientY;
+      if (dx || dy) beiDrehen(-dx * 0.5, dy * 0.5);
+      e.preventDefault();
+    });
+    function ende(e) { if (aktiv && e.pointerId === aktiv.id) aktiv = null; }
+    element.addEventListener('pointerup', ende);
+    element.addEventListener('pointercancel', ende);
+    element.addEventListener('keydown', function (e) {
+      var k = { ArrowLeft: [5, 0], ArrowRight: [-5, 0], ArrowUp: [0, -5], ArrowDown: [0, 5] }[e.key];
+      if (!k) return;
+      e.preventDefault();
+      beiDrehen(k[0], k[1]);
+    });
+  }
+
+  return { plus: plus, minus: minus, mal: mal, punkt: punkt, kreuz: kreuz, laenge: laenge, einheit: einheit, abstand: abstand,
+    mitte: mitte, schwerpunkt: schwerpunkt, normale: normale, flaecheninhalt: flaecheninhalt, dreheUmAchse: dreheUmAchse,
+    KIPP_MIN: KIPP_MIN, KIPP_MAX: KIPP_MAX, ANSICHTEN: ANSICHTEN, FREI_START: FREI_START, begrenzeKipp: begrenzeKipp,
+    drehen: drehen, matrix: matrix, blick: blick, mische: mische, streckung: streckung, inSicht: inSicht,
+    umkugel: umkugel, passend: passend, abbildung: abbildung, zentriere: zentriere, bild: bild, vorbereiten: vorbereiten, abschnitte: abschnitte,
+    text: text, svgSzene: svgSzene, steuerung: steuerung };
+})();
+
+</script>
+<script>
+var INHALT = {
+ "titel": "Pyramiden-Labor",
+ "frage": "Wo steckt das rechtwinklige Dreieck?",
+ "ziel": "Ziel: Du findest die Stützdreiecke in der Pyramide und stellst die passende Pythagoras-Gleichung auf.",
+ "bedienung": "Drehen: mit Finger oder Maus ziehen – oder Pfeiltasten. Verdeckte Linien sind gestrichelt.",
+ "buehne_label": "Pyramide zum Drehen. Ziehen oder Pfeiltasten benutzen.",
+ "modi": {
+  "erkunden": "Überlege zuerst: Wo liegen h_K, h_a und s? Schalte sie dann ein und prüfe.",
+  "dreieck": "Wähle ein Stützdreieck. Es ist im Körper gelb gefärbt und liegt hier noch einmal flach – mit Gleichung.",
+  "netz": "Klappe die Seitenflächen nach außen. Bei 100 % siehst du das Netz von oben."
+ },
+ "tafel_hinweis": "„≈“ heißt: gerundet. Die App rechnet mit ungerundeten Werten weiter.",
+ "einfuehrung": "In jeder geraden Pyramide stecken rechtwinklige Dreiecke. Mit ihnen und dem Satz des Pythagoras berechnest du Strecken, die du nicht direkt messen kannst. Rechne im Heft – die App zeigt dir, wo das Dreieck liegt, und hilft beim Prüfen.",
+ "aufgaben": [
+  {
+   "niveau": "▽",
+   "stufe": "Basis",
+   "text": "Zeige im Körper h_K, h_a und s. Welche dieser Strecken ist am längsten?",
+   "tipp": "Modus „Erkunden“: Schalte die Strecken nacheinander ein. Vergleiche die Werte in der Werte-Tafel."
+  },
+  {
+   "niveau": "▽",
+   "stufe": "Basis",
+   "text": "Welches Netz gehört zur Pyramide? Klappe die Seitenflächen im Modus „Netz“ auf und beschreibe das Netz.",
+   "tipp": "Wie viele Dreiecke liegen um die Grundfläche? An welcher Kante hängt jedes Dreieck?"
+  },
+  {
+   "niveau": "◪",
+   "stufe": "mittel",
+   "text": "Stelle für D1 die Gleichung auf, wenn a = 6 cm und h_K = 4 cm. Prüfe mit der App.",
+   "tipp": "Erst im Heft rechnen. Dann a = 6 und h_K = 4 einstellen, Modus „Stützdreieck“, D1 wählen."
+  },
+  {
+   "niveau": "◪",
+   "stufe": "mittel",
+   "text": "Vorhersage: Was passiert mit h_a, wenn h_K größer wird? Schreibe deine Vermutung auf. Prüfe dann mit dem Regler.",
+   "tipp": "Schau auf D1: h_K ist eine Kathete, h_a die Hypotenuse."
+  },
+  {
+   "niveau": "☒",
+   "stufe": "anspruchsvoll",
+   "text": "Von h_a zu s: Welches Stützdreieck brauchst du? Stelle die Gleichung auf.",
+   "tipp": "Das Dreieck liegt in einer Seitenfläche. Der rechte Winkel ist in der Mitte der Grundkante."
+  }
+ ],
+ "annahmen": [
+  "Nur gerade Pyramiden: Die Spitze S liegt genau über dem Mittelpunkt F der Grundfläche.",
+  "Grundfläche: Quadrat oder Rechteck. Andere Grundflächen (z. B. Dreieck, Sechseck) gibt es hier noch nicht.",
+  "Zeichnung ohne Perspektive (Parallelprojektion) wie im Buch. „Schrägbild“: Tiefe halbiert unter 45°.",
+  "Die Flächen sind durchsichtig, damit du hineinsehen kannst. Verdeckte Linien sind gestrichelt.",
+  "Formeln: h_a^2 = h_K^2 + (b/2)^2 · h_b^2 = h_K^2 + (a/2)^2 · s^2 = h_K^2 + (d/2)^2 · G = a · b · M = a · h_a + b · h_b · O = G + M · V = 1/3 · G · h_K",
+  "Werte auf 2 Nachkommastellen gerundet, „≈“ zeigt das Runden an. Die App rechnet mit ungerundeten Werten – dein Ergebnis kann deshalb in der letzten Stelle um 1 abweichen.",
+  "Maße von 1 bis 12 in Schritten von 0,5. Die Einheit ist frei wählbar (Standard: cm)."
+ ],
+ "ohne_js": "Bitte im Browser öffnen (Safari oder Chrome). Diese Seite braucht JavaScript – die Vorschau auf dem iPhone (z. B. aus „Dateien“ oder einer Mail) zeigt sie nicht richtig.",
+ "fusszeile": "Pyramiden-Labor 3D · Version 0.1 · Digitales Labor Mathematik · läuft offline, speichert keine Daten."
+};
+</script>
+<script>
+/* PYR – Modell des Pyramiden-Labors (MATH-3D-001). Nur Rechnung, keine Seite → mit Referenzwerten testbar.
+   Gerade Pyramide mit Rechteck-Grundfläche a × b (Quadrat: a = b) und Körperhöhe h_K (Spezifikation §6).
+   Koordinaten: Grundfläche in der Ebene y = 0, Mittelpunkt im Ursprung, Spitze S(0 | h_K | 0).
+   Die Kante a liegt parallel zur x-Achse (vorn bei z = b/2), die Kante b parallel zur z-Achse.
+   Braucht R3D (kern/raum3d.js) für das Klappen um eine Kante. */
+var PYR = (function () {
+  'use strict';
+  var BEREICH = { min: 1, max: 12, schritt: 0.5 };
+
+  // Klartext statt NaN, wenn eine Eingabe nicht passt
+  function pruefe(a, b, hK) {
+    var w = [['Die Grundkante a', a], ['Die Grundkante b', b], ['Die Körperhöhe h_K', hK]];
+    for (var i = 0; i < w.length; i++) {
+      if (typeof w[i][1] !== 'number' || !isFinite(w[i][1])) return w[i][0] + ' ist keine Zahl.';
+      if (w[i][1] <= 0) return w[i][0] + ' muss größer als 0 sein.';
+    }
+    return null;
+  }
+
+  // alle Größen; die Quadrate (ha2, …) werden mitgegeben, damit der Rechenweg ohne Rundungsfehler weiterrechnen kann
+  function masse(a, b, hK) {
+    var f = pruefe(a, b, hK);
+    if (f) return { fehler: f };
+    var d2 = a * a + b * b;
+    var ha2 = hK * hK + (b / 2) * (b / 2);        // Seitenfläche über a: Abstand Mitte → Kante a ist b/2
+    var hb2 = hK * hK + (a / 2) * (a / 2);        // Seitenfläche über b
+    var s2 = hK * hK + d2 / 4;                    // = ha2 + (a/2)² = hb2 + (b/2)²
+    var ha = Math.sqrt(ha2), hb = Math.sqrt(hb2), G = a * b, M = a * ha + b * hb;
+    return { a: a, b: b, hK: hK, d: Math.sqrt(d2), d2: d2, ha: ha, hb: hb, s: Math.sqrt(s2), ha2: ha2, hb2: hb2, s2: s2,
+      G: G, M: M, O: G + M, V: G * hK / 3, quadrat: a === b };
+  }
+
+  // A vorn links, B vorn rechts, C hinten rechts, D hinten links; F Höhenfußpunkt; Ma Mitte der vorderen Kante a; Mb Mitte der rechten Kante b
+  function ecken(m) {
+    var x = m.a / 2, z = m.b / 2;
+    return { A: [-x, 0, z], B: [x, 0, z], C: [x, 0, -z], D: [-x, 0, -z], S: [0, m.hK, 0], F: [0, 0, 0], Ma: [0, 0, z], Mb: [x, 0, 0] };
+  }
+
+  function koerper(m) {
+    var e = ecken(m);
+    return {
+      flaechen: [{ id: 'G', punkte: [e.A, e.B, e.C, e.D] }, { id: 'vorn', punkte: [e.A, e.B, e.S], ueber: 'a' },
+        { id: 'rechts', punkte: [e.B, e.C, e.S], ueber: 'b' }, { id: 'hinten', punkte: [e.C, e.D, e.S], ueber: 'a' },
+        { id: 'links', punkte: [e.D, e.A, e.S], ueber: 'b' }],
+      kanten: [[e.A, e.B], [e.B, e.C], [e.C, e.D], [e.D, e.A], [e.A, e.S], [e.B, e.S], [e.C, e.S], [e.D, e.S]]
+    };
+  }
+
+  // Sternnetz: jede Seitenfläche klappt um ihre Grundkante nach außen. t = 0 geschlossen … t = 1 flach (y = 0).
+  // Klappwinkel = t · (180° − Neigungswinkel der Seitenfläche); starre Drehung → Kantenlängen bleiben gleich.
+  function netz(m, t) {
+    t = Math.min(1, Math.max(0, t));
+    var e = ecken(m), flaechen = [{ id: 'G', punkte: [e.A, e.B, e.C, e.D] }];
+    var kanten = [[e.A, e.B], [e.B, e.C], [e.C, e.D], [e.D, e.A]];
+    // Achse in Umlaufrichtung A → B → C → D: positive Drehung bewegt die Spitze nach außen
+    [[e.A, e.B, m.b / 2, 'vorn', 'a'], [e.B, e.C, m.a / 2, 'rechts', 'b'], [e.C, e.D, m.b / 2, 'hinten', 'a'],
+      [e.D, e.A, m.a / 2, 'links', 'b']].forEach(function (k) {
+      var neigung = Math.atan2(m.hK, k[2]);
+      var S = R3D.dreheUmAchse(e.S, k[0], k[1], t * (Math.PI - neigung));
+      flaechen.push({ id: k[3], punkte: [k[0], k[1], S], ueber: k[4] });
+      kanten.push([k[0], S], [k[1], S]);
+    });
+    return { t: t, flaechen: flaechen, kanten: kanten };
+  }
+
+  // Stützdreiecke (Spezifikation §6): D1 h_K – a/2 bzw. b/2 – h_a · D2 h_K – d/2 – s · D3 h_a – a/2 – s.
+  // seite 'a' = Seitenfläche über a (vorn), 'b' = über b (rechts; nur bei Rechteck verschieden).
+  // Rückgabe: rechter Winkel bei „ecke“, Katheten k1 (ecke → p1) und k2 (ecke → p2), Hypotenuse hyp (p1 → p2).
+  function stuetzdreieck(nr, seite, m) {
+    var e = ecken(m), b = seite === 'b' && !m.quadrat;
+    var hK = { name: 'h_K', wert: m.hK, q: m.hK * m.hK, klasse: 'hk' };
+    var ha = { name: 'h_a', wert: m.ha, q: m.ha2, klasse: 'ha' }, hb = { name: 'h_b', wert: m.hb, q: m.hb2, klasse: 'ha' };
+    var s = { name: 's', wert: m.s, q: m.s2, klasse: 's' };
+    var a2 = { name: 'a/2', wert: m.a / 2, q: m.a * m.a / 4, klasse: 'g' }, b2 = { name: 'b/2', wert: m.b / 2, q: m.b * m.b / 4, klasse: 'g' };
+    var d2 = { name: 'd/2', wert: m.d / 2, q: m.d2 / 4, klasse: 'g' };
+    if (m.quadrat) b2 = { name: 'a/2', wert: m.b / 2, q: m.b * m.b / 4, klasse: 'g' };   // Quadrat: wie im Buch a/2
+    var D;
+    if (nr === 'D1') D = b ? { ecke: e.F, p1: e.S, p2: e.Mb, k1: hK, k2: a2, hyp: hb } : { ecke: e.F, p1: e.S, p2: e.Ma, k1: hK, k2: b2, hyp: ha };
+    else if (nr === 'D2') D = { ecke: e.F, p1: e.S, p2: e.B, k1: hK, k2: d2, hyp: s };
+    else if (nr === 'D3') D = b ? { ecke: e.Mb, p1: e.S, p2: e.B, k1: hb, k2: { name: 'b/2', wert: m.b / 2, q: m.b * m.b / 4, klasse: 'g' }, hyp: s }
+      : { ecke: e.Ma, p1: e.S, p2: e.B, k1: ha, k2: a2, hyp: s };
+    else return null;
+    D.nr = nr; D.seite = b ? 'b' : 'a';
+    return D;
+  }
+
+  // Flächeninhalte der Netzflächen (aus der Geometrie, nicht aus den Formeln) → Summe muss O sein
+  function netzFlaechen(m, t) {
+    return netz(m, t === undefined ? 1 : t).flaechen.map(function (f) { return { id: f.id, ueber: f.ueber, inhalt: R3D.flaecheninhalt(f.punkte) }; });
+  }
+
+  // alle Reglerwerte 1; 1,5; … ; 12
+  function reglerWerte() {
+    var w = [];
+    for (var x = BEREICH.min; x <= BEREICH.max + 1e-9; x += BEREICH.schritt) w.push(Math.round(x * 2) / 2);
+    return w;
+  }
+
+  return { BEREICH: BEREICH, pruefe: pruefe, masse: masse, ecken: ecken, koerper: koerper, netz: netz,
+    stuetzdreieck: stuetzdreieck, netzFlaechen: netzFlaechen, reglerWerte: reglerWerte };
+})();
+
+</script>
+<script>
+/* App MATH-3D-001 Pyramiden-Labor 3D (Version 0.1) – Bedienung und Darstellung.
+   Rechnet keine Formeln selbst: Größen aus PYR (modell.js), Zeichnen mit R3D (kern/raum3d.js),
+   Bausteine aus LAB (kern/labor.js), Texte aus INHALT (inhalt.py). Modi: Erkunden · Stützdreieck · Netz. */
+LAB.start(function () {
+  'use strict';
+  var T = INHALT, el = LAB.el;
+  var Z = {
+    a: 6, b: 6, hK: 4, quadrat: true, einheit: 'cm',
+    modus: 'erkunden', ansicht: 'schraeg', kam: R3D.ANSICHTEN.schraeg,
+    zeige: { hK: false, ha: false, hb: false, s: false, diag: false },
+    dreieck: 'D1', seite: 'a', netz: 0, rechenweg: false,
+    massstab: null, uebergang: null, vorNetz: null, animation: false, geplant: false, groesse: null
+  };
+  var ui = {};
+
+  /* ---------- Schreibweise: Kurzschrift → HTML (h_K, cm^2, a/2 als Bruch) ---------- */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function fmt(s) {
+    return esc(s).replace(/(^|[^A-Za-z0-9])([A-Za-z0-9])\/(\d)(?![0-9])/g, function (t, vor, z, n) {
+      return vor + '<span class="bruch"><span>' + z + '</span><span>' + n + '</span></span>';
+    }).replace(/([A-Za-z])_([A-Za-z0-9]+)/g, '$1<sub>$2</sub>').replace(/\^(\d+)/g, '<sup>$1</sup>');
+  }
+  var FARBE = { h_K: 'hk', h_a: 'ha', h_b: 'ha', s: 's', 'a/2': 'g', 'b/2': 'g', 'd/2': 'g', d: 'g', G: 'g', M: 'm' };
+  function gr(name) { return '<span class="c-' + (FARBE[name] || 'x') + '">' + fmt(name) + '</span>'; }
+  function grQ(name) { return (/\//.test(name) ? '(' + gr(name) + ')' : gr(name)) + '<sup>2</sup>'; }
+  function E(n) { return Z.einheit + (n ? '<sup>' + n + '</sup>' : ''); }
+  function L(x) { return LAB.wert(x, 2) + ' ' + E(); }                     // Länge: 5 cm · 5,83 cm
+  function F(x, n) { return LAB.wert(x, 2) + ' ' + E(n); }                 // Fläche/Volumen
+  function Q(x) { return LAB.zahl(x, 4) + ' ' + E(2); }                    // genaues Quadrat (Vielfaches von 1/16)
+  function K(x) { return '(' + LAB.zahl(x, 2) + ' ' + E() + ')<sup>2</sup>'; }
+  function rel(x) { return LAB.zeichen(x, 2); }
+
+  /* ---------- Seite aufbauen ---------- */
+  var s = LAB.seite({ titel: T.titel, frage: T.frage, ziel: T.ziel, beiBeamer: function () { Z.groesse = null; Z.massstab = null; zeichnen(); } });
+  ui.buehne = el('div', { 'class': 'buehne', tabindex: '0', role: 'application', 'aria-label': T.buehne_label });
+  ui.buehne.innerHTML = '<svg aria-hidden="true" focusable="false"></svg>';
+  ui.svg = ui.buehne.firstChild;
+  ui.info = el('p', { 'class': 'buehne-info', html: fmt(T.bedienung) });
+  s.buehneFeld.appendChild(ui.buehne);
+  s.buehneFeld.appendChild(ui.info);
+
+  ui.modus = LAB.knopfgruppe({ titel: 'Modus', wert: Z.modus, optionen: [
+    { wert: 'erkunden', text: 'Erkunden' }, { wert: 'dreieck', text: 'Stützdreieck' }, { wert: 'netz', text: 'Netz' }],
+    beiAenderung: waehleModus });
+  ui.ansicht = LAB.knopfgruppe({ titel: 'Ansicht', wert: Z.ansicht, optionen: [
+    { wert: 'schraeg', text: 'Schrägbild', titel: 'wie im Buch: Tiefe halbiert unter 45°' },
+    { wert: 'vorn', text: 'von vorn' }, { wert: 'oben', text: 'von oben' }],
+    beiAenderung: function (w) { Z.vorNetz = null; waehleAnsicht(w); } });
+  s.steuer.appendChild(LAB.karte(null, [ui.modus.el, ui.ansicht.el]));
+
+  // Maße
+  function reglerFuer(name, label, wert, setzen) {
+    return LAB.regler({ label: label, name: name, min: PYR.BEREICH.min, max: PYR.BEREICH.max, schritt: PYR.BEREICH.schritt, wert: wert,
+      anzeige: function (w) { return LAB.zahl(w, 2) + ' ' + Z.einheit; }, beiAenderung: setzen });
+  }
+  ui.ra = reglerFuer('Grundkante a', 'Grundkante <span class="c-x">a</span>', Z.a, function (w) {
+    Z.a = w; if (Z.quadrat) { Z.b = w; ui.rb.setze(w); } zeichnen(); });
+  ui.rb = reglerFuer('Grundkante b', 'Grundkante <span class="c-x">b</span>', Z.b, function (w) { Z.b = w; zeichnen(); });
+  ui.rh = reglerFuer('Körperhöhe h K', 'Körperhöhe ' + gr('h_K'), Z.hK, function (w) { Z.hK = w; zeichnen(); });
+  ui.quadrat = LAB.schalter({ label: 'Grundfläche ist ein Quadrat (b = a)', wert: Z.quadrat, beiAenderung: function (w) {
+    Z.quadrat = w; if (w) { Z.b = Z.a; ui.rb.setze(Z.a); } ui.rb.aktiv(!w); zeichnen(); } });
+  ui.rb.aktiv(!Z.quadrat);
+  ui.einheit = LAB.auswahl({ label: 'Einheit', wert: Z.einheit, optionen: [
+    { wert: 'cm', text: 'cm' }, { wert: 'mm', text: 'mm' }, { wert: 'dm', text: 'dm' }, { wert: 'm', text: 'm' }],
+    beiAenderung: function (w) { Z.einheit = w; [ui.ra, ui.rb, ui.rh].forEach(function (r) { r.neuAnzeigen(); }); zeichnen(); } });
+  s.steuer.appendChild(LAB.karte('Maße', [ui.ra.el, ui.quadrat.el, ui.rb.el, ui.rh.el, ui.einheit.el]));
+
+  // Modus Erkunden
+  ui.schalter = {};
+  var erkunden = [el('p', { 'class': 'klein', html: fmt(T.modi.erkunden) })];
+  [['hK', 'Körperhöhe ' + gr('h_K')], ['ha', 'Seitenhöhe ' + gr('h_a')], ['hb', 'Seitenhöhe ' + gr('h_b')],
+    ['s', 'Seitenkante ' + gr('s')], ['diag', 'Diagonalen der Grundfläche']].forEach(function (z) {
+    ui.schalter[z[0]] = LAB.schalter({ label: 'Zeige ' + z[1], wert: Z.zeige[z[0]], beiAenderung: function (w) { Z.zeige[z[0]] = w; zeichnen(); } });
+    erkunden.push(ui.schalter[z[0]].el);
+  });
+  ui.pErkunden = LAB.karte('Erkunden', erkunden);
+
+  // Modus Stützdreieck
+  ui.dreieck = LAB.knopfgruppe({ titel: 'Stützdreieck', wert: Z.dreieck, optionen: [
+    { wert: 'D1', text: 'D1' }, { wert: 'D2', text: 'D2' }, { wert: 'D3', text: 'D3' }],
+    beiAenderung: function (w) { Z.dreieck = w; zeichnen(); } });
+  ui.seite = LAB.knopfgruppe({ titel: 'Seitenfläche', wert: Z.seite, optionen: [
+    { wert: 'a', text: 'über a' }, { wert: 'b', text: 'über b' }], beiAenderung: function (w) { Z.seite = w; zeichnen(); } });
+  ui.dText = el('p', { 'class': 'klein' });
+  ui.flach = el('div');
+  ui.gleichung = el('div', { 'class': 'gleichung' });
+  ui.pDreieck = LAB.karte('Stützdreieck', [el('p', { 'class': 'klein', html: fmt(T.modi.dreieck) }), ui.dreieck.el, ui.seite.el,
+    ui.dText, ui.flach, ui.gleichung]);
+
+  // Modus Netz
+  ui.netzRegler = LAB.regler({ label: 'Aufklappen', name: 'Aufklappen', min: 0, max: 100, schritt: 1, wert: 0,
+    anzeige: function (w) { return w + ' %'; }, beiAenderung: function (w) { Z.animation = false; setzeNetz(w / 100); } });
+  ui.abspielen = el('button', { type: 'button', 'class': 'knopf', text: '▶ Aufklappen', onclick: netzAbspielen });
+  ui.netzSumme = el('div', { 'class': 'gleichung' });
+  ui.pNetz = LAB.karte('Netz', [el('p', { 'class': 'klein', html: fmt(T.modi.netz) }), ui.netzRegler.el,
+    el('div', { 'class': 'knopfreihe' }, [ui.abspielen]), ui.netzSumme]);
+  [ui.pErkunden, ui.pDreieck, ui.pNetz].forEach(function (p) { s.steuer.appendChild(p); });
+
+  // Werte-Tafel
+  ui.tafel = el('table', { 'class': 'tafel' });
+  ui.rw = LAB.schalter({ label: 'Rechenweg zeigen', wert: false, beiAenderung: function (w) { Z.rechenweg = w; zeichnen(); } });
+  s.steuer.appendChild(LAB.karte('Werte-Tafel', [ui.rw.el, ui.tafel, el('p', { 'class': 'klein', html: fmt(T.tafel_hinweis) })]));
+
+  // unten: Einführung, Aufgaben, Annahmen
+  var NIV = { '▽': 'n1', '◪': 'n2', '☒': 'n3' };
+  s.unten.appendChild(LAB.karte('Aufgaben', [el('p', { html: fmt(T.einfuehrung) }), el('ul', { 'class': 'aufgaben' }, T.aufgaben.map(function (a) {
+    return el('li', {}, [el('span', { 'class': 'niveau ' + (NIV[a.niveau] || 'n1'), 'aria-label': a.stufe, text: a.niveau }),
+      el('div', {}, [el('div', { html: fmt(a.text) }), a.tipp ? el('details', {}, [el('summary', { text: 'Tipp' }), el('p', { html: fmt(a.tipp) })]) : null])]);
+  }))]));
+  s.unten.appendChild(LAB.annahmen('So ist das Modell gebaut', T.annahmen.map(fmt)));
+  s.unten.appendChild(el('p', { 'class': 'klein', text: T.fusszeile }));
+
+  /* ---------- Kamera ---------- */
+  function kamWinkel(k) { return k.art === 'schraeg' ? R3D.FREI_START : k; }
+  // weicher Übergang: Winkel drehen; das Schrägbild (keine Drehung) wird am Anfang/Ende eingeblendet
+  function uebergangsMatrix(von, nach, e) {
+    var a = kamWinkel(von), b = kamWinkel(nach), dd = ((b.dreh - a.dreh + 540) % 360) - 180;
+    var M = R3D.matrix({ art: 'dreh', dreh: a.dreh + dd * e, kipp: a.kipp + (b.kipp - a.kipp) * e });
+    if (von.art === 'schraeg') M = R3D.mische(R3D.matrix(von), M, Math.min(1, e / 0.25));
+    if (nach.art === 'schraeg') M = R3D.mische(M, R3D.matrix(nach), Math.max(0, (e - 0.75) / 0.25));
+    return M;
+  }
+  function aktuelleMatrix() {
+    var u = Z.uebergang;
+    if (!u) return R3D.matrix(Z.kam);
+    var x = Math.min(1, (Date.now() - u.start) / u.dauer);
+    if (x >= 1) { Z.uebergang = null; return R3D.matrix(Z.kam); }
+    return uebergangsMatrix(u.von, Z.kam, x * x * (3 - 2 * x));
+  }
+  function setzeKamera(kam, sanft) {
+    var von = Z.kam;
+    Z.kam = kam;
+    Z.uebergang = sanft && !LAB.wenigerBewegung() ? { von: von, start: Date.now(), dauer: 500 } : null;
+    zeichnen();
+  }
+  function waehleAnsicht(w) { Z.ansicht = w; ui.ansicht.setze(w); setzeKamera(R3D.ANSICHTEN[w], true); }
+  R3D.steuerung(ui.buehne, function (dDreh, dKipp) {
+    Z.uebergang = null; Z.vorNetz = null;
+    if (Z.ansicht) { Z.ansicht = null; ui.ansicht.setze(null); }
+    Z.kam = R3D.drehen(Z.kam, dDreh, dKipp);
+    zeichnen();
+  });
+
+  /* ---------- Modi ---------- */
+  function waehleModus(w) {
+    Z.modus = w; ui.modus.setze(w);
+    if (w !== 'netz') { Z.animation = false; if (Z.vorNetz) { var v = Z.vorNetz; Z.vorNetz = null; Z.ansicht = v.ansicht; ui.ansicht.setze(v.ansicht); setzeKamera(v.kam, true); } }
+    Z.massstab = null;
+    zeichnen();
+  }
+  function setzeNetz(t) {
+    Z.netz = Math.min(1, Math.max(0, t));
+    ui.netzRegler.setze(Math.round(Z.netz * 100));
+    if (Z.netz >= 1 && Z.ansicht !== 'oben') {                   // bei 100 %: Draufsicht
+      Z.vorNetz = { kam: Z.kam, ansicht: Z.ansicht }; waehleAnsicht('oben');
+    } else if (Z.netz < 1 && Z.vorNetz && Z.ansicht === 'oben') {  // wieder zuklappen: alte Ansicht zurück
+      var v = Z.vorNetz; Z.vorNetz = null; Z.ansicht = v.ansicht; ui.ansicht.setze(v.ansicht); setzeKamera(v.kam, true);
+    }
+    zeichnen();
+  }
+  function netzAbspielen() {
+    var ziel = Z.netz < 1 ? 1 : 0, von = Z.netz;
+    if (LAB.wenigerBewegung()) { setzeNetz(ziel); return; }
+    var start = Date.now(), dauer = 2400 * Math.abs(ziel - von);
+    Z.animation = true;
+    (function schritt() {
+      if (!Z.animation) return;
+      var x = Math.min(1, (Date.now() - start) / dauer);
+      setzeNetz(von + (ziel - von) * x);
+      if (x < 1) requestAnimationFrame(schritt); else Z.animation = false;
+    })();
+  }
+
+  /* ---------- Szene ---------- */
+  function strecke(a, b, klasse, text, bezug) { return { a: a, b: b, klasse: klasse, text: text, textKlasse: text ? 't-' + klasse.slice(2) : null, bezug: bezug }; }
+  function szene(m) {
+    var e = PYR.ecken(m), netz = Z.modus === 'netz', teile = netz ? PYR.netz(m, Z.netz) : PYR.koerper(m);
+    var sz = { flaechen: [], strecken: [], winkel: [], marken: [], flaechenTexte: [], bezug: [0, m.hK / 3, 0] };
+    teile.flaechen.forEach(function (f) {
+      sz.flaechen.push({ punkte: f.punkte, klasse: f.id === 'G' ? 'fl-g' : 'fl-m', ebene: f.id === 'G' ? -1 : 0 });
+    });
+    teile.kanten.forEach(function (k) { sz.strecken.push({ a: k[0], b: k[1], klasse: 'k' }); });
+    if (!netz || Z.netz < 0.85) {          // ab 85 % stehen die Flächeninhalte in den Flächen
+      sz.strecken[0].text = 'a'; sz.strecken[0].bezug = e.F;
+      sz.strecken[1].text = 'b'; sz.strecken[1].bezug = e.F;
+    }
+    if (!netz || Z.netz === 0) sz.marken.push({ p: e.S, text: 'S', bezug: e.F });
+    if (Z.modus === 'erkunden') {
+      if (Z.zeige.diag) { sz.strecken.push({ a: e.A, b: e.C, klasse: 'k-d' }, { a: e.B, b: e.D, klasse: 'k-d' }); }
+      if (Z.zeige.hK) {
+        sz.strecken.push(strecke(e.S, e.F, 's-hk', 'h_K', e.B));
+        sz.winkel.push({ ecke: e.F, zu1: e.S, zu2: e.Ma, klasse: 's-hk' });
+      }
+      if (Z.zeige.hK || Z.zeige.diag) sz.marken.push({ p: e.F, text: 'F', bezug: e.B });
+      if (Z.zeige.ha) {
+        sz.strecken.push(strecke(e.S, e.Ma, 's-ha', 'h_a', e.F));
+        sz.winkel.push({ ecke: e.Ma, zu1: e.S, zu2: e.B, klasse: 's-ha' });
+      }
+      if (Z.zeige.hb && !m.quadrat) {
+        sz.strecken.push(strecke(e.S, e.Mb, 's-ha', 'h_b', e.F));
+        sz.winkel.push({ ecke: e.Mb, zu1: e.S, zu2: e.B, klasse: 's-ha' });
+      }
+      if (Z.zeige.s) sz.strecken.push(strecke(e.S, e.B, 's-s', 's', e.F));
+    } else if (Z.modus === 'dreieck') {
+      var D = PYR.stuetzdreieck(Z.dreieck, Z.seite, m), mitte = R3D.schwerpunkt([D.ecke, D.p1, D.p2]);
+      sz.flaechen.push({ punkte: [D.ecke, D.p1, D.p2], klasse: 'fl-d', deckt: false, ebene: 0 });
+      sz.strecken.push(strecke(D.ecke, D.p1, 's-' + D.k1.klasse, D.k1.name, mitte), strecke(D.ecke, D.p2, 's-' + D.k2.klasse, D.k2.name, mitte),
+        strecke(D.p1, D.p2, 's-' + D.hyp.klasse, D.hyp.name, mitte));
+      sz.winkel.push({ ecke: D.ecke, zu1: D.p1, zu2: D.p2, klasse: 'k' });
+      if (D.nr !== 'D3') sz.marken.push({ p: e.F, text: 'F', bezug: mitte });
+    } else if (Z.netz >= 0.85) {
+      // Flächeninhalte in die Flächen schreiben (Dreieck: auf halber Höhe, damit „a“/„b“ an der Kante frei bleiben)
+      teile.flaechen.forEach(function (f) {
+        var inhalt = R3D.flaecheninhalt(f.punkte), p = f.id === 'G' ? R3D.schwerpunkt(f.punkte) : R3D.mitte(R3D.mitte(f.punkte[0], f.punkte[1]), f.punkte[2]);
+        sz.flaechenTexte.push({ p: p, text: (f.id === 'G' ? 'G = ' : '') + LAB.wert(inhalt, 2) + ' ' + Z.einheit + '^2', klasse: f.id === 'G' ? 't-g' : 't-m' });
+      });
+    }
+    var weit = 0;
+    teile.flaechen.forEach(function (f) { f.punkte.forEach(function (p) { weit = Math.max(weit, Math.abs(p[0]), Math.abs(p[2])); }); });
+    sz.gitter = { n: Math.min(24, Math.ceil(weit) + 1) };
+    // Kugel für den Maßstab: im Netz-Modus fest (Körper bis ganz aufgeklappt), sonst der Körper selbst
+    sz.alle = [];
+    teile.flaechen.forEach(function (f) { sz.alle = sz.alle.concat(f.punkte); });
+    if (netz) sz.kugel = { mitte: [0, 0, 0], radius: Math.max(m.b / 2 + m.ha, m.a / 2 + m.hb, m.d / 2, m.hK) };
+    else sz.kugel = R3D.umkugel(sz.alle);
+    return sz;
+  }
+
+  /* ---------- Stützdreieck flach daneben + Gleichung ---------- */
+  function flachSvg(D) {
+    var W = 340, H = 230, rl = 58, rr = 46, ro = 34, ru = 50, f = 18;
+    var k1 = D.k1.wert, k2 = D.k2.wert, m = Math.min((W - rl - rr) / k2, (H - ro - ru) / k1);
+    var x0 = rl + ((W - rl - rr) - k2 * m) / 2, y0 = H - ru, x2 = x0 + k2 * m, y1 = y0 - k1 * m, g = Math.min(14, 0.3 * Math.min(k1, k2) * m);
+    function n(v) { return Math.round(v * 10) / 10; }
+    function linie(xa, ya, xb, yb, k) { return '<line class="s-' + k + '" x1="' + n(xa) + '" y1="' + n(ya) + '" x2="' + n(xb) + '" y2="' + n(yb) + '"/>'; }
+    var hl = Math.sqrt(k2 * k2 + k1 * k1) * m, nx = (y0 - y1) / hl, ny = -(x2 - x0) / hl;   // Normale der Hypotenuse nach außen
+    return '<svg class="flach" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Stützdreieck ' + D.nr + ' flach: rechter Winkel unten links">' +
+      '<g font-size="' + f + '"><polygon class="fl-d" points="' + [x0, y0, x0, y1, x2, y0].map(n).join(' ') + '"/>' +
+      linie(x0, y0, x0, y1, D.k1.klasse) + linie(x0, y0, x2, y0, D.k2.klasse) + linie(x0, y1, x2, y0, D.hyp.klasse) +
+      '<polyline class="wi k" points="' + [x0 + g, y0, x0 + g, y0 - g, x0, y0 - g].map(n).join(' ') + '"/>' +
+      R3D.text(x0 - 26, (y0 + y1) / 2, D.k1.name, 't-' + D.k1.klasse, f) +
+      R3D.text((x0 + x2) / 2, y0 + (/\//.test(D.k2.name) ? 22 : 18), D.k2.name, 't-' + D.k2.klasse, f) +
+      R3D.text((x0 + x2) / 2 + nx * 18, (y0 + y1) / 2 + ny * 18, D.hyp.name, 't-' + D.hyp.klasse, f) +
+      R3D.text(x0 - 12, y1 - 12, 'S', '', f) + '</g></svg>';
+  }
+  function zeile(html, klasse) { return '<div class="zeile' + (klasse ? ' ' + klasse : '') + '">' + html + '</div>'; }
+  // Pythagoras-Rechnung wie im Buch: Formel → Einsetzen → Quadrate → Summe | √ → Ergebnis
+  function pythagoras(D, m) {
+    var h = D.hyp, k1 = D.k1, k2 = D.k2, z = [];
+    function ein(k) { return /h_a|h_b|d\/2/.test(k.name) ? Q(k.q) : K(k.wert); }   // abgeleitete Größen: mit dem Quadrat weiterrechnen
+    if (D.nr === 'D2') z.push(zeile('Zuerst die Diagonale ' + gr('d') + ' der Grundfläche: ' + gr('d') + '<sup>2</sup> = a<sup>2</sup> + b<sup>2</sup> = ' +
+      K(m.a) + ' + ' + K(m.b) + ' = ' + Q(m.d2) + ', also ' + gr('d') + ' ' + rel(m.d) + ' ' + L(m.d) + ' und ' +
+      grQ('d/2') + ' = ' + gr('d') + '<sup>2</sup> : 4 = ' + Q(m.d2 / 4), 'vor'));
+    if (D.nr === 'D3') {
+      var e1 = D.seite === 'b' ? 'a/2' : (m.quadrat ? 'a/2' : 'b/2');
+      z.push(zeile('Zuerst ' + gr(k1.name) + ' mit D1: ' + grQ(k1.name) + ' = ' + grQ('h_K') + ' + ' + grQ(e1) + ' = ' + Q(k1.q), 'vor'));
+    }
+    z.push(zeile('Hypotenuse (gegenüber vom rechten Winkel): ' + gr(h.name) + ' · Katheten: ' + gr(k1.name) + ' und ' + gr(k2.name), 'vor'));
+    z.push(zeile(grQ(h.name) + ' = ' + grQ(k1.name) + ' + ' + grQ(k2.name)));
+    var a1 = ein(k1), a2 = ein(k2);
+    z.push(zeile(grQ(h.name) + ' = ' + a1 + ' + ' + a2));
+    if (/\(/.test(a1 + a2)) z.push(zeile(grQ(h.name) + ' = ' + Q(k1.q) + ' + ' + Q(k2.q)));
+    z.push(zeile(grQ(h.name) + ' = ' + Q(h.q) + '<span class="rand">| √</span>'));
+    z.push(zeile(gr(h.name) + ' ' + rel(h.wert) + ' ' + L(h.wert), 'ergebnis'));
+    z.push(zeile('Umgestellt, wenn ' + gr(h.name) + ' gegeben ist: ' + grQ(k1.name) + ' = ' + grQ(h.name) + ' − ' + grQ(k2.name), 'vor'));
+    return z.join('');
+  }
+
+  /* ---------- Werte-Tafel mit Rechenweg ---------- */
+  function tafel(m) {
+    var q = m.quadrat, hb = q ? 'a/2' : 'b/2';
+    var zeilen = [
+      ['a', L(m.a), 'gegeben'],
+      ['b', L(m.b), q ? 'Quadrat: b = a' : 'gegeben'],
+      [gr('h_K'), L(m.hK), 'gegeben'],
+      [gr('h_a'), rel(m.ha) + ' ' + L(m.ha), grQ('h_a') + ' = ' + grQ('h_K') + ' + ' + grQ(hb) + ' = ' + K(m.hK) + ' + ' + K(m.b / 2) + ' = ' + Q(m.ha2) +
+        ' | √ → ' + gr('h_a') + ' ' + rel(m.ha) + ' ' + L(m.ha)],
+      [gr('h_b'), rel(m.hb) + ' ' + L(m.hb), q ? 'Quadrat: ' + gr('h_b') + ' = ' + gr('h_a') : grQ('h_b') + ' = ' + grQ('h_K') + ' + ' + grQ('a/2') + ' = ' +
+        K(m.hK) + ' + ' + K(m.a / 2) + ' = ' + Q(m.hb2) + ' | √ → ' + gr('h_b') + ' ' + rel(m.hb) + ' ' + L(m.hb)],
+      [gr('s'), rel(m.s) + ' ' + L(m.s), grQ('s') + ' = ' + grQ('h_a') + ' + ' + grQ('a/2') + ' = ' + Q(m.ha2) + ' + ' + K(m.a / 2) + ' = ' + Q(m.s2) +
+        ' | √ → ' + gr('s') + ' ' + rel(m.s) + ' ' + L(m.s)],
+      [gr('G'), rel(m.G) + ' ' + F(m.G, 2), gr('G') + ' = a · b = ' + L(m.a) + ' · ' + L(m.b) + ' ' + rel(m.G) + ' ' + F(m.G, 2)],
+      [gr('M'), rel(m.M) + ' ' + F(m.M, 2), (q ? gr('M') + ' = 4 · a · ' + gr('h_a') + ' : 2 = 2 · a · ' + gr('h_a') + ' = 2 · ' + L(m.a) + ' · ' + L(m.ha)
+        : gr('M') + ' = 2 · a · ' + gr('h_a') + ' : 2 + 2 · b · ' + gr('h_b') + ' : 2 = a · ' + gr('h_a') + ' + b · ' + gr('h_b') + ' = ' + L(m.a) + ' · ' + L(m.ha) +
+          ' + ' + L(m.b) + ' · ' + L(m.hb)) + ' ' + rel(m.M) + ' ' + F(m.M, 2)],
+      ['O', rel(m.O) + ' ' + F(m.O, 2), 'O = ' + gr('G') + ' + ' + gr('M') + ' = ' + F(m.G, 2) + ' + ' + F(m.M, 2) + ' ' + rel(m.O) + ' ' + F(m.O, 2)],
+      ['V', rel(m.V) + ' ' + F(m.V, 3), 'V = ' + fmt('1/3') + ' · ' + gr('G') + ' · ' + gr('h_K') + ' = ' + fmt('1/3') + ' · ' + F(m.G, 2) + ' · ' + L(m.hK) +
+        ' ' + rel(m.V) + ' ' + F(m.V, 3)]
+    ];
+    ui.tafel.innerHTML = '<tbody>' + zeilen.map(function (z) {
+      return '<tr><th scope="row">' + z[0] + '</th><td class="wert">' + z[1] + '</td></tr>' +
+        (Z.rechenweg ? '<tr class="rw"><td colspan="2">' + z[2] + '</td></tr>' : '');
+    }).join('') + '</tbody>';
+  }
+
+  /* ---------- Zeichnen (höchstens einmal je Bild) ---------- */
+  function zeichnen() {
+    if (Z.geplant) return;
+    Z.geplant = true;
+    requestAnimationFrame(function () { Z.geplant = false; jetztZeichnen(); });
+  }
+  function jetztZeichnen() {
+    var m = PYR.masse(Z.a, Z.quadrat ? Z.a : Z.b, Z.hK);
+    if (m.fehler) {
+      ui.svg.innerHTML = '';
+      ui.tafel.innerHTML = '<tbody><tr><td class="hinweis-fehler">' + esc(m.fehler) + '</td></tr></tbody>';
+      return;
+    }
+    // Größe der Zeichenfläche (1 Einheit im SVG = 1 Pixel, damit die Schrift echte 17 px hat)
+    var r = ui.buehne.getBoundingClientRect(), w = Math.max(200, Math.round(r.width)), h = Math.max(200, Math.round(r.height));
+    if (!Z.groesse || Z.groesse[0] !== w || Z.groesse[1] !== h) { Z.groesse = [w, h]; Z.massstab = null; ui.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h); }
+    var beamer = LAB.istBeamer(), schrift = beamer ? 24 : 17, rand = beamer ? 44 : 32;
+    var sz = szene(m), M = aktuelleMatrix();
+    var fit = R3D.passend(sz.kugel, M, w, h, rand);
+    // Maßstab springt nicht bei jeder Reglerbewegung: nur wenn der Körper nicht mehr passt oder viel zu klein wird
+    if (Z.modus === 'netz' || !Z.massstab || Z.massstab > fit * 1.0001 || Z.massstab < fit * 0.6) Z.massstab = fit;
+    var B = R3D.zentriere(R3D.abbildung(M, sz.kugel.mitte, Z.massstab, w, h), sz.alle);
+    ui.svg.innerHTML = R3D.svgSzene(sz, B, { schrift: schrift });
+
+    [ui.pErkunden, ui.pDreieck, ui.pNetz].forEach(function (p, i) { p.hidden = ['erkunden', 'dreieck', 'netz'][i] !== Z.modus; });
+    ui.schalter.hb.el.hidden = m.quadrat;
+    ui.seite.el.hidden = m.quadrat;
+    if (Z.modus === 'dreieck') {
+      var D = PYR.stuetzdreieck(Z.dreieck, Z.seite, m);
+      ui.dText.innerHTML = D.nr + ': ' + gr(D.k1.name) + ', ' + gr(D.k2.name) + ' und ' + gr(D.hyp.name) +
+        (D.nr === 'D3' ? ' – liegt in der Seitenfläche über ' + D.seite : D.nr === 'D1' ? ' – steht senkrecht in der Pyramide' : ' – steht senkrecht über der Diagonale');
+      ui.flach.innerHTML = flachSvg(D);
+      ui.gleichung.innerHTML = pythagoras(D, m);
+    }
+    if (Z.modus === 'netz') {
+      var fl = PYR.netzFlaechen(m, Z.netz), summe = 0;
+      fl.forEach(function (f) { summe += f.inhalt; });
+      ui.abspielen.textContent = Z.netz < 1 ? '▶ Aufklappen' : '◀ Zuklappen';
+      ui.netzSumme.innerHTML = zeile('Summe der 5 Flächen (' + gr('G') + ' + 4 Dreiecke):', 'vor') +
+        zeile(fl.map(function (f) { return F(f.inhalt, 2); }).join(' + ') + ' ' + rel(summe) + ' ' + F(summe, 2)) +
+        zeile((Math.abs(summe - m.O) < 1e-9 * m.O ? 'Das ist genau die Oberfläche O = ' + gr('G') + ' + ' + gr('M') + ' ✓' : 'Abweichung von O!'), 'ergebnis');
+    }
+    tafel(m);
+    if (Z.uebergang) zeichnen();
+  }
+
+  window.addEventListener('resize', zeichnen);
+  zeichnen();
+});
+
+</script>
+</body>
+</html>
