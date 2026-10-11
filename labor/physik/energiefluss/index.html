@@ -1,0 +1,1458 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energieflussdiagramm-Baukasten</title>
+<style>
+/* Labor-Kern (CROSS-001) – Gestaltung aller Labor-Apps.
+   Farben: Palette „Mathe 10 G-Kurs“ (01_PERSOENLICH/gestaltungsrichtlinien.md §4), für Text auf Weiß
+   abgedunkelt bis Kontrast ≥ 4,5 : 1 (§2). Fachgrößen-Farben: Farbcode Dreifach Mathe 10 G
+   (08_QUELLEN/Schulbuecher/Dreifach_Mathe_10_G/DARSTELLUNGSKONVENTIONEN.md §1). */
+:root {
+  --dunkel: #1F2A44;        /* Nachtblau: Kopf */
+  --haupt: #23705A;         /* Grün #2E8B6F abgedunkelt (5,9 : 1) für Text und Knöpfe */
+  --haupt-hell: #2E8B6F;
+  --akzent: #E07B39;        /* Orange: nur Rahmen/Flächen, nie Text */
+  --hell: #EEF2F8;
+  --text: #111827;
+  --neben: #374151;
+  --linie: #9AA8BF;         /* kräftiger Rahmen statt blasser Fläche (Beamer) */
+  --fehler: #B3261E;
+  /* Fachgrößen (Buchfarben) */
+  --f-hk: #C62828;          /* Körperhöhe h_K: rot */
+  --f-ha: #7B3FA0;          /* Seitenhöhen h_a, h_b: lila */
+  --f-s: #23705A;           /* Seitenkante s: grün (im Buch für die Pyramide nicht festgelegt) */
+  --f-g: #1F5FAD;           /* Grundfläche und Strecken darin (a/2, b/2, d/2): blau */
+  --f-m: #9A4A12;           /* Mantel/Seitenflächen: orange (abgedunkelt für Text) */
+  --schrift: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font: 18px/1.45 var(--schrift); color: var(--text); background: #fff; }
+button, input, select { font: inherit; color: inherit; }
+sub, sup { font-size: 0.72em; line-height: 0; }
+
+/* ---------- ohne JavaScript / Fehler ---------- */
+.ohne-js { margin: 24px 16px; padding: 16px 18px; border: 3px solid var(--akzent); border-radius: 10px;
+  background: #FFF4E8; font-size: 20px; }
+.fehlerbox { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 50; padding: 12px 16px;
+  border: 3px solid var(--fehler); border-radius: 10px; background: #fff; color: var(--fehler); font-weight: 600; }
+.hinweis-fehler { padding: 10px 12px; border: 2px solid var(--fehler); border-radius: 8px; color: var(--fehler); font-weight: 600; }
+
+/* ---------- Seitengerüst ---------- */
+.kopf { background: var(--dunkel); color: #fff; padding: 12px 16px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 8px 16px; }
+.kopf-text { flex: 1 1 260px; }
+.kopf h1 { margin: 0; font-size: 26px; line-height: 1.2; }
+.kopf .frage { margin: 2px 0 0; font-size: 19px; }
+.kopf .ziel { margin: 2px 0 0; font-size: 16px; opacity: 0.92; }
+.kopf .knopf { border-color: #fff; color: #fff; background: transparent; }
+.kopf .knopf[aria-pressed="true"] { background: #fff; color: var(--dunkel); }
+
+.lab { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 12px 16px; max-width: 1280px; margin: 0 auto; }
+.buehne-feld { position: sticky; top: 0; z-index: 5; align-self: start; background: #fff; padding-top: 4px; }
+.buehne { position: relative; height: min(88vw, 46vh); min-height: 260px; border: 2px solid var(--linie);
+  border-radius: 10px; background: #fff; overflow: hidden; touch-action: none; cursor: grab; outline: none; }
+.buehne:active { cursor: grabbing; }
+.buehne:focus-visible { box-shadow: 0 0 0 3px var(--akzent); }
+.buehne svg { display: block; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; }
+.buehne-info { margin: 4px 2px 0; font-size: 16px; color: var(--neben); }
+.steuer { min-width: 0; }
+.unten { max-width: 1280px; margin: 0 auto; padding: 0 16px 24px; }
+@media (min-width: 900px) {
+  .lab { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); align-items: start; }
+  .buehne-feld { top: 8px; }
+  .buehne { height: min(72vh, 640px); }
+}
+
+/* ---------- Karten, Knöpfe, Regler ---------- */
+.karte { border: 2px solid var(--linie); border-radius: 10px; padding: 10px 14px 12px; margin: 0 0 12px; background: #fff; }
+.karte > h2, .karte > summary { margin: 0 0 6px; font-size: 19px; font-weight: 700; }
+.karte p { margin: 4px 0; }
+.klein { font-size: 16px; color: var(--neben); }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.knopfreihe-titel { font-size: 16px; color: var(--neben); margin: 6px 0 0; }
+.knopf { min-height: 44px; padding: 6px 14px; border: 2px solid var(--haupt); border-radius: 8px; background: #fff;
+  color: var(--haupt); font-weight: 600; cursor: pointer; }
+.knopf[aria-pressed="true"] { background: var(--haupt); color: #fff; }
+.knopf:focus-visible, .schritt:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--akzent); outline-offset: 2px; }
+.knopf:disabled { opacity: 0.45; cursor: default; }
+.regler { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0 10px; margin: 8px 0 4px; }
+.regler label { font-weight: 600; }
+.regler output { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 4.5em; text-align: right; }
+.regler-zeile { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.regler input[type="range"] { flex: 1; min-width: 0; height: 36px; margin: 0; accent-color: var(--haupt); }
+.schritt { width: 44px; height: 44px; flex: none; border: 2px solid var(--haupt); border-radius: 8px; background: #fff;
+  color: var(--haupt); font-size: 22px; font-weight: 700; line-height: 1; cursor: pointer; }
+.regler.aus { opacity: 0.5; }
+.schalter { display: flex; align-items: center; gap: 10px; min-height: 40px; margin: 2px 0; cursor: pointer; }
+.schalter input { width: 22px; height: 22px; margin: 0; accent-color: var(--haupt); flex: none; }
+.auswahl { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.auswahl select { min-height: 40px; padding: 4px 8px; border: 2px solid var(--haupt); border-radius: 8px; background: #fff; }
+
+/* ---------- Annahmen-Kasten ---------- */
+.annahmen { border-color: var(--haupt-hell); background: #F5F9F7; }
+.annahmen summary { cursor: pointer; }
+.annahmen ul { margin: 6px 0 0; padding-left: 22px; }
+
+/* ---------- Tafel, Gleichungen ---------- */
+.tafel { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tafel th, .tafel td { padding: 5px 6px; border-bottom: 1px solid #C9D3E3; text-align: left; vertical-align: top; }
+.tafel th { font-weight: 700; width: 5.5em; }
+.tafel td.wert { font-weight: 600; }
+.tafel tr.rw td { padding-top: 0; font-size: 16px; color: var(--neben); }
+.gleichung { margin: 6px 0 0; }
+.gleichung .zeile { padding: 3px 0; font-size: 19px; line-height: 1.6; }
+.gleichung .zeile.vor { font-size: 16px; color: var(--neben); }
+.gleichung .zeile.ergebnis { font-weight: 700; }
+.gleichung .rand { color: var(--neben); margin-left: 16px; white-space: nowrap; }
+.bruch { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; font-size: 0.82em;
+  line-height: 1.05; margin: 0 1px; }
+.bruch > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 2px; }
+.wz { white-space: nowrap; }
+.wz .rad { border-top: 1.5px solid currentColor; padding: 0 2px; }
+.c-hk { color: var(--f-hk); font-weight: 700; }
+.c-ha { color: var(--f-ha); font-weight: 700; }
+.c-s  { color: var(--f-s); font-weight: 700; }
+.c-g  { color: var(--f-g); font-weight: 700; }
+.c-m  { color: var(--f-m); font-weight: 700; }
+
+/* ---------- Aufgaben ---------- */
+.aufgaben { list-style: none; margin: 0; padding: 0; }
+.aufgaben li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #C9D3E3; }
+.niveau { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  border-radius: 6px; font-size: 20px; font-weight: 700; color: #111827; }
+.niveau.n1 { background: #FFD84D; }   /* ▽ gelb  */
+.niveau.n2 { background: #F4A259; }   /* ◪ orange */
+.niveau.n3 { background: #C9A3E0; }   /* ☒ lila  */
+.aufgaben details { margin-top: 4px; font-size: 16px; color: var(--neben); }
+.aufgaben summary { cursor: pointer; color: var(--haupt); font-weight: 600; }
+
+/* ---------- Zeichnungen (SVG) ---------- */
+.gitter line { stroke: #CBD5E3; stroke-width: 1; }
+.fl-g { fill: #8FBDEB; fill-opacity: 0.75; }
+.fl-m { fill: #F5B37E; fill-opacity: 0.3; }
+.fl-d { fill: #FFD84D; fill-opacity: 0.72; }
+.k { stroke: #111827; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+.k-d { stroke: #374151; stroke-width: 1.5; fill: none; }
+.s-hk { stroke: var(--f-hk); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.s-ha { stroke: var(--f-ha); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.s-s  { stroke: var(--f-s); stroke-width: 3.6; fill: none; stroke-linecap: round; }
+.s-g  { stroke: var(--f-g); stroke-width: 3.4; fill: none; stroke-linecap: round; }
+.v { stroke-dasharray: 7 6; stroke-linecap: butt; }
+.k.v { stroke-width: 1.6; stroke: #374151; }
+.s-hk.v, .s-ha.v, .s-s.v, .s-g.v { stroke-dasharray: 10 5; }   /* farbige Strecken im Inneren: lange Striche */
+.wi { fill: none; stroke-width: 1.8; }
+.wi.s-hk, .wi.s-ha, .wi.s-g, .wi.s-s { stroke-width: 1.8; }
+.pk { fill: #111827; }
+.t { font-family: var(--schrift); font-weight: 700; fill: #111827; paint-order: stroke; stroke: #fff;
+  stroke-width: 4px; stroke-linejoin: round; }
+.t-hk { fill: var(--f-hk); }
+.t-ha { fill: var(--f-ha); }
+.t-s  { fill: var(--f-s); }
+.t-g  { fill: var(--f-g); }
+.t-m  { fill: var(--f-m); }
+.bs { stroke-width: 1.6; }
+.bs.t-hk { stroke: var(--f-hk); } .bs.t-ha { stroke: var(--f-ha); } .bs.t-s { stroke: var(--f-s); }
+.bs.t-g { stroke: var(--f-g); } .bs.t { stroke: #111827; }
+.flach { display: block; width: 100%; max-width: 460px; height: auto; margin: 4px auto 0; }
+
+/* ---------- Beamer-Modus: große Schrift, dicke Linien, große Zeichenfläche ---------- */
+body.beamer { font-size: 22px; }
+body.beamer .kopf h1 { font-size: 34px; }
+body.beamer .kopf .frage { font-size: 26px; }
+body.beamer .kopf .ziel { font-size: 20px; }
+body.beamer .klein, body.beamer .buehne-info, body.beamer .tafel tr.rw td, body.beamer .gleichung .zeile.vor { font-size: 19px; }
+body.beamer .gleichung .zeile { font-size: 24px; }
+body.beamer .lab { max-width: none; }
+body.beamer .unten { max-width: none; }
+@media (min-width: 900px) {
+  body.beamer .lab { grid-template-columns: minmax(0, 2fr) minmax(360px, 1fr); }
+  body.beamer .buehne { height: 80vh; }
+}
+body.beamer .k { stroke-width: 3.4; }
+body.beamer .k.v { stroke-width: 2.4; }
+body.beamer .k-d { stroke-width: 2.2; }
+body.beamer .s-hk, body.beamer .s-ha, body.beamer .s-g { stroke-width: 5; }
+body.beamer .s-s { stroke-width: 5.4; }
+body.beamer .wi { stroke-width: 2.6; }
+body.beamer .v { stroke-dasharray: 10 8; }
+body.beamer .s-hk.v, body.beamer .s-ha.v, body.beamer .s-s.v, body.beamer .s-g.v { stroke-dasharray: 14 7; }
+body.beamer .t { stroke-width: 5px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+@media (max-width: 699px) {          /* Handy: Kopf kompakt, Beamer-Knopf weg */
+  .kopf { padding: 8px 16px; }
+  .kopf h1 { font-size: 22px; }
+  .kopf .frage { font-size: 18px; }
+  .kopf .ziel, .kopf .knopf { display: none; }
+  .knopf { padding: 6px 10px; font-size: 17px; }
+  .knopfreihe { gap: 5px; }
+  .karte { padding: 8px 10px 10px; }
+}
+
+/* Fachfarben Physik 10 (CROSS-001, Zusatz) – nach labor.css einbinden.
+   Palette „Physik 10“ aus 01_PERSOENLICH/gestaltungsrichtlinien.md §4; Petrol #0E7C7B hat auf Weiß 5,0 : 1.
+   Energieformen: feste Farben für alle Physik-Apps („immer dieselbe Legende“, RP 10e UV 1 §3).
+   Farbe ist nie das einzige Merkmal – jede Fläche trägt zusätzlich ihren Namen. */
+:root {
+  --dunkel: #34434F;        /* Schiefer: Kopf */
+  --haupt: #0E7C7B;         /* Petrol: Text, Knöpfe */
+  --haupt-hell: #0E7C7B;
+  --akzent: #E4572E;        /* Rotorange: nur Rahmen/Fokus */
+  --hell: #F0F3F5;
+  --text: #16202A;
+  /* Energieformen */
+  --e-elektrisch: #2B6CB0;
+  --e-licht: #E3B505;
+  --e-thermisch: #D9480F;
+  --e-bewegung: #2F9E44;
+  --e-lage: #8D6E63;
+  --e-chemisch: #7B3FA0;
+  --e-kern: #5F6B76;
+  --e-spann: #C2255C;
+}
+.annahmen { background: #F2F7F7; }
+
+/* Energiefluss-Bänder (SVG) */
+.ef-elektrisch { fill: var(--e-elektrisch); }
+.ef-licht { fill: var(--e-licht); }
+.ef-thermisch { fill: var(--e-thermisch); }
+.ef-bewegung { fill: var(--e-bewegung); }
+.ef-lage { fill: var(--e-lage); }
+.ef-chemisch { fill: var(--e-chemisch); }
+.ef-kern { fill: var(--e-kern); }
+.ef-spann { fill: var(--e-spann); }
+.band { fill-opacity: 0.88; stroke: #16202A; stroke-width: 1; stroke-linejoin: round; }
+.band.kette { fill-opacity: 0.7; }
+.wandler { fill: #fff; stroke: #16202A; stroke-width: 2; }
+.wandler-text { font-family: var(--schrift); font-size: 15px; font-weight: 700; fill: #16202A; }
+.ef-text { font-family: var(--schrift); font-size: 15px; fill: #16202A; paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
+.ef-text.form { font-weight: 700; }
+.ef-text.hinweis { font-size: 13px; fill: #374151; }
+.farbpunkt { display: inline-block; width: 0.9em; height: 0.9em; border: 1px solid #16202A; border-radius: 2px;
+  vertical-align: -0.1em; margin-right: 4px; }
+body.beamer .wandler-text, body.beamer .ef-text { font-size: 18px; }
+body.beamer .ef-text.hinweis { font-size: 15px; }
+
+/* Farbfelder in Legende und Texten */
+.ef-bg-elektrisch { background: var(--e-elektrisch); } .ef-bg-licht { background: var(--e-licht); }
+.ef-bg-thermisch { background: var(--e-thermisch); } .ef-bg-bewegung { background: var(--e-bewegung); }
+.ef-bg-lage { background: var(--e-lage); } .ef-bg-chemisch { background: var(--e-chemisch); }
+.ef-bg-kern { background: var(--e-kern); } .ef-bg-spann { background: var(--e-spann); }
+
+/* Bühne für flache, breite Diagramme (keine 3D-Gesten): volle Breite, nicht festgeheftet, seitlich wischbar;
+   Einstellungen darunter in Spalten */
+.buehne-feld.ef-feld { position: static; }
+.lab.ef-lab, body.beamer .lab.ef-lab { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 700px) { .ef-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 12px; align-items: start; } }
+.ef-buehne { border: 2px solid var(--linie); border-radius: 10px; background: #fff; padding: 6px; overflow-x: auto;
+  -webkit-overflow-scrolling: touch; margin-bottom: 6px; }
+.ef-buehne svg { display: block; margin: 0 auto; }
+.ef-titel { margin: 6px 2px 4px; font-weight: 700; }
+.ef-platzhalter { margin: 0; padding: 40px 16px; text-align: center; color: var(--neben); }
+.ef-eigen { display: grid; gap: 0 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.ef-stufe[hidden], .ef-eigen[hidden] { display: none; }
+.ef-ergebnis p { margin: 4px 0; }
+
+/* Niveau-Sterne (Physik) brauchen mehr Platz als die Mathe-Symbole */
+.niveau.p { width: auto; min-width: 34px; padding: 0 6px; font-size: 15px; letter-spacing: -1px; }
+
+/* Üben */
+.ueben-text { font-size: 19px; }
+.ef-feldzeile { margin: 8px 0; }
+.ef-feldzeile label { display: block; font-weight: 600; }
+.ef-eingabe-zeile { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+.ef-eingabe { width: 9em; min-height: 44px; padding: 4px 10px; border: 2px solid var(--haupt); border-radius: 8px; font-size: 20px; }
+.rueck { margin: 2px 0 0; font-size: 16px; min-height: 0; }
+.rueck.ok { color: #1E6B34; font-weight: 700; }
+.rueck.falsch { color: var(--fehler); font-weight: 600; }
+.ef-meldung { font-weight: 700; color: var(--haupt); }
+
+/* Drucken: Diagramme, Legende und Ergebnis – keine Bedienelemente */
+@media print {
+  .kopf .knopf, .unten, .steuer .karte:not(.ef-druck), .ef-druck .knopfreihe, .ef-druck .schalter, .fehlerbox { display: none !important; }
+  .buehne-feld.ef-feld { position: static; }
+  .lab { display: block; }
+  .ef-buehne { overflow: visible; border-color: #999; }
+  .ef-buehne svg { width: 100% !important; height: auto !important; }
+  .kopf { background: #fff; color: #000; border-bottom: 2px solid #000; }
+}
+
+</style>
+</head>
+<body>
+<div id="ohne-js" class="ohne-js"><strong>Energieflussdiagramm-Baukasten</strong><br>Bitte im Browser öffnen (Safari oder Chrome). Diese Seite braucht JavaScript – die Vorschau auf dem iPhone (z. B. aus „Dateien“ oder einer Mail) zeigt sie nicht richtig.</div>
+<div id="app" hidden></div>
+<script>
+/* LAB – Labor-Kern (CROSS-001), erste Fassung für MATH-3D-001.
+   Enthält: Zahlformat (deutsch, Komma, „≈“), Speicher (nur Komfort), Seitengerüst, Regler mit Label,
+   Schalter, Knopfgruppe, Auswahl, Annahmen-Kasten, Beamer-Modus, Fehlermeldung, Hinweis ohne JavaScript.
+   Zahlformat übernommen aus werkzeuge/lernseite_mathe10g/kern/ml_basis.js (ML.runde, ML.zahl, ML.ungefaehr).
+   Beim Laden wird die Seite nicht angefasst – die Rechenteile laufen auch in den Tests (ohne Seite). */
+var LAB = (function () {
+  'use strict';
+
+  /* ---------- Zahlen (aus ML übernommen) ---------- */
+  // kaufmännisch runden; toPrecision(15) entfernt Gleitkomma-Rauschen (2,675 · 100 = 267,49999…)
+  function runde(x, stellen) {
+    if (!isFinite(x)) return x;
+    var f = Math.pow(10, stellen), y = Number((Math.abs(x) * f).toPrecision(15));
+    return (x < 0 ? -1 : 1) * Math.round(y) / f;
+  }
+  // deutsche Schreibweise: Komma, höchstens maxSt Nachkommastellen, Nullen am Ende weg, Tausender mit Leerzeichen
+  function zahl(x, maxSt) {
+    if (maxSt === undefined) maxSt = 2;
+    if (!isFinite(x)) return '–';
+    var r = runde(x, maxSt), neg = r < 0;
+    var s = Math.abs(r).toFixed(maxSt).split('.');
+    var ganz = s[0], dez = (s[1] || '').replace(/0+$/, '');
+    if (ganz.length > 3) ganz = ganz.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (neg && r !== 0 ? '−' : '') + ganz + (dez ? ',' + dez : '');
+  }
+  function istGenau(x, st) { return Math.abs(x - runde(x, st)) < 1e-9; }
+  function zeichen(x, st) { return istGenau(x, st) ? '=' : '≈'; }
+  // genaue Werte ohne Nullen am Ende (5), gerundete mit fester Stellenzahl (6,40) – wie im Buch
+  function wert(x, st) {
+    if (st === undefined) st = 2;
+    if (!isFinite(x) || istGenau(x, st)) return zahl(x, st);
+    var t = zahl(x, st), k = t.indexOf(','), hat = k < 0 ? 0 : t.length - k - 1;
+    return hat >= st ? t : t + (k < 0 ? ',' : '') + new Array(st - hat + 1).join('0');
+  }
+  function ungefaehr(x, st) { return zeichen(x, st) + ' ' + wert(x, st); }
+
+  /* ---------- Speicher: nur Komfort, Seite läuft auch ohne ---------- */
+  var speicher = {
+    lies: function (k, std) {
+      try { var w = window.localStorage.getItem('labor.' + k); return w === null ? std : JSON.parse(w); } catch (e) { return std; }
+    },
+    schreib: function (k, w) { try { window.localStorage.setItem('labor.' + k, JSON.stringify(w)); } catch (e) { /* egal */ } }
+  };
+
+  /* ---------- Seitenbausteine ---------- */
+  var zaehler = 0;
+  function neueId(p) { zaehler += 1; return (p || 'lab') + '-' + zaehler; }
+  // el('div', {class: 'x', html: '…', onclick: f}, [kinder])
+  function el(tag, attr, kinder) {
+    var e = document.createElement(tag);
+    Object.keys(attr || {}).forEach(function (k) {
+      var w = attr[k];
+      if (w === undefined || w === null || w === false) return;
+      if (k === 'html') e.innerHTML = w;
+      else if (k === 'text') e.textContent = w;
+      else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), w);
+      else e.setAttribute(k, w === true ? '' : w);
+    });
+    (kinder || []).forEach(function (c) { if (c) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return e;
+  }
+
+  // Regler mit Label, Anzeige und −/+-Knöpfen. opt: label (HTML), name (für Vorlesen), min, max, schritt, wert,
+  // anzeige(wert) → Text, beiAenderung(wert)
+  function regler(opt) {
+    var id = neueId('regler'), schritt = opt.schritt || 1;
+    var anzeige = opt.anzeige || function (w) { return zahl(w, 2); };
+    var input = el('input', { type: 'range', id: id, min: opt.min, max: opt.max, step: schritt, value: opt.wert });
+    var out = el('output', { 'for': id });
+    function zeige() {
+      var t = anzeige(Number(input.value));
+      out.textContent = t;
+      input.setAttribute('aria-valuetext', t);
+    }
+    function setze(w, melden) {
+      w = Math.min(opt.max, Math.max(opt.min, Math.round(w / schritt) * schritt));
+      input.value = String(w); zeige();
+      if (melden && opt.beiAenderung) opt.beiAenderung(Number(input.value));
+    }
+    input.addEventListener('input', function () { zeige(); if (opt.beiAenderung) opt.beiAenderung(Number(input.value)); });
+    var minus = el('button', { type: 'button', 'class': 'schritt', 'aria-label': (opt.name || 'Wert') + ' verkleinern', text: '−',
+      onclick: function () { setze(Number(input.value) - schritt, true); } });
+    var plus = el('button', { type: 'button', 'class': 'schritt', 'aria-label': (opt.name || 'Wert') + ' vergrößern', text: '+',
+      onclick: function () { setze(Number(input.value) + schritt, true); } });
+    var box = el('div', { 'class': 'regler' }, [el('label', { 'for': id, html: opt.label }), out,
+      el('div', { 'class': 'regler-zeile' }, [minus, input, plus])]);
+    zeige();
+    return {
+      el: box, input: input,
+      wert: function () { return Number(input.value); },
+      setze: function (w) { setze(w, false); },
+      aktiv: function (ja) { input.disabled = minus.disabled = plus.disabled = !ja; box.classList.toggle('aus', !ja); },
+      neuAnzeigen: zeige
+    };
+  }
+
+  function schalter(opt) {
+    var id = neueId('schalter');
+    var input = el('input', { type: 'checkbox', id: id, checked: !!opt.wert,
+      onchange: function () { if (opt.beiAenderung) opt.beiAenderung(input.checked); } });
+    var box = el('label', { 'class': 'schalter', 'for': id }, [input, el('span', { html: opt.label })]);
+    return { el: box, input: input, wert: function () { return input.checked; }, setze: function (w) { input.checked = !!w; } };
+  }
+
+  // Knopfgruppe (eine Wahl aus mehreren). opt: titel, optionen [{wert, text (HTML), titel}], wert, beiAenderung
+  function knopfgruppe(opt) {
+    var aktuell = opt.wert, knoepfe = [];
+    var reihe = el('div', { 'class': 'knopfreihe', role: 'group', 'aria-label': opt.titel || '' });
+    opt.optionen.forEach(function (o) {
+      var k = el('button', { type: 'button', 'class': 'knopf', html: o.text, title: o.titel,
+        onclick: function () { setze(o.wert); if (opt.beiAenderung) opt.beiAenderung(o.wert); } });
+      k.dataset.wert = o.wert; knoepfe.push(k); reihe.appendChild(k);
+    });
+    function setze(w) {
+      aktuell = w;
+      knoepfe.forEach(function (k) { k.setAttribute('aria-pressed', String(k.dataset.wert === String(w))); });
+    }
+    setze(aktuell);
+    var box = el('div', {}, [opt.titel ? el('p', { 'class': 'knopfreihe-titel', html: opt.titel }) : null, reihe]);
+    return {
+      el: box, wert: function () { return aktuell; }, setze: setze,
+      sichtbar: function (w, ja) { knoepfe.forEach(function (k) { if (k.dataset.wert === String(w)) k.hidden = !ja; }); }
+    };
+  }
+
+  function auswahl(opt) {
+    var id = neueId('auswahl');
+    var s = el('select', { id: id, onchange: function () { if (opt.beiAenderung) opt.beiAenderung(s.value); } });
+    opt.optionen.forEach(function (o) { s.appendChild(el('option', { value: o.wert, text: o.text, selected: o.wert === opt.wert })); });
+    return { el: el('div', { 'class': 'auswahl' }, [el('label', { 'for': id, html: opt.label }), s]), wert: function () { return s.value; } };
+  }
+
+  function karte(titel, kinder, klasse) {
+    return el('section', { 'class': 'karte' + (klasse ? ' ' + klasse : '') }, [titel ? el('h2', { html: titel }) : null].concat(kinder || []));
+  }
+
+  // Kasten „So ist das Modell gebaut“: Annahmen, Vereinfachungen, Grenzen
+  function annahmen(titel, punkte) {
+    return el('details', { 'class': 'karte annahmen' }, [el('summary', { html: titel || 'So ist das Modell gebaut' }),
+      el('ul', {}, punkte.map(function (p) { return el('li', { html: p }); }))]);
+  }
+
+  // Beamer-Modus: große Schrift, dicke Linien, große Zeichenfläche. Zustand bleibt (localStorage, wenn möglich).
+  function beamerKnopf(beiWechsel) {
+    var an = speicher.lies('beamer', false);
+    var k = el('button', { type: 'button', 'class': 'knopf', text: 'Beamer',
+      title: 'Große Schrift und dicke Linien für den Beamer',
+      onclick: function () { setze(!an); speicher.schreib('beamer', an); if (beiWechsel) beiWechsel(an); } });
+    function setze(w) { an = !!w; document.body.classList.toggle('beamer', an); k.setAttribute('aria-pressed', String(an)); }
+    setze(an);
+    return k;
+  }
+  function istBeamer() { return typeof document !== 'undefined' && document.body.classList.contains('beamer'); }
+
+  // Seitengerüst: Kopf (Titel, Frage, Ziel, Beamer-Knopf), zweispaltiger Hauptteil, unterer Teil
+  function seite(opt) {
+    var wurzel = document.getElementById('app');
+    var kopf = el('header', { 'class': 'kopf' }, [
+      el('div', { 'class': 'kopf-text' }, [el('h1', { text: opt.titel }), opt.frage ? el('p', { 'class': 'frage', text: opt.frage }) : null,
+        opt.ziel ? el('p', { 'class': 'ziel', text: opt.ziel }) : null]),
+      beamerKnopf(opt.beiBeamer)]);
+    var buehneFeld = el('div', { 'class': 'buehne-feld' });
+    var steuer = el('div', { 'class': 'steuer' });
+    var unten = el('div', { 'class': 'unten' });
+    wurzel.appendChild(kopf);
+    wurzel.appendChild(el('main', { 'class': 'lab' }, [buehneFeld, steuer]));
+    wurzel.appendChild(unten);
+    return { kopf: kopf, buehneFeld: buehneFeld, steuer: steuer, unten: unten };
+  }
+
+  function fehler(text) {
+    if (typeof document === 'undefined') return;
+    var alt = document.getElementById('lab-fehler');
+    if (alt) return;
+    document.body.appendChild(el('div', { id: 'lab-fehler', 'class': 'fehlerbox', role: 'alert', text: text }));
+  }
+
+  // Start: Hinweis „Bitte im Browser öffnen“ verstecken, App zeigen, Fehler abfangen
+  function start(fn) {
+    function los() {
+      var ohne = document.getElementById('ohne-js'), app = document.getElementById('app');
+      window.addEventListener('error', function () { fehler('Da ist etwas schiefgegangen. Bitte Seite neu laden.'); });
+      try {
+        if (ohne) ohne.hidden = true;
+        if (app) app.hidden = false;
+        fn();
+      } catch (e) {
+        fehler('Da ist etwas schiefgegangen. Bitte Seite neu laden. (' + e.message + ')');
+        if (window.console) console.error(e);
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', los); else los();
+  }
+
+  function weniger() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+  }
+
+  return { runde: runde, zahl: zahl, wert: wert, istGenau: istGenau, zeichen: zeichen, ungefaehr: ungefaehr, speicher: speicher,
+    el: el, regler: regler, schalter: schalter, knopfgruppe: knopfgruppe, auswahl: auswahl, karte: karte,
+    annahmen: annahmen, beamerKnopf: beamerKnopf, istBeamer: istBeamer, seite: seite, fehler: fehler, start: start,
+    wenigerBewegung: weniger };
+})();
+
+</script>
+<script>
+var INHALT = {
+ "titel": "Energieflussdiagramm-Baukasten",
+ "frage": "Wo bleibt die Energie?",
+ "ziel": "Ziel: Du stellst Energieumwandlungen als Diagramm dar – die Breite jedes Pfeils zeigt die Energiemenge.",
+ "formen": {
+  "elektrisch": "elektrische Energie",
+  "licht": "Lichtenergie",
+  "thermisch": "thermische Energie",
+  "bewegung": "Bewegungsenergie",
+  "lage": "Lageenergie",
+  "chemisch": "chemische Energie",
+  "kern": "Kernenergie",
+  "spann": "Spannenergie"
+ },
+ "wandler": [
+  {
+   "name": "Glühlampe",
+   "rein": "elektrisch",
+   "raus": "licht",
+   "eta": 5,
+   "quelle": "Buch S. 178"
+  },
+  {
+   "name": "LED-Lampe",
+   "rein": "elektrisch",
+   "raus": "licht",
+   "eta": 25,
+   "quelle": "Bildungsserver Sachsen-Anhalt, Mittelwert"
+  },
+  {
+   "name": "Elektromotor",
+   "rein": "elektrisch",
+   "raus": "bewegung",
+   "eta": 90,
+   "quelle": "Schülerlexikon lernhelfer: 85–95 %"
+  },
+  {
+   "name": "Generator",
+   "rein": "bewegung",
+   "raus": "elektrisch",
+   "eta": 95,
+   "quelle": "geschätzt",
+   "pruefen": true
+  },
+  {
+   "name": "Fahrraddynamo",
+   "rein": "bewegung",
+   "raus": "elektrisch",
+   "eta": 60,
+   "quelle": "Bildungsserver Sachsen-Anhalt"
+  },
+  {
+   "name": "Wärmekraftwerk (Kohle)",
+   "rein": "chemisch",
+   "raus": "elektrisch",
+   "eta": 35,
+   "quelle": "Schülerlexikon lernhelfer"
+  },
+  {
+   "name": "Stromnetz",
+   "rein": "elektrisch",
+   "raus": "elektrisch",
+   "eta": 90,
+   "quelle": "Schülerlexikon lernhelfer",
+   "pruefen": true
+  },
+  {
+   "name": "Automotor (Benzin)",
+   "rein": "chemisch",
+   "raus": "bewegung",
+   "eta": 25,
+   "quelle": "geschätzt",
+   "pruefen": true
+  },
+  {
+   "name": "Solarzelle",
+   "rein": "licht",
+   "raus": "elektrisch",
+   "eta": 20,
+   "quelle": "geschätzt",
+   "pruefen": true
+  },
+  {
+   "name": "Kernkraftwerk",
+   "rein": "kern",
+   "raus": "elektrisch",
+   "eta": 33,
+   "quelle": "geschätzt",
+   "pruefen": true
+  },
+  {
+   "name": "eigener Wandler",
+   "rein": "elektrisch",
+   "raus": "bewegung",
+   "eta": 50,
+   "eigen": true,
+   "quelle": "frei wählbar"
+  }
+ ],
+ "vorlagen": [
+  {
+   "name": "Glühlampe",
+   "zu": 100,
+   "wandler": [
+    "Glühlampe"
+   ]
+  },
+  {
+   "name": "LED-Lampe",
+   "zu": 100,
+   "wandler": [
+    "LED-Lampe"
+   ]
+  },
+  {
+   "name": "Elektromotor",
+   "zu": 100,
+   "wandler": [
+    "Elektromotor"
+   ]
+  },
+  {
+   "name": "Automotor",
+   "zu": 100,
+   "wandler": [
+    "Automotor (Benzin)"
+   ]
+  },
+  {
+   "name": "Vom Kraftwerk zur LED-Lampe",
+   "zu": 100,
+   "wandler": [
+    "Wärmekraftwerk (Kohle)",
+    "Stromnetz",
+    "LED-Lampe"
+   ]
+  },
+  {
+   "name": "Fahrraddynamo und Glühlampe",
+   "zu": 100,
+   "wandler": [
+    "Fahrraddynamo",
+    "Glühlampe"
+   ]
+  },
+  {
+   "name": "Solarzelle und Propeller",
+   "zu": 100,
+   "wandler": [
+    "Solarzelle",
+    "Elektromotor"
+   ]
+  },
+  {
+   "name": "Kernkraftwerk bis zur Steckdose",
+   "zu": 100,
+   "wandler": [
+    "Kernkraftwerk",
+    "Stromnetz"
+   ]
+  },
+  {
+   "name": "Eigene Kette",
+   "zu": 100,
+   "wandler": [
+    "eigener Wandler"
+   ]
+  }
+ ],
+ "aufgaben_ueben": [
+  {
+   "niveau": "★",
+   "wandler": [
+    "Glühlampe"
+   ],
+   "werte": {
+    "zu": 60,
+    "nutz": 3
+   },
+   "gesucht": [
+    "entw",
+    "eta"
+   ],
+   "formen": true,
+   "text": "Eine Glühlampe bekommt in einer Sekunde 60 J elektrische Energie. Davon werden 3 J zu Licht."
+  },
+  {
+   "niveau": "★",
+   "wandler": [
+    "LED-Lampe"
+   ],
+   "werte": {
+    "zu": 40,
+    "nutz": 10
+   },
+   "gesucht": [
+    "entw",
+    "eta"
+   ],
+   "formen": true,
+   "text": "Eine LED-Lampe bekommt 40 J elektrische Energie und gibt 10 J als Licht ab."
+  },
+  {
+   "niveau": "★",
+   "wandler": [
+    "Elektromotor"
+   ],
+   "werte": {
+    "zu": 200,
+    "nutz": 160
+   },
+   "gesucht": [
+    "entw",
+    "eta"
+   ],
+   "formen": true,
+   "text": "Der Elektromotor eines Spielzeugautos bekommt 200 J elektrische Energie. Das Auto erhält 160 J Bewegungsenergie."
+  },
+  {
+   "niveau": "★★",
+   "wandler": [
+    "Fahrraddynamo"
+   ],
+   "werte": {
+    "zu": 50,
+    "eta": 60
+   },
+   "gesucht": [
+    "nutz",
+    "entw"
+   ],
+   "formen": false,
+   "text": "Ein Fahrraddynamo bekommt 50 J Bewegungsenergie. Sein Wirkungsgrad beträgt 60 %."
+  },
+  {
+   "niveau": "★★",
+   "wandler": [
+    "Automotor (Benzin)"
+   ],
+   "werte": {
+    "zu": 1000,
+    "eta": 25
+   },
+   "gesucht": [
+    "nutz",
+    "entw"
+   ],
+   "formen": true,
+   "text": "Im Motor eines Autos werden 1000 J chemische Energie aus dem Benzin umgewandelt. Der Wirkungsgrad beträgt 25 %."
+  },
+  {
+   "niveau": "★★",
+   "wandler": [
+    "Solarzelle"
+   ],
+   "werte": {
+    "zu": 500,
+    "entw": 400
+   },
+   "gesucht": [
+    "nutz",
+    "eta"
+   ],
+   "formen": false,
+   "text": "Auf eine Solarzelle fallen 500 J Lichtenergie. 400 J davon werden entwertet."
+  },
+  {
+   "niveau": "★★★",
+   "wandler": [
+    "Elektromotor"
+   ],
+   "werte": {
+    "nutz": 450,
+    "eta": 90
+   },
+   "gesucht": [
+    "zu",
+    "entw"
+   ],
+   "formen": false,
+   "text": "Ein Elektromotor gibt 450 J Bewegungsenergie ab. Sein Wirkungsgrad beträgt 90 %. Wie viel elektrische Energie bekommt er?"
+  },
+  {
+   "niveau": "★★★",
+   "wandler": [
+    "Wärmekraftwerk (Kohle)",
+    "Stromnetz"
+   ],
+   "werte": {
+    "zu": 1000
+   },
+   "etas": [
+    35,
+    90
+   ],
+   "gesucht": [
+    "eta",
+    "nutz"
+   ],
+   "formen": false,
+   "text": "Ein Kohlekraftwerk hat einen Wirkungsgrad von 35 %, das Stromnetz bis zur Steckdose 90 %. Die Kohle liefert 1000 J chemische Energie. Wie groß ist der Gesamtwirkungsgrad, und wie viel Energie kommt an der Steckdose an?"
+  }
+ ],
+ "legende": "Breite eines Pfeils = Energiemenge · Pfeil nach unten = entwertete Energie (Abwärme)",
+ "legende_kette": "Energiekette: Hier zeigen die Pfeile nur, welche Energieform weitergegeben wird – nicht wie viel.",
+ "klein_hinweis": "* zu dünn zum Zeichnen – breiter gezeichnet als im Maßstab",
+ "scroll_hinweis": "Diagramm zur Seite wischen, um alles zu sehen.",
+ "eta100": "100 % gibt es in Wirklichkeit nicht: Bei jeder Umwandlung wird ein Teil der Energie entwertet.",
+ "eta0": "Bei 0 % wird nichts genutzt – die gesamte Energie wird entwertet.",
+ "passt_nicht": "Die Kette passt nicht: {von} gibt {raus} ab, {zu} braucht aber {rein}.",
+ "ueben_platzhalter": "Zeichne das Energieflussdiagramm zuerst im Heft. Nach dem Prüfen erscheint es hier zum Vergleich.",
+ "ueben_richtig": "Richtig! Vergleiche dein Diagramm im Heft mit dem Diagramm hier.",
+ "ueben_loesung": "Das ist die Lösung. Rechne sie im Heft nach.",
+ "hinweise": {
+  "leer": "Trage hier einen Wert ein.",
+  "keineZahl": "Bitte nur eine Zahl eintragen (Komma ist erlaubt).",
+  "etaUeber100": "Mehr als 100 % geht nicht: Es kommt nie mehr Energie heraus, als hineingeht.",
+  "etaDezimal": "Du hast η als Dezimalzahl angegeben. Gefragt ist Prozent: mal 100.",
+  "etaUmgekehrt": "Umgekehrt geteilt? η = nutzbare Energie : zugeführte Energie.",
+  "etaKette": "In einer Kette werden die Wirkungsgrade multipliziert – als Dezimalzahlen, z. B. 0,35 · 0,9.",
+  "eta": "η = nutzbare Energie : zugeführte Energie, danach mal 100 %.",
+  "entwAddiert": "Addiert? Entwertet ist der Teil, der nicht genutzt wird: zugeführte Energie − nutzbare Energie.",
+  "entwIstNutz": "Das ist die nutzbare Energie. Gesucht ist der Teil, der entwertet wird.",
+  "entw": "Energie bleibt erhalten: zugeführte Energie = nutzbare Energie + entwertete Energie.",
+  "nutzProzent": "Prozent zuerst umwandeln: 25 % = 0,25. Dann mit der zugeführten Energie multiplizieren.",
+  "nutzIstEntw": "Das ist die entwertete Energie. Gesucht ist der Teil, der genutzt wird.",
+  "nutz": "nutzbare Energie = Wirkungsgrad (als Dezimalzahl) · zugeführte Energie.",
+  "zuMal": "Hier musst du teilen: zugeführte Energie = nutzbare Energie : Wirkungsgrad (als Dezimalzahl).",
+  "zu": "Die zugeführte Energie ist immer die größte Energie im Diagramm.",
+  "formZu": "Welche Energieform bekommt das Gerät?",
+  "formNutz": "Welche Energieform gibt das Gerät nutzbar ab?"
+ },
+ "einfuehrung": "Energie geht nie verloren – sie wird umgewandelt. Ein Teil wird aber zu thermischer Energie, die wir nicht mehr nutzen können: Diese Energie ist entwertet. Der Wirkungsgrad η sagt, welcher Anteil der zugeführten Energie genutzt wird.",
+ "aufgaben": [
+  {
+   "niveau": "★",
+   "text": "Vergleiche Glühlampe und LED-Lampe bei 100 J. Wie breit ist jeweils der Pfeil nach unten? Was bedeutet das?",
+   "tipp": "Wähle „Vergleichen mit“ und stelle die LED-Lampe neben die Glühlampe."
+  },
+  {
+   "niveau": "★",
+   "text": "Stelle den Wirkungsgrad der Glühlampe auf 100 %. Warum gibt es so eine Lampe nicht?",
+   "tipp": "Wohin geht die Energie, die eine echte Lampe warm macht?"
+  },
+  {
+   "niveau": "★★",
+   "text": "Vorlage „Vom Kraftwerk zur LED-Lampe“: Schätze zuerst, wie viel Prozent der Energie der Kohle als Licht ankommen. Schalte dann „Zahlen zeigen“ ein.",
+   "tipp": "Schalte „Zahlen zeigen“ aus, schätze an den Pfeilbreiten, dann wieder ein."
+  },
+  {
+   "niveau": "★★",
+   "text": "Vergleich mit „gleicher nutzbarer Energie“: Wie viel elektrische Energie braucht die Glühlampe für dasselbe Licht wie die LED-Lampe?",
+   "tipp": "Vorlage Glühlampe, „Vergleichen mit“ LED-Lampe, Schalter „gleiche nutzbare Energie“."
+  },
+  {
+   "niveau": "★★★",
+   "text": "Begründe: Der Gesamtwirkungsgrad einer Kette ist nie größer als der kleinste Wirkungsgrad in der Kette.",
+   "tipp": "Jeder Faktor ist höchstens 1. Was passiert, wenn man mit einer Zahl kleiner als 1 multipliziert?"
+  },
+  {
+   "niveau": "★★★",
+   "text": "Vorlage „Solarzelle und Propeller“: Wo wird am meisten Energie entwertet? Was müsste man verbessern?",
+   "tipp": "Vergleiche die beiden Pfeile nach unten."
+  }
+ ],
+ "annahmen": [
+  "Energie bleibt erhalten: In jeder Stufe gilt zugeführte Energie = nutzbare Energie + entwertete Energie.",
+  "Die entwertete Energie ist hier immer thermische Energie (Abwärme). In Wirklichkeit kann es auch Schall oder Licht sein, das niemand nutzt.",
+  "Die Breite eines Pfeils ist proportional zur Energiemenge. Alle Diagramme auf der Seite haben denselben Maßstab.",
+  "Sehr kleine Anteile werden mindestens so breit gezeichnet, dass man sie sieht – sie sind mit * gekennzeichnet.",
+  "Die Wirkungsgrade sind gerundete Beispielwerte. Echte Geräte unterscheiden sich – mit dem Regler kannst du sie ändern.",
+  "Gesamtwirkungsgrad einer Kette: η_ges = η₁ · η₂ · η₃ (als Dezimalzahlen).",
+  "Energie in Joule (J). Bei Kraftwerken rechnet man oft in kWh – die Anteile in Prozent bleiben gleich.",
+  "Wir sagen „umgewandelt“ oder „entwertet“, nicht „verbraucht“."
+ ],
+ "ohne_js": "Bitte im Browser öffnen (Safari oder Chrome). Diese Seite braucht JavaScript – die Vorschau auf dem iPhone (z. B. aus „Dateien“ oder einer Mail) zeigt sie nicht richtig.",
+ "fusszeile": "Energieflussdiagramm-Baukasten · Version 0.1 · Digitales Labor Physik · läuft offline, speichert keine Daten."
+};
+</script>
+<script>
+/* Modell PHYS-VIS-001 Energieflussdiagramm-Baukasten – reine Rechnung, ohne Seite (testbar mit osascript).
+   Physik (Buch PRISMA Physik 2, S. 170/171 und 178):
+     je Stufe   E_nutz = η · E_zu     E_entwertet = (1 − η) · E_zu     E_zu der nächsten Stufe = E_nutz
+     Kette      η_gesamt = η₁ · η₂ · η₃ (als Dezimalzahlen)
+     Erhaltung  E_zu = E_nutz (letzte Stufe) + Summe aller entwerteten Energien
+   Darstellung: Pfeilbreite ∝ Energie, ein Maßstab für alle Diagramme der Seite; sehr kleine Anteile
+   bekommen eine Mindestbreite und werden als „nicht maßstäblich“ gekennzeichnet.
+   Wirkungsgrade werden in Prozent (0–100) übergeben. */
+var EFD = (function () {
+  'use strict';
+
+  /* ---------- Geometrie (Pixel im SVG) ---------- */
+  var G = { M: 14, LIN: 100, BW: 128, GAP: 118, LOUT: 96, AH: 20, PE: 7, TMAX: 96, TMIN: 3, Y0: 62, LD: 44, KETTE_T: 22,
+    BOXMIN: 58, BOXPLUS: 22, TEXT_UNTEN: 48 };
+
+  function produkt(etasProzent) {
+    return etasProzent.reduce(function (p, e) { return p * e / 100; }, 1);
+  }
+
+  // Energiekette: zu in J, etasProzent = [η₁, η₂, …] in %
+  function kette(zu, etasProzent) {
+    var stufen = [], rein = zu, entwSumme = 0;
+    etasProzent.forEach(function (p) {
+      var nutz = rein * p / 100, entw = rein - nutz;
+      stufen.push({ zu: rein, eta: p, nutz: nutz, entw: entw });
+      entwSumme += entw; rein = nutz;
+    });
+    return { zu: zu, stufen: stufen, nutz: rein, entw: entwSumme, eta: produkt(etasProzent) * 100 };
+  }
+
+  function erhaltungsFehler(k) { return Math.abs(k.zu - k.nutz - k.entw); }
+
+  // Passt die Kette? Abgegebene Energieform von Stufe i muss die aufgenommene von Stufe i+1 sein.
+  // wandler = [{name, rein, raus}] → [{nach: i, raus, rein, von, zu}] (leer = passt)
+  function passt(wandler) {
+    var fehler = [];
+    for (var i = 0; i + 1 < wandler.length; i++) {
+      if (wandler[i].raus !== wandler[i + 1].rein) {
+        fehler.push({ nach: i, raus: wandler[i].raus, rein: wandler[i + 1].rein, von: wandler[i].name, zu: wandler[i + 1].name });
+      }
+    }
+    return fehler;
+  }
+
+  // Maßstab (Pixel pro Joule), damit die größte zugeführte Energie aller gezeigten Diagramme TMAX breit ist
+  function massstab(zuListe) {
+    var max = Math.max.apply(null, zuListe.filter(function (z) { return isFinite(z) && z > 0; }).concat([0]));
+    return max > 0 ? G.TMAX / max : 0;
+  }
+
+  // gleicher Nutzen: Welche zugeführte Energie braucht eine Kette, um dieselbe nutzbare Energie zu liefern?
+  function zuFuerNutz(nutz, etasProzent) {
+    var p = produkt(etasProzent);
+    return p > 0 ? nutz / p : null;
+  }
+
+  // Bandbreite: 0 bei 0 J, sonst maßstäblich, aber mindestens TMIN
+  function dicke(E, m) {
+    if (!(E > 1e-12)) return { t: 0, klein: false };
+    var t = E * m;
+    return t < G.TMIN ? { t: G.TMIN, klein: true } : { t: t, klein: false };
+  }
+
+  /* Layout eines Diagramms. d = {zu, stufen: [{name, rein, raus, eta}]} · opt = {massstab, kette (Energiekette ohne Mengen)}
+     → {breite, hoehe, kaesten, baender, texte, kleinGezeichnet, k (Rechnung)}
+     baender: {art: 'ein'|'zwischen'|'aus'|'entw', form, E, t, klein, punkte: [[x, y] …]}
+     texte:   {art, x, y, anker, form, E, anteil, stufe}  (y = Grundlinie der letzten Zeile) */
+  function layout(d, opt) {
+    var n = d.stufen.length, m = opt.massstab, nurKette = !!opt.kette;
+    var k = kette(d.zu, d.stufen.map(function (s) { return s.eta; }));
+    var kaesten = [], baender = [], texte = [], kleinGezeichnet = false;
+    function db(E) {
+      if (nurKette) return { t: E > 1e-12 ? G.KETTE_T : 0, klein: false };
+      var r = dicke(E, m); if (r.klein) kleinGezeichnet = true; return r;
+    }
+    function xKasten(i) { return G.M + G.LIN + i * (G.BW + G.GAP); }
+    function rechteck(x0, x1, t) { return [[x0, G.Y0], [x1, G.Y0], [x1, G.Y0 + t], [x0, G.Y0 + t]]; }
+
+    // Kästen
+    var hMax = 0;
+    k.stufen.forEach(function (st, i) {
+      var tIn = db(st.zu).t, h = Math.max(tIn + G.BOXPLUS, G.BOXMIN);
+      hMax = Math.max(hMax, h);
+      kaesten.push({ x: xKasten(i), y: G.Y0, w: G.BW, h: h, name: d.stufen[i].name, stufe: i });
+    });
+
+    // zugeführte Energie (von links)
+    var e0 = db(d.zu);
+    if (e0.t > 0) baender.push({ art: 'ein', form: d.stufen[0].rein, E: d.zu, t: e0.t, klein: e0.klein, punkte: rechteck(G.M, xKasten(0), e0.t) });
+    texte.push({ art: 'ein', x: G.M, y: G.Y0 - 8, anker: 'start', form: d.stufen[0].rein, E: d.zu, anteil: 100, klein: e0.klein, stufe: 0 });
+
+    // genutzte Energie zwischen den Kästen und am Ende
+    k.stufen.forEach(function (st, i) {
+      var x0 = xKasten(i) + G.BW, b = db(st.nutz), letzte = i === n - 1, form = d.stufen[i].raus;
+      var anteil = d.zu > 0 ? st.nutz / d.zu * 100 : 0;
+      if (!letzte) {
+        if (b.t > 0) baender.push({ art: 'zwischen', form: form, E: st.nutz, t: b.t, klein: b.klein, punkte: rechteck(x0, x0 + G.GAP, b.t), stufe: i });
+        texte.push({ art: 'zwischen', x: x0 + G.GAP / 2, y: G.Y0 - 8, anker: 'middle', form: form, E: st.nutz, anteil: anteil, klein: b.klein, stufe: i });
+      } else {
+        var x1 = x0 + G.LOUT, t = b.t, e = G.PE;
+        if (t > 0) {
+          baender.push({ art: 'aus', form: form, E: st.nutz, t: t, klein: b.klein, stufe: i, punkte: [[x0, G.Y0], [x1, G.Y0], [x1, G.Y0 - e],
+            [x1 + G.AH, G.Y0 + t / 2], [x1, G.Y0 + t + e], [x1, G.Y0 + t], [x0, G.Y0 + t]] });
+        }
+        texte.push({ art: 'aus', x: x1 + G.AH, y: G.Y0 - 8, anker: 'end', form: form, E: st.nutz, anteil: anteil, klein: b.klein, stufe: i });
+      }
+    });
+
+    // entwertete Energie: Pfeile nach unten, Spitzen auf gleicher Höhe
+    var ySpitze = G.Y0 + hMax + G.LD + G.AH;
+    if (!nurKette) {
+      k.stufen.forEach(function (st, i) {
+        var b = db(st.entw), kasten = kaesten[i], xc = kasten.x + kasten.w / 2, yo = kasten.y + kasten.h, yf = ySpitze - G.AH, t = b.t, e = G.PE;
+        if (t > 0) {
+          baender.push({ art: 'entw', form: 'thermisch', E: st.entw, t: t, klein: b.klein, stufe: i, punkte: [[xc - t / 2, yo], [xc + t / 2, yo],
+            [xc + t / 2, yf], [xc + t / 2 + e, yf], [xc, ySpitze], [xc - t / 2 - e, yf], [xc - t / 2, yf]] });
+          texte.push({ art: 'entw', x: xc, y: ySpitze + 40, anker: 'middle', form: 'thermisch', E: st.entw,
+            anteil: d.zu > 0 ? st.entw / d.zu * 100 : 0, klein: b.klein, stufe: i });
+        }
+      });
+    }
+
+    var breite = G.M + G.LIN + n * G.BW + (n - 1) * G.GAP + G.LOUT + G.AH + G.M;
+    var hoehe = nurKette ? G.Y0 + hMax + G.M : ySpitze + G.TEXT_UNTEN + G.M;
+    return { breite: breite, hoehe: hoehe, kaesten: kaesten, baender: baender, texte: texte, kleinGezeichnet: kleinGezeichnet, k: k };
+  }
+
+  /* ---------- Üben: Aufgaben lösen und Antworten prüfen ---------- */
+  // a = {werte: {zu?, nutz?, entw?, eta?}, etas?: [η in %] (Kette)} → {zu, nutz, entw, eta}
+  function loese(a) {
+    var w = a.werte || {}, zu = w.zu, nutz = w.nutz, entw = w.entw, eta = w.eta;
+    function da(x) { return typeof x === 'number' && isFinite(x); }
+    if (a.etas) eta = produkt(a.etas) * 100;
+    if (da(zu) && da(nutz)) { eta = da(eta) ? eta : nutz / zu * 100; entw = zu - nutz; }
+    else if (da(zu) && da(eta)) { nutz = zu * eta / 100; entw = zu - nutz; }
+    else if (da(nutz) && da(eta)) { zu = nutz / (eta / 100); entw = zu - nutz; }
+    else if (da(zu) && da(entw)) { nutz = zu - entw; eta = nutz / zu * 100; }
+    else if (da(nutz) && da(entw)) { zu = nutz + entw; eta = nutz / zu * 100; }
+    return { zu: zu, nutz: nutz, entw: entw, eta: eta };
+  }
+
+  // Zahl aus einer Eingabe: Komma oder Punkt, Einheit J oder % am Ende erlaubt, „1.000“ = tausend
+  function parseZahl(t) {
+    if (t === null || t === undefined) return NaN;
+    var s = String(t).replace(/\s+/g, '').replace(/(J|%)$/i, '');
+    if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g, '');
+    s = s.replace(',', '.');
+    return /^\d*\.?\d+$/.test(s) ? Number(s) : NaN;
+  }
+
+  function nahE(x, soll) { return Math.abs(x - soll) <= Math.max(0.5, 0.005 * Math.abs(soll)); }
+  function nahEta(x, soll) { return Math.abs(x - soll) <= 0.5; }
+
+  // ein Zahlenfeld prüfen → {ok, hinweis}. feld: 'zu' | 'nutz' | 'entw' | 'eta'
+  function pruefeFeld(a, feld, eingabe, H) {
+    var L = loese(a), x = parseZahl(eingabe), kettenAufgabe = !!a.etas;
+    if (String(eingabe === undefined ? '' : eingabe).trim() === '') return { ok: false, hinweis: H.leer };
+    if (!isFinite(x)) return { ok: false, hinweis: H.keineZahl };
+    if (feld === 'eta') {
+      if (nahEta(x, L.eta)) return { ok: true };
+      if (!kettenAufgabe && L.nutz > 0 && nahEta(x, L.zu / L.nutz * 100)) return { ok: false, hinweis: H.etaUmgekehrt };
+      if (x > 100.5) return { ok: false, hinweis: H.etaUeber100 };
+      if (x <= 1 && nahEta(x * 100, L.eta)) return { ok: false, hinweis: H.etaDezimal };
+      return { ok: false, hinweis: kettenAufgabe ? H.etaKette : H.eta };
+    }
+    var soll = L[feld];
+    if (nahE(x, soll)) return { ok: true };
+    if (feld === 'entw') {
+      if (nahE(x, L.zu + L.nutz)) return { ok: false, hinweis: H.entwAddiert };
+      if (nahE(x, L.nutz)) return { ok: false, hinweis: H.entwIstNutz };
+      return { ok: false, hinweis: H.entw };
+    }
+    if (feld === 'nutz') {
+      if (nahE(x, L.zu * L.eta)) return { ok: false, hinweis: H.nutzProzent };
+      if (nahE(x, L.entw)) return { ok: false, hinweis: H.nutzIstEntw };
+      return { ok: false, hinweis: H.nutz };
+    }
+    if (feld === 'zu') {
+      if (nahE(x, L.nutz * L.eta / 100)) return { ok: false, hinweis: H.zuMal };
+      return { ok: false, hinweis: H.zu };
+    }
+    return { ok: false, hinweis: H.keineZahl };
+  }
+
+  // alle gefragten Felder prüfen. eingaben = {zu, nutz, entw, eta, formZu, formNutz} (Texte bzw. Form-IDs)
+  // soll = {formZu, formNutz} aus der Wandlerliste
+  function pruefe(a, eingaben, soll, H) {
+    var felder = {}, alle = true;
+    (a.gesucht || []).forEach(function (f) {
+      felder[f] = pruefeFeld(a, f, eingaben[f], H);
+      if (!felder[f].ok) alle = false;
+    });
+    if (a.formen) {
+      felder.formZu = eingaben.formZu === soll.formZu ? { ok: true } : { ok: false, hinweis: H.formZu };
+      felder.formNutz = eingaben.formNutz === soll.formNutz ? { ok: true } : { ok: false, hinweis: H.formNutz };
+      if (!felder.formZu.ok || !felder.formNutz.ok) alle = false;
+    }
+    return { alleRichtig: alle, felder: felder };
+  }
+
+  return { G: G, produkt: produkt, kette: kette, erhaltungsFehler: erhaltungsFehler, passt: passt, massstab: massstab,
+    zuFuerNutz: zuFuerNutz, dicke: dicke, layout: layout, loese: loese, parseZahl: parseZahl, pruefeFeld: pruefeFeld, pruefe: pruefe };
+})();
+
+</script>
+<script>
+/* App PHYS-VIS-001 Energieflussdiagramm-Baukasten (Version 0.1) – Bedienung und Darstellung.
+   Rechnet keine Formeln selbst: Werte und Geometrie aus EFD (modell.js), Bausteine aus LAB (kern/labor.js),
+   Texte, Wandler, Vorlagen und Übungsaufgaben aus INHALT (inhalt.py). Modi: Bauen · Üben. */
+LAB.start(function () {
+  'use strict';
+  var T = INHALT, el = LAB.el, F = T.formen, MAXSTUFEN = 3;
+  var WANDLER = {};
+  T.wandler.forEach(function (w) { WANDLER[w.name] = w; });
+
+  var Z = {
+    modus: 'bauen', vorlage: 0, zu: 100, n: 1, stufen: [],
+    darstellung: 'fluss', zahlen: true, rechenweg: false, vergleich: -1, gleicheNutz: false,
+    aufgabe: 0, geloest: false
+  };
+  var ui = { stufen: [] };
+
+  /* ---------- Schreibweise ---------- */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function fmt(s) { return esc(s).replace(/η_ges/g, 'η<sub>ges</sub>'); }
+  function ewert(E) { return (LAB.istGenau(E, 1) ? '' : '≈ ') + LAB.zahl(E, 1) + ' J'; }
+  function pwert(p) { return (LAB.istGenau(p, 1) ? '' : '≈ ') + LAB.zahl(p, 1) + ' %'; }
+  function ewert3(E) { return (LAB.istGenau(E, 3) ? '' : '≈ ') + LAB.zahl(E, 3) + ' J'; }
+  function dez(x) { return (LAB.istGenau(x, 3) ? '= ' : '≈ ') + LAB.zahl(x, 3); }
+  function chip(form) { return '<span class="farbpunkt ef-bg-' + form + '"></span>'; }
+  function setzeAuswahl(a, w) { a.el.querySelector('select').value = String(w); }
+
+  /* ---------- Seite ---------- */
+  var s = LAB.seite({ titel: T.titel, frage: T.frage, ziel: T.ziel, beiBeamer: function () { zeichnen(); } });
+  s.buehneFeld.classList.add('ef-feld');
+  s.buehneFeld.parentNode.classList.add('ef-lab');   // flaches, breites Diagramm: volle Breite, Einstellungen darunter
+  ui.titelA = el('p', { 'class': 'ef-titel' });
+  ui.flaecheA = el('div', { 'class': 'ef-buehne' });
+  ui.titelB = el('p', { 'class': 'ef-titel', hidden: true });
+  ui.flaecheB = el('div', { 'class': 'ef-buehne', hidden: true });
+  ui.warnung = el('p', { 'class': 'hinweis-fehler', role: 'status', hidden: true });
+  ui.legende = el('p', { 'class': 'buehne-info' });
+  [ui.titelA, ui.flaecheA, ui.titelB, ui.flaecheB, ui.warnung, ui.legende].forEach(function (e) { s.buehneFeld.appendChild(e); });
+
+  ui.modus = LAB.knopfgruppe({ titel: 'Modus', wert: Z.modus,
+    optionen: [{ wert: 'bauen', text: 'Bauen' }, { wert: 'ueben', text: 'Üben' }], beiAenderung: waehleModus });
+  s.steuer.appendChild(LAB.karte(null, [ui.modus.el]));
+
+  /* ---------- Modus Bauen ---------- */
+  ui.vorlage = LAB.auswahl({ label: 'Vorlage', wert: '0', beiAenderung: function (w) { ladeVorlage(Number(w)); },
+    optionen: T.vorlagen.map(function (v, i) { return { wert: String(i), text: v.name }; }) });
+  ui.darstellung = LAB.knopfgruppe({ titel: 'Darstellung', wert: Z.darstellung,
+    optionen: [{ wert: 'fluss', text: 'Energieflussdiagramm', titel: 'Pfeilbreite = Energiemenge' },
+      { wert: 'kette', text: 'Energiekette', titel: 'nur die Energieformen, ohne Mengen' }],
+    beiAenderung: function (w) { Z.darstellung = w; zeichnen(); } });
+  ui.zahlen = LAB.schalter({ label: 'Zahlen zeigen', wert: Z.zahlen, beiAenderung: function (w) { Z.zahlen = w; zeichnen(); } });
+  ui.zu = LAB.regler({ label: 'zugeführte Energie', name: 'zugeführte Energie', min: 10, max: 1000, schritt: 10, wert: Z.zu,
+    anzeige: function (w) { return LAB.zahl(w, 0) + ' J'; }, beiAenderung: function (w) { Z.zu = w; zeichnen(); } });
+  ui.anzahl = LAB.knopfgruppe({ titel: 'Anzahl der Wandler', wert: '1',
+    optionen: [1, 2, 3].map(function (k) { return { wert: String(k), text: String(k) }; }),
+    beiAenderung: function (w) { setzeAnzahl(Number(w)); } });
+
+  var formOptionen = Object.keys(F).map(function (k) { return { wert: k, text: F[k] }; });
+  var wandlerOptionen = T.wandler.map(function (w) { return { wert: w.name, text: w.name }; });
+  for (var i = 0; i < MAXSTUFEN; i++) ui.stufen.push(stufenKarte(i));
+
+  function stufenKarte(i) {
+    var st = {};
+    st.wahl = LAB.auswahl({ label: 'Welcher Wandler?', wert: T.wandler[0].name, optionen: wandlerOptionen,
+      beiAenderung: function (w) { setzeWandler(i, w, true); zeichnen(); } });
+    st.rein = LAB.auswahl({ label: 'bekommt', wert: 'elektrisch', optionen: formOptionen,
+      beiAenderung: function (w) { Z.stufen[i].rein = w; zeichnen(); } });
+    st.raus = LAB.auswahl({ label: 'gibt nutzbar ab', wert: 'bewegung', optionen: formOptionen,
+      beiAenderung: function (w) { Z.stufen[i].raus = w; zeichnen(); } });
+    st.eigen = el('div', { 'class': 'ef-eigen' }, [st.rein.el, st.raus.el]);
+    st.eta = LAB.regler({ label: 'Wirkungsgrad η', name: 'Wirkungsgrad von Wandler ' + (i + 1), min: 0, max: 100, schritt: 1, wert: 50,
+      anzeige: function (w) { return w + ' %'; }, beiAenderung: function (w) { Z.stufen[i].eta = w; zeichnen(); } });
+    st.quelle = el('p', { 'class': 'klein' });
+    st.zurueck = el('button', { type: 'button', 'class': 'knopf', text: 'Beispielwert',
+      onclick: function () { var w = WANDLER[Z.stufen[i].name]; Z.stufen[i].eta = w.eta; st.eta.setze(w.eta); zeichnen(); } });
+    st.el = LAB.karte('Wandler ' + (i + 1), [st.wahl.el, st.eigen, st.eta.el, el('div', { 'class': 'knopfreihe' }, [st.zurueck]), st.quelle], 'ef-stufe');
+    return st;
+  }
+
+  ui.vergleich = LAB.auswahl({ label: 'Vergleichen mit', wert: '-1', beiAenderung: function (w) { Z.vergleich = Number(w); zeichnen(); },
+    optionen: [{ wert: '-1', text: '– nichts –' }].concat(T.vorlagen.map(function (v, i) { return { wert: String(i), text: v.name }; })) });
+  ui.gleicheNutz = LAB.schalter({ label: 'gleiche nutzbare Energie', wert: false, beiAenderung: function (w) { Z.gleicheNutz = w; zeichnen(); } });
+  ui.ergebnis = el('div', { 'class': 'ef-ergebnis', 'aria-live': 'polite' });
+  ui.rechenweg = LAB.schalter({ label: 'Rechenweg zeigen', wert: false, beiAenderung: function (w) { Z.rechenweg = w; zeichnen(); } });
+  ui.drucken = el('button', { type: 'button', 'class': 'knopf', text: 'Drucken / als PDF', onclick: function () { window.print(); } });
+
+  ui.pBauen = el('div', { 'class': 'ef-panel' }, [
+    LAB.karte('Diagramm', [ui.vorlage.el, ui.darstellung.el, ui.zahlen.el, ui.zu.el, ui.anzahl.el]),
+    ui.stufen[0].el, ui.stufen[1].el, ui.stufen[2].el,
+    LAB.karte('Vergleich', [ui.vergleich.el, ui.gleicheNutz.el]),
+    LAB.karte('Ergebnis', [ui.ergebnis, ui.rechenweg.el, el('div', { 'class': 'knopfreihe' }, [ui.drucken])], 'ef-druck')
+  ]);
+
+  /* ---------- Modus Üben ---------- */
+  ui.aufgabeWahl = LAB.knopfgruppe({ titel: 'Aufgabe', wert: '0', beiAenderung: function (w) { zeigeAufgabe(Number(w)); },
+    optionen: T.aufgaben_ueben.map(function (a, k) { return { wert: String(k), text: (k + 1) + ' ' + a.niveau, titel: 'Aufgabe ' + (k + 1) }; }) });
+  ui.aufgabeBox = el('div', { 'class': 'ef-aufgabe' });
+  ui.pUeben = el('div', { hidden: true }, [LAB.karte('Text → Diagramm', [ui.aufgabeWahl.el, ui.aufgabeBox])]);
+
+  s.steuer.appendChild(ui.pBauen);
+  s.steuer.appendChild(ui.pUeben);
+
+  // unten: Einführung, Beobachtungsaufträge, Annahmen
+  var NIV = { '★': 'n1', '★★': 'n2', '★★★': 'n3' };
+  s.unten.appendChild(LAB.karte('Beobachten und begründen', [el('p', { html: fmt(T.einfuehrung) }), el('ul', { 'class': 'aufgaben' }, T.aufgaben.map(function (a) {
+    return el('li', {}, [el('span', { 'class': 'niveau p ' + (NIV[a.niveau] || 'n1'), 'aria-label': 'Niveau ' + a.niveau.length + ' Stern', text: a.niveau }),
+      el('div', {}, [el('div', { html: fmt(a.text) }), a.tipp ? el('details', {}, [el('summary', { text: 'Tipp' }), el('p', { html: fmt(a.tipp) })]) : null])]);
+  }))]));
+  s.unten.appendChild(LAB.annahmen('So ist das Modell gebaut', T.annahmen.map(fmt)));
+  s.unten.appendChild(el('p', { 'class': 'klein', text: T.fusszeile }));
+
+  /* ---------- Zustand ändern ---------- */
+  function setzeWandler(i, name, etaZuruecksetzen) {
+    var w = WANDLER[name], alt = Z.stufen[i] || {};
+    Z.stufen[i] = { name: name, rein: w.eigen && alt.name === name ? alt.rein : w.rein, raus: w.eigen && alt.name === name ? alt.raus : w.raus,
+      eta: etaZuruecksetzen || alt.eta === undefined ? w.eta : alt.eta };
+    var st = ui.stufen[i];
+    setzeAuswahl(st.wahl, name);
+    setzeAuswahl(st.rein, Z.stufen[i].rein);
+    setzeAuswahl(st.raus, Z.stufen[i].raus);
+    st.eigen.hidden = !w.eigen;
+    st.eta.setze(Z.stufen[i].eta);
+    st.quelle.textContent = w.eigen ? 'Wirkungsgrad frei wählbar' : 'Beispielwert ' + w.eta + ' % (Quelle: ' + w.quelle + ')';
+  }
+
+  function setzeAnzahl(n) {
+    Z.n = n; ui.anzahl.setze(String(n));
+    for (var k = 0; k < MAXSTUFEN; k++) {
+      if (k < n && !Z.stufen[k]) setzeWandler(k, k > 0 ? passenderWandler(Z.stufen[k - 1].raus) : T.wandler[0].name, true);
+      ui.stufen[k].el.hidden = k >= n;
+    }
+    zeichnen();
+  }
+  // für eine neue Stufe einen Wandler vorschlagen, der die abgegebene Form der vorigen Stufe aufnimmt
+  function passenderWandler(form) {
+    for (var k = 0; k < T.wandler.length; k++) if (!T.wandler[k].eigen && T.wandler[k].rein === form) return T.wandler[k].name;
+    return T.wandler[0].name;
+  }
+
+  function ladeVorlage(v) {
+    var vo = T.vorlagen[v];
+    Z.vorlage = v; setzeAuswahl(ui.vorlage, v);
+    Z.zu = vo.zu; ui.zu.setze(vo.zu);
+    Z.stufen = [];
+    vo.wandler.forEach(function (name, k) { setzeWandler(k, name, true); });
+    setzeAnzahl(vo.wandler.length);
+  }
+
+  function aktiveStufen() { return Z.stufen.slice(0, Z.n); }
+
+  function vorlageDiagramm(v, zu) {
+    var vo = T.vorlagen[v];
+    return { zu: zu, stufen: vo.wandler.map(function (name) { var w = WANDLER[name]; return { name: name, rein: w.rein, raus: w.raus, eta: w.eta }; }) };
+  }
+
+  /* ---------- Zeichnen ---------- */
+  function umbruch(text, max) {
+    var zeilen = [], z = '';
+    text.split(' ').forEach(function (w) {
+      if (z && (z + ' ' + w).length > max) { zeilen.push(z); z = w; } else z = z ? z + ' ' + w : w;
+    });
+    if (z) zeilen.push(z);
+    return zeilen;
+  }
+
+  function svgText(x, y, anker, zeilen, klassen) {
+    var t = '';
+    zeilen.forEach(function (z, k) {
+      var yk = y - (zeilen.length - 1 - k) * 18;
+      t += '<text class="ef-text ' + (klassen[k] || '') + '" x="' + LAB.runde(x, 1) + '" y="' + LAB.runde(yk, 1) + '" text-anchor="' + anker + '">' + esc(z) + '</text>';
+    });
+    return t;
+  }
+
+  // d = {zu, stufen} → {svg, L}
+  function diagrammSvg(d, m, opt) {
+    var nurKette = !!opt.kette, zahlen = opt.zahlen && !nurKette;
+    var L = EFD.layout(d, { massstab: m, kette: nurKette }), teile = [];
+    L.baender.forEach(function (b) {
+      teile.push('<polygon class="band ef-' + b.form + (nurKette ? ' kette' : '') + '" points="' +
+        b.punkte.map(function (p) { return LAB.runde(p[0], 1) + ',' + LAB.runde(p[1], 1); }).join(' ') + '"/>');
+    });
+    L.kaesten.forEach(function (k) {
+      teile.push('<rect class="wandler" x="' + k.x + '" y="' + k.y + '" width="' + k.w + '" height="' + LAB.runde(k.h, 1) + '" rx="6"/>');
+      var zeilen = umbruch(k.name, 14), y0 = k.y + k.h / 2 - (zeilen.length - 1) * 9 + 5;
+      zeilen.forEach(function (z, j) {
+        teile.push('<text class="wandler-text" x="' + (k.x + k.w / 2) + '" y="' + LAB.runde(y0 + j * 18, 1) + '" text-anchor="middle">' + esc(z) + '</text>');
+      });
+    });
+    L.texte.forEach(function (t) {
+      var zeilen = [F[t.form]], klassen = ['form'];
+      if (zahlen) { zeilen.push(ewert(t.E) + ' · ' + pwert(t.anteil) + (t.klein ? ' *' : '')); klassen.push(''); }
+      var y = t.art === 'entw' && zeilen.length === 1 ? t.y - 18 : t.y;
+      teile.push(svgText(t.x, y, t.anker, zeilen, klassen));
+    });
+    var k = L.k, letzte = d.stufen[d.stufen.length - 1];
+    var label = 'Energieflussdiagramm: ' + LAB.zahl(d.zu, 1) + ' J ' + F[d.stufen[0].rein] + ' werden zugeführt. ' +
+      d.stufen.map(function (st, j) { return st.name + ': ' + LAB.zahl(k.stufen[j].nutz, 1) + ' J ' + F[st.raus] + ' nutzbar, ' + LAB.zahl(k.stufen[j].entw, 1) + ' J entwertet.'; }).join(' ') +
+      ' Am Ende nutzbar: ' + LAB.zahl(k.nutz, 1) + ' J ' + F[letzte.raus] + '.';
+    var svg = '<svg viewBox="0 0 ' + L.breite + ' ' + LAB.runde(L.hoehe, 1) + '" role="img" aria-label="' + esc(label) + '">' + teile.join('') + '</svg>';
+    return { svg: svg, L: L };
+  }
+
+  // SVG einsetzen und Größe wählen: passt es (≥ 80 % der natürlichen Breite), wird skaliert, sonst seitlich wischen
+  function einsetzen(flaeche, ergebnis) {
+    flaeche.innerHTML = ergebnis.svg;
+    var svg = flaeche.querySelector('svg'), W = ergebnis.L.breite, H = ergebnis.L.hoehe;
+    var platz = flaeche.clientWidth - 12, faktor = LAB.istBeamer() ? 2 : 1.4, breite;
+    if (platz >= 0.8 * W) breite = Math.min(platz, W * faktor); else breite = W;
+    svg.style.width = Math.round(breite) + 'px';
+    svg.style.height = Math.round(breite * H / W) + 'px';
+    return platz < 0.8 * W;
+  }
+
+  function zeichnen() {
+    if (Z.modus === 'ueben') { zeichneUeben(); return; }
+    var dA = { zu: Z.zu, stufen: aktiveStufen() }, kA = EFD.kette(dA.zu, dA.stufen.map(function (x) { return x.eta; }));
+    var dB = null, notiz = '';
+    if (Z.vergleich >= 0) {
+      dB = vorlageDiagramm(Z.vergleich, Z.zu);
+      if (Z.gleicheNutz) {
+        var zuB = kA.nutz > 0 ? EFD.zuFuerNutz(kA.nutz, dB.stufen.map(function (x) { return x.eta; })) : null;
+        if (zuB) dB.zu = zuB; else notiz = 'Gleiche nutzbare Energie geht hier nicht, weil eine Kette 0 J nutzbare Energie liefert.';
+      }
+    }
+    var m = EFD.massstab([dA.zu].concat(dB ? [dB.zu] : []));
+    var opt = { kette: Z.darstellung === 'kette', zahlen: Z.zahlen };
+    var rA = diagrammSvg(dA, m, opt), wischen = einsetzen(ui.flaecheA, rA), klein = rA.L.kleinGezeichnet;
+    ui.titelA.innerHTML = (dB ? 'A · ' : '') + esc(T.vorlagen[Z.vorlage].name === 'Eigene Kette' ? 'Eigene Kette' : dA.stufen.map(function (x) { return x.name; }).join(' → '));
+    ui.titelB.hidden = ui.flaecheB.hidden = !dB;
+    if (dB) {
+      var rB = diagrammSvg(dB, m, opt);
+      wischen = einsetzen(ui.flaecheB, rB) || wischen; klein = klein || rB.L.kleinGezeichnet;
+      ui.titelB.innerHTML = 'B · ' + esc(T.vorlagen[Z.vergleich].name) + ' <span class="klein">(Beispielwerte' + (Z.gleicheNutz && !notiz ? ', gleiche nutzbare Energie' : '') + ')</span>';
+    }
+    // Warnungen: Kette passt nicht, 100 %, 0 %
+    var warn = EFD.passt(dA.stufen).map(function (f) {
+      return T.passt_nicht.replace('{von}', f.von).replace('{raus}', F[f.raus]).replace('{zu}', f.zu).replace('{rein}', F[f.rein]);
+    });
+    if (dA.stufen.some(function (x) { return x.eta >= 100; })) warn.push(T.eta100);
+    if (dA.stufen.some(function (x) { return x.eta <= 0; })) warn.push(T.eta0);
+    if (notiz) warn.push(notiz);
+    ui.warnung.hidden = !warn.length; ui.warnung.innerHTML = warn.map(esc).join('<br>');
+    legendeSetzen(dA.stufen.concat(dB ? dB.stufen : []), opt.kette, klein, wischen);
+    ergebnisSetzen(dA, kA);
+  }
+
+  function legendeSetzen(stufen, nurKette, klein, wischen) {
+    var formen = [];
+    stufen.forEach(function (st) { [st.rein, st.raus].forEach(function (f) { if (formen.indexOf(f) < 0) formen.push(f); }); });
+    if (!nurKette && formen.indexOf('thermisch') < 0) formen.push('thermisch');
+    var teile = [esc(nurKette ? T.legende_kette : T.legende), formen.map(function (f) { return chip(f) + esc(F[f]); }).join(' · ')];
+    if (klein && !nurKette && Z.zahlen) teile.push(esc(T.klein_hinweis));
+    if (wischen) teile.push(esc(T.scroll_hinweis));
+    ui.legende.innerHTML = teile.join('<br>');
+  }
+
+  function ergebnisSetzen(d, k) {
+    var z = [];
+    k.stufen.forEach(function (st, j) {
+      z.push('<p><strong>' + (j + 1) + ' · ' + esc(d.stufen[j].name) + ':</strong> ' + ewert(st.zu) + ' zugeführt → ' + ewert(st.nutz) +
+        ' nutzbar + ' + ewert(st.entw) + ' entwertet · η = ' + st.eta + ' %</p>');
+      if (Z.rechenweg) {
+        z.push('<p class="klein">η = ' + ewert(st.nutz) + ' : ' + ewert(st.zu) + ' ' + dez(st.eta / 100) + ' = ' + st.eta + ' % · ' +
+          'entwertet: ' + ewert(st.zu) + ' − ' + ewert(st.nutz) + ' = ' + ewert(st.entw) + '</p>');
+      }
+    });
+    if (k.stufen.length > 1) {
+      z.push('<p><strong>Gesamt:</strong> η<sub>ges</sub> ' + (LAB.istGenau(k.eta, 1) ? '= ' : '≈ ') + LAB.zahl(k.eta, 1) + ' %</p>');
+      if (Z.rechenweg) {
+        z.push('<p class="klein">η<sub>ges</sub> = ' + k.stufen.map(function (st) { return LAB.zahl(st.eta / 100, 2); }).join(' · ') + ' ' + dez(k.eta / 100) + '</p>');
+      }
+    }
+    z.push('<p class="klein">Energie bleibt erhalten: ' + ewert3(k.nutz) + ' nutzbar + ' + ewert3(k.entw) + ' entwertet = ' + ewert3(k.zu) + ' zugeführt</p>');
+    ui.ergebnis.innerHTML = z.join('');
+  }
+
+  /* ---------- Üben ---------- */
+  var FELD = { zu: ['zugeführte Energie', 'J'], nutz: ['nutzbare Energie', 'J'], entw: ['entwertete Energie', 'J'], eta: ['Wirkungsgrad η', '%'] };
+  var eingabe = {};
+
+  function uebenDiagramm(a) {
+    var L = EFD.loese(a);
+    return { zu: L.zu, stufen: a.wandler.map(function (name, j) {
+      var w = WANDLER[name]; return { name: name, rein: w.rein, raus: w.raus, eta: a.etas ? a.etas[j] : L.eta };
+    }) };
+  }
+
+  function zeigeAufgabe(k) {
+    var a = T.aufgaben_ueben[k], box = ui.aufgabeBox;
+    Z.aufgabe = k; Z.geloest = false; ui.aufgabeWahl.setze(String(k));
+    box.innerHTML = ''; eingabe = {};
+    box.appendChild(el('p', { 'class': 'ueben-text' }, [el('span', { 'class': 'niveau p ' + (NIV[a.niveau] || 'n1'), text: a.niveau }), ' ', el('span', { html: fmt(a.text) })]));
+    box.appendChild(el('p', { 'class': 'klein', text: 'Zeichne zuerst das Energieflussdiagramm im Heft. Trage dann ein:' }));
+    if (a.formen) {
+      var leer = [{ wert: '', text: '– wählen –' }].concat(formOptionen);
+      eingabe.formZu = LAB.auswahl({ label: 'Welche Energieform wird zugeführt?', wert: '', optionen: leer });
+      eingabe.formNutz = LAB.auswahl({ label: 'Welche Energieform ist nutzbar?', wert: '', optionen: leer });
+      ['formZu', 'formNutz'].forEach(function (f) {
+        eingabe[f].rueck = el('p', { 'class': 'rueck', 'aria-live': 'polite' });
+        box.appendChild(el('div', { 'class': 'ef-feldzeile' }, [eingabe[f].el, eingabe[f].rueck]));
+      });
+    }
+    a.gesucht.forEach(function (f) {
+      var id = 'ef-' + f + '-' + k, name = f === 'eta' && a.etas ? 'Gesamtwirkungsgrad η_ges' : FELD[f][0];
+      var input = el('input', { type: 'text', id: id, inputmode: 'decimal', autocomplete: 'off', 'class': 'ef-eingabe',
+        onkeydown: function (ev) { if (ev.key === 'Enter') pruefen(); } });
+      var rueck = el('p', { 'class': 'rueck', 'aria-live': 'polite' });
+      eingabe[f] = { input: input, rueck: rueck };
+      box.appendChild(el('div', { 'class': 'ef-feldzeile' }, [el('label', { 'for': id, html: fmt(name) + ' in ' + FELD[f][1] }),
+        el('div', { 'class': 'ef-eingabe-zeile' }, [input, el('span', { text: FELD[f][1] })]), rueck]));
+    });
+    ui.meldung = el('p', { 'class': 'ef-meldung', role: 'status' });
+    box.appendChild(el('div', { 'class': 'knopfreihe' }, [
+      el('button', { type: 'button', 'class': 'knopf', text: 'Prüfen', onclick: pruefen }),
+      el('button', { type: 'button', 'class': 'knopf', text: 'Lösung zeigen', onclick: loesungZeigen }),
+      el('button', { type: 'button', 'class': 'knopf', text: 'Nächste Aufgabe',
+        onclick: function () { zeigeAufgabe((Z.aufgabe + 1) % T.aufgaben_ueben.length); } })]));
+    box.appendChild(ui.meldung);
+    zeichnen();
+  }
+
+  function sollFormen(a) { return { formZu: WANDLER[a.wandler[0]].rein, formNutz: WANDLER[a.wandler[a.wandler.length - 1]].raus }; }
+
+  function pruefen() {
+    var a = T.aufgaben_ueben[Z.aufgabe], werte = {};
+    Object.keys(eingabe).forEach(function (f) { werte[f] = eingabe[f].input ? eingabe[f].input.value : eingabe[f].wert(); });
+    var r = EFD.pruefe(a, werte, sollFormen(a), T.hinweise);
+    Object.keys(r.felder).forEach(function (f) {
+      var e = eingabe[f], ok = r.felder[f].ok;
+      e.rueck.className = 'rueck ' + (ok ? 'ok' : 'falsch');
+      e.rueck.textContent = ok ? '✓ richtig' : r.felder[f].hinweis;
+    });
+    Z.geloest = r.alleRichtig;
+    ui.meldung.textContent = r.alleRichtig ? T.ueben_richtig : '';
+    zeichnen();
+  }
+
+  function loesungZeigen() {
+    var a = T.aufgaben_ueben[Z.aufgabe], L = EFD.loese(a), soll = sollFormen(a);
+    a.gesucht.forEach(function (f) { eingabe[f].input.value = LAB.zahl(L[f], 1); eingabe[f].rueck.textContent = ''; eingabe[f].rueck.className = 'rueck'; });
+    if (a.formen) ['formZu', 'formNutz'].forEach(function (f) { setzeAuswahl(eingabe[f], soll[f]); eingabe[f].rueck.textContent = ''; });
+    Z.geloest = true; ui.meldung.textContent = T.ueben_loesung;
+    zeichnen();
+  }
+
+  function zeichneUeben() {
+    var a = T.aufgaben_ueben[Z.aufgabe];
+    ui.titelB.hidden = ui.flaecheB.hidden = true; ui.warnung.hidden = true;
+    ui.titelA.textContent = 'Aufgabe ' + (Z.aufgabe + 1) + ' · ' + a.wandler.join(' → ');
+    if (!Z.geloest) {
+      ui.flaecheA.innerHTML = '<p class="ef-platzhalter">' + esc(T.ueben_platzhalter) + '</p>';
+      ui.legende.innerHTML = esc(T.legende);
+      return;
+    }
+    var d = uebenDiagramm(a), r = diagrammSvg(d, EFD.massstab([d.zu]), { kette: false, zahlen: true });
+    legendeSetzen(d.stufen, false, r.L.kleinGezeichnet, einsetzen(ui.flaecheA, r));
+  }
+
+  function waehleModus(w) {
+    Z.modus = w; ui.modus.setze(w);
+    ui.pBauen.hidden = w !== 'bauen'; ui.pUeben.hidden = w !== 'ueben';
+    if (w === 'ueben' && !ui.aufgabeBox.firstChild) zeigeAufgabe(Z.aufgabe); else zeichnen();
+  }
+
+  var geplant = false;
+  window.addEventListener('resize', function () {
+    if (geplant) return; geplant = true;
+    window.requestAnimationFrame(function () { geplant = false; zeichnen(); });
+  });
+
+  ladeVorlage(0);
+});
+
+</script>
+</body>
+</html>
