@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Herbstein-Rallye</title>
+<meta name="theme-color" content="#9a3412">
+<style>
+:root{
+  --bg:#fbf6ef; --card:#ffffff; --ink:#2a1d14; --muted:#6f5e52; --line:#e8dccd;
+  --accent:#b4471a; --accent-ink:#fff; --ok:#2f7d4a; --ok-bg:#e6f3ea; --warn:#9a6b00; --warn-bg:#fff4d6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1b1511; --card:#261d17; --ink:#f3e9df; --muted:#b9a797; --line:#3d3027;
+    --accent:#e0703f; --accent-ink:#1b1511; --ok:#6cc78b; --ok-bg:#1f3527; --warn:#f0c560; --warn-bg:#3a2f12;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+main{max-width:680px;margin:0 auto;padding:16px 16px 48px}
+header.top{background:linear-gradient(135deg,#9a3412,#c2621d 60%,#d99a2b);color:#fff;border-radius:18px;padding:20px 18px;margin-bottom:16px}
+header.top h1{margin:0 0 4px;font-size:1.6rem;line-height:1.15}
+header.top p{margin:0;opacity:.92}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+h2{font-size:1.1rem;margin:0 0 10px}
+label.f{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+input[type=text],input[type=time]{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.row{display:flex;gap:10px}.row>div{flex:1;min-width:0}
+ul.regeln{margin:0;padding-left:20px}ul.regeln li{margin:4px 0}
+.fortschritt{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 10px}
+.balken{height:12px;border-radius:99px;background:var(--line);overflow:hidden}
+.balken i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.fortschritt small{display:block;margin-top:4px;color:var(--muted)}
+.station{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.nr{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700}
+.station.fertig .nr{background:var(--ok)}
+.station h3{margin:2px 0 4px;font-size:1.05rem}
+.station p.auf{margin:0 0 10px}
+.knoepfe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-weight:600;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--accent);color:var(--accent-ink);text-decoration:none}
+.btn.zweit{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.gross{width:100%;justify-content:center;padding:14px;font-size:1.05rem}
+.btn[disabled]{opacity:.5;cursor:default}
+.haken{display:inline-flex;align-items:center;gap:8px;font-weight:600;padding:8px 4px;cursor:pointer;user-select:none}
+.haken input{width:24px;height:24px;accent-color:var(--ok)}
+.foto{margin-top:10px;position:relative}
+.foto img{display:block;width:100%;max-height:340px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.foto button{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:0;border-radius:99px;padding:6px 10px;font:inherit;font-size:.85rem;cursor:pointer}
+input[type=file]{display:none}
+.hinweis{background:var(--warn-bg);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:.95rem}
+.hinweis b{color:var(--warn)}
+.ok{background:var(--ok-bg);border-radius:12px;padding:12px 14px}
+.status{margin-top:10px;font-size:.95rem;color:var(--muted);min-height:1.2em}
+.stack>*+*{margin-top:10px}
+footer{color:var(--muted);font-size:.85rem;text-align:center;margin-top:20px}
+#nojs{padding:20px;font-size:1.1rem}
+</style>
+</head>
+<body>
+<div id="nojs"><b>Bitte im Browser öffnen</b> (Safari oder Chrome). In der Vorschau funktioniert die Rallye nicht.</div>
+<main id="app" hidden>
+  <header class="top">
+    <h1>Herbstein-Rallye</h1>
+    <p>7 Stationen · Gruppen-Selfies · am Ende eine PDF</p>
+  </header>
+
+  <section class="card">
+    <h2>Eure Gruppe</h2>
+    <label class="f" for="namen">Namen</label>
+    <input type="text" id="namen" placeholder="z. B. Lea, Tim, Aylin, Jonas" autocomplete="off">
+    <div class="row">
+      <div><label class="f" for="start">Start</label><input type="time" id="start"></div>
+      <div><label class="f" for="ziel">Zielschluss (nach 4 Std.)</label><input type="time" id="ziel"></div>
+    </div>
+    <label class="f" for="notfall">Notfall: Lehrkraft (Name / Telefon)</label>
+    <input type="text" id="notfall" autocomplete="off">
+    <p class="status" style="margin-bottom:0">Basislager: CVJM Feriendorf</p>
+  </section>
+
+  <section class="card">
+    <h2>So geht’s</h2>
+    <ul class="regeln">
+      <li>Macht an jeder Station ein <b>Gruppen-Selfie</b>: Alle müssen drauf sein, die Station auch.</li>
+      <li>Stationen 1–6 in beliebiger Reihenfolge, <b>Station 7 ganz zum Schluss</b>.</li>
+      <li>Gruppe bleibt immer zusammen, keine fremden Menschen fotografieren, Straßenverkehr geht vor.</li>
+      <li>Foto hier hochladen und Station abhaken. Am Ende <b>PDF erstellen</b> und an die Lehrkraft schicken.</li>
+    </ul>
+  </section>
+
+  <div class="fortschritt"><div class="balken"><i id="balken"></i></div><small id="fortschrittText">0 von 7 Stationen erledigt</small></div>
+
+  <div id="stationen"></div>
+
+  <section class="card hinweis">
+    <b>Ideen für Station 7</b> (nur Anregungen): Menschenpyramide am Boden · Spiegelung in einer Pfütze oder Scheibe · Gruppe bildet mit Körpern einen Buchstaben von HERBSTEIN · Springerzug nachstellen mit Bajazz vorneweg · Filmszene nachstellen.
+    <br><br><b>Sportlicher Tipp:</b> Disc-Golf spielen an der Vulkan-Therme.
+  </section>
+
+  <section class="card stack" id="export">
+    <h2>Abgabe: eine PDF-Datei</h2>
+    <p style="margin:0">Die PDF enthält eure Namen, die Liste mit Haken und auf jeder Seite ein Stationsfoto.</p>
+    <button class="btn gross" id="pdfBtn">PDF erstellen</button>
+    <div id="pdfFertig" hidden class="stack">
+      <div class="ok" id="pdfInfo"></div>
+      <button class="btn gross" id="teilenBtn" hidden>PDF senden (AirDrop, Mail, Messenger …)</button>
+      <a class="btn gross zweit" id="ladenLink" download>PDF herunterladen</a>
+    </div>
+    <p class="status" id="pdfStatus"></p>
+  </section>
+
+  <section class="card">
+    <h2>Neue Rallye</h2>
+    <p style="margin-top:0;color:var(--muted)">Fotos und Haken bleiben auf diesem Handy gespeichert, auch wenn ihr die Seite schließt. Erst nach der Abgabe löschen!</p>
+    <button class="btn zweit" id="resetBtn">Alles löschen</button>
+  </section>
+  <footer>Die Fotos bleiben auf eurem Handy – nichts wird ins Internet hochgeladen.</footer>
+</main>
+
+<script>
+(function () {
+'use strict';
+var STATIONEN = [
+  { id: 'S1', name: 'Marktplatz', aufgabe: 'Baut als Gruppe eine „Burg“: Arme hoch als Zinnen, Marktplatz im Hintergrund.' },
+  { id: 'S2', name: 'Stadtmauer', aufgabe: 'Gruppe auf einem begehbaren Mauerabschnitt, Blick hinaus ins Land. Nicht auf die Brüstung!' },
+  { id: 'S3', name: 'Bibelpark', aufgabe: 'Die ganze Gruppe in der begehbaren Arche Noah.' },
+  { id: 'S4', name: 'Pfarrkirche St. Jakobus', aufgabe: 'Selfie, auf dem der Kirchturm komplett mit drauf ist.' },
+  { id: 'S5', name: 'Lebensspirale', aufgabe: 'Stellt euch entlang der Spirale auf – vom Kleinsten zum Größten.' },
+  { id: 'S6', name: 'Vulkan-Therme (Kurpark)', aufgabe: '„Wellness-Pose“ – angezogen, natürlich – vor der Therme.' },
+  { id: 'S7', name: 'Kreativfoto (Ort frei)', aufgabe: 'Euer bestes Gruppenfoto: Idee, Pose und Ort wählt ihr selbst. Es zählt Originalität!', ort: true }
+];
+var KEY = 'herbstein-rallye-v1';
+var $ = function (id) { return document.getElementById(id); };
+document.getElementById('nojs').remove();
+$('app').hidden = false;
+
+/* ---------- Speicher: Text/Haken in localStorage, Fotos in IndexedDB ---------- */
+var zustand = { namen: '', start: '', ziel: '', notfall: '', haken: {}, ort: '' };
+try { var g = JSON.parse(localStorage.getItem(KEY) || 'null'); if (g) for (var k in g) zustand[k] = g[k]; } catch (e) {}
+function speichern() { try { localStorage.setItem(KEY, JSON.stringify(zustand)); } catch (e) {} }
+
+var fotos = {};            // id -> Blob (JPEG)
+var dbVersprechen = new Promise(function (ok) {
+  try {
+    var r = indexedDB.open('herbstein-rallye', 1);
+    r.onupgradeneeded = function () { r.result.createObjectStore('fotos'); };
+    r.onsuccess = function () { ok(r.result); };
+    r.onerror = function () { ok(null); };
+  } catch (e) { ok(null); }
+});
+function dbTx(modus, fn) {
+  return dbVersprechen.then(function (db) {
+    if (!db) return null;
+    return new Promise(function (ok) {
+      try {
+        var tx = db.transaction('fotos', modus), st = tx.objectStore('fotos'), res = fn(st);
+        tx.oncomplete = function () { ok(res && res.result); };
+        tx.onerror = tx.onabort = function () { ok(null); };
+      } catch (e) { ok(null); }
+    });
+  });
+}
+function fotoSpeichern(id, blob) { return dbTx('readwrite', function (s) { return blob ? s.put(blob, id) : s.delete(id); }); }
+
+/* ---------- Oberfläche ---------- */
+['namen', 'start', 'ziel', 'notfall'].forEach(function (f) {
+  var el = $(f); el.value = zustand[f] || '';
+  el.addEventListener('input', function () { zustand[f] = el.value; speichern(); pdfVeraltet(); });
+});
+
+var urls = {};
+function karte(st) {
+  var c = document.createElement('section');
+  c.className = 'card station'; c.id = 'karte-' + st.id;
+  c.innerHTML =
+    '<div class="nr">' + st.id + '</div>' +
+    '<div><h3>' + st.name + '</h3><p class="auf">' + st.aufgabe + '</p>' +
+    (st.ort ? '<label class="f" for="ort">Ort / Idee eures Kreativfotos</label><input type="text" id="ort" autocomplete="off" style="margin-bottom:10px">' : '') +
+    '<div class="knoepfe">' +
+      '<label class="btn" for="datei-' + st.id + '">📷 <span class="fotoTxt">Foto hinzufügen</span></label>' +
+      '<input type="file" accept="image/*" id="datei-' + st.id + '">' +
+      '<label class="haken"><input type="checkbox" id="haken-' + st.id + '"> erledigt</label>' +
+    '</div><div class="foto" hidden><img alt="Foto ' + st.id + '"><button type="button">Foto entfernen</button></div></div>';
+  $('stationen').appendChild(c);
+
+  var haken = c.querySelector('#haken-' + st.id);
+  haken.checked = !!zustand.haken[st.id];
+  haken.addEventListener('change', function () { zustand.haken[st.id] = haken.checked; speichern(); aktualisieren(); pdfVeraltet(); });
+  c.querySelector('#datei-' + st.id).addEventListener('change', function (ev) {
+    var f = ev.target.files && ev.target.files[0]; ev.target.value = '';
+    if (!f) return;
+    c.querySelector('.fotoTxt').textContent = 'Wird geladen …';
+    verkleinern(f).then(function (blob) {
+      fotos[st.id] = blob; fotoSpeichern(st.id, blob);
+      zustand.haken[st.id] = true; haken.checked = true; speichern();
+      zeigeFoto(st.id); aktualisieren(); pdfVeraltet();
+    }).catch(function () {
+      alert('Das Foto konnte nicht gelesen werden. Bitte ein anderes Foto (JPG/PNG) wählen.');
+      zeigeFoto(st.id);
+    });
+  });
+  c.querySelector('.foto button').addEventListener('click', function () {
+    if (!confirm('Foto von ' + st.id + ' entfernen?')) return;
+    delete fotos[st.id]; fotoSpeichern(st.id, null); zeigeFoto(st.id); aktualisieren(); pdfVeraltet();
+  });
+  if (st.ort) {
+    var o = c.querySelector('#ort'); o.value = zustand.ort || '';
+    o.addEventListener('input', function () { zustand.ort = o.value; speichern(); pdfVeraltet(); });
+  }
+}
+STATIONEN.forEach(karte);
+
+function zeigeFoto(id) {
+  var c = $('karte-' + id), box = c.querySelector('.foto'), img = box.querySelector('img');
+  if (urls[id]) { URL.revokeObjectURL(urls[id]); delete urls[id]; }
+  if (fotos[id]) { urls[id] = URL.createObjectURL(fotos[id]); img.src = urls[id]; box.hidden = false; }
+  else { img.removeAttribute('src'); box.hidden = true; }
+  c.querySelector('.fotoTxt').textContent = fotos[id] ? 'Foto ersetzen' : 'Foto hinzufügen';
+}
+function aktualisieren() {
+  var n = 0;
+  STATIONEN.forEach(function (st) {
+    var fertig = !!zustand.haken[st.id]; if (fertig) n++;
+    $('karte-' + st.id).classList.toggle('fertig', fertig);
+  });
+  $('balken').style.width = (n / STATIONEN.length * 100) + '%';
+  $('fortschrittText').textContent = n + ' von ' + STATIONEN.length + ' Stationen erledigt · ' + Object.keys(fotos).length + ' Fotos';
+}
+
+STATIONEN.forEach(function (st) {
+  dbTx('readonly', function (s) { return s.get(st.id); }).then(function (b) {
+    if (b) { fotos[st.id] = b; zeigeFoto(st.id); aktualisieren(); }
+  });
+});
+aktualisieren();
+
+/* ---------- Foto verkleinern → JPEG ---------- */
+function bildLaden(file) {
+  return new Promise(function (ok, fehler) {
+    var u = URL.createObjectURL(file), im = new Image();
+    im.onload = function () { ok(im); setTimeout(function () { URL.revokeObjectURL(u); }, 1000); };
+    im.onerror = function () { URL.revokeObjectURL(u); fehler(new Error('bild')); };
+    im.src = u;
+  });
+}
+function verkleinern(file) {
+  return bildLaden(file).then(function (im) {
+    var max = 1600, w = im.naturalWidth, h = im.naturalHeight, s = Math.min(1, max / Math.max(w, h));
+    var cv = document.createElement('canvas'); cv.width = Math.round(w * s); cv.height = Math.round(h * s);
+    var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height);
+    cx.drawImage(im, 0, 0, cv.width, cv.height);
+    return new Promise(function (ok, fehler) {
+      cv.toBlob(function (b) { b ? ok(b) : fehler(new Error('blob')); }, 'image/jpeg', 0.82);
+    });
+  });
+}
+function jpegMasse(bytes) {           // Breite/Höhe aus dem JPEG-SOF-Block
+  var i = 2;
+  while (i < bytes.length) {
+    if (bytes[i] !== 0xFF) { i++; continue; }
+    var m = bytes[i + 1], len = (bytes[i + 2] << 8) | bytes[i + 3];
+    if (m >= 0xC0 && m <= 0xCF && m !== 0xC4 && m !== 0xC8 && m !== 0xCC)
+      return { h: (bytes[i + 5] << 8) | bytes[i + 6], w: (bytes[i + 7] << 8) | bytes[i + 8] };
+    i += 2 + len;
+  }
+  throw new Error('jpeg');
+}
+
+/* ---------- Kleiner PDF-Bauer (A4, Helvetica, JPEG-Fotos) ---------- */
+var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151 };
+function pdfText(s) {
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s[i], c = ch.charCodeAt(0);
+    if (WIN[ch]) c = WIN[ch]; else if (c > 255) c = 63;
+    if (c === 40 || c === 41 || c === 92) o += '\\' + String.fromCharCode(c);
+    else if (c < 32 || c > 126) o += '\\' + ('00' + c.toString(8)).slice(-3);
+    else o += String.fromCharCode(c);
+  }
+  return '(' + o + ')';
+}
+var messCtx = document.createElement('canvas').getContext('2d');
+function breite(s, gr, fett) { messCtx.font = (fett ? 'bold ' : '') + '100px Helvetica, Arial, sans-serif'; return messCtx.measureText(s).width / 100 * gr; }
+function umbrechen(s, gr, fett, max) {
+  var w = s.split(/\s+/), z = [], akt = '';
+  w.forEach(function (wort) {
+    var t = akt ? akt + ' ' + wort : wort;
+    if (breite(t, gr, fett) > max && akt) { z.push(akt); akt = wort; } else akt = t;
+  });
+  if (akt) z.push(akt);
+  return z;
+}
+
+function PDF() { this.teile = []; this.objekte = []; this.seiten = []; }
+PDF.prototype.obj = function (inhalt) { this.objekte.push(inhalt); return this.objekte.length; };
+PDF.prototype.bauen = function () {
+  var enc = new TextEncoder(), teile = [], pos = 0, offs = [];
+  function add(x) { var b = typeof x === 'string' ? latin(x) : x; teile.push(b); pos += b.length; }
+  function latin(s) { var b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255; return b; }
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  this.objekte.forEach(function (o, i) {
+    offs.push(pos);
+    add((i + 1) + ' 0 obj\n');
+    if (o.stream) { add(o.dict.replace('LEN', o.stream.length) + '\nstream\n'); add(o.stream); add('\nendstream'); }
+    else add(o);
+    add('\nendobj\n');
+  });
+  var xref = pos, n = this.objekte.length + 1;
+  var x = 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+  offs.forEach(function (o) { x += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+  add(x + 'trailer\n<< /Size ' + n + ' /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return new Blob(teile, { type: 'application/pdf' });
+};
+
+function pdfErstellen() {
+  var A4W = 595.28, A4H = 841.89, R = 50, gruppe = zustand.namen.trim() || 'Gruppe ohne Namen';
+  var pdf = new PDF();
+  pdf.obj('<< /Type /Catalog /Pages 2 0 R >>');
+  pdf.obj('PAGES');                                    // Platzhalter, wird unten ersetzt
+  var fN = pdf.obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var fB = pdf.obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  var seitenIds = [];
+
+  function seite(befehle, bild) {
+    var res = '<< /Font << /F1 ' + fN + ' 0 R /F2 ' + fB + ' 0 R >>' + (bild ? ' /XObject << /Im1 ' + bild + ' 0 R >>' : '') + ' >>';
+    var strom = new TextEncoder().encode(befehle.join('\n'));       // nur ASCII (Umlaute sind oktal escaped)
+    var inh = pdf.obj({ dict: '<< /Length LEN >>', stream: strom });
+    seitenIds.push(pdf.obj('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + A4W + ' ' + A4H + '] /Resources ' + res + ' /Contents ' + inh + ' 0 R >>'));
+  }
+  function text(x, y, s, gr, fett, farbe) {
+    return 'BT ' + (farbe || '0.16 0.11 0.08') + ' rg /' + (fett ? 'F2' : 'F1') + ' ' + gr + ' Tf ' + x.toFixed(1) + ' ' + y.toFixed(1) + ' Td ' + pdfText(s) + ' Tj ET';
+  }
+  function fuss(nr, gesamt) {
+    return [ '0.85 0.80 0.75 RG 0.6 w ' + R + ' 40 m ' + (A4W - R) + ' 40 l S',
+      text(R, 26, 'Herbstein-Rallye · ' + gruppe, 9, false, '0.45 0.38 0.33'),
+      text(A4W - R - breite('Seite ' + nr + ' von ' + gesamt, 9), 26, 'Seite ' + nr + ' von ' + gesamt, 9, false, '0.45 0.38 0.33') ];
+  }
+  var mitFoto = STATIONEN.filter(function (s) { return fotos[s.id]; });
+  var gesamt = 1 + mitFoto.length;
+
+  // Seite 1: Übersicht
+  var c = [], y = A4H - 70;
+  c.push('0.71 0.28 0.10 rg 0 ' + (A4H - 100) + ' ' + A4W + ' 100 re f');
+  c.push(text(R, A4H - 58, 'Herbstein-Rallye – Laufzettel', 24, true, '1 1 1'));
+  c.push(text(R, A4H - 80, '7 Stationen · Gruppen-Selfies', 12, false, '1 0.92 0.85'));
+  y = A4H - 135;
+  c.push(text(R, y, 'Namen:', 11, true));
+  umbrechen(gruppe, 12, false, A4W - 2 * R - 60).forEach(function (z) { c.push(text(R + 60, y, z, 12)); y -= 16; });
+  y -= 4;
+  c.push(text(R, y, 'Start: ' + (zustand.start || '______') + ' Uhr   ·   Zielschluss: ' + (zustand.ziel || '______') + ' Uhr', 11)); y -= 16;
+  if (zustand.notfall) { c.push(text(R, y, 'Notfall: Lehrkraft ' + zustand.notfall + ' · Basislager: CVJM Feriendorf', 11)); y -= 16; }
+  var d = new Date();
+  c.push(text(R, y, 'PDF erstellt am ' + d.toLocaleDateString('de-DE') + ' um ' + d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr', 9, false, '0.45 0.38 0.33'));
+  y -= 30;
+  // Tabelle
+  var sp = [R, R + 38, R + 190, A4W - R - 70, A4W - R];
+  c.push('0.96 0.92 0.87 rg ' + R + ' ' + (y - 6) + ' ' + (A4W - 2 * R) + ' 22 re f');
+  c.push(text(sp[0] + 6, y, 'Nr', 10, true), text(sp[1] + 6, y, 'Station', 10, true), text(sp[2] + 6, y, 'Selfie-Aufgabe', 10, true), text(sp[3] + 6, y, 'Erledigt', 10, true));
+  y -= 10;
+  var erledigt = 0;
+  STATIONEN.forEach(function (st) {
+    var aufg = umbrechen(st.aufgabe + (st.ort && zustand.ort ? ' – Ort/Idee: ' + zustand.ort : ''), 9.5, false, sp[3] - sp[2] - 12);
+    var nam = umbrechen(st.name, 10, true, sp[2] - sp[1] - 12);
+    var h = Math.max(aufg.length, nam.length) * 12.5 + 14;
+    c.push('0.85 0.80 0.75 RG 0.6 w ' + R + ' ' + y + ' m ' + (A4W - R) + ' ' + y + ' l S');
+    var ty = y - 16;
+    c.push(text(sp[0] + 6, ty, st.id, 10, true, '0.71 0.28 0.10'));
+    nam.forEach(function (z, i) { c.push(text(sp[1] + 6, ty - i * 12.5, z, 10, true)); });
+    aufg.forEach(function (z, i) { c.push(text(sp[2] + 6, ty - i * 12.5, z, 9.5)); });
+    var bx = sp[3] + 22, by = ty - 4;
+    c.push('0.3 0.25 0.2 RG 1 w ' + bx + ' ' + by + ' 14 14 re S');
+    if (zustand.haken[st.id]) {
+      erledigt++;
+      c.push('0.18 0.49 0.29 RG 2.2 w 1 J 1 j ' + (bx + 3) + ' ' + (by + 7) + ' m ' + (bx + 6) + ' ' + (by + 3) + ' l ' + (bx + 12) + ' ' + (by + 12) + ' l S');
+    }
+    if (fotos[st.id]) c.push(text(bx + 20, by + 3, 'Foto', 8, false, '0.45 0.38 0.33'));
+    y -= h;
+  });
+  c.push('0.85 0.80 0.75 RG 0.6 w ' + R + ' ' + y + ' m ' + (A4W - R) + ' ' + y + ' l S');
+  y -= 26;
+  c.push(text(R, y, 'Ergebnis: ' + erledigt + ' von 7 Stationen erledigt · ' + mitFoto.length + ' Fotos', 12, true));
+  c = c.concat(fuss(1, gesamt));
+  seite(c, null);
+
+  // Fotoseiten
+  var nr = 1;
+  return mitFoto.reduce(function (kette, st) {
+    return kette.then(function () { return fotos[st.id].arrayBuffer ? fotos[st.id].arrayBuffer() : new Response(fotos[st.id]).arrayBuffer(); })
+      .then(function (buf) {
+        var b = new Uint8Array(buf), m = jpegMasse(b);
+        var bild = pdf.obj({ dict: '<< /Type /XObject /Subtype /Image /Width ' + m.w + ' /Height ' + m.h + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length LEN >>', stream: b });
+        nr++;
+        var c = [], y = A4H - 62;
+        c.push('0.71 0.28 0.10 rg ' + R + ' ' + (y - 12) + ' 40 34 re f');
+        c.push(text(R + 20 - breite(st.id, 15, true) / 2, y - 1, st.id, 15, true, '1 1 1'));
+        c.push(text(R + 52, y, st.name, 18, true));
+        if (zustand.haken[st.id]) c.push(text(A4W - R - breite('erledigt', 11, true), y, 'erledigt', 11, true, '0.18 0.49 0.29'));
+        y -= 30;
+        umbrechen(st.aufgabe, 11, false, A4W - 2 * R).forEach(function (z) { c.push(text(R, y, z, 11, false, '0.35 0.28 0.23')); y -= 15; });
+        if (st.ort && zustand.ort) { umbrechen('Ort / Idee: ' + zustand.ort, 11, true, A4W - 2 * R).forEach(function (z) { c.push(text(R, y, z, 11, true)); y -= 15; }); }
+        y -= 10;
+        var maxW = A4W - 2 * R, maxH = y - 60, s = Math.min(maxW / m.w, maxH / m.h);
+        var w = m.w * s, h = m.h * s, x = (A4W - w) / 2, by = y - h;
+        c.push('q ' + w.toFixed(2) + ' 0 0 ' + h.toFixed(2) + ' ' + x.toFixed(2) + ' ' + by.toFixed(2) + ' cm /Im1 Do Q');
+        c = c.concat(fuss(nr, gesamt));
+        seite(c, bild);
+      });
+  }, Promise.resolve()).then(function () {
+    pdf.objekte[1] = '<< /Type /Pages /Kids [' + seitenIds.map(function (i) { return i + ' 0 R'; }).join(' ') + '] /Count ' + seitenIds.length + ' >>';
+    return pdf.bauen();
+  });
+}
+
+/* ---------- Export ---------- */
+var pdfDatei = null, pdfUrl = null;
+function pdfVeraltet() { if (!pdfDatei) return; pdfDatei = null; $('pdfFertig').hidden = true; $('pdfStatus').textContent = 'Es gab Änderungen – bitte PDF neu erstellen.'; }
+function dateiname() {
+  var n = (zustand.namen || 'Gruppe').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss')
+    .replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 60) || 'Gruppe';
+  return 'Herbstein-Rallye_' + n + '.pdf';
+}
+$('pdfBtn').addEventListener('click', function () {
+  var anzahl = Object.keys(fotos).length;
+  if (!zustand.namen.trim()) { alert('Bitte tragt oben zuerst eure Namen ein.'); $('namen').focus(); return; }
+  if (anzahl < STATIONEN.length && !confirm('Es sind erst ' + anzahl + ' von 7 Fotos drin. Trotzdem PDF erstellen?')) return;
+  $('pdfBtn').disabled = true; $('pdfStatus').textContent = 'PDF wird erstellt …';
+  pdfErstellen().then(function (blob) {
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    var name = dateiname();
+    try { pdfDatei = new File([blob], name, { type: 'application/pdf' }); } catch (e) { pdfDatei = blob; }
+    pdfUrl = URL.createObjectURL(blob);
+    $('ladenLink').href = pdfUrl; $('ladenLink').download = name;
+    $('pdfInfo').innerHTML = '<b>Fertig!</b> ' + name + ' (' + (blob.size < 1048576 ? Math.max(1, Math.round(blob.size / 1024)) + ' KB' : (blob.size / 1048576).toFixed(1).replace('.', ',') + ' MB') + '). Jetzt an die Lehrkraft schicken.';
+    var kannTeilen = false;
+    try { kannTeilen = !!(navigator.canShare && pdfDatei instanceof File && navigator.canShare({ files: [pdfDatei] })); } catch (e) {}
+    $('teilenBtn').hidden = !kannTeilen;
+    $('pdfFertig').hidden = false; $('pdfStatus').textContent = '';
+  }).catch(function (e) {
+    $('pdfStatus').textContent = 'Fehler beim Erstellen der PDF (' + e.message + '). Bitte noch einmal versuchen.';
+  }).then(function () { $('pdfBtn').disabled = false; });
+});
+$('teilenBtn').addEventListener('click', function () {
+  navigator.share({ files: [pdfDatei], title: 'Herbstein-Rallye' }).catch(function () {});
+});
+$('resetBtn').addEventListener('click', function () {
+  if (!confirm('Wirklich alle Fotos, Namen und Haken auf diesem Handy löschen?')) return;
+  if (!confirm('Habt ihr die PDF schon abgegeben? Löschen kann nicht rückgängig gemacht werden.')) return;
+  STATIONEN.forEach(function (st) { delete fotos[st.id]; fotoSpeichern(st.id, null); zeigeFoto(st.id); $('haken-' + st.id).checked = false; });
+  zustand = { namen: '', start: '', ziel: '', notfall: '', haken: {}, ort: '' }; speichern();
+  ['namen', 'start', 'ziel', 'notfall', 'ort'].forEach(function (f) { $(f).value = ''; });
+  pdfVeraltet(); aktualisieren(); window.scrollTo(0, 0);
+});
+})();
+</script>
+</body>
+</html>
