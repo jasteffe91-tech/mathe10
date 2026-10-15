@@ -52,6 +52,7 @@ input[type=file]{display:none}
 .hinweis b{color:var(--warn)}
 .ok{background:var(--ok-bg);border-radius:12px;padding:12px 14px}
 .notfall{margin:14px 0 0;padding:10px 12px;border-radius:10px;background:var(--warn-bg)}
+.notfall.ziel{background:var(--ok-bg)}
 .notfall a{color:var(--accent);font-weight:700}
 .status{margin-top:10px;font-size:.95rem;color:var(--muted);min-height:1.2em}
 .stack>*+*{margin-top:10px}
@@ -71,10 +72,8 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;margin-top:20px}
     <h2>Eure Gruppe</h2>
     <label class="f" for="namen">Namen</label>
     <input type="text" id="namen" placeholder="z. B. Lea, Tim, Aylin, Jonas" autocomplete="off">
-    <div class="row">
-      <div><label class="f" for="start">Start</label><input type="time" id="start"></div>
-      <div><label class="f" for="ziel">Zielschluss (nach 4 Std.)</label><input type="time" id="ziel"></div>
-    </div>
+    <label class="f" for="start">Start</label><input type="time" id="start">
+    <p class="notfall ziel"><b>Ende der Rallye: 15:30 Uhr</b><br>Treffpunkt: <b>an der Tankstelle</b><br>Keiner geht alleine nach Hause!</p>
     <p class="notfall"><b>Notfall:</b> Herr Steffe · <a href="tel:+491788077353">0178 8077353</a><br>Basislager: CVJM Feriendorf</p>
   </section>
 
@@ -83,6 +82,7 @@ footer{color:var(--muted);font-size:.85rem;text-align:center;margin-top:20px}
     <ul class="regeln">
       <li>Macht an jeder Station ein <b>Gruppen-Selfie</b>: Alle müssen drauf sein, die Station auch.</li>
       <li>Stationen 1–6 in beliebiger Reihenfolge, <b>Station 7 ganz zum Schluss</b>.</li>
+      <li><b>15:30 Uhr Ende:</b> Treffpunkt an der Tankstelle. Keiner geht alleine nach Hause!</li>
       <li>Gruppe bleibt immer zusammen, keine fremden Menschen fotografieren, Straßenverkehr geht vor.</li>
       <li>Foto hier hochladen und Station abhaken. Am Ende <b>PDF erstellen</b> und an die Lehrkraft schicken.</li>
     </ul>
@@ -163,7 +163,7 @@ function dbTx(modus, fn) {
 function fotoSpeichern(id, blob) { return dbTx('readwrite', function (s) { return blob ? s.put(blob, id) : s.delete(id); }); }
 
 /* ---------- Oberfläche ---------- */
-['namen', 'start', 'ziel'].forEach(function (f) {
+['namen', 'start'].forEach(function (f) {
   var el = $(f); el.value = zustand[f] || '';
   el.addEventListener('input', function () { zustand[f] = el.value; speichern(); pdfVeraltet(); });
 });
@@ -347,7 +347,7 @@ function pdfErstellen() {
   c.push(text(R, y, 'Namen:', 11, true));
   umbrechen(gruppe, 12, false, A4W - 2 * R - 60).forEach(function (z) { c.push(text(R + 60, y, z, 12)); y -= 16; });
   y -= 4;
-  c.push(text(R, y, 'Start: ' + (zustand.start || '______') + ' Uhr   ·   Zielschluss: ' + (zustand.ziel || '______') + ' Uhr', 11)); y -= 16;
+  c.push(text(R, y, 'Start: ' + (zustand.start || '______') + ' Uhr   ·   Ende: 15:30 Uhr, Treffpunkt an der Tankstelle', 11)); y -= 16;
   c.push(text(R, y, 'Notfall: Herr Steffe · 0178 8077353 · Basislager: CVJM Feriendorf', 11)); y -= 16;
   var d = new Date();
   c.push(text(R, y, 'PDF erstellt am ' + d.toLocaleDateString('de-DE') + ' um ' + d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr', 9, false, '0.45 0.38 0.33'));
@@ -447,7 +447,7 @@ $('resetBtn').addEventListener('click', function () {
   if (!confirm('Habt ihr die PDF schon abgegeben? Löschen kann nicht rückgängig gemacht werden.')) return;
   STATIONEN.forEach(function (st) { delete fotos[st.id]; fotoSpeichern(st.id, null); zeigeFoto(st.id); $('haken-' + st.id).checked = false; });
   zustand = { namen: '', start: '', ziel: '', notfall: '', haken: {}, ort: '' }; speichern();
-  ['namen', 'start', 'ziel', 'ort'].forEach(function (f) { $(f).value = ''; });
+  ['namen', 'start', 'ort'].forEach(function (f) { $(f).value = ''; });
   pdfVeraltet(); aktualisieren(); window.scrollTo(0, 0);
 });
 })();
