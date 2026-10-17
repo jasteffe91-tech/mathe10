@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de" data-theme="dunkel">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Rillenreise – Das Musik-Zeitreise-Spiel</title>
+    <meta name="description" content="Partyspiel: Songs hören, Jahr erraten, auf der eigenen Zeitleiste einordnen. Hits von 1920 bis heute." />
+    <meta name="theme-color" content="#110b24" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Rillenreise" />
+    <link rel="manifest" href="/mathe10/rillenreise/manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/mathe10/rillenreise/icon.svg" />
+    <link rel="apple-touch-icon" href="/mathe10/rillenreise/apple-touch-icon.png" />
+    <script>
+      // Farbschema vor dem ersten Zeichnen setzen (kein Aufblitzen)
+      try {
+        var p = JSON.parse(localStorage.getItem('rillenreise.einstellungen.v1') || '{}');
+        var dark = p.theme === 'dunkel' || ((!p.theme || p.theme === 'auto') && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dunkel' : 'hell';
+      } catch (e) {}
+    </script>
+    <script type="module" crossorigin src="/mathe10/rillenreise/index-CPZ_Wc46.js"></script>
+    <link rel="stylesheet" crossorigin href="/mathe10/rillenreise/index-CY1Lt-W_.css">
+  </head>
+  <body>
+    <div id="root">
+      <noscript>Bitte JavaScript aktivieren bzw. die Seite in Safari/Chrome öffnen.</noscript>
+    </div>
+  </body>
+</html>
