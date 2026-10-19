@@ -1,0 +1,15 @@
+{
+  "name": "Kinoreise – Das Film-Zeitreise-Spiel",
+  "short_name": "Kinoreise",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#170d12",
+  "theme_color": "#170d12",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

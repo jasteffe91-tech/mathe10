@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kinoreise – Das Film-Zeitreise-Spiel</title>
+<meta name="description" content="Partyspiel: Soundtrack hören, Film erkennen, Kinojahr erraten und auf der eigenen Zeitleiste einordnen.">
+<meta name="theme-color" content="#170d12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kinoreise">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Kinosaal: dunkler Samt, Leuchtreklame-Gold, Karten wie Kinotickets.
+   Bewusst ein dunkles Farbschema (Saal ist dunkel). */
+:root{
+  --saal:#170d12; --samt:#2a1520; --samt-hell:#3a1f2c; --linie:#4d2a3a;
+  --gold:#f2c46d; --gold-tief:#c9932f; --ticket:#f3ead8; --ticket-text:#2a1520; --ticket-grau:#7a6656;
+  --text:#f6ecef; --leise:#c4aab5; --richtig:#6cc08b; --falsch:#e2685a;
+  --f-logo:"Limelight", "Didot", Georgia, serif;
+  --f-zahl:"Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-text:"Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:var(--saal);color:var(--text);font-family:var(--f-text);font-size:17px;line-height:1.45;
+  background-image:radial-gradient(120% 600px at 50% -120px, #3b1726 0%, transparent 70%);background-repeat:no-repeat;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding-block:12px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
+.klein{font-size:.88rem;color:var(--leise)}
+.zeile{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Kopf */
+.kopf{display:flex;align-items:center;gap:12px;padding-block:6px 14px}
+.logo{font-family:var(--f-logo);font-weight:400;font-size:clamp(1.7rem,6vw,2.4rem);color:var(--gold);letter-spacing:.02em;
+  text-shadow:0 0 18px rgba(242,196,109,.35)}
+.kopf .rechts{margin-left:auto;display:flex;gap:8px}
+
+/* Knöpfe */
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:999px;border:1px solid var(--linie);
+  background:var(--samt-hell);color:var(--text);font-weight:600;text-decoration:none}
+.knopf:hover{border-color:var(--gold-tief)}
+.knopf.gold{background:var(--gold);color:#2a1520;border-color:var(--gold)}
+.knopf.gold:hover{background:#ffd486}
+.knopf.leer{background:transparent}
+.knopf.klein{min-height:36px;padding:6px 12px;font-size:.92rem}
+.knopf:disabled{opacity:.4;cursor:default}
+
+/* Flächen */
+.flaeche{background:var(--samt);border:1px solid var(--linie);border-radius:18px;padding:18px}
+.raster{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:760px){.raster.zwei{grid-template-columns:1.1fr .9fr}}
+label.feld{display:block;font-family:var(--f-zahl);text-transform:uppercase;letter-spacing:.08em;font-size:.85rem;color:var(--leise);margin:14px 0 6px}
+select,input.text{width:100%;min-height:46px;padding:8px 12px;border-radius:12px;border:1px solid var(--linie);background:var(--saal)}
+.spieler-liste{display:grid;gap:8px}
+.spieler-liste .zeile{flex-wrap:nowrap}
+.spieler-liste input{flex:1;min-width:0}
+.wahl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wahl button{text-align:left;padding:12px;border-radius:14px;border:1px solid var(--linie);background:var(--saal);min-height:46px}
+.wahl button[aria-pressed="true"]{border-color:var(--gold);background:#3a2418;box-shadow:inset 0 0 0 1px var(--gold)}
+.wahl b{display:block;font-family:var(--f-zahl);font-size:1.1rem;letter-spacing:.03em}
+.wahl span{font-size:.85rem;color:var(--leise)}
+
+/* Held auf dem Startbildschirm */
+.held{display:grid;gap:16px;align-items:center;grid-template-columns:1fr}
+@media(min-width:760px){.held{grid-template-columns:1.2fr .8fr}}
+.held h1{font-family:var(--f-zahl);font-weight:700;font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.05;letter-spacing:.01em}
+.held p{max-width:58ch;color:var(--leise)}
+.stapel{position:relative;height:310px}
+.stapel .ticket{position:absolute;width:132px;left:50%;top:14px}
+.stapel .ticket:nth-child(1){transform:translateX(-95%) rotate(-9deg)}
+.stapel .ticket:nth-child(2){transform:translateX(-50%) rotate(1deg);z-index:2}
+.stapel .ticket:nth-child(3){transform:translateX(-5%) rotate(10deg)}
+
+/* Ticket-Karte */
+.ticket{--r:9px;position:relative;background:var(--ticket);color:var(--ticket-text);border-radius:12px;overflow:hidden;width:132px;flex:0 0 auto;
+  -webkit-mask:radial-gradient(circle var(--r) at 0 70%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--r) at 100% 70%,#0000 98%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle var(--r) at 0 70%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle var(--r) at 100% 70%,#0000 98%,#000) right/51% 100% no-repeat;
+  box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.ticket .plakat{aspect-ratio:2/3;width:100%;background:#d9cdb5;display:block;object-fit:cover}
+.ticket .abschnitt{border-top:2px dashed #c9b99c;padding:6px 8px 8px;text-align:center}
+.ticket .jahr{font-family:var(--f-zahl);font-weight:700;font-size:1.65rem;line-height:1;font-variant-numeric:tabular-nums}
+.ticket .titel{font-size:.78rem;line-height:1.2;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.ersatz{aspect-ratio:2/3;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:10px;text-align:center;
+  background:linear-gradient(160deg,#5a2236,#24101a);color:var(--gold);font-family:var(--f-zahl);font-weight:700;font-size:1rem;line-height:1.1}
+.ersatz small{font-family:var(--f-text);font-weight:500;color:var(--leise);font-size:.72rem}
+.ruecken{aspect-ratio:2/3;width:100%;display:grid;place-items:center;background:
+  repeating-linear-gradient(0deg,transparent 0 14px,rgba(0,0,0,.25) 14px 15px),linear-gradient(160deg,#6b2740,#2a1520);color:var(--gold);
+  font-family:var(--f-logo);font-size:3rem}
+
+/* Spielbereich */
+.buehne{display:grid;gap:18px;grid-template-columns:1fr;align-items:start}
+@media(min-width:760px){.buehne{grid-template-columns:auto 1fr}}
+.mitte{display:flex;flex-direction:column;align-items:center;gap:12px}
+.mitte .ticket{width:min(230px,62vw)}
+.mitte .ticket .jahr{font-size:2.4rem}
+.mitte .ticket .titel{font-size:.95rem;-webkit-line-clamp:3;min-height:0}
+.mitte .ticket .musik{font-size:.78rem;color:var(--ticket-grau);margin-top:4px}
+.dreh{animation:dreh .55s ease}
+@keyframes dreh{0%{transform:rotateY(90deg)}100%{transform:rotateY(0)}}
+@media (prefers-reduced-motion:reduce){.dreh{animation:none}}
+
+.spieler-zug{font-family:var(--f-zahl);text-transform:uppercase;letter-spacing:.1em;color:var(--leise);font-size:.9rem}
+.spieler-zug b{display:block;font-size:1.9rem;color:var(--text);letter-spacing:.02em;line-height:1.1}
+.abspielen{--p:0;width:92px;height:92px;border-radius:50%;border:0;display:grid;place-items:center;position:relative;
+  background:conic-gradient(var(--gold) calc(var(--p)*1turn), #4d2a3a 0);box-shadow:0 0 30px rgba(242,196,109,.25)}
+.abspielen::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--samt)}
+.abspielen svg{position:relative;width:34px;height:34px;fill:var(--gold)}
+.abspielen:disabled{opacity:.5}
+.hinweis{min-height:1.4em;text-align:center;font-size:.92rem;color:var(--leise);max-width:34ch}
+.ergebnis{font-family:var(--f-zahl);font-weight:700;font-size:1.6rem;letter-spacing:.03em;text-align:center}
+.ergebnis.ja{color:var(--richtig)} .ergebnis.nein{color:var(--falsch)}
+
+/* Zeitleiste */
+.leiste-kopf{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.leiste-kopf h2{font-family:var(--f-zahl);font-size:1.3rem;letter-spacing:.03em}
+.leiste{display:flex;gap:6px;align-items:stretch;overflow-x:auto;padding:6px 4px 14px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.leiste .ticket{width:112px;scroll-snap-align:center}
+.leiste .ticket .jahr{font-size:1.4rem}
+.platz{flex:0 0 auto;width:34px;border-radius:12px;border:2px dashed var(--linie);background:transparent;color:var(--leise);display:grid;place-items:center;font-size:1.5rem;
+  font-family:var(--f-zahl);min-height:120px;transition:width .15s,border-color .15s,background .15s}
+.platz:hover{border-color:var(--gold-tief);color:var(--gold)}
+.platz.gewaehlt{width:84px;border-color:var(--gold);border-style:solid;background:rgba(242,196,109,.12);color:var(--gold)}
+.platz.einspruch{width:84px;border-color:#9bb7ff;border-style:solid;background:rgba(155,183,255,.12);color:#cbd8ff}
+.platz.loesung{border-color:var(--richtig);border-style:solid;background:rgba(108,192,139,.14);color:var(--richtig);width:84px}
+.platz:disabled{cursor:default}
+.leiste.ruhe .platz{display:none}
+.ticket.neu{outline:3px solid var(--richtig);outline-offset:-3px}
+
+/* Punktestand */
+.stand{display:grid;gap:6px}
+.stand .zeile{flex-wrap:nowrap;padding:8px 10px;border-radius:12px;background:var(--saal);border:1px solid var(--linie)}
+.stand .zeile.dran{border-color:var(--gold)}
+.stand .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.stand .zahl{font-family:var(--f-zahl);font-weight:700;font-size:1.2rem;font-variant-numeric:tabular-nums}
+.freikarte{display:inline-flex;align-items:center;gap:3px;font-family:var(--f-zahl);font-size:.95rem;color:var(--gold)}
+.freikarte svg{width:16px;height:16px;fill:currentColor}
+.balken{height:6px;border-radius:3px;background:#3a1f2c;overflow:hidden;width:70px}
+.balken i{display:block;height:100%;background:var(--gold)}
+
+.aktionen{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.dialog{position:fixed;inset:0;background:rgba(10,5,8,.72);display:grid;place-items:center;z-index:50;padding:16px}
+.dialog .flaeche{max-width:420px;width:100%}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--samt-hell);border:1px solid var(--gold-tief);
+  padding:10px 16px;border-radius:12px;z-index:60;max-width:calc(100% - 32px);font-size:.95rem}
+.fuss{margin-top:28px;text-align:center;font-size:.8rem;color:var(--leise)}
+.fuss a{color:inherit}
+.siegerliste{display:grid;gap:8px;margin:14px 0}
+.regeln li{margin:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<audio id="audio" preload="none"></audio>
+<script src="filme.js"></script>
+<script>
+'use strict'
+// ---------- Daten ----------
+const FILME = window.FILME.map(([de, jahr, wiki, interpret, stueck], i) => ({
+  i, de, jahr, wiki, interpret, stueck, orig: wiki.replace(/\s*\([^)]*\)\s*$/, '')
+}))
+const SPEICHER = 'kinoreise.spiel.v1', CACHE = 'kinoreise.cache.v1'
+const lies = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } }
+const schreib = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} }
+const cache = Object.assign({ dz: {}, plakat: {} }, lies(CACHE, {}))
+const merkeCache = () => schreib(CACHE, cache)
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+const mische = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] } return a }
+
+// ---------- Deezer (JSONP, wie bei Rillenreise) ----------
+let jsonpNr = 0
+function jsonp(url, ms = 8000) {
+  return new Promise((ok, fehler) => {
+    const name = `__kr_jsonp_${Date.now().toString(36)}_${jsonpNr++}`
+    const s = document.createElement('script')
+    const ende = () => { clearTimeout(t); delete window[name]; s.remove() }
+    const t = setTimeout(() => { ende(); fehler(new Error('Zeitüberschreitung')) }, ms)
+    window[name] = d => { ende(); ok(d) }
+    s.onerror = () => { ende(); fehler(new Error('Deezer nicht erreichbar')) }
+    s.src = `${url}${url.includes('?') ? '&' : '?'}output=jsonp&callback=${name}`
+    document.head.appendChild(s)
+  })
+}
+const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/ß/g, 'ss')
+  .replace(/['’`.!?]/g, '').replace(/\([^)]*\)|\[[^\]]*\]/g, ' ').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').replace(/\bthe\b/g, ' ').replace(/\s+/g, ' ').trim()
+const MUELL = /karaoke|tribute|made famous|in the style|originally performed|8.?bit|lullaby|music box|piano version|kids|chipmunk|workout|cover version|ringtone/i
+const SOUNDTRACK = /soundtrack|original|motion picture|music from|score|ost\b|filmmusik|film/i
+
+function bewerte(t, f, art) {
+  if (!t || t.readable === false || !t.preview) return -1
+  const titel = norm(t.title_short || t.title), stueck = norm(f.stueck)
+  const kuenstler = norm(t.artist?.name), album = norm(t.album?.title), film = norm(f.orig), filmDe = norm(f.de)
+  if (MUELL.test(`${t.title} ${t.artist?.name} ${t.album?.title}`)) return -1
+  const titelPasst = titel && stueck && (titel.includes(stueck) || (titel.length > 3 && stueck.includes(titel)))
+  const albumPasst = film.length > 2 && (album.includes(film) || (filmDe.length > 2 && album.includes(filmDe)))
+  const k1 = norm(f.interpret.split(/ & |, | feat\. /)[0])
+  const kuenstlerPasst = k1 && (kuenstler.includes(k1) || k1.includes(kuenstler))
+  if (art === 'album') return albumPasst && SOUNDTRACK.test(t.album?.title || '') ? 2 : -1
+  if (!titelPasst) return -1
+  return 1 + (kuenstlerPasst ? 3 : 0) + (albumPasst ? 2 : 0)
+}
+const pack = t => ({ id: t.id, url: t.preview, cover: t.album?.cover_xl || t.album?.cover_big || '', info: `${t.artist?.name || ''} – ${t.title}`, link: t.link })
+const hoerprobe = new Map()
+async function findeHoerprobe(f) {
+  if (hoerprobe.has(f.i)) return hoerprobe.get(f.i)
+  const p = (async () => {
+    const id = cache.dz[f.i]
+    if (id === 0) return null
+    if (id) { try { const t = await jsonp(`https://api.deezer.com/track/${id}`); if (t && t.preview) return pack(t) } catch (e) { throw e } }
+    const ohneKlammer = s => s.replace(/\s*\([^)]*\)\s*/g, ' ').trim()
+    const versuche = [
+      [`${f.interpret.split(/ & |, /)[0]} ${ohneKlammer(f.stueck)}`, 'titel'],
+      [`${ohneKlammer(f.stueck)} ${f.orig}`, 'titel'],
+      [`${f.orig} soundtrack`, 'album'],
+    ]
+    for (const [q, art] of versuche) {
+      const r = await jsonp(`https://api.deezer.com/search?q=${encodeURIComponent(q)}&limit=25`)
+      let best = null, punkte = 0
+      for (const t of r.data || []) { const b = bewerte(t, f, art); if (b > punkte) { best = t; punkte = b } }
+      if (best) { cache.dz[f.i] = best.id; merkeCache(); return pack(best) }
+    }
+    cache.dz[f.i] = 0; merkeCache()
+    return null
+  })()
+  hoerprobe.set(f.i, p)
+  p.catch(() => hoerprobe.delete(f.i)) // Netzfehler: später erneut versuchen
+  return p
+}
+
+// ---------- Plakate (englische Wikipedia: Kinoplakat im Infokasten) ----------
+const plakatWarte = new Map()
+async function ladePlakate(liste) {
+  const offen = liste.filter(f => !(f.i in cache.plakat) && !plakatWarte.has(f.i))
+  for (let s = 0; s < offen.length; s += 40) {
+    const teil = offen.slice(s, s + 40)
+    const p = (async () => {
+      const titel = teil.map(f => f.wiki).join('|')
+      const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=500&pilicense=any&redirects=1&titles=${encodeURIComponent(titel)}`
+      const d = await (await fetch(url)).json()
+      const q = d.query || {}, weiter = {}
+      for (const n of q.normalized || []) weiter[n.from] = n.to
+      for (const r of q.redirects || []) weiter[r.from] = r.to
+      const seiten = {}
+      for (const pg of q.pages || []) seiten[pg.title] = pg.thumbnail?.source || ''
+      for (const f of teil) {
+        let t = f.wiki, n = 0
+        while (weiter[t] && n++ < 3) t = weiter[t]
+        cache.plakat[f.i] = seiten[t] || ''
+        // Kein Plakat bei Wikipedia: Cover des Soundtrack-Albums nehmen
+        if (!cache.plakat[f.i]) findeHoerprobe(f).then(h => { if (h) { hoerprobeFertig[f.i] = h; fuellePlakate() } }).catch(() => {})
+      }
+      merkeCache()
+    })()
+    teil.forEach(f => plakatWarte.set(f.i, p))
+    try { await p } catch {} finally { teil.forEach(f => plakatWarte.delete(f.i)) }
+  }
+  fuellePlakate()
+}
+function plakatUrl(f) {
+  return cache.plakat[f.i] || (hoerprobeFertig[f.i]?.cover) || ''
+}
+const hoerprobeFertig = {}
+function plakatHtml(f) {
+  const url = plakatUrl(f)
+  if (url) return `<img class="plakat" src="${esc(url)}" alt="Kinoplakat: ${esc(f.de)}" loading="lazy" referrerpolicy="no-referrer">`
+  return `<div class="ersatz" data-plakat="${f.i}">${esc(f.de)}<small>${esc(f.orig !== f.de ? f.orig : '')}</small></div>`
+}
+function fuellePlakate() {
+  document.querySelectorAll('[data-plakat]').forEach(el => {
+    const f = FILME[+el.dataset.plakat]; const url = plakatUrl(f)
+    if (url) el.outerHTML = plakatHtml(f)
+  })
+}
+
+// ---------- Spielzustand ----------
+const standard = () => ({
+  phase: 'start', menue: false,
+  einst: { modus: 'hoeren', von: 1930, bis: 2029, ziel: 10, freikarten: true },
+  namen: ['Spieler 1', 'Spieler 2'],
+  spieler: [], stapel: [], dran: 0, karte: null, platz: null, einspruch: null, ergebnis: null, sieger: null, erkannt: false
+})
+let S = Object.assign(standard(), lies(SPEICHER, {}))
+let toastText = '', toastT = 0, ladeText = ''
+const speichern = () => schreib(SPEICHER, S)
+function toast(t) { toastText = t; clearTimeout(toastT); toastT = setTimeout(() => { toastText = ''; zeichne() }, 3500); zeichne() }
+
+const imBereich = () => FILME.filter(f => f.jahr >= S.einst.von && f.jahr <= S.einst.bis)
+function neuesSpiel() {
+  const namen = S.namen.map(n => n.trim()).filter(Boolean)
+  if (!namen.length) return toast('Bitte mindestens einen Namen eintragen.')
+  const filme = mische(imBereich().map(f => f.i))
+  if (filme.length < namen.length + 5) return toast('Im gewählten Zeitraum sind zu wenige Filme. Bitte den Zeitraum vergrößern.')
+  S.spieler = namen.map(name => ({ name, leiste: [filme.pop()], freikarten: S.einst.freikarten ? 2 : 0, leben: 3 }))
+  S.spieler.forEach(sp => sp.leiste.sort((a, b) => FILME[a].jahr - FILME[b].jahr))
+  S.stapel = filme; S.dran = 0; S.sieger = null
+  ladePlakate(S.spieler.flatMap(sp => sp.leiste).map(i => FILME[i]))
+  zieheKarte()
+}
+
+let ziehNr = 0
+async function zieheKarte(versuch = 0) {
+  stoppeAudio()
+  Object.assign(S, { phase: 'zug', karte: null, platz: null, einspruch: null, ergebnis: null, erkannt: false })
+  if (!S.stapel.length) { S.phase = 'ende'; speichern(); return zeichne() }
+  const nr = ++ziehNr
+  const f = FILME[S.stapel.pop()]
+  S.karte = f.i; speichern()
+  ladePlakate([f])
+  ladeText = S.einst.modus === 'hoeren' ? 'Hörprobe wird gesucht …' : ''
+  zeichne()
+  try {
+    const h = await findeHoerprobe(f)
+    if (nr !== ziehNr) return
+    if (h) hoerprobeFertig[f.i] = h
+    if (!h && S.einst.modus === 'hoeren') {
+      if (versuch < 6) { toast(`Für einen Film gab es keine Hörprobe – neue Karte.`); return zieheKarte(versuch + 1) }
+      ladeText = 'Keine Hörprobe gefunden. Diese Karte bitte nach dem Plakat einordnen.'
+    } else ladeText = h ? '' : 'Für diesen Film gibt es keine Hörprobe.'
+  } catch {
+    if (nr !== ziehNr) return
+    ladeText = 'Deezer ist gerade nicht erreichbar. Internetverbindung prüfen und „Erneut laden“ tippen.'
+  }
+  zeichne()
+  // nächste Karte schon vorbereiten
+  const naechste = S.stapel[S.stapel.length - 1]
+  if (naechste != null) { findeHoerprobe(FILME[naechste]).catch(() => {}); ladePlakate([FILME[naechste]]) }
+}
+
+const passt = (leiste, platz, jahr) => (platz === 0 || FILME[leiste[platz - 1]].jahr <= jahr) && (platz === leiste.length || jahr <= FILME[leiste[platz]].jahr)
+function einsortieren(leiste, i) { leiste.push(i); leiste.sort((a, b) => FILME[a].jahr - FILME[b].jahr || (a === i) - (b === i)) }
+
+function aufdecken() {
+  const sp = S.spieler[S.dran], f = FILME[S.karte]
+  const richtig = passt(sp.leiste, S.platz, f.jahr)
+  let gewinner = richtig ? S.dran : null
+  if (S.einspruch) {
+    const ch = S.spieler[S.einspruch.wer]; ch.freikarten--
+    if (!richtig && passt(sp.leiste, S.einspruch.platz, f.jahr)) gewinner = S.einspruch.wer
+  }
+  if (gewinner != null) einsortieren(S.spieler[gewinner].leiste, f.i)
+  if (!richtig && S.spieler.length === 1) sp.leben--
+  S.ergebnis = { richtig, gewinner, loesung: sp.leiste.length && gewinner === S.dran ? null : richtigerPlatz(sp.leiste, f.jahr) }
+  S.phase = 'aufgedeckt'
+  const ziel = S.spieler.find(s => s.leiste.length >= S.einst.ziel)
+  if (ziel) S.sieger = S.spieler.indexOf(ziel)
+  speichern(); zeichne()
+}
+function richtigerPlatz(leiste, jahr) { let p = 0; while (p < leiste.length && FILME[leiste[p]].jahr <= jahr) p++; return p }
+function weiter() {
+  if (S.sieger != null || (S.spieler.length === 1 && S.spieler[0].leben <= 0)) { S.phase = 'ende'; stoppeAudio(); speichern(); return zeichne() }
+  S.dran = (S.dran + 1) % S.spieler.length
+  zieheKarte()
+}
+
+// ---------- Audio ----------
+const audio = document.getElementById('audio')
+let spielt = false
+function stoppeAudio() { audio.pause(); spielt = false; document.querySelector('.abspielen')?.style.setProperty('--p', 0) }
+async function abspielen() {
+  const f = FILME[S.karte]
+  if (spielt) { stoppeAudio(); return zeichne() }
+  let h = hoerprobeFertig[f.i]
+  if (!h) { try { h = await findeHoerprobe(f) } catch { return toast('Deezer ist nicht erreichbar.') } }
+  if (!h) return toast('Für diesen Film gibt es keine Hörprobe.')
+  hoerprobeFertig[f.i] = h
+  try {
+    if (audio.dataset.film !== String(f.i)) { audio.src = h.url; audio.dataset.film = f.i }
+    audio.currentTime = 0
+    await audio.play(); spielt = true
+  } catch {
+    // Vorschau-Links von Deezer laufen nach einigen Stunden ab: frisch holen
+    hoerprobe.delete(f.i); delete hoerprobeFertig[f.i]; audio.dataset.film = ''
+    try { const t = await jsonp(`https://api.deezer.com/track/${cache.dz[f.i]}`); if (t?.preview) { hoerprobeFertig[f.i] = pack(t); audio.src = t.preview; audio.dataset.film = f.i; await audio.play(); spielt = true } }
+    catch { toast('Die Hörprobe ließ sich nicht abspielen.') }
+  }
+  zeichne()
+}
+audio.addEventListener('timeupdate', () => { const d = audio.duration || 30; document.querySelector('.abspielen')?.style.setProperty('--p', Math.min(1, audio.currentTime / d)) })
+audio.addEventListener('ended', () => { spielt = false; zeichne() })
+
+// ---------- Darstellung ----------
+const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>'
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>'
+const ICON_TICKET = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z"/></svg>'
+
+function ticket(f, { verdeckt = false, gross = false, neu = false } = {}) {
+  if (verdeckt) return `<div class="ticket"><div class="ruecken" aria-label="Verdeckte Filmkarte">?</div><div class="abschnitt"><div class="jahr">????</div><div class="titel">Welcher Film?</div></div></div>`
+  const h = hoerprobeFertig[f.i]
+  return `<div class="ticket${gross ? ' dreh' : ''}${neu ? ' neu' : ''}">${plakatHtml(f)}<div class="abschnitt"><div class="jahr">${f.jahr}</div>
+    <div class="titel">${esc(f.de)}${gross && f.orig !== f.de ? `<br><span class="klein" style="color:var(--ticket-grau)">${esc(f.orig)}</span>` : ''}</div>
+    ${gross && h ? `<div class="musik">Musik: ${esc(h.info)}</div>` : ''}</div></div>`
+}
+
+function startSeite() {
+  const anzahl = imBereich().length, e = S.einst
+  const jahrzehnte = []; for (let j = 1930; j <= 2020; j += 10) jahrzehnte.push(j)
+  const beispiel = ['Titanic (1997 film)', 'Back to the Future', 'Frozen (2013 film)'].map(w => FILME.find(f => f.wiki === w)).filter(Boolean)
+  ladePlakate(beispiel)
+  const laufend = S.spieler.length && S.phase !== 'start' && S.phase !== 'ende'
+  return `
+  <header class="kopf"><div class="logo">Kinoreise</div></header>
+  <section class="held flaeche" style="background:transparent;border:0;padding:0 0 8px">
+    <div>
+      <h1>Soundtrack hören, Kinojahr raten, Film einordnen.</h1>
+      <p>Ihr hört 30 Sekunden Filmmusik. Wer dran ist, legt die Filmkarte an die passende Stelle seiner Zeitleiste – vor, zwischen oder hinter die Filme, die schon dort liegen. Dann wird das Plakat aufgedeckt. Wer zuerst ${e.ziel} Filme richtig liegen hat, gewinnt.</p>
+      ${laufend ? `<div class="zeile"><button class="knopf gold" data-a="fortsetzen">Laufendes Spiel fortsetzen</button></div>` : ''}
+    </div>
+    <div class="stapel" aria-hidden="true">${beispiel.map(f => ticket(f)).join('')}</div>
+  </section>
+  <div class="raster zwei">
+    <section class="flaeche">
+      <h2 style="font-family:var(--f-zahl);font-size:1.3rem">Mitspielende</h2>
+      <div class="spieler-liste" style="margin-top:10px">
+        ${S.namen.map((n, i) => `<div class="zeile"><input class="text" id="name-${i}" data-name="${i}" value="${esc(n)}" maxlength="24" aria-label="Name ${i + 1}">
+          ${S.namen.length > 1 ? `<button class="knopf leer klein" data-a="entfernen" data-i="${i}" aria-label="${esc(n)} entfernen">✕</button>` : ''}</div>`).join('')}
+      </div>
+      <div class="zeile" style="margin-top:10px">
+        <button class="knopf klein" data-a="dazu" ${S.namen.length >= 10 ? 'disabled' : ''}>+ Person oder Team</button>
+        <span class="klein">Alleine spielen geht auch: dann habt ihr 3 Fehler frei.</span>
+      </div>
+    </section>
+    <section class="flaeche">
+      <h2 style="font-family:var(--f-zahl);font-size:1.3rem">Einstellungen</h2>
+      <label class="feld">Spielart</label>
+      <div class="wahl">
+        <button data-a="modus" data-v="hoeren" aria-pressed="${e.modus === 'hoeren'}"><b>Hörprobe</b><span>Plakat bleibt verdeckt, bis die Karte liegt</span></button>
+        <button data-a="modus" data-v="plakat" aria-pressed="${e.modus === 'plakat'}"><b>Plakat zeigen</b><span>Plakat sichtbar, nur das Jahr ist verdeckt</span></button>
+      </div>
+      <div class="raster" style="grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="feld" for="von">Filme ab</label><select id="von" data-e="von">${jahrzehnte.map(j => `<option value="${j}" ${e.von === j ? 'selected' : ''}>${j}er</option>`).join('')}</select></div>
+        <div><label class="feld" for="bis">Filme bis</label><select id="bis" data-e="bis">${jahrzehnte.map(j => `<option value="${j + 9}" ${e.bis === j + 9 ? 'selected' : ''}>${j}er</option>`).join('')}</select></div>
+      </div>
+      <label class="feld" for="ziel">Filme zum Sieg</label>
+      <select id="ziel" data-e="ziel">${[5, 7, 10, 12, 15].map(z => `<option value="${z}" ${e.ziel === z ? 'selected' : ''}>${z} Filme</option>`).join('')}</select>
+      <label class="feld" for="freikarten">Freikarten</label>
+      <select id="freikarten" data-e="freikarten"><option value="1" ${e.freikarten ? 'selected' : ''}>mit Freikarten</option><option value="0" ${!e.freikarten ? 'selected' : ''}>ohne Freikarten</option></select>
+      <p class="klein" style="margin-top:12px">${anzahl} Filme im gewählten Zeitraum.</p>
+      <button class="knopf gold" style="width:100%;margin-top:4px" data-a="los">Neues Spiel starten</button>
+    </section>
+  </div>
+  <section class="flaeche" style="margin-top:14px">
+    <h2 style="font-family:var(--f-zahl);font-size:1.3rem">So geht’s</h2>
+    <ul class="regeln">
+      <li>Jede Person startet mit einem aufgedeckten Film auf ihrer Zeitleiste.</li>
+      <li>Wer dran ist, hört den Soundtrack und tippt auf die Lücke, in die der Film gehört. Gleiches Jahr zählt als richtig.</li>
+      <li>Richtig eingeordnet: Die Karte bleibt liegen. Falsch: Sie wandert aus dem Spiel.</li>
+      <li>Freikarten: Jede Person hat zu Beginn 2. Wer im Hörprobe-Modus den Film nach dem Aufdecken richtig genannt hat, bekommt eine dazu (die Runde entscheidet). Eine Freikarte überspringt eine Karte oder legt Einspruch ein: Wer Einspruch erhebt, wählt eine andere Lücke. Lag der Spieler falsch und der Einspruch richtig, bekommt die einsprechende Person die Karte.</li>
+    </ul>
+  </section>
+  ${fuss()}`
+}
+
+function standListe() {
+  return `<div class="stand">${S.spieler.map((sp, i) => `<div class="zeile ${i === S.dran ? 'dran' : ''}">
+    <span class="name">${esc(sp.name)}</span>
+    ${S.spieler.length === 1 ? `<span class="klein">${'♥'.repeat(Math.max(0, sp.leben))} Fehler frei</span>` : ''}
+    ${S.einst.freikarten ? `<span class="freikarte" title="Freikarten">${ICON_TICKET}${sp.freikarten}</span>` : ''}
+    <span class="balken" aria-hidden="true"><i style="width:${Math.min(100, sp.leiste.length / S.einst.ziel * 100)}%"></i></span>
+    <span class="zahl">${sp.leiste.length}/${S.einst.ziel}</span></div>`).join('')}</div>`
+}
+
+function leisteHtml(sp, { waehlbar, markiere, ruhe }) {
+  const L = sp.leiste, teile = []
+  const platz = p => {
+    let cls = '', inhalt = '+'
+    if (S.platz === p) { cls = 'gewaehlt'; inhalt = 'hier' }
+    if (S.einspruch?.platz === p) { cls = 'einspruch'; inhalt = 'Einspruch' }
+    if (S.phase === 'aufgedeckt' && S.ergebnis && !S.ergebnis.richtig && S.ergebnis.loesung === p) { cls = 'loesung'; inhalt = 'richtig' }
+    return `<button class="platz ${cls}" data-a="platz" data-p="${p}" ${waehlbar ? '' : 'disabled'} aria-label="Lücke ${p + 1}${p === 0 ? ' (ganz vorne)' : p === L.length ? ' (ganz hinten)' : ''}">${inhalt}</button>`
+  }
+  L.forEach((i, k) => { teile.push(platz(k)); teile.push(ticket(FILME[i], { neu: markiere === i })) })
+  teile.push(platz(L.length))
+  return `<div class="leiste${ruhe ? ' ruhe' : ''}">${teile.join('')}</div>`
+}
+
+function spielSeite() {
+  const sp = S.spieler[S.dran], f = FILME[S.karte]
+  if (!f) return `<p>Karte wird gezogen …</p>`
+  const auf = S.phase === 'aufgedeckt', E = S.ergebnis
+  const verdeckt = !auf && S.einst.modus === 'hoeren'
+  const h = hoerprobeFertig[f.i]
+  const waehltEinspruch = S.phase === 'einspruch-platz'
+  const andere = S.spieler.map((s, i) => ({ s, i })).filter(x => x.i !== S.dran && x.s.freikarten > 0)
+
+  let mitte
+  if (!auf) {
+    const karte = S.einst.modus === 'plakat'
+      ? `<div class="ticket">${plakatHtml(f)}<div class="abschnitt"><div class="jahr">????</div><div class="titel">${esc(f.de)}</div></div></div>`
+      : ticket(f, { verdeckt: true })
+    mitte = `${karte}
+      <button class="abspielen" data-a="play" aria-label="${spielt ? 'Hörprobe anhalten' : 'Hörprobe abspielen'}" ${!h ? 'disabled' : ''}>${spielt ? ICON_PAUSE : ICON_PLAY}</button>
+      <div class="hinweis">${esc(ladeText || (S.phase === 'zug' ? (S.platz == null ? 'Hören, dann eine Lücke in der Zeitleiste antippen.' : 'Lücke gewählt. Noch ändern oder festlegen.') : waehltEinspruch ? `${esc(S.spieler[S.einspruch.wer].name)}: andere Lücke antippen.` : 'Karte liegt. Einspruch oder aufdecken?'))}</div>
+      ${ladeText.includes('Erneut') ? `<button class="knopf klein" data-a="nochmal">Erneut laden</button>` : ''}`
+  } else {
+    const txt = E.richtig ? 'Richtig eingeordnet!' : E.gewinner != null ? `Einspruch erfolgreich – ${esc(S.spieler[E.gewinner].name)} bekommt die Karte` : 'Leider daneben'
+    mitte = `${ticket(f, { gross: true })}<div class="ergebnis ${E.richtig || E.gewinner != null ? 'ja' : 'nein'}">${txt}</div>
+      ${h ? `<button class="knopf klein" data-a="play">${spielt ? 'Musik anhalten' : 'Nochmal hören'}</button>` : ''}`
+  }
+
+  let knoepfe = ''
+  if (S.phase === 'zug') {
+    knoepfe = `<button class="knopf gold" data-a="festlegen" ${S.platz == null ? 'disabled' : ''}>Festlegen</button>
+      ${S.einst.freikarten && sp.freikarten > 0 ? `<button class="knopf" data-a="ueberspringen">Überspringen (1 Freikarte)</button>` : ''}`
+  } else if (S.phase === 'gelegt') {
+    knoepfe = `<button class="knopf gold" data-a="aufdecken">Aufdecken</button>
+      ${S.einst.freikarten && andere.length ? `<button class="knopf" data-a="einspruch">Einspruch (1 Freikarte)</button>` : ''}`
+  } else if (waehltEinspruch) {
+    knoepfe = `<button class="knopf gold" data-a="aufdecken" ${S.einspruch?.platz == null ? 'disabled' : ''}>Aufdecken</button><button class="knopf leer" data-a="einspruch-weg">Einspruch zurücknehmen</button>`
+  } else if (auf) {
+    knoepfe = `${S.einst.modus === 'hoeren' && S.einst.freikarten && !S.erkannt ? `<button class="knopf" data-a="erkannt">${esc(sp.name)} hat den Film erkannt (+1 Freikarte)</button>` : ''}
+      <button class="knopf gold" data-a="weiter">${S.sieger != null || (S.spieler.length === 1 && sp.leben <= 0) ? 'Zum Ergebnis' : 'Nächste Karte'}</button>`
+  }
+
+  const leisteWaehlbar = S.phase === 'zug' || waehltEinspruch
+  return `
+  <header class="kopf"><div class="logo">Kinoreise</div>
+    <div class="rechts"><button class="knopf leer klein" data-a="menue">Menü</button></div></header>
+  <div class="buehne">
+    <section class="mitte">
+      <div class="spieler-zug" style="text-align:center">Am Zug<b>${esc(sp.name)}</b></div>
+      ${mitte}
+      <div class="aktionen">${knoepfe}</div>
+    </section>
+    <section style="min-width:0;display:grid;gap:14px">
+      <div class="flaeche" style="min-width:0">
+        <div class="leiste-kopf"><h2>Zeitleiste von ${esc(sp.name)}</h2><span class="klein">${sp.leiste.length} ${sp.leiste.length === 1 ? 'Film' : 'Filme'}</span></div>
+        ${leisteHtml(sp, { waehlbar: leisteWaehlbar, markiere: auf && E.gewinner === S.dran ? f.i : null, ruhe: auf && E.richtig })}
+      </div>
+      ${auf && E.gewinner != null && E.gewinner !== S.dran ? `<div class="flaeche" style="min-width:0"><div class="leiste-kopf"><h2>Zeitleiste von ${esc(S.spieler[E.gewinner].name)}</h2></div>
+        <div class="leiste ruhe">${S.spieler[E.gewinner].leiste.map(i => ticket(FILME[i], { neu: i === f.i })).join('')}</div></div>` : ''}
+      <div class="flaeche">${standListe()}<p class="klein" style="margin:10px 0 0">Noch ${S.stapel.length} Karten im Stapel.</p></div>
+    </section>
+  </div>
+  ${S.phase === 'einspruch-wer' ? `<div class="dialog" role="dialog" aria-modal="true" aria-label="Einspruch"><div class="flaeche">
+      <h2 style="font-family:var(--f-zahl)">Wer legt Einspruch ein?</h2><p class="klein">Kostet eine Freikarte, egal wie es ausgeht.</p>
+      <div class="spieler-liste">${andere.map(x => `<button class="knopf" data-a="einspruch-von" data-i="${x.i}">${esc(x.s.name)} (${x.s.freikarten} Freikarten)</button>`).join('')}</div>
+      <button class="knopf leer" style="margin-top:10px" data-a="einspruch-weg">Abbrechen</button></div></div>` : ''}
+  ${fuss()}`
+}
+
+function endeSeite() {
+  const rang = S.spieler.map((s, i) => ({ s, i })).sort((a, b) => b.s.leiste.length - a.s.leiste.length)
+  const solo = S.spieler.length === 1
+  const titel = solo ? `${rang[0].s.leiste.length} Filme richtig` : S.sieger != null ? `${esc(S.spieler[S.sieger].name)} gewinnt!` : 'Der Stapel ist leer'
+  return `
+  <header class="kopf"><div class="logo">Kinoreise</div></header>
+  <section class="flaeche">
+    <h1 style="font-family:var(--f-zahl);font-size:2.2rem">${titel}</h1>
+    <div class="siegerliste">${rang.map(x => `<div class="flaeche" style="background:var(--saal);min-width:0">
+      <div class="leiste-kopf"><h2>${esc(x.s.name)}</h2><span class="klein">${x.s.leiste.length} Filme</span></div>
+      <div class="leiste ruhe">${x.s.leiste.map(i => ticket(FILME[i])).join('')}</div></div>`).join('')}</div>
+    <div class="zeile"><button class="knopf gold" data-a="los">Gleiche Runde nochmal</button><button class="knopf" data-a="zumstart">Zum Start</button></div>
+  </section>${fuss()}`
+}
+
+const fuss = () => `<footer class="fuss">Privates Fan-Projekt · ${FILME.length} Filme · Hörproben: <a href="https://www.deezer.com" target="_blank" rel="noopener">Deezer</a> (nur gestreamt) · Plakate: <a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>, Rechte bei den Filmstudios</footer>`
+
+function zeichne() {
+  const app = document.getElementById('app')
+  const schluessel = `${S.menue}-${S.phase === 'start' || S.phase === 'ende'}-${S.dran}-${S.karte}`
+  const scroll = app.dataset.k === schluessel ? app.querySelector('.leiste')?.scrollLeft : null
+  app.dataset.k = schluessel
+  const menue = S.phase === 'start' || S.menue
+  app.innerHTML = (menue ? startSeite() : S.phase === 'ende' ? endeSeite() : spielSeite())
+    + (toastText ? `<div class="toast" role="status">${esc(toastText)}</div>` : '')
+  const l = app.querySelector('.leiste')
+  if (l && scroll != null) l.scrollLeft = scroll
+  if (!menue && S.phase !== 'ende') {
+    const p = app.querySelector('.platz.gewaehlt, .platz.loesung, .ticket.neu')
+    if (p && l && scroll == null) p.scrollIntoView({ inline: 'center', block: 'nearest' })
+    ladePlakate(S.spieler.flatMap(s => s.leiste).map(i => FILME[i]))
+  }
+  if (S.phase === 'ende') ladePlakate(S.spieler.flatMap(s => s.leiste).map(i => FILME[i]))
+  const ab = app.querySelector('.abspielen'); if (ab && spielt) ab.style.setProperty('--p', Math.min(1, audio.currentTime / (audio.duration || 30)))
+}
+
+// ---------- Eingaben ----------
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]'); if (!b || b.disabled) return
+  const a = b.dataset.a, sp = S.spieler[S.dran]
+  switch (a) {
+    case 'dazu': S.namen.push(`Spieler ${S.namen.length + 1}`); break
+    case 'entfernen': S.namen.splice(+b.dataset.i, 1); break
+    case 'modus': S.einst.modus = b.dataset.v; break
+    case 'los': S.menue = false; return neuesSpiel()
+    case 'fortsetzen': S.menue = false; speichern(); return zieheKarteNeu()
+    case 'zumstart': stoppeAudio(); S.phase = 'start'; S.menue = false; S.spieler = []; break
+    case 'menue': stoppeAudio(); S.menue = true; speichern(); return zeichne()
+    case 'play': abspielen(); return
+    case 'nochmal': zieheKarteNeu(); return
+    case 'platz': {
+      const p = +b.dataset.p
+      if (S.phase === 'einspruch-platz') { if (p !== S.platz) S.einspruch.platz = p }
+      else S.platz = p
+      break
+    }
+    case 'festlegen': S.phase = 'gelegt'; break
+    case 'ueberspringen': sp.freikarten--; speichern(); return zieheKarte()
+    case 'einspruch': S.phase = 'einspruch-wer'; break
+    case 'einspruch-von': S.einspruch = { wer: +b.dataset.i, platz: null }; S.phase = 'einspruch-platz'; break
+    case 'einspruch-weg': S.einspruch = null; S.phase = 'gelegt'; break
+    case 'aufdecken': return aufdecken()
+    case 'erkannt': sp.freikarten = Math.min(5, sp.freikarten + 1); S.erkannt = true; break
+    case 'weiter': return weiter()
+  }
+  speichern(); zeichne()
+})
+// Karte nach Neuladen der Seite erneut vorbereiten (ohne neu zu ziehen)
+async function zieheKarteNeu() {
+  const f = FILME[S.karte]; if (!f) return zieheKarte()
+  ladeText = S.einst.modus === 'hoeren' && S.phase !== 'aufgedeckt' ? 'Hörprobe wird gesucht …' : ''
+  zeichne(); ladePlakate([f])
+  try { const h = await findeHoerprobe(f); if (h) hoerprobeFertig[f.i] = h; ladeText = h ? '' : 'Für diesen Film gibt es keine Hörprobe.' }
+  catch { ladeText = 'Deezer ist gerade nicht erreichbar. Internetverbindung prüfen und „Erneut laden“ tippen.' }
+  zeichne()
+}
+document.addEventListener('input', e => {
+  const t = e.target
+  if (t.dataset.name != null) { S.namen[+t.dataset.name] = t.value; speichern() }
+})
+document.addEventListener('change', e => {
+  const t = e.target, k = t.dataset.e; if (!k) return
+  S.einst[k] = k === 'freikarten' ? t.value === '1' : +t.value
+  if (S.einst.von > S.einst.bis) { if (k === 'von') S.einst.bis = S.einst.von + 9; else S.einst.von = S.einst.bis - 9 }
+  speichern(); zeichne()
+})
+
+// Start
+if (!S.menue && S.phase !== 'start' && S.phase !== 'ende' && S.karte != null) zieheKarteNeu()
+else zeichne()
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {})
+</script>
+</body>
+</html>
