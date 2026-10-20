@@ -196,7 +196,8 @@ select,input.text{width:100%;min-height:46px;padding:8px 12px;border-radius:10px
 // ---------- Daten ----------
 const KAT = {
   laender: 'Länder & Städte', all: 'Weltall', rekorde: 'Weltrekorde', technik: 'Geschichte & Technik',
-  natur: 'Tiere & Natur', mensch: 'Mensch & Körper', kurios: 'Kurioses & Gedankenspiele', sport: 'Sport'
+  natur: 'Tiere & Natur', mensch: 'Mensch & Körper', kurios: 'Kurioses & Gedankenspiele', sport: 'Sport',
+  kultur: 'Kultur & Medien', essen: 'Essen & Trinken'
 }
 const kennung = s => { let h = 5381; for (const c of s) h = (h * 33 + c.codePointAt(0)) >>> 0; return h.toString(36) }
 const FAKTEN = window.FAKTEN.map(([kat, frage, wert, einheit, info], i) => ({ i, kat, frage, wert, einheit, info, id: kennung(frage) }))
@@ -270,12 +271,14 @@ const toleranz = (f, anteil, jahre) => f.einheit === 'Jahr' ? jahre : Math.abs(f
 // ---------- Spielzustand ----------
 const standard = () => ({
   phase: 'start', menue: false,
-  einst: { kats: Object.keys(KAT), eingabe: 'reihum', ziel: 7, joker: true, bonus: false },
+  einst: { kats: Object.keys(KAT), katsV2: true, eingabe: 'reihum', ziel: 7, joker: true, bonus: false },
   namen: ['Spieler 1', 'Spieler 2'],
   spieler: [], stapel: [], frage: null, runde: 0, reihe: [], pos: 0, tipps: {}, entwurf: {}, jokerAn: {}, ergebnis: null, sieger: null
 })
 let S = Object.assign(standard(), lies(SPEICHER, {}))
 S.einst = Object.assign(standard().einst, S.einst)
+// Neue Kategorien auch in älteren gespeicherten Einstellungen einschalten
+if (!S.einst.katsV2) { S.einst.kats = [...new Set([...S.einst.kats, 'kultur', 'essen'])]; S.einst.katsV2 = true }
 let toastText = '', toastT = 0, gezeigt = null
 const speichern = () => schreib(SPEICHER, S)
 function toast(t) { toastText = t; clearTimeout(toastT); toastT = setTimeout(() => { toastText = ''; zeichne() }, 3500); zeichne() }

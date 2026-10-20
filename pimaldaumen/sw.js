@@ -1,5 +1,5 @@
 // Service Worker: Spiel offline verfügbar machen (alle Fragen liegen lokal in fakten.js).
-const CACHE = 'pimaldaumen-v1'
+const CACHE = 'pimaldaumen-v2'
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './fakten.js', './manifest.webmanifest', './icon.svg'])).then(() => self.skipWaiting()))
