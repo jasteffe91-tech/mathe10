@@ -222,7 +222,7 @@ window.FILME_MEHR = `
 1950|Cinderella (1950 film)|Cinderella|K
 1950|Annie Get Your Gun (film)|Annie Get Your Gun|K
 1950|Cheaper by the Dozen (1950 film)|Im Dutzend billiger|K
-1950|Black Forest Girl (1950 film)|Schwarzwaldmädel|D
+1950|Schwarzwaldmädel (1950 film)|Schwarzwaldmädel|D
 1951|An American in Paris (film)|Ein Amerikaner in Paris|W
 1951|Decision Before Dawn|Entscheidung vor Morgengrauen|N
 1951|A Place in the Sun (1951 film)|Ein Platz an der Sonne|N
@@ -339,7 +339,7 @@ window.FILME_MEHR = `
 1962|To Kill a Mockingbird (film)|Wer die Nachtigall stört|N
 1962|How the West Was Won (film)|Das war der Wilde Westen|K
 1962|Dr. No (film)|James Bond 007 jagt Dr. No|K
-1962|The Treasure of the Silver Lake (1962 film)|Der Schatz im Silbersee|D
+1962|Treasure of Silver Lake|Der Schatz im Silbersee|D
 1963|Tom Jones (1963 film)|Tom Jones – Zwischen Bett und Galgen|W
 1963|America America|Die Unbezwingbaren|N
 1963|Cleopatra (1963 film)|Cleopatra|N
@@ -524,7 +524,7 @@ window.FILME_MEHR = `
 1980|Stir Crazy (film)|Zwei wahnsinnig starke Typen|K
 1980|Airplane!|Die unglaubliche Reise in einem verrückten Flugzeug|K
 1980|Any Which Way You Can|Mit Vollgas nach San Fernando|K
-1980|Private Benjamin (film)|Schütze Benjamin|K
+1980|Private Benjamin (1980 film)|Schütze Benjamin|K
 1980|The Blue Lagoon (1980 film)|Die blaue Lagune|K
 1980|The Blues Brothers (film)|Blues Brothers|K
 1981|Chariots of Fire|Die Stunde des Siegers|W
