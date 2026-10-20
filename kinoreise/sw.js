@@ -1,9 +1,9 @@
 // Service Worker: App-Hülle offline verfügbar machen.
 // Hörproben (Deezer) und Plakate (Wikipedia) werden nicht zwischengespeichert.
-const CACHE = 'kinoreise-v1'
+const CACHE = 'kinoreise-v2'
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './filme.js', './manifest.webmanifest', './icon.svg'])).then(() => self.skipWaiting()))
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './filme.js', './filme-mehr.js', './manifest.webmanifest', './icon.svg'])).then(() => self.skipWaiting()))
 })
 
 self.addEventListener('activate', (e) => {

@@ -164,13 +164,31 @@ select,input.text{width:100%;min-height:46px;padding:8px 12px;border-radius:12px
 <div class="wrap" id="app"></div>
 <audio id="audio" preload="none"></audio>
 <script src="filme.js"></script>
+<script src="filme-mehr.js"></script>
 <script>
 'use strict'
 // ---------- Daten ----------
+// Reihenfolge der ersten 207 Filme bleibt fest (gespeicherte Spiele verweisen per Index darauf)
 const FILME = window.FILME.map(([de, jahr, wiki, interpret, stueck], i) => ({
-  i, de, jahr, wiki, interpret, stueck, orig: wiki.replace(/\s*\([^)]*\)\s*$/, '')
+  i, de, jahr, wiki, interpret, stueck, kennung: '', orig: wiki.replace(/\s*\([^)]*\)\s*$/, '')
 }))
-const SPEICHER = 'kinoreise.spiel.v1', CACHE = 'kinoreise.cache.v1'
+{
+  const nachWiki = new Map(FILME.map(f => [f.wiki.toLowerCase(), f]))
+  for (const zeile of (window.FILME_MEHR || '').split('\n')) {
+    const [jahr, wiki, de, kennung] = zeile.split('|')
+    if (!wiki || !/^\d{4}$/.test(jahr)) continue
+    const alt = nachWiki.get(wiki.toLowerCase())
+    if (alt) { for (const k of kennung || '') if (!alt.kennung.includes(k)) alt.kennung += k; continue }
+    const orig = wiki.replace(/\s*\([^)]*\)\s*$/, '')
+    const f = { i: FILME.length, de: de || orig, jahr: +jahr, wiki, interpret: '', stueck: '', kennung: kennung || '', orig }
+    FILME.push(f); nachWiki.set(wiki.toLowerCase(), f)
+  }
+}
+// Filme, deren Titel mehrfach vorkommt (Remakes): keine Soundtrack-Suche nur über den Titel
+const TITEL_ZAHL = {}
+FILME.forEach(f => { const k = f.orig.toLowerCase(); TITEL_ZAHL[k] = (TITEL_ZAHL[k] || 0) + 1 })
+const KENNUNG = { W: 'Oscar: Bester Film', N: 'Oscar-Nominierung: Bester Film', K: 'Kassenschlager', D: 'Deutscher Kinohit' }
+const SPEICHER = 'kinoreise.spiel.v1', CACHE = 'kinoreise.cache.v2'
 const lies = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } }
 const schreib = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} }
 const cache = Object.assign({ dz: {}, plakat: {} }, lies(CACHE, {}))
@@ -204,7 +222,7 @@ function bewerte(t, f, art) {
   if (MUELL.test(`${t.title} ${t.artist?.name} ${t.album?.title}`)) return -1
   const titelPasst = titel && stueck && (titel.includes(stueck) || (titel.length > 3 && stueck.includes(titel)))
   const albumPasst = film.length > 2 && (album.includes(film) || (filmDe.length > 2 && album.includes(filmDe)))
-  const k1 = norm(f.interpret.split(/ & |, | feat\. /)[0])
+  const k1 = norm((f.interpret || '').split(/ & |, | feat\. /)[0])
   const kuenstlerPasst = k1 && (kuenstler.includes(k1) || k1.includes(kuenstler))
   if (art === 'album') return albumPasst && SOUNDTRACK.test(t.album?.title || '') ? 2 : -1
   if (!titelPasst) return -1
@@ -215,22 +233,22 @@ const hoerprobe = new Map()
 async function findeHoerprobe(f) {
   if (hoerprobe.has(f.i)) return hoerprobe.get(f.i)
   const p = (async () => {
-    const id = cache.dz[f.i]
+    const id = cache.dz[f.wiki]
     if (id === 0) return null
     if (id) { try { const t = await jsonp(`https://api.deezer.com/track/${id}`); if (t && t.preview) return pack(t) } catch (e) { throw e } }
     const ohneKlammer = s => s.replace(/\s*\([^)]*\)\s*/g, ' ').trim()
-    const versuche = [
+    const versuche = f.stueck ? [
       [`${f.interpret.split(/ & |, /)[0]} ${ohneKlammer(f.stueck)}`, 'titel'],
       [`${ohneKlammer(f.stueck)} ${f.orig}`, 'titel'],
       [`${f.orig} soundtrack`, 'album'],
-    ]
+    ] : (f.jahr >= 1950 && TITEL_ZAHL[f.orig.toLowerCase()] === 1 ? [[`${f.orig} soundtrack`, 'album']] : [])
     for (const [q, art] of versuche) {
       const r = await jsonp(`https://api.deezer.com/search?q=${encodeURIComponent(q)}&limit=25`)
       let best = null, punkte = 0
       for (const t of r.data || []) { const b = bewerte(t, f, art); if (b > punkte) { best = t; punkte = b } }
-      if (best) { cache.dz[f.i] = best.id; merkeCache(); return pack(best) }
+      if (best) { cache.dz[f.wiki] = best.id; merkeCache(); return pack(best) }
     }
-    cache.dz[f.i] = 0; merkeCache()
+    cache.dz[f.wiki] = 0; merkeCache()
     return null
   })()
   hoerprobe.set(f.i, p)
@@ -240,36 +258,41 @@ async function findeHoerprobe(f) {
 
 // ---------- Plakate (englische Wikipedia: Kinoplakat im Infokasten) ----------
 const plakatWarte = new Map()
-async function ladePlakate(liste) {
-  const offen = liste.filter(f => !(f.i in cache.plakat) && !plakatWarte.has(f.i))
-  for (let s = 0; s < offen.length; s += 40) {
-    const teil = offen.slice(s, s + 40)
-    const p = (async () => {
-      const titel = teil.map(f => f.wiki).join('|')
-      const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=500&pilicense=any&redirects=1&titles=${encodeURIComponent(titel)}`
-      const d = await (await fetch(url)).json()
-      const q = d.query || {}, weiter = {}
-      for (const n of q.normalized || []) weiter[n.from] = n.to
-      for (const r of q.redirects || []) weiter[r.from] = r.to
-      const seiten = {}
-      for (const pg of q.pages || []) seiten[pg.title] = pg.thumbnail?.source || ''
-      for (const f of teil) {
-        let t = f.wiki, n = 0
-        while (weiter[t] && n++ < 3) t = weiter[t]
-        cache.plakat[f.i] = seiten[t] || ''
-        // Kein Plakat bei Wikipedia: Cover des Soundtrack-Albums nehmen
-        if (!cache.plakat[f.i]) findeHoerprobe(f).then(h => { if (h) { hoerprobeFertig[f.i] = h; fuellePlakate() } }).catch(() => {})
-      }
-      merkeCache()
-    })()
-    teil.forEach(f => plakatWarte.set(f.i, p))
-    try { await p } catch {} finally { teil.forEach(f => plakatWarte.delete(f.i)) }
+async function ladeTeil(teil) {
+  const titel = teil.map(f => f.wiki).join('|')
+  const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=500&pilicense=any&pilimit=50&redirects=1&titles=${encodeURIComponent(titel)}`
+  const d = await (await fetch(url)).json()
+  const q = d.query || {}, weiter = {}
+  for (const n of q.normalized || []) weiter[n.from] = n.to
+  for (const r of q.redirects || []) weiter[r.from] = r.to
+  const seiten = {}
+  for (const pg of q.pages || []) seiten[pg.title] = pg.thumbnail?.source || ''
+  for (const f of teil) {
+    let t = f.wiki, n = 0
+    while (weiter[t] && n++ < 3) t = weiter[t]
+    cache.plakat[f.wiki] = seiten[t] || ''
   }
+}
+// Plakate von der englischen Wikipedia holen (40 Titel je Abfrage, 4 Abfragen gleichzeitig)
+async function ladePlakate(liste, fortschritt) {
+  const offen = liste.filter(f => !(f.wiki in cache.plakat) && !plakatWarte.has(f.wiki))
+  const teile = []; for (let s = 0; s < offen.length; s += 40) teile.push(offen.slice(s, s + 40))
+  let pos = 0, fertig = 0
+  const arbeiter = async () => {
+    while (pos < teile.length) {
+      const teil = teile[pos++], p = ladeTeil(teil)
+      teil.forEach(f => plakatWarte.set(f.wiki, p))
+      try { await p } catch {} finally { teil.forEach(f => plakatWarte.delete(f.wiki)) }
+      fertig += teil.length; fortschritt?.(fertig, offen.length)
+    }
+  }
+  await Promise.all([1, 2, 3, 4].map(arbeiter))
+  await Promise.all(liste.map(f => plakatWarte.get(f.wiki)).filter(Boolean).map(p => p.catch(() => {})))
+  if (offen.length) merkeCache()
   fuellePlakate()
 }
-function plakatUrl(f) {
-  return cache.plakat[f.i] || (hoerprobeFertig[f.i]?.cover) || ''
-}
+const hatPlakat = f => !!cache.plakat[f.wiki]
+const plakatUrl = f => cache.plakat[f.wiki] || ''
 const hoerprobeFertig = {}
 function plakatHtml(f) {
   const url = plakatUrl(f)
@@ -286,21 +309,34 @@ function fuellePlakate() {
 // ---------- Spielzustand ----------
 const standard = () => ({
   phase: 'start', menue: false,
-  einst: { modus: 'hoeren', von: 1930, bis: 2029, ziel: 10, freikarten: true },
+  einst: { modus: 'hoeren', von: 1920, bis: 2029, ziel: 10, freikarten: true, auswahl: 'alle' },
   namen: ['Spieler 1', 'Spieler 2'],
   spieler: [], stapel: [], dran: 0, karte: null, platz: null, einspruch: null, ergebnis: null, sieger: null, erkannt: false
 })
 let S = Object.assign(standard(), lies(SPEICHER, {}))
+S.einst = Object.assign(standard().einst, S.einst)
+let pruefung = null // { fertig, gesamt } während die Plakate geprüft werden
+const keinTon = {}
 let toastText = '', toastT = 0, ladeText = ''
 const speichern = () => schreib(SPEICHER, S)
 function toast(t) { toastText = t; clearTimeout(toastT); toastT = setTimeout(() => { toastText = ''; zeichne() }, 3500); zeichne() }
 
-const imBereich = () => FILME.filter(f => f.jahr >= S.einst.von && f.jahr <= S.einst.bis)
-function neuesSpiel() {
+const AUSWAHL = { alle: () => true, oscar: f => /[WN]/.test(f.kennung), kasse: f => /[KD]/.test(f.kennung) }
+const imBereich = () => FILME.filter(f => f.jahr >= S.einst.von && f.jahr <= S.einst.bis && (AUSWAHL[S.einst.auswahl] || AUSWAHL.alle)(f))
+async function neuesSpiel() {
   const namen = S.namen.map(n => n.trim()).filter(Boolean)
   if (!namen.length) return toast('Bitte mindestens einen Namen eintragen.')
-  const filme = mische(imBereich().map(f => f.i))
-  if (filme.length < namen.length + 5) return toast('Im gewählten Zeitraum sind zu wenige Filme. Bitte den Zeitraum vergrößern.')
+  if (pruefung) return
+  // Nur Filme mit Plakat kommen ins Spiel
+  pruefung = { fertig: 0, gesamt: 0 }; zeichne()
+  await ladePlakate(imBereich(), (fertig, gesamt) => { pruefung = { fertig, gesamt }; zeichne() })
+  pruefung = null
+  const filme = mische(imBereich().filter(hatPlakat).map(f => f.i))
+  if (filme.length < namen.length + 5) {
+    zeichne()
+    return toast(imBereich().length >= namen.length + 5 ? 'Die Plakate konnten nicht geladen werden. Bitte Internetverbindung prüfen.' : 'Im gewählten Zeitraum sind zu wenige Filme. Bitte den Zeitraum vergrößern.')
+  }
+  S.menue = false
   S.spieler = namen.map(name => ({ name, leiste: [filme.pop()], freikarten: S.einst.freikarten ? 2 : 0, leben: 3 }))
   S.spieler.forEach(sp => sp.leiste.sort((a, b) => FILME[a].jahr - FILME[b].jahr))
   S.stapel = filme; S.dran = 0; S.sieger = null
@@ -309,24 +345,28 @@ function neuesSpiel() {
 }
 
 let ziehNr = 0
-async function zieheKarte(versuch = 0) {
+async function zieheKarte() {
   stoppeAudio()
   Object.assign(S, { phase: 'zug', karte: null, platz: null, einspruch: null, ergebnis: null, erkannt: false })
-  if (!S.stapel.length) { S.phase = 'ende'; speichern(); return zeichne() }
   const nr = ++ziehNr
-  const f = FILME[S.stapel.pop()]
+  // Karten ohne Plakat überspringen
+  let f = null
+  while (S.stapel.length && !f) {
+    const k = FILME[S.stapel.pop()]
+    if (!(k.wiki in cache.plakat)) await ladePlakate([k])
+    if (nr !== ziehNr) return
+    if (hatPlakat(k)) f = k
+  }
+  if (!f) { S.phase = 'ende'; speichern(); return zeichne() }
   S.karte = f.i; speichern()
-  ladePlakate([f])
   ladeText = S.einst.modus === 'hoeren' ? 'Hörprobe wird gesucht …' : ''
   zeichne()
   try {
     const h = await findeHoerprobe(f)
     if (nr !== ziehNr) return
     if (h) hoerprobeFertig[f.i] = h
-    if (!h && S.einst.modus === 'hoeren') {
-      if (versuch < 6) { toast(`Für einen Film gab es keine Hörprobe – neue Karte.`); return zieheKarte(versuch + 1) }
-      ladeText = 'Keine Hörprobe gefunden. Diese Karte bitte nach dem Plakat einordnen.'
-    } else ladeText = h ? '' : 'Für diesen Film gibt es keine Hörprobe.'
+    else keinTon[f.i] = true
+    ladeText = h ? '' : S.einst.modus === 'hoeren' ? 'Zu diesem Film gibt es keine Hörprobe. Das Plakat ist aufgedeckt, nur das Jahr bleibt geheim.' : ''
   } catch {
     if (nr !== ziehNr) return
     ladeText = 'Deezer ist gerade nicht erreichbar. Internetverbindung prüfen und „Erneut laden“ tippen.'
@@ -381,7 +421,7 @@ async function abspielen() {
   } catch {
     // Vorschau-Links von Deezer laufen nach einigen Stunden ab: frisch holen
     hoerprobe.delete(f.i); delete hoerprobeFertig[f.i]; audio.dataset.film = ''
-    try { const t = await jsonp(`https://api.deezer.com/track/${cache.dz[f.i]}`); if (t?.preview) { hoerprobeFertig[f.i] = pack(t); audio.src = t.preview; audio.dataset.film = f.i; await audio.play(); spielt = true } }
+    try { const t = await jsonp(`https://api.deezer.com/track/${cache.dz[f.wiki]}`); if (t?.preview) { hoerprobeFertig[f.i] = pack(t); audio.src = t.preview; audio.dataset.film = f.i; await audio.play(); spielt = true } }
     catch { toast('Die Hörprobe ließ sich nicht abspielen.') }
   }
   zeichne()
@@ -399,12 +439,13 @@ function ticket(f, { verdeckt = false, gross = false, neu = false } = {}) {
   const h = hoerprobeFertig[f.i]
   return `<div class="ticket${gross ? ' dreh' : ''}${neu ? ' neu' : ''}">${plakatHtml(f)}<div class="abschnitt"><div class="jahr">${f.jahr}</div>
     <div class="titel">${esc(f.de)}${gross && f.orig !== f.de ? `<br><span class="klein" style="color:var(--ticket-grau)">${esc(f.orig)}</span>` : ''}</div>
+    ${gross && f.kennung ? `<div class="musik">${[...new Set(f.kennung)].map(k => KENNUNG[k]).filter(Boolean).join(' · ')}</div>` : ''}
     ${gross && h ? `<div class="musik">Musik: ${esc(h.info)}</div>` : ''}</div></div>`
 }
 
 function startSeite() {
   const anzahl = imBereich().length, e = S.einst
-  const jahrzehnte = []; for (let j = 1930; j <= 2020; j += 10) jahrzehnte.push(j)
+  const jahrzehnte = []; for (let j = 1920; j <= 2020; j += 10) jahrzehnte.push(j)
   const beispiel = ['Titanic (1997 film)', 'Back to the Future', 'Frozen (2013 film)'].map(w => FILME.find(f => f.wiki === w)).filter(Boolean)
   ladePlakate(beispiel)
   const laufend = S.spieler.length && S.phase !== 'start' && S.phase !== 'ende'
@@ -434,26 +475,29 @@ function startSeite() {
       <h2 style="font-family:var(--f-zahl);font-size:1.3rem">Einstellungen</h2>
       <label class="feld">Spielart</label>
       <div class="wahl">
-        <button data-a="modus" data-v="hoeren" aria-pressed="${e.modus === 'hoeren'}"><b>Hörprobe</b><span>Plakat bleibt verdeckt, bis die Karte liegt</span></button>
+        <button data-a="modus" data-v="hoeren" aria-pressed="${e.modus === 'hoeren'}"><b>Hörprobe</b><span>Erst Soundtrack hören, Plakat wird danach aufgedeckt</span></button>
         <button data-a="modus" data-v="plakat" aria-pressed="${e.modus === 'plakat'}"><b>Plakat zeigen</b><span>Plakat sichtbar, nur das Jahr ist verdeckt</span></button>
       </div>
       <div class="raster" style="grid-template-columns:1fr 1fr;gap:10px">
         <div><label class="feld" for="von">Filme ab</label><select id="von" data-e="von">${jahrzehnte.map(j => `<option value="${j}" ${e.von === j ? 'selected' : ''}>${j}er</option>`).join('')}</select></div>
         <div><label class="feld" for="bis">Filme bis</label><select id="bis" data-e="bis">${jahrzehnte.map(j => `<option value="${j + 9}" ${e.bis === j + 9 ? 'selected' : ''}>${j}er</option>`).join('')}</select></div>
       </div>
+      <label class="feld" for="auswahl">Filmauswahl</label>
+      <select id="auswahl" data-e="auswahl"><option value="alle" ${e.auswahl === 'alle' ? 'selected' : ''}>Alle Filme</option><option value="oscar" ${e.auswahl === 'oscar' ? 'selected' : ''}>Oscar-Gewinner &amp; -Nominierte</option><option value="kasse" ${e.auswahl === 'kasse' ? 'selected' : ''}>Kassenschlager &amp; Kinohits</option></select>
       <label class="feld" for="ziel">Filme zum Sieg</label>
       <select id="ziel" data-e="ziel">${[5, 7, 10, 12, 15].map(z => `<option value="${z}" ${e.ziel === z ? 'selected' : ''}>${z} Filme</option>`).join('')}</select>
       <label class="feld" for="freikarten">Freikarten</label>
       <select id="freikarten" data-e="freikarten"><option value="1" ${e.freikarten ? 'selected' : ''}>mit Freikarten</option><option value="0" ${!e.freikarten ? 'selected' : ''}>ohne Freikarten</option></select>
-      <p class="klein" style="margin-top:12px">${anzahl} Filme im gewählten Zeitraum.</p>
-      <button class="knopf gold" style="width:100%;margin-top:4px" data-a="los">Neues Spiel starten</button>
+      <p class="klein" style="margin-top:12px">${anzahl} Filme in dieser Auswahl. Ins Spiel kommen nur Filme, für die ein Plakat gefunden wird.</p>
+      <button class="knopf gold" style="width:100%;margin-top:4px" data-a="los" ${pruefung ? 'disabled' : ''}>${pruefung ? `Plakate werden geprüft … ${pruefung.gesamt ? `${pruefung.fertig} von ${pruefung.gesamt}` : ''}` : 'Neues Spiel starten'}</button>
     </section>
   </div>
   <section class="flaeche" style="margin-top:14px">
     <h2 style="font-family:var(--f-zahl);font-size:1.3rem">So geht’s</h2>
     <ul class="regeln">
+      <li>Im Stapel liegen alle Oscar-Filme („Bester Film“, Gewinner und Nominierte) seit 1927, die Kassenschlager jedes Jahres und deutsche Kinohits – jeweils mit Kinoplakat.</li>
       <li>Jede Person startet mit einem aufgedeckten Film auf ihrer Zeitleiste.</li>
-      <li>Wer dran ist, hört den Soundtrack und tippt auf die Lücke, in die der Film gehört. Gleiches Jahr zählt als richtig.</li>
+      <li>Wer dran ist, hört den Soundtrack und tippt auf die Lücke, in die der Film gehört. Gleiches Jahr zählt als richtig. Gibt es zu einem Film keine Hörprobe, wird gleich das Plakat gezeigt und nur das Jahr geraten.</li>
       <li>Richtig eingeordnet: Die Karte bleibt liegen. Falsch: Sie wandert aus dem Spiel.</li>
       <li>Freikarten: Jede Person hat zu Beginn 2. Wer im Hörprobe-Modus den Film nach dem Aufdecken richtig genannt hat, bekommt eine dazu (die Runde entscheidet). Eine Freikarte überspringt eine Karte oder legt Einspruch ein: Wer Einspruch erhebt, wählt eine andere Lücke. Lag der Spieler falsch und der Einspruch richtig, bekommt die einsprechende Person die Karte.</li>
     </ul>
@@ -488,18 +532,18 @@ function spielSeite() {
   const sp = S.spieler[S.dran], f = FILME[S.karte]
   if (!f) return `<p>Karte wird gezogen …</p>`
   const auf = S.phase === 'aufgedeckt', E = S.ergebnis
-  const verdeckt = !auf && S.einst.modus === 'hoeren'
+  const plakatOffen = S.einst.modus === 'plakat' || keinTon[f.i]
   const h = hoerprobeFertig[f.i]
   const waehltEinspruch = S.phase === 'einspruch-platz'
   const andere = S.spieler.map((s, i) => ({ s, i })).filter(x => x.i !== S.dran && x.s.freikarten > 0)
 
   let mitte
   if (!auf) {
-    const karte = S.einst.modus === 'plakat'
+    const karte = plakatOffen
       ? `<div class="ticket">${plakatHtml(f)}<div class="abschnitt"><div class="jahr">????</div><div class="titel">${esc(f.de)}</div></div></div>`
       : ticket(f, { verdeckt: true })
     mitte = `${karte}
-      <button class="abspielen" data-a="play" aria-label="${spielt ? 'Hörprobe anhalten' : 'Hörprobe abspielen'}" ${!h ? 'disabled' : ''}>${spielt ? ICON_PAUSE : ICON_PLAY}</button>
+      ${keinTon[f.i] ? '' : `<button class="abspielen" data-a="play" aria-label="${spielt ? 'Hörprobe anhalten' : 'Hörprobe abspielen'}" ${!h ? 'disabled' : ''}>${spielt ? ICON_PAUSE : ICON_PLAY}</button>`}
       <div class="hinweis">${esc(ladeText || (S.phase === 'zug' ? (S.platz == null ? 'Hören, dann eine Lücke in der Zeitleiste antippen.' : 'Lücke gewählt. Noch ändern oder festlegen.') : waehltEinspruch ? `${esc(S.spieler[S.einspruch.wer].name)}: andere Lücke antippen.` : 'Karte liegt. Einspruch oder aufdecken?'))}</div>
       ${ladeText.includes('Erneut') ? `<button class="knopf klein" data-a="nochmal">Erneut laden</button>` : ''}`
   } else {
@@ -518,7 +562,7 @@ function spielSeite() {
   } else if (waehltEinspruch) {
     knoepfe = `<button class="knopf gold" data-a="aufdecken" ${S.einspruch?.platz == null ? 'disabled' : ''}>Aufdecken</button><button class="knopf leer" data-a="einspruch-weg">Einspruch zurücknehmen</button>`
   } else if (auf) {
-    knoepfe = `${S.einst.modus === 'hoeren' && S.einst.freikarten && !S.erkannt ? `<button class="knopf" data-a="erkannt">${esc(sp.name)} hat den Film erkannt (+1 Freikarte)</button>` : ''}
+    knoepfe = `${!plakatOffen && S.einst.freikarten && !S.erkannt ? `<button class="knopf" data-a="erkannt">${esc(sp.name)} hat den Film erkannt (+1 Freikarte)</button>` : ''}
       <button class="knopf gold" data-a="weiter">${S.sieger != null || (S.spieler.length === 1 && sp.leben <= 0) ? 'Zum Ergebnis' : 'Nächste Karte'}</button>`
   }
 
@@ -593,7 +637,7 @@ document.addEventListener('click', e => {
     case 'dazu': S.namen.push(`Spieler ${S.namen.length + 1}`); break
     case 'entfernen': S.namen.splice(+b.dataset.i, 1); break
     case 'modus': S.einst.modus = b.dataset.v; break
-    case 'los': S.menue = false; return neuesSpiel()
+    case 'los': return neuesSpiel()
     case 'fortsetzen': S.menue = false; speichern(); return zieheKarteNeu()
     case 'zumstart': stoppeAudio(); S.phase = 'start'; S.menue = false; S.spieler = []; break
     case 'menue': stoppeAudio(); S.menue = true; speichern(); return zeichne()
@@ -621,7 +665,7 @@ async function zieheKarteNeu() {
   const f = FILME[S.karte]; if (!f) return zieheKarte()
   ladeText = S.einst.modus === 'hoeren' && S.phase !== 'aufgedeckt' ? 'Hörprobe wird gesucht …' : ''
   zeichne(); ladePlakate([f])
-  try { const h = await findeHoerprobe(f); if (h) hoerprobeFertig[f.i] = h; ladeText = h ? '' : 'Für diesen Film gibt es keine Hörprobe.' }
+  try { const h = await findeHoerprobe(f); if (h) hoerprobeFertig[f.i] = h; else keinTon[f.i] = true; ladeText = h || S.einst.modus !== 'hoeren' ? '' : 'Zu diesem Film gibt es keine Hörprobe. Das Plakat ist aufgedeckt, nur das Jahr bleibt geheim.' }
   catch { ladeText = 'Deezer ist gerade nicht erreichbar. Internetverbindung prüfen und „Erneut laden“ tippen.' }
   zeichne()
 }
@@ -631,7 +675,7 @@ document.addEventListener('input', e => {
 })
 document.addEventListener('change', e => {
   const t = e.target, k = t.dataset.e; if (!k) return
-  S.einst[k] = k === 'freikarten' ? t.value === '1' : +t.value
+  S.einst[k] = k === 'freikarten' ? t.value === '1' : k === 'auswahl' ? t.value : +t.value
   if (S.einst.von > S.einst.bis) { if (k === 'von') S.einst.bis = S.einst.von + 9; else S.einst.von = S.einst.bis - 9 }
   speichern(); zeichne()
 })
