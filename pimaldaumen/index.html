@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pi mal Daumen – Das Schätzspiel</title>
+<meta name="description" content="Partyspiel: Entfernungen, Rekorde, Einwohnerzahlen und kuriose Fakten schätzen. Wer am nächsten dran ist, bekommt den Punkt.">
+<meta name="theme-color" content="#11151c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pi mal Daumen">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Werkbank bei Nacht: dunkler Grund, Zollstock-Gelb, Messstriche.
+   Bewusst ein dunkles Farbschema wie bei Kinoreise (Spieleabend). */
+:root{
+  --grund:#11151c; --flaeche:#1a2029; --flaeche-hell:#232b36; --linie:#303b49;
+  --gelb:#f6c443; --gelb-tief:#cf9b1d; --rot:#e5533d; --text:#eef2f6; --leise:#9fb0c2;
+  --richtig:#5fc58a; --falsch:#ef7a68;
+  --f-logo:"Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --f-zahl:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --f-text:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --striche:repeating-linear-gradient(90deg,var(--gelb) 0 2px,transparent 2px 50px),
+            repeating-linear-gradient(90deg,var(--gelb) 0 1px,transparent 1px 10px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:var(--grund);color:var(--text);font-family:var(--f-text);font-size:17px;line-height:1.45;
+  background-image:radial-gradient(110% 520px at 50% -140px,#26303d 0%,transparent 70%);background-repeat:no-repeat;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gelb);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding-block:12px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
+h2{font-family:var(--f-logo);font-weight:800;font-size:1.25rem;letter-spacing:-.01em}
+.klein{font-size:.88rem;color:var(--leise)}
+.zeile{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Kopf mit Zollstock-Strichen */
+.kopf{display:flex;align-items:center;gap:12px;padding-block:6px 16px;position:relative;margin-bottom:6px}
+.kopf::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9px;background:var(--striche);background-size:auto 9px,auto 5px;background-repeat:repeat-x;background-position:0 0,0 0;opacity:.55}
+.logo{font-family:var(--f-logo);font-weight:800;font-size:clamp(1.6rem,6vw,2.2rem);letter-spacing:-.02em;color:var(--text);line-height:1}
+.logo i{font-style:normal;color:var(--gelb)}
+.kopf .rechts{margin-left:auto;display:flex;gap:8px;align-items:center}
+.kopf .runde{font-family:var(--f-zahl);font-size:.85rem;color:var(--leise)}
+
+/* Knöpfe */
+.knopf{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 18px;border-radius:12px;border:1px solid var(--linie);
+  background:var(--flaeche-hell);color:var(--text);font-weight:600;text-decoration:none}
+.knopf:hover{border-color:var(--gelb-tief)}
+.knopf.gelb{background:var(--gelb);color:#1b1608;border-color:var(--gelb)}
+.knopf.gelb:hover{background:#ffd666}
+.knopf.leer{background:transparent}
+.knopf.klein{min-height:36px;padding:6px 12px;font-size:.92rem}
+.knopf.breit{width:100%}
+.knopf:disabled{opacity:.4;cursor:default}
+
+/* Flächen */
+.flaeche{background:var(--flaeche);border:1px solid var(--linie);border-radius:16px;padding:18px;min-width:0}
+.raster{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:760px){.raster.zwei{grid-template-columns:1.1fr .9fr}}
+label.feld,.feld{display:block;font-family:var(--f-zahl);text-transform:uppercase;letter-spacing:.06em;font-size:.78rem;color:var(--leise);margin:16px 0 6px}
+select,input.text{width:100%;min-height:46px;padding:8px 12px;border-radius:10px;border:1px solid var(--linie);background:var(--grund)}
+.spieler-liste{display:grid;gap:8px}
+.spieler-liste .zeile{flex-wrap:nowrap}
+.spieler-liste input{flex:1;min-width:0}
+.wahl{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wahl button{text-align:left;padding:12px;border-radius:12px;border:1px solid var(--linie);background:var(--grund);min-height:46px}
+.wahl button[aria-pressed="true"]{border-color:var(--gelb);background:#2a2614;box-shadow:inset 0 0 0 1px var(--gelb)}
+.wahl b{display:block;font-weight:600}
+.wahl span{font-size:.83rem;color:var(--leise)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--linie);background:var(--grund);border-radius:999px;padding:7px 13px;min-height:38px;font-size:.92rem}
+.chip[aria-pressed="true"]{background:var(--gelb);border-color:var(--gelb);color:#1b1608;font-weight:600}
+
+/* Held */
+.held{display:grid;gap:18px;align-items:center;grid-template-columns:1fr;padding:6px 0 16px}
+@media(min-width:760px){.held{grid-template-columns:1.2fr .8fr}}
+.held h1{font-family:var(--f-logo);font-weight:800;font-size:clamp(1.9rem,6.4vw,2.9rem);line-height:1.02;letter-spacing:-.025em}
+.held h1 em{font-style:normal;color:var(--gelb)}
+.held p{max-width:58ch;color:var(--leise)}
+.beispiel{background:var(--flaeche);border:1px solid var(--linie);border-radius:16px;padding:16px 16px 14px;position:relative;overflow:hidden}
+.beispiel .frage-text{font-size:1.15rem}
+
+/* Fragekarte */
+.karte{background:var(--flaeche);border:1px solid var(--linie);border-radius:16px;overflow:hidden;min-width:0}
+.karte .lineal{height:26px;background:var(--gelb);position:relative;
+  background-image:repeating-linear-gradient(90deg,#1b1608 0 2px,transparent 2px 50px),repeating-linear-gradient(90deg,#1b1608 0 1px,transparent 1px 10px);
+  background-size:auto 12px,auto 6px;background-repeat:repeat-x;background-position:0 0,0 0}
+.karte .inhalt{padding:16px 18px 18px}
+.kat{display:inline-block;font-family:var(--f-zahl);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gelb);margin-bottom:6px}
+.frage-text{font-family:var(--f-logo);font-weight:600;font-size:clamp(1.3rem,4.6vw,1.75rem);line-height:1.18;letter-spacing:-.01em}
+.einheit-hinweis{margin-top:8px;font-size:.9rem;color:var(--leise)}
+.einheit-hinweis b{font-family:var(--f-zahl);color:var(--text);font-weight:600}
+
+/* Eingabe */
+.eingabe{display:grid;gap:10px;margin-top:14px}
+.feld-zahl{display:flex;align-items:stretch;border:2px solid var(--linie);border-radius:12px;background:var(--grund);overflow:hidden}
+.feld-zahl:focus-within{border-color:var(--gelb)}
+.feld-zahl input{flex:1;min-width:0;border:0;background:transparent;padding:12px 14px;font-family:var(--f-zahl);font-size:1.5rem;font-weight:600;outline:none}
+.feld-zahl .einh{display:flex;align-items:center;padding:0 14px;font-family:var(--f-zahl);color:var(--leise);font-size:.95rem;border-left:1px solid var(--linie);max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vorschau{font-family:var(--f-zahl);font-size:.9rem;color:var(--leise);min-height:1.4em;overflow-wrap:anywhere}
+.vorschau.fehler{color:var(--falsch)}
+.zusatz{display:flex;flex-wrap:wrap;gap:6px}
+.zusatz button{border:1px solid var(--linie);background:var(--flaeche-hell);border-radius:8px;padding:6px 10px;min-height:38px;font-family:var(--f-zahl);font-size:.85rem}
+.joker{display:flex;align-items:center;gap:10px;border:1px dashed var(--linie);background:transparent;border-radius:12px;padding:10px 12px;text-align:left;min-height:46px;width:100%}
+.joker[aria-pressed="true"]{border-style:solid;border-color:var(--gelb);background:#2a2614}
+.joker .x2{font-family:var(--f-zahl);font-weight:600;color:var(--gelb);font-size:1.1rem}
+.joker span{font-size:.88rem;color:var(--leise)}
+.alle-tipps{display:grid;gap:10px;margin-top:14px}
+.tipp-zeile{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--linie);border-radius:12px;padding:10px;background:var(--grund)}
+.tipp-zeile .name{font-weight:600;display:flex;align-items:center;gap:8px;min-width:0}
+.tipp-zeile .name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tipp-zeile .feld-zahl{grid-column:1 / -1}
+.tipp-zeile .feld-zahl input{font-size:1.2rem;padding:9px 12px}
+.tipp-zeile .vorschau{grid-column:1 / -1;font-size:.82rem}
+.mini-joker{border:1px dashed var(--linie);background:transparent;border-radius:8px;padding:5px 10px;font-family:var(--f-zahl);font-size:.85rem;min-height:36px;color:var(--leise)}
+.mini-joker[aria-pressed="true"]{border-style:solid;border-color:var(--gelb);color:var(--gelb);background:#2a2614}
+.punkt{width:12px;height:12px;border-radius:50%;flex:0 0 auto;background:var(--c,#888)}
+
+/* Übergabe */
+.uebergabe{text-align:center;display:grid;gap:12px;justify-items:center;padding:26px 18px}
+.uebergabe .wer{font-family:var(--f-logo);font-weight:800;font-size:clamp(2rem,9vw,3rem);line-height:1;letter-spacing:-.02em;overflow-wrap:anywhere}
+.fortschritt{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.fortschritt span{font-size:.82rem;border:1px solid var(--linie);border-radius:999px;padding:3px 10px;color:var(--leise)}
+.fortschritt span.fertig{border-color:var(--richtig);color:var(--richtig)}
+
+/* Auflösung */
+.loesung{text-align:center;padding:4px 0 2px}
+.loesung .gross{font-family:var(--f-zahl);font-weight:600;font-size:clamp(1.9rem,8vw,3rem);line-height:1.05;color:var(--gelb);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.loesung .voll{font-family:var(--f-zahl);font-size:.85rem;color:var(--leise);margin-top:4px;overflow-wrap:anywhere}
+.loesung .info{margin:12px auto 0;max-width:52ch;color:var(--text)}
+.skala{position:relative;margin:18px 4px 6px}
+.skala .achse{position:absolute;left:0;right:0;top:40px;height:4px;border-radius:2px;background:var(--linie)}
+.skala .ziel{position:absolute;top:8px;height:48px;width:3px;margin-left:-1.5px;background:var(--gelb);border-radius:2px}
+.skala .ziel-text{position:absolute;top:0;transform:translateX(-50%);font-family:var(--f-zahl);font-size:.72rem;font-weight:600;color:#1b1608;background:var(--gelb);border-radius:6px;padding:1px 7px;white-space:nowrap}
+.skala .stiel{position:absolute;width:2px;margin-left:-1px;top:42px;background:var(--c);opacity:.65}
+.skala .tupfer{position:absolute;top:35px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--c);border:2px solid var(--grund)}
+.skala .schild{position:absolute;transform:translateX(-50%);font-size:.78rem;font-weight:600;color:#10141a;background:var(--c);border-radius:6px;padding:2px 8px;white-space:nowrap;max-width:44%;overflow:hidden;text-overflow:ellipsis}
+.skala .art{position:absolute;right:0;bottom:-2px;font-family:var(--f-zahl);font-size:.7rem;color:var(--leise)}
+.neu .ziel,.neu .ziel-text,.neu .tupfer,.neu .stiel,.neu .schild{animation:auf .45s ease both;animation-delay:var(--d,0s)}
+@keyframes auf{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion:reduce){.neu *{animation:none!important}}
+.rang{display:grid;gap:6px;margin:12px 0 0;padding:0;list-style:none}
+.rang li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;padding:9px 12px;border-radius:12px;background:var(--grund);border:1px solid var(--linie)}
+.rang li.sieg{border-color:var(--richtig);background:#14261c}
+.rang .wer{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}
+.rang .wer span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rang .tipp{font-family:var(--f-zahl);font-size:.92rem;text-align:right;overflow-wrap:anywhere}
+.rang .ab{grid-column:2 / 4;font-family:var(--f-zahl);font-size:.78rem;color:var(--leise)}
+.rang .plus{font-family:var(--f-zahl);font-weight:600;color:var(--richtig)}
+.rang .nr{font-family:var(--f-zahl);color:var(--leise);font-size:.85rem;width:1.4em;text-align:center}
+.marke{display:inline-block;font-family:var(--f-zahl);font-size:.7rem;font-weight:600;border-radius:5px;padding:0 5px;margin-left:4px;vertical-align:1px;background:var(--gelb);color:#1b1608}
+.ergebnis{font-family:var(--f-logo);font-weight:800;font-size:1.45rem;text-align:center;margin-top:10px;letter-spacing:-.01em}
+.ergebnis.ja{color:var(--richtig)} .ergebnis.nein{color:var(--falsch)}
+
+/* Spielbereich */
+.buehne{display:grid;gap:16px;grid-template-columns:1fr;align-items:start}
+@media(min-width:820px){.buehne{grid-template-columns:1.35fr .65fr}}
+.spalte{display:grid;gap:14px;min-width:0}
+.aktionen{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+.stand{display:grid;gap:6px}
+.stand .zeile{flex-wrap:nowrap;padding:8px 10px;border-radius:10px;background:var(--grund);border:1px solid var(--linie)}
+.stand .zeile.vorne{border-color:var(--gelb-tief)}
+.stand .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.stand .zahl{font-family:var(--f-zahl);font-weight:600;font-variant-numeric:tabular-nums}
+.stand .j{font-family:var(--f-zahl);font-size:.78rem;color:var(--gelb)}
+.balken{height:6px;border-radius:3px;background:var(--flaeche-hell);overflow:hidden;width:60px;flex:0 0 auto}
+.balken i{display:block;height:100%;background:var(--gelb)}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--flaeche-hell);border:1px solid var(--gelb-tief);
+  padding:10px 16px;border-radius:12px;z-index:60;max-width:calc(100% - 32px);font-size:.95rem}
+.fuss{margin-top:28px;text-align:center;font-size:.8rem;color:var(--leise)}
+.regeln{padding-left:1.2em;margin:10px 0 0}
+.regeln li{margin:5px 0}
+.endliste{display:grid;gap:8px;margin:14px 0}
+.endliste .zeile{flex-wrap:nowrap;padding:12px 14px;border-radius:12px;background:var(--grund);border:1px solid var(--linie)}
+.endliste .zeile:first-child{border-color:var(--gelb)}
+.endliste .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.endliste .zahl{font-family:var(--f-zahl);font-weight:600;font-size:1.2rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script src="fakten.js"></script>
+<script>
+'use strict'
+// ---------- Daten ----------
+const KAT = {
+  laender: 'Länder & Städte', all: 'Weltall', rekorde: 'Weltrekorde', technik: 'Geschichte & Technik',
+  natur: 'Tiere & Natur', mensch: 'Mensch & Körper', kurios: 'Kurioses & Gedankenspiele', sport: 'Sport'
+}
+const kennung = s => { let h = 5381; for (const c of s) h = (h * 33 + c.codePointAt(0)) >>> 0; return h.toString(36) }
+const FAKTEN = window.FAKTEN.map(([kat, frage, wert, einheit, info], i) => ({ i, kat, frage, wert, einheit, info, id: kennung(frage) }))
+const FARBEN = ['#5fb3ff', '#ff8aa0', '#7ee08a', '#c59bff', '#ffa95e', '#54d6c9', '#f27fd3', '#c3d35a', '#ff6b5e', '#9fb0ff']
+const SPEICHER = 'pimaldaumen.spiel.v1', GESEHEN = 'pimaldaumen.gesehen.v1'
+const lies = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } }
+const schreib = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} }
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+const mische = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] } return a }
+const gesehen = new Set(lies(GESEHEN, []))
+
+// ---------- Zahlen lesen und schreiben ----------
+// Große Zahlen dürfen als Wort eingegeben werden: „2,5 Mio“, „8 Mrd“, „20 Billiarden“, „10^15“
+const WORTE = [
+  [/^(tsd|tausend)$/, 1e3], [/^(mio|millionen|million)$/, 1e6], [/^(mrd|milliarden|milliarde)$/, 1e9],
+  [/^(bio|billionen|billion)$/, 1e12], [/^(brd|billiarden|billiarde)$/, 1e15], [/^(trio|trillionen|trillion)$/, 1e18]
+]
+const STUFEN = [
+  [1e18, 'Trillion', 'Trillionen', 'Trio.'], [1e15, 'Billiarde', 'Billiarden', 'Brd.'], [1e12, 'Billion', 'Billionen', 'Bio.'],
+  [1e9, 'Milliarde', 'Milliarden', 'Mrd.'], [1e6, 'Million', 'Millionen', 'Mio.']
+]
+function zahl(t) {
+  const neg = t.startsWith('-'); if (neg) t = t.slice(1)
+  if (t.includes(',')) {
+    // deutsch: Punkt = Tausender, Komma = Dezimal
+    const [ganz, rest, zuviel] = t.split(',')
+    if (zuviel != null || rest.includes('.')) return null
+    const g = ganz.split('.')
+    if (g.length > 1 && !g.slice(1).every(x => x.length === 3)) return null
+    t = g.join('') + '.' + rest
+  } else if (t.includes('.')) {
+    const g = t.split('.')
+    if (g.slice(1).every(x => x.length === 3)) t = g.join('')      // 83.600.000
+    else if (g.length > 2) return null                              // 1.2.3
+  }
+  if (!/^(\d+\.?\d*|\.\d+)$/.test(t)) return null
+  const n = parseFloat(t)
+  return Number.isFinite(n) ? (neg ? -n : n) : null
+}
+function lesen(text) {
+  let s = String(text || '').trim().toLowerCase().replace(/[−–]/g, '-').replace(/\s+/g, ' ')
+  if (!s) return null
+  let m = s.match(/^(-?[\d.,]+)?\s*(?:[x×*·]\s*)?10\s*\^\s*(\d+)$/)
+  if (m) { const b = m[1] ? zahl(m[1]) : 1; return b == null ? null : b * 10 ** +m[2] }
+  m = s.match(/^(-?[\d.,]*\d[\d.,]*)\s*([a-zäöü.]*)$/)
+  if (!m) return null
+  const b = zahl(m[1]); if (b == null) return null
+  const wort = m[2].replace(/\./g, '')
+  if (!wort) return b
+  const w = WORTE.find(([r]) => r.test(wort))
+  return w ? b * w[1] : null
+}
+const de = (n, opt) => n.toLocaleString('de-DE', opt)
+// kurz: „8,2 Mrd.“, lang: „8,2 Milliarden“
+function fmt(n, einheit, lang = false) {
+  if (einheit === 'Jahr') return String(Math.round(n))
+  const a = Math.abs(n)
+  if (a >= 1e21) { const e = Math.floor(Math.log10(a)); return `${de(n / 10 ** e, { maximumSignificantDigits: 3 })} · 10^${e}` }
+  if (a >= 1e6) {
+    const [g, ein, viele, kurz] = STUFEN.find(([g]) => a >= g)
+    const v = Number((n / g).toPrecision(4))
+    return `${de(v, { maximumFractionDigits: 3 })} ${lang ? (Math.abs(v) === 1 ? ein : viele) : kurz}`
+  }
+  return de(n, { maximumFractionDigits: a >= 100 ? 1 : a >= 1 ? 3 : 4 })
+}
+const mitEinheit = (n, einheit, lang) => einheit === 'Jahr' ? fmt(n, einheit) : `${fmt(n, einheit, lang)} ${einheit}`
+const voll = (n, einheit) => Math.abs(n) >= 1e6 && Math.abs(n) < 1e15 && einheit !== 'Jahr' ? `${de(Math.round(n))} ${einheit}` : ''
+// Toleranz für „Treffer“ (Solo) und „Volltreffer“ (Bonus)
+const toleranz = (f, anteil, jahre) => f.einheit === 'Jahr' ? jahre : Math.abs(f.wert) * anteil
+
+// ---------- Spielzustand ----------
+const standard = () => ({
+  phase: 'start', menue: false,
+  einst: { kats: Object.keys(KAT), eingabe: 'reihum', ziel: 7, joker: true, bonus: false },
+  namen: ['Spieler 1', 'Spieler 2'],
+  spieler: [], stapel: [], frage: null, runde: 0, reihe: [], pos: 0, tipps: {}, entwurf: {}, jokerAn: {}, ergebnis: null, sieger: null
+})
+let S = Object.assign(standard(), lies(SPEICHER, {}))
+S.einst = Object.assign(standard().einst, S.einst)
+let toastText = '', toastT = 0, gezeigt = null
+const speichern = () => schreib(SPEICHER, S)
+function toast(t) { toastText = t; clearTimeout(toastT); toastT = setTimeout(() => { toastText = ''; zeichne() }, 3500); zeichne() }
+const imKatalog = () => FAKTEN.filter(f => S.einst.kats.includes(f.kat))
+const solo = () => S.spieler.length === 1
+
+function neuesSpiel() {
+  const namen = S.namen.map(n => n.trim()).filter(Boolean)
+  if (!namen.length) return toast('Bitte mindestens einen Namen eintragen.')
+  const fakten = imKatalog()
+  if (fakten.length < 5) return toast('Bitte mehr Kategorien auswählen.')
+  // Noch nicht gestellte Fragen zuerst (sie liegen oben auf dem Stapel)
+  let neu = fakten.filter(f => !gesehen.has(f.id)), alt = fakten.filter(f => gesehen.has(f.id))
+  if (!neu.length) { fakten.forEach(f => gesehen.delete(f.id)); schreib(GESEHEN, [...gesehen]); neu = fakten; alt = [] }
+  S.stapel = [...mische(alt), ...mische(neu)].map(f => f.i)
+  S.spieler = namen.map(name => ({ name, punkte: 0, joker: S.einst.joker ? 1 : 0, leben: 3 }))
+  Object.assign(S, { runde: 0, sieger: null, menue: false })
+  naechsteFrage()
+}
+function naechsteFrage(tausch = false) {
+  if (!S.stapel.length) { S.phase = 'ende'; speichern(); return zeichne() }
+  S.frage = S.stapel.pop()
+  gesehen.add(FAKTEN[S.frage].id); schreib(GESEHEN, [...gesehen])
+  if (!tausch) S.runde++
+  const n = S.spieler.length, start = (S.runde - 1) % n
+  S.reihe = S.spieler.map((_, k) => (start + k) % n)
+  Object.assign(S, { pos: 0, tipps: {}, entwurf: {}, jokerAn: {}, ergebnis: null })
+  S.phase = S.einst.eingabe === 'reihum' && n > 1 ? 'uebergabe' : 'frage'
+  speichern(); zeichne()
+}
+function abgeben(wer) {
+  const w = lesen(S.entwurf[wer]); if (w == null) return
+  S.tipps[wer] = { w, j: !!S.jokerAn[wer] }
+  S.pos++
+  if (S.pos >= S.reihe.length) return aufloesen()
+  S.phase = 'uebergabe'; speichern(); zeichne()
+}
+function aufloesen() {
+  const f = FAKTEN[S.frage], a = f.wert
+  const liste = Object.entries(S.tipps).map(([k, t]) => ({ wer: +k, w: t.w, j: t.j, d: Math.abs(t.w - a) }))
+  if (!liste.length) return toast('Es wurde noch nichts geschätzt.')
+  const min = Math.min(...liste.map(t => t.d)), eps = Math.max(1e-9, Math.abs(a) * 1e-12)
+  for (const t of liste) {
+    const sp = S.spieler[t.wer]
+    if (t.j) sp.joker = Math.max(0, sp.joker - 1)
+    t.naechster = t.d - min <= eps
+    t.voll = t.d <= toleranz(f, 0.05, 1)
+    if (solo()) {
+      t.treffer = t.d <= toleranz(f, 0.2, 5)
+      t.pkt = t.treffer ? (t.j ? 2 : 1) : 0
+      if (!t.treffer) sp.leben--
+    } else {
+      t.pkt = (t.naechster ? (t.j ? 2 : 1) : 0) + (S.einst.bonus && t.voll ? 1 : 0)
+    }
+    sp.punkte += t.pkt
+  }
+  liste.sort((x, y) => x.d - y.d)
+  S.ergebnis = { liste }
+  S.phase = 'aufgeloest'
+  if (!solo()) {
+    const max = Math.max(...S.spieler.map(s => s.punkte))
+    const vorne = S.spieler.map((s, i) => i).filter(i => S.spieler[i].punkte === max)
+    if (max >= S.einst.ziel) {
+      if (vorne.length === 1) S.sieger = vorne[0]
+      else S.ergebnis.stechen = true
+    }
+  }
+  speichern(); zeichne()
+}
+function weiter() {
+  if (S.sieger != null || (solo() && S.spieler[0].leben <= 0)) { S.phase = 'ende'; speichern(); return zeichne() }
+  naechsteFrage()
+}
+
+// ---------- Darstellung ----------
+const farbe = i => FARBEN[i % FARBEN.length]
+const dranIst = () => S.reihe[S.pos]
+function frageKarte(f, extra = '') {
+  return `<article class="karte"><div class="lineal" aria-hidden="true"></div><div class="inhalt">
+    <span class="kat">${esc(KAT[f.kat])}</span>
+    <h2 class="frage-text">${esc(f.frage)}</h2>
+    <p class="einheit-hinweis">Antwort in <b>${f.einheit === 'Jahr' ? 'Jahreszahl' : esc(f.einheit)}</b></p>
+    ${extra}</div></article>`
+}
+function zahlFeld(wer, f, gross) {
+  const t = S.entwurf[wer] || '', w = lesen(t)
+  return `<div class="feld-zahl"><input id="tipp-${wer}" data-tipp="${wer}" value="${esc(t)}" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false"
+      aria-label="Schätzung von ${esc(S.spieler[wer].name)} in ${esc(f.einheit)}" placeholder="${gross ? 'Deine Schätzung' : 'Schätzung'}"><span class="einh" aria-hidden="true">${f.einheit === 'Jahr' ? 'Jahr' : esc(f.einheit)}</span></div>
+    <div class="vorschau${t && w == null ? ' fehler' : ''}" id="vorschau-${wer}" aria-live="polite">${vorschauText(t, f)}</div>`
+}
+function vorschauText(t, f) {
+  if (!t) return f.einheit === 'Jahr' ? '' : 'Große Zahlen: Zusatz antippen, z. B. „2,5“ + „Mio.“'
+  const w = lesen(t)
+  if (w == null) return 'Das ist keine Zahl. Beispiele: 384400 · 1,5 Mio · 8 Mrd'
+  const v = voll(w, f.einheit)
+  return `= ${esc(mitEinheit(w, f.einheit, true))}${v ? ` · ${esc(v)}` : ''}`
+}
+const ZUSAETZE = [['Tsd.', 'Tsd'], ['Mio.', 'Mio'], ['Mrd.', 'Mrd'], ['Bio.', 'Bio'], ['Brd.', 'Brd'], ['Trio.', 'Trio']]
+function zusatzKnoepfe(wer) {
+  return `<div class="zusatz" role="group" aria-label="Zusätze für große Zahlen">
+    <button data-a="vorzeichen" data-i="${wer}" aria-label="Vorzeichen wechseln (minus)">±</button>
+    <button data-a="komma" data-i="${wer}" aria-label="Komma einfügen">,</button>
+    ${ZUSAETZE.map(([l, w]) => `<button data-a="zusatz" data-i="${wer}" data-w="${w}">${l}</button>`).join('')}</div>`
+}
+function jokerKnopf(wer, mini) {
+  const sp = S.spieler[wer]
+  if (!S.einst.joker || sp.joker <= 0) return ''
+  const an = !!S.jokerAn[wer]
+  if (mini) return `<button class="mini-joker" data-a="joker" data-i="${wer}" aria-pressed="${an}" title="Joker: doppelte Punkte">×2 Joker</button>`
+  return `<button class="joker" data-a="joker" data-i="${wer}" aria-pressed="${an}"><span class="x2">×2</span>
+    <div><b>Joker ${an ? 'gesetzt' : 'einsetzen'}</b><br><span>${solo() ? 'Ein Treffer zählt doppelt.' : 'Wer am nächsten dran ist, bekommt doppelte Punkte.'} Nur einmal pro Spiel.</span></div></button>`
+}
+function standListe() {
+  if (solo()) {
+    const sp = S.spieler[0]
+    return `<div class="stand"><div class="zeile"><span class="name">${esc(sp.name)}</span><span class="klein">${'♥'.repeat(Math.max(0, sp.leben))}${'♡'.repeat(3 - Math.max(0, sp.leben))}</span>
+      <span class="zahl">${sp.punkte} ${sp.punkte === 1 ? 'Punkt' : 'Punkte'}</span></div></div>
+      <p class="klein" style="margin:10px 0 0">Treffer = höchstens 20 % daneben (Jahreszahlen: 5 Jahre). Drei Fehlschüsse und das Spiel ist vorbei.</p>`
+  }
+  const max = Math.max(...S.spieler.map(s => s.punkte))
+  return `<div class="stand">${S.spieler.map((sp, i) => `<div class="zeile ${sp.punkte === max && max > 0 ? 'vorne' : ''}">
+    <span class="punkt" style="--c:${farbe(i)}" aria-hidden="true"></span>
+    <span class="name">${esc(sp.name)}</span>
+    ${S.einst.joker && sp.joker > 0 ? `<span class="j" title="Joker übrig">×2</span>` : ''}
+    <span class="balken" aria-hidden="true"><i style="width:${Math.min(100, sp.punkte / S.einst.ziel * 100)}%"></i></span>
+    <span class="zahl">${sp.punkte}/${S.einst.ziel}</span></div>`).join('')}</div>`
+}
+function skalaHtml(f, liste, animiert) {
+  const a = f.wert, werte = [a, ...liste.map(t => t.w)]
+  const log = werte.every(v => v > 0) && Math.max(...werte) / Math.min(...werte) > 30
+  const tr = log ? Math.log10 : v => v
+  let lo = Math.min(...werte.map(tr)), hi = Math.max(...werte.map(tr))
+  if (hi - lo < 1e-12) { const r = Math.abs(lo) * 0.1 || 1; lo -= r; hi += r }
+  const pad = (hi - lo) * 0.06; lo -= pad; hi += pad
+  const x = v => (tr(v) - lo) / (hi - lo) * 100
+  // Namensschilder in Reihen verteilen, damit sie sich nicht überlappen
+  const reihen = [], teile = []
+  const sortiert = liste.slice().sort((p, q) => p.w - q.w)
+  sortiert.forEach((t, k) => {
+    const px = x(t.w), sx = Math.min(88, Math.max(12, px))
+    let r = reihen.findIndex(last => sx - last >= 24); if (r < 0) { r = reihen.length; reihen.push(-1e9) }
+    reihen[r] = sx
+    const oben = 66 + r * 30, d = animiert ? `--d:${0.5 + k * 0.12}s;` : ''
+    teile.push(`<div class="stiel" style="--c:${farbe(t.wer)};left:${px}%;height:${oben - 42}px;${d}"></div>
+      <div class="tupfer" style="--c:${farbe(t.wer)};left:${px}%;${d}"></div>
+      <div class="schild" style="--c:${farbe(t.wer)};left:${sx}%;top:${oben}px;${d}">${esc(S.spieler[t.wer].name)}</div>`)
+  })
+  const h = 66 + reihen.length * 30 + 10, za = x(a)
+  return `<div class="skala${animiert ? ' neu' : ''}" style="height:${h}px" aria-hidden="true">
+    <div class="achse"></div>${teile.join('')}
+    <div class="ziel" style="left:${za}%"></div><div class="ziel-text" style="left:${Math.min(90, Math.max(10, za))}%">Lösung</div>
+    ${log ? '<span class="art">logarithmische Skala</span>' : ''}</div>`
+}
+function startSeite() {
+  const e = S.einst, anzahl = imKatalog().length
+  const laufend = S.spieler.length && S.phase !== 'start' && S.phase !== 'ende'
+  const beispiel = FAKTEN.find(f => f.frage.startsWith('Wie schnell fuhr das schnellste Auto der Welt im Jahr 1899'))
+  return `
+  <header class="kopf"><div class="logo">Pi <i>mal</i> Daumen</div></header>
+  <section class="held">
+    <div>
+      <h1>Schätzen, tippen, auflösen. <em>Wer am nächsten dran ist,</em> holt den Punkt.</h1>
+      <p>Wie weit ist der Mond weg? Wie alt wurde der älteste Mensch? Wie viele Ameisen gibt es? Alle schätzen, ohne dass die anderen es sehen. Dann kommt die Lösung – und wer am nächsten dran liegt, bekommt den Punkt. Wer zuerst ${e.ziel} Punkte hat, gewinnt.</p>
+      ${laufend ? `<div class="zeile"><button class="knopf gelb" data-a="fortsetzen">Laufendes Spiel fortsetzen</button></div>` : ''}
+    </div>
+    ${beispiel ? `<div class="beispiel" aria-hidden="true"><span class="kat">Beispielfrage</span><div class="frage-text">${esc(beispiel.frage)}</div>
+      <p class="klein" style="margin:10px 0 0">Antwort: <b style="color:var(--gelb);font-family:var(--f-zahl)">${mitEinheit(beispiel.wert, beispiel.einheit)}</b> – ein Elektroauto!</p></div>` : ''}
+  </section>
+  <div class="raster zwei">
+    <section class="flaeche">
+      <h2>Mitspielende</h2>
+      <div class="spieler-liste" style="margin-top:10px">
+        ${S.namen.map((n, i) => `<div class="zeile"><span class="punkt" style="--c:${farbe(i)}" aria-hidden="true"></span><input class="text" id="name-${i}" data-name="${i}" value="${esc(n)}" maxlength="24" aria-label="Name ${i + 1}">
+          ${S.namen.length > 1 ? `<button class="knopf leer klein" data-a="entfernen" data-i="${i}" aria-label="${esc(n)} entfernen">✕</button>` : ''}</div>`).join('')}
+      </div>
+      <div class="zeile" style="margin-top:10px">
+        <button class="knopf klein" data-a="dazu" ${S.namen.length >= 10 ? 'disabled' : ''}>+ Person oder Team</button>
+        <span class="klein">Alleine geht auch: dann zählt jeder Treffer, drei Fehlschüsse sind erlaubt.</span>
+      </div>
+    </section>
+    <section class="flaeche">
+      <h2>Einstellungen</h2>
+      <span class="feld">Eingabe</span>
+      <div class="wahl">
+        <button data-a="eingabe" data-v="reihum" aria-pressed="${e.eingabe === 'reihum'}"><b>Reihum geheim</b><span>Handy wird weitergegeben, niemand sieht die anderen Tipps</span></button>
+        <button data-a="eingabe" data-v="alle" aria-pressed="${e.eingabe === 'alle'}"><b>Alle auf einem Blatt</b><span>Tipps auf Zettel, eine Person tippt alles ein</span></button>
+      </div>
+      <span class="feld">Kategorien</span>
+      <div class="chips">${Object.entries(KAT).map(([k, l]) => `<button class="chip" data-a="kat" data-v="${k}" aria-pressed="${e.kats.includes(k)}">${esc(l)}</button>`).join('')}</div>
+      <div class="raster" style="grid-template-columns:1fr 1fr;gap:10px">
+        <div><label class="feld" for="ziel">Punkte zum Sieg</label>
+          <select id="ziel" data-e="ziel">${[3, 5, 7, 10, 15].map(z => `<option value="${z}" ${e.ziel === z ? 'selected' : ''}>${z} Punkte</option>`).join('')}</select></div>
+        <div><label class="feld" for="joker">Joker ×2</label>
+          <select id="joker" data-e="joker"><option value="1" ${e.joker ? 'selected' : ''}>mit Joker</option><option value="0" ${!e.joker ? 'selected' : ''}>ohne Joker</option></select></div>
+      </div>
+      <label class="feld" for="bonus">Volltreffer-Bonus</label>
+      <select id="bonus" data-e="bonus"><option value="0" ${!e.bonus ? 'selected' : ''}>aus – nur der Nächste punktet</option><option value="1" ${e.bonus ? 'selected' : ''}>an – +1 für alle, die höchstens 5 % daneben liegen</option></select>
+      <p class="klein" style="margin-top:12px">${anzahl} Fragen ausgewählt.</p>
+      <button class="knopf gelb breit" data-a="los">Neues Spiel starten</button>
+    </section>
+  </div>
+  <section class="flaeche" style="margin-top:14px">
+    <h2>So geht’s</h2>
+    <ul class="regeln">
+      <li>Eine Frage erscheint – immer mit der Einheit, in der geschätzt wird.</li>
+      <li><b>Reihum geheim:</b> Wer dran ist, tippt die Schätzung ein und gibt das Handy weiter. <b>Alle auf einem Blatt:</b> Alle schreiben ihre Schätzung auf einen Zettel, dann tippt eine Person alles ein.</li>
+      <li>Große Zahlen gehen leicht: „2,5“ eintippen und „Mio.“ antippen. Auch „8 Mrd“ oder „10^15“ werden verstanden.</li>
+      <li>Wer am nächsten an der Lösung liegt, bekommt einen Punkt. Bei Gleichstand bekommen alle Gleichauf einen Punkt.</li>
+      <li>Joker ×2: Einmal pro Spiel darf jede Person vor dem Abgeben den Joker setzen. Liegt sie dann vorne, gibt es zwei Punkte.</li>
+      <li>Wer zuerst die Zielpunktzahl erreicht, gewinnt. Erreichen mehrere gleichzeitig dieselbe Höchstzahl, geht es ins Stechen.</li>
+    </ul>
+  </section>
+  ${fuss()}`
+}
+function kopfSpiel() {
+  return `<header class="kopf"><div class="logo">Pi <i>mal</i> Daumen</div>
+    <div class="rechts"><span class="runde">Frage ${S.runde}</span><button class="knopf leer klein" data-a="menue">Menü</button></div></header>`
+}
+function spielSeite() {
+  const f = FAKTEN[S.frage]
+  if (!f) return `${kopfSpiel()}<p>Frage wird gezogen …</p>`
+  let haupt = ''
+  if (S.phase === 'uebergabe') {
+    const wer = dranIst()
+    haupt = `${frageKarte(f)}
+      <section class="flaeche uebergabe">
+        <span class="klein">${S.pos === 0 ? 'Als Erstes schätzt' : 'Handy weitergeben an'}</span>
+        <div class="wer" style="color:${farbe(wer)}">${esc(S.spieler[wer].name)}</div>
+        <div class="fortschritt">${S.reihe.map(i => `<span class="${S.tipps[i] ? 'fertig' : ''}">${S.tipps[i] ? '✓ ' : ''}${esc(S.spieler[i].name)}</span>`).join('')}</div>
+        <button class="knopf gelb" data-a="bereit">Ich bin ${esc(S.spieler[wer].name)} – los</button>
+        ${S.pos === 0 ? `<button class="knopf leer klein" data-a="tausch">Andere Frage</button>` : ''}
+      </section>`
+  } else if (S.phase === 'frage' && (S.einst.eingabe === 'reihum' || solo())) {
+    const wer = dranIst(), w = lesen(S.entwurf[wer])
+    haupt = frageKarte(f, `
+      <div class="eingabe">
+        ${solo() ? '' : `<div class="klein">Schätzung von <b style="color:${farbe(wer)}">${esc(S.spieler[wer].name)}</b></div>`}
+        ${zahlFeld(wer, f, true)}
+        ${f.einheit === 'Jahr' ? '' : zusatzKnoepfe(wer)}
+        ${jokerKnopf(wer, false)}
+        <button class="knopf gelb breit" data-a="abgeben" data-i="${wer}" ${w == null ? 'disabled' : ''}>${solo() ? 'Auflösen' : 'Schätzung abgeben'}</button>
+        ${solo() && !Object.keys(S.tipps).length ? `<button class="knopf leer klein" data-a="tausch">Andere Frage</button>` : ''}
+      </div>`)
+  } else if (S.phase === 'frage') {
+    const fertig = S.spieler.filter((_, i) => lesen(S.entwurf[i]) != null).length
+    haupt = frageKarte(f, `
+      <div class="alle-tipps">
+        ${S.spieler.map((sp, i) => `<div class="tipp-zeile">
+          <div class="name"><span class="punkt" style="--c:${farbe(i)}" aria-hidden="true"></span><span>${esc(sp.name)}</span></div>
+          ${jokerKnopf(i, true) || '<span></span>'}
+          ${zahlFeld(i, f, false)}</div>`).join('')}
+        ${f.einheit === 'Jahr' ? '' : `<p class="klein" style="margin:0">Tipp: „2,5 Mio“ oder „8 Mrd“ direkt eintippen.</p>`}
+        <button class="knopf gelb breit" data-a="aufloesen" ${fertig ? '' : 'disabled'}>Auflösen (${fertig} von ${S.spieler.length} Tipps)</button>
+        ${!fertig ? `<button class="knopf leer klein" data-a="tausch" style="justify-self:center">Andere Frage</button>` : ''}
+      </div>`)
+  } else if (S.phase === 'aufgeloest') {
+    const E = S.ergebnis, animiert = gezeigt !== S.frage + ':' + S.runde
+    gezeigt = S.frage + ':' + S.runde
+    const v = voll(f.wert, f.einheit)
+    let fazit = ''
+    if (solo()) { const t = E.liste[0]; fazit = `<div class="ergebnis ${t.treffer ? 'ja' : 'nein'}">${t.treffer ? (t.voll ? 'Volltreffer!' : 'Treffer!') : 'Daneben'}</div>` }
+    else if (E.stechen) fazit = `<div class="ergebnis ja">Gleichstand an der Spitze – Stechen!</div>`
+    haupt = frageKarte(f, `
+      <div class="loesung">
+        <div class="gross" id="loesung-zahl" data-ziel="${f.wert}">${esc(mitEinheit(f.wert, f.einheit, true))}</div>
+        ${v ? `<div class="voll">${esc(v)}</div>` : ''}
+        <p class="info">${esc(f.info)}</p>
+      </div>
+      ${skalaHtml(f, E.liste, animiert)}
+      <ol class="rang">${E.liste.map((t, k) => {
+        const rel = f.wert !== 0 && f.einheit !== 'Jahr' ? ` · ${t.w >= f.wert ? '+' : '−'}${de(Math.abs(t.w - f.wert) / Math.abs(f.wert) * 100, { maximumFractionDigits: Math.abs(t.w - f.wert) / Math.abs(f.wert) < 0.1 ? 1 : 0 })} %` : ''
+        return `<li class="${t.pkt > 0 ? 'sieg' : ''}">
+          <span class="nr">${k + 1}.</span>
+          <span class="wer"><span class="punkt" style="--c:${farbe(t.wer)}" aria-hidden="true"></span><span>${esc(S.spieler[t.wer].name)}</span>${t.j ? '<span class="marke">×2</span>' : ''}${t.voll ? '<span class="marke" style="background:var(--richtig)">genau</span>' : ''}</span>
+          <span class="tipp">${esc(mitEinheit(t.w, f.einheit))}</span>
+          <span class="ab">${t.d === 0 ? 'exakt richtig' : `${esc(fmt(t.d, f.einheit === 'Jahr' ? '' : f.einheit))}${f.einheit === 'Jahr' ? (t.d === 1 ? ' Jahr' : ' Jahre') : ' ' + esc(f.einheit)} daneben${rel}`}${t.pkt ? ` · <span class="plus">+${t.pkt}</span>` : ''}</span></li>`
+      }).join('')}</ol>
+      ${fazit}
+      <div class="aktionen"><button class="knopf gelb" data-a="weiter">${S.sieger != null || (solo() && S.spieler[0].leben <= 0) ? 'Zum Ergebnis' : 'Nächste Frage'}</button></div>`)
+    if (animiert) requestAnimationFrame(() => hochzaehlen(f))
+  }
+  return `${kopfSpiel()}
+  <div class="buehne">
+    <div class="spalte">${haupt}</div>
+    <aside class="spalte"><div class="flaeche"><h2 style="font-size:1.05rem;margin-bottom:10px">Punktestand</h2>${standListe()}
+      <p class="klein" style="margin:10px 0 0">Noch ${S.stapel.length} Fragen im Stapel.</p></div></aside>
+  </div>${fuss()}`
+}
+function hochzaehlen(f) {
+  const el = document.getElementById('loesung-zahl')
+  if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const ziel = f.wert, t0 = performance.now(), dauer = 1100
+  const ganz = Number.isInteger(ziel)
+  const start = f.einheit === 'Jahr' ? ziel - 120 : 0
+  const schritt = now => {
+    const p = Math.min(1, (now - t0) / dauer), e = 1 - Math.pow(1 - p, 3)
+    let v = start + (ziel - start) * e
+    if (p < 1 && ganz && Math.abs(ziel) < 1e6) v = Math.round(v)
+    el.textContent = mitEinheit(p < 1 ? v : ziel, f.einheit, true)
+    if (p < 1 && document.body.contains(el)) requestAnimationFrame(schritt)
+  }
+  requestAnimationFrame(schritt)
+}
+function endeSeite() {
+  const rang = S.spieler.map((s, i) => ({ s, i })).sort((a, b) => b.s.punkte - a.s.punkte)
+  const max = rang[0]?.s.punkte ?? 0
+  const titel = solo() ? `${max} ${max === 1 ? 'Punkt' : 'Punkte'}` : S.sieger != null ? `${esc(S.spieler[S.sieger].name)} gewinnt!`
+    : rang.filter(x => x.s.punkte === max).length > 1 ? 'Unentschieden!' : `${esc(rang[0].s.name)} gewinnt!`
+  return `
+  <header class="kopf"><div class="logo">Pi <i>mal</i> Daumen</div></header>
+  <section class="flaeche">
+    <h1 style="font-family:var(--f-logo);font-weight:800;font-size:clamp(1.8rem,7vw,2.4rem);letter-spacing:-.02em">${titel}</h1>
+    <p class="klein">${S.runde} ${S.runde === 1 ? 'Frage' : 'Fragen'} gespielt${!S.stapel.length && S.sieger == null && !solo() ? ' – der Stapel ist leer' : ''}.</p>
+    <div class="endliste">${rang.map(x => `<div class="zeile"><span class="punkt" style="--c:${farbe(x.i)}" aria-hidden="true"></span>
+      <span class="name">${esc(x.s.name)}</span><span class="zahl">${x.s.punkte}</span></div>`).join('')}</div>
+    <div class="zeile"><button class="knopf gelb" data-a="los">Gleiche Runde nochmal</button><button class="knopf" data-a="zumstart">Zum Start</button></div>
+  </section>${fuss()}`
+}
+const fuss = () => `<footer class="fuss">Privates Projekt · ${FAKTEN.length} Fragen · Werte gerundet, Stand 2024/2025</footer>`
+function zeichne() {
+  const app = document.getElementById('app')
+  const menue = S.phase === 'start' || S.menue
+  app.innerHTML = (menue ? startSeite() : S.phase === 'ende' ? endeSeite() : spielSeite())
+    + (toastText ? `<div class="toast" role="status">${esc(toastText)}</div>` : '')
+  if (!menue && S.phase === 'frage' && (S.einst.eingabe === 'reihum' || solo())) {
+    const inp = document.getElementById(`tipp-${dranIst()}`)
+    if (inp && document.activeElement !== inp) { inp.focus({ preventScroll: true }); inp.setSelectionRange(inp.value.length, inp.value.length) }
+  }
+}
+// Nur Vorschau und Knöpfe aktualisieren, damit das Eingabefeld beim Tippen den Fokus behält
+function aktualisiereEingabe(wer) {
+  const f = FAKTEN[S.frage], t = S.entwurf[wer] || '', w = lesen(t)
+  const v = document.getElementById(`vorschau-${wer}`)
+  if (v) { v.innerHTML = vorschauText(t, f); v.classList.toggle('fehler', !!t && w == null) }
+  const ab = document.querySelector(`[data-a="abgeben"][data-i="${wer}"]`); if (ab) ab.disabled = w == null
+  const auf = document.querySelector('[data-a="aufloesen"]')
+  if (auf) { const n = S.spieler.filter((_, i) => lesen(S.entwurf[i]) != null).length; auf.disabled = !n; auf.textContent = `Auflösen (${n} von ${S.spieler.length} Tipps)` }
+}
+
+// ---------- Eingaben ----------
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]'); if (!b || b.disabled) return
+  const a = b.dataset.a, i = +b.dataset.i
+  switch (a) {
+    case 'dazu': S.namen.push(`Spieler ${S.namen.length + 1}`); break
+    case 'entfernen': S.namen.splice(i, 1); break
+    case 'eingabe': S.einst.eingabe = b.dataset.v; break
+    case 'kat': {
+      const k = b.dataset.v, ks = S.einst.kats
+      if (ks.includes(k)) { if (ks.length === 1) return toast('Mindestens eine Kategorie muss bleiben.'); ks.splice(ks.indexOf(k), 1) } else ks.push(k)
+      break
+    }
+    case 'los': return neuesSpiel()
+    case 'fortsetzen': S.menue = false; break
+    case 'zumstart': S.phase = 'start'; S.menue = false; S.spieler = []; break
+    case 'menue': S.menue = true; break
+    case 'bereit': S.phase = 'frage'; break
+    case 'tausch': naechsteFrage(true); return
+    case 'joker': S.jokerAn[i] = !S.jokerAn[i]; break
+    case 'vorzeichen': case 'komma': case 'zusatz': {
+      let t = (S.entwurf[i] || '').trim()
+      if (a === 'vorzeichen') t = t.startsWith('-') ? t.slice(1) : '-' + t
+      else if (a === 'komma') { if (!t.includes(',')) t = (t || '0') + ',' }
+      else { t = t.replace(/\s*[a-zäöü.]+$/i, ''); t = `${t || '1'} ${b.dataset.w}` }
+      S.entwurf[i] = t; speichern()
+      const inp = document.getElementById(`tipp-${i}`)
+      if (inp) { inp.value = t; inp.focus({ preventScroll: true }); inp.setSelectionRange(t.length, t.length) }
+      aktualisiereEingabe(i); return
+    }
+    case 'abgeben': return abgeben(i)
+    case 'aufloesen': {
+      S.tipps = {}
+      S.spieler.forEach((_, k) => { const w = lesen(S.entwurf[k]); if (w != null) S.tipps[k] = { w, j: !!S.jokerAn[k] } })
+      return aufloesen()
+    }
+    case 'weiter': return weiter()
+  }
+  speichern(); zeichne()
+})
+document.addEventListener('input', e => {
+  const t = e.target
+  if (t.dataset.name != null) { S.namen[+t.dataset.name] = t.value; speichern() }
+  if (t.dataset.tipp != null) { S.entwurf[+t.dataset.tipp] = t.value; speichern(); aktualisiereEingabe(+t.dataset.tipp) }
+})
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || e.target.dataset?.tipp == null) return
+  const wer = +e.target.dataset.tipp
+  if (S.einst.eingabe === 'reihum' || solo()) abgeben(wer)
+  else { const felder = [...document.querySelectorAll('[data-tipp]')], k = felder.indexOf(e.target); (felder[k + 1] || e.target).focus() }
+})
+document.addEventListener('change', e => {
+  const t = e.target, k = t.dataset.e; if (!k) return
+  S.einst[k] = k === 'ziel' ? +t.value : t.value === '1'
+  speichern(); zeichne()
+})
+zeichne()
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {})
+</script>
+</body>
+</html>
