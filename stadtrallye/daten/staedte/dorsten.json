@@ -1,0 +1,270 @@
+{
+  "id": "dorsten",
+  "name": "Dorsten",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Lippe, Kanal, Römerlager und Bergbau – Altstadt mit Planetenweg am Wasser.",
+  "entwurf": true,
+  "start": { "name": "Marktplatz am Alten Rathaus", "lage": [51.66043, 6.96495] },
+  "loesungsworte": ["LIPPE", "KANAL", "AGATHA", "ROEMER", "DORSTEN", "LEOPOLD", "GLUECKAUF"],
+  "orte": [
+    {
+      "id": "altes_rathaus",
+      "name": "Altes Rathaus am Marktplatz",
+      "lage": [51.66043, 6.96495],
+      "themen": ["highlights", "historie", "kneipen"],
+      "prio": 3,
+      "info": "Die Altstadt von Dorsten wurde bei einem Bombenangriff am 22. März 1945 fast vollständig zerstört. Das Alte Rathaus am Marktplatz, auch 'Waage' genannt, gehört zu den wenigen Bauten, die erhalten blieben. Rund um den Markt sitzen heute Cafés, Eisdielen und Kneipen.",
+      "fakt": "Seit 1997 wird der Marktplatz in der Adventszeit für 'Dreams on Ice' zu einer großen Eisfläche.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wird im Winter aus dem Dorstener Marktplatz?", "richtig": "Eine Eisbahn", "falsch": ["Ein Schwimmbad", "Ein Fußballfeld"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen zweiten Namen hat das Alte Rathaus?", "richtig": "Waage", "falsch": ["Börse", "Zollhaus"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Dorstener Altstadt durch Bomben fast völlig zerstört?", "wert": 1945, "einheit": "" },
+        { "typ": "foto", "text": "Gruppenfoto vor dem Alten Rathaus – alle tun so, als würden sie etwas auf einer Waage abwiegen." }
+      ]
+    },
+    {
+      "id": "marktbrunnen",
+      "name": "Brunnen am Markt",
+      "lage": [51.66041, 6.96532],
+      "themen": ["besonderheiten", "kinder", "historie"],
+      "prio": 2,
+      "info": "Am Marktplatz stehen zwei Brunnen. Auf der Ostseite erzählt der Brunnen der Künstlerin Tisa von der Schulenburg von 1962 auf etwa 30 Steinreliefs die Geschichte Dorstens. Auf der Westseite zeigt ein Brunnen von Bonifatius Stirnberg aus dem Jahr 1998 mit beweglichen Figuren vier Stationen der Stadtgeschichte.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie viele Steinreliefs erzählen am Brunnen von Tisa von der Schulenburg die Stadtgeschichte?", "wert": 30, "einheit": "Reliefs" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist am Brunnen auf der Westseite des Marktes besonders?", "richtig": "Man kann Figuren bewegen", "falsch": ["Er spuckt Limonade", "Er singt ein Lied"] },
+        { "typ": "suchen", "text": "Sucht euch das Relief aus, das euch am besten gefällt, und erzählt euch gegenseitig, was darauf passiert." }
+      ]
+    },
+    {
+      "id": "st_agatha",
+      "name": "St. Agatha",
+      "wiki": "St. Agatha (Dorsten)",
+      "lage": [51.66059, 6.96568],
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "St. Agatha ist die katholische Hauptkirche der Altstadt. Die Kirche wurde im Krieg schwer getroffen – nur wenige Teile ihrer alten Inneneinrichtung sind erhalten geblieben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Nach welcher Heiligen ist die Kirche am Markt benannt?", "richtig": "Agatha", "falsch": ["Barbara", "Elisabeth"] },
+        { "typ": "suchen", "text": "Zählt die Fenster an der Seite der Kirche, die zum Markt zeigt." }
+      ]
+    },
+    {
+      "id": "westgraben",
+      "name": "Stadtmauer am Westgraben",
+      "lage": [51.6599, 6.96281],
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Entlang von Westgraben, Südgraben und Ostgraben sind Reste der alten Stadtmauer erhalten. Am Westgraben stehen noch zwei Wehrtürme: Einer ist ein Wohnhaus, der andere eine Gedenkstätte für die gefallenen Soldaten vom Dreißigjährigen Krieg bis zum Zweiten Weltkrieg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wird einer der beiden Wehrtürme am Westgraben heute genutzt?", "richtig": "Als Wohnhaus", "falsch": ["Als Eisdiele", "Als Feuerwache"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wozu diente eine Stadtmauer früher?", "richtig": "Zum Schutz vor Angreifern", "falsch": ["Als Kletterwand", "Gegen Regen"] },
+        { "typ": "foto", "text": "Stellt euch als Wächter vor die alte Mauer – grimmig schauen!" }
+      ]
+    },
+    {
+      "id": "recklinghaeuser_tor",
+      "name": "Platz der Deutschen Einheit (Recklinghäuser Tor)",
+      "lage": [51.66032, 6.96851],
+      "themen": ["natur", "historie"],
+      "prio": 1,
+      "info": "Am früheren Recklinghäuser Tor wurden die Wassergräben der alten Wallanlagen 2002 und 2005 wieder angelegt. So lässt sich heute erahnen, wie die Stadt früher von Wasser umgeben war.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wurde hier 2002 und 2005 wieder angelegt?", "richtig": "Die alten Wassergräben", "falsch": ["Ein Bahnhof", "Ein Marktplatz"] },
+        { "typ": "suchen", "text": "Findet Enten, Fische oder andere Tiere im Wassergraben." }
+      ]
+    },
+    {
+      "id": "juedisches_museum",
+      "name": "Jüdisches Museum Westfalen",
+      "wiki": "Jüdisches Museum Westfalen",
+      "lage": [51.65921, 6.96728],
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "kosten": "Eintritt",
+      "info": "Das Jüdische Museum Westfalen wurde 1992 eröffnet und 2001 um einen modernen Anbau erweitert. Es erzählt anhand von Lebensgeschichten von jüdischem Leben in Westfalen vom Mittelalter bis heute – auch von Verfolgung und Ermordung in der NS-Zeit.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr wurde das Jüdische Museum Westfalen eröffnet?", "richtig": "1992", "falsch": ["1962", "2012"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie erzählt das Museum die Geschichte der westfälischen Juden?", "richtig": "Anhand von Lebensgeschichten einzelner Menschen", "falsch": ["Nur mit Landkarten", "Mit einem Film über Römer"] }
+      ]
+    },
+    {
+      "id": "goldener_anker",
+      "name": "Goldener Anker",
+      "lage": [51.66284, 6.96537],
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "hinweis": "Restaurant – Öffnungszeiten vorab prüfen",
+      "info": "Im Goldenen Anker am Rand der Altstadt kocht der Fernsehkoch Björn Freitag. Dorsten hat gleich zwei bekannte TV-Köche: Frank Rosin betreibt sein Restaurant im Stadtteil Wulfen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Fernsehkoch kocht im Goldenen Anker?", "richtig": "Björn Freitag", "falsch": ["Tim Mälzer", "Johann Lafer"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher TV-Koch hat sein Restaurant im Dorstener Stadtteil Wulfen?", "richtig": "Frank Rosin", "falsch": ["Steffen Henssler", "Nelson Müller"] },
+        { "typ": "mission", "text": "Erfindet ein Drei-Gänge-Menü, das 'typisch Dorsten' ist – mit Namen für jedes Gericht." }
+      ]
+    },
+    {
+      "id": "eis_markt",
+      "name": "Eiscafés am Markt",
+      "lage": [51.66027, 6.96486],
+      "themen": ["kulinarik", "kinder"],
+      "prio": 1,
+      "info": "Rund um den Marktplatz gibt es gleich mehrere Eiscafés – im Sommer der beliebteste Treffpunkt der Altstadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus wird Speiseeis hauptsächlich gemacht?", "richtig": "Aus Milch oder Fruchtpüree, Zucker und Kälte", "falsch": ["Aus Schnee", "Aus Mehl"] },
+        { "typ": "mission", "text": "Eis-Abstimmung: Jede Person nennt ihre Lieblingssorte – welche Sorte gewinnt?" }
+      ]
+    },
+    {
+      "id": "planetenufer",
+      "name": "Planetenufer an der Hochstadenbrücke",
+      "lage": [51.66419, 6.96395],
+      "themen": ["besonderheiten", "natur", "kinder", "spass"],
+      "prio": 3,
+      "info": "An der Hochstadenbrücke beginnt am Wesel-Datteln-Kanal das 'Planetenufer': ein Modell unseres Sonnensystems im Maßstab 1 zu 1,4 Milliarden. Von der Sonne aus führt der Planetenweg 3,2 Kilometer am Kanal entlang bis zum äußersten Planeten.",
+      "fakt": "Beim Altstadtfest im Juni gibt es ein Seifenkistenrennen – auf dem Kanal!",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Planet ist der Sonne am nächsten?", "richtig": "Merkur", "falsch": ["Mars", "Jupiter"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Planetenweg am Kanal (in Kilometern)?", "wert": 3.2, "einheit": "km" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was findet beim Dorstener Altstadtfest auf dem Kanal statt?", "richtig": "Ein Seifenkistenrennen", "falsch": ["Ein Drachenbootrennen", "Ein Wasserski-Turnier"] },
+        { "typ": "bewegen", "text": "Startet an der Sonne und lauft zum ersten Planeten. Wie viele Schritte braucht ihr?" }
+      ]
+    },
+    {
+      "id": "buergerpark",
+      "name": "Bürgerpark Maria Lindenhof",
+      "lage": [51.6654, 6.95531],
+      "themen": ["natur", "kinder"],
+      "prio": 2,
+      "info": "Zwischen Lippe und Kanal liegt der Bürgerpark Maria Lindenhof. Ringsum befinden sich das Gymnasium Petrinum, die Stadtbücherei, das Erlebnisbad Atlantis, eine Eissporthalle und Sportplätze – ein Ort für Groß und Klein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Zwischen welchen zwei Gewässern liegt der Park?", "richtig": "Zwischen Lippe und Kanal", "falsch": ["Zwischen Rhein und Ruhr", "Zwischen Nordsee und Ostsee"] },
+        { "typ": "bewegen", "text": "Wettlauf bis zum nächsten großen Baum – und zurück!" }
+      ]
+    },
+    {
+      "id": "wasserspielplatz",
+      "name": "Wasser- und Kletterspielplatz Im Werth",
+      "lage": [51.66534, 6.95696],
+      "themen": ["kinder", "spass"],
+      "prio": 2,
+      "info": "Im Werth am Bürgerpark gibt es einen Wasserspielplatz und einen Kletterspielplatz direkt nebeneinander. Bei warmem Wetter: Wechselsachen nicht vergessen!",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was braucht man am Wasserspielplatz oft hinterher?", "richtig": "Trockene Socken", "falsch": ["Einen Regenschirm", "Eine Taschenlampe"] },
+        { "typ": "bewegen", "text": "Kletter-Challenge: Wer schafft es bis ganz nach oben (mit Hilfe ist erlaubt)?" },
+        { "typ": "foto", "text": "Fotografiert den lustigsten Wasser-Moment!" }
+      ]
+    },
+    {
+      "id": "oude_marie",
+      "name": "Biergarten Oude Marie",
+      "lage": [51.66518, 6.95421],
+      "themen": ["kneipen", "natur"],
+      "prio": 1,
+      "hinweis": "Saisonbetrieb – Öffnungszeiten vorab prüfen",
+      "info": "Im Grünen am Bürgerpark liegt der Biergarten Oude Marie – ein entspannter Ort für eine Pause unter Bäumen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Fluss fließt durch Dorsten?", "richtig": "Die Lippe", "falsch": ["Die Ruhr", "Die Emscher"] },
+        { "typ": "mission", "text": "Stoßt auf Dorsten an – jede Person sagt dabei einen Satz, was sie an der Stadt mag." }
+      ]
+    },
+    {
+      "id": "kneipe_hexe",
+      "name": "Kneipe Hexe",
+      "lage": [51.66101, 6.96568],
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In der Ursulastraße mitten in der Altstadt liegt die Kneipe Hexe – eine Station für alle, die die Dorstener Altstadt bei einem Getränk erleben wollen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Dorstener Stadtteil ist für seinen großen Tiermarkt im Mai bekannt?", "richtig": "Lembeck", "falsch": ["Hervest", "Feldmark"] },
+        { "typ": "mission", "text": "Erzählt euch eine Hexengeschichte in 60 Sekunden – je gruseliger, desto besser." }
+      ]
+    },
+    {
+      "id": "atlantis",
+      "name": "Erlebnisbad Atlantis",
+      "lage": [51.66671, 6.96368],
+      "themen": ["spass", "kinder"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Das Atlantis am Maria Lindenhof ist Dorstens Erlebnisbad – mit Rutschen und Becken für jedes Wetter.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt die sagenhafte versunkene Stadt, nach der das Bad benannt ist?", "richtig": "Atlantis", "falsch": ["Rom", "Troja"] },
+        { "typ": "bewegen", "text": "Schwimmbewegungen an Land: Macht zehn Kraulzüge in der Luft!" }
+      ]
+    },
+    {
+      "id": "fuerst_leopold",
+      "name": "Zeche Fürst Leopold",
+      "wiki": "Bergwerk Fürst Leopold",
+      "lage": [51.67222, 6.98281],
+      "themen": ["historie", "besonderheiten", "spass"],
+      "prio": 3,
+      "info": "In Hervest wurde bis 2001 Steinkohle gefördert – dann endete der Bergbau in Dorsten. Auf dem Gelände der ehemaligen Zeche Fürst Leopold sind heute Gastronomie, Büros und Veranstaltungsflächen entstanden. Beim Bergfest erinnert Hervest an seine Bergbaugeschichte.",
+      "fakt": "Am letzten Wochenende im Monat treffen sich auf dem Zechengelände oft Tausende Motorradfahrer.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Mit welchem Gruß begrüßen sich Bergleute?", "richtig": "Glück auf!", "falsch": ["Gut Holz!", "Petri Heil!"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr endete der Steinkohlebergbau in Dorsten?", "richtig": "2001", "falsch": ["1971", "2018"] },
+        { "typ": "foto", "text": "Fotografiert euch vor den alten Zechengebäuden mit Bergmanns-Pose (Hacke über der Schulter)." }
+      ]
+    },
+    {
+      "id": "roemerlager",
+      "name": "Römerlager Holsterhausen",
+      "wiki": "Marschlager Holsterhausen",
+      "lage": [51.67583, 6.95028],
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "In Holsterhausen lagerten zwischen 11 vor und 9 nach Christus immer wieder römische Truppen auf dem Marsch ins Innere Germaniens. Die Ausgrabungen von 1999 bis 2006 waren die größten Flächengrabungen, die je in Westfalen stattfanden. Im September erinnert das Römerfest an diese Zeit.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat hier vor über 2000 Jahren ein Lager aufgeschlagen?", "richtig": "Römische Soldaten", "falsch": ["Wikinger", "Ritter"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war hier besonders an den Ausgrabungen 1999 bis 2006?", "richtig": "Es waren die größten Flächengrabungen Westfalens", "falsch": ["Man fand einen goldenen Wagen", "Man fand ein Dinosaurier-Skelett"] },
+        { "typ": "bewegen", "text": "Römischer Marsch: Lauft 20 Schritte im Gleichschritt und zählt laut auf Latein (unus, duo, tres …) – oder auf Deutsch." }
+      ]
+    },
+    {
+      "id": "haus_hagenbeck",
+      "name": "Ruine Haus Hagenbeck",
+      "wiki": "Haus Hagenbeck",
+      "lage": [51.66774, 6.91386],
+      "themen": ["historie", "natur"],
+      "prio": 1,
+      "info": "Am Nordufer der Lippe im Südwesten von Holsterhausen liegt die Ruine von Haus Hagenbeck, einem ehemaligen Rittersitz. Ein schönes Ziel für einen Ausflug ins Grüne an der Lippe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war Haus Hagenbeck früher?", "richtig": "Ein Rittersitz", "falsch": ["Ein Bahnhof", "Ein Zoo"] },
+        { "typ": "foto", "text": "Fotografiert die Ruine so, dass sie geheimnisvoll aussieht." }
+      ]
+    },
+    {
+      "id": "tueshaus_muehle",
+      "name": "Tüshaus-Mühle",
+      "wiki": "Tüshaus-Mühle",
+      "lage": [51.70647, 6.95867],
+      "themen": ["historie", "natur", "kinder"],
+      "prio": 2,
+      "info": "Die fast 400 Jahre alte Tüshaus-Mühle in Deuten gilt als einzige voll funktionsfähige Wassermühle Nordrhein-Westfalens. Ab 1615 war sie Walkmühle, später Ölmühle und bis 1970 Getreidemühle. Das Wasser des Hammbachs wird zum Mühlenteich gestaut.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr wird die Tüshaus-Mühle genutzt?", "wert": 1615, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was treibt das Mühlrad an?", "richtig": "Wasser", "falsch": ["Wind", "Ein Motor"] }
+      ]
+    },
+    {
+      "id": "schloss_lembeck",
+      "name": "Schloss Lembeck",
+      "wiki": "Schloss Lembeck",
+      "lage": [51.74333, 7],
+      "themen": ["highlights", "historie", "kinder", "natur"],
+      "prio": 3,
+      "kosten": "Eintritt für Museum und Park",
+      "info": "Schloss Lembeck ist ein prächtiges Wasserschloss im Naturpark Hohe Mark. Sein Name kommt aus dem Niederdeutschen und bedeutet so viel wie 'Lehmbach' – das Schloss stand einst mitten in Sumpf und Moor. Im Dachgeschoss zeigt das Heimatmuseum Funde und alte Handwerke.",
+      "fakt": "Zum Tiermarkt im Mai kommen jedes Jahr etwa 100.000 Menschen nach Lembeck.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet der Name Lembeck ungefähr?", "richtig": "Lehmbach", "falsch": ["Löwenburg", "Lindenberg"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was umgibt ein Wasserschloss?", "richtig": "Wasser", "falsch": ["Sand", "Eis"] },
+        { "typ": "foto", "text": "Spiegelungs-Foto: Fotografiert das Schloss mit seinem Spiegelbild in der Gräfte." }
+      ]
+    }
+  ],
+  "zentrum": [51.66419, 6.96486]
+}

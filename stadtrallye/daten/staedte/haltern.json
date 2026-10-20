@@ -1,0 +1,287 @@
+{
+  "id": "haltern",
+  "name": "Haltern am See",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Römer, Stausee und Heide – Hansestadt zwischen Haard und Hoher Mark.",
+  "entwurf": true,
+  "start": { "name": "Marktplatz am Alten Rathaus", "lage": [51.74325, 7.18696] },
+  "loesungsworte": ["SEE", "LUPIA", "VARUS", "LIPPE", "ROEMER", "SIXTUS", "LEGION", "STAUSEE"],
+  "orte": [
+    {
+      "id": "altes_rathaus",
+      "name": "Altes Rathaus & Marktbrunnen",
+      "lage": [51.74325, 7.18696],
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Das Alte Rathaus wurde von 1575 bis 1577 gebaut. Im Zweiten Weltkrieg schwer beschädigt, wurde es bis 1952 in einfacherer Form wieder aufgebaut. Unten öffnet sich eine Laube mit spitzen Bögen, oben finden Konzerte und Lesungen statt. Davor steht der Marktbrunnen von Helmut Schlüter.",
+      "fakt": "Haltern war vom 14. Jahrhundert bis 1611 Mitglied der Hanse.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr begann der Bau des Alten Rathauses?", "wert": 1575, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchem mittelalterlichen Städtebund gehörte Haltern an?", "richtig": "Der Hanse", "falsch": ["Dem Rheinbund", "Dem Schwäbischen Bund"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form haben die Bögen unten am Alten Rathaus?", "richtig": "Spitz", "falsch": ["Eckig", "Wellig"] },
+        { "typ": "foto", "text": "Stellt euch unter die Bögen der Laube wie bei einem Gruppenfoto im Mittelalter." }
+      ]
+    },
+    {
+      "id": "st_sixtus",
+      "name": "St.-Sixtus-Kirche",
+      "lage": [51.74247, 7.18724],
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Die Backsteinkirche St. Sixtus wurde 1879 im neugotischen Stil gebaut. Im Inneren hängt ein Gabelkruzifix aus Eichenholz, das schon um 1330/40 entstanden sein dürfte – viel älter als die Kirche selbst.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Material ist die St.-Sixtus-Kirche gebaut?", "richtig": "Backstein", "falsch": ["Holz", "Marmor"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die heutige St.-Sixtus-Kirche gebaut?", "wert": 1879, "einheit": "" },
+        { "typ": "suchen", "text": "Zählt die Spitzen und Türmchen, die ihr von außen an der Kirche seht." }
+      ]
+    },
+    {
+      "id": "siebenteufelsturm",
+      "name": "Siebenteufelsturm",
+      "lage": [51.74329, 7.18433],
+      "themen": ["besonderheiten", "historie", "kinder"],
+      "prio": 3,
+      "info": "Der runde Ziegelturm mit der Jahreszahl 1502 ist der letzte Rest der Halterner Stadtbefestigung. Das Recht, eine Stadtmauer zu bauen, bekam Haltern mit den Stadtrechten im Jahr 1289. Die übrige Mauer wurde im 18. Jahrhundert abgetragen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Teufel stecken im Namen dieses Turms?", "richtig": "Sieben", "falsch": ["Drei", "Zwölf"] },
+        { "typ": "suchen", "text": "Findet die Jahreszahl am Turm. Welche ist es?" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist der Siebenteufelsturm?", "richtig": "Der letzte Rest der alten Stadtbefestigung", "falsch": ["Ein alter Wasserturm", "Ein Glockenturm einer Kirche"] },
+        { "typ": "mission", "text": "Erfindet gemeinsam eine Sage, wie der Turm zu seinem Namen kam – mit genau sieben Teufeln." }
+      ]
+    },
+    {
+      "id": "galen_park",
+      "name": "Kardinal-von-Galen-Park",
+      "lage": [51.74228, 7.18396],
+      "themen": ["natur", "historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Im Park zwischen Siebenteufelsturm und neuem Rathaus steht ein Denkmal für Bischof Clemens August Graf von Galen. Er protestierte in der NS-Zeit öffentlich gegen die Ermordung kranker und behinderter Menschen und wurde 'Löwe von Münster' genannt. Daneben steht die Bronzeskulptur 'Der gescheiterte Varus'.",
+      "fakt": "Die Familie von Galen hat ihren Namen von Gahlen bei Schermbeck – dort stammen die Herren von Gahlen her.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Beinamen bekam Kardinal von Galen?", "richtig": "Löwe von Münster", "falsch": ["Adler von Westfalen", "Bär vom Niederrhein"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Schlacht verlor der römische Feldherr Varus im Jahr 9 n. Chr.?", "richtig": "Die Varusschlacht", "falsch": ["Die Schlacht bei Zama", "Die Schlacht bei Actium"] },
+        { "typ": "foto", "text": "Stellt die Skulptur 'Der gescheiterte Varus' nach – wie sieht ein besiegter Feldherr aus?" }
+      ]
+    },
+    {
+      "id": "roemermuseum",
+      "name": "LWL-Römermuseum",
+      "wiki": "LWL-Römermuseum",
+      "lage": [51.73947, 7.17052],
+      "themen": ["highlights", "historie", "kinder"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "info": "Das LWL-Römermuseum steht dort, wo vor rund 2000 Jahren ein großes Römerlager an der Lippe lag. Zu Beginn des 1. Jahrhunderts waren hier mehr Legionäre stationiert als irgendwo sonst im Römischen Reich. Ausgestellt sind die bedeutendsten Funde aus allen Römerlagern entlang der Lippe.",
+      "fakt": "Manche Forscher halten das Lager in Haltern für das in alten Quellen genannte Kastell 'Aliso'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer lebte hier vor 2000 Jahren in einem großen Lager?", "richtig": "Römische Soldaten", "falsch": ["Piraten", "Indianer"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nannten die Römer die Lippe?", "richtig": "Lupia", "falsch": ["Rhenus", "Danubius"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Römermuseum eröffnet?", "wert": 1993, "einheit": "" },
+        { "typ": "bewegen", "text": "Legionärs-Drill: Bildet eine 'Schildkröte' – alle eng zusammen, Arme als Schilde über den Köpfen!" }
+      ]
+    },
+    {
+      "id": "kiep",
+      "name": "Skulptur 'Kiep' am Bahnhof",
+      "lage": [51.73878, 7.18478],
+      "themen": ["besonderheiten"],
+      "prio": 1,
+      "info": "Nahe dem Bahnhof steht seit 2004 die Skulptur 'Kiep' von Ulrich Schriewer – ein stilisierter Kiepenkerl. Eine kleine Kopie davon ist der Münsterländer Kabarettpreis, der in Haltern vergeben wird. Vor dem Bahnhof steht außerdem die Skulptur 'Die Taucher'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was trug ein Kiepenkerl auf dem Rücken?", "richtig": "Einen Tragekorb, die Kiepe", "falsch": ["Eine Trommel", "Ein Fass"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Preis hat die Form dieser Skulptur?", "richtig": "Der Münsterländer Kabarettpreis", "falsch": ["Der Deutsche Filmpreis", "Ein Fußballpokal"] },
+        { "typ": "suchen", "text": "Findet vor dem Bahnhof die Skulptur 'Die Taucher' und macht ihre Pose nach." }
+      ]
+    },
+    {
+      "id": "lohmaennken",
+      "name": "Lohmännken",
+      "lage": [51.7449, 7.1829],
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 1,
+      "info": "In der Rekumer Straße steht die Figur 'Lohmännken' von te Kluve. Halterns Innenstadt steckt voller solcher Kunstwerke – an den früheren Stadttoren Mühlentor und Merschtor gibt es zum Beispiel Brunnenskulpturen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "In welcher Straße steht das Lohmännken?", "richtig": "Rekumer Straße", "falsch": ["Lippstraße", "Bahnhofstraße"] },
+        { "typ": "foto", "text": "Stellt euch so neben das Lohmännken, dass ihr aussieht wie seine Familie." }
+      ]
+    },
+    {
+      "id": "eis_altstadt",
+      "name": "Eiscafés in der Altstadt",
+      "lage": [51.74325, 7.18744],
+      "themen": ["kulinarik", "kinder"],
+      "prio": 1,
+      "info": "Zwischen Lippstraße, Rekumer Straße und Merschstraße liegen mehrere Eiscafés – perfekt für eine Pause. Jeden dritten Donnerstag im Monat lädt von Frühling bis Herbst der 'FeierAbend'-Markt mit Musik und Essen in die Altstadt ein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann findet der 'FeierAbend'-Markt in der Altstadt statt?", "richtig": "Jeden dritten Donnerstag im Monat (Frühling bis Herbst)", "falsch": ["Jeden Sonntagmorgen", "Nur an Silvester"] },
+        { "typ": "mission", "text": "Jede Person erfindet eine neue Eissorte mit Halterner Namen – die beste wird gekürt." }
+      ]
+    },
+    {
+      "id": "schaenke",
+      "name": "Schänke in der Lippstraße",
+      "lage": [51.74283, 7.19034],
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In der Lippstraße liegt die Schänke – eine Kneipe am Rand der Altstadt, ideal als Station einer Halterner Kneipentour.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Fußball-Weltmeister von 2014 spielte in seiner Jugend beim TuS Haltern?", "richtig": "Benedikt Höwedes", "falsch": ["Manuel Neuer", "Thomas Müller"] },
+        { "typ": "mission", "text": "Bestellt etwas aus dem Münsterland – und lasst euch erklären, was es ist." }
+      ]
+    },
+    {
+      "id": "kolpingtreff",
+      "name": "Kolpingtreff",
+      "lage": [51.74488, 7.18605],
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Am Disselhof liegt der Kolpingtreff – eine Kneipe mitten in der Stadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welcher Jugendmannschaft gingen die Nationalspieler Christoph Metzelder und Benedikt Höwedes hervor?", "richtig": "TuS Haltern", "falsch": ["Schalke 04", "Borussia Dortmund"] },
+        { "typ": "mission", "text": "Stellt euch der Kneipe mit einem dreistimmigen 'Glück auf' vor." }
+      ]
+    },
+    {
+      "id": "westuferpark",
+      "name": "Westuferpark am Stausee",
+      "lage": [51.74574, 7.20061],
+      "themen": ["kinder", "natur", "spass"],
+      "prio": 2,
+      "info": "Im Westuferpark gibt es einen Kinderspielplatz, ein großes Klettergerüst und einen Kunstrasenplatz. Eine Baumreihe wurde von Hochzeitspaaren gepflanzt. Das Seeufer selbst ist hier eingezäunt, weil der Stausee Trinkwasser liefert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat die Bäume der Baumreihe im Park gepflanzt?", "richtig": "Hochzeitspaare", "falsch": ["Biber", "Der Bürgermeister allein"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum ist das Seeufer im Westuferpark eingezäunt?", "richtig": "Der Stausee dient der Trinkwasserversorgung", "falsch": ["Dort leben Krokodile", "Das Ufer ist ein Privatstrand"] },
+        { "typ": "bewegen", "text": "Klettergerüst-Challenge: Wer kommt am schnellsten von einer Seite zur anderen?" }
+      ]
+    },
+    {
+      "id": "stausee",
+      "name": "Halterner Stausee",
+      "wiki": "Halterner Stausee",
+      "lage": [51.745, 7.21472],
+      "themen": ["highlights", "natur"],
+      "prio": 3,
+      "info": "Der Stausee wurde von 1927 bis 1930 gebaut und fasst heute 20,5 Millionen Kubikmeter Wasser. Er versorgt über das Wasserwerk mehr als eine Million Menschen mit Trinkwasser. Ein 8,3 Kilometer langer Rundweg führt um den See, im Nordbecken liegt eine Insel.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie lang ist der Rundweg um den Stausee (in Kilometern)?", "wert": 8.3, "einheit": "km" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Menschen versorgt der Stausee mit Trinkwasser?", "richtig": "Mehr als eine Million", "falsch": ["Etwa 5000", "Etwa 50.000"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was liegt im Nordbecken des Stausees?", "richtig": "Eine Insel", "falsch": ["Ein Schiffswrack", "Ein Leuchtturm"] }
+      ]
+    },
+    {
+      "id": "seebad",
+      "name": "Seebad Haltern",
+      "wiki": "Seebad Haltern",
+      "lage": [51.74278, 7.21306],
+      "themen": ["spass", "natur", "kinder"],
+      "prio": 3,
+      "kosten": "Eintritt in der Badesaison",
+      "info": "Das Seebad wurde 1930 eröffnet. Es hat einen etwa 800 Meter langen Sandstrand – fast wie am Meer. An Neujahr springen Mutige zum Neujahrsschwimmen ins kalte Wasser.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie lang ist der Sandstrand des Seebads?", "wert": 800, "einheit": "m" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wann findet das berühmte Eisbaden im Seebad statt?", "richtig": "An Neujahr", "falsch": ["An Ostern", "Am 1. Mai"] },
+        { "typ": "foto", "text": "Strandfoto: Alle machen die Pose 'Urlaub am Meer'." }
+      ]
+    },
+    {
+      "id": "kajuete",
+      "name": "Zur Kajüte an der Strandallee",
+      "lage": [51.75307, 7.21009],
+      "themen": ["kneipen", "natur"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "An der Strandallee am Stausee liegt die Kajüte. Hier passt eine Pause nach einem Spaziergang am Wasser.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt das Fahrgastschiff, das Rundfahrten auf dem Stausee macht?", "richtig": "Möwe", "falsch": ["Kormoran", "Seestern"] },
+        { "typ": "mission", "text": "Seemannsgarn: Erzählt die unglaublichste Geschichte über den Stausee – die anderen raten, ob sie stimmt." }
+      ]
+    },
+    {
+      "id": "lakeside",
+      "name": "Beachbar am Stockwieser Damm",
+      "lage": [51.74627, 7.24313],
+      "themen": ["kneipen", "spass", "natur"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Saisonbetrieb – Öffnungszeiten vorab prüfen",
+      "info": "Am Stockwieser Damm auf der Ostseite des Stausees gibt es Strandbar-Feeling mit Blick aufs Wasser – im Sommer ein Treffpunkt für laue Abende.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche zwei Gewässer werden im Halterner Stausee gestaut?", "richtig": "Stever und Halterner Mühlenbach", "falsch": ["Lippe und Emscher", "Ruhr und Rhein"] },
+        { "typ": "mission", "text": "Sonnenuntergangs-Wette: Wer tippt die Uhrzeit des Sonnenuntergangs am genauesten?" }
+      ]
+    },
+    {
+      "id": "westruper_heide",
+      "name": "Westruper Heide",
+      "wiki": "Westruper Heide",
+      "lage": [51.7372, 7.23673],
+      "themen": ["natur", "highlights"],
+      "prio": 2,
+      "info": "Die Westruper Heide ist das größte Zwergstrauch-Heidegebiet Westfalens und steht unter Naturschutz. Im Spätsommer blüht die Heide lila – dann ist sie besonders schön. Bitte auf den Wegen bleiben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat blühende Heide?", "richtig": "Lila", "falsch": ["Gelb", "Blau"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist die Westruper Heide (in Hektar)?", "wert": 87.72, "einheit": "ha" },
+        { "typ": "suchen", "text": "Findet drei verschiedene Pflanzen am Wegesrand – ohne sie zu pflücken." }
+      ]
+    },
+    {
+      "id": "annaberg",
+      "name": "Wallfahrtsstätte Annaberg",
+      "lage": [51.726, 7.15516],
+      "themen": ["historie", "natur"],
+      "prio": 1,
+      "info": "Südwestlich der Stadt liegt die Wallfahrtskapelle St. Anna, schon 1378 urkundlich erwähnt. Die alte Kapelle stammt von 1653. Viele Vertriebene aus Schlesien haben ihre Annaberg-Wallfahrt nach dem Krieg hierher übertragen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher kamen viele Pilger, die ihre Annaberg-Wallfahrt nach Haltern übertrugen?", "richtig": "Aus Schlesien", "falsch": ["Aus Bayern", "Aus Ostfriesland"] },
+        { "typ": "schaetzen", "frage": "Aus welchem Jahr stammt die alte Kapelle?", "wert": 1653, "einheit": "" }
+      ]
+    },
+    {
+      "id": "schloss_sythen",
+      "name": "Schloss Sythen",
+      "wiki": "Schloss Sythen",
+      "lage": [51.76917, 7.22944],
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Burg in Sythen wurde schon im Jahr 758 unter König Pippin erwähnt. Das Herrenhaus wurde 1971 abgerissen; erhalten sind Torhaus und ehemalige Kapelle. Heute gehört die Anlage der Stadt und wird von engagierten Bürgern belebt.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Burg Sythen erstmals erwähnt?", "wert": 758, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Teile von Schloss Sythen sind noch original erhalten?", "richtig": "Torhaus und Kapelle", "falsch": ["Nur der Burggraben", "Das ganze Herrenhaus"] }
+      ]
+    },
+    {
+      "id": "ketteler_hof",
+      "name": "Ketteler Hof",
+      "wiki": "Ketteler Hof",
+      "lage": [51.78028, 7.13083],
+      "themen": ["kinder", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Ketteler Hof ist ein familiengeführter Erlebnispark für Familien mit Kindern – mit Rutschen, Spielplätzen und Tieren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Für wen ist der Ketteler Hof vor allem gemacht?", "richtig": "Für Familien mit Kindern", "falsch": ["Für Rennfahrer", "Für Bergsteiger"] },
+        { "typ": "bewegen", "text": "Hüpft auf einem Bein bis zum Eingang – wer schafft es ohne abzusetzen?" }
+      ]
+    },
+    {
+      "id": "granat",
+      "name": "Naturwildpark Granat",
+      "wiki": "Naturwildpark Granat",
+      "lage": [51.77863, 7.09859],
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Naturwildpark Granat in Lavesum leben auf rund 60 Hektar Wildtiere. Wer leise ist, sieht mehr!",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie verhält man sich im Wildpark am besten?", "richtig": "Leise sein und die Tiere beobachten", "falsch": ["Laut rufen", "Steine werfen"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist der Wildpark (in Hektar)?", "wert": 60, "einheit": "ha" }
+      ]
+    }
+  ],
+  "zentrum": [51.74329, 7.18724]
+}

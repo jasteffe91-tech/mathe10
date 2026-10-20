@@ -256,7 +256,61 @@
         { "typ": "quiz", "niveau": "kind", "frage": "Was ist auf der Fruchtsäule zu sehen?", "richtig": "Obst und Gemüse", "falsch": ["Autos", "Tiere"] }
       ],
       "lage": [48.7971, 9.2171]
+    },
+    {
+      "id": "killesberg",
+      "name": "Höhenpark Killesberg",
+      "wiki": "Höhenpark Killesberg",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "info": "Der Höhenpark Killesberg ist ein großer Park mit Blumenbeeten, Spielplätzen und dem Killesbergturm: einem filigranen Aussichtsturm aus Stahlseilen, dessen Plattformen beim Hochsteigen leicht schwingen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist am Killesbergturm besonders?", "richtig": "Er wird von Stahlseilen gehalten und schwingt leicht", "falsch": ["Er ist aus Lebkuchen", "Er dreht sich wie ein Karussell"] },
+        { "typ": "foto", "text": "Fotografiert vom Turm (oder vom Fuß des Turms) den Blick über Stuttgart." }
+      ],
+      "lage": [48.80722, 9.17194]
+    },
+    {
+      "id": "porsche",
+      "name": "Porsche Museum",
+      "wiki": "Porsche Museum",
+      "themen": ["spass"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Am Porscheplatz in Zuffenhausen schwebt das weiße Porsche Museum auf wenigen Stützen über dem Boden. Drinnen stehen Sportwagen aus über 70 Jahren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Wappentier zeigt das Porsche-Logo in der Mitte?", "richtig": "Das Stuttgarter Pferd", "falsch": ["Einen Löwen", "Einen Adler"] },
+        { "typ": "bewegen", "text": "Rennstart: Alle in die Hocke und auf 'Los' zehn Meter sprinten!" }
+      ],
+      "lage": [48.83431, 9.15244]
+    },
+    {
+      "id": "loewentor",
+      "name": "Museum am Löwentor",
+      "wiki": "Museum am Löwentor",
+      "themen": ["kinder", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Museum am Löwentor im Rosensteinpark erwarten euch Dinosaurier, Urzeit-Fische und Mammuts – Fossilien, viele davon aus Baden-Württemberg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was sind Fossilien?", "richtig": "Versteinerte Reste von Tieren und Pflanzen", "falsch": ["Bunte Steine aus dem Laden", "Alte Münzen"] },
+        { "typ": "bewegen", "text": "Stampft wie ein Mammut einmal um die nächste Bank." }
+      ],
+      "lage": [48.80528, 9.19028]
+    },
+    {
+      "id": "marktplatz",
+      "name": "Marktplatz & Rathaus",
+      "suche": "Marktplatz, Stuttgart",
+      "themen": ["highlights", "kulinarik"],
+      "prio": 2,
+      "info": "Auf dem Marktplatz vor dem Rathaus findet mehrmals in der Woche Markt statt, im Advent einer der größten Weihnachtsmärkte Deutschlands.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es im Advent auf dem Marktplatz?", "richtig": "Einen Weihnachtsmarkt", "falsch": ["Ein Freibad", "Eine Skipiste"] },
+        { "typ": "suchen", "text": "Findet das Stuttgarter Wappentier irgendwo am Platz." }
+      ],
+      "lage": [48.77519, 9.17852]
     }
   ],
-  "zentrum": [48.77806, 9.18273]
+  "zentrum": [48.77827, 9.18194]
 }

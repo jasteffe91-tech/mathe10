@@ -11,7 +11,8 @@ const S = { grund: null, staedte: [], stadtCache: {}, plan: null, rallye: null, 
 // ---------- Hilfsfunktionen ----------
 const $ = (sel, el = document) => el.querySelector(sel)
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
-const zahlDe = (n, stellen = 0) => Number(n).toLocaleString('de-DE', { maximumFractionDigits: stellen })
+// Tausenderpunkt erst ab 10.000, damit Jahreszahlen wie 1575 nicht als „1.575“ erscheinen
+const zahlDe = (n, stellen = 0) => Number(n).toLocaleString('de-DE', { maximumFractionDigits: stellen, useGrouping: Math.abs(n) >= 10000 })
 
 function zufall(seed) { // mulberry32 – gleiche Zahl, gleiche Rallye
   let a = seed >>> 0
@@ -71,6 +72,7 @@ function ortErlaubt(o, an, fo) {
 
 function planeRoute(stadt, p, startLage) {
   const an = anlass(p.anlass), fo = format(p.format)
+  const maxEtappe = an.maxEtappe * (p.rad ? 4 : 1)
   const n = an.stationen[p.laenge]
   const rnd = zufall(p.seed)
   const erlaubt = stadt.orte.filter((o) => ortErlaubt(o, an, fo))
@@ -94,7 +96,7 @@ function planeRoute(stadt, p, startLage) {
     let kosten = startLage ? abstand(startLage, route[0].lage) * 0.7 : 0
     for (let i = 1; i < route.length; i++) {
       const d = abstand(route[i - 1].lage, route[i].lage)
-      kosten += d + Math.max(0, d - an.maxEtappe) * 3
+      kosten += d + Math.max(0, d - maxEtappe) * 3
     }
     kosten += route.filter((o) => !passend.includes(o)).length * 600
     kosten -= route.reduce((s, o) => s + (o.prio || 1), 0) * 60
@@ -128,7 +130,10 @@ function baueRallye(stadt, cfg) {
   const rnd = zufall(cfg.z * 7 + 13)
   const pools = an.pools
   const punkte = S.grund.punkte
-  const allgemein = mische(S.grund.aufgaben.filter((t) => t.pools.some((p) => pools.includes(p))), rnd)
+  const stufe = an.frechheit ? Math.min(4, Math.max(1, cfg.st || 2)) : 1
+  const naehe = (t) => Math.abs((t.stufe || 1) - stufe)
+  const allgemein = mische(S.grund.aufgaben.filter((t) => t.pools.some((p) => pools.includes(p)) && (t.stufe || 1) <= stufe), rnd)
+    .sort((a, b) => naehe(a) - naehe(b))
   const benutzt = new Set()
   const nimmAllgemein = (typen) => {
     const frei = allgemein.filter((t) => typen.includes(t.typ) && !benutzt.has(t.id))
@@ -174,7 +179,7 @@ function baueRallye(stadt, cfg) {
       if (!o.respekt) {
         const aktiv = eigene(['foto', 'mission', 'suchen', 'bewegen'])
         const lieberAllgemein = an.ab18 || an.niveau === 'kita' || !aktiv.length
-        const a = lieberAllgemein && rnd() < 0.7 ? nimmAllgemein(['foto', 'mission', 'suchen', 'bewegen']) : (aktiv.length ? { ...waehle(aktiv, rnd) } : null)
+        const a = lieberAllgemein && rnd() < (an.frechheit ? 0.85 : 0.7) ? nimmAllgemein(['foto', 'mission', 'suchen', 'bewegen']) : (aktiv.length ? { ...waehle(aktiv, rnd) } : null)
         if (a) aufgaben.push(a)
       }
     }
@@ -192,7 +197,7 @@ function baueRallye(stadt, cfg) {
 
   return {
     v: 1, cfg, stadtId: stadt.id, stadtName: stadt.name, wort, team: cfg.team || '', stationen: reihenfolge,
-    index: 0, angekommen: {}, antworten: {}, notizen: {}, start: null, ende: null, geloest: false, gps: !!cfg.gps
+    index: 0, angekommen: {}, antworten: {}, notizen: {}, start: null, ende: null, geloest: false, gps: !!cfg.gps, rad: !!cfg.rad
   }
 }
 
@@ -296,7 +301,7 @@ function einmalOrt() {
 
 // ---------- Teilen: Rallye als Link ----------
 function codiere(cfg) {
-  const roh = JSON.stringify({ s: cfg.s, a: cfg.a, t: cfg.t, f: cfg.f, l: cfg.l, o: cfg.o, z: cfg.z, teams: cfg.teams, gps: cfg.gps ? 1 : 0, zusatz: cfg.zusatz })
+  const roh = JSON.stringify({ s: cfg.s, a: cfg.a, t: cfg.t, f: cfg.f, l: cfg.l, o: cfg.o, z: cfg.z, teams: cfg.teams, gps: cfg.gps ? 1 : 0, zusatz: cfg.zusatz, st: cfg.st, rad: cfg.rad })
   return btoa(unescape(encodeURIComponent(roh))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 }
 function decodiere(text) {
@@ -325,6 +330,7 @@ async function zeichne() {
   try {
     if (h.startsWith('r=')) return await zeigeEinladung(h.slice(2))
     if (h.startsWith('plan-')) return await zeigePlaner(h.slice(5))
+    if (h.startsWith('pruefen-')) return await zeigePruefen(h.slice(8))
     if (h === 'spiel' && S.rallye) return zeigeSpiel()
     if (h === 'ende' && S.rallye) return zeigeEnde()
     if (h === 'ueber') return zeigeUeber()
@@ -356,7 +362,7 @@ function zeigeStart() {
       <div class="zeile"><a class="knopf haupt" href="#spiel">Weiterspielen</a><button class="knopf" id="verwerfen">Beenden &amp; verwerfen</button></div></div>` : ''}
     ${r && r.ende ? `<div class="karte weiter"><span class="etikett">Zuletzt gespielt</span><h2>${esc(r.stadtName)}</h2><div class="zeile"><a class="knopf" href="#ende">Ergebnis &amp; Fotos ansehen</a></div></div>` : ''}
     <div class="schritt"><header><h2>Wählt eure Stadt</h2></header>
-      <div class="staedte">${S.staedte.map((s) => `<button class="stadt" data-stadt="${s.id}"><b>${esc(s.name)}</b><span class="leise klein">${esc(s.kurz)}</span><span class="zahl">${s.orte} Stationen · ${esc(s.land)}</span></button>`).join('')}</div>
+      <div class="staedte">${S.staedte.map((s) => `<button class="stadt" data-stadt="${s.id}"><b>${esc(s.name)}</b><span class="leise klein">${esc(s.kurz)}</span><span class="zahl">${s.orte} Stationen · ${esc(s.land)}</span>${s.entwurf ? '<span class="marke-entwurf">Testphase – bitte vor Ort prüfen</span>' : ''}</button>`).join('')}</div>
     </div>
     <div class="schritt"><header><h2>So läuft's</h2></header>
       <div class="ablauf">
@@ -388,7 +394,7 @@ async function zeigePlaner(stadtId) {
   const vorher = lies('stadtfuchs.plan') || {}
   if (!S.plan || S.plan.stadt !== stadtId) {
     S.plan = { stadt: stadtId, anlass: vorher.anlass || 'entdecker', thema: vorher.thema || 'highlights', format: vorher.format || 'loesungswort', laenge: vorher.laenge || 'mittel',
-      start: 'zentrum', startLage: null, team: vorher.team || '', teams: 1, gps: false, seed: Math.floor(Math.random() * 1e9) }
+      start: 'zentrum', startLage: null, team: vorher.team || '', teams: 1, gps: false, stufe: vorher.stufe || 2, rad: false, seed: Math.floor(Math.random() * 1e9) }
   }
   pruefePlan(stadt)
   zeichnePlaner(stadt)
@@ -406,10 +412,14 @@ function zeichnePlaner(stadt) {
   const zaehle = (tid) => stadt.orte.filter((o) => (o.themen.includes(tid) || (tid === 'highlights' && o.prio >= 2)) && ortErlaubt(o, an, format(p.format))).length
   const themenListe = an.themen.map(thema).filter((t) => !t.ab18 || erwachsen(an))
   app.innerHTML = `${kopf('<a class="knopf still klein" href="#">Städte</a>')}
-  <section class="held"><span class="unterzeile">${esc(stadt.land)}</span><h1>Rallye durch ${esc(stadt.name)}</h1><p class="leise">${esc(stadt.kurz)}</p></section>
+  <section class="held"><span class="unterzeile">${esc(stadt.land)}</span><h1>Rallye durch ${esc(stadt.name)}</h1><p class="leise">${esc(stadt.kurz)}</p>
+    <div class="zeile"><a class="knopf klein" href="#pruefen-${stadt.id}">Alle ${stadt.orte.length} Stationen ansehen &amp; prüfen</a></div></section>
   <div class="stapel">
     <section class="schritt"><header><span class="nr">1</span><h2>Wer ist dabei?</h2></header>
       <div class="chips">${S.grund.anlaesse.map((a) => `<button class="chip" data-anlass="${a.id}" aria-pressed="${a.id === p.anlass}"><span class="ic">${a.icon}</span><b>${esc(a.name)}</b><small>${esc(a.kurz)}</small></button>`).join('')}</div>
+      ${an.frechheit ? `<div class="karte stapel"><h3>Wie frech darf's werden?</h3>
+        <div class="chips">${S.grund.frechheit.map((f) => `<button class="chip" data-stufe="${f.stufe}" aria-pressed="${f.stufe === p.stufe}"><span class="ic">${f.icon}</span><b>${esc(f.name)}</b><small>${esc(f.kurz)}</small></button>`).join('')}</div>
+        <p class="leise klein">Peinlich darf es für den Ehrengast werden – nie für Unbeteiligte. Fremde machen nur mit, wenn sie wollen, und wer eine Aufgabe nicht machen möchte, lässt sie aus.</p></div>` : ''}
     </section>
     <section class="schritt"><header><span class="nr">2</span><h2>Worum soll es gehen?</h2></header>
       <div class="chips">${themenListe.map((t) => { const n = zaehle(t.id); return `<button class="chip" data-thema="${t.id}" aria-pressed="${t.id === p.thema}" ${n < 2 ? 'disabled' : ''}><span class="ic">${t.icon}</span><b>${esc(t.name)}</b><small>${esc(t.kurz)} <span class="anzahl">· ${n} Orte</span></small></button>` }).join('')}</div>
@@ -419,6 +429,10 @@ function zeichnePlaner(stadt) {
     </section>
     <section class="schritt"><header><span class="nr">4</span><h2>Wie lang?</h2></header>
       <div class="segment">${S.grund.laengen.map((l) => `<button data-laenge="${l.id}" aria-pressed="${l.id === p.laenge}"><b>${l.name}</b><small>${an.stationen[l.id]} Stationen</small></button>`).join('')}</div>
+      <div class="segment" style="grid-template-columns:1fr 1fr">
+        <button data-rad="0" aria-pressed="${!p.rad}"><b>Zu Fuß</b><small>Kurze Wege</small></button>
+        <button data-rad="1" aria-pressed="${!!p.rad}"><b>Mit dem Fahrrad</b><small>Auch weiter entfernte Orte</small></button>
+      </div>
     </section>
     <section class="schritt"><header><span class="nr">5</span><h2>Startpunkt &amp; Team</h2></header>
       <div class="karte stapel">
@@ -442,8 +456,10 @@ function zeichnePlaner(stadt) {
 
   app.querySelectorAll('[data-anlass]').forEach((b) => b.onclick = () => { p.anlass = b.dataset.anlass; pruefePlan(stadt); zeichnePlaner(stadt) })
   app.querySelectorAll('[data-thema]').forEach((b) => b.onclick = () => { p.thema = b.dataset.thema; zeichnePlaner(stadt) })
+  app.querySelectorAll('[data-stufe]').forEach((b) => b.onclick = () => { p.stufe = Number(b.dataset.stufe); zeichnePlaner(stadt) })
   app.querySelectorAll('[data-format]').forEach((b) => b.onclick = () => { p.format = b.dataset.format; zeichnePlaner(stadt) })
   app.querySelectorAll('[data-laenge]').forEach((b) => b.onclick = () => { p.laenge = b.dataset.laenge; zeichnePlaner(stadt) })
+  app.querySelectorAll('[data-rad]').forEach((b) => b.onclick = () => { p.rad = b.dataset.rad === '1'; zeichnePlaner(stadt) })
   app.querySelectorAll('[data-start]').forEach((b) => b.onclick = async () => {
     if (b.dataset.start === 'ich') {
       toast('Standort wird ermittelt …')
@@ -457,7 +473,7 @@ function zeichnePlaner(stadt) {
   $('#team').oninput = (e) => { p.team = e.target.value }
   $('#teams').onchange = (e) => { p.teams = Number(e.target.value) }
   $('#gps').onchange = (e) => { p.gps = e.target.checked }
-  schreibe('stadtfuchs.plan', { anlass: p.anlass, thema: p.thema, format: p.format, laenge: p.laenge, team: p.team })
+  schreibe('stadtfuchs.plan', { anlass: p.anlass, thema: p.thema, format: p.format, laenge: p.laenge, team: p.team, stufe: p.stufe })
   zeichneVorschau(stadt)
 }
 
@@ -465,27 +481,28 @@ function zeichneVorschau(stadt) {
   const p = S.plan, an = anlass(p.anlass), fo = format(p.format)
   const startLage = p.start === 'ich' && p.startLage ? p.startLage : stadt.start.lage
   const { orte, zusatz } = planeRoute(stadt, p, startLage)
-  const cfg = { s: stadt.id, a: p.anlass, t: p.thema, f: p.format, l: p.laenge, o: orte.map((o) => o.id), z: p.seed, teams: p.teams, gps: p.gps, zusatz }
+  const cfg = { s: stadt.id, a: p.anlass, t: p.thema, f: p.format, l: p.laenge, o: orte.map((o) => o.id), z: p.seed, teams: p.teams, gps: p.gps, zusatz, st: an.frechheit ? p.stufe : undefined, rad: p.rad ? 1 : undefined }
   const probe = baueRallye(stadt, cfg)
   const etappen = orte.map((o, i) => (i ? abstand(orte[i - 1].lage, o.lage) : abstand(startLage, o.lage)))
   const weg = etappen.reduce((s, d) => s + d, 0)
   const verweil = p.thema === 'kneipen' ? 30 : 12
-  const minuten = (weg * 1.25) / (an.tempo * 1000) * 60 + orte.length * verweil
+  const minuten = (weg * 1.25) / ((p.rad ? 13 : an.tempo) * 1000) * 60 + orte.length * verweil
   const kostenpflichtig = orte.filter((o) => o.kosten).length
   const box = $('#vorschau')
   box.innerHTML = `<header><span class="nr">6</span><h2>Eure Route</h2></header>
     <div class="kartenbox" id="karte" role="img" aria-label="Karte der Route"></div>
     <div class="kennzahlen">
       <div><span class="etikett">Stationen</span><b>${orte.length}</b></div>
-      <div><span class="etikett">Fußweg</span><b>${meter(weg * 1.25)}</b></div>
+      <div><span class="etikett">${p.rad ? 'Radweg' : 'Fußweg'}</span><b>${meter(weg * 1.25)}</b></div>
       <div><span class="etikett">Dauer</span><b>${dauer(minuten)}</b></div>
     </div>
     ${probe.wort ? `<p class="hinweis">Lösungswort mit ${probe.wort.length} Buchstaben${probe.wort.length < orte.length ? ` – ${orte.length - probe.wort.length} Bonusfrage(n) ohne Buchstaben` : ''}.</p>` : ''}
+    ${!p.rad && weg * 1.25 > 6000 ? '<p class="hinweis">Lange Strecke: Mit dem Fahrrad macht diese Rallye mehr Spaß – oben auf „Mit dem Fahrrad“ umstellen.</p>' : ''}
     ${zusatz.length ? `<p class="hinweis">Für dieses Thema gibt es nicht genug Orte in der Nähe – ${zusatz.length} passende Station(en) aus anderen Themen wurden ergänzt.</p>` : ''}
     ${p.thema === 'kneipen' ? '<p class="hinweis">Trinkt verantwortungsvoll: Jede Getränke-Mission gilt auch alkoholfrei. Zwischendurch Wasser hilft beim Lösungswort.</p>' : ''}
     ${kostenpflichtig ? `<p class="hinweis">${kostenpflichtig} Station(en) kosten Eintritt oder sind nur zu bestimmten Zeiten offen – die Aufgaben lassen sich aber auch von außen lösen.</p>` : ''}
     <ol class="route">${orte.map((o, i) => `<li><span class="stempel">${i + 1}</span><div class="min-w0"><b>${esc(o.name)}</b>${zusatz.includes(o.id) ? ' <span class="marke-oepnv" style="color:var(--leise)">Ergänzt</span>' : ''}
-      <div class="etappe">${i === 0 ? 'ab Start' : 'Etappe'} ${meter(etappen[i] * 1.25)}${etappen[i] > an.maxEtappe * 1.4 ? '<span class="marke-oepnv">Bus/Bahn-Tipp</span>' : ''}${o.kosten ? ` · ${esc(o.kosten)}` : ''}</div></div></li>`).join('')}</ol>
+      <div class="etappe">${i === 0 ? 'ab Start' : 'Etappe'} ${meter(etappen[i] * 1.25)}${!p.rad && etappen[i] > an.maxEtappe * 1.4 ? '<span class="marke-oepnv">Bus/Bahn-Tipp</span>' : ''}${o.kosten ? ` · ${esc(o.kosten)}` : ''}</div></div></li>`).join('')}</ol>
     <div class="stapel">
       <button class="knopf haupt breit" id="los">Rallye starten</button>
       <div class="zeile"><button class="knopf" id="wuerfeln">Andere Route</button><button class="knopf" id="teilen">${p.teams > 1 ? 'Link für alle Teams' : 'Link teilen'}</button><button class="knopf" id="laufzettel">Laufzettel drucken</button><button class="knopf" id="loesung">Lösungsblatt</button></div>
@@ -522,7 +539,7 @@ async function zeigeEinladung(code) {
   const stadt = await ladeStadt(cfg.s)
   app.innerHTML = `${kopf()}
   <section class="held"><span class="unterzeile">Einladung</span><h1>Rallye durch ${esc(stadt.name)}</h1>
-    <p>${anlass(cfg.a).icon} ${esc(anlass(cfg.a).name)} · ${esc(thema(cfg.t).name)} · ${esc(format(cfg.f).name)} · ${cfg.o.length} Stationen</p></section>
+    <p>${anlass(cfg.a).icon} ${esc(anlass(cfg.a).name)}${cfg.st ? ' (' + esc(S.grund.frechheit.find((f) => f.stufe === cfg.st)?.name || '') + ')' : ''} · ${esc(thema(cfg.t).name)} · ${esc(format(cfg.f).name)} · ${cfg.o.length} Stationen</p></section>
   <div class="karte stapel">
     <div class="feld"><label for="team">Euer Teamname</label><input id="team" maxlength="40" placeholder="z. B. Team Rot"></div>
     ${cfg.teams > 1 ? `<div class="feld"><label for="nr">Eure Team-Nummer</label><select id="nr">${Array.from({ length: cfg.teams }, (_, i) => `<option value="${i + 1}">Team ${i + 1}</option>`).join('')}</select><span class="leise klein">Jede Nummer startet an einer anderen Station. Sprecht euch ab, wer welche Nummer nimmt.</span></div>` : ''}
@@ -555,7 +572,7 @@ function zeigeSpiel() {
     ${da ? '' : `
     <div class="wegweiser" id="wegweiser"><div class="pfeil" id="pfeil">${PFEIL}</div><div><b id="entf">–</b><p class="leise klein" id="wohin">Standort wird gesucht … Erlaubt den Zugriff auf euren Standort, dann zeigt der Pfeil die Richtung.</p></div></div>
     <div class="kartenbox klein" id="karte"></div>
-    <div class="zeile"><a class="knopf" id="navi" target="_blank" rel="noopener" href="${navLink(st.lage)}">Route in Karten-App</a>
+    <div class="zeile"><a class="knopf" id="navi" target="_blank" rel="noopener" href="${navLink(st.lage, r.rad)}">Route in Karten-App</a>
       <button class="knopf haupt" id="angekommen">${r.gps ? 'Station erreicht?' : 'Wir sind da!'}</button></div>
     ${r.gps ? '<p class="leise klein" id="gpshinweis">GPS-Prüfung ist an: Die Aufgaben erscheinen, sobald ihr in der Nähe der Station seid.</p>' : ''}`}
     ${da ? stationsInhalt(r, st, an, fo) : ''}
@@ -586,9 +603,9 @@ function zeigeSpiel() {
     bindeAufgaben(r, st, an, fo)
   }
 }
-const navLink = (lage) => /iPhone|iPad|Macintosh/.test(navigator.userAgent) && 'ontouchend' in document
-  ? `https://maps.apple.com/?daddr=${lage[0]},${lage[1]}&dirflg=w`
-  : `https://www.google.com/maps/dir/?api=1&destination=${lage[0]},${lage[1]}&travelmode=walking`
+const navLink = (lage, rad) => /iPhone|iPad|Macintosh/.test(navigator.userAgent) && 'ontouchend' in document
+  ? `https://maps.apple.com/?daddr=${lage[0]},${lage[1]}&dirflg=${rad ? 'c' : 'w'}`
+  : `https://www.google.com/maps/dir/?api=1&destination=${lage[0]},${lage[1]}&travelmode=${rad ? 'bicycling' : 'walking'}`
 function nahGenug(st) {
   if (!S.ort) return false
   return abstand([S.ort.lat, S.ort.lng], st.lage) <= 80 + Math.min(S.ort.genau || 0, 120)
@@ -600,7 +617,7 @@ function wegweiserAktualisieren() {
   if (!S.ort) return
   const ich = [S.ort.lat, S.ort.lng], d = abstand(ich, st.lage), grad = richtung(ich, st.lage)
   entf.textContent = meter(d)
-  wohin.textContent = d < 60 ? 'Ihr seid da! Schaut euch um.' : `Richtung ${himmel(grad)} (${Math.round(grad)}°) · ca. ${Math.max(1, Math.round(d * 1.25 / 75))} Min. zu Fuß`
+  wohin.textContent = d < 60 ? 'Ihr seid da! Schaut euch um.' : `Richtung ${himmel(grad)} (${Math.round(grad)}°) · ca. ${Math.max(1, Math.round(d * 1.25 / (r.rad ? 220 : 75)))} Min. ${r.rad ? 'mit dem Rad' : 'zu Fuß'}`
   if (pfeil) pfeil.style.transform = `rotate(${grad}deg)`
   if (r.gps && nahGenug(st)) { const b = $('#angekommen'); if (b) { b.textContent = 'Wir sind da!'; } }
 }
@@ -862,6 +879,50 @@ function urkunde(r, stand) {
     <p style="font-size:14pt">${an.sterne ? `und dabei ${stand.sterne} Sterne gesammelt` : `mit ${stand.punkte} von ${stand.max} Punkten`}${r.geloest ? ` – Lösungswort „${esc(r.wort)}“ geknackt` : ''}.</p>
     <p>${new Date(r.ende || Date.now()).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
     <p style="margin-top:30px">Ernannt zum offiziellen Stadtfuchs</p></div>`
+}
+
+// ---------- Prüfmodus: Stationen vor Ort abhaken ----------
+const PRUEF = 'stadtfuchs.pruefung.v1'
+async function zeigePruefen(stadtId) {
+  const stadt = await ladeStadt(stadtId)
+  const alle = lies(PRUEF) || {}
+  const st = alle[stadtId] || (alle[stadtId] = { orte: {}, vorschlag: '' })
+  const sichern = () => schreibe(PRUEF, alle)
+  const zaehler = () => { const w = Object.values(st.orte); return { passt: w.filter((x) => x.status === 'passt').length, falsch: w.filter((x) => x.status === 'falsch').length } }
+  const loesung = (a) => a.typ === 'quiz' ? `${esc(a.frage)} → <b>${esc(a.richtig)}</b> <span class="leise">(falsch: ${a.falsch.map(esc).join(', ')})</span>`
+    : a.typ === 'schaetzen' ? `${esc(a.frage)} → <b>${zahlDe(a.wert, 2)} ${esc(a.einheit)}</b>` : `${TYPNAMEN[a.typ]}: ${esc(a.text)}`
+  const z = zaehler()
+  app.innerHTML = `${kopf(`<a class="knopf still klein" href="#plan-${stadt.id}">Zur Rallye</a>`)}
+  <section class="held"><span class="unterzeile">Prüfmodus</span><h1>${esc(stadt.name)}: alle Stationen</h1>
+    <p>Geht die Stationen durch und markiert, was passt und was nicht. Eure Notizen bleiben auf diesem Gerät, bis ihr den Prüfbericht kopiert und weitergebt.</p>
+    <p class="zahl leise" id="pruefstand">${z.passt} passt · ${z.falsch} korrigieren · ${stadt.orte.length - z.passt - z.falsch} offen</p></section>
+  <div class="stapel">
+    ${stadt.orte.map((o, i) => { const e = st.orte[o.id] || {}; return `<article class="karte stapel" id="p-${o.id}">
+      <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${i + 1}</span><div><span class="etikett">${o.themen.map((t) => esc(thema(t).name)).join(' · ')}${o.ab18 ? ' · ab 18' : ''}</span><h2>${esc(o.name)}</h2></div></div>
+      <p>${esc(o.info)}</p>${o.fakt ? `<p class="leise"><b>Fakt:</b> ${esc(o.fakt)}</p>` : ''}${o.hinweis || o.kosten ? `<p class="hinweis">${esc([o.kosten, o.hinweis].filter(Boolean).join(' · '))}</p>` : ''}
+      <ul class="klein" style="margin:0;padding-left:18px;display:grid;gap:4px">${(o.aufgaben || []).map((a) => `<li>${loesung(a)}</li>`).join('')}</ul>
+      <div class="zeile"><a class="knopf klein still" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${o.lage[0]}&mlon=${o.lage[1]}#map=18/${o.lage[0]}/${o.lage[1]}">Ort auf der Karte</a></div>
+      <div class="zeile"><button class="knopf klein ${e.status === 'passt' ? 'haupt' : ''}" data-pstatus="passt" data-ort="${o.id}">Passt</button><button class="knopf klein ${e.status === 'falsch' ? 'haupt' : ''}" data-pstatus="falsch" data-ort="${o.id}">Stimmt nicht</button></div>
+      <div class="feld"><label for="pn-${o.id}" class="leise klein">Was stimmt nicht / Ergänzung (z. B. geschlossen, falscher Ort, bessere Frage)</label><textarea id="pn-${o.id}" rows="2" data-pnotiz="${o.id}">${esc(e.notiz || '')}</textarea></div>
+    </article>` }).join('')}
+    <div class="karte stapel"><h2>Fehlt etwas?</h2><div class="feld"><label for="vorschlag">Orte, Kneipen, Spielplätze oder Geheimtipps, die in die Rallye gehören</label><textarea id="vorschlag" rows="4">${esc(st.vorschlag || '')}</textarea></div></div>
+    <div class="karte stapel"><h2>Prüfbericht</h2><p class="leise klein">Kopiert den Bericht und schickt ihn weiter – damit lassen sich die Stationen korrigieren.</p>
+      <button class="knopf haupt" id="bericht">Prüfbericht kopieren</button></div>
+  </div>${fuss()}`
+  app.querySelectorAll('[data-pstatus]').forEach((b) => b.onclick = () => {
+    const e = st.orte[b.dataset.ort] || (st.orte[b.dataset.ort] = {})
+    e.status = e.status === b.dataset.pstatus ? '' : b.dataset.pstatus; sichern()
+    const y = window.scrollY; zeigePruefen(stadtId).then(() => window.scrollTo(0, y))
+  })
+  app.querySelectorAll('[data-pnotiz]').forEach((t) => t.oninput = () => { (st.orte[t.dataset.pnotiz] || (st.orte[t.dataset.pnotiz] = {})).notiz = t.value; sichern() })
+  $('#vorschlag').oninput = (e) => { st.vorschlag = e.target.value; sichern() }
+  $('#bericht').onclick = () => {
+    const zeilen = [`Prüfbericht ${stadt.name} (${new Date().toLocaleDateString('de-DE')})`, '']
+    stadt.orte.forEach((o) => { const e = st.orte[o.id]; if (e && (e.status || e.notiz)) zeilen.push(`- ${o.name} [${o.id}]: ${e.status === 'passt' ? 'passt' : e.status === 'falsch' ? 'STIMMT NICHT' : 'Notiz'}${e.notiz ? ' – ' + e.notiz.trim() : ''}`) })
+    if (st.vorschlag?.trim()) zeilen.push('', 'Vorschläge:', st.vorschlag.trim())
+    const z = zaehler(); zeilen.push('', `${z.passt} passt, ${z.falsch} korrigieren, ${stadt.orte.length - z.passt - z.falsch} offen`)
+    kopieren(zeilen.join('\n'))
+  }
 }
 
 // ---------- Über ----------

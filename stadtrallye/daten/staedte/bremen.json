@@ -239,7 +239,48 @@
         { "typ": "bewegen", "text": "Elfmeterschießen mit einem imaginären Ball – wer jubelt am schönsten?" }
       ],
       "lage": [53.06644, 8.83766]
+    },
+    {
+      "id": "domshof",
+      "name": "Wochenmarkt auf dem Domshof",
+      "suche": "Domshof, Bremen",
+      "themen": ["kulinarik"],
+      "prio": 1,
+      "hinweis": "Markt meist vormittags an Werktagen",
+      "info": "Auf dem Domshof neben dem Dom findet ein großer Wochenmarkt statt – mit Obst, Fisch, Käse und Blumen aus der Region.",
+      "aufgaben": [
+        { "typ": "mission", "text": "Kauft eine regionale Spezialität und teilt sie in der Gruppe." },
+        { "typ": "quiz", "niveau": "kind", "frage": "Neben welcher Kirche liegt der Domshof?", "richtig": "Neben dem Dom", "falsch": ["Neben dem Michel", "Neben der Frauenkirche"] }
+      ],
+      "lage": [53.07635, 8.80932]
+    },
+    {
+      "id": "kunsthalle",
+      "name": "Kunsthalle Bremen",
+      "wiki": "Kunsthalle Bremen",
+      "themen": ["highlights", "historie"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Die Kunsthalle an den Wallanlagen wird bis heute vom Kunstverein in Bremen getragen, den Bremer Bürger schon 1823 gegründet haben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer trägt die Kunsthalle Bremen?", "richtig": "Ein Kunstverein Bremer Bürger", "falsch": ["Die Bundesregierung", "Ein Fußballverein"] },
+        { "typ": "foto", "text": "Stellt ein berühmtes Gemälde nach, das ihr kennt." }
+      ],
+      "lage": [53.07278, 8.81361]
+    },
+    {
+      "id": "rhododendronpark",
+      "name": "Rhododendronpark",
+      "wiki": "Rhododendron-Park Bremen",
+      "themen": ["natur", "kinder"],
+      "prio": 2,
+      "info": "Im Rhododendronpark blühen im Mai Tausende Rhododendren und Azaleen in allen Farben – eine der größten Sammlungen dieser Pflanzen weltweit.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "In welchem Monat blühen die Rhododendren am schönsten?", "richtig": "Im Mai", "falsch": ["Im Dezember", "Im Februar"] },
+        { "typ": "suchen", "text": "Findet Blüten in fünf verschiedenen Farben." }
+      ],
+      "lage": [53.09167, 8.88611]
     }
   ],
-  "zentrum": [53.07611, 8.80806]
+  "zentrum": [53.07611, 8.80906]
 }

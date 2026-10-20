@@ -388,7 +388,75 @@
         { "typ": "foto", "text": "Stellt euch als 'Kabinett' vor dem Kanzleramt auf – mit ernster Miene." }
       ],
       "lage": [52.52019, 13.36913]
+    },
+    {
+      "id": "maerchenbrunnen",
+      "name": "Märchenbrunnen im Volkspark Friedrichshain",
+      "wiki": "Märchenbrunnen im Volkspark Friedrichshain",
+      "themen": ["kinder", "natur", "besonderheiten"],
+      "prio": 2,
+      "info": "Im ältesten Volkspark Berlins steht der Märchenbrunnen von 1913: Rund um die Wasserbecken sitzen Figuren aus Grimms Märchen – vom Aschenputtel bis zu Hänsel und Gretel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welchen Geschichten stammen die Figuren am Brunnen?", "richtig": "Aus Grimms Märchen", "falsch": ["Aus Harry Potter", "Aus der Bibel"] },
+        { "typ": "suchen", "text": "Findet mindestens drei Märchenfiguren und ratet, aus welchem Märchen sie kommen." },
+        { "typ": "bewegen", "text": "Spielt ein Märchen in 30 Sekunden pantomimisch vor – die anderen raten." }
+      ],
+      "lage": [52.52806, 13.42694]
+    },
+    {
+      "id": "viktoriapark",
+      "name": "Viktoriapark & Wasserfall",
+      "wiki": "Viktoriapark",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "info": "Im Viktoriapark in Kreuzberg rauscht ein künstlicher Wasserfall den Hang hinunter. Oben steht das Nationaldenkmal von Schinkel mit einem Eisernen Kreuz – davon hat der Kreuzberg und damit der ganze Bezirk seinen Namen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat der Bezirk Kreuzberg seinen Namen?", "richtig": "Vom Eisernen Kreuz auf dem Denkmal auf dem Berg", "falsch": ["Von einer Straßenkreuzung", "Von einer Kirche"] },
+        { "typ": "bewegen", "text": "Gipfelsturm: Wer ist zuerst oben am Denkmal – ohne zu rennen?" }
+      ],
+      "lage": [52.48889, 13.38056]
+    },
+    {
+      "id": "naturkunde",
+      "name": "Museum für Naturkunde",
+      "wiki": "Museum für Naturkunde",
+      "themen": ["kinder", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Museum für Naturkunde steht ein riesiges Dinosaurierskelett: Der Brachiosaurus ist eines der größten aufgebauten Dinosaurierskelette der Welt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Dinosaurier ist im Lichthof des Museums berühmt?", "richtig": "Der Brachiosaurus", "falsch": ["Der Stegosaurus", "Der Triceratops"] },
+        { "typ": "bewegen", "text": "Stellt euch so hoch wie möglich auf die Zehenspitzen – wie ein Langhals-Dino!" }
+      ],
+      "lage": [52.53049, 13.37912]
+    },
+    {
+      "id": "admiralbruecke",
+      "name": "Admiralbrücke am Landwehrkanal",
+      "wiki": "Admiralbrücke",
+      "themen": ["kneipen", "natur", "spass"],
+      "prio": 1,
+      "info": "Auf der kleinen Admiralbrücke in Kreuzberg sitzen an Sommerabenden Dutzende Menschen, hören Straßenmusik und schauen auf den Landwehrkanal. Bitte Rücksicht auf die Anwohner nehmen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Über welchen Kanal führt die Admiralbrücke?", "richtig": "Den Landwehrkanal", "falsch": ["Den Teltowkanal", "Den Nord-Ostsee-Kanal"] },
+        { "typ": "mission", "text": "Fragt eine Straßenmusikerin oder einen Straßenmusiker nach dem Lieblingslied – und lasst es euch vorspielen (Trinkgeld!)." }
+      ],
+      "lage": [52.49528, 13.41514]
+    },
+    {
+      "id": "ehrenmal_treptow",
+      "name": "Sowjetisches Ehrenmal im Treptower Park",
+      "wiki": "Sowjetisches Ehrenmal (Treptower Park)",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "info": "Das Ehrenmal ist Gedenkstätte und Friedhof für rund 7000 sowjetische Soldaten, die bei der Eroberung Berlins 1945 gefallen sind. Eine riesige Soldatenfigur mit einem Kind auf dem Arm steht über allem. Bitte verhaltet euch ruhig.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woran erinnert das Ehrenmal im Treptower Park?", "richtig": "An gefallene sowjetische Soldaten 1945", "falsch": ["An den Bau der Mauer", "An die Olympischen Spiele 1936"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was trägt die große Soldatenfigur auf dem Arm?", "richtig": "Ein Kind", "falsch": ["Eine Fahne", "Ein Gewehr"] }
+      ],
+      "lage": [52.48611, 13.47167]
     }
   ],
-  "zentrum": [52.51639, 13.39389]
+  "zentrum": [52.51639, 13.39667]
 }

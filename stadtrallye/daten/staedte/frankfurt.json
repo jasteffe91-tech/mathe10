@@ -296,7 +296,47 @@
         { "typ": "suchen", "text": "Findet eine Palme oder einen Feigenbaum." }
       ],
       "lage": [50.10436, 8.67066]
+    },
+    {
+      "id": "staedel",
+      "name": "Städel Museum",
+      "wiki": "Städel Museum",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das Städel am Museumsufer ist eines der bedeutendsten Kunstmuseen Deutschlands. Gegründet wurde es durch die Stiftung des Bankiers Johann Friedrich Städel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer gründete das Städel Museum durch seine Stiftung?", "richtig": "Der Bankier Johann Friedrich Städel", "falsch": ["Johann Wolfgang von Goethe", "Kaiser Karl der Große"] },
+        { "typ": "foto", "text": "Rahmen-Foto: Formt mit den Händen einen Bilderrahmen um ein Teammitglied." }
+      ],
+      "lage": [50.1031, 8.674]
+    },
+    {
+      "id": "fressgass",
+      "name": "Fressgass",
+      "suche": "Große Bockenheimer Straße, Frankfurt am Main",
+      "themen": ["kulinarik", "kneipen"],
+      "prio": 2,
+      "info": "Die Große Bockenheimer Straße heißt im Volksmund 'Fressgass': Delikatessenläden, Restaurants und Cafés reihen sich zwischen Opernplatz und Börse.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennen Frankfurter die Große Bockenheimer Straße?", "richtig": "Fressgass", "falsch": ["Schlemmermeile", "Futterweg"] },
+        { "typ": "mission", "text": "Findet das ausgefallenste Gericht auf einer Speisekarte im Schaufenster." }
+      ],
+      "lage": [50.11477, 8.6737]
+    },
+    {
+      "id": "gruenburgpark",
+      "name": "Grüneburgpark",
+      "wiki": "Grüneburgpark",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Grüneburgpark im Westend ist einer der größten Parks Frankfurts – mit weiten Wiesen und einem koreanischen Garten.",
+      "aufgaben": [
+        { "typ": "bewegen", "text": "Purzelbaum-Wettbewerb auf der Wiese!" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher besondere Garten liegt im Grüneburgpark?", "richtig": "Ein koreanischer Garten", "falsch": ["Ein Kakteengarten", "Ein Rosengarten aus Glas"] }
+      ],
+      "lage": [50.12663, 8.6604]
     }
   ],
-  "zentrum": [50.111, 8.68167]
+  "zentrum": [50.11111, 8.68086]
 }

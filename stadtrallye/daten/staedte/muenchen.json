@@ -331,7 +331,74 @@
         { "typ": "quiz", "niveau": "erw", "frage": "Was darf man in einen echten Münchner Biergarten mitbringen?", "richtig": "Das eigene Essen", "falsch": ["Das eigene Bier", "Den eigenen Tisch"] }
       ],
       "lage": [48.14861, 11.5125]
+    },
+    {
+      "id": "monopteros",
+      "name": "Monopteros",
+      "wiki": "Monopteros (München)",
+      "themen": ["highlights", "natur"],
+      "prio": 2,
+      "info": "Auf einem kleinen Hügel im Englischen Garten steht der Monopteros, ein runder Tempel im griechischen Stil. Von hier oben liegt euch die Altstadt-Silhouette mit Frauenkirche zu Füßen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach welchem Vorbild ist der Monopteros gebaut?", "richtig": "Nach einem griechischen Rundtempel", "falsch": ["Nach einer Burg", "Nach einer Pagode"] },
+        { "typ": "suchen", "text": "Zählt die Säulen des Tempels." },
+        { "typ": "foto", "text": "Fotografiert die Münchner Skyline zwischen zwei Säulen hindurch." }
+      ],
+      "lage": [48.15278, 11.59194]
+    },
+    {
+      "id": "flaucher",
+      "name": "Flaucher an der Isar",
+      "wiki": "Flaucher",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "info": "Am Flaucher wird die Isar breit und flach: Kiesbänke, kleine Inseln und Holzstege machen den Ort zum Sommer-Treffpunkt der Münchner – mit Biergarten in der Nähe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt durch München?", "richtig": "Die Isar", "falsch": ["Der Main", "Die Elbe"] },
+        { "typ": "bewegen", "text": "Steinmännchen bauen: Wer stapelt die meisten Kiesel übereinander?" }
+      ],
+      "lage": [48.1075, 11.5575]
+    },
+    {
+      "id": "sendlinger_tor",
+      "name": "Sendlinger Tor",
+      "wiki": "Sendlinger Tor",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Das Sendlinger Tor ist eines von drei erhaltenen Toren der mittelalterlichen Stadtbefestigung Münchens – neben Isartor und Karlstor.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche drei Münchner Stadttore sind erhalten?", "richtig": "Sendlinger Tor, Isartor und Karlstor", "falsch": ["Brandenburger Tor, Isartor und Holstentor", "Siegestor, Nordtor und Südtor"] },
+        { "typ": "foto", "text": "Fotografiert euch als Torwachen mit verschränkten Armen." }
+      ],
+      "lage": [48.13397, 11.56762]
+    },
+    {
+      "id": "theatinerkirche",
+      "name": "Theatinerkirche",
+      "wiki": "Theatinerkirche (München)",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "info": "Die gelbe Theatinerkirche am Odeonsplatz ist ein Meisterwerk des Barock. Sie wurde als Dank für die Geburt des lang ersehnten Thronfolgers Max Emanuel gestiftet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat die Theatinerkirche?", "richtig": "Gelb", "falsch": ["Blau", "Grün"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür war die Theatinerkirche ein Dank?", "richtig": "Für die Geburt eines Thronfolgers", "falsch": ["Für einen Sieg im Fußball", "Für das Ende des Oktoberfests"] }
+      ],
+      "lage": [48.14211, 11.57648]
+    },
+    {
+      "id": "nockherberg",
+      "name": "Paulaner am Nockherberg",
+      "wiki": "Nockherberg",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Am Nockherberg wird jedes Frühjahr die Starkbierzeit eröffnet – berühmt ist das Politiker-Derblecken, bei dem Politiker vor laufenden Kameras aufs Korn genommen werden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das 'Derblecken' am Nockherberg?", "richtig": "Politiker werden humorvoll verspottet", "falsch": ["Ein Bier-Wettrinken", "Ein Trachten-Wettbewerb"] },
+        { "typ": "mission", "text": "Derbleckt euch gegenseitig: Jede Person sagt einen liebevoll-frechen Satz über ihre linke Nachbarin oder ihren linken Nachbarn." }
+      ],
+      "lage": [48.12139, 11.5825]
     }
   ],
-  "zentrum": [48.13827, 11.57611]
+  "zentrum": [48.13827, 11.57619]
 }

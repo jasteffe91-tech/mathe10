@@ -329,7 +329,89 @@
         { "typ": "mission", "text": "Findet drei Straßenschilder mit belgischen Städtenamen und fotografiert sie." }
       ],
       "lage": [50.93855, 6.93421]
+    },
+    {
+      "id": "museum_ludwig",
+      "name": "Museum Ludwig",
+      "wiki": "Museum Ludwig",
+      "themen": ["highlights", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das Museum Ludwig direkt neben dem Dom zeigt moderne Kunst – von Pop-Art bis zur Gegenwart. Es besitzt eine der größten Picasso-Sammlungen Europas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Von welchem Künstler besitzt das Museum Ludwig eine der größten Sammlungen Europas?", "richtig": "Pablo Picasso", "falsch": ["Claude Monet", "Albrecht Dürer"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Kunstwerk wurde aus einer Suppendose berühmt (Pop-Art)?", "richtig": "Andy Warhols Suppendosen-Bilder", "falsch": ["Die Mona Lisa", "Der Schrei"] },
+        { "typ": "foto", "text": "Stellt vor dem Museum ein modernes Kunstwerk dar – und gebt ihm einen hochtrabenden Titel." }
+      ],
+      "lage": [50.94083, 6.96028]
+    },
+    {
+      "id": "rheinboulevard",
+      "name": "Rheinboulevard Deutz",
+      "suche": "Rheinboulevard, Köln-Deutz",
+      "themen": ["natur", "spass", "highlights"],
+      "prio": 2,
+      "info": "Die breite Freitreppe am Deutzer Rheinufer ist die beste Tribüne der Stadt: Hier sitzt man direkt am Wasser und schaut auf Dom, Altstadt und Hohenzollernbrücke.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Auf welcher Rheinseite liegt Deutz?", "richtig": "Auf der rechten Rheinseite, gegenüber dem Dom", "falsch": ["Auf derselben Seite wie der Dom", "Auf einer Insel"] },
+        { "typ": "foto", "text": "Panoramafoto: Alle sitzen auf der Treppe, im Hintergrund Dom und Brücke." },
+        { "typ": "suchen", "text": "Zählt die Schiffe, die in fünf Minuten vorbeifahren." }
+      ],
+      "lage": [50.93928, 6.9683]
+    },
+    {
+      "id": "hahnentor",
+      "name": "Hahnentorburg",
+      "wiki": "Hahnentorburg",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Hahnentorburg am Rudolfplatz ist eines der erhaltenen Tore der mittelalterlichen Stadtmauer. Durch dieses Tor zogen die in Aachen gekrönten Könige in Köln ein, um am Dreikönigenschrein zu beten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer zog früher durch das Hahnentor in Köln ein?", "richtig": "Die in Aachen gekrönten Könige", "falsch": ["Die Römer nach dem Sieg über Varus", "Die Karnevalsprinzen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wozu gehörte die Torburg früher?", "richtig": "Zur Stadtmauer", "falsch": ["Zu einem Bahnhof", "Zu einem Schloss am Meer"] }
+      ],
+      "lage": [50.93644, 6.94016]
+    },
+    {
+      "id": "flora",
+      "name": "Flora & Botanischer Garten",
+      "wiki": "Flora (Köln)",
+      "themen": ["natur", "kinder"],
+      "prio": 2,
+      "info": "Die Flora neben dem Zoo ist ein historischer Park mit Botanischem Garten, Gewächshäusern und Wasserspielen. Der Eintritt ist frei.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet eine Pflanze, die größer ist als die größte Person in eurer Gruppe." },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was brauchen Pflanzen zum Wachsen?", "richtig": "Licht, Wasser und Erde", "falsch": ["Schokolade", "Strom"] }
+      ],
+      "lage": [50.96111, 6.97083]
+    },
+    {
+      "id": "aachener_weiher",
+      "name": "Aachener Weiher",
+      "wiki": "Aachener Weiher",
+      "themen": ["natur", "spass"],
+      "prio": 1,
+      "info": "Der Aachener Weiher im Inneren Grüngürtel ist an Sommerabenden einer der beliebtesten Treffpunkte Kölns – mit Wiesen, Bäumen und Blick aufs Wasser.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Weiher?", "richtig": "Ein kleiner See", "falsch": ["Ein großer Berg", "Ein Vogel"] },
+        { "typ": "bewegen", "text": "Frisbee- oder Ball-Challenge: Zehn Pässe ohne Fallenlassen!" }
+      ],
+      "lage": [50.93528, 6.9277]
+    },
+    {
+      "id": "suedstadt",
+      "name": "Severinsviertel & Chlodwigplatz",
+      "suche": "Chlodwigplatz, Köln",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "info": "Rund um den Chlodwigplatz und die Severinstraße liegt das 'Vringsveedel' – eines der ursprünglichsten Kölner Viertel, mit Kneipen, Brauhäusern und dem mittelalterlichen Severinstor.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennen die Kölner ihr Severinsviertel?", "richtig": "Vringsveedel", "falsch": ["Sevi-Kiez", "Südquartier"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet 'Veedel' auf Kölsch?", "richtig": "Stadtviertel", "falsch": ["Fahrrad", "Bierglas"] },
+        { "typ": "mission", "text": "Findet eine Kneipe mit kölschem Namen und lasst euch den Namen übersetzen." }
+      ],
+      "lage": [50.92156, 6.95948]
     }
   ],
-  "zentrum": [50.93977, 6.96089]
+  "zentrum": [50.93928, 6.96053]
 }

@@ -24,6 +24,15 @@ Die Route wird automatisch berechnet (nächster Nachbar + 2-opt, gewichtet nach 
 vollständig bestimmt – deshalb lässt sie sich als **Link/QR-Code** an andere Teams weitergeben.
 Bei mehreren Teams startet jedes an einer anderen Station.
 
+**JGA-Frechheitsstufen:** Bei JGA Männer/Frauen wählt die Gruppe Harmlos, Frech, Wild oder Teuflisch.
+Die Missionen der gewählten Stufe kommen zuerst, mildere füllen auf. Aufgaben mit Fremden verlangen immer deren Einverständnis.
+
+**Prüfmodus** (`#pruefen-<stadt>`, Knopf „Alle Stationen ansehen & prüfen“ im Planer): Alle Stationen mit Lösungen,
+je „Passt“ / „Stimmt nicht“ plus Notiz und ein Feld für fehlende Orte. „Prüfbericht kopieren“ erzeugt einen Text
+zum Weitergeben. Städte mit `"entwurf": true` tragen auf der Startseite das Etikett „Testphase“.
+
+**Zu Fuß oder mit dem Rad:** Mit dem Fahrrad dürfen Etappen viermal so lang sein – wichtig für kleinere Orte.
+
 Weitere Funktionen: Karte (Leaflet + OpenStreetMap), Richtungspfeil und Entfernung per GPS,
 optionale GPS-Pflicht für die Ankunft, Vorlesen (Sprachausgabe), Laufzettel und Lösungsblatt zum
 Drucken, Urkunde, Foto-Collage, Offline-Betrieb über Service Worker.
@@ -83,6 +92,9 @@ im `info`-Text stehen, oder die Frage zielt auf etwas, das man vor Ort sieht. Fa
 Wikipedia prüfen. Kneipen bekommen `"hinweis": "Öffnungszeiten vorab prüfen"`.
 
 ## Ideen für den Ausbau
+
+Ausbauplan, Alpetour-Recherche und Finanzierung: siehe [STRATEGIE.md](STRATEGIE.md).
+
 
 - **Live-Wettkampf**: Teams auf verschiedenen Handys mit gemeinsamer Bestenliste (braucht Server,
   z. B. Supabase/Firebase)

@@ -88,7 +88,7 @@ function formatiere(wert, einzug = '', schluessel = '') {
     const kind = schluessel === 'aufgaben' ? 'aufgabe' : ''
     return '[\n' + wert.map((v) => innen + formatiere(v, innen, kind)).join(',\n') + '\n' + einzug + ']'
   }
-  return '{\n' + Object.entries(wert).map(([k, v]) => innen + JSON.stringify(k) + ': ' + formatiere(v, innen, k)).join(',\n') + '\n' + einzug + '}'
+  return '{\n' + Object.entries(wert).filter(([, v]) => v !== undefined).map(([k, v]) => innen + JSON.stringify(k) + ': ' + formatiere(v, innen, k)).join(',\n') + '\n' + einzug + '}'
 }
 
 function pruefeStruktur(stadt, fehler) {
@@ -179,7 +179,7 @@ for (const d of dateien) {
 // Städteverzeichnis neu schreiben, wenn alle Städte bearbeitet wurden
 if (!auswahl.length && !NUR_PRUEFEN) {
   const verzeichnis = index.sort((a, b) => a.name.localeCompare(b.name, 'de')).map((s) => ({
-    id: s.id, name: s.name, land: s.land, kurz: s.kurz, orte: s.orte.length, zentrum: s.zentrum,
+    id: s.id, name: s.name, land: s.land, kurz: s.kurz, orte: s.orte.length, zentrum: s.zentrum, entwurf: s.entwurf || undefined,
     themen: [...THEMEN].filter((t) => s.orte.filter((o) => o.themen.includes(t)).length >= 3)
   }))
   writeFileSync(join(WURZEL, 'staedte.json'), formatiere(verzeichnis) + '\n')
