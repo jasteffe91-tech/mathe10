@@ -22,10 +22,10 @@
     "name": "Dorsten",
     "land": "Nordrhein-Westfalen",
     "kurz": "Lippe, Kanal, Römerlager und Bergbau – Altstadt mit Planetenweg am Wasser.",
-    "orte": 19,
-    "zentrum": [51.66419, 6.96486],
+    "orte": 28,
+    "zentrum": [51.66534, 6.96486],
     "entwurf": true,
-    "themen": ["historie", "besonderheiten", "kneipen", "spass", "kinder", "natur"]
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
     "id": "duesseldorf",
@@ -50,8 +50,8 @@
     "name": "Haltern am See",
     "land": "Nordrhein-Westfalen",
     "kurz": "Römer, Stausee und Heide – Hansestadt zwischen Haard und Hoher Mark.",
-    "orte": 20,
-    "zentrum": [51.74329, 7.18724],
+    "orte": 27,
+    "zentrum": [51.74329, 7.18744],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "kneipen", "spass", "kinder", "natur"]
   },
@@ -87,8 +87,8 @@
     "name": "Schermbeck & Gahlen",
     "land": "Nordrhein-Westfalen",
     "kurz": "1200 Jahre Dorfgeschichte, Töpfer, Wölfe und die Heimat der Grafen von Galen.",
-    "orte": 13,
-    "zentrum": [51.69175, 6.87031],
+    "orte": 14,
+    "zentrum": [51.69246, 6.8707],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "kinder", "natur"]
   },
@@ -106,8 +106,8 @@
     "name": "Voerde (Niederrhein)",
     "land": "Nordrhein-Westfalen",
     "kurz": "Wasserschlösser, Rheinufer und eine alte Furt – Niederrhein pur.",
-    "orte": 13,
-    "zentrum": [51.59362, 6.68087],
+    "orte": 14,
+    "zentrum": [51.59519, 6.68197],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
   }

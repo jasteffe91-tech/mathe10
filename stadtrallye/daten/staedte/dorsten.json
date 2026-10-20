@@ -199,15 +199,16 @@
       "name": "Zeche Fürst Leopold",
       "wiki": "Bergwerk Fürst Leopold",
       "lage": [51.67222, 6.98281],
-      "themen": ["historie", "besonderheiten", "spass"],
+      "themen": ["historie", "besonderheiten", "spass", "kneipen"],
       "prio": 3,
-      "info": "In Hervest wurde bis 2001 Steinkohle gefördert – dann endete der Bergbau in Dorsten. Auf dem Gelände der ehemaligen Zeche Fürst Leopold sind heute Gastronomie, Büros und Veranstaltungsflächen entstanden. Beim Bergfest erinnert Hervest an seine Bergbaugeschichte.",
+      "info": "In Hervest wurde bis 2001 Steinkohle gefördert – dann endete der Bergbau in Dorsten. Auf dem Gelände der ehemaligen Zeche Fürst Leopold ist heute das CreativQuartier Fürst Leopold entstanden – mit Sky-Bar, Restaurants, Eiscafé, Biergärten im Sommer und Kunst in der alten Maschinenhalle. Beim Bergfest erinnert Hervest an seine Bergbaugeschichte.",
       "fakt": "Am letzten Wochenende im Monat treffen sich auf dem Zechengelände oft Tausende Motorradfahrer.",
       "aufgaben": [
         { "typ": "quiz", "niveau": "kind", "frage": "Mit welchem Gruß begrüßen sich Bergleute?", "richtig": "Glück auf!", "falsch": ["Gut Holz!", "Petri Heil!"] },
         { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr endete der Steinkohlebergbau in Dorsten?", "richtig": "2001", "falsch": ["1971", "2018"] },
         { "typ": "foto", "text": "Fotografiert euch vor den alten Zechengebäuden mit Bergmanns-Pose (Hacke über der Schulter)." }
-      ]
+      ],
+      "quelle": "Wikipedia; Wikivoyage Dorsten; Stadt Dorsten, Imagebroschüre"
     },
     {
       "id": "roemerlager",
@@ -264,7 +265,133 @@
         { "typ": "quiz", "niveau": "kind", "frage": "Was umgibt ein Wasserschloss?", "richtig": "Wasser", "falsch": ["Sand", "Eis"] },
         { "typ": "foto", "text": "Spiegelungs-Foto: Fotografiert das Schloss mit seinem Spiegelbild in der Gräfte." }
       ]
+    },
+    {
+      "id": "funke_baumhaus",
+      "name": "Cornelia Funke Baumhaus",
+      "lage": [51.67005, 6.96827],
+      "quelle": "Wikivoyage Dorsten; Wikipedia Cornelia Funke",
+      "themen": ["kinder", "besonderheiten", "highlights"],
+      "prio": 3,
+      "info": "Die Bestsellerautorin Cornelia Funke wurde 1958 in Dorsten geboren. In diesem Gebäude aus den 1950er-Jahren war früher die Stadtbibliothek, in der sie als Kind gern Bücher auslieh – in ihren Romanen taucht es als 'Baumhaus' auf. Heute fördert hier ein Verein mit Lesungen und Workshops das Lesen.",
+      "fakt": "Cornelia Funkes Bücher haben eine Gesamtauflage von über 31 Millionen und wurden in rund 50 Sprachen übersetzt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Buch hat Cornelia Funke geschrieben?", "richtig": "Tintenherz", "falsch": ["Harry Potter", "Die drei ???"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war im 'Baumhaus' früher untergebracht?", "richtig": "Die Stadtbibliothek", "falsch": ["Eine Feuerwache", "Ein Kino"] },
+        { "typ": "mission", "text": "Jede Person nennt ihr Lieblingsbuch aus der Kindheit – und erzählt in einem Satz, worum es geht." }
+      ]
+    },
+    {
+      "id": "glockenspiel",
+      "name": "Glockenspiel am Marktplatz",
+      "lage": [51.66031, 6.96382],
+      "quelle": "Wikivoyage Dorsten; Stadt Dorsten, Imagebroschüre",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Auf dem Marktplatz hängt gegenüber dem Alten Rathaus in einigen Metern Höhe ein Glockenspiel. Wer zur richtigen Zeit am Markt ist, hört es spielen.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet das Glockenspiel – Tipp: Schaut nach oben!" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo hängt das Glockenspiel?", "richtig": "In einigen Metern Höhe am Marktplatz", "falsch": ["In einem Keller", "Auf einem Schiff"] },
+        { "typ": "mission", "text": "Summt gemeinsam eine Melodie, die ein Glockenspiel spielen könnte." }
+      ]
+    },
+    {
+      "id": "spikerhaus",
+      "name": "Spikerhaus & Erinnerungsgarten für Tisa",
+      "lage": [51.66082, 6.96707],
+      "quelle": "Wikivoyage Dorsten; Stadt Dorsten, Imagebroschüre",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "An der Vehme steht mit dem Spikerhaus ein alter Wehrturm der Stadtbefestigung. Gleich daneben erinnert ein kleiner Garten an die Künstlerin Tisa von der Schulenburg, die in Dorsten lebte und unter anderem den Brunnen am Markt gestaltete.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "An welche Künstlerin erinnert der Garten neben dem Spikerhaus?", "richtig": "Tisa von der Schulenburg", "falsch": ["Käthe Kollwitz", "Paula Modersohn-Becker"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war das Spikerhaus früher?", "richtig": "Ein Wehrturm der Stadtmauer", "falsch": ["Ein Bahnhof", "Ein Leuchtturm"] }
+      ]
+    },
+    {
+      "id": "lippefaehre",
+      "name": "Lippefähre Baldur",
+      "lage": [51.66813, 6.94593],
+      "quelle": "Wikivoyage Dorsten; Stadt Dorsten, Imagebroschüre",
+      "hinweis": "Nur in den Sommermonaten in Betrieb",
+      "themen": ["spass", "natur", "kinder", "besonderheiten"],
+      "prio": 3,
+      "info": "Diese Fähre über die Lippe hat keinen Motor: Ihr zieht euch selbst mit Muskelkraft ans andere Ufer. In den Sommermonaten ist sie ein beliebtes Ziel für Familien und Radfahrer. Ganz in der Nähe gibt es an der Lippe kleine Stromschnellen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie wird die Lippefähre Baldur angetrieben?", "richtig": "Mit Muskelkraft", "falsch": ["Mit einem Motor", "Mit Segeln"] },
+        { "typ": "bewegen", "text": "Setzt alle zusammen über – wer zieht, wer zählt die Züge bis zum anderen Ufer?" },
+        { "typ": "foto", "text": "Fotografiert eure Fährmannschaft mitten auf der Lippe." }
+      ]
+    },
+    {
+      "id": "storchennest",
+      "name": "Storchennester im Hervester Bruch",
+      "lage": [51.68816, 7.00594],
+      "quelle": "Wikivoyage Dorsten; Stadt Dorsten, Imagebroschüre",
+      "themen": ["natur", "kinder"],
+      "prio": 2,
+      "info": "Der Hervester Bruch ist ein Naturschutzgebiet, das durch Bergsenkungen entstanden ist: Wo unter der Erde Kohle abgebaut wurde, sank der Boden, und Wasser sammelte sich. Von zwei Aussichtsplattformen könnt ihr Störche in ihren Nestern beobachten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche großen Vögel brüten im Hervester Bruch?", "richtig": "Störche", "falsch": ["Pinguine", "Papageien"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie ist das Feuchtgebiet des Hervester Bruchs entstanden?", "richtig": "Durch Bergsenkungen nach dem Kohleabbau", "falsch": ["Durch einen Meteoriteneinschlag", "Durch einen Dammbruch"] },
+        { "typ": "suchen", "text": "Zählt die Störche, die ihr seht – im Nest und in der Luft." }
+      ]
+    },
+    {
+      "id": "jaegerhof",
+      "name": "Jägerhof Einhaus",
+      "lage": [51.67355, 7.02063],
+      "quelle": "Wikivoyage Dorsten",
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "themen": ["kneipen", "kulinarik", "historie"],
+      "prio": 1,
+      "info": "Der denkmalgeschützte Gasthof im Dorf Hervest liegt direkt an der Römer-Lippe-Route – mit uriger Tenne und Biergarten. Ein guter Start- oder Zielpunkt für eine Runde durch den Hervester Bruch.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Radroute führt am Jägerhof vorbei?", "richtig": "Die Römer-Lippe-Route", "falsch": ["Der Rheinradweg", "Die Deutsche Weinstraße"] },
+        { "typ": "mission", "text": "Bestellt etwas Westfälisches und lasst euch erklären, was eine Tenne ist." }
+      ]
+    },
+    {
+      "id": "pommes_funke",
+      "name": "Pommes Funke",
+      "lage": [51.65836, 6.96413],
+      "quelle": "Wikivoyage Dorsten",
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "themen": ["kulinarik"],
+      "prio": 1,
+      "info": "An der Essener Straße gibt es Pommes und Currywurst schon seit Jahrzehnten – eine Dorstener Imbiss-Institution, wie sie im Ruhrgebiet dazugehört.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bestellt man im Ruhrgebiet, wenn man 'Pommes Schranke' sagt?", "richtig": "Pommes mit Ketchup und Mayo", "falsch": ["Pommes ohne alles", "Pommes mit Zucker"] },
+        { "typ": "mission", "text": "Teilt eine Portion Pommes – wer die längste Fritte findet, gewinnt." }
+      ]
+    },
+    {
+      "id": "blauer_see",
+      "name": "Blauer See in Holsterhausen",
+      "lage": [51.67979, 6.96395],
+      "quelle": "Stadt Dorsten, Imagebroschüre; Wikidata; Wikivoyage (Restaurant Zum blauen See)",
+      "themen": ["natur", "spass"],
+      "prio": 1,
+      "info": "Der Blaue See in Holsterhausen ist ein ehemaliger Baggersee mit Wegen am Ufer, Bänken und einem Restaurant gleichen Namens. Ein ruhiger Ort, um Enten und Schwänen zuzuschauen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie ist ein Baggersee entstanden?", "richtig": "Dort wurde Sand oder Kies ausgebaggert", "falsch": ["Ein Bagger ist hineingefallen", "Ein Fluss wurde umgeleitet"] },
+        { "typ": "foto", "text": "Fotografiert den See so, dass er wirklich blau aussieht." }
+      ]
+    },
+    {
+      "id": "aak",
+      "name": "Dorstener Aak am Atlantis",
+      "lage": [51.66645, 6.96325],
+      "lageUngefaehr": true,
+      "quelle": "Stadt Dorsten, Imagebroschüre (Dez. 2023)",
+      "themen": ["historie", "besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Am Freizeitbad Atlantis liegt die 'Dorstener Aak', der Nachbau eines alten Lippe-Lastkahns. In ihrem Bauch steckt das 'kleinste Museum' der Stadt: Es erzählt, wie die Lippe früher als Wasserstraße für Waren genutzt wurde – Dorsten war eine kleine Hansestadt an der Lippe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was erzählt das kleine Museum im Bauch der Aak?", "richtig": "Die Geschichte der Lippe als Wasserstraße", "falsch": ["Die Geschichte des Fußballs", "Die Geschichte der Raumfahrt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist eine Aak?", "richtig": "Ein flaches Lastschiff", "falsch": ["Ein Vogel", "Ein Käse"] }
+      ]
     }
   ],
-  "zentrum": [51.66419, 6.96486]
+  "zentrum": [51.66534, 6.96486]
 }

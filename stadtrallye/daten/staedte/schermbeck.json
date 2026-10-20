@@ -177,7 +177,21 @@
         { "typ": "schaetzen", "frage": "Wie viele Kolonisten gründeten 1887 die Arbeiterkolonie?", "wert": 19, "einheit": "Personen" },
         { "typ": "quiz", "niveau": "erw", "frage": "In welchem Ortsteil liegt Lühlerheim?", "richtig": "Weselerwald", "falsch": ["Gahlen", "Damm"] }
       ]
+    },
+    {
+      "id": "ameisenpfad",
+      "name": "Ameisenpfad (Barfußpfad)",
+      "lage": [51.7109, 6.90917],
+      "lageUngefaehr": true,
+      "quelle": "freizeitmonster.de (Ausflugsziele Schermbeck); OpenStreetMap (Entenpoete)",
+      "themen": ["kinder", "natur", "spass"],
+      "prio": 2,
+      "info": "Auf dem Ameisenpfad an der Entenpoete geht es barfuß über unterschiedliche Untergründe – Sand, Rinde, Steine. Ein Erlebnis für Kinder und Erwachsene, bei dem man die Natur mit den Füßen spürt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Womit erkundet man einen Barfußpfad?", "richtig": "Mit den nackten Füßen", "falsch": ["Mit Gummistiefeln", "Mit dem Fahrrad"] },
+        { "typ": "bewegen", "text": "Augen zu und barfuß fünf Schritte gehen (an der Hand führen!) – auf welchem Untergrund steht ihr?" }
+      ]
     }
   ],
-  "zentrum": [51.69175, 6.87031]
+  "zentrum": [51.69246, 6.8707]
 }

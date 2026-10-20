@@ -181,7 +181,23 @@
         { "typ": "quiz", "niveau": "erw", "frage": "Zu welchem Ort gehört Spellen heute?", "richtig": "Zu Voerde", "falsch": ["Zu Wesel", "Zu Hünxe"] },
         { "typ": "mission", "text": "Fragt nach dem ältesten Stammgast-Witz des Hauses." }
       ]
+    },
+    {
+      "id": "falknerei",
+      "name": "Falknerei Grieblinger",
+      "lage": [51.62082, 6.68197],
+      "lageUngefaehr": true,
+      "quelle": "freizeitmonster.de (Ausflugsziele Voerde)",
+      "hinweis": "Besuchszeiten und Flugvorführungen vorab prüfen",
+      "themen": ["kinder", "besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Am Risselweg pflegt und züchtet die Falknerei Greifvögel. Zu bestimmten Besuchszeiten gibt es Flugvorführungen, bei denen Falken, Bussarde oder Eulen ganz nah an euch vorbeifliegen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher dieser Vögel ist ein Greifvogel?", "richtig": "Der Falke", "falsch": ["Die Ente", "Der Spatz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennt man jemanden, der Greifvögel abrichtet?", "richtig": "Falkner", "falsch": ["Förster", "Fährmann"] },
+        { "typ": "bewegen", "text": "Breitet die Arme aus und gleitet wie ein Falke einmal im Kreis." }
+      ]
     }
   ],
-  "zentrum": [51.59362, 6.68087]
+  "zentrum": [51.59519, 6.68197]
 }

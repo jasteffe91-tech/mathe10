@@ -281,7 +281,104 @@
         { "typ": "quiz", "niveau": "kind", "frage": "Wie verhält man sich im Wildpark am besten?", "richtig": "Leise sein und die Tiere beobachten", "falsch": ["Laut rufen", "Steine werfen"] },
         { "typ": "schaetzen", "frage": "Wie groß ist der Wildpark (in Hektar)?", "wert": 60, "einheit": "ha" }
       ]
+    },
+    {
+      "id": "waldspielplatz_dachsberg",
+      "name": "Waldspielplatz Dachsberg (Flaesheim)",
+      "lage": [51.71242, 7.22939],
+      "quelle": "haltern-tourismus.de; OpenStreetMap; leinetal24 (kostenlose Ausflugsziele NRW)",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "info": "Mitten im Wald bei Flaesheim liegt der Waldspielplatz Dachsberg – Spielgeräte aus Holz, Sand und viel Natur rundherum. Er gilt als einer der besonderen Waldspielplätze in NRW, die nichts kosten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier gibt dem Dachsberg seinen Namen?", "richtig": "Der Dachs", "falsch": ["Der Dackel", "Der Drache"] },
+        { "typ": "bewegen", "text": "Baut aus Ästen und Blättern in fünf Minuten eine kleine Dachs-Höhle." },
+        { "typ": "suchen", "text": "Findet drei verschiedene Blätter und einen Tannenzapfen." }
+      ]
+    },
+    {
+      "id": "silbersee3",
+      "name": "Silbersee III mit schwimmender Solaranlage",
+      "lage": [51.79763, 7.24128],
+      "quelle": "haltern-tourismus.de (Naturerlebnis)",
+      "themen": ["besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Auf dem Silbersee III nördlich von Haltern schwimmt die größte schwimmende Photovoltaikanlage Deutschlands. Der See selbst ist der stillen Erholung vorbehalten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was schwimmt auf dem Silbersee III?", "richtig": "Eine große Solaranlage", "falsch": ["Ein Hotelschiff", "Ein Wasserspielplatz"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was machen Solarzellen aus Sonnenlicht?", "richtig": "Strom", "falsch": ["Wasser", "Wind"] }
+      ]
+    },
+    {
+      "id": "silbersee2",
+      "name": "Silbersee II",
+      "lage": [51.79869, 7.22168],
+      "quelle": "haltern-tourismus.de (Baden); Wikivoyage (Restaurant Treibsand)",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "hinweis": "Badestellen und Regeln vor Ort beachten",
+      "info": "Der Silbersee II ist einer der Badeseen rund um Haltern. Die Silberseen entstanden durch den Abbau von hellem Quarzsand – daher der Name. Am Ufer liegt das Restaurant Treibsand.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woher hat der Silbersee seinen Namen?", "richtig": "Vom hellen, silbrig glänzenden Sand", "falsch": ["Von einem Silberschatz", "Von silbernen Fischen"] },
+        { "typ": "bewegen", "text": "Sandburgen-Wettbewerb: Drei Minuten – wer baut den höchsten Turm?" }
+      ]
+    },
+    {
+      "id": "hullerner_stausee",
+      "name": "Hullerner Stausee",
+      "lage": [51.74286, 7.2778],
+      "quelle": "haltern-tourismus.de (Naturerlebnis)",
+      "themen": ["natur"],
+      "prio": 1,
+      "info": "Der Hullerner Stausee ist über die Stever mit dem Halterner Stausee verbunden. Anders als am großen Nachbarn geht es hier ruhig zu: Der See ist der stillen Erholung vorbehalten – ideal für eine Radrunde.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Fluss verbindet den Hullerner und den Halterner Stausee?", "richtig": "Die Stever", "falsch": ["Die Lippe", "Die Emscher"] },
+        { "typ": "suchen", "text": "Haltet zwei Minuten still und zählt alle Vogelstimmen, die ihr hört." }
+      ]
+    },
+    {
+      "id": "wacholderheide",
+      "name": "Holtwicker Wacholderheide",
+      "lage": [51.75028, 7.12569],
+      "quelle": "haltern-tourismus.de; Hohe-Mark-Steig-Wanderführer; Wikivoyage (Uhlenhof)",
+      "themen": ["natur", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Holtwicker Wacholderheide ist eines der letzten größeren Gebiete mit geschlossenem Wacholderbestand im Münsterland. Die knorrigen Büsche sehen aus wie kleine Gestalten in der Heide. In der Nähe lädt der Uhlenhof zur Einkehr ein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Pflanze prägt die Holtwicker Heide?", "richtig": "Wacholder", "falsch": ["Lavendel", "Bambus"] },
+        { "typ": "foto", "text": "Findet einen Wacholderbusch, der wie ein Tier oder eine Figur aussieht – Foto!" }
+      ]
+    },
+    {
+      "id": "wugat",
+      "name": "WuGaT – Weinladen mit Ausschank",
+      "lage": [51.74282, 7.18494],
+      "quelle": "Wikivoyage Haltern am See",
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 1,
+      "info": "Ein kleiner, feiner Weinladen in der Altstadt mit Ausschank und Weinproben – ein Tipp für alle, die ihre Tour mit einem Glas Wein ausklingen lassen wollen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt die Verkostung mehrerer Weine nacheinander?", "richtig": "Weinprobe", "falsch": ["Weinlese", "Weinkeller"] },
+        { "typ": "mission", "text": "Blindverkostung: Wer erkennt mit geschlossenen Augen, ob Rot- oder Weißwein (oder Saft) im Glas ist?" }
+      ]
+    },
+    {
+      "id": "stadtmuehle",
+      "name": "Tanzcafé Die Stadtmühle",
+      "lage": [51.75346, 7.20791],
+      "quelle": "Wikivoyage Haltern am See",
+      "ab18": true,
+      "hinweis": "Öffnungszeiten und Programm vorab prüfen",
+      "themen": ["kneipen", "spass"],
+      "prio": 1,
+      "info": "Die Stadtmühle ist ein Tanzlokal mit Schlagernächten und Tanzcafé – eher etwas für die gesetztere Generation, aber für einen JGA mit Schlagerfans ein echter Geheimtipp.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Lied gilt als inoffizielle Hymne jeder Schlagerparty?", "richtig": "Atemlos durch die Nacht", "falsch": ["Bohemian Rhapsody", "Smoke on the Water"] },
+        { "typ": "mission", "text": "Discofox-Crashkurs: Wer kann, bringt den anderen in zwei Minuten den Grundschritt bei." }
+      ]
     }
   ],
-  "zentrum": [51.74329, 7.18724]
+  "zentrum": [51.74329, 7.18744]
 }

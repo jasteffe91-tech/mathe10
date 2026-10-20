@@ -47,10 +47,13 @@ Drucken, Urkunde, Foto-Collage, Offline-Betrieb über Service Worker.
 | `daten/staedte.json` | Städteverzeichnis (wird vom Werkzeug erzeugt) |
 | `daten/staedte/<stadt>.json` | Orte und Aufgaben einer Stadt |
 | `werkzeuge/pruefen.mjs` | Prüft die Daten und holt Koordinaten aus Wikipedia/OpenStreetMap |
+| `werkzeuge/kandidaten.mjs` | Schlägt neue Stationen vor (Wikidata nach Bekanntheit, Wikivoyage inkl. Gastronomie) |
+| `QUELLEN.md` | Welche Quellen es gibt und was davon genutzt werden darf |
 | `sw.js` | Service Worker (Offline) |
 
 ## Neue Stadt hinzufügen
 
+1. Kandidaten sammeln: `node stadtrallye/werkzeuge/kandidaten.mjs <id>` (siehe [QUELLEN.md](QUELLEN.md)).
 1. `daten/staedte/<id>.json` anlegen (Vorlage: eine bestehende Stadt kopieren).
 2. Für jeden Ort `wiki` (exakter Titel des deutschen Wikipedia-Artikels) **oder** `suche`
    (Adresse/Suchtext für OpenStreetMap) angeben. Bei Lokalen und Firmen besser `suche` –

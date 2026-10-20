@@ -901,6 +901,8 @@ async function zeigePruefen(stadtId) {
       <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${i + 1}</span><div><span class="etikett">${o.themen.map((t) => esc(thema(t).name)).join(' · ')}${o.ab18 ? ' · ab 18' : ''}</span><h2>${esc(o.name)}</h2></div></div>
       <p>${esc(o.info)}</p>${o.fakt ? `<p class="leise"><b>Fakt:</b> ${esc(o.fakt)}</p>` : ''}${o.hinweis || o.kosten ? `<p class="hinweis">${esc([o.kosten, o.hinweis].filter(Boolean).join(' · '))}</p>` : ''}
       <ul class="klein" style="margin:0;padding-left:18px;display:grid;gap:4px">${(o.aufgaben || []).map((a) => `<li>${loesung(a)}</li>`).join('')}</ul>
+      ${o.lageUngefaehr ? '<p class="hinweis"><b>Lage nur ungefähr bekannt</b> – bitte vor Ort den genauen Punkt notieren.</p>' : ''}
+      <p class="leise klein">Quelle: ${esc(o.quelle || (o.wiki ? 'Wikipedia: ' + o.wiki : 'Wikipedia/OpenStreetMap'))}</p>
       <div class="zeile"><a class="knopf klein still" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${o.lage[0]}&mlon=${o.lage[1]}#map=18/${o.lage[0]}/${o.lage[1]}">Ort auf der Karte</a></div>
       <div class="zeile"><button class="knopf klein ${e.status === 'passt' ? 'haupt' : ''}" data-pstatus="passt" data-ort="${o.id}">Passt</button><button class="knopf klein ${e.status === 'falsch' ? 'haupt' : ''}" data-pstatus="falsch" data-ort="${o.id}">Stimmt nicht</button></div>
       <div class="feld"><label for="pn-${o.id}" class="leise klein">Was stimmt nicht / Ergänzung (z. B. geschlossen, falscher Ort, bessere Frage)</label><textarea id="pn-${o.id}" rows="2" data-pnotiz="${o.id}">${esc(e.notiz || '')}</textarea></div>
