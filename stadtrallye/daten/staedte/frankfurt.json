@@ -1,0 +1,302 @@
+{
+  "id": "frankfurt",
+  "name": "Frankfurt am Main",
+  "land": "Hessen",
+  "kurz": "Skyline, Römer, Ebbelwoi und Grie Soß – Mainhattan von alt bis neu.",
+  "start": { "name": "Römerberg", "wiki": "Römerberg (Frankfurt am Main)", "lage": [50.11028, 8.68222] },
+  "loesungsworte": ["MAIN", "BEMBEL", "GOETHE", "ROEMER", "EBBELWOI", "HANDKAES", "MAINHATTAN"],
+  "orte": [
+    {
+      "id": "roemer",
+      "name": "Römer",
+      "wiki": "Römer (Frankfurt am Main)",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Der Römer mit seinen drei Treppengiebeln ist seit dem 15. Jahrhundert das Frankfurter Rathaus. Im Kaisersaal feierten früher die frisch gekrönten Kaiser – heute winken Fußballhelden vom Balkon.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer feierte früher im Kaisersaal des Römers?", "richtig": "Die frisch gekrönten Kaiser", "falsch": ["Die Frankfurter Bankiers", "Die Apfelweinwirte"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele spitze Giebel hat die Fassade des Römers in der Mitte?", "richtig": "Drei", "falsch": ["Einen", "Sieben"] },
+        { "typ": "foto", "text": "Winkt wie Weltmeister vom Römerberg zum Balkon hinauf – Foto!" }
+      ],
+      "lage": [50.11028, 8.68167]
+    },
+    {
+      "id": "justitia",
+      "name": "Gerechtigkeitsbrunnen",
+      "wiki": "Gerechtigkeitsbrunnen (Frankfurt am Main)",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Auf dem Brunnen mitten auf dem Römerberg steht Justitia – aber anders als üblich ohne Augenbinde. Bei Kaiserkrönungen soll aus dem Brunnen sogar Wein geflossen sein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was fehlt der Frankfurter Justitia im Vergleich zu den meisten anderen?", "richtig": "Die Augenbinde", "falsch": ["Das Schwert", "Die Waage"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hält Justitia in den Händen?", "richtig": "Eine Waage und ein Schwert", "falsch": ["Einen Apfel und ein Buch", "Eine Fahne und einen Schild"] }
+      ],
+      "lage": [50.11028, 8.68222]
+    },
+    {
+      "id": "neue_altstadt",
+      "name": "Neue Altstadt",
+      "wiki": "Dom-Römer-Projekt",
+      "suche": "Hühnermarkt, Frankfurt am Main",
+      "themen": ["historie", "highlights", "besonderheiten"],
+      "prio": 2,
+      "info": "Zwischen Dom und Römer wurde die im Krieg zerstörte Altstadt bis 2018 neu aufgebaut – teils originalgetreu rekonstruiert, teils neu gestaltet. Am Hühnermarkt steht ein Denkmal für den Mundartdichter Friedrich Stoltze.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Neue Altstadt eröffnet?", "wert": 2018, "einheit": "" },
+        { "typ": "suchen", "text": "Findet ein Haus mit einem Namen an der Fassade (z. B. 'Goldene Waage') und notiert ihn." }
+      ],
+      "lage": [50.11093, 8.68394]
+    },
+    {
+      "id": "struwwelpeter",
+      "name": "Struwwelpeter-Museum",
+      "wiki": "Struwwelpeter-Museum",
+      "suche": "Struwwelpeter-Museum, Hinter dem Lämmchen, Frankfurt",
+      "themen": ["kinder", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Frankfurter Arzt Heinrich Hoffmann schrieb 1844 den 'Struwwelpeter' als Weihnachtsgeschenk für seinen Sohn. Im Museum in der Neuen Altstadt begegnet ihr dem Zappel-Philipp, dem Suppen-Kaspar und Paulinchen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist beim Struwwelpeter besonders lang?", "richtig": "Seine Fingernägel und Haare", "falsch": ["Seine Nase", "Seine Beine"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Beruf hatte der Struwwelpeter-Autor Heinrich Hoffmann?", "richtig": "Arzt", "falsch": ["Lehrer", "Bäcker"] }
+      ],
+      "lage": [50.111, 8.68374]
+    },
+    {
+      "id": "dom",
+      "name": "Kaiserdom St. Bartholomäus",
+      "wiki": "Frankfurter Dom",
+      "themen": ["historie", "highlights"],
+      "prio": 3,
+      "info": "Im Kaiserdom wurden über Jahrhunderte die römisch-deutschen Könige gewählt und später auch gekrönt. Sein Turm prägt mit gut 95 Metern bis heute die Altstadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah im Frankfurter Dom?", "richtig": "Könige wurden gewählt und gekrönt", "falsch": ["Päpste wurden gewählt", "Hier wurde das Grundgesetz unterschrieben"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Domturm?", "wert": 95, "einheit": "m" }
+      ],
+      "lage": [50.11056, 8.685]
+    },
+    {
+      "id": "paulskirche",
+      "name": "Paulskirche",
+      "wiki": "Paulskirche (Frankfurt am Main)",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "In der Paulskirche tagte 1848/49 die erste frei gewählte deutsche Nationalversammlung. Sie gilt als Wiege der deutschen Demokratie.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr trat die Nationalversammlung in der Paulskirche zusammen?", "wert": 1848, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was tagte 1848 in der Paulskirche?", "richtig": "Die erste frei gewählte deutsche Nationalversammlung", "falsch": ["Der Reichstag des Kaiserreichs", "Der Wiener Kongress"] }
+      ],
+      "lage": [50.11119, 8.68086]
+    },
+    {
+      "id": "eiserner_steg",
+      "name": "Eiserner Steg",
+      "wiki": "Eiserner Steg",
+      "themen": ["highlights", "natur", "besonderheiten"],
+      "prio": 3,
+      "info": "Die Fußgängerbrücke über den Main verbindet die Altstadt mit Sachsenhausen. Am Geländer hängen Tausende Liebesschlösser – und von hier habt ihr den klassischen Blick auf die Skyline.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt durch Frankfurt?", "richtig": "Der Main", "falsch": ["Der Rhein", "Die Weser"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Spitznamen hat Frankfurt wegen seiner Hochhäuser?", "richtig": "Mainhattan", "falsch": ["Bankfurt", "Little Chicago"] },
+        { "typ": "foto", "text": "Skyline-Foto vom Steg – alle springen gleichzeitig in die Luft." }
+      ],
+      "lage": [50.10808, 8.68213]
+    },
+    {
+      "id": "frau_rauscher",
+      "name": "Frau-Rauscher-Brunnen",
+      "wiki": "Fraa Rauscher",
+      "suche": "Klappergasse, Frankfurt am Main",
+      "themen": ["besonderheiten", "kneipen", "kinder"],
+      "prio": 2,
+      "info": "In der Klappergasse in Sachsenhausen steht die Frau Rauscher – eine Bronzefigur aus einem Apfelwein-Lied. Vorsicht: Sie spuckt in unregelmäßigen Abständen einen Wasserstrahl auf Passanten!",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht Frau Rauscher mit den Passanten?", "richtig": "Sie spuckt sie mit Wasser an", "falsch": ["Sie singt ein Lied", "Sie verteilt Äpfel"] },
+        { "typ": "mission", "text": "Mutprobe: Wer bleibt am längsten vor Frau Rauscher stehen?" }
+      ],
+      "lage": [50.10523, 8.69102]
+    },
+    {
+      "id": "apfelwein_wagner",
+      "name": "Apfelweinwirtschaft Adolf Wagner",
+      "suche": "Schweizer Straße 71, Frankfurt am Main",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In Sachsenhausen trinkt man 'Ebbelwoi' aus dem Bembel – einem grau-blauen Steinzeugkrug – und dem 'Gerippten', einem Glas mit Rautenmuster. Bei Adolf Wagner sitzt man dafür seit Generationen an langen Holztischen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der Krug, aus dem Apfelwein ausgeschenkt wird?", "richtig": "Bembel", "falsch": ["Humpen", "Kännchen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist 'Handkäs mit Musik'?", "richtig": "Sauermilchkäse mit Zwiebeln in Essig und Öl", "falsch": ["Käse mit Live-Musik", "Ein Käsefondue"] },
+        { "typ": "mission", "text": "Bestellt einen 'Gespritzten' (Apfelwein mit Wasser) – oder Apfelsaftschorle." }
+      ],
+      "lage": [50.10053, 8.682]
+    },
+    {
+      "id": "gemaltes_haus",
+      "name": "Zum Gemalten Haus",
+      "suche": "Schweizer Straße 67, Frankfurt am Main",
+      "themen": ["kneipen", "kulinarik", "besonderheiten"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Die Fassade und die Wände dieser Apfelweinwirtschaft sind mit Szenen aus dem alten Frankfurt bemalt – daher der Name. Ein Klassiker für Ebbelwoi und Rippchen mit Kraut.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt das Glas mit Rautenmuster für Apfelwein?", "richtig": "Geripptes", "falsch": ["Gestreiftes", "Karierter"] },
+        { "typ": "suchen", "text": "Findet auf den Wandbildern eine Szene mit dem Main oder einem Schiff." }
+      ],
+      "lage": [50.10071, 8.68187]
+    },
+    {
+      "id": "kleinmarkthalle",
+      "name": "Kleinmarkthalle",
+      "wiki": "Kleinmarkthalle",
+      "themen": ["kulinarik"],
+      "prio": 3,
+      "hinweis": "Sonntags geschlossen",
+      "info": "In der Kleinmarkthalle gibt es Frankfurter Spezialitäten wie Grüne Soße, Ahle Wurscht und Würstchen. Auf der Empore treffen sich Frankfurter gern auf ein Glas Wein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus wie vielen Kräutern besteht die Frankfurter Grüne Soße?", "richtig": "Sieben", "falsch": ["Drei", "Zwölf"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Frankfurter Würstchen?", "richtig": "Eine dünne Brühwurst", "falsch": ["Ein Kuchen", "Eine Suppe"] },
+        { "typ": "mission", "text": "Kräuterquiz: Findet einen Stand mit Grüner Soße und lasst euch die sieben Kräuter nennen." }
+      ],
+      "lage": [50.11271, 8.68306]
+    },
+    {
+      "id": "goethehaus",
+      "name": "Goethe-Haus",
+      "wiki": "Goethe-Haus",
+      "themen": ["historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Großen Hirschgraben wurde 1749 Johann Wolfgang von Goethe geboren. Das Haus ist mit Möbeln aus seiner Zeit eingerichtet – inklusive Puppentheater, mit dem der kleine Goethe spielte.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde Goethe geboren?", "wert": 1749, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches berühmte Drama schrieb Goethe?", "richtig": "Faust", "falsch": ["Die Räuber", "Woyzeck"] }
+      ],
+      "lage": [50.11111, 8.6775]
+    },
+    {
+      "id": "hauptwache",
+      "name": "Hauptwache",
+      "wiki": "Hauptwache",
+      "themen": ["highlights", "historie"],
+      "prio": 1,
+      "info": "Das barocke Wachhaus war im 18. Jahrhundert Sitz der Stadtwache und ein Gefängnis. Heute ist die Hauptwache ein Café mitten im Gewusel der Fußgängerzone an der Zeil.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wurde die Hauptwache früher genutzt?", "richtig": "Als Wache und Gefängnis", "falsch": ["Als Bank", "Als Kirche"] },
+        { "typ": "mission", "text": "Zählt in einer Minute alle Einkaufstüten, die an euch vorbeigetragen werden." }
+      ],
+      "lage": [50.11403, 8.67837]
+    },
+    {
+      "id": "boerse",
+      "name": "Börse mit Bulle und Bär",
+      "wiki": "Frankfurter Wertpapierbörse",
+      "suche": "Bulle und Bär, Börsenplatz, Frankfurt",
+      "themen": ["besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Vor der Frankfurter Börse stehen Bulle und Bär aus Bronze. Der Bulle stößt die Kurse mit den Hörnern nach oben, der Bär schlägt sie mit der Tatze nach unten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür steht der Bulle an der Börse?", "richtig": "Für steigende Kurse", "falsch": ["Für fallende Kurse", "Für Stillstand"] },
+        { "typ": "foto", "text": "Stellt Bulle gegen Bär nach – wer gewinnt?" }
+      ],
+      "lage": [50.11528, 8.67778]
+    },
+    {
+      "id": "alte_oper",
+      "name": "Alte Oper",
+      "wiki": "Alte Oper",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "info": "Die Alte Oper wurde 1880 eröffnet, im Krieg zerstört und erst 1981 wieder eingeweiht – dank Bürgern, die jahrzehntelang dafür kämpften. Über dem Eingang steht: 'Dem Wahren Schönen Guten'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Inschrift steht über dem Eingang der Alten Oper?", "richtig": "Dem Wahren Schönen Guten", "falsch": ["Der Kunst zu Ehren", "Dem Deutschen Volke"] },
+        { "typ": "mission", "text": "Gebt vor der Oper ein Ein-Ton-Konzert: Alle singen gleichzeitig einen Ton, so lange es geht." }
+      ],
+      "lage": [50.11583, 8.67194]
+    },
+    {
+      "id": "main_tower",
+      "name": "Main Tower",
+      "wiki": "Main Tower",
+      "themen": ["spass", "highlights"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Main Tower ist das einzige Hochhaus Frankfurts mit öffentlicher Aussichtsplattform. In rund 200 Metern Höhe liegt euch die Stadt zu Füßen.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Main Tower mit Antenne?", "wert": 240, "einheit": "m" },
+        { "typ": "foto", "text": "Fotografiert von unten senkrecht nach oben – alle Köpfe im Kreis, der Turm in der Mitte." }
+      ],
+      "lage": [50.1125, 8.67222]
+    },
+    {
+      "id": "euro",
+      "name": "Euro-Skulptur",
+      "suche": "Euro-Skulptur, Willy-Brandt-Platz, Frankfurt",
+      "themen": ["besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Das riesige blaue Euro-Zeichen mit den gelben Sternen ist eines der meistfotografierten Motive Frankfurts. Die Europäische Zentralbank ist inzwischen ins Ostend umgezogen – die Skulptur blieb.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Institution hat ihren Sitz in Frankfurt?", "richtig": "Die Europäische Zentralbank", "falsch": ["Das Europäische Parlament", "Die NATO"] },
+        { "typ": "suchen", "text": "Zählt die gelben Sterne rund um das Euro-Zeichen." }
+      ],
+      "lage": [50.10898, 8.67309]
+    },
+    {
+      "id": "palmengarten",
+      "name": "Palmengarten",
+      "wiki": "Palmengarten",
+      "themen": ["natur", "kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Palmengarten wachsen Pflanzen aus aller Welt – von der Wüste bis zum Regenwald, in riesigen Gewächshäusern. Draußen gibt es einen großen Spielplatz und einen Bootsteich.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo wachsen Kakteen in der Natur?", "richtig": "In der Wüste", "falsch": ["Im Meer", "Am Nordpol"] },
+        { "typ": "suchen", "text": "Findet die größte Pflanze, die ihr sehen könnt." }
+      ],
+      "lage": [50.12367, 8.65596]
+    },
+    {
+      "id": "senckenberg",
+      "name": "Senckenberg Naturmuseum",
+      "wiki": "Naturmuseum Senckenberg",
+      "themen": ["kinder", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Schon vor dem Eingang des Senckenberg-Museums stehen lebensgroße Dinosaurier. Drinnen erwarten euch riesige Skelette, Fossilien und ein Tyrannosaurus rex.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was steht vor dem Eingang des Museums?", "richtig": "Dinosaurier", "falsch": ["Ritter", "Raketen"] },
+        { "typ": "bewegen", "text": "Brüllt wie ein T-Rex – wer am lautesten ist, gewinnt!" }
+      ],
+      "lage": [50.1175, 8.65167]
+    },
+    {
+      "id": "zoo",
+      "name": "Zoo Frankfurt",
+      "wiki": "Zoo Frankfurt",
+      "themen": ["kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Zoo Frankfurt wurde 1858 gegründet und ist einer der ältesten Zoos Deutschlands. Besonders beliebt sind das Menschenaffenhaus und das Nachttierhaus.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Zoo Frankfurt gegründet?", "wert": 1858, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Tiere sind nachts wach?", "richtig": "Fledermäuse", "falsch": ["Hühner", "Schmetterlinge"] }
+      ],
+      "lage": [50.11558, 8.70314]
+    },
+    {
+      "id": "mainufer",
+      "name": "Mainufer & Nizza",
+      "wiki": "Nizza (Frankfurt am Main)",
+      "suche": "Nizza Park, Untermainkai, Frankfurt",
+      "themen": ["natur"],
+      "prio": 1,
+      "info": "Am nördlichen Mainufer wachsen in der 'Nizza' Palmen und Feigen – das milde Mikroklima macht es möglich. Ein schöner Ort zum Ausruhen mit Blick aufs Wasser.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum heißt die Grünanlage am Main 'Nizza'?", "richtig": "Wegen ihrer südländischen Pflanzen", "falsch": ["Weil dort Franzosen wohnten", "Wegen eines Nizza-Hotels"] },
+        { "typ": "suchen", "text": "Findet eine Palme oder einen Feigenbaum." }
+      ],
+      "lage": [50.10436, 8.67066]
+    }
+  ],
+  "zentrum": [50.111, 8.68167]
+}

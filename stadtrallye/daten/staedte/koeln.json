@@ -1,0 +1,335 @@
+{
+  "id": "koeln",
+  "name": "Köln",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Dom, Rhein, Kölsch und Karneval – die Stadt mit dem größten Herz am Strom.",
+  "start": { "name": "Domplatte am Hauptbahnhof", "wiki": "Kölner Dom", "lage": [50.94129, 6.95817] },
+  "loesungsworte": ["DOM", "RHEIN", "ALAAF", "KOEBES", "VEEDEL", "KOELSCH", "COLONIA", "KARNEVAL"],
+  "orte": [
+    {
+      "id": "dom",
+      "name": "Kölner Dom",
+      "wiki": "Kölner Dom",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Der Kölner Dom ist das Wahrzeichen der Stadt und eine der größten gotischen Kathedralen der Welt. Der Bau begann 1248 und wurde erst 1880 vollendet – mehr als 600 Jahre später. Seit 1996 gehört er zum UNESCO-Welterbe.",
+      "fakt": "Wer auf den Südturm will, muss 533 Stufen steigen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wessen Gebeine sollen der Überlieferung nach im goldenen Schrein im Dom liegen?", "richtig": "Die Heiligen Drei Könige", "falsch": ["Karl der Große", "Der Apostel Petrus"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele große Türme hat der Dom an seiner Vorderseite?", "richtig": "Zwei", "falsch": ["Einen", "Vier"] },
+        { "typ": "schaetzen", "frage": "Wie hoch sind die beiden Domtürme?", "wert": 157, "einheit": "m" },
+        { "typ": "foto", "text": "Schafft ihr ein Foto, auf dem der Dom komplett mit beiden Turmspitzen zu sehen ist – und ihr auch?" }
+      ],
+      "lage": [50.94129, 6.95817]
+    },
+    {
+      "id": "nordtor",
+      "name": "Römisches Nordtor",
+      "suche": "Römisches Nordtor, Domplatte, Köln",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Direkt neben dem Dom steht ein Bogen des römischen Nordtors. Köln war schon vor fast 2000 Jahren eine römische Stadt – ihr lateinischer Name 'Colonia' steckt bis heute in 'Köln'.",
+      "fakt": "Der vollständige römische Name lautete Colonia Claudia Ara Agrippinensium, kurz CCAA.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches lateinische Wort steckt im Namen Köln?", "richtig": "Colonia", "falsch": ["Castrum", "Forum"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat Köln vor fast 2000 Jahren gegründet?", "richtig": "Die Römer", "falsch": ["Die Wikinger", "Die Ritter"] }
+      ],
+      "lage": [50.94146, 6.95657]
+    },
+    {
+      "id": "hohenzollernbruecke",
+      "name": "Hohenzollernbrücke",
+      "wiki": "Hohenzollernbrücke",
+      "themen": ["highlights", "besonderheiten", "natur"],
+      "prio": 3,
+      "info": "Die Hohenzollernbrücke ist eine der meistbefahrenen Eisenbahnbrücken Deutschlands – fast im Minutentakt rollen Züge in den Hauptbahnhof. Am Gitter zwischen Fußweg und Gleisen hängen unzählige Liebesschlösser.",
+      "fakt": "Paare werfen den Schlüssel ihres Schlosses traditionell in den Rhein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hängen verliebte Paare an das Brückengitter?", "richtig": "Schlösser", "falsch": ["Socken", "Luftballons"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer darf über die Hohenzollernbrücke fahren?", "richtig": "Züge – dazu Fußgänger und Radfahrer", "falsch": ["Autos und Straßenbahnen", "Nur Autos"] },
+        { "typ": "foto", "text": "Sucht das kitschigste Liebesschloss und macht ein Foto davon." }
+      ],
+      "lage": [50.94132, 6.9657]
+    },
+    {
+      "id": "rathaus",
+      "name": "Historisches Rathaus",
+      "wiki": "Kölner Rathaus",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Das Kölner Rathaus gilt als eines der ältesten Rathäuser Deutschlands – schon im 12. Jahrhundert trafen sich hier die Ratsherren. Der gotische Rathausturm ist mit Steinfiguren berühmter Kölnerinnen und Kölner geschmückt.",
+      "fakt": "Unter der Turmuhr sitzt der 'Platzjabbek', ein Holzkopf, der zur vollen Stunde die Zunge herausstreckt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht der Holzkopf 'Platzjabbek' am Rathausturm zur vollen Stunde?", "richtig": "Er streckt die Zunge heraus", "falsch": ["Er singt ein Lied", "Er zwinkert mit einem Auge"] },
+        { "typ": "schaetzen", "frage": "Wie viele Steinfiguren schmücken den Rathausturm?", "wert": 124, "einheit": "Figuren" },
+        { "typ": "suchen", "text": "Findet den Platzjabbek unter der Turmuhr. Wer ihn zuerst entdeckt, streckt die Zunge raus!" }
+      ],
+      "lage": [50.93798, 6.9593]
+    },
+    {
+      "id": "kallendresser",
+      "name": "Kallendresser am Alter Markt",
+      "wiki": "Kallendresser",
+      "suche": "Alter Markt, Köln",
+      "themen": ["besonderheiten", "historie", "kneipen"],
+      "prio": 2,
+      "info": "Am Alter Markt hockt hoch oben an einer Hausfassade der Kallendresser – eine Figur, die ihr nacktes Hinterteil in Richtung Rathaus streckt. So zeigen die Kölner der Obrigkeit augenzwinkernd, was sie von ihr halten. Rund um den Platz reihen sich Brauhäuser und Kneipen.",
+      "fakt": "Im Karneval ist der Alter Markt der Ort, an dem am 11.11. um 11:11 Uhr die Session eröffnet wird.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was streckt der Kallendresser in Richtung Rathaus?", "richtig": "Seinen Po", "falsch": ["Seine Zunge", "Seine Faust"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Mit welchem Ruf feiern die Kölner Karneval?", "richtig": "Alaaf!", "falsch": ["Helau!", "Ahoi!"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet 'Kallendresser' auf Kölsch?", "richtig": "Einer, der in die Dachrinne macht", "falsch": ["Ein Glockenläuter", "Ein Fassmacher"] },
+        { "typ": "suchen", "text": "Findet den Kallendresser an der Fassade – wer ihn zuerst entdeckt, ruft 'Alaaf!'" }
+      ],
+      "lage": [50.93918, 6.96004]
+    },
+    {
+      "id": "heinzelmaennchen",
+      "name": "Heinzelmännchenbrunnen",
+      "wiki": "Heinzelmännchenbrunnen",
+      "themen": ["kinder", "besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Der Brunnen erzählt die Sage von den Heinzelmännchen: Kleine Wichtel erledigten nachts heimlich die Arbeit der Kölner Handwerker. Bis eine neugierige Schneidersfrau sie unbedingt sehen wollte – seitdem sind sie verschwunden.",
+      "fakt": "Die Heinzelmännchen sind auf dem Brunnen bei der Arbeit als Bäcker, Metzger, Schneider und Zimmerleute zu sehen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was streute die neugierige Schneidersfrau auf die Treppe, damit die Heinzelmännchen ausrutschen?", "richtig": "Erbsen", "falsch": ["Mehl", "Murmeln"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer schrieb das Gedicht 'Die Heinzelmännchen zu Köln'?", "richtig": "August Kopisch", "falsch": ["Heinrich Heine", "Johann Wolfgang von Goethe"] },
+        { "typ": "suchen", "text": "Wie viele Heinzelmännchen könnt ihr am Brunnen entdecken? Zählt gemeinsam!" }
+      ],
+      "lage": [50.93999, 6.95731]
+    },
+    {
+      "id": "frueh",
+      "name": "Brauhaus Früh am Dom",
+      "wiki": "Cölner Hofbräu Früh",
+      "suche": "Früh am Dom, Am Hof, Köln",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Im Brauhaus Früh gibt es Kölsch frisch vom Fass – serviert vom Köbes, dem typischen Brauhaus-Kellner mit blauer Schürze. Sobald euer Glas leer ist, steht ungefragt ein neues da.",
+      "fakt": "Wer kein Kölsch mehr möchte, legt den Bierdeckel auf das Glas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der Kellner im Kölner Brauhaus?", "richtig": "Köbes", "falsch": ["Jupp", "Pitter"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Glas wird Kölsch traditionell serviert?", "richtig": "In der schlanken 0,2-Liter-Stange", "falsch": ["Im Maßkrug", "Im Tulpenglas"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist 'Himmel un Ääd'?", "richtig": "Kartoffelbrei mit Apfelmus und Blutwurst", "falsch": ["Pfannkuchen mit Sahne", "Ein Fischbrötchen"] },
+        { "typ": "mission", "text": "Bestellt beim Köbes auf Kölsch: 'Ene Kölsch, bitte!' – eine Fassbrause zählt genauso." }
+      ],
+      "lage": [50.93977, 6.95696]
+    },
+    {
+      "id": "malzmuehle",
+      "name": "Brauerei zur Malzmühle",
+      "wiki": "Brauerei zur Malzmühle",
+      "suche": "Brauerei zur Malzmühle, Heumarkt, Köln",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Am Heumarkt braut die Familienbrauerei zur Malzmühle ihr Mühlen Kölsch. Die gemütliche Gaststube ist ein Klassiker für alle, die Kölsch dort trinken wollen, wo es gebraut wird.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist ein 'Kranz' im Kölner Brauhaus?", "richtig": "Ein Tragering mit Löchern für viele Kölschstangen", "falsch": ["Ein Karnevalshut", "Eine Vorspeise"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet 'Kölsch' außer dem Bier?", "richtig": "Auch der Kölner Dialekt heißt Kölsch", "falsch": ["Ein Karnevalsorden", "Ein Kölner Stadtteil"] },
+        { "typ": "mission", "text": "Bringt dem Köbes einen Trinkspruch auf Kölsch bei – oder lasst euch einen beibringen." }
+      ],
+      "lage": [50.93461, 6.96053]
+    },
+    {
+      "id": "paeffgen",
+      "name": "Brauerei Päffgen",
+      "wiki": "Brauerei Päffgen",
+      "suche": "Päffgen, Friesenstraße, Köln",
+      "themen": ["kneipen"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Päffgen in der Friesenstraße ist eine der letzten echten Hausbrauereien Kölns: Gebraut wird im Haus, ausgeschenkt wird vom Holzfass.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt das 10-Liter-Kölschfässchen für die Party zuhause?", "richtig": "Pittermännchen", "falsch": ["Domfässchen", "Köbeskrug"] },
+        { "typ": "mission", "text": "Zählt die Striche auf eurem Bierdeckel und schätzt vorher, wie viele es am Ende des Abends werden." }
+      ],
+      "lage": [50.94074, 6.94179]
+    },
+    {
+      "id": "gross_st_martin",
+      "name": "Groß St. Martin",
+      "wiki": "Groß St. Martin",
+      "themen": ["historie", "highlights"],
+      "prio": 1,
+      "info": "Groß St. Martin prägt mit seinem mächtigen Turm die Altstadt-Silhouette am Rhein. Die Kirche ist eine von zwölf großen romanischen Kirchen, die Köln bis heute einzigartig machen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele große romanische Kirchen gibt es in Köln?", "richtig": "Zwölf", "falsch": ["Drei", "Vierzig"] },
+        { "typ": "foto", "text": "Fotografiert den Turm von Groß St. Martin so, dass er genauso groß wirkt wie der Dom." }
+      ],
+      "lage": [50.93861, 6.96167]
+    },
+    {
+      "id": "tuennes",
+      "name": "Tünnes und Schäl",
+      "wiki": "Tünnes und Schäl",
+      "suche": "Tünnes und Schäl Denkmal, Brigittengässchen, Köln",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Tünnes und Schäl sind die berühmtesten Witzfiguren Kölns: Tünnes, der gutmütige Kerl mit der dicken Knollennase, und Schäl, das schielende Schlitzohr. Ihr Denkmal steht in einer kleinen Gasse nahe Groß St. Martin.",
+      "fakt": "Wer Tünnes die Nase reibt, soll Glück haben – darum glänzt sie golden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was soll an diesem Denkmal Glück bringen?", "richtig": "Tünnes die Nase reiben", "falsch": ["Schäl auf den Fuß treten", "Dreimal um das Denkmal hüpfen"] },
+        { "typ": "foto", "text": "Stellt Tünnes und Schäl nach – einer mit Knollennase, einer schielend!" }
+      ],
+      "lage": [50.9382, 6.96044]
+    },
+    {
+      "id": "fischmarkt",
+      "name": "Fischmarkt am Rhein",
+      "wiki": "Fischmarkt (Köln)",
+      "suche": "Fischmarkt, Köln Altstadt",
+      "themen": ["highlights", "natur"],
+      "prio": 2,
+      "info": "Der kleine Platz am Rheinufer mit den bunten, schmalen Giebelhäusern ist eines der beliebtesten Fotomotive Kölns. Früher wurde hier tatsächlich Fisch gehandelt, heute sitzt man in der Sonne und schaut auf den Rhein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt durch Köln?", "richtig": "Der Rhein", "falsch": ["Die Elbe", "Die Donau"] },
+        { "typ": "foto", "text": "Gruppenfoto vor den bunten Häusern – jeder zeigt auf das Haus in seiner Lieblingsfarbe." }
+      ],
+      "lage": [50.93844, 6.96271]
+    },
+    {
+      "id": "haenneschen",
+      "name": "Hänneschen-Theater",
+      "wiki": "Hänneschen-Theater",
+      "suche": "Hänneschen-Theater, Eisenmarkt, Köln",
+      "themen": ["kinder", "besonderheiten"],
+      "prio": 1,
+      "info": "Im Hänneschen-Theater am Eisenmarkt wird seit über 200 Jahren Puppentheater gespielt – und zwar auf Kölsch. Die Stockpuppen heißen Hänneschen, Bärbelchen, Tünnes und Schäl.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Art Puppen spielen im Hänneschen-Theater?", "richtig": "Stockpuppen", "falsch": ["Roboter", "Echte Tiere"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welcher Sprache wird im Hänneschen-Theater gespielt?", "richtig": "Auf Kölsch", "falsch": ["Auf Hochdeutsch", "Auf Französisch"] }
+      ],
+      "lage": [50.93709, 6.96195]
+    },
+    {
+      "id": "philharmonie",
+      "name": "Heinrich-Böll-Platz",
+      "suche": "Heinrich-Böll-Platz, Köln",
+      "themen": ["besonderheiten"],
+      "prio": 2,
+      "info": "Unter diesem Platz zwischen Dom und Rhein liegt der Konzertsaal der Kölner Philharmonie. Weil Schritte drinnen zu hören wären, sperren Ordner während Proben und Konzerten den Platz ab.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum wird der Heinrich-Böll-Platz bei Konzerten gesperrt?", "richtig": "Darunter liegt der Konzertsaal – man würde die Schritte hören", "falsch": ["Dort landen Hubschrauber", "Er ist frisch gestrichen"] },
+        { "typ": "mission", "text": "Überquert den Platz so leise wie möglich – wer dabei ein Geräusch macht, gibt eine Runde Applaus aus." }
+      ],
+      "lage": [50.94097, 6.96089]
+    },
+    {
+      "id": "4711",
+      "name": "Haus 4711 in der Glockengasse",
+      "wiki": "4711",
+      "suche": "4711 Glockengasse, Köln",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "In der Glockengasse steht das Stammhaus des berühmten Kölnisch Wassers '4711'. Die ungewöhnliche Hausnummer stammt aus der französischen Besatzungszeit, als alle Häuser der Stadt durchnummeriert wurden.",
+      "fakt": "'Eau de Cologne' heißt übersetzt einfach 'Wasser aus Köln'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet 'Eau de Cologne'?", "richtig": "Wasser aus Köln", "falsch": ["Duft der Liebe", "Blume vom Rhein"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wofür ist die Zahl 4711 berühmt?", "richtig": "Für ein Duftwasser", "falsch": ["Für ein Fußballteam", "Für eine Eissorte"] }
+      ],
+      "lage": [50.93834, 6.95282]
+    },
+    {
+      "id": "schokoladenmuseum",
+      "name": "Schokoladenmuseum",
+      "wiki": "Schokoladenmuseum Köln",
+      "themen": ["kinder", "kulinarik", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Schokoladenmuseum am Rheinauhafen erfahrt ihr alles über Kakao – vom Regenwald bis zur Tafel. Highlight ist ein rund drei Meter hoher Schokoladenbrunnen, aus dem Kostproben verteilt werden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus wird Schokolade gemacht?", "richtig": "Aus Kakaobohnen", "falsch": ["Aus Kaffeebohnen", "Aus Haselnussschalen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wo wächst der Kakaobaum?", "richtig": "In tropischen Regionen rund um den Äquator", "falsch": ["In Süddeutschland", "In Skandinavien"] },
+        { "typ": "foto", "text": "Selfie mit eurem 'Ich-will-Schokolade'-Gesicht vor dem Museum." }
+      ],
+      "lage": [50.9322, 6.96427]
+    },
+    {
+      "id": "kranhaeuser",
+      "name": "Kranhäuser im Rheinauhafen",
+      "wiki": "Kranhäuser",
+      "suche": "Kranhaus 1, Rheinauhafen, Köln",
+      "themen": ["besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Die drei Kranhäuser im Rheinauhafen sehen aus wie riesige, umgedrehte L. Sie erinnern an die alten Hafenkräne, die hier früher Schiffe entluden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran erinnern die Kranhäuser?", "richtig": "An Hafenkräne", "falsch": ["An Giraffen", "An Stühle"] },
+        { "typ": "foto", "text": "Macht ein Foto, auf dem es aussieht, als würdet ihr ein Kranhaus hochheben." }
+      ],
+      "lage": [50.92741, 6.96622]
+    },
+    {
+      "id": "triangle",
+      "name": "KölnTriangle",
+      "wiki": "KölnTriangle",
+      "themen": ["highlights", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Von der Aussichtsplattform des KölnTriangle in Deutz habt ihr in rund 100 Metern Höhe den wohl schönsten Blick auf Dom, Rhein und Hohenzollernbrücke.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch ist das KölnTriangle?", "wert": 103, "einheit": "m" },
+        { "typ": "foto", "text": "Panoramafoto mit dem Dom – und eure Hände formen ein Herz drumherum." }
+      ],
+      "lage": [50.94042, 6.97167]
+    },
+    {
+      "id": "seilbahn",
+      "name": "Rheinseilbahn",
+      "wiki": "Kölner Seilbahn",
+      "themen": ["spass", "kinder", "natur"],
+      "prio": 2,
+      "kosten": "Fahrkarte, nur in der Saison",
+      "info": "Die Rheinseilbahn schwebt seit 1957 zwischen Zoo und Rheinpark über den Rhein. Von den kleinen Gondeln aus seht ihr Dom, Schiffe und Brücken von oben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was überquert die Seilbahn?", "richtig": "Den Rhein", "falsch": ["Die Alpen", "Die Autobahn"] },
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr fährt die Kölner Seilbahn?", "wert": 1957, "einheit": "" }
+      ],
+      "lage": [50.95358, 6.97705]
+    },
+    {
+      "id": "zoo",
+      "name": "Kölner Zoo",
+      "wiki": "Kölner Zoo",
+      "themen": ["kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Kölner Zoo wurde 1860 gegründet und gehört damit zu den ältesten Zoos Deutschlands. Berühmt ist der große Elefantenpark, in dem eine ganze Elefantenfamilie lebt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier hat einen Rüssel?", "richtig": "Der Elefant", "falsch": ["Das Nilpferd", "Die Giraffe"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Kölner Zoo gegründet?", "wert": 1860, "einheit": "" },
+        { "typ": "bewegen", "text": "Macht das Lieblingstier eurer Gruppe nach – die anderen raten!" }
+      ],
+      "lage": [50.95833, 6.97333]
+    },
+    {
+      "id": "rheinpark",
+      "name": "Rheinpark",
+      "wiki": "Rheinpark (Köln)",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Rheinpark auf der Deutzer Seite ist eine der schönsten Grünanlagen Kölns – mit großen Wiesen, Spielplätzen und dem berühmten Blick über den Rhein auf Dom und Altstadt.",
+      "aufgaben": [
+        { "typ": "bewegen", "text": "Wettrennen bis zum nächsten Baum – wer zuerst da ist, darf die nächste Aufgabe vorlesen." },
+        { "typ": "foto", "text": "Fotografiert den Dom von der anderen Rheinseite – mit euch als Silhouetten im Vordergrund." }
+      ],
+      "lage": [50.94917, 6.97556]
+    },
+    {
+      "id": "belgisches_viertel",
+      "name": "Belgisches Viertel",
+      "wiki": "Belgisches Viertel",
+      "suche": "Brüsseler Platz, Köln",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 1,
+      "info": "Im Belgischen Viertel tragen die Straßen Namen belgischer Städte und Provinzen. Rund um den Brüsseler Platz treffen sich abends viele Leute – hier reihen sich Cafés, Bars und kleine Läden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wonach sind die Straßen im Belgischen Viertel benannt?", "richtig": "Nach belgischen Städten und Provinzen", "falsch": ["Nach belgischen Königen", "Nach Pralinensorten"] },
+        { "typ": "mission", "text": "Findet drei Straßenschilder mit belgischen Städtenamen und fotografiert sie." }
+      ],
+      "lage": [50.93855, 6.93421]
+    }
+  ],
+  "zentrum": [50.93977, 6.96089]
+}

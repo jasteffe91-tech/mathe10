@@ -1,0 +1,394 @@
+{
+  "id": "berlin",
+  "name": "Berlin",
+  "land": "Berlin",
+  "kurz": "Mauer, Museen, Currywurst und Kiez – Geschichte an jeder Ecke.",
+  "start": { "name": "Brandenburger Tor", "wiki": "Brandenburger Tor", "lage": [52.51639, 13.37778] },
+  "loesungsworte": ["BAER", "KIEZ", "SPREE", "MAUER", "BERLINER", "QUADRIGA", "AMPELMANN", "CURRYWURST", "FERNSEHTURM"],
+  "orte": [
+    {
+      "id": "brandenburger_tor",
+      "name": "Brandenburger Tor",
+      "wiki": "Brandenburger Tor",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Das Brandenburger Tor wurde 1788 bis 1791 erbaut und ist das bekannteste Wahrzeichen Berlins. Fast 30 Jahre lang stand es direkt an der Mauer, die Ost und West trennte – heute ist es ein Symbol der Wiedervereinigung.",
+      "fakt": "Napoleon ließ die Quadriga 1806 nach Paris bringen – 1814 holten die Preußen sie zurück.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Pferde ziehen den Wagen oben auf dem Tor?", "richtig": "Vier", "falsch": ["Zwei", "Sechs"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer ließ die Quadriga 1806 nach Paris bringen?", "richtig": "Napoleon", "falsch": ["Ludwig XIV.", "Karl der Große"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Brandenburger Tor fertiggestellt?", "wert": 1791, "einheit": "" },
+        { "typ": "foto", "text": "Gruppenfoto: Ihr seid die Quadriga – vier ziehen, eine Person lenkt!" }
+      ],
+      "lage": [52.51639, 13.37778]
+    },
+    {
+      "id": "reichstag",
+      "name": "Reichstagsgebäude",
+      "wiki": "Reichstagsgebäude",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "kosten": "Kuppel kostenlos mit Voranmeldung",
+      "info": "Im Reichstagsgebäude tagt der Deutsche Bundestag. Die gläserne Kuppel von Norman Foster ist begehbar – von oben schaut man den Abgeordneten buchstäblich aufs Dach.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Inschrift steht über dem Eingang des Reichstags?", "richtig": "Dem Deutschen Volke", "falsch": ["Einigkeit und Recht und Freiheit", "Für das Vaterland"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus ist die Kuppel auf dem Reichstag?", "richtig": "Aus Glas", "falsch": ["Aus Gold", "Aus Holz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Parlament tagt im Reichstagsgebäude?", "richtig": "Der Bundestag", "falsch": ["Der Bundesrat", "Das Abgeordnetenhaus von Berlin"] }
+      ],
+      "lage": [52.51865, 13.3761]
+    },
+    {
+      "id": "holocaust_mahnmal",
+      "name": "Denkmal für die ermordeten Juden Europas",
+      "wiki": "Denkmal für die ermordeten Juden Europas",
+      "themen": ["historie"],
+      "prio": 3,
+      "respekt": true,
+      "info": "Das Denkmal erinnert an die rund sechs Millionen Jüdinnen und Juden, die im Holocaust ermordet wurden. Über 2700 Betonstelen bilden ein wogendes Feld, in dem man sich verloren fühlen kann. Bitte geht hier ruhig und respektvoll – nicht auf die Stelen klettern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woran erinnert dieses Denkmal?", "richtig": "An die im Holocaust ermordeten Jüdinnen und Juden Europas", "falsch": ["An die Opfer der Berliner Mauer", "An die Gefallenen des Ersten Weltkriegs"] },
+        { "typ": "schaetzen", "frage": "Wie viele Betonstelen umfasst das Feld?", "wert": 2711, "einheit": "Stelen" }
+      ],
+      "lage": [52.51389, 13.37889]
+    },
+    {
+      "id": "bebelplatz",
+      "name": "Bebelplatz – Denkmal zur Bücherverbrennung",
+      "wiki": "Bebelplatz",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "respekt": true,
+      "info": "Am 10. Mai 1933 verbrannten Nationalsozialisten auf diesem Platz Bücher von Autorinnen und Autoren, die sie verfolgten. Unter einer Glasplatte im Boden seht ihr eine leere Bibliothek – Platz für die verbrannten Bücher.",
+      "fakt": "Neben dem Denkmal steht ein Zitat von Heinrich Heine: 'Dort, wo man Bücher verbrennt, verbrennt man auch am Ende Menschen.'",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was zeigt das Denkmal unter der Glasplatte?", "richtig": "Leere Bücherregale", "falsch": ["Eine Kerze", "Eine Landkarte"] },
+        { "typ": "suchen", "text": "Findet die Glasplatte im Boden und lest das Zitat auf der Tafel daneben." }
+      ],
+      "lage": [52.51639, 13.39389]
+    },
+    {
+      "id": "gendarmenmarkt",
+      "name": "Gendarmenmarkt",
+      "wiki": "Gendarmenmarkt",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "info": "Der Gendarmenmarkt gilt als einer der schönsten Plätze Berlins: Das Konzerthaus wird vom Deutschen und vom Französischen Dom eingerahmt. Die 'Dome' sind übrigens keine Bischofskirchen – der Name kommt vom französischen 'dôme' für Kuppel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum heißen die Kirchen am Gendarmenmarkt 'Dom'?", "richtig": "Wegen ihrer Kuppeln (französisch dôme)", "falsch": ["Weil dort Bischöfe residieren", "Weil sie die größten Kirchen Berlins sind"] },
+        { "typ": "suchen", "text": "Zählt die Säulen an der Front des Konzerthauses." }
+      ],
+      "lage": [52.51333, 13.39306]
+    },
+    {
+      "id": "checkpoint_charlie",
+      "name": "Checkpoint Charlie",
+      "wiki": "Checkpoint Charlie",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Checkpoint Charlie war von 1961 bis 1990 der bekannteste Grenzübergang zwischen Ost- und West-Berlin – reserviert für Alliierte und Ausländer. Im Oktober 1961 standen sich hier amerikanische und sowjetische Panzer direkt gegenüber.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah im Oktober 1961 am Checkpoint Charlie?", "richtig": "US-amerikanische und sowjetische Panzer standen sich gegenüber", "falsch": ["Die Mauer fiel", "Kennedy hielt eine Rede"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war Checkpoint Charlie?", "richtig": "Ein Grenzübergang", "falsch": ["Ein Bahnhof", "Ein Kino"] }
+      ],
+      "lage": [52.50745, 13.39039]
+    },
+    {
+      "id": "museumsinsel",
+      "name": "Berliner Dom & Museumsinsel",
+      "wiki": "Berliner Dom",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Auf der Museumsinsel in der Spree stehen fünf weltberühmte Museen – zusammen sind sie UNESCO-Welterbe. Daneben thront der Berliner Dom mit seiner mächtigen grünen Kuppel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Museen stehen auf der Museumsinsel?", "richtig": "Fünf", "falsch": ["Zwei", "Zwölf"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat die Kuppel des Berliner Doms?", "richtig": "Grün", "falsch": ["Rot", "Gold"] },
+        { "typ": "foto", "text": "Fotografiert den Dom von der Wiese im Lustgarten – alle liegen im Gras." }
+      ],
+      "lage": [52.51917, 13.40111]
+    },
+    {
+      "id": "fernsehturm",
+      "name": "Fernsehturm",
+      "wiki": "Berliner Fernsehturm",
+      "themen": ["highlights", "besonderheiten", "spass"],
+      "prio": 3,
+      "kosten": "Eintritt für die Kugel",
+      "info": "Der Fernsehturm am Alexanderplatz ist das höchste Bauwerk Deutschlands. Scheint die Sonne auf die Kugel, entsteht ein Lichtkreuz – zum Ärger der DDR-Führung. Die Berliner nannten das 'Rache des Papstes'.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Berliner Fernsehturm?", "wert": 368, "einheit": "m" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nannten die Berliner das Lichtkreuz auf der Kugel?", "richtig": "Rache des Papstes", "falsch": ["Stern des Ostens", "Honeckers Heiligenschein"] },
+        { "typ": "foto", "text": "Optische Täuschung: Haltet den Fernsehturm auf dem Foto zwischen zwei Fingern." }
+      ],
+      "lage": [52.5208, 13.40945]
+    },
+    {
+      "id": "nikolaiviertel",
+      "name": "Nikolaiviertel & 'Zur letzten Instanz'",
+      "wiki": "Zur letzten Instanz",
+      "themen": ["historie", "kulinarik", "kneipen"],
+      "prio": 2,
+      "info": "Im Nikolaiviertel liegt der älteste Siedlungskern Berlins. Hier steht auch 'Zur letzten Instanz', eine der ältesten Gaststätten Berlins. Der Name stammt von Streitparteien, die sich nach dem Gericht nebenan hier bei Bier versöhnten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat die Gaststätte 'Zur letzten Instanz' ihren Namen?", "richtig": "Vom nahen Gericht – Streitende versöhnten sich hier", "falsch": ["Von einem Bestattungsinstitut", "Vom letzten Zug nach Hause"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der Fluss, der durch Berlin fließt?", "richtig": "Die Spree", "falsch": ["Der Rhein", "Die Isar"] }
+      ],
+      "lage": [52.51734, 13.41378]
+    },
+    {
+      "id": "hackesche_hoefe",
+      "name": "Hackesche Höfe & Ampelmann",
+      "wiki": "Hackesche Höfe",
+      "themen": ["besonderheiten", "highlights", "kneipen"],
+      "prio": 2,
+      "info": "Die Hackeschen Höfe sind acht miteinander verbundene Höfe mit Jugendstil-Kacheln, Kinos, Läden und Cafés. Hier gibt es auch einen Laden für den Ampelmann – das berühmte Ost-Berliner Ampelmännchen mit Hut.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was trägt das Ost-Berliner Ampelmännchen auf dem Kopf?", "richtig": "Einen Hut", "falsch": ["Eine Krone", "Eine Mütze mit Bommel"] },
+        { "typ": "schaetzen", "frage": "Wie viele Höfe gehören zu den Hackeschen Höfen?", "wert": 8, "einheit": "Höfe" },
+        { "typ": "suchen", "text": "Findet ein Ampelmännchen – an einer Ampel, in einem Schaufenster oder auf einem Schild." }
+      ],
+      "lage": [52.52417, 13.40222]
+    },
+    {
+      "id": "mauer_bernauer",
+      "name": "Gedenkstätte Berliner Mauer",
+      "wiki": "Gedenkstätte Berliner Mauer",
+      "suche": "Gedenkstätte Berliner Mauer, Bernauer Straße 111, Berlin",
+      "themen": ["historie"],
+      "prio": 3,
+      "respekt": true,
+      "info": "An der Bernauer Straße ist ein Stück der Grenzanlagen samt Todesstreifen erhalten. Hier sprangen Menschen 1961 aus Fenstern in den Westen, und Tunnel wurden gegraben. Stahlstangen markieren, wo die Mauer verlief.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "An welchem Tag begann der Bau der Berliner Mauer?", "richtig": "13. August 1961", "falsch": ["9. November 1961", "3. Oktober 1958"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann fiel die Mauer?", "richtig": "9. November 1989", "falsch": ["3. Oktober 1990", "17. Juni 1953"] },
+        { "typ": "schaetzen", "frage": "Wie lang war die Mauer rund um West-Berlin?", "wert": 155, "einheit": "km" }
+      ],
+      "lage": [52.5353, 13.38955]
+    },
+    {
+      "id": "mauerpark",
+      "name": "Mauerpark",
+      "wiki": "Mauerpark",
+      "themen": ["spass", "natur", "besonderheiten"],
+      "prio": 2,
+      "info": "Wo früher der Todesstreifen verlief, ist heute ein Park. Sonntags gibt es hier einen großen Flohmarkt und im Sommer Karaoke im Amphitheater, bei dem Hunderte zuschauen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war das Gelände des Mauerparks früher?", "richtig": "Ein Teil des Grenzstreifens", "falsch": ["Ein Flughafen", "Ein Fußballstadion"] },
+        { "typ": "mission", "text": "Singt im Amphitheater eine Zeile eures Lieblingslieds – Publikum garantiert!" }
+      ],
+      "lage": [52.54278, 13.40217]
+    },
+    {
+      "id": "prater",
+      "name": "Prater Garten",
+      "wiki": "Prater (Berlin)",
+      "suche": "Kastanienallee 7, Berlin",
+      "themen": ["kneipen", "natur"],
+      "prio": 2,
+      "hinweis": "Biergarten nur bei gutem Wetter in der Saison",
+      "info": "Der Prater in der Kastanienallee ist der älteste Biergarten Berlins – 1837 begann hier der Bierausschank, und bis heute sitzt man unter Kastanien.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist eine 'Berliner Weiße mit Schuss'?", "richtig": "Weißbier mit Sirup (rot oder grün)", "falsch": ["Bier mit Schnaps", "Weißwein mit Sprudel"] },
+        { "typ": "mission", "text": "Bestellt etwas typisch Berlinerisches – und lasst euch die Bestellung auf Berlinerisch bestätigen." }
+      ],
+      "lage": [52.5398, 13.41076]
+    },
+    {
+      "id": "claerchen",
+      "name": "Clärchens Ballhaus",
+      "wiki": "Clärchens Ballhaus",
+      "suche": "Clärchens Ballhaus, Auguststraße 24, Berlin",
+      "themen": ["kneipen", "spass", "historie"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In Clärchens Ballhaus in der Auguststraße wird seit 1913 getanzt. Der Spiegelsaal mit seinem abblätternden Charme ist eine Zeitreise in die Berliner Tanzsaal-Kultur.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr wird in Clärchens Ballhaus getanzt?", "wert": 1913, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was macht man in einem Ballhaus?", "richtig": "Tanzen", "falsch": ["Ballspielen", "Kegeln"] },
+        { "typ": "mission", "text": "Tanzt vor dem Ballhaus zehn Sekunden Walzer – Paare bilden!" }
+      ],
+      "lage": [52.52694, 13.39667]
+    },
+    {
+      "id": "konnopke",
+      "name": "Konnopke's Imbiß",
+      "wiki": "Konnopke’s Imbiß",
+      "suche": "Konnopke's Imbiss, Schönhauser Allee 44B, Berlin",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Unter dem Hochbahn-Viadukt der U2 verkauft Konnopke's seit 1930 Würstchen – und gilt als eine der bekanntesten Currywurstbuden Berlins. Die Currywurst selbst wurde 1949 in Berlin erfunden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer gilt als Erfinderin der Currywurst?", "richtig": "Herta Heuwer", "falsch": ["Marlene Dietrich", "Hildegard Knef"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Gewürz steckt in der Currywurst-Soße?", "richtig": "Curry", "falsch": ["Zimt", "Vanille"] },
+        { "typ": "mission", "text": "Teilt eine Currywurst – wer kann den Namen der Erfinderin ohne Handy sagen?" }
+      ],
+      "lage": [52.54049, 13.41218]
+    },
+    {
+      "id": "east_side_gallery",
+      "name": "East Side Gallery",
+      "wiki": "East Side Gallery",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Die East Side Gallery ist das längste erhaltene Stück der Berliner Mauer – und eine Open-Air-Galerie. 1990 bemalten Künstlerinnen und Künstler aus aller Welt die Ostseite. Berühmt ist der 'Bruderkuss' zwischen Breschnew und Honecker.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie lang ist die East Side Gallery ungefähr?", "wert": 1316, "einheit": "m" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer küsst sich auf dem berühmten Bild 'Bruderkuss'?", "richtig": "Breschnew und Honecker", "falsch": ["Kennedy und Adenauer", "Gorbatschow und Kohl"] },
+        { "typ": "foto", "text": "Sucht euch euer Lieblingsbild aus und stellt es nach." }
+      ],
+      "lage": [52.50511, 13.43942]
+    },
+    {
+      "id": "oberbaumbruecke",
+      "name": "Oberbaumbrücke",
+      "wiki": "Oberbaumbrücke",
+      "themen": ["highlights", "besonderheiten"],
+      "prio": 2,
+      "info": "Die rote Backsteinbrücke mit ihren Türmchen verbindet Friedrichshain und Kreuzberg. Oben fährt die U-Bahn, unten Autos und Fußgänger. Zur Zeit der Teilung war sie ein Grenzübergang.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was fährt oben über die Oberbaumbrücke?", "richtig": "Die U-Bahn", "falsch": ["Ein Schiff", "Eine Seilbahn"] },
+        { "typ": "foto", "text": "Wartet, bis eine gelbe U-Bahn über die Brücke fährt – und drückt genau dann ab!" }
+      ],
+      "lage": [52.50194, 13.44556]
+    },
+    {
+      "id": "markthalle_neun",
+      "name": "Markthalle Neun",
+      "wiki": "Markthalle IX",
+      "themen": ["kulinarik", "kneipen"],
+      "prio": 2,
+      "hinweis": "Street Food meist donnerstags abends",
+      "info": "Die Markthalle Neun in Kreuzberg stammt aus dem 19. Jahrhundert. Heute ist sie ein Treffpunkt für Essen aus aller Welt – berühmt ist der Street Food Thursday.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Bezirk liegt die Markthalle Neun?", "richtig": "Kreuzberg", "falsch": ["Spandau", "Pankow"] },
+        { "typ": "mission", "text": "Probiert ein Gericht aus einem Land, in dem noch niemand von euch war." }
+      ],
+      "lage": [52.5022, 13.4315]
+    },
+    {
+      "id": "tempelhofer_feld",
+      "name": "Tempelhofer Feld",
+      "wiki": "Tempelhofer Feld",
+      "themen": ["spass", "natur", "historie"],
+      "prio": 2,
+      "info": "Auf dem ehemaligen Flughafen Tempelhof landeten 1948/49 die 'Rosinenbomber' der Luftbrücke. Heute dürfen alle auf den alten Start- und Landebahnen skaten, radeln, Drachen steigen lassen und grillen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nannten die Berliner die Flugzeuge der Luftbrücke?", "richtig": "Rosinenbomber", "falsch": ["Kuchenflieger", "Butterbomber"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war das Tempelhofer Feld früher?", "richtig": "Ein Flughafen", "falsch": ["Ein Bauernhof", "Ein See"] },
+        { "typ": "bewegen", "text": "Startbahn-Sprint: Wer ist auf 50 Metern am schnellsten? Breitet beim Laufen die Arme aus wie Flügel!" }
+      ],
+      "lage": [52.47333, 13.40139]
+    },
+    {
+      "id": "technikmuseum",
+      "name": "Deutsches Technikmuseum",
+      "wiki": "Deutsches Technikmuseum",
+      "themen": ["kinder", "spass", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Schon von Weitem seht ihr den 'Rosinenbomber', der auf dem Dach des Technikmuseums hängt. Drinnen warten Lokomotiven, Schiffe, Flugzeuge und ein Science Center zum Ausprobieren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hängt auf dem Dach des Technikmuseums?", "richtig": "Ein Flugzeug", "falsch": ["Ein Schiff", "Ein Auto"] },
+        { "typ": "foto", "text": "Fotografiert das Flugzeug auf dem Dach so, als würde es gerade auf eurer Hand landen." }
+      ],
+      "lage": [52.49861, 13.3775]
+    },
+    {
+      "id": "zoo",
+      "name": "Zoo Berlin",
+      "wiki": "Zoologischer Garten Berlin",
+      "suche": "Elefantentor, Budapester Straße, Berlin",
+      "themen": ["kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Zoo Berlin wurde 1844 eröffnet und ist der älteste Zoo Deutschlands. Der Eingang am Elefantentor mit seinen Steinelefanten ist ein tolles Fotomotiv.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Zoo Berlin eröffnet?", "wert": 1844, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Tiere tragen das Dach am Elefantentor?", "richtig": "Elefanten aus Stein", "falsch": ["Löwen aus Gold", "Giraffen aus Holz"] },
+        { "typ": "bewegen", "text": "Macht die Tiere nach, die ihr gleich sehen wollt – die anderen raten!" }
+      ],
+      "lage": [52.50562, 13.33976]
+    },
+    {
+      "id": "gedaechtniskirche",
+      "name": "Kaiser-Wilhelm-Gedächtniskirche",
+      "wiki": "Kaiser-Wilhelm-Gedächtniskirche",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Die Turmruine der Gedächtniskirche erinnert an die Zerstörung im Zweiten Weltkrieg. Die Berliner nennen sie liebevoll 'Hohler Zahn'. Daneben leuchtet der neue Kirchenbau durch Tausende blaue Glasbausteine.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welchen Spitznamen hat die Turmruine?", "richtig": "Hohler Zahn", "falsch": ["Krummer Finger", "Alter Hut"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wodurch wurde der alte Kirchturm beschädigt?", "richtig": "Durch Bombenangriffe im Zweiten Weltkrieg", "falsch": ["Durch einen Blitz", "Durch ein Erdbeben"] }
+      ],
+      "lage": [52.50472, 13.33528]
+    },
+    {
+      "id": "kadewe",
+      "name": "KaDeWe",
+      "wiki": "Kaufhaus des Westens",
+      "themen": ["kulinarik", "highlights"],
+      "prio": 1,
+      "info": "Das Kaufhaus des Westens am Wittenbergplatz gibt es seit 1907. Berühmt ist die Feinschmeckeretage mit Köstlichkeiten aus aller Welt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür steht 'KaDeWe'?", "richtig": "Kaufhaus des Westens", "falsch": ["Kaiserliches Delikatessen-Warenhaus", "Kaufhaus der Welt"] },
+        { "typ": "mission", "text": "Findet in der Feinkostabteilung das teuerste Lebensmittel, das ihr entdecken könnt." }
+      ],
+      "lage": [52.50167, 13.34111]
+    },
+    {
+      "id": "siegessaeule",
+      "name": "Siegessäule",
+      "wiki": "Siegessäule (Berlin)",
+      "themen": ["highlights", "natur", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt für die Aussichtsplattform",
+      "info": "Mitten im Tiergarten steht die Siegessäule mit der vergoldeten Viktoria, die die Berliner 'Goldelse' nennen. Wer die Stufen hinaufsteigt, hat einen weiten Blick über den Tiergarten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie nennen die Berliner die goldene Figur oben?", "richtig": "Goldelse", "falsch": ["Goldmarie", "Sonnenkönigin"] },
+        { "typ": "schaetzen", "frage": "Wie viele Stufen führen zur Aussichtsplattform?", "wert": 285, "einheit": "Stufen" }
+      ],
+      "lage": [52.51444, 13.35]
+    },
+    {
+      "id": "neuer_see",
+      "name": "Café am Neuen See",
+      "suche": "Café am Neuen See, Lichtensteinallee, Berlin",
+      "themen": ["kneipen", "natur"],
+      "prio": 1,
+      "hinweis": "Biergarten in der Saison",
+      "info": "Im Tiergarten liegt der Biergarten am Neuen See – mit Ruderbooten, Pizza und Bier unter alten Bäumen. Ein Ort, an dem man vergisst, dass man mitten in der Hauptstadt ist.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der große Park, in dem der Neue See liegt?", "richtig": "Tiergarten", "falsch": ["Volkspark Friedrichshain", "Grunewald"] },
+        { "typ": "mission", "text": "Wer findet die meisten Enten auf dem See? Zählt um die Wette." }
+      ],
+      "lage": [52.51051, 13.3443]
+    },
+    {
+      "id": "monbijoupark",
+      "name": "Monbijoupark",
+      "wiki": "Monbijoupark",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Monbijoupark liegt direkt an der Spree gegenüber der Museumsinsel. Es gibt Spielplätze, im Sommer ein Kinderbad und abends Tanz am Ufer.",
+      "aufgaben": [
+        { "typ": "bewegen", "text": "Ab auf den Spielplatz: Wer schafft die Rutsche zuerst?" },
+        { "typ": "foto", "text": "Fotografiert die Museumsinsel auf der anderen Spreeseite." }
+      ],
+      "lage": [52.52306, 13.39694]
+    },
+    {
+      "id": "kanzleramt",
+      "name": "Bundeskanzleramt",
+      "wiki": "Bundeskanzleramt (Berlin)",
+      "suche": "Bundeskanzleramt, Willy-Brandt-Straße, Berlin",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "info": "Hier arbeitet der Bundeskanzler oder die Bundeskanzlerin. Wegen seiner runden Fenster in der Mitte nennen die Berliner das Gebäude 'Waschmaschine'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welchen Spitznamen hat das Kanzleramt?", "richtig": "Waschmaschine", "falsch": ["Kühlschrank", "Toaster"] },
+        { "typ": "foto", "text": "Stellt euch als 'Kabinett' vor dem Kanzleramt auf – mit ernster Miene." }
+      ],
+      "lage": [52.52019, 13.36913]
+    }
+  ],
+  "zentrum": [52.51639, 13.39389]
+}

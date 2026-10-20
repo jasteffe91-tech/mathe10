@@ -1,0 +1,245 @@
+{
+  "id": "bremen",
+  "name": "Bremen",
+  "land": "Bremen",
+  "kurz": "Stadtmusikanten, Roland und Schnoor – Hansestadt mit Märchenzauber.",
+  "start": { "name": "Marktplatz", "suche": "Marktplatz, Bremen", "lage": [53.07595, 8.80775] },
+  "loesungsworte": ["ESEL", "HAHN", "WESER", "ROLAND", "SCHNOOR", "KLABEN", "HANSESTADT", "STADTMUSIKANTEN"],
+  "orte": [
+    {
+      "id": "roland",
+      "name": "Bremer Roland",
+      "wiki": "Bremer Roland",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Der steinerne Roland steht seit 1404 auf dem Marktplatz und ist ein Symbol für die Freiheit der Stadt. Zusammen mit dem Rathaus gehört er zum UNESCO-Welterbe. Eine Legende sagt: Solange der Roland steht, bleibt Bremen frei.",
+      "fakt": "Der Abstand zwischen den Kniespitzen des Rolands soll ungefähr der 'Bremer Elle' entsprechen – einem alten Längenmaß der Händler.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr steht der steinerne Roland auf dem Marktplatz?", "wert": 1404, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchem alten Maß soll der Abstand zwischen den Knien des Rolands entsprechen?", "richtig": "Der Bremer Elle", "falsch": ["Dem Bremer Fuß", "Der Bremer Meile"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hält der Roland in der Hand?", "richtig": "Ein Schwert", "falsch": ["Eine Fahne", "Einen Besen"] },
+        { "typ": "foto", "text": "Stellt euch neben den Roland und imitiert seine Haltung – Schwert inklusive." }
+      ],
+      "lage": [53.07586, 8.8073]
+    },
+    {
+      "id": "rathaus",
+      "name": "Bremer Rathaus",
+      "wiki": "Bremer Rathaus",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Das Rathaus wurde Anfang des 15. Jahrhunderts gebaut und bekam später seine prächtige Fassade im Stil der Weserrenaissance. Es ist UNESCO-Welterbe und bis heute Sitz des Bremer Senats.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der Baustil der Rathausfassade?", "richtig": "Weserrenaissance", "falsch": ["Hansegotik", "Nordbarock"] },
+        { "typ": "suchen", "text": "Findet an der Fassade ein Schiff oder ein Tier. Was entdeckt ihr?" }
+      ],
+      "lage": [53.07611, 8.80806]
+    },
+    {
+      "id": "stadtmusikanten",
+      "name": "Bremer Stadtmusikanten",
+      "wiki": "Die Bremer Stadtmusikanten",
+      "suche": "Bremer Stadtmusikanten Skulptur, Rathaus, Bremen",
+      "themen": ["highlights", "kinder", "besonderheiten"],
+      "prio": 3,
+      "info": "Neben dem Rathaus stehen die Bremer Stadtmusikanten aus Bronze: Esel, Hund, Katze und Hahn, übereinander gestapelt. Wer die Vorderbeine des Esels mit beiden Händen umfasst, darf sich etwas wünschen.",
+      "fakt": "Im Märchen der Brüder Grimm kommen die Tiere nie in Bremen an!",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier steht bei den Stadtmusikanten ganz oben?", "richtig": "Der Hahn", "falsch": ["Die Katze", "Der Hund"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer schrieb das Märchen von den Bremer Stadtmusikanten auf?", "richtig": "Die Brüder Grimm", "falsch": ["Hans Christian Andersen", "Wilhelm Hauff"] },
+        { "typ": "foto", "text": "Bildet selbst eine Stadtmusikanten-Pyramide (vorsichtig!) – oder macht alle vier Tiergeräusche gleichzeitig." },
+        { "typ": "bewegen", "text": "Jede Person macht eines der vier Tiere nach – die anderen raten." }
+      ],
+      "lage": [53.07618, 8.80753]
+    },
+    {
+      "id": "bremer_loch",
+      "name": "Bremer Loch",
+      "suche": "Bremer Loch, Domshof, Bremen",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Im Boden vor dem Rathaus gibt es einen Gullydeckel mit Schlitz – das Bremer Loch. Werft eine Münze hinein, und von unten antworten die Stadtmusikanten mit Iah, Wauwau, Miau und Kikeriki. Das Geld geht an eine gute Sache.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was passiert, wenn man eine Münze ins Bremer Loch wirft?", "richtig": "Man hört Tierstimmen", "falsch": ["Es spritzt Wasser", "Eine Glocke läutet"] },
+        { "typ": "suchen", "text": "Findet das Bremer Loch im Pflaster – Tipp: Es sieht aus wie ein Kanaldeckel." }
+      ],
+      "lage": [53.07567, 8.80757]
+    },
+    {
+      "id": "dom",
+      "name": "St.-Petri-Dom & Bleikeller",
+      "wiki": "Bremer Dom",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt für den Bleikeller",
+      "info": "Die Geschichte des Bremer Doms reicht über 1200 Jahre zurück. In seinem Bleikeller liegen mumifizierte Körper, die sich durch die trockene Luft auf natürliche Weise erhalten haben – ein gruseliges Highlight.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was kann man im Bleikeller des Doms sehen?", "richtig": "Natürlich mumifizierte Körper", "falsch": ["Einen Schatz aus Blei", "Alte Kanonen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Türme hat der Bremer Dom vorne?", "richtig": "Zwei", "falsch": ["Einen", "Fünf"] }
+      ],
+      "lage": [53.07548, 8.80906]
+    },
+    {
+      "id": "boettcherstrasse",
+      "name": "Böttcherstraße",
+      "wiki": "Böttcherstraße",
+      "themen": ["highlights", "besonderheiten"],
+      "prio": 3,
+      "info": "Die Böttcherstraße ließ der Kaffeekaufmann Ludwig Roselius in den 1920er-Jahren umbauen – mit Backstein-Kunst und goldenem 'Lichtbringer' am Eingang. Ein Glockenspiel aus Meißner Porzellan spielt mehrmals täglich, dazu drehen sich Bildtafeln mit berühmten Ozeanüberquerern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woraus sind die Glocken des Glockenspiels in der Böttcherstraße?", "richtig": "Aus Meißner Porzellan", "falsch": ["Aus Glas", "Aus Gold"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Mit welchem Produkt wurde Ludwig Roselius reich?", "richtig": "Mit entkoffeiniertem Kaffee", "falsch": ["Mit Bier", "Mit Schokolade"] },
+        { "typ": "suchen", "text": "Findet den goldenen 'Lichtbringer' am Eingang der Straße." }
+      ],
+      "lage": [53.07507, 8.80576]
+    },
+    {
+      "id": "schnoor",
+      "name": "Schnoor",
+      "wiki": "Schnoor",
+      "themen": ["highlights", "historie", "kulinarik"],
+      "prio": 3,
+      "info": "Der Schnoor ist Bremens ältestes Viertel – mit winzigen Häusern und Gassen, die oft nur so breit sind wie ausgestreckte Arme. Der Name kommt vom Wort für Schnur: Die Häuser reihen sich wie Perlen auf einer Kette.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat der Schnoor seinen Namen?", "richtig": "Vom Wort 'Schnur' – die Häuser stehen wie aufgefädelt", "falsch": ["Vom Schnarchen der Seeleute", "Von einem Bürgermeister"] },
+        { "typ": "mission", "text": "Findet die engste Gasse und messt sie mit ausgestreckten Armen aus." },
+        { "typ": "foto", "text": "Fotografiert das kleinste Haus, das ihr im Schnoor findet." }
+      ],
+      "lage": [53.07278, 8.80972]
+    },
+    {
+      "id": "ratskeller",
+      "name": "Bremer Ratskeller",
+      "wiki": "Bremer Ratskeller",
+      "themen": ["kulinarik", "kneipen", "historie"],
+      "prio": 2,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Unter dem Rathaus liegt einer der ältesten Weinkeller Deutschlands. Hier werden ausschließlich deutsche Weine ausgeschenkt, und in einem Fass lagert sogar Wein aus dem 17. Jahrhundert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Weine werden im Bremer Ratskeller ausgeschenkt?", "richtig": "Nur deutsche Weine", "falsch": ["Nur französische Weine", "Nur Bremer Weine"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist 'Kohl und Pinkel'?", "richtig": "Grünkohl mit Grützwurst", "falsch": ["Rotkohl mit Fisch", "Ein Kartenspiel"] }
+      ],
+      "lage": [53.07611, 8.80806]
+    },
+    {
+      "id": "schlachte",
+      "name": "Schlachte",
+      "wiki": "Schlachte",
+      "themen": ["kneipen", "natur", "highlights"],
+      "prio": 2,
+      "info": "Die Schlachte ist Bremens Weserpromenade. Früher legten hier Schiffe an, heute reihen sich Biergärten, Bars und Restaurantschiffe aneinander.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "An welchem Fluss liegt Bremen?", "richtig": "An der Weser", "falsch": ["An der Elbe", "Am Main"] },
+        { "typ": "mission", "text": "Findet ein Schiff, auf dem man essen oder trinken kann – und erfindet einen neuen Namen dafür." }
+      ],
+      "lage": [53.07611, 8.80222]
+    },
+    {
+      "id": "becks",
+      "name": "Brauerei Beck",
+      "wiki": "Brauerei Beck",
+      "themen": ["kneipen", "besonderheiten"],
+      "prio": 1,
+      "kosten": "Führungen nur mit Anmeldung",
+      "info": "Gegenüber der Schlachte, auf der anderen Weserseite, wird Beck's gebraut – eines der bekanntesten deutschen Biere weltweit. Das Logo mit dem Schlüssel stammt aus dem Bremer Wappen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Symbol aus dem Bremer Wappen steckt im Beck's-Logo?", "richtig": "Ein Schlüssel", "falsch": ["Ein Anker", "Eine Krone"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat der Schlüssel im Bremer Wappen?", "richtig": "Silber/Weiß auf Rot", "falsch": ["Gold auf Blau", "Schwarz auf Grün"] }
+      ],
+      "lage": [53.07667, 8.7925]
+    },
+    {
+      "id": "schweinehirt",
+      "name": "Schweinehirt in der Sögestraße",
+      "suche": "Sögestraße, Bremen",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Mitten in der Einkaufsstraße steht ein Bronze-Schweinehirt mit seiner Herde und Hund. Die Figuren erinnern daran, dass hier früher Schweine zur Weide getrieben wurden – 'Söge' ist Plattdeutsch für Säue.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bedeutet 'Söge' auf Plattdeutsch?", "richtig": "Säue (Schweine)", "falsch": ["Sägen", "Segel"] },
+        { "typ": "suchen", "text": "Zählt die Bronzeschweine – und setzt euch auf eines für ein Foto." }
+      ],
+      "lage": [53.07687, 8.80682]
+    },
+    {
+      "id": "muehle",
+      "name": "Mühle am Wall",
+      "wiki": "Mühle am Wall",
+      "themen": ["natur", "highlights"],
+      "prio": 2,
+      "info": "In den Wallanlagen, wo früher die Stadtbefestigung verlief, dreht sich eine Windmühle aus dem 19. Jahrhundert. Drumherum liegt Bremens ältester Park mit Wassergraben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was trieben die Flügel einer Windmühle früher an?", "richtig": "Mahlsteine für Mehl", "falsch": ["Einen Fernseher", "Ein Auto"] },
+        { "typ": "bewegen", "text": "Werdet zur Windmühle: Arme kreisen lassen – zehnmal vorwärts, zehnmal rückwärts!" }
+      ],
+      "lage": [53.08015, 8.80682]
+    },
+    {
+      "id": "markthalle",
+      "name": "Markthalle Acht",
+      "suche": "Markthalle Acht, Domshof, Bremen",
+      "themen": ["kulinarik"],
+      "prio": 1,
+      "info": "In der Markthalle Acht am Domshof gibt es Streetfood, Kaffee und regionale Spezialitäten unter einem Dach – ideal für eine Pause.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist der 'Bremer Klaben'?", "richtig": "Ein Rosinen-Stollen", "falsch": ["Ein Fischgericht", "Ein Schnaps"] },
+        { "typ": "mission", "text": "Probiert etwas Regionales – und bewertet es in Sternen von eins bis fünf." }
+      ],
+      "lage": [53.07602, 8.81025]
+    },
+    {
+      "id": "viertel",
+      "name": "Das Viertel",
+      "suche": "Ostertorsteinweg, Bremen",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "info": "Ostertor und Steintor – kurz 'das Viertel' – sind Bremens Kneipen- und Kulturmeile. Hier gibt es kleine Bars, Kinos, Theater und viele Imbisse auf engem Raum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißen die beiden Stadtteile, die zusammen 'das Viertel' bilden?", "richtig": "Ostertor und Steintor", "falsch": ["Nordtor und Südtor", "Altstadt und Neustadt"] },
+        { "typ": "mission", "text": "Fragt in einer Kneipe nach dem besten Bremer Witz." }
+      ],
+      "lage": [53.07246, 8.81858]
+    },
+    {
+      "id": "buergerpark",
+      "name": "Bürgerpark",
+      "suche": "Emmasee, Bremen",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Bürgerpark wurde im 19. Jahrhundert von Bremer Bürgern gestiftet und wird bis heute vor allem durch Spenden erhalten. Es gibt ein Tiergehege, Spielplätze und den Emmasee mit Bootsverleih.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie wird der Bürgerpark vor allem finanziert?", "richtig": "Durch Spenden", "falsch": ["Durch Eintrittsgeld", "Durch eine Parksteuer"] },
+        { "typ": "suchen", "text": "Findet im Tiergehege ein Tier mit Hörnern oder Geweih." }
+      ],
+      "lage": [53.09406, 8.82335]
+    },
+    {
+      "id": "universum",
+      "name": "Universum Bremen",
+      "wiki": "Universum Bremen",
+      "themen": ["kinder", "spass"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Das Universum ist ein Science Center, das aussieht wie ein gestrandeter Wal oder eine riesige Muschel. Drinnen könnt ihr Erdbeben spüren, Tornados erzeugen und optische Täuschungen ausprobieren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran erinnert das Gebäude des Universums?", "richtig": "An einen Wal oder eine Muschel", "falsch": ["An eine Pyramide", "An einen Würfel"] },
+        { "typ": "mission", "text": "Jede Person nennt eine Frage, die sie heute im Universum beantwortet haben möchte." }
+      ],
+      "lage": [53.10667, 8.845]
+    },
+    {
+      "id": "weserstadion",
+      "name": "Weserstadion",
+      "wiki": "Weserstadion",
+      "themen": ["spass"],
+      "prio": 1,
+      "info": "Direkt an der Weser liegt das Stadion von Werder Bremen. Die Fassade ist mit Solarzellen verkleidet – ihr erreicht es gemütlich zu Fuß über den Osterdeich.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Vereinsfarbe hat Werder Bremen?", "richtig": "Grün-Weiß", "falsch": ["Blau-Weiß", "Rot-Schwarz"] },
+        { "typ": "bewegen", "text": "Elfmeterschießen mit einem imaginären Ball – wer jubelt am schönsten?" }
+      ],
+      "lage": [53.06644, 8.83766]
+    }
+  ],
+  "zentrum": [53.07611, 8.80806]
+}

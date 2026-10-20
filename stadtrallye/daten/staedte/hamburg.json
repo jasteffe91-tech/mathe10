@@ -1,0 +1,352 @@
+{
+  "id": "hamburg",
+  "name": "Hamburg",
+  "land": "Hamburg",
+  "kurz": "Hafen, Elbphilharmonie, Speicherstadt und Kiez – Moin aus dem Norden.",
+  "start": { "name": "Rathausmarkt", "wiki": "Hamburger Rathaus", "lage": [53.55028, 9.99222] },
+  "loesungsworte": ["ELBE", "MOIN", "HAFEN", "ALSTER", "MICHEL", "HUMMEL", "SPEICHERSTADT", "FISCHBROETCHEN"],
+  "orte": [
+    {
+      "id": "rathaus",
+      "name": "Hamburger Rathaus",
+      "wiki": "Hamburger Rathaus",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Das prachtvolle Rathaus wurde Ende des 19. Jahrhunderts gebaut. Hier sitzen Bürgerschaft und Senat – Hamburg ist schließlich Stadt und Bundesland zugleich. Im Innenhof steht der Hygieia-Brunnen, der an die Choleraepidemie von 1892 erinnert.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie viele Räume hat das Hamburger Rathaus?", "wert": 647, "einheit": "Räume" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Woran erinnert der Hygieia-Brunnen im Innenhof?", "richtig": "An die Cholera-Epidemie von 1892", "falsch": ["An den Großen Brand", "An die Sturmflut von 1962"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie begrüßt man sich in Hamburg?", "richtig": "Moin!", "falsch": ["Servus!", "Grüß Gott!"] }
+      ],
+      "lage": [53.55028, 9.99222]
+    },
+    {
+      "id": "hummel",
+      "name": "Hummelbrunnen",
+      "wiki": "Hans Hummel",
+      "suche": "Hummelbrunnen, Rademachergang, Hamburg",
+      "themen": ["besonderheiten", "kinder", "historie"],
+      "prio": 2,
+      "info": "Hans Hummel war ein Wasserträger, den die Kinder mit 'Hummel, Hummel!' ärgerten. Er antwortete grummelnd 'Mors, Mors!' – frei übersetzt: 'Leckt mich am …'. Daraus wurde der berühmteste Hamburger Gruß.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was antwortet man auf 'Hummel, Hummel'?", "richtig": "Mors, Mors!", "falsch": ["Moin, Moin!", "Ahoi, Ahoi!"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Beruf hatte Hans Hummel?", "richtig": "Wasserträger", "falsch": ["Lotse", "Schornsteinfeger"] },
+        { "typ": "mission", "text": "Ruft laut 'Hummel, Hummel!' – antwortet jemand Fremdes mit 'Mors, Mors'?" }
+      ],
+      "lage": [53.55231, 9.98205]
+    },
+    {
+      "id": "binnenalster",
+      "name": "Binnenalster & Jungfernstieg",
+      "wiki": "Binnenalster",
+      "suche": "Jungfernstieg, Hamburg",
+      "themen": ["highlights", "natur", "kinder"],
+      "prio": 3,
+      "info": "Der Jungfernstieg an der Binnenalster ist Hamburgs Flaniermeile. Im Sommer schießt die Alsterfontäne in die Höhe, und auf dem Wasser schwimmen die berühmten Alsterschwäne. Um sie kümmert sich ein eigener Schwanenvater.",
+      "fakt": "Im Winter ziehen die Alsterschwäne in ein geschütztes Winterquartier um – sie werden mit Booten eingesammelt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer kümmert sich um die Alsterschwäne?", "richtig": "Der Schwanenvater", "falsch": ["Der Bürgermeister", "Die Feuerwehr"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat der Jungfernstieg seinen Namen?", "richtig": "Hier gingen früher die jungen Frauen sonntags spazieren", "falsch": ["Hier legten Schiffe zur Jungfernfahrt ab", "Hier stand ein Kloster"] },
+        { "typ": "suchen", "text": "Zählt die Schwäne, die ihr von hier aus seht." }
+      ],
+      "lage": [53.5521, 9.9934]
+    },
+    {
+      "id": "chilehaus",
+      "name": "Chilehaus",
+      "wiki": "Chilehaus",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Das Chilehaus sieht aus wie ein riesiger Schiffsbug aus Backstein. Es wurde in den 1920er-Jahren für einen Kaufmann gebaut, der mit Salpeter aus Chile reich geworden war. Heute ist es UNESCO-Welterbe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran erinnert die Spitze des Chilehauses?", "richtig": "An einen Schiffsbug", "falsch": ["An eine Rakete", "An einen Berg"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat das Chilehaus seinen Namen?", "richtig": "Der Bauherr handelte mit Salpeter aus Chile", "falsch": ["Hier gab es das erste Chili-Restaurant", "Der Architekt stammte aus Chile"] },
+        { "typ": "foto", "text": "Stellt euch an die Spitze des Hauses wie an den Bug eines Schiffs – Titanic-Pose!" }
+      ],
+      "lage": [53.54806, 10.00167]
+    },
+    {
+      "id": "speicherstadt",
+      "name": "Speicherstadt",
+      "wiki": "Speicherstadt",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Die Speicherstadt ist der größte historische Lagerhauskomplex der Welt – gebaut auf Eichenpfählen im Wasser. Früher lagerten hier Kaffee, Tee, Gewürze und Teppiche. Seit 2015 ist sie UNESCO-Welterbe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Worauf stehen die Speicherhäuser?", "richtig": "Auf Eichenpfählen", "falsch": ["Auf Felsen", "Auf schwimmenden Pontons"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wurde in der Speicherstadt früher gelagert?", "richtig": "Kaffee, Tee und Gewürze", "falsch": ["Autos", "Spielzeug"] },
+        { "typ": "foto", "text": "Fotografiert die Backsteinhäuser mit ihrer Spiegelung im Fleet." }
+      ],
+      "lage": [53.54333, 9.99194]
+    },
+    {
+      "id": "kaffeeroesterei",
+      "name": "Speicherstadt Kaffeerösterei",
+      "suche": "Speicherstadt Kaffeerösterei, Kehrwieder 5, Hamburg",
+      "themen": ["kulinarik"],
+      "prio": 2,
+      "info": "Mitten in der Speicherstadt wird in einem alten Lagerhaus Kaffee geröstet – ihr riecht es schon von Weitem. Dazu passt ein Franzbrötchen, das Hamburger Gebäck mit Zimt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Gewürz gibt dem Franzbrötchen seinen Geschmack?", "richtig": "Zimt", "falsch": ["Anis", "Kardamom"] },
+        { "typ": "mission", "text": "Beschreibt den Duft hier in drei Wörtern – das schönste Wort gewinnt." }
+      ],
+      "lage": [53.54335, 9.98575]
+    },
+    {
+      "id": "wunderland",
+      "name": "Miniatur Wunderland",
+      "wiki": "Miniatur Wunderland",
+      "themen": ["kinder", "spass", "besonderheiten"],
+      "prio": 3,
+      "kosten": "Eintritt, Tickets vorab buchen",
+      "info": "Das Miniatur Wunderland ist die größte Modelleisenbahnanlage der Welt. Neben Tausenden Zügen gibt es einen Flughafen, auf dem Flugzeuge starten und landen, und Welten von den Alpen bis Amerika.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist das Miniatur Wunderland?", "richtig": "Die größte Modelleisenbahn der Welt", "falsch": ["Ein Zoo für kleine Tiere", "Ein Zwergen-Museum"] },
+        { "typ": "mission", "text": "Plant: Welche Mini-Welt wollt ihr drinnen zuerst sehen? Einigt euch in 30 Sekunden." }
+      ],
+      "lage": [53.54389, 9.98889]
+    },
+    {
+      "id": "elbphilharmonie",
+      "name": "Elbphilharmonie",
+      "wiki": "Elbphilharmonie",
+      "themen": ["highlights", "besonderheiten", "spass"],
+      "prio": 3,
+      "kosten": "Plaza mit kostenlosem Ticket",
+      "info": "Die 'Elphi' wurde 2017 eröffnet. Sie sitzt wie eine gläserne Welle auf einem alten Kaispeicher. Eine gebogene Rolltreppe, die 'Tube', bringt euch zur Plaza mit Rundumblick über Hafen und Stadt.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch ist die Elbphilharmonie an ihrer höchsten Stelle?", "wert": 110, "einheit": "m" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Worauf wurde die Elbphilharmonie gebaut?", "richtig": "Auf einem alten Kaispeicher", "falsch": ["Auf einem Schiffswrack", "Auf einer künstlichen Insel"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie nennen die Hamburger die Elbphilharmonie?", "richtig": "Elphi", "falsch": ["Philli", "Elbi"] }
+      ],
+      "lage": [53.54142, 9.98419]
+    },
+    {
+      "id": "deichstrasse",
+      "name": "Deichstraße",
+      "wiki": "Deichstraße (Hamburg)",
+      "themen": ["historie", "kulinarik"],
+      "prio": 2,
+      "info": "Die Deichstraße zeigt, wie Hamburg früher aussah: schmale Kaufmannshäuser mit Giebeln. Hier brach 1842 der Große Brand aus, der ein Viertel der Innenstadt zerstörte.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wütete der Große Brand von Hamburg?", "wert": 1842, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist in der Deichstraße 1842 passiert?", "richtig": "Ein großes Feuer brach aus", "falsch": ["Ein Schiff ist eingeparkt", "Ein Wal tauchte auf"] }
+      ],
+      "lage": [53.54611, 9.98731]
+    },
+    {
+      "id": "michel",
+      "name": "St. Michaelis (Michel)",
+      "wiki": "Hauptkirche Sankt Michaelis",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "kosten": "Eintritt für den Turm",
+      "info": "Der 'Michel' ist Hamburgs Wahrzeichen. Nach einem rund 300 Jahre alten Brauch bläst werktags um 10 und um 21 Uhr ein Türmer vom Turm einen Choral auf der Trompete – in alle vier Himmelsrichtungen.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Turm des Michels?", "wert": 132, "einheit": "m" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht der Türmer oben auf dem Michel?", "richtig": "Er spielt Trompete", "falsch": ["Er läutet mit der Hand", "Er füttert Möwen"] },
+        { "typ": "suchen", "text": "Findet die Turmuhr. Sie gehört zu den größten Kirchturmuhren Deutschlands – wie groß schätzt ihr das Zifferblatt?" }
+      ],
+      "lage": [53.54833, 9.97889]
+    },
+    {
+      "id": "krameramtsstuben",
+      "name": "Krameramtsstuben",
+      "wiki": "Krameramtsstuben",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 1,
+      "info": "In einem schmalen Hof neben dem Michel stehen Fachwerkhäuser aus dem 17. Jahrhundert. Hier wohnten die Witwen der Krämer – eine frühe Form der Altersversorgung.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer wohnte früher in den Krameramtsstuben?", "richtig": "Witwen von Krämern", "falsch": ["Seeleute", "Mönche"] },
+        { "typ": "foto", "text": "Fotografiert den engsten Durchgang, den ihr hier findet." }
+      ],
+      "lage": [53.54806, 9.98028]
+    },
+    {
+      "id": "landungsbruecken",
+      "name": "Landungsbrücken",
+      "wiki": "St. Pauli-Landungsbrücken",
+      "themen": ["highlights", "natur", "spass"],
+      "prio": 3,
+      "info": "Von den Landungsbrücken starten Hafenrundfahrten und Fähren. Geheimtipp: Mit der Linienfähre 62 macht ihr für den Preis eines normalen HVV-Tickets eine Mini-Hafenrundfahrt bis Finkenwerder.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Mit welcher Fährlinie gibt es die günstige Hafenrundfahrt?", "richtig": "Mit der Linie 62", "falsch": ["Mit der Linie 1", "Mit der Linie 99"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt durch den Hamburger Hafen?", "richtig": "Die Elbe", "falsch": ["Der Rhein", "Die Spree"] },
+        { "typ": "suchen", "text": "Zählt die Containerschiffe, die ihr von hier aus sehen könnt." }
+      ],
+      "lage": [53.54611, 9.96667]
+    },
+    {
+      "id": "elbtunnel",
+      "name": "Alter Elbtunnel",
+      "wiki": "St. Pauli-Elbtunnel",
+      "themen": ["besonderheiten", "historie", "kinder"],
+      "prio": 3,
+      "info": "Der Alte Elbtunnel wurde 1911 eröffnet und führt unter der Elbe hindurch. Autos fahren mit riesigen Fahrkörben in die Tiefe – Fußgänger und Radfahrer dürfen kostenlos durch.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Alte Elbtunnel eröffnet?", "wert": 1911, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommen die Autos in den Alten Elbtunnel hinunter?", "richtig": "Mit großen Aufzügen", "falsch": ["Über eine Rampe", "Mit einem Kran"] },
+        { "typ": "foto", "text": "Fotografiert den gekachelten Tunnel – mit allen in einer Reihe." }
+      ],
+      "lage": [53.544, 9.9665]
+    },
+    {
+      "id": "rickmer",
+      "name": "Rickmer Rickmers",
+      "wiki": "Rickmer Rickmers",
+      "themen": ["historie", "kinder"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "An den Landungsbrücken liegt die Rickmer Rickmers, ein Großsegler aus dem Jahr 1896. Heute ist das Schiff ein Museum – mit Kombüse, Kojen und Steuerrad.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie bewegte sich die Rickmer Rickmers früher fort?", "richtig": "Mit Segeln", "falsch": ["Mit Rudern", "Mit Raketen"] },
+        { "typ": "suchen", "text": "Zählt die Masten des Schiffs." }
+      ],
+      "lage": [53.54455, 9.97306]
+    },
+    {
+      "id": "fischmarkt",
+      "name": "Fischmarkt & Fischauktionshalle",
+      "wiki": "Fischmarkt Hamburg-Altona",
+      "suche": "Fischauktionshalle, Große Elbstraße, Hamburg",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "hinweis": "Markt nur sonntags früh morgens",
+      "info": "Sonntags in aller Frühe verkaufen hier Marktschreier Aale, Obst und Pflanzen – oft schon ab 5 Uhr. Die Nachtschwärmer vom Kiez kommen direkt zum Fischbrötchen-Frühstück.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "An welchem Wochentag findet der Fischmarkt statt?", "richtig": "Sonntag", "falsch": ["Montag", "Mittwoch"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es im Fischbrötchen am häufigsten?", "richtig": "Hering oder Matjes", "falsch": ["Thunfisch-Pizza", "Tintenfisch-Eis"] },
+        { "typ": "mission", "text": "Marktschreier-Challenge: Preist ein Teammitglied an wie ein Aal-Händler!" }
+      ],
+      "lage": [53.54481, 9.95168]
+    },
+    {
+      "id": "reeperbahn",
+      "name": "Reeperbahn",
+      "wiki": "Reeperbahn",
+      "themen": ["kneipen", "spass", "besonderheiten"],
+      "prio": 3,
+      "ab18": true,
+      "info": "Die Reeperbahn ist Hamburgs berühmte Partymeile auf St. Pauli. Ihr Name stammt von den Reepschlägern, die hier früher lange Schiffstaue drehten – dafür brauchten sie eine lange, gerade Bahn.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat die Reeperbahn ihren Namen?", "richtig": "Von Seilmachern, die hier Schiffstaue drehten", "falsch": ["Von einer Pferderennbahn", "Von einem Kapitän namens Reeper"] },
+        { "typ": "mission", "text": "Findet ein Neonschild mit dem Wort 'Bar' und posiert darunter wie Rockstars." }
+      ],
+      "lage": [53.54944, 9.96139]
+    },
+    {
+      "id": "davidwache",
+      "name": "Davidwache",
+      "wiki": "Davidwache",
+      "themen": ["besonderheiten", "kneipen"],
+      "prio": 2,
+      "info": "Die Davidwache an der Reeperbahn ist das wohl bekannteste Polizeirevier Deutschlands – bekannt aus Filmen und Fernsehserien. Das Backsteingebäude steht seit 1914.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist die Davidwache?", "richtig": "Ein Polizeirevier", "falsch": ["Eine Kneipe", "Ein Theater"] },
+        { "typ": "foto", "text": "Gruppenfoto vor der Davidwache – alle mit Unschuldsmiene." }
+      ],
+      "lage": [53.54917, 9.96278]
+    },
+    {
+      "id": "beatles_platz",
+      "name": "Beatles-Platz",
+      "wiki": "Beatles-Platz",
+      "themen": ["besonderheiten", "historie", "kneipen"],
+      "prio": 2,
+      "info": "An der Großen Freiheit begann die Karriere der Beatles: Ab 1960 spielten sie in Clubs wie dem Indra und dem Kaiserkeller. Der Beatles-Platz ist wie eine Schallplatte geformt, darauf stehen Figuren der Band.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr traten die Beatles zum ersten Mal in Hamburg auf?", "richtig": "1960", "falsch": ["1955", "1969"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat der Beatles-Platz?", "richtig": "Wie eine Schallplatte", "falsch": ["Wie eine Gitarre", "Wie ein Herz"] },
+        { "typ": "foto", "text": "Stellt euch zwischen die Figuren, als wärt ihr Teil der Band." }
+      ],
+      "lage": [53.54984, 9.95729]
+    },
+    {
+      "id": "ritze",
+      "name": "Zur Ritze",
+      "wiki": "Zur Ritze",
+      "suche": "Zur Ritze, Reeperbahn 140, Hamburg",
+      "themen": ["kneipen", "besonderheiten"],
+      "prio": 2,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Die Ritze ist eine Kiezkneipe mit Legendenstatus. Den Eingang zieren zwei gemalte, gespreizte Frauenbeine. Im Keller liegt ein Boxkeller, in dem schon Profiboxer trainiert haben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was befindet sich im Keller der Ritze?", "richtig": "Ein Boxkeller", "falsch": ["Ein Weinkeller", "Ein Kino"] },
+        { "typ": "mission", "text": "Schattenboxen: Zeigt drei Runden à zehn Sekunden vor der Tür." }
+      ],
+      "lage": [53.55008, 9.95938]
+    },
+    {
+      "id": "silbersack",
+      "name": "Zum Silbersack",
+      "suche": "Zum Silbersack, Silbersackstraße 9, Hamburg",
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Der Silbersack ist eine der urigsten Kneipen auf St. Pauli. Hier treffen Seeleute, Studis und Touristen aufeinander, und die Musikbox spielt Schlager und Seemannslieder.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Hamburger Schauspieler sang 'Auf der Reeperbahn nachts um halb eins'?", "richtig": "Hans Albers", "falsch": ["Heinz Rühmann", "Freddy Quinn"] },
+        { "typ": "mission", "text": "Wählt ein Seemannslied aus und singt den Refrain – alle zusammen." }
+      ],
+      "lage": [53.54888, 9.95996]
+    },
+    {
+      "id": "schanze",
+      "name": "Schanzenviertel",
+      "wiki": "Hamburg-Sternschanze",
+      "suche": "Schulterblatt, Hamburg",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "info": "Rund um das Schulterblatt reihen sich Cafés, Bars und Imbisse. Die 'Schanze' ist alternativ, bunt und an Sommerabenden voller Menschen auf den Gehwegen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt die Hauptstraße im Schanzenviertel?", "richtig": "Schulterblatt", "falsch": ["Ellenbogen", "Kniekehle"] },
+        { "typ": "mission", "text": "Findet das kreativste Graffiti und gebt ihm einen Titel." }
+      ],
+      "lage": [53.56285, 9.96099]
+    },
+    {
+      "id": "planten",
+      "name": "Planten un Blomen",
+      "wiki": "Planten un Blomen",
+      "themen": ["natur", "kinder"],
+      "prio": 2,
+      "hinweis": "Wasserlichtkonzerte an Sommerabenden",
+      "info": "Planten un Blomen – Plattdeutsch für 'Pflanzen und Blumen' – ist Hamburgs grüne Oase mitten in der Stadt. Es gibt einen Japanischen Garten, einen Wasserspielplatz und im Sommer abends Wasserlichtkonzerte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bedeutet 'Planten un Blomen'?", "richtig": "Pflanzen und Blumen", "falsch": ["Planeten und Blumen", "Platten und Bohnen"] },
+        { "typ": "bewegen", "text": "Ab zum Wasserspielplatz: Wer baut den besten Staudamm?" }
+      ],
+      "lage": [53.56115, 9.98342]
+    },
+    {
+      "id": "hagenbeck",
+      "name": "Tierpark Hagenbeck",
+      "wiki": "Tierpark Hagenbeck",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Carl Hagenbeck eröffnete 1907 den ersten Zoo mit Freigehegen ohne Gitter – die Tiere werden durch Gräben getrennt. Heute leben hier Elefanten, Walrosse und Orang-Utans.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Tierpark Hagenbeck eröffnet?", "wert": 1907, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was trennt bei Hagenbeck viele Tiere von den Besuchern?", "richtig": "Gräben statt Gitter", "falsch": ["Glaswände", "Nichts"] }
+      ],
+      "lage": [53.59639, 9.93778]
+    },
+    {
+      "id": "oevelgoenne",
+      "name": "Elbstrand Övelgönne",
+      "wiki": "Övelgönne",
+      "themen": ["natur", "kneipen", "spass"],
+      "prio": 1,
+      "info": "Am Elbstrand von Övelgönne fühlt man sich wie am Meer: Sand, Strandbars und riesige Containerschiffe, die in wenigen Metern Entfernung vorbeiziehen. Am Strand liegt der 'Alte Schwede', ein Findling aus der Eiszeit.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist der 'Alte Schwede' am Elbstrand?", "richtig": "Ein großer Findling aus der Eiszeit", "falsch": ["Ein Schiffswrack", "Ein Leuchtturm"] },
+        { "typ": "bewegen", "text": "Barfuß im Sand: Wer baut in drei Minuten die beste Sandburg?" }
+      ],
+      "lage": [53.54425, 9.90261]
+    }
+  ],
+  "zentrum": [53.54833, 9.97889]
+}

@@ -1,0 +1,343 @@
+{
+  "id": "duesseldorf",
+  "name": "Düsseldorf",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Altbier, Kö und Rheinufer – die längste Theke der Welt wartet.",
+  "start": { "name": "Burgplatz am Rhein", "suche": "Burgplatz, Düsseldorf", "lage": [51.22703, 6.77137] },
+  "loesungsworte": ["KOE", "ALT", "RHEIN", "HEINE", "UERIGE", "MOSTERT", "ALTBIER", "RADSCHLAEGER"],
+  "orte": [
+    {
+      "id": "schlossturm",
+      "name": "Schlossturm am Burgplatz",
+      "wiki": "Schlossturm (Düsseldorf)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Der Schlossturm ist der letzte Rest des Düsseldorfer Schlosses, das 1872 abbrannte. Heute steckt darin das Schifffahrtsmuseum – passend, denn direkt dahinter fließt der Rhein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist im Schlossturm heute untergebracht?", "richtig": "Ein Schifffahrtsmuseum", "falsch": ["Ein Gefängnis", "Eine Brauerei"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist vom alten Schloss übrig geblieben?", "richtig": "Nur der Turm", "falsch": ["Nur der Keller", "Das ganze Schloss"] }
+      ],
+      "lage": [51.2275, 6.77111]
+    },
+    {
+      "id": "radschlaeger",
+      "name": "Radschlägerbrunnen",
+      "wiki": "Radschlägerbrunnen",
+      "suche": "Radschlägerbrunnen, Burgplatz, Düsseldorf",
+      "themen": ["kinder", "besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Radschläger sind das Wahrzeichen Düsseldorfer Kinder. Der Legende nach schlugen Kinder 1288 nach der Schlacht bei Worringen vor Freude Räder auf der Straße – seitdem gehört das Radschlagen zur Stadt.",
+      "fakt": "Es gibt in Düsseldorf sogar ein jährliches Radschläger-Turnier für Kinder.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was machen die Figuren am Brunnen?", "richtig": "Sie schlagen Rad", "falsch": ["Sie fahren Fahrrad", "Sie spielen Fußball"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach welcher Schlacht sollen Kinder 1288 vor Freude Rad geschlagen haben?", "richtig": "Schlacht bei Worringen", "falsch": ["Schlacht im Teutoburger Wald", "Schlacht bei Waterloo"] },
+        { "typ": "bewegen", "text": "Wer kann ein Rad schlagen? Alle anderen machen einen Purzelbaum oder Hampelmann." }
+      ],
+      "lage": [51.22735, 6.77171]
+    },
+    {
+      "id": "rheinufer",
+      "name": "Rheinuferpromenade",
+      "suche": "Mannesmannufer, Düsseldorf",
+      "themen": ["natur", "highlights", "spass"],
+      "prio": 2,
+      "info": "Früher donnerte hier eine Straße am Rhein entlang. Seit sie in den Rheinufertunnel verlegt wurde, flanieren Menschen auf der Promenade, sitzen auf den Freitreppen und schauen den Schiffen zu.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wo verläuft der Autoverkehr, der früher hier am Ufer entlangfuhr?", "richtig": "In einem Tunnel unter der Promenade", "falsch": ["Auf einer Brücke darüber", "Auf der anderen Rheinseite"] },
+        { "typ": "suchen", "text": "Zählt die Schiffe, die in fünf Minuten vorbeifahren. Wer hat richtig geschätzt?" },
+        { "typ": "foto", "text": "Sonnenuntergangs- oder Skyline-Foto mit dem Rheinturm im Hintergrund." }
+      ],
+      "lage": [51.21995, 6.7666]
+    },
+    {
+      "id": "lambertus",
+      "name": "St. Lambertus",
+      "wiki": "St. Lambertus (Düsseldorf)",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Schaut genau auf den Turm von St. Lambertus: Er ist sichtbar verdreht! Der Legende nach verdrehte er sich vor Staunen, als eine Braut tatsächlich als Jungfrau zur Hochzeit kam. Tatsächlich war wohl feuchtes Bauholz schuld.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist am Kirchturm von St. Lambertus besonders?", "richtig": "Er ist verdreht", "falsch": ["Er ist aus Gold", "Er hat keine Spitze"] },
+        { "typ": "foto", "text": "Macht ein Foto, auf dem ihr euch genauso verdreht wie der Turm." }
+      ],
+      "lage": [51.22806, 6.77139]
+    },
+    {
+      "id": "jan_wellem",
+      "name": "Jan-Wellem-Denkmal am Rathaus",
+      "wiki": "Jan-Wellem-Reiterdenkmal",
+      "suche": "Reiterstandbild Jan Wellem, Marktplatz, Düsseldorf",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Auf dem Marktplatz vor dem Rathaus reitet Jan Wellem – Kurfürst Johann Wilhelm, der Düsseldorf um 1700 zu einer prachtvollen Residenzstadt machte. Das Reiterstandbild entstand schon zu seinen Lebzeiten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer war 'Jan Wellem'?", "richtig": "Kurfürst Johann Wilhelm", "falsch": ["Ein Altbier-Brauer", "Ein Rheinschiffer"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Auf welchem Tier sitzt Jan Wellem?", "richtig": "Auf einem Pferd", "falsch": ["Auf einem Esel", "Auf einem Löwen"] }
+      ],
+      "lage": [51.22582, 6.77202]
+    },
+    {
+      "id": "heine",
+      "name": "Heines Geburtshaus",
+      "suche": "Bolkerstraße 53, Düsseldorf",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 1,
+      "info": "In der Bolkerstraße 53 wurde 1797 der Dichter Heinrich Heine geboren. Er schrieb später: 'Die Stadt Düsseldorf ist sehr schön, und wenn man in der Ferne an sie denkt und zufällig dort geboren ist, wird einem wunderlich zumute.'",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Dichter wurde in der Bolkerstraße geboren?", "richtig": "Heinrich Heine", "falsch": ["Friedrich Schiller", "Bertolt Brecht"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde Heinrich Heine geboren?", "wert": 1797, "einheit": "" }
+      ],
+      "lage": [51.22612, 6.7749]
+    },
+    {
+      "id": "altstadt_theke",
+      "name": "Bolkerstraße – längste Theke der Welt",
+      "suche": "Bolkerstraße, Düsseldorf",
+      "themen": ["kneipen", "spass"],
+      "prio": 2,
+      "ab18": true,
+      "info": "Die Düsseldorfer Altstadt nennt sich gern 'längste Theke der Welt': Auf engstem Raum reihen sich Hunderte Kneipen, Bars und Brauhäuser aneinander. Die Bolkerstraße ist ihr Herzstück.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Spitznamen hat die Düsseldorfer Altstadt?", "richtig": "Längste Theke der Welt", "falsch": ["Durstigste Meile am Rhein", "Kneipenkönigin"] },
+        { "typ": "mission", "text": "Zählt in einer Minute alle Kneipenschilder, die ihr von einem Punkt aus sehen könnt." }
+      ],
+      "lage": [51.22622, 6.77438]
+    },
+    {
+      "id": "uerige",
+      "name": "Zum Uerige",
+      "wiki": "Uerige",
+      "suche": "Zum Uerige, Berger Straße, Düsseldorf",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 3,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Das Uerige ist eine der berühmtesten Altbier-Hausbrauereien. Der Name kommt vom ersten Wirt, der als 'urig' – also launisch und knurrig – galt. Ein paar Mal im Jahr gibt es das stärkere Geheimbier 'Sticke'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet 'uerig' auf Düsseldorfer Platt?", "richtig": "Launisch, knurrig", "falsch": ["Durstig", "Gemütlich"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Bierspezialität wird in Düsseldorf getrunken?", "richtig": "Altbier", "falsch": ["Kölsch", "Weißbier"] },
+        { "typ": "mission", "text": "Fragt den Köbes nach dem nächsten Sticke-Termin – oder lasst ihn erklären, was 'Doppelsticke' ist." }
+      ],
+      "lage": [51.22504, 6.77232]
+    },
+    {
+      "id": "fuechschen",
+      "name": "Im Füchschen",
+      "wiki": "Brauerei im Füchschen",
+      "suche": "Im Füchschen, Ratinger Straße, Düsseldorf",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Das Füchschen in der Ratinger Straße braut sein Altbier direkt im Haus. Berühmt ist das Füchschen-Weihnachtsbier, für das sich jedes Jahr Schlangen vor der Tür bilden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Tier ist das Wappentier dieser Brauerei?", "richtig": "Der Fuchs", "falsch": ["Der Dachs", "Der Hase"] },
+        { "typ": "mission", "text": "Bestellt 'ein Alt' und stoßt mit dem Fuchs an – Malzbier geht auch!" }
+      ],
+      "lage": [51.22959, 6.77529]
+    },
+    {
+      "id": "schluessel",
+      "name": "Zum Schlüssel",
+      "wiki": "Brauerei Gatzweiler",
+      "suche": "Zum Schlüssel, Bolkerstraße, Düsseldorf",
+      "themen": ["kneipen"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Mitten auf der Bolkerstraße liegt die Hausbrauerei Zum Schlüssel. Hier wird Altbier nach alter Tradition gebraut – dunkel, obergärig und mit kräftiger Hopfennote.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie wird Altbier gebraut?", "richtig": "Obergärig", "falsch": ["Untergärig", "Gar nicht – es wird gemischt"] },
+        { "typ": "mission", "text": "Jede Person nennt einen Grund, warum Alt besser ist als Kölsch. Der beste Grund gewinnt." }
+      ],
+      "lage": [51.22616, 6.77464]
+    },
+    {
+      "id": "schumacher",
+      "name": "Brauerei Schumacher",
+      "wiki": "Brauerei Ferd. Schumacher",
+      "suche": "Oststraße 123, Düsseldorf",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Die Brauerei Schumacher an der Oststraße gilt als älteste Altbier-Brauerei Düsseldorfs: Seit 1838 wird hier gebraut. Ihr Alt ist etwas milder als das der Altstadt-Konkurrenz.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr braut die Brauerei Schumacher Altbier?", "wert": 1838, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der Kellner im Düsseldorfer Brauhaus?", "richtig": "Köbes", "falsch": ["Ober", "Schänker"] }
+      ],
+      "lage": [51.22157, 6.78534]
+    },
+    {
+      "id": "killepitsch",
+      "name": "Et Kabüffke (Killepitsch)",
+      "wiki": "Killepitsch",
+      "suche": "Et Kabüffke, Flinger Straße, Düsseldorf",
+      "themen": ["kneipen", "kulinarik", "besonderheiten"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Im winzigen Kabüffke gibt es Killepitsch – einen Düsseldorfer Kräuterlikör. Getrunken wird er traditionell im Stehen, direkt vor der Tür.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist Killepitsch?", "richtig": "Ein Kräuterlikör", "falsch": ["Ein Altbier", "Ein Senf"] },
+        { "typ": "mission", "text": "Schätzt, wie viele Leute gleichzeitig ins Kabüffke passen – dann zählt nach (ohne Gedränge)!" }
+      ],
+      "lage": [51.22507, 6.77256]
+    },
+    {
+      "id": "senf",
+      "name": "Löwensenf & Mostert",
+      "wiki": "Löwensenf",
+      "suche": "Senfladen, Berger Straße 29, Düsseldorf",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 1,
+      "info": "Düsseldorf ist Senfstadt: Löwensenf ist hier zuhause, und der Düsseldorfer Senf heißt auf Platt 'Mostert'. Im Senfladen in der Altstadt gibt es Dutzende Sorten zum Probieren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie sagt man in Düsseldorf zu Senf?", "richtig": "Mostert", "falsch": ["Möppes", "Klütte"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier ist auf dem Löwensenf-Glas?", "richtig": "Ein Löwe", "falsch": ["Ein Adler", "Ein Bär"] },
+        { "typ": "mission", "text": "Probiert eine Senfsorte, die ihr noch nie gegessen habt, und vergebt Noten von 1 bis 10." }
+      ],
+      "lage": [51.22489, 6.77258]
+    },
+    {
+      "id": "carlsplatz",
+      "name": "Carlsplatz-Markt",
+      "suche": "Carlsplatz, Düsseldorf",
+      "themen": ["kulinarik"],
+      "prio": 2,
+      "hinweis": "Montag bis Samstag geöffnet",
+      "info": "Der Carlsplatz ist Düsseldorfs Bauch: Auf dem Markt gibt es Obst, Käse, Blumen, Austern und viele Imbissstände – ideal für eine Pause zwischendurch.",
+      "aufgaben": [
+        { "typ": "mission", "text": "Kauft für die ganze Gruppe etwas zum Probieren, das ihr noch nie gegessen habt." },
+        { "typ": "suchen", "text": "Findet drei Obst- oder Gemüsesorten, deren Namen ihr nicht kennt." }
+      ],
+      "lage": [51.22343, 6.77357]
+    },
+    {
+      "id": "koenigsallee",
+      "name": "Königsallee",
+      "wiki": "Königsallee",
+      "suche": "Tritonenbrunnen, Königsallee, Düsseldorf",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Die 'Kö' ist Düsseldorfs Prachtboulevard mit Luxusläden auf der einen und dem Stadtgraben samt Tritonenbrunnen auf der anderen Seite. Ihren Namen verdankt sie einer peinlichen Episode: 1848 wurde der preußische König hier mit Pferdeäpfeln beworfen – zur Versöhnung taufte man die Straße später Königsallee.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Womit wurde der preußische König 1848 auf dieser Allee beworfen?", "richtig": "Mit Pferdeäpfeln", "falsch": ["Mit Tomaten", "Mit Blumen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Figur aus dem Meer steht im Brunnen am Stadtgraben?", "richtig": "Triton, ein Meeresgott", "falsch": ["Ein Pirat", "Ein Hai"] },
+        { "typ": "foto", "text": "Laufsteg-Foto: Ihr stolziert wie Models über die Kö." }
+      ],
+      "lage": [51.22593, 6.77853]
+    },
+    {
+      "id": "koebogen",
+      "name": "Kö-Bogen II",
+      "wiki": "Kö-Bogen",
+      "suche": "Kö-Bogen II, Gustaf-Gründgens-Platz, Düsseldorf",
+      "themen": ["besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Dieses Gebäude ist komplett mit Hecken bewachsen: Zehntausende Hainbuchen bedecken Fassade und Dach. Sie kühlen im Sommer, binden Staub und machen das Haus zu einer der größten Grünfassaden Europas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wächst an den Wänden des Kö-Bogens?", "richtig": "Hecken", "falsch": ["Bananen", "Kakteen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Pflanze bedeckt die Fassade des Kö-Bogen II?", "richtig": "Hainbuche", "falsch": ["Efeu", "Wilder Wein"] },
+        { "typ": "foto", "text": "Fotografiert euch so, als würdet ihr aus der Hecke herauswachsen." }
+      ],
+      "lage": [51.22694, 6.78111]
+    },
+    {
+      "id": "hofgarten",
+      "name": "Hofgarten",
+      "wiki": "Hofgarten (Düsseldorf)",
+      "themen": ["natur", "historie"],
+      "prio": 1,
+      "info": "Der Hofgarten wurde ab 1769 angelegt und gilt als ältester Volksgarten Deutschlands – ein Park, der von Anfang an für alle offen war. Er verbindet die Innenstadt mit dem Rhein – ideal für eine Pause im Grünen.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet im Park ein Denkmal oder eine Skulptur und denkt euch einen lustigen Namen dafür aus." },
+        { "typ": "bewegen", "text": "Barfuß-Challenge: Wer traut sich, zehn Schritte barfuß über die Wiese zu laufen?" }
+      ],
+      "lage": [51.22968, 6.78416]
+    },
+    {
+      "id": "japan",
+      "name": "Japanisches Viertel",
+      "wiki": "Immermannstraße",
+      "suche": "Immermannstraße, Düsseldorf",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Rund um die Immermannstraße lebt die größte japanische Gemeinde Deutschlands. Ramen-Bars, Bäckereien mit Matcha-Gebäck und japanische Supermärkte machen das Viertel zu 'Little Tokyo am Rhein'.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Gemeinde ist in Düsseldorf die größte ihrer Art in Deutschland?", "richtig": "Die japanische", "falsch": ["Die brasilianische", "Die schwedische"] },
+        { "typ": "mission", "text": "Probiert etwas Japanisches, das ihr nicht kennt – und bedankt euch auf Japanisch: 'Arigatō!'" }
+      ],
+      "lage": [51.22331, 6.78854]
+    },
+    {
+      "id": "in_orbit",
+      "name": "K21 – 'in orbit'",
+      "suche": "K21 Ständehaus, Düsseldorf",
+      "themen": ["spass", "besonderheiten"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Im Kunstmuseum K21 im Ständehaus spannt sich ein riesiges Stahlnetz hoch über der Eingangshalle. Mit Overall und Schuhen des Museums dürft ihr darauf herumklettern – über 20 Meter über dem Boden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was kann man bei der Installation 'in orbit' tun?", "richtig": "Auf einem Netz hoch über dem Boden klettern", "falsch": ["Mit einem Fallschirm springen", "Einen Planeten bemalen"] },
+        { "typ": "foto", "text": "Fotografiert die Netz-Kletterer von unten – sieht aus wie Spinnen im Netz!" }
+      ],
+      "lage": [51.21664, 6.77397]
+    },
+    {
+      "id": "medienhafen",
+      "name": "MedienHafen & Gehry-Bauten",
+      "wiki": "Neuer Zollhof",
+      "themen": ["highlights", "besonderheiten"],
+      "prio": 3,
+      "info": "Im MedienHafen stehen die schiefen, verbogenen Gehry-Bauten: drei Häuser in Weiß, Silber und rotem Klinker, entworfen vom Stararchitekten Frank O. Gehry. Kein Fenster sitzt hier wie das andere.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Architekt entwarf die schiefen Bauten am Neuen Zollhof?", "richtig": "Frank O. Gehry", "falsch": ["Zaha Hadid", "Norman Foster"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sehen die Häuser hier aus?", "richtig": "Schief und verbogen", "falsch": ["Wie Burgen", "Wie Iglus"] },
+        { "typ": "foto", "text": "Stellt euch genauso schief hin wie die Häuser – Foto!" }
+      ],
+      "lage": [51.2162, 6.75771]
+    },
+    {
+      "id": "rheinturm",
+      "name": "Rheinturm",
+      "wiki": "Rheinturm",
+      "themen": ["highlights", "besonderheiten", "spass"],
+      "prio": 3,
+      "kosten": "Eintritt für die Aussichtsebene",
+      "info": "Der Rheinturm ist mit gut 240 Metern das höchste Bauwerk Düsseldorfs. Die Lichter an seinem Schaft sind eine Uhr: der 'Lichtzeitpegel', die größte Dezimaluhr der Welt.",
+      "fakt": "Von oben gelesen zeigen die Lichter Stunden, Minuten und Sekunden – jeweils in Zehner und Einer aufgeteilt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was zeigen die Lichter am Schaft des Rheinturms?", "richtig": "Die Uhrzeit", "falsch": ["Den Rheinpegel", "Die Temperatur"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Rheinturm?", "wert": 240, "einheit": "m" },
+        { "typ": "mission", "text": "Lest die Uhrzeit am Lichtzeitpegel ab – ohne aufs Handy zu schauen!" }
+      ],
+      "lage": [51.21795, 6.76165]
+    },
+    {
+      "id": "aquazoo",
+      "name": "Aquazoo Löbbecke Museum",
+      "wiki": "Aquazoo – Löbbecke Museum",
+      "themen": ["kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Aquazoo im Nordpark leben Haie, Krokodile, Pinguine und Quallen – und gleich daneben zeigt das Museum Fossilien und Insekten. Perfekt bei Regen!",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches dieser Tiere ist ein Vogel, kann aber nicht fliegen?", "richtig": "Der Pinguin", "falsch": ["Die Möwe", "Der Papagei"] },
+        { "typ": "bewegen", "text": "Watschelt wie Pinguine bis zur nächsten Bank!" }
+      ],
+      "lage": [51.25639, 6.74972]
+    },
+    {
+      "id": "nordpark",
+      "name": "Nordpark & Japanischer Garten",
+      "wiki": "Nordpark Düsseldorf",
+      "suche": "Japanischer Garten, Nordpark, Düsseldorf",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Nordpark ist einer der schönsten Parks der Stadt. Ein Juwel ist der Japanische Garten mit Teichen, Steinlaternen und kleinen Brücken – ein Geschenk der japanischen Gemeinde an Düsseldorf.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet im Japanischen Garten eine Steinlaterne und eine Brücke." },
+        { "typ": "foto", "text": "Fotografiert euch ganz still und entspannt wie in einer Meditation." }
+      ],
+      "lage": [51.25665, 6.74919]
+    }
+  ],
+  "zentrum": [51.22593, 6.77258]
+}
