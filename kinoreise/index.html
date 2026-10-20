@@ -303,7 +303,8 @@ const plakatUrl = f => cache.plakat[f.wiki] || ''
 const hoerprobeFertig = {}
 function plakatHtml(f) {
   const url = plakatUrl(f)
-  if (url) return `<img class="plakat" src="${esc(url)}" alt="Kinoplakat: ${esc(f.de)}" loading="lazy" referrerpolicy="no-referrer">`
+  // Vorschaubild (500 px) nicht verfügbar → Originaldatei laden
+  if (url) return `<img class="plakat" src="${esc(url)}" alt="Kinoplakat: ${esc(f.de)}" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.src.includes('/thumb/')){this.src=this.src.replace('/thumb/','/').replace(/\\/\\d+px-[^/]+$/,'')}">`
   return `<div class="ersatz" data-plakat="${f.i}">${esc(f.de)}<small>${esc(f.orig !== f.de ? f.orig : '')}</small></div>`
 }
 function fuellePlakate() {

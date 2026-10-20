@@ -34,7 +34,7 @@ window.FILME_MEHR = `
 1931|The Champ (1931 film)|Der Champ|N
 1931|Five Star Final||N
 1932|One Hour with You||N
-1932|Shanghai Express|Shanghai-Express|N
+1932|Shanghai Express (film)|Shanghai-Express|N
 1931|The Smiling Lieutenant|Der lächelnde Leutnant|N
 1933|Cavalcade (1933 film)|Kavalkade|W
 1932|A Farewell to Arms (1932 film)|In einem anderen Land|N
@@ -51,7 +51,7 @@ window.FILME_MEHR = `
 1934|It Happened One Night|Es geschah in einer Nacht|W
 1934|The Barretts of Wimpole Street (1934 film)||N
 1934|Cleopatra (1934 film)|Cleopatra|N
-1934|Flirtation Walk||N
+1934|Flirtation Walk (film)||N
 1934|The Gay Divorcee|Scheidung auf amerikanisch|N
 1934|Here Comes the Navy||N
 1934|The House of Rothschild|Das Haus Rothschild|N
@@ -61,7 +61,7 @@ window.FILME_MEHR = `
 1934|Viva Villa!||N
 1934|The White Parade||N
 1935|Mutiny on the Bounty (1935 film)|Meuterei auf der Bounty|W
-1935|Alice Adams (film)||N
+1935|Alice Adams (1935 film)||N
 1935|Broadway Melody of 1936||N
 1935|Captain Blood (1935 film)|Unter Piratenflagge|N
 1935|David Copperfield (1935 film)|David Copperfield|N
@@ -88,28 +88,28 @@ window.FILME_MEHR = `
 1937|Captains Courageous (1937 film)|Manuel|N
 1937|Dead End (1937 film)|Sackgasse|N
 1937|The Good Earth (film)|Die gute Erde|N
-1937|In Old Chicago|Chicago|N
+1938|In Old Chicago|Chicago|N
 1937|Lost Horizon (1937 film)|In den Fesseln von Shangri-La|N
 1937|One Hundred Men and a Girl|100 Männer und ein Mädchen|N
 1937|Stage Door|Bühneneingang|N
 1937|A Star Is Born (1937 film)|Ein Stern geht auf|N
-1937|Grand Illusion|Die große Illusion|N
+1937|La Grande Illusion|Die große Illusion|N
 1937|Snow White and the Seven Dwarfs (1937 film)|Schneewittchen und die sieben Zwerge|K
 1937|The Prisoner of Zenda (1937 film)|Der Gefangene von Zenda|K
 1938|You Can't Take It with You (film)|Lebenskünstler|W
 1938|The Adventures of Robin Hood|Robin Hood, König der Vagabunden|N
 1938|Alexander's Ragtime Band (film)|Alexander's Ragtime Band|N
 1938|Boys Town (film)|Teufelskerle|N
-1938|The Citadel (film)|Die Zitadelle|N
-1938|Four Daughters|Vier Töchter|N
-1938|Jezebel (film)|Jezebel – Die boshafte Lady|N
+1938|The Citadel (1938 film)|Die Zitadelle|N
+1938|Four Daughters (1938 film)|Vier Töchter|N
+1938|Jezebel (1938 film)|Jezebel – Die boshafte Lady|N
 1938|Pygmalion (1938 film)|Pygmalion|N
 1938|Test Pilot (film)|Testpilot|N
 1938|Bringing Up Baby|Leoparden küsst man nicht|K
 1939|Gone with the Wind (film)|Vom Winde verweht|W
 1939|Dark Victory|Opfer einer großen Liebe|N
 1939|Goodbye, Mr. Chips (1939 film)|Auf Wiedersehen, Mr. Chips|N
-1939|Love Affair|Ruhelose Liebe|N
+1939|Love Affair (1939 film)|Ruhelose Liebe|N
 1939|Mr. Smith Goes to Washington|Mr. Smith geht nach Washington|N
 1939|Ninotchka|Ninotschka|N
 1939|Of Mice and Men (1939 film)|Von Mäusen und Menschen|N
@@ -123,7 +123,7 @@ window.FILME_MEHR = `
 1940|Foreign Correspondent (film)|Der Auslandskorrespondent|N
 1940|The Grapes of Wrath (film)|Früchte des Zorns|N
 1940|The Great Dictator|Der große Diktator|N
-1940|Kitty Foyle||N
+1940|Kitty Foyle (film)||N
 1940|The Letter (1940 film)|Das Geheimnis von Malampur|N
 1940|The Long Voyage Home|Der lange Weg nach Cardiff|N
 1940|Our Town (1940 film)|Unsere kleine Stadt|N
@@ -201,7 +201,7 @@ window.FILME_MEHR = `
 1948|Johnny Belinda (1948 film)|Schweigende Lippen|N
 1948|The Red Shoes (1948 film)|Die roten Schuhe|N
 1948|The Snake Pit|Die Schlangengrube|N
-1948|The Treasure of the Sierra Madre|Der Schatz der Sierra Madre|N
+1948|The Treasure of the Sierra Madre (film)|Der Schatz der Sierra Madre|N
 1948|Easter Parade (film)|Osterspaziergang|K
 1948|Red River (1948 film)|Panik am roten Fluss|K
 1948|The Three Musketeers (1948 film)|Die drei Musketiere|K
@@ -222,10 +222,10 @@ window.FILME_MEHR = `
 1950|Cinderella (1950 film)|Cinderella|K
 1950|Annie Get Your Gun (film)|Annie Get Your Gun|K
 1950|Cheaper by the Dozen (1950 film)|Im Dutzend billiger|K
-1950|Black Forest Girl|Schwarzwaldmädel|D
+1950|Black Forest Girl (1950 film)|Schwarzwaldmädel|D
 1951|An American in Paris (film)|Ein Amerikaner in Paris|W
 1951|Decision Before Dawn|Entscheidung vor Morgengrauen|N
-1951|A Place in the Sun (film)|Ein Platz an der Sonne|N
+1951|A Place in the Sun (1951 film)|Ein Platz an der Sonne|N
 1951|Quo Vadis (1951 film)|Quo Vadis?|N
 1951|A Streetcar Named Desire (1951 film)|Endstation Sehnsucht|N
 1951|Alice in Wonderland (1951 film)|Alice im Wunderland|K
@@ -250,7 +250,7 @@ window.FILME_MEHR = `
 1953|Gentlemen Prefer Blondes (1953 film)|Blondinen bevorzugt|K
 1953|The War of the Worlds (1953 film)|Kampf der Welten|K
 1954|On the Waterfront|Die Faust im Nacken|W
-1954|The Caine Mutiny (film)|Die Caine war ihr Schicksal|N
+1954|The Caine Mutiny (1954 film)|Die Caine war ihr Schicksal|N
 1954|The Country Girl (1954 film)|Ein Mädchen vom Lande|N
 1954|Seven Brides for Seven Brothers|Eine Braut für sieben Brüder|N
 1954|Three Coins in the Fountain (film)|Drei Münzen im Brunnen|N
@@ -278,31 +278,31 @@ window.FILME_MEHR = `
 1956|Giant (1956 film)|Giganten|N
 1956|The King and I (1956 film)|Der König und ich|N
 1956|The Ten Commandments (1956 film)|Die zehn Gebote|N
-1956|Love Me Tender (film)|Pulverdampf und heiße Lieder|K
+1956|Love Me Tender (1956 film)|Pulverdampf und heiße Lieder|K
 1956|Sissi – The Young Empress|Sissi – Die junge Kaiserin|D
-1956|The Captain of Köpenick (1956 film)|Der Hauptmann von Köpenick|D
+1956|The Captain from Köpenick (1956 film)|Der Hauptmann von Köpenick|D
 1957|The Bridge on the River Kwai|Die Brücke am Kwai|W
 1957|12 Angry Men (1957 film)|Die zwölf Geschworenen|N
 1957|Peyton Place (film)|Glut unter der Asche|N
-1957|Sayonara|Sayonara|N
+1957|Sayonara (1957 film)|Sayonara|N
 1957|Witness for the Prosecution (1957 film)|Zeugin der Anklage|N
 1957|Old Yeller (1957 film)|Sein Freund Jello|K
 1957|Raintree County (film)|Das Land des Regenbaums|K
 1957|An Affair to Remember|Die große Liebe meines Lebens|K
 1957|Sissi – Fateful Years of an Empress|Sissi – Schicksalsjahre einer Kaiserin|D
 1958|Gigi (1958 film)|Gigi|W
-1958|Auntie Mame|Die Tante Mame|N
+1958|Auntie Mame (film)|Die Tante Mame|N
 1958|Cat on a Hot Tin Roof (1958 film)|Die Katze auf dem heißen Blechdach|N
 1958|The Defiant Ones|Flucht in Ketten|N
 1958|Separate Tables (film)|Getrennt von Tisch und Bett|N
 1958|South Pacific (1958 film)|South Pacific|K
-1958|No Time for Sergeants||K
+1958|No Time for Sergeants (film)||K
 1958|Vertigo (film)|Vertigo – Aus dem Reich der Toten|K
 1959|Ben-Hur (1959 film)|Ben Hur|W
 1959|Anatomy of a Murder|Anatomie eines Mordes|N
 1959|The Diary of Anne Frank (1959 film)|Das Tagebuch der Anne Frank|N
 1959|The Nun's Story (film)|Geschichte einer Nonne|N
-1959|Room at the Top (1959 film)|Der Weg nach oben|N
+1958|Room at the Top (1959 film)|Der Weg nach oben|N
 1959|Sleeping Beauty (1959 film)|Dornröschen|K
 1959|Some Like It Hot|Manche mögen’s heiß|K
 1959|North by Northwest|Der unsichtbare Dritte|K
@@ -339,7 +339,7 @@ window.FILME_MEHR = `
 1962|To Kill a Mockingbird (film)|Wer die Nachtigall stört|N
 1962|How the West Was Won (film)|Das war der Wilde Westen|K
 1962|Dr. No (film)|James Bond 007 jagt Dr. No|K
-1962|The Treasure of the Silver Lake (film)|Der Schatz im Silbersee|D
+1962|The Treasure of the Silver Lake (1962 film)|Der Schatz im Silbersee|D
 1963|Tom Jones (1963 film)|Tom Jones – Zwischen Bett und Galgen|W
 1963|America America|Die Unbezwingbaren|N
 1963|Cleopatra (1963 film)|Cleopatra|N
@@ -356,7 +356,7 @@ window.FILME_MEHR = `
 1964|Mary Poppins (film)|Mary Poppins|N
 1964|Zorba the Greek (film)|Alexis Sorbas|N
 1964|Goldfinger (film)|James Bond 007 – Goldfinger|K
-1964|The Carpetbaggers|Die Unersättlichen|K
+1964|The Carpetbaggers (film)|Die Unersättlichen|K
 1964|A Hard Day's Night (film)|Yeah! Yeah! Yeah!|K
 1965|The Sound of Music (film)|Meine Lieder – meine Träume|W
 1965|Darling (1965 film)|Darling|N
@@ -402,7 +402,7 @@ window.FILME_MEHR = `
 1969|Butch Cassidy and the Sundance Kid|Zwei Banditen|N
 1969|Hello, Dolly! (film)|Hello, Dolly!|N
 1969|Z (1969 film)|Z|N
-1969|The Love Bug|Ein toller Käfer|K
+1968|The Love Bug|Ein toller Käfer|K
 1969|Easy Rider|Easy Rider|K
 1969|Paint Your Wagon (film)|Westwärts zieht der Wind|K
 1969|True Grit (1969 film)|Der Marshal|K
@@ -416,7 +416,7 @@ window.FILME_MEHR = `
 1970|Little Big Man (film)|Little Big Man|K
 1970|Tora! Tora! Tora!|Tora! Tora! Tora!|K
 1970|Ryan's Daughter|Ryans Tochter|K
-1971|The French Connection|Brennpunkt Brooklyn|W
+1971|The French Connection (film)|Brennpunkt Brooklyn|W
 1971|A Clockwork Orange (film)|Uhrwerk Orange|N
 1971|Fiddler on the Roof (film)|Anatevka|N
 1971|The Last Picture Show|Die letzte Vorstellung|N
@@ -430,7 +430,7 @@ window.FILME_MEHR = `
 1972|The Godfather|Der Pate|W
 1972|Cabaret (1972 film)|Cabaret|N
 1972|Deliverance|Beim Sterben ist jeder der Erste|N
-1971|The Emigrants (film)|Emigranten|N
+1971|The Emigrants (1971 film)|Emigranten|N
 1972|Sounder (film)|Das Jahr ohne Vater|N
 1972|The Poseidon Adventure (1972 film)|Die Höllenfahrt der Poseidon|K
 1972|What's Up, Doc? (1972 film)|Is’ was, Doc?|K
@@ -471,7 +471,7 @@ window.FILME_MEHR = `
 1975|Monty Python and the Holy Grail|Die Ritter der Kokosnuß|K
 1976|Rocky|Rocky|W
 1976|All the President's Men (film)|Die Unbestechlichen|N
-1976|Bound for Glory (film)|Dieses Land ist mein Land|N
+1976|Bound for Glory (1976 film)|Dieses Land ist mein Land|N
 1976|Network (1976 film)|Network|N
 1976|Taxi Driver|Taxi Driver|N
 1976|A Star Is Born (1976 film)|A Star Is Born|K
@@ -511,20 +511,20 @@ window.FILME_MEHR = `
 1979|Rocky II|Rocky II|K
 1979|Star Trek: The Motion Picture|Star Trek: Der Film|K
 1979|Alien (film)|Alien – Das unheimliche Wesen aus einer fremden Welt|K
-1979|10 (film)|Zehn – Die Traumfrau|K
+1979|10 (1979 film)|Zehn – Die Traumfrau|K
 1979|The Jerk|Reichtum ist keine Schande|K
 1979|Moonraker (film)|James Bond 007 – Moonraker|K
 1979|The Muppet Movie|Muppet Movie|K
 1980|Ordinary People|Eine ganz normale Familie|W
 1980|Coal Miner's Daughter (film)|Nashville Lady|N
-1980|The Elephant Man (film)|Der Elefantenmensch|N
+1980|The Elephant Man (1980 film)|Der Elefantenmensch|N
 1980|Raging Bull|Wie ein wilder Stier|N
 1979|Tess (1979 film)|Tess|N
 1980|The Empire Strikes Back|Das Imperium schlägt zurück|K
 1980|Stir Crazy (film)|Zwei wahnsinnig starke Typen|K
 1980|Airplane!|Die unglaubliche Reise in einem verrückten Flugzeug|K
 1980|Any Which Way You Can|Mit Vollgas nach San Fernando|K
-1980|Private Benjamin|Schütze Benjamin|K
+1980|Private Benjamin (film)|Schütze Benjamin|K
 1980|The Blue Lagoon (1980 film)|Die blaue Lagune|K
 1980|The Blues Brothers (film)|Blues Brothers|K
 1981|Chariots of Fire|Die Stunde des Siegers|W
@@ -1082,7 +1082,7 @@ window.FILME_MEHR = `
 2016|Batman v Superman: Dawn of Justice|Batman v Superman: Dawn of Justice|K
 2016|Fantastic Beasts and Where to Find Them (film)|Phantastische Tierwesen und wo sie zu finden sind|K
 2016|Deadpool (film)|Deadpool|K
-2016|Suicide Squad (film)|Suicide Squad|K
+2016|Suicide Squad (2016 film)|Suicide Squad|K
 2016|Moana (2016 film)|Vaiana|K
 2017|The Shape of Water|Shape of Water – Das Flüstern des Wassers|W
 2017|Call Me by Your Name (film)|Call Me by Your Name|N
