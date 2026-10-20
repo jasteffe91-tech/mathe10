@@ -1,0 +1,74 @@
+[
+  {
+    "id": "berlin",
+    "name": "Berlin",
+    "land": "Berlin",
+    "kurz": "Mauer, Museen, Currywurst und Kiez – Geschichte an jeder Ecke.",
+    "orte": 27,
+    "zentrum": [52.51639, 13.39389],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "bremen",
+    "name": "Bremen",
+    "land": "Bremen",
+    "kurz": "Stadtmusikanten, Roland und Schnoor – Hansestadt mit Märchenzauber.",
+    "orte": 17,
+    "zentrum": [53.07611, 8.80806],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "kinder", "natur"]
+  },
+  {
+    "id": "duesseldorf",
+    "name": "Düsseldorf",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Altbier, Kö und Rheinufer – die längste Theke der Welt wartet.",
+    "orte": 23,
+    "zentrum": [51.22593, 6.77258],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "frankfurt",
+    "name": "Frankfurt am Main",
+    "land": "Hessen",
+    "kurz": "Skyline, Römer, Ebbelwoi und Grie Soß – Mainhattan von alt bis neu.",
+    "orte": 21,
+    "zentrum": [50.111, 8.68167],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "kinder", "natur"]
+  },
+  {
+    "id": "hamburg",
+    "name": "Hamburg",
+    "land": "Hamburg",
+    "kurz": "Hafen, Elbphilharmonie, Speicherstadt und Kiez – Moin aus dem Norden.",
+    "orte": 24,
+    "zentrum": [53.54833, 9.97889],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "koeln",
+    "name": "Köln",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Dom, Rhein, Kölsch und Karneval – die Stadt mit dem größten Herz am Strom.",
+    "orte": 22,
+    "zentrum": [50.93977, 6.96089],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "muenchen",
+    "name": "München",
+    "land": "Bayern",
+    "kurz": "Glockenspiel, Biergarten und Surfer im Stadtpark – Weltstadt mit Herz.",
+    "orte": 23,
+    "zentrum": [48.13827, 11.57611],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "stuttgart",
+    "name": "Stuttgart",
+    "land": "Baden-Württemberg",
+    "kurz": "Stäffele, Weinberge und Autoerfinder – die Stadt im Kessel.",
+    "orte": 18,
+    "zentrum": [48.77806, 9.18273],
+    "themen": ["highlights", "historie", "besonderheiten", "kneipen", "spass", "kinder", "natur"]
+  }
+]

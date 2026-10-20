@@ -1,0 +1,19 @@
+{
+  "name": "Stadtfuchs – Stadtrallyes für jeden Anlass",
+  "short_name": "Stadtfuchs",
+  "description": "Stadtrallyes und Schnitzeljagden: JGA, Schulklasse, Kindergeburtstag, Kneipentour oder Tagesausflug.",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#edf1ea",
+  "theme_color": "#e05a14",
+  "categories": ["travel", "games", "education"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

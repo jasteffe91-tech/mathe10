@@ -1,0 +1,337 @@
+{
+  "id": "muenchen",
+  "name": "München",
+  "land": "Bayern",
+  "kurz": "Glockenspiel, Biergarten und Surfer im Stadtpark – Weltstadt mit Herz.",
+  "start": { "name": "Marienplatz", "wiki": "Marienplatz", "lage": [48.13714, 11.5754] },
+  "loesungsworte": ["MASS", "ISAR", "BREZN", "WIESN", "SERVUS", "OBATZDA", "WEISSWURST", "GLOCKENSPIEL"],
+  "orte": [
+    {
+      "id": "glockenspiel",
+      "name": "Neues Rathaus & Glockenspiel",
+      "wiki": "Neues Rathaus (München)",
+      "themen": ["highlights", "kinder", "historie"],
+      "prio": 3,
+      "info": "Am Neuen Rathaus spielt täglich um 11 und 12 Uhr (im Sommer auch um 17 Uhr) das berühmte Glockenspiel. Lebensgroße Figuren tanzen den Schäfflertanz und reiten ein Ritterturnier – zur Erinnerung an eine Fürstenhochzeit von 1568.",
+      "fakt": "Der Schäfflertanz erinnert an die Zeit nach einer Pestepidemie, als die Fassmacher die Menschen wieder auf die Straße lockten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Kämpfer treten im Glockenspiel gegeneinander an?", "richtig": "Ritter auf Pferden", "falsch": ["Piraten", "Fußballer"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Tanz zeigen die Figuren im unteren Teil des Glockenspiels?", "richtig": "Den Schäfflertanz", "falsch": ["Den Schuhplattler", "Den Walzer"] },
+        { "typ": "foto", "text": "Selfie mit dem Rathausturm – alle schauen nach oben, als würde gerade das Glockenspiel beginnen." }
+      ],
+      "lage": [48.1375, 11.57583]
+    },
+    {
+      "id": "fischbrunnen",
+      "name": "Fischbrunnen",
+      "wiki": "Fischbrunnen (München)",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Am Fischbrunnen auf dem Marienplatz waschen Münchner Politiker jedes Jahr am Aschermittwoch ihre Geldbeutel. Der Brauch soll für volle Kassen sorgen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wird am Aschermittwoch im Fischbrunnen gewaschen?", "richtig": "Geldbeutel", "falsch": ["Bierkrüge", "Lederhosen"] },
+        { "typ": "suchen", "text": "Findet die Fische am Brunnen. Wie viele entdeckt ihr?" }
+      ],
+      "lage": [48.13724, 11.57619]
+    },
+    {
+      "id": "frauenkirche",
+      "name": "Frauenkirche",
+      "wiki": "Frauenkirche (München)",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Die beiden Türme der Frauenkirche mit ihren 'welschen Hauben' sind das Wahrzeichen Münchens. In der Eingangshalle ist ein Fußabdruck im Boden zu sehen: der Teufelstritt. Der Legende nach stampfte der Teufel hier wütend auf.",
+      "fakt": "Innerhalb des Mittleren Rings sind keine Gebäude über 100 Meter erlaubt – so bleiben die Türme der Frauenkirche überall sichtbar.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wessen Fußabdruck soll in der Frauenkirche zu sehen sein?", "richtig": "Der des Teufels", "falsch": ["Der eines Elefanten", "Der des Königs"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennt man die Kuppeln auf den Türmen der Frauenkirche?", "richtig": "Welsche Hauben", "falsch": ["Bayerische Mützen", "Zwiebelkappen"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Nordturm der Frauenkirche?", "wert": 98.57, "einheit": "m" },
+        { "typ": "suchen", "text": "Findet den Teufelstritt im Eingang und stellt euren Fuß daneben." }
+      ],
+      "lage": [48.13861, 11.57389]
+    },
+    {
+      "id": "alter_peter",
+      "name": "Alter Peter",
+      "wiki": "St. Peter (München)",
+      "themen": ["highlights", "historie", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt für den Turm",
+      "info": "St. Peter ist die älteste Pfarrkirche Münchens. Ihr Turm, der 'Alte Peter', ist ein Aussichtsturm mit einem der besten Blicke über die Stadt – bei Föhn bis zu den Alpen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was kann man bei Föhnwetter vom Alten Peter aus sehen?", "richtig": "Die Alpen", "falsch": ["Die Nordsee", "Den Bodensee"] },
+        { "typ": "foto", "text": "Fotografiert die Frauenkirche von hier oben – oder vom Fuß des Turms nach oben." }
+      ],
+      "lage": [48.13645, 11.57593]
+    },
+    {
+      "id": "viktualienmarkt",
+      "name": "Viktualienmarkt",
+      "wiki": "Viktualienmarkt",
+      "themen": ["kulinarik", "highlights", "kneipen"],
+      "prio": 3,
+      "info": "Der Viktualienmarkt ist seit über 200 Jahren Münchens berühmtester Markt – mit Obst, Käse, Metzgern, einem Maibaum und einem Biergarten mitten im Getümmel. An Brunnen erinnern Figuren an Volkssänger wie Karl Valentin.",
+      "fakt": "Eine alte Münchner Regel: Die Weißwurst darf das Zwölfuhrläuten nicht hören – also nur vormittags essen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Bis wann isst man traditionell Weißwurst?", "richtig": "Bis zum Mittagsläuten um 12 Uhr", "falsch": ["Nur nach Sonnenuntergang", "Nur sonntags"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Maibaum?", "richtig": "Ein geschmückter, hoher Baumstamm", "falsch": ["Ein Baum, der nur im Mai blüht", "Ein Kuchen"] },
+        { "typ": "suchen", "text": "Findet den Brunnen mit Karl Valentin – und macht seine Pose nach." },
+        { "typ": "mission", "text": "Kauft eine Brezn und teilt sie gerecht durch alle in der Gruppe." }
+      ],
+      "lage": [48.13528, 11.57611]
+    },
+    {
+      "id": "hofbraeuhaus",
+      "name": "Hofbräuhaus",
+      "wiki": "Hofbräuhaus am Platzl",
+      "themen": ["kneipen", "kulinarik", "highlights"],
+      "prio": 3,
+      "info": "Das Hofbräuhaus am Platzl ist der wohl berühmteste Bierausschank der Welt. Gegründet wurde die Hofbrauerei 1589 von Herzog Wilhelm V. – heute spielt im Saal die Blasmusik, und die Maß kommt im Steinkrug oder Glas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viel Bier passt in eine Maß?", "richtig": "Ein Liter", "falsch": ["Ein halber Liter", "Zwei Liter"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Hofbräuhaus gegründet?", "wert": 1589, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt das bayerische Laugengebäck, das es hier gibt?", "richtig": "Brezn", "falsch": ["Bagel", "Croissant"] },
+        { "typ": "mission", "text": "Singt die erste Zeile von 'In München steht ein Hofbräuhaus' – alle zusammen!" }
+      ],
+      "lage": [48.13777, 11.58016]
+    },
+    {
+      "id": "augustiner",
+      "name": "Augustiner Stammhaus",
+      "suche": "Augustiner Stammhaus, Neuhauser Straße, München",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 2,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Augustiner gilt als älteste noch bestehende Brauerei Münchens – sie selbst nennt 1328 als Gründungsjahr, als Augustinermönche zu brauen begannen. Im Stammhaus in der Fußgängerzone gibt es Augustiner Edelstoff direkt vom Holzfass.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Welches Gründungsjahr nennt die Augustiner-Brauerei?", "wert": 1328, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer braute bei Augustiner zuerst Bier?", "richtig": "Mönche", "falsch": ["Ritter", "Bauern"] },
+        { "typ": "mission", "text": "Bestellt auf Bairisch: 'A Mass, bittschön!' – ein Spezi im Krug zählt genauso." }
+      ],
+      "lage": [48.13841, 11.5688]
+    },
+    {
+      "id": "schneider",
+      "name": "Schneider Bräuhaus",
+      "suche": "Schneider Bräuhaus, Tal 7, München",
+      "themen": ["kneipen", "kulinarik"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Im Schneider Bräuhaus im Tal dreht sich alles ums Weißbier. Die Familie Schneider braut seit dem 19. Jahrhundert Weißbier, als andere es längst aufgegeben hatten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woraus wird Weißbier zu einem großen Teil gebraut?", "richtig": "Aus Weizenmalz", "falsch": ["Aus Reis", "Aus Roggenmalz"] },
+        { "typ": "mission", "text": "Wer kann ein Weißbier (oder Wasser) am schönsten ins schräge Glas einschenken? Die Gruppe bewertet." }
+      ],
+      "lage": [48.1364, 11.57842]
+    },
+    {
+      "id": "residenz",
+      "name": "Residenz & Löwen",
+      "wiki": "Residenz München",
+      "suche": "Residenzstraße 1, München",
+      "themen": ["historie", "besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Die Residenz war Jahrhunderte lang der Palast der bayerischen Herrscher. An ihrem Eingang in der Residenzstraße wachen Bronzelöwen mit Schilden – wer im Vorbeigehen über die Löwenköpfe auf den Schilden streicht, soll Glück haben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Familie regierte von der Residenz aus Bayern?", "richtig": "Die Wittelsbacher", "falsch": ["Die Habsburger", "Die Hohenzollern"] },
+        { "typ": "suchen", "text": "Welcher Löwenkopf glänzt am meisten? Streicht darüber – für das Glück!" }
+      ],
+      "lage": [48.1413, 11.57801]
+    },
+    {
+      "id": "feldherrnhalle",
+      "name": "Feldherrnhalle & Viscardigasse",
+      "wiki": "Viscardigasse",
+      "suche": "Feldherrnhalle, Odeonsplatz, München",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "An der Feldherrnhalle mussten Passanten in der NS-Zeit vor einem Mahnmal für Hitlers gescheiterten Putsch von 1923 den Hitlergruß zeigen. Viele wichen deshalb durch die kleine Viscardigasse dahinter aus. Bronzene Pflastersteine erinnern heute an diesen stillen Protest.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Spitznamen bekam die Viscardigasse in der NS-Zeit?", "richtig": "Drückebergergasse", "falsch": ["Heldengasse", "Königsweg"] },
+        { "typ": "suchen", "text": "Findet die goldene Spur aus Bronzesteinen im Pflaster der Viscardigasse." }
+      ],
+      "lage": [48.14168, 11.57732]
+    },
+    {
+      "id": "asamkirche",
+      "name": "Asamkirche",
+      "wiki": "Asamkirche (München)",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "info": "Die Asamkirche in der Sendlinger Straße ist winzig – aber innen ein Feuerwerk aus Gold, Stuck und Marmor. Die Brüder Asam bauten sie als ihre private Kirche, direkt neben ihr Wohnhaus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer baute die Asamkirche?", "richtig": "Die Brüder Asam – als ihre Privatkirche", "falsch": ["Der bayerische König", "Die Stadt München"] },
+        { "typ": "suchen", "text": "Schaut in die Kirche: Findet ein Skelett oder einen Totenkopf in der Verzierung." }
+      ],
+      "lage": [48.13512, 11.56953]
+    },
+    {
+      "id": "dallmayr",
+      "name": "Dallmayr",
+      "wiki": "Alois Dallmayr",
+      "suche": "Dallmayr, Dienerstraße 14, München",
+      "themen": ["kulinarik", "historie"],
+      "prio": 1,
+      "info": "Das Delikatessenhaus Dallmayr gibt es seit rund 300 Jahren. Früher belieferte es den bayerischen Königshof, heute duftet es im ganzen Laden nach frisch geröstetem Kaffee.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wen belieferte Dallmayr früher als Hoflieferant?", "richtig": "Den bayerischen Königshof", "falsch": ["Den Papst", "Die Bundesregierung"] },
+        { "typ": "mission", "text": "Schnüffeltest: Wer errät mit geschlossenen Augen drei Gerüche im Laden?" }
+      ],
+      "lage": [48.13827, 11.57725]
+    },
+    {
+      "id": "hofgarten",
+      "name": "Hofgarten",
+      "wiki": "Hofgarten (München)",
+      "themen": ["natur", "historie"],
+      "prio": 1,
+      "info": "Der Hofgarten neben der Residenz ist ein Renaissancegarten mit dem Dianatempel in der Mitte. Dort spielen oft Straßenmusiker, und manchmal wird zwischen den Säulen getanzt.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet den Dianatempel in der Mitte des Gartens. Wie viele Bögen hat er?" },
+        { "typ": "mission", "text": "Tanzt eine Runde im Dianatempel – Musik vom Handy oder selbst gesummt." }
+      ],
+      "lage": [48.14278, 11.58]
+    },
+    {
+      "id": "eisbach",
+      "name": "Eisbachwelle",
+      "wiki": "Eisbachwelle",
+      "themen": ["besonderheiten", "spass", "natur"],
+      "prio": 3,
+      "info": "Am Rand des Englischen Gartens surfen Menschen mitten in der Großstadt – auf einer stehenden Welle im Eisbach. Seit den 1970er-Jahren ist die Eisbachwelle weltberühmt. Ob gerade gesurft werden kann, hängt vom Wasser und von den Behörden ab.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was machen die Leute auf der Eisbachwelle?", "richtig": "Surfen", "falsch": ["Eislaufen", "Angeln"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist besonders an der Eisbachwelle?", "richtig": "Sie bleibt immer an derselben Stelle stehen", "falsch": ["Sie entsteht nur bei Vollmond", "Das Wasser ist warm"] },
+        { "typ": "foto", "text": "Surfer-Pose am Ufer – die Welle (oder die Stelle, wo sie sein sollte) im Hintergrund." }
+      ],
+      "lage": [48.16207, 11.60955]
+    },
+    {
+      "id": "chinaturm",
+      "name": "Chinesischer Turm",
+      "wiki": "Chinesischer Turm (München)",
+      "themen": ["kneipen", "natur", "kulinarik", "kinder"],
+      "prio": 2,
+      "info": "Mitten im Englischen Garten steht eine hölzerne Pagode – der Chinesische Turm. Um ihn herum liegt mit rund 7000 Plätzen der zweitgrößte Biergarten Münchens mit Tausenden Plätzen und einem historischen Kinderkarussell.",
+      "fakt": "Der Englische Garten ist größer als der Central Park in New York.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Park ist größer?", "richtig": "Der Englische Garten", "falsch": ["Der Central Park in New York", "Beide sind gleich groß"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sieht der Chinesische Turm aus?", "richtig": "Wie eine Pagode mit vielen Dächern", "falsch": ["Wie eine Rakete", "Wie ein Leuchtturm"] },
+        { "typ": "mission", "text": "Biergarten-Regel: Hier darf man eigenes Essen mitbringen. Teilt eine Brotzeit!" }
+      ],
+      "lage": [48.1525, 11.5921]
+    },
+    {
+      "id": "deutsches_museum",
+      "name": "Deutsches Museum",
+      "wiki": "Deutsches Museum",
+      "themen": ["kinder", "spass", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das Deutsche Museum auf der Museumsinsel in der Isar ist eines der größten Technikmuseen der Welt. Hier gibt es Flugzeuge, ein Bergwerk, Schiffe und ein eigenes Kinderreich zum Ausprobieren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Worauf steht das Deutsche Museum?", "richtig": "Auf einer Insel in der Isar", "falsch": ["Auf einem Berg", "Auf einem Schiff"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer gründete das Deutsche Museum 1903?", "richtig": "Oskar von Miller", "falsch": ["Rudolf Diesel", "Carl Benz"] }
+      ],
+      "lage": [48.1301, 11.5838]
+    },
+    {
+      "id": "spielzeugmuseum",
+      "name": "Spielzeugmuseum im Alten Rathaus",
+      "wiki": "Altes Rathaus (München)",
+      "themen": ["kinder", "besonderheiten"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Im Turm des Alten Rathauses steckt ein Spielzeugmuseum mit Puppen, Blechspielzeug, Teddys und Eisenbahnen. Es geht über mehrere Etagen eine enge Wendeltreppe hinauf.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo ist das Spielzeugmuseum untergebracht?", "richtig": "In einem Turm", "falsch": ["In einem Keller", "In einem Zelt"] },
+        { "typ": "mission", "text": "Jedes Kind erzählt, welches Spielzeug es am liebsten hat." }
+      ],
+      "lage": [48.13667, 11.57694]
+    },
+    {
+      "id": "theresienwiese",
+      "name": "Theresienwiese & Bavaria",
+      "wiki": "Theresienwiese",
+      "suche": "Bavaria, Theresienhöhe, München",
+      "themen": ["historie", "spass", "highlights"],
+      "prio": 2,
+      "info": "Hier findet jedes Jahr das Oktoberfest statt – die 'Wiesn'. Es geht auf die Hochzeit von Kronprinz Ludwig und Prinzessin Therese im Jahr 1810 zurück, nach der die Wiese benannt ist. Über allem wacht die riesige Bronzestatue Bavaria.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr fand das erste Oktoberfest statt?", "wert": 1810, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wem ist die Theresienwiese benannt?", "richtig": "Nach Prinzessin Therese, der Braut des Kronprinzen", "falsch": ["Nach einer Bäuerin", "Nach der Heiligen Theresa"] },
+        { "typ": "foto", "text": "Stellt die Bavaria nach: ein Arm hoch mit Kranz, daneben ein Löwe." }
+      ],
+      "lage": [48.13541, 11.53758]
+    },
+    {
+      "id": "stachus",
+      "name": "Karlsplatz (Stachus)",
+      "wiki": "Karlsplatz (München)",
+      "themen": ["spass", "kinder", "highlights"],
+      "prio": 1,
+      "info": "Der Karlsplatz heißt bei Münchnern nur 'Stachus' – nach einem Wirtshaus, das hier früher stand. Im Sommer springen Kinder durch die Fontänen des großen Brunnens, im Winter gibt es hier eine Eisbahn.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat der Stachus seinen Spitznamen?", "richtig": "Von einem früheren Wirtshaus", "falsch": ["Von einem Stachelschwein", "Von einem König"] },
+        { "typ": "bewegen", "text": "Lauft einmal um den Brunnen – rückwärts!" }
+      ],
+      "lage": [48.13917, 11.56583]
+    },
+    {
+      "id": "olympiapark",
+      "name": "Olympiapark & Olympiaturm",
+      "wiki": "Olympiaturm",
+      "themen": ["spass", "highlights", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt für den Turm",
+      "info": "Für die Olympischen Spiele 1972 entstand der Olympiapark mit seinem berühmten Zeltdach. Der Olympiaturm ist fast 300 Meter hoch, und vom Olympiaberg aus habt ihr gratis einen tollen Blick.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Olympiaturm?", "wert": 291, "einheit": "m" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran erinnert das Dach des Olympiastadions?", "richtig": "An ein riesiges Zelt oder Spinnennetz", "falsch": ["An eine Pizza", "An einen Hut"] },
+        { "typ": "bewegen", "text": "Olympia-Disziplin: Weitsprung aus dem Stand – wer kommt am weitesten?" }
+      ],
+      "lage": [48.17444, 11.55361]
+    },
+    {
+      "id": "bmw_welt",
+      "name": "BMW Welt",
+      "wiki": "BMW Welt",
+      "themen": ["spass", "besonderheiten"],
+      "prio": 1,
+      "info": "Gegenüber dem Olympiapark steht die BMW Welt mit ihrem geschwungenen Doppelkegel. In der Ausstellung dürfen Besucher kostenlos Autos und Motorräder anschauen und sich hineinsetzen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür steht die Abkürzung BMW?", "richtig": "Bayerische Motoren Werke", "falsch": ["Bayerische Maschinen Werkstatt", "Berliner Motoren Werke"] },
+        { "typ": "foto", "text": "Fotografiert euch in eurer Traumauto-Pose." }
+      ],
+      "lage": [48.17694, 11.55667]
+    },
+    {
+      "id": "hellabrunn",
+      "name": "Tierpark Hellabrunn",
+      "wiki": "Tierpark Hellabrunn",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Hellabrunn an der Isar gilt als erster Geo-Zoo der Welt: Die Tiere leben hier nach Kontinenten geordnet. Eisbären, Elefanten, Pinguine und ein Streichelzoo warten auf euch.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo leben Eisbären in der Natur?", "richtig": "In der Arktis", "falsch": ["In der Wüste", "Im Regenwald"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wonach sind die Tiere in einem Geo-Zoo geordnet?", "richtig": "Nach Kontinenten", "falsch": ["Nach Größe", "Nach dem Alphabet"] }
+      ],
+      "lage": [48.09722, 11.55417]
+    },
+    {
+      "id": "hirschgarten",
+      "name": "Königlicher Hirschgarten",
+      "wiki": "Hirschgarten (München)",
+      "themen": ["kneipen", "natur", "kinder"],
+      "prio": 1,
+      "info": "Der Hirschgarten ist einer der größten Biergärten der Welt. Seinen Namen hat er vom Wildgehege, in dem bis heute Hirsche und Rehe leben – direkt neben den Biertischen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Tiere könnt ihr im Hirschgarten sehen?", "richtig": "Hirsche und Rehe", "falsch": ["Löwen", "Kängurus"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was darf man in einen echten Münchner Biergarten mitbringen?", "richtig": "Das eigene Essen", "falsch": ["Das eigene Bier", "Den eigenen Tisch"] }
+      ],
+      "lage": [48.14861, 11.5125]
+    }
+  ],
+  "zentrum": [48.13827, 11.57611]
+}

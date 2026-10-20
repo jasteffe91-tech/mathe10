@@ -1,0 +1,262 @@
+{
+  "id": "stuttgart",
+  "name": "Stuttgart",
+  "land": "Baden-Württemberg",
+  "kurz": "Stäffele, Weinberge und Autoerfinder – die Stadt im Kessel.",
+  "start": { "name": "Schlossplatz", "wiki": "Schlossplatz (Stuttgart)", "lage": [48.77855, 9.17991] },
+  "loesungsworte": ["NECKAR", "KESSEL", "BREZEL", "ROESSLE", "SPAETZLE", "STAEFFELE", "MAULTASCHE", "TROLLINGER"],
+  "orte": [
+    {
+      "id": "schlossplatz",
+      "name": "Schlossplatz & Jubiläumssäule",
+      "wiki": "Schlossplatz (Stuttgart)",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Der Schlossplatz ist Stuttgarts Wohnzimmer: Wiesen, Brunnen, Musikpavillon und mittendrin die Jubiläumssäule. Sie wurde zum 25-jährigen Regierungsjubiläum von König Wilhelm I. errichtet – oben steht die Göttin Concordia.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wessen Jubiläum feiert die Jubiläumssäule?", "richtig": "König Wilhelm I. von Württemberg", "falsch": ["Gottlieb Daimler", "Kaiser Barbarossa"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo sitzen die Stuttgarter im Sommer gern auf dem Schlossplatz?", "richtig": "Auf der Wiese", "falsch": ["Auf dem Dach", "Im Brunnen"] },
+        { "typ": "foto", "text": "Fotografiert euch wie Concordia oben auf der Säule – mit erhobenem Arm." }
+      ],
+      "lage": [48.77855, 9.17991]
+    },
+    {
+      "id": "neues_schloss",
+      "name": "Neues Schloss",
+      "wiki": "Neues Schloss (Stuttgart)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Das Neue Schloss war die Residenz der württembergischen Könige. Heute sitzen hier Ministerien des Landes Baden-Württemberg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer wohnte früher im Neuen Schloss?", "richtig": "Die Könige von Württemberg", "falsch": ["Die Bischöfe von Stuttgart", "Die Familie Porsche"] },
+        { "typ": "suchen", "text": "Findet das Wappen über dem Haupteingang: Welche Tiere halten es?" }
+      ],
+      "lage": [48.77806, 9.18194]
+    },
+    {
+      "id": "altes_schloss",
+      "name": "Altes Schloss & Stuttgarter Rössle",
+      "wiki": "Altes Schloss (Stuttgart)",
+      "themen": ["historie", "besonderheiten", "kinder"],
+      "prio": 3,
+      "info": "Das Alte Schloss geht auf eine Wasserburg aus dem 10. Jahrhundert zurück. Stuttgart selbst entstand aus einem 'Stutengarten' – einem Gestüt für Pferde. Deshalb ist ein Pferd, das Rössle, bis heute im Stadtwappen.",
+      "fakt": "Auch das Porsche-Logo zeigt das Stuttgarter Rössle.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier ist im Stuttgarter Wappen?", "richtig": "Ein Pferd", "falsch": ["Ein Löwe", "Ein Adler"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher kommt der Name Stuttgart?", "richtig": "Von einem Stutengarten, also einem Pferdegestüt", "falsch": ["Von einem Ritter namens Stutt", "Von 'stuttern', dem Stottern"] },
+        { "typ": "suchen", "text": "Findet im Innenhof des Alten Schlosses ein Pferd – als Figur oder Bild." }
+      ],
+      "lage": [48.77722, 9.17917]
+    },
+    {
+      "id": "stiftskirche",
+      "name": "Stiftskirche",
+      "wiki": "Stiftskirche (Stuttgart)",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Die Stiftskirche ist die Hauptkirche Stuttgarts. Schaut genau hin: Ihre beiden Türme sind völlig unterschiedlich – der eine spitz und hoch, der andere mit flachem Dach.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist an den beiden Türmen der Stiftskirche besonders?", "richtig": "Sie sind ganz unterschiedlich", "falsch": ["Sie sind aus Holz", "Sie drehen sich"] },
+        { "typ": "foto", "text": "Zwei Personen stellen die beiden ungleichen Türme nach – Foto!" }
+      ],
+      "lage": [48.77667, 9.17806]
+    },
+    {
+      "id": "markthalle",
+      "name": "Markthalle",
+      "wiki": "Markthalle Stuttgart",
+      "themen": ["kulinarik", "historie"],
+      "prio": 3,
+      "hinweis": "Sonntags geschlossen",
+      "info": "Die Jugendstil-Markthalle von 1914 ist ein Schlaraffenland: Gewürze, Käse, Obst aus aller Welt und schwäbische Spezialitäten wie Maultaschen und Spätzle.",
+      "fakt": "Maultaschen heißen auch 'Herrgottsbscheißerle' – Mönche sollen darin in der Fastenzeit Fleisch vor dem lieben Gott versteckt haben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Spitznamen haben Maultaschen?", "richtig": "Herrgottsbscheißerle", "falsch": ["Teigtaschenkönig", "Schwabenkissen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was sind Spätzle?", "richtig": "Nudeln aus Eierteig", "falsch": ["Kleine Vögel", "Kekse"] },
+        { "typ": "mission", "text": "Findet das exotischste Obst in der Halle – wie heißt es?" }
+      ],
+      "lage": [48.77627, 9.17944]
+    },
+    {
+      "id": "schellenturm",
+      "name": "Weinstube Schellenturm",
+      "wiki": "Schellenturm (Stuttgart)",
+      "suche": "Schellenturm, Weberstraße, Stuttgart",
+      "themen": ["kneipen", "historie", "besonderheiten"],
+      "prio": 2,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In einem der letzten Türme der alten Stadtbefestigung sitzt heute eine Weinstube. Der Name kommt von den 'Schellenwerkern': Sträflingen, die öffentliche Arbeit leisten mussten und dabei Schellen an der Kleidung trugen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat der Schellenturm seinen Namen?", "richtig": "Von Sträflingen mit Schellen an der Kleidung", "falsch": ["Von einer Glocke im Turm", "Von Schellfisch"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Rotwein ist typisch für Württemberg?", "richtig": "Trollinger", "falsch": ["Chianti", "Merlot"] },
+        { "typ": "mission", "text": "Bestellt ein 'Viertele' – ein Viertelliter Wein. Traubensaftschorle zählt auch." }
+      ],
+      "lage": [48.77314, 9.18339]
+    },
+    {
+      "id": "bohnenviertel",
+      "name": "Bohnenviertel",
+      "wiki": "Bohnenviertel",
+      "themen": ["kneipen", "historie", "kulinarik"],
+      "prio": 2,
+      "info": "Im Bohnenviertel wohnten früher arme Handwerker, die in ihren kleinen Gärten Bohnen anbauten – daher der Name. Heute ist es ein charmantes Altstadtviertel mit Weinstuben, Kneipen und Galerien.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bauten die Leute im Bohnenviertel früher an?", "richtig": "Bohnen", "falsch": ["Bananen", "Kartoffeln"] },
+        { "typ": "mission", "text": "Findet eine Weinstube und fragt, wie lange es sie schon gibt." }
+      ],
+      "lage": [48.77667, 9.1775]
+    },
+    {
+      "id": "hans_im_glueck",
+      "name": "Hans-im-Glück-Brunnen",
+      "wiki": "Hans-im-Glück-Brunnen",
+      "suche": "Hans-im-Glück-Brunnen, Geißstraße, Stuttgart",
+      "themen": ["kinder", "besonderheiten", "kneipen"],
+      "prio": 2,
+      "info": "Auf dem kleinen Platz in der Geißstraße steht der Hans aus dem Märchen der Brüder Grimm – mit seiner Gans. Ringsum liegen Bars, in denen abends viel los ist.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hält Hans im Glück am Brunnen im Arm?", "richtig": "Eine Gans", "falsch": ["Einen Goldklumpen", "Eine Katze"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Womit beginnt Hans im Märchen seinen Tauschhandel?", "richtig": "Mit einem Goldklumpen", "falsch": ["Mit einer Kuh", "Mit einem Schleifstein"] },
+        { "typ": "mission", "text": "Tauschspiel: Tauscht innerhalb der Gruppe einen Gegenstand gegen etwas 'Besseres' – wer hat am Ende den besten Tausch?" }
+      ],
+      "lage": [48.77358, 9.17727]
+    },
+    {
+      "id": "eugenstaffel",
+      "name": "Eugenstaffel & Galateabrunnen",
+      "suche": "Eugensplatz, Stuttgart",
+      "themen": ["besonderheiten", "spass", "natur"],
+      "prio": 2,
+      "info": "Stuttgart liegt in einem Kessel – deshalb gibt es über 400 Stäffele, also Treppen, die die Hänge hinaufführen. Die Eugenstaffel führt zum Galateabrunnen, von dem ihr über die Stadt schaut. Oben wartet eine beliebte Eisdiele.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennen Stuttgarter ihre vielen Treppen?", "richtig": "Stäffele", "falsch": ["Stiegle", "Trepple"] },
+        { "typ": "bewegen", "text": "Treppen-Challenge: Wer schafft die Stäffele zuerst – ohne zu rennen?" }
+      ],
+      "lage": [48.77791, 9.19018]
+    },
+    {
+      "id": "stadtbibliothek",
+      "name": "Stadtbibliothek am Mailänder Platz",
+      "wiki": "Stadtbibliothek Stuttgart",
+      "themen": ["besonderheiten", "spass"],
+      "prio": 2,
+      "info": "Von außen ein grauer Würfel, innen ein schneeweißer Trichter aus Bücherregalen über mehrere Etagen. Ganz oben gibt es eine Dachterrasse mit Blick über die Stadt – kostenlos.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat die Stadtbibliothek von außen?", "richtig": "Ein Würfel", "falsch": ["Eine Kugel", "Ein Dreieck"] },
+        { "typ": "foto", "text": "Fotografiert von oben in den weißen Bücher-Trichter – oder von unten nach oben." }
+      ],
+      "lage": [48.79017, 9.18304]
+    },
+    {
+      "id": "kunstmuseum",
+      "name": "Kunstmuseum",
+      "wiki": "Kunstmuseum Stuttgart",
+      "themen": ["highlights", "besonderheiten"],
+      "prio": 1,
+      "info": "Der gläserne Würfel am Schlossplatz ist das Kunstmuseum. Abends leuchtet er wie eine Laterne, und vom Café oben habt ihr einen tollen Blick auf den Schlossplatz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus ist die Hülle des Kunstmuseums?", "richtig": "Aus Glas", "falsch": ["Aus Holz", "Aus Stroh"] },
+        { "typ": "foto", "text": "Spiegelungs-Foto: Fotografiert euch in der Glasfassade." }
+      ],
+      "lage": [48.77827, 9.17775]
+    },
+    {
+      "id": "schlossgarten",
+      "name": "Oberer Schlossgarten & Eckensee",
+      "wiki": "Schlossgarten (Stuttgart)",
+      "suche": "Eckensee, Stuttgart",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Hinter der Oper beginnt der Schlossgarten mit dem Eckensee. Er ist Teil des 'Grünen U', einer grünen Kette aus Parks, auf der man fast bis zum Neckar spazieren kann.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt die Kette aus Parks durch Stuttgart?", "richtig": "Das Grüne U", "falsch": ["Der Grüne Ring", "Die Grüne Acht"] },
+        { "typ": "suchen", "text": "Zählt die Enten und Gänse auf dem Eckensee." }
+      ],
+      "lage": [48.77979, 9.18273]
+    },
+    {
+      "id": "karlshoehe",
+      "name": "Karlshöhe",
+      "wiki": "Karlshöhe (Stuttgart)",
+      "themen": ["natur", "spass"],
+      "prio": 1,
+      "info": "Auf der Karlshöhe wachsen Weinreben mitten in der Stadt, und ein kleiner Biergarten lädt zur Pause ein. Der Blick über den Stuttgarter Kessel ist einer der schönsten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wächst an den Hängen der Karlshöhe?", "richtig": "Weinreben", "falsch": ["Bananen", "Tabak"] },
+        { "typ": "foto", "text": "Panorama über den Kessel – zeigt auf euer Lieblingsgebäude." }
+      ],
+      "lage": [48.77583, 9.1725]
+    },
+    {
+      "id": "fernsehturm",
+      "name": "Fernsehturm",
+      "wiki": "Fernsehturm Stuttgart",
+      "themen": ["highlights", "besonderheiten", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Stuttgarter Fernsehturm von 1956 war der erste Fernsehturm der Welt aus Stahlbeton – Vorbild für viele andere. Bei klarem Wetter seht ihr von oben bis zur Schwäbischen Alb.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Stuttgarter Fernsehturm eröffnet?", "wert": 1956, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war am Stuttgarter Fernsehturm weltweit neu?", "richtig": "Er war der erste Fernsehturm aus Stahlbeton", "falsch": ["Er war der erste mit Drehrestaurant", "Er war der höchste der Welt"] }
+      ],
+      "lage": [48.75576, 9.19017]
+    },
+    {
+      "id": "wilhelma",
+      "name": "Wilhelma",
+      "wiki": "Wilhelma",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Die Wilhelma ist ein zoologisch-botanischer Garten in einem Park im maurischen Stil. Tiere und Pflanzen aus aller Welt leben hier zwischen historischen Gewächshäusern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist die Wilhelma?", "richtig": "Ein zoologisch-botanischer Garten", "falsch": ["Ein Schloss-Museum", "Ein Weingut"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was frisst ein Gorilla am liebsten?", "richtig": "Pflanzen und Früchte", "falsch": ["Fisch", "Steine"] }
+      ],
+      "lage": [48.80528, 9.20306]
+    },
+    {
+      "id": "mercedes",
+      "name": "Mercedes-Benz Museum",
+      "wiki": "Mercedes-Benz Museum",
+      "themen": ["spass", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "In Stuttgart wurde Autogeschichte geschrieben: Gottlieb Daimler und Carl Benz gelten als Erfinder des Automobils. Im Mercedes-Benz Museum geht es spiralförmig durch über 130 Jahre Autobau.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer meldete 1886 das erste Automobil zum Patent an?", "richtig": "Carl Benz", "falsch": ["Henry Ford", "Ferdinand Porsche"] },
+        { "typ": "foto", "text": "Fotografiert euch in eurer besten Rennfahrer-Pose." }
+      ],
+      "lage": [48.7875, 9.23333]
+    },
+    {
+      "id": "leuze",
+      "name": "Mineralbad Leuze",
+      "wiki": "Mineralbad Leuze",
+      "themen": ["besonderheiten", "spass"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Stuttgart hat nach Budapest das ergiebigste Mineralwasservorkommen Europas. Im Mineralbad Leuze am Neckar schwimmt ihr direkt im sprudelnden Quellwasser.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche europäische Stadt hat noch mehr Mineralwasser als Stuttgart?", "richtig": "Budapest", "falsch": ["Baden-Baden", "Wien"] },
+        { "typ": "mission", "text": "Probiert das Mineralwasser am öffentlichen Brunnen – wie schmeckt es?" }
+      ],
+      "lage": [48.79841, 9.21093]
+    },
+    {
+      "id": "wasen",
+      "name": "Cannstatter Wasen",
+      "wiki": "Cannstatter Volksfest",
+      "suche": "Cannstatter Wasen, Stuttgart",
+      "themen": ["spass", "historie"],
+      "prio": 1,
+      "info": "Auf dem Cannstatter Wasen findet jedes Jahr das Cannstatter Volksfest statt – gegründet 1818 von König Wilhelm I. als Landwirtschaftsfest. Wahrzeichen ist die Fruchtsäule mit Obst und Gemüse.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr fand das erste Cannstatter Volksfest statt?", "wert": 1818, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist auf der Fruchtsäule zu sehen?", "richtig": "Obst und Gemüse", "falsch": ["Autos", "Tiere"] }
+      ],
+      "lage": [48.7971, 9.2171]
+    }
+  ],
+  "zentrum": [48.77806, 9.18273]
+}
