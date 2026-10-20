@@ -1,0 +1,183 @@
+{
+  "id": "schermbeck",
+  "name": "Schermbeck & Gahlen",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "1200 Jahre Dorfgeschichte, Töpfer, Wölfe und die Heimat der Grafen von Galen.",
+  "entwurf": true,
+  "start": { "name": "Mittelstraße", "lage": [51.69281, 6.8707] },
+  "loesungsworte": ["WOLF", "LIPPE", "GAHLEN", "TOEPFER", "SCIRENBEKE", "SCHERMBECK"],
+  "orte": [
+    {
+      "id": "mittelstrasse",
+      "name": "Mittelstraße",
+      "lage": [51.69281, 6.8707],
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Die Mittelstraße ist das Herz von Schermbeck. Der in Schermbeck geborene Dichter Gustav Sack (1885–1916) beschrieb sein Heimatdorf so: Die Hauptstraße 'heißt kurz und gut die Mittelstraße', begleitet von Kaffeestraße und Kirchstraße.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Dichter stammt aus Schermbeck und beschrieb die Mittelstraße?", "richtig": "Gustav Sack", "falsch": ["Annette von Droste-Hülshoff", "Heinrich Heine"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Straßen begleiten laut Gustav Sack die Mittelstraße?", "richtig": "Kaffeestraße und Kirchstraße", "falsch": ["Kuchenstraße und Keksweg", "Hauptstraße und Bahnhofstraße"] },
+        { "typ": "suchen", "text": "Findet die Straßenschilder 'Kaffeestraße' oder 'Kirchstraße'." }
+      ]
+    },
+    {
+      "id": "st_georg",
+      "name": "Evangelische St.-Georgs-Kirche",
+      "lage": [51.69246, 6.87074],
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Gustav Sack nannte den Kirchturm einen 'kurzen klobigen Backsteinkirchturm' – das Wahrzeichen des Ortes. Schermbeck ist reich an Geschichte: Mehrfach brannte der Ort ab, etwa 1425, 1483 und 1640, und wurde jedes Mal wieder aufgebaut.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie beschrieb Gustav Sack den Kirchturm?", "richtig": "Kurz und klobig", "falsch": ["Hoch und spitz", "Rund und golden"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus ist der Kirchturm gebaut?", "richtig": "Aus Backstein", "falsch": ["Aus Holz", "Aus Glas"] },
+        { "typ": "foto", "text": "Fotografiert den Kirchturm so, dass er riesig wirkt – von ganz unten." }
+      ]
+    },
+    {
+      "id": "heimatmuseum",
+      "name": "Heimatmuseum",
+      "lage": [51.69302, 6.87025],
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Das Heimatmuseum gibt es seit 1987. Um 1900 erlebte Schermbeck einen Aufschwung durch die Töpferei: 25 bis 30 Töpfermeister arbeiteten hier und verkauften ihre Waren vor allem ins Ruhrgebiet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Handwerk blühte um 1900 in Schermbeck auf?", "richtig": "Die Töpferei", "falsch": ["Die Glasbläserei", "Der Schiffbau"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was stellt ein Töpfer her?", "richtig": "Krüge und Schüsseln aus Ton", "falsch": ["Schuhe aus Leder", "Brot aus Mehl"] },
+        { "typ": "mission", "text": "Formt mit den Händen in der Luft einen unsichtbaren Krug – die anderen raten, was es ist." }
+      ]
+    },
+    {
+      "id": "rathaus",
+      "name": "Rathaus",
+      "lage": [51.69137, 6.86747],
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Schermbeck wurde schon im Jahr 799 als 'Scirenbeke' erwähnt – 1999 feierte der Ort sein 1200-jähriges Bestehen. Die Endung '-beck' kommt vom altsächsischen Wort für Bach. Das heutige Rathaus wurde 1993 eingeweiht.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde Schermbeck als 'Scirenbeke' zum ersten Mal erwähnt?", "wert": 799, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bedeutet die Endung '-beck' im Ortsnamen?", "richtig": "Bach", "falsch": ["Bäcker", "Berg"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß Schermbeck in der ältesten Urkunde?", "richtig": "Scirenbeke", "falsch": ["Scherenburg", "Schermelo"] }
+      ]
+    },
+    {
+      "id": "eis_mittelstrasse",
+      "name": "Eiscafé an der Mittelstraße",
+      "lage": [51.69175, 6.8687],
+      "themen": ["kulinarik", "kinder"],
+      "prio": 1,
+      "info": "Am Anfang der Mittelstraße gibt es ein Eiscafé – genau richtig für eine süße Pause auf der Rallye.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die meistgekaufte Eissorte in Deutschland?", "richtig": "Vanille", "falsch": ["Spinat", "Pfeffer"] },
+        { "typ": "mission", "text": "Eis-Interview: Fragt die Person hinter der Theke nach ihrer Lieblingssorte." }
+      ]
+    },
+    {
+      "id": "spielplatz_bleichwall",
+      "name": "Spielplatz am Bleichwall",
+      "lage": [51.6939, 6.87031],
+      "themen": ["kinder"],
+      "prio": 1,
+      "info": "Am Bleichwall liegt ein Spielplatz ganz in der Nähe des Ortskerns. Der Straßenname erinnert an früher: Auf einer 'Bleiche' wurde Wäsche zum Aufhellen in die Sonne gelegt, und zu Beginn des 15. Jahrhunderts bekam Schermbeck eine Befestigung mit zwei Toren und acht Türmen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hat man früher auf einer Bleiche gemacht?", "richtig": "Wäsche in der Sonne hell werden lassen", "falsch": ["Kühe gemolken", "Fußball gespielt"] },
+        { "typ": "schaetzen", "frage": "Wie viele Türme hatte die Schermbecker Befestigung im 15. Jahrhundert?", "wert": 8, "einheit": "Türme" },
+        { "typ": "bewegen", "text": "Alle auf die Schaukel oder Rutsche – und wer zuerst zurück ist, liest die nächste Aufgabe vor!" }
+      ]
+    },
+    {
+      "id": "wolfsgebiet",
+      "name": "Dämmerwald – im Wolfsgebiet",
+      "lage": [51.71576, 6.80823],
+      "themen": ["natur", "besonderheiten", "kinder"],
+      "prio": 3,
+      "info": "Am 1. Oktober 2018 wurde rund um Schermbeck das erste Wolfsgebiet Nordrhein-Westfalens ausgewiesen, nachdem ein Wolf genetisch nachgewiesen worden war. 2020 wurde ein Wolfspaar mit Welpen gesichtet. Wölfe sind scheu – trotzdem gilt: Abstand halten, nicht füttern, Hunde an die Leine.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches wilde Tier lebt wieder in der Gegend um Schermbeck?", "richtig": "Der Wolf", "falsch": ["Der Bär", "Der Luchs"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war Schermbeck 2018 als erstes in NRW?", "richtig": "Ein ausgewiesenes Wolfsgebiet", "falsch": ["Ein Nationalpark", "Ein Biosphärenreservat"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht man, wenn man einen Wolf sieht?", "richtig": "Ruhig bleiben und Abstand halten", "falsch": ["Hinlaufen und streicheln", "Ihm Essen zuwerfen"] },
+        { "typ": "suchen", "text": "Spurensuche: Findet Tierspuren auf dem Waldweg (Pfoten, Hufe, Vogelfüße)." }
+      ]
+    },
+    {
+      "id": "ramirez",
+      "name": "Kneipe Ramirez",
+      "lage": [51.6821, 6.86187],
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In Bricht an der Maassenstraße liegt die Kneipe Ramirez – eine Station für die Schermbecker Kneipentour.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr feierte Schermbeck sein 1200-jähriges Bestehen?", "richtig": "1999", "falsch": ["1949", "2010"] },
+        { "typ": "mission", "text": "Bringt der Kneipe einen Trinkspruch auf Platt bei – oder lasst euch einen beibringen." }
+      ]
+    },
+    {
+      "id": "gahlen_kirche",
+      "name": "Evangelische Kirche Gahlen",
+      "wiki": "Evangelische Kirche Gahlen",
+      "lage": [51.66672, 6.8728],
+      "themen": ["historie", "highlights"],
+      "prio": 3,
+      "info": "Die evangelische Kirche in Gahlen ist das älteste Bauwerk auf Schermbecker Gebiet. Ihr Westturm stammt aus dem 12. Jahrhundert, die Kanzel aus dem Jahr 1654. Manches deutet darauf hin, dass es hier schon vor dem Jahr 900 eine Kirche gab.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Jahrhundert stammt der Westturm der Gahlener Kirche?", "richtig": "Aus dem 12. Jahrhundert", "falsch": ["Aus dem 18. Jahrhundert", "Aus dem 20. Jahrhundert"] },
+        { "typ": "schaetzen", "frage": "Aus welchem Jahr stammt die Kanzel?", "wert": 1654, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die Gahlener Kirche auf Schermbecker Gebiet?", "richtig": "Das älteste Bauwerk", "falsch": ["Das höchste Hochhaus", "Das neueste Gebäude"] }
+      ]
+    },
+    {
+      "id": "gahlen_muehlenteich",
+      "name": "Mühlenteich Gahlen",
+      "lage": [51.66638, 6.87208],
+      "themen": ["natur", "highlights", "besonderheiten"],
+      "prio": 3,
+      "info": "Rund um den Mühlenteich zeigt sich Gahlen von seiner schönsten Seite – das Dorf wurde mehrfach beim Wettbewerb 'Unser Dorf soll schöner werden' ausgezeichnet. Aus Gahlen stammt die Adelsfamilie von Galen, im Mittelalter 'Herren von Gahlen'. Bekanntestes Familienmitglied ist Kardinal Clemens August Graf von Galen, der 'Löwe von Münster'.",
+      "fakt": "Gahlen wurde schon um 785/787 als 'Ganlingas' erwähnt – noch früher als Schermbeck.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche berühmte Adelsfamilie hat ihren Ursprung in Gahlen?", "richtig": "Die Grafen von Galen", "falsch": ["Die Grafen von Kleve", "Die Herren von Lembeck"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist im Gahlener Wappen zu sehen?", "richtig": "Drei schwarze Wolfsangeln auf Gold", "falsch": ["Ein roter Hahn", "Drei blaue Fische"] },
+        { "typ": "foto", "text": "Fotografiert den Mühlenteich mit Spiegelung der Häuser." }
+      ]
+    },
+    {
+      "id": "zur_muehle",
+      "name": "Gasthaus Zur Mühle",
+      "lage": [51.66667, 6.87336],
+      "themen": ["kulinarik", "kneipen"],
+      "prio": 1,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "Direkt am Mühlenteich liegt das Gasthaus Zur Mühle – ein Ort zum Einkehren nach dem Dorfspaziergang.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie wurde Gahlen um das Jahr 900 in einer Schenkungsurkunde genannt?", "richtig": "Galnon", "falsch": ["Gallien", "Galgenberg"] },
+        { "typ": "mission", "text": "Bestellt etwas Regionales vom Niederrhein und lasst euch erklären, wo die Zutaten herkommen." }
+      ]
+    },
+    {
+      "id": "lippeweg",
+      "name": "An der Lippe",
+      "lage": [51.68147, 6.89558],
+      "themen": ["natur", "spass"],
+      "prio": 1,
+      "info": "Lippe und Wesel-Datteln-Kanal durchqueren das Gemeindegebiet auf jeweils rund vier Kilometern. Schon die Römer nutzten die Lippe als wichtigen Handelsweg – in der Region wurden römische Münzen und Keramik gefunden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür nutzten die Römer die Lippe?", "richtig": "Als Handels- und Transportweg", "falsch": ["Als Schwimmbad", "Als Grenze zu China"] },
+        { "typ": "bewegen", "text": "Stöckchen-Rennen: Werft gleichzeitig ein Stöckchen ins Wasser (von sicherer Stelle) – welches ist schneller?" }
+      ]
+    },
+    {
+      "id": "luehlerheim",
+      "name": "Arbeiterkolonie Lühlerheim",
+      "wiki": "Arbeiterkolonie Lühlerheim",
+      "lage": [51.70146, 6.7498],
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "1887 gründeten 19 'Kolonisten' im Weselerwald die Arbeiterkolonie Lühlerheim – eine Einrichtung, die Menschen ohne Arbeit und Wohnung eine neue Chance gab.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie viele Kolonisten gründeten 1887 die Arbeiterkolonie?", "wert": 19, "einheit": "Personen" },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Ortsteil liegt Lühlerheim?", "richtig": "Weselerwald", "falsch": ["Gahlen", "Damm"] }
+      ]
+    }
+  ],
+  "zentrum": [51.69175, 6.87031]
+}

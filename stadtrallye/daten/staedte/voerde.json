@@ -1,0 +1,187 @@
+{
+  "id": "voerde",
+  "name": "Voerde (Niederrhein)",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Wasserschlösser, Rheinufer und eine alte Furt – Niederrhein pur.",
+  "entwurf": true,
+  "start": { "name": "Rathaus Voerde", "lage": [51.59817, 6.68087] },
+  "loesungsworte": ["FURT", "RHEIN", "VOERDE", "SCHLOSS", "WOHNUNG", "NIEDERRHEIN"],
+  "orte": [
+    {
+      "id": "rathaus",
+      "name": "Rathaus & Ortsmitte",
+      "lage": [51.59817, 6.68087],
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Voerde verdankt seinen Namen einer Furt durch einen Rheinarm, die es schon zur Zeit der Römer und Franken gab – die alte Schreibweise war 'Fuerdt'. Die heutige Stadt entstand 1950 aus den Gemeinden Löhnen und Voerde; seit 1972 wird hier Karneval gefeiert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woher hat Voerde seinen Namen?", "richtig": "Von einer Furt durch den Rhein", "falsch": ["Von einem Vogel", "Von einer Fähre"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist eine Furt?", "richtig": "Eine flache Stelle, an der man durch einen Fluss gehen kann", "falsch": ["Eine Brücke aus Holz", "Ein kleiner Hafen"] },
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr wird in Voerde Karneval gefeiert?", "wert": 1972, "einheit": "" }
+      ]
+    },
+    {
+      "id": "haus_voerde",
+      "name": "Haus Voerde",
+      "wiki": "Haus Voerde",
+      "lage": [51.59362, 6.67107],
+      "themen": ["highlights", "historie", "natur", "kulinarik"],
+      "prio": 3,
+      "info": "Das Wasserschloss Haus Voerde geht auf eine mittelalterliche Wasserburg zurück, einen Wirtschaftshof der Abtei Werden. Erwähnt wurde es 1344, im Jahr 1688 kam ein Turm hinzu. Seit 1950 gehört es der Stadt: Heute wird hier geheiratet, und im Keller gibt es ein Restaurant.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was passiert heute häufig in Haus Voerde?", "richtig": "Hochzeiten – hier ist das Standesamt", "falsch": ["Gerichtsprozesse", "Pferderennen"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde an Haus Voerde ein Turm angebaut?", "wert": 1688, "einheit": "" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was umgibt ein Wasserschloss?", "richtig": "Ein Wassergraben", "falsch": ["Ein Zaun aus Zucker", "Eine Mauer aus Eis"] },
+        { "typ": "foto", "text": "Hochzeitsfoto-Pose vor dem Schloss – wer spielt das Brautpaar?" }
+      ]
+    },
+    {
+      "id": "papala",
+      "name": "Papala-Pub",
+      "lage": [51.59769, 6.68805],
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "An der Bahnhofstraße liegt der Papala-Pub – eine Station für die Voerder Kneipentour.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchen zwei Gemeinden entstand 1950 die Gemeinde Voerde?", "richtig": "Löhnen und Voerde", "falsch": ["Dinslaken und Wesel", "Hünxe und Spellen"] },
+        { "typ": "mission", "text": "Pub-Quiz-Moment: Jede Person stellt der Gruppe eine Frage über Voerde." }
+      ]
+    },
+    {
+      "id": "eis_roma",
+      "name": "Eiscafé am Sternbuschweg",
+      "lage": [51.59906, 6.69362],
+      "themen": ["kulinarik", "kinder"],
+      "prio": 1,
+      "info": "Am Sternbuschweg gibt es ein Eiscafé – Zeit für eine kleine Pause.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welchem Land kommen viele berühmte Eisdielen in Deutschland ursprünglich?", "richtig": "Aus Italien", "falsch": ["Aus Norwegen", "Aus Ägypten"] },
+        { "typ": "mission", "text": "Wer schafft es, die Eissorten der Theke in alphabetischer Reihenfolge aufzusagen?" }
+      ]
+    },
+    {
+      "id": "skatepark",
+      "name": "Halfpipe an der Friedrichsfelder Straße",
+      "lage": [51.59994, 6.68435],
+      "themen": ["spass", "kinder"],
+      "prio": 1,
+      "info": "An der Friedrichsfelder Straße gibt es eine Halfpipe für Skater, BMX- und Scooter-Fahrer.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt die U-förmige Rampe für Skater?", "richtig": "Halfpipe", "falsch": ["Halftime", "Hairpin"] },
+        { "typ": "bewegen", "text": "Trockenübung: Zeigt euren besten 'Skater-Sprung' ohne Brett!" }
+      ]
+    },
+    {
+      "id": "spielplatz_koenigring",
+      "name": "Spielplatz Königring-Süd",
+      "lage": [51.59265, 6.69129],
+      "themen": ["kinder"],
+      "prio": 1,
+      "info": "Am Königring gibt es einen Spielplatz – Zeit zum Austoben zwischen zwei Stationen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher große Fluss fließt an Voerde vorbei?", "richtig": "Der Rhein", "falsch": ["Die Donau", "Die Elbe"] },
+        { "typ": "bewegen", "text": "Fangen spielen: Wer gefangen wird, muss einen Fisch aus dem Rhein nachmachen!" }
+      ]
+    },
+    {
+      "id": "goetterswickerhamm_kirche",
+      "name": "Evangelische Kirche Götterswickerhamm",
+      "wiki": "Evangelische Kirche Götterswickerhamm",
+      "lage": [51.58042, 6.66175],
+      "themen": ["historie", "highlights"],
+      "prio": 3,
+      "info": "Die Kirche ist das Wahrzeichen des Rheindorfs Götterswickerhamm. Sie wurde im 11./12. Jahrhundert erbaut und war dem heiligen Nikodemus geweiht. Das Kirchenschiff wurde ab 1830 nach Plänen von Karl Friedrich Schinkel umgebaut, der Taufstein stammt aus dem 12. Jahrhundert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wessen Plänen wurde das Kirchenschiff ab 1830 umgebaut?", "richtig": "Karl Friedrich Schinkel", "falsch": ["Balthasar Neumann", "Gottfried Semper"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "An welchem Fluss steht die Kirche von Götterswickerhamm?", "richtig": "Am Rhein", "falsch": ["An der Ruhr", "An der Mosel"] },
+        { "typ": "suchen", "text": "Zählt die Fenster an der Längsseite der Kirche." }
+      ]
+    },
+    {
+      "id": "haus_goetterswick",
+      "name": "Haus Götterswick",
+      "wiki": "Haus Götterswick",
+      "lage": [51.58093, 6.66359],
+      "themen": ["historie", "besonderheiten"],
+      "prio": 1,
+      "info": "Haus Götterswick ist eine Wasserburg aus dem 12. Jahrhundert. Von 1854 bis 2011 war sie evangelisches Pfarrhaus, heute ist sie in Privatbesitz – bitte nur von außen anschauen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wurde Haus Götterswick von 1854 bis 2011 genutzt?", "richtig": "Als Pfarrhaus", "falsch": ["Als Gefängnis", "Als Schule"] },
+        { "typ": "foto", "text": "Fotografiert die Wasserburg vom Weg aus – Privatgrundstück bitte nicht betreten." }
+      ]
+    },
+    {
+      "id": "rheinpromenade",
+      "name": "Rheinufer Götterswickerhamm",
+      "lage": [51.58018, 6.65436],
+      "themen": ["natur", "spass", "kinder", "highlights"],
+      "prio": 3,
+      "info": "Götterswickerhamm liegt am rechten Rheinufer bei Rheinkilometer 800. Von hier seht ihr die großen Frachtschiffe auf dem Weg nach Rotterdam oder ins Ruhrgebiet. Ganz in der Nähe, bei Mehrum, überquerten in der Nacht zum 24. März 1945 amerikanische Truppen den Rhein.",
+      "fakt": "Im Mittelalter lag zwischen Mehrum und Götterswickerhamm das Dorf Rhynern – der Rhein hat es nach und nach weggespült.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Bei welchem Rheinkilometer liegt Götterswickerhamm ungefähr?", "wert": 800, "einheit": "km" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist mit dem alten Dorf Rhynern passiert?", "richtig": "Der Rhein hat es weggespült", "falsch": ["Es wurde zu einer Stadt", "Es ist in den Himmel geflogen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer überquerte im März 1945 bei Mehrum den Rhein?", "richtig": "Die US-Armee", "falsch": ["Die Rote Armee", "Napoleons Truppen"] },
+        { "typ": "suchen", "text": "Zählt in fünf Minuten alle Schiffe auf dem Rhein. Welche Flaggen erkennt ihr?" }
+      ]
+    },
+    {
+      "id": "haus_wohnung",
+      "name": "Haus Wohnung",
+      "wiki": "Haus Wohnung",
+      "lage": [51.57348, 6.68815],
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Haus Wohnung ist ein Wasserschloss an der Grenze zu Dinslaken. Der Name hat nichts mit 'wohnen' zu tun: Er stammt vom ersten Besitzer Arnd van der Wonyngen. Das Herrenhaus trägt eine Turmhaube in Zwiebelform; den zweiten Turm verlor es im Krieg. Die Wassermühle wurde schon 1478 erwähnt und ist bis heute in Betrieb. Das Anwesen ist in Privatbesitz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat Haus Wohnung seinen Namen?", "richtig": "Vom ersten Besitzer Arnd van der Wonyngen", "falsch": ["Weil es die erste Wohnung in Voerde war", "Von einer alten Herberge"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat die Haube auf dem Turm?", "richtig": "Wie eine Zwiebel", "falsch": ["Wie ein Würfel", "Wie ein Hut mit Feder"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Wassermühle erstmals erwähnt?", "wert": 1478, "einheit": "" }
+      ]
+    },
+    {
+      "id": "tenderingssee",
+      "name": "Strandbad Tenderingssee",
+      "wiki": "Tenderingssee",
+      "lage": [51.59519, 6.71473],
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "kosten": "Eintritt in der Badesaison",
+      "info": "Der Tenderingssee entstand durch Kiesabbau. Er ist 45 Hektar groß und bis zu 15 Meter tief – und seit 1996 offizielles Badegewässer.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie tief ist der Tenderingssee an der tiefsten Stelle?", "wert": 15, "einheit": "m" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie ist der Tenderingssee entstanden?", "richtig": "Durch das Ausbaggern von Kies", "falsch": ["Durch einen Meteoriten", "Durch einen Biber"] },
+        { "typ": "foto", "text": "Strandfoto: Alle zeigen mit den Armen, wie tief der See ist." }
+      ]
+    },
+    {
+      "id": "wasserwerk_loehnen",
+      "name": "Wasserwerk Löhnen",
+      "lage": [51.59232, 6.62711],
+      "themen": ["besonderheiten"],
+      "prio": 1,
+      "info": "Im Wasserwerk Löhnen arbeitet die deutschlandweit größte Nanofiltrationsanlage: Sie filtert das Trinkwasser durch Membranen mit winzig kleinen Poren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Technik ist im Wasserwerk Löhnen besonders groß?", "richtig": "Nanofiltration", "falsch": ["Atomkraft", "Windkraft"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht ein Wasserwerk?", "richtig": "Es macht sauberes Trinkwasser", "falsch": ["Es baut Schiffe", "Es macht Wellen"] }
+      ]
+    },
+    {
+      "id": "haus_wessel",
+      "name": "Gaststätte Haus Wessel",
+      "lage": [51.60959, 6.61394],
+      "themen": ["kneipen"],
+      "prio": 1,
+      "ab18": true,
+      "hinweis": "Öffnungszeiten vorab prüfen",
+      "info": "In Spellen an der Mehrumer Straße liegt die Gaststätte Haus Wessel – eine klassische Dorfkneipe am Niederrhein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Zu welchem Ort gehört Spellen heute?", "richtig": "Zu Voerde", "falsch": ["Zu Wesel", "Zu Hünxe"] },
+        { "typ": "mission", "text": "Fragt nach dem ältesten Stammgast-Witz des Hauses." }
+      ]
+    }
+  ],
+  "zentrum": [51.59362, 6.68087]
+}

@@ -337,7 +337,60 @@
         { "typ": "foto", "text": "Fotografiert euch ganz still und entspannt wie in einer Meditation." }
       ],
       "lage": [51.25665, 6.74919]
+    },
+    {
+      "id": "tonhalle",
+      "name": "Tonhalle",
+      "wiki": "Tonhalle Düsseldorf",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Die Tonhalle mit ihrer großen Kuppel ist Düsseldorfs Konzerthaus. Gebaut wurde sie in den 1920er-Jahren jedoch als Planetarium – deshalb sieht der Konzertsaal aus wie ein Sternenhimmel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Als was wurde die Tonhalle ursprünglich gebaut?", "richtig": "Als Planetarium", "falsch": ["Als Bahnhof", "Als Kirche"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was zeigt ein Planetarium?", "richtig": "Den Sternenhimmel", "falsch": ["Fische", "Autos"] }
+      ],
+      "lage": [51.23194, 6.77278]
+    },
+    {
+      "id": "rheinpark_golzheim",
+      "name": "Rheinpark Golzheim",
+      "wiki": "Rheinpark Golzheim",
+      "themen": ["natur", "kinder", "spass"],
+      "prio": 1,
+      "info": "Der Rheinpark Golzheim zieht sich als breite Wiese am Rhein entlang – ideal zum Picknicken, Drachensteigen und Schiffe-Gucken.",
+      "aufgaben": [
+        { "typ": "bewegen", "text": "Wiesen-Staffel: Lauft paarweise bis zum nächsten Baum und zurück." },
+        { "typ": "quiz", "niveau": "kind", "frage": "In welche Richtung fließt der Rhein hier?", "richtig": "Nach Norden, Richtung Nordsee", "falsch": ["Nach Süden, Richtung Alpen", "Er fließt im Kreis"] }
+      ],
+      "lage": [51.24341, 6.76796]
+    },
+    {
+      "id": "kasematten",
+      "name": "Kasematten am Rheinufer",
+      "suche": "Rathausufer, Düsseldorf",
+      "themen": ["kneipen", "natur"],
+      "prio": 2,
+      "ab18": true,
+      "info": "Unterhalb der Rheinuferpromenade reihen sich in den alten Gewölben, den Kasematten, Bars und Lokale mit Terrassen direkt am Wasser – bei Sonne ist hier jeder Platz besetzt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was sind Kasematten ursprünglich?", "richtig": "Gewölbe in einer Befestigungsanlage", "falsch": ["Kleine Boote", "Weinkeller eines Klosters"] },
+        { "typ": "mission", "text": "Sonnen-Toast: Stoßt mit Blick auf den Rhein an und sagt, was ihr heute am besten fandet." }
+      ],
+      "lage": [51.22612, 6.77046]
+    },
+    {
+      "id": "volksgarten",
+      "name": "Volksgarten",
+      "wiki": "Volksgarten (Düsseldorf)",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Volksgarten im Süden der Stadt ist zusammen mit dem Südpark eine große grüne Oase mit Spielplätzen, Teichen und viel Platz zum Toben.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet Enten, Gänse oder Schwäne und zählt sie." },
+        { "typ": "bewegen", "text": "Baum-Umarmung: Wie viele Kinder braucht ihr, um den dicksten Baum zu umfassen?" }
+      ],
+      "lage": [51.20698, 6.79882]
     }
   ],
-  "zentrum": [51.22593, 6.77258]
+  "zentrum": [51.22612, 6.77258]
 }

@@ -346,7 +346,60 @@
         { "typ": "bewegen", "text": "Barfuß im Sand: Wer baut in drei Minuten die beste Sandburg?" }
       ],
       "lage": [53.54425, 9.90261]
+    },
+    {
+      "id": "alsterarkaden",
+      "name": "Alsterarkaden",
+      "wiki": "Alsterarkaden",
+      "themen": ["highlights", "kulinarik"],
+      "prio": 2,
+      "info": "Die weißen Bögen der Alsterarkaden am Alsterfleet erinnern an Venedig. Darunter liegen Cafés und Geschäfte, gegenüber das Rathaus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "An welche Stadt erinnern die Alsterarkaden viele Besucher?", "richtig": "Venedig", "falsch": ["Paris", "London"] },
+        { "typ": "foto", "text": "Fotografiert die Bögen mit ihrer Spiegelung im Wasser." }
+      ],
+      "lage": [53.552, 9.99257]
+    },
+    {
+      "id": "bismarck",
+      "name": "Bismarck-Denkmal",
+      "wiki": "Bismarck-Denkmal (Hamburg)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 1,
+      "info": "Über den Landungsbrücken thront im Alten Elbpark das riesige Bismarck-Denkmal aus Granit. Es ist das größte Denkmal für den ersten Reichskanzler.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer war Otto von Bismarck?", "richtig": "Der erste Reichskanzler des Deutschen Kaiserreichs", "falsch": ["Ein Hamburger Kapitän", "Ein Komponist"] },
+        { "typ": "foto", "text": "Optische Täuschung: Haltet die Statue auf dem Foto in eurer Hand." }
+      ],
+      "lage": [53.54861, 9.97194]
+    },
+    {
+      "id": "altonaer_balkon",
+      "name": "Altonaer Balkon",
+      "wiki": "Altonaer Balkon",
+      "themen": ["natur", "highlights"],
+      "prio": 1,
+      "info": "Vom Altonaer Balkon, einem Park auf dem Elbhang, habt ihr einen weiten Blick über die Elbe, die Containerterminals und die Köhlbrandbrücke.",
+      "aufgaben": [
+        { "typ": "suchen", "text": "Findet die geschwungene Köhlbrandbrücke am Horizont." },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wird im Hamburger Hafen in großen bunten Kisten transportiert?", "richtig": "Waren in Containern", "falsch": ["Schnee", "Wolken"] }
+      ],
+      "lage": [53.54536, 9.93546]
+    },
+    {
+      "id": "planetarium",
+      "name": "Planetarium im Stadtpark",
+      "wiki": "Planetarium Hamburg",
+      "themen": ["kinder", "spass", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das Planetarium steckt in einem ehemaligen Wasserturm mitten im Stadtpark. Unter der Kuppel reist ihr zu den Sternen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Gebäude ist das Hamburger Planetarium untergebracht?", "richtig": "In einem ehemaligen Wasserturm", "falsch": ["In einem alten Leuchtturm", "In einem Kirchturm"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der Stern, um den die Erde kreist?", "richtig": "Die Sonne", "falsch": ["Der Mond", "Der Polarstern"] }
+      ],
+      "lage": [53.59722, 10.00889]
     }
   ],
-  "zentrum": [53.54833, 9.97889]
+  "zentrum": [53.54861, 9.97889]
 }
