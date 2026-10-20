@@ -165,6 +165,7 @@ select,input.text{width:100%;min-height:46px;padding:8px 12px;border-radius:12px
 <audio id="audio" preload="none"></audio>
 <script src="filme.js"></script>
 <script src="filme-mehr.js"></script>
+<script src="pruefung.js"></script>
 <script>
 'use strict'
 // ---------- Daten ----------
@@ -193,6 +194,12 @@ const lies = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d }
 const schreib = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} }
 const cache = Object.assign({ dz: {}, plakat: {} }, lies(CACHE, {}))
 const merkeCache = () => schreib(CACHE, cache)
+// Vorab geprüfte Plakate und Hörproben haben Vorrang vor dem, was im Browser gespeichert ist
+{
+  const P = window.PRUEFUNG || {}
+  Object.assign(cache.plakat, P.plakat || {})
+  Object.assign(cache.dz, P.ton || {})
+}
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
 const mische = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]] } return a }
 
