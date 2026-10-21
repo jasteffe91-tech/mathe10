@@ -83,6 +83,17 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "lippe_hohe_mark",
+    "name": "Region Lippe & Hohe Mark",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Dorsten, Haltern, Schermbeck, Voerde und die Ausflugsziele drumherum – für Touren mit Rad, Bus & Bahn oder Auto.",
+    "orte": 95,
+    "zentrum": [51.67355, 6.96395],
+    "entwurf": true,
+    "region": true,
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
     "id": "schermbeck",
     "name": "Schermbeck & Gahlen",
     "land": "Nordrhein-Westfalen",

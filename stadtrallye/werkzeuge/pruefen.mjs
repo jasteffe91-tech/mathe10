@@ -138,13 +138,15 @@ async function bearbeiteStadt(datei) {
     hinweise.push(`${stadt.id}/${o.id || 'start'}: Koordinate aus ${quelle}`)
   }
 
-  // Ausreißer: Orte, die weit vom Median aller Orte liegen
-  const mit = stadt.orte.filter((o) => o.lage)
+  // Ausreißer: Orte, die weit vom Median aller Orte liegen (Regionen umfassen ihre Teilorte)
+  const teilOrte = (stadt.teile || []).flatMap((t) => JSON.parse(readFileSync(join(WURZEL, 'staedte', t + '.json'), 'utf8')).orte)
+  stadt._alle = [...stadt.orte, ...teilOrte]
+  const mit = stadt._alle.filter((o) => o.lage)
   const median = (i) => mit.map((o) => o.lage[i]).sort((a, b) => a - b)[Math.floor(mit.length / 2)]
   const mitte = [median(0), median(1)]
   for (const o of mit) {
     const d = abstandM(mitte, o.lage)
-    if (d > 12000) fehler.push(`${stadt.id}/${o.id}: liegt ${(d / 1000).toFixed(1)} km vom Zentrum – Koordinate prüfen`)
+    if (d > (stadt.region ? 40000 : 12000)) fehler.push(`${stadt.id}/${o.id}: liegt ${(d / 1000).toFixed(1)} km vom Zentrum – Koordinate prüfen`)
   }
   stadt.zentrum = mitte.map((x) => Math.round(x * 1e5) / 1e5)
 
@@ -160,7 +162,7 @@ async function bearbeiteStadt(datei) {
     }
   }
 
-  if (!NUR_PRUEFEN) writeFileSync(pfad, formatiere(stadt) + '\n')
+  if (!NUR_PRUEFEN) { const { _alle, ...ohne } = stadt; writeFileSync(pfad, formatiere(ohne) + '\n') }
   return { stadt, fehler, hinweise }
 }
 
@@ -179,8 +181,8 @@ for (const d of dateien) {
 // Städteverzeichnis neu schreiben, wenn alle Städte bearbeitet wurden
 if (!auswahl.length && !NUR_PRUEFEN) {
   const verzeichnis = index.sort((a, b) => a.name.localeCompare(b.name, 'de')).map((s) => ({
-    id: s.id, name: s.name, land: s.land, kurz: s.kurz, orte: s.orte.length, zentrum: s.zentrum, entwurf: s.entwurf || undefined,
-    themen: [...THEMEN].filter((t) => s.orte.filter((o) => o.themen.includes(t)).length >= 3)
+    id: s.id, name: s.name, land: s.land, kurz: s.kurz, orte: s._alle.length, zentrum: s.zentrum, entwurf: s.entwurf || undefined, region: s.region || undefined,
+    themen: [...THEMEN].filter((t) => s._alle.filter((o) => o.themen.includes(t)).length >= 3)
   }))
   writeFileSync(join(WURZEL, 'staedte.json'), formatiere(verzeichnis) + '\n')
   console.log(`\nstaedte.json mit ${verzeichnis.length} Städten geschrieben.`)

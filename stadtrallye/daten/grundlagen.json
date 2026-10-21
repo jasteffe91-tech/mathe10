@@ -3,16 +3,16 @@
   "stand": "Oktober 2026",
   "marke": "Stadtfuchs",
   "anlaesse": [
-    {"id": "entdecker", "name": "Stadt entdecken", "icon": "🧭", "kurz": "Tagesausflug, Städtetrip, einfach mal neugierig sein", "niveau": "erw", "ab18": false, "pools": ["erw", "team"], "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "natur", "spass", "kneipen"], "formate": ["gefuehrt", "loesungswort", "punkte", "foto"], "tempo": 4.5, "maxEtappe": 1500, "stationen": {"kurz": 5, "mittel": 8, "lang": 11}},
-    {"id": "jga_m", "name": "JGA Männer", "icon": "🤵", "frechheit": true, "kurz": "Junggesellen­abschied mit Missionen für den Bräutigam", "niveau": "erw", "ab18": true, "pools": ["jga", "jga_m", "erw"], "themen": ["kneipen", "spass", "besonderheiten", "highlights", "kulinarik"], "formate": ["punkte", "foto", "loesungswort"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 4, "mittel": 6, "lang": 9}},
-    {"id": "jga_w", "name": "JGA Frauen", "icon": "👰", "frechheit": true, "kurz": "Junggesellinnen­abschied mit Missionen für die Braut", "niveau": "erw", "ab18": true, "pools": ["jga", "jga_w", "erw"], "themen": ["spass", "kneipen", "kulinarik", "besonderheiten", "highlights"], "formate": ["punkte", "foto", "loesungswort"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 4, "mittel": 6, "lang": 9}},
-    {"id": "freunde", "name": "Freunde & Kneipentour", "icon": "🍻", "kurz": "Mit der Clique durch Brauhäuser, Kneipen und Viertel", "niveau": "erw", "ab18": true, "pools": ["freunde", "erw", "team"], "themen": ["kneipen", "kulinarik", "spass", "besonderheiten", "highlights"], "formate": ["punkte", "loesungswort", "foto"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 4, "mittel": 6, "lang": 8}},
-    {"id": "team", "name": "Firmen- & Teamevent", "icon": "🤝", "kurz": "Teambuilding mit Wettkampf zwischen mehreren Gruppen", "niveau": "erw", "ab18": false, "pools": ["team", "erw"], "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "spass"], "formate": ["punkte", "loesungswort", "foto"], "tempo": 4.5, "maxEtappe": 1300, "stationen": {"kurz": 5, "mittel": 7, "lang": 10}},
-    {"id": "schulklasse", "name": "Schulklasse (ab Klasse 5)", "icon": "🎒", "kurz": "Wandertag, Klassenfahrt, Projekttag – lehrreich und im Team", "niveau": "jugend", "ab18": false, "pools": ["schule", "team"], "themen": ["historie", "highlights", "besonderheiten", "spass", "natur"], "formate": ["loesungswort", "punkte", "foto"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 5, "mittel": 7, "lang": 10}},
-    {"id": "grundschule", "name": "Grundschul­klasse", "icon": "✏️", "kurz": "Kurze Wege, einfache Fragen, viel Bewegung", "niveau": "kind", "ab18": false, "pools": ["kind"], "themen": ["kinder", "besonderheiten", "highlights", "natur", "historie"], "formate": ["punkte", "loesungswort", "foto"], "tempo": 3, "maxEtappe": 800, "stationen": {"kurz": 4, "mittel": 6, "lang": 8}, "sterne": true},
-    {"id": "kita", "name": "Kinder­garten", "icon": "🧸", "kurz": "Ganz kurze Strecke, Suchen, Bewegen, Staunen – Erwachsene lesen vor", "niveau": "kita", "ab18": false, "pools": ["kita"], "themen": ["kinder", "natur", "highlights", "besonderheiten"], "formate": ["punkte", "foto", "gefuehrt"], "tempo": 2, "maxEtappe": 500, "stationen": {"kurz": 3, "mittel": 4, "lang": 5}, "sterne": true, "vorlesen": true},
-    {"id": "geburtstag", "name": "Kinder­geburtstag", "icon": "🎂", "kurz": "Schatzsuche durch die Stadt mit Urkunde am Ende", "niveau": "kind", "ab18": false, "pools": ["kind", "geburtstag"], "themen": ["kinder", "spass", "besonderheiten", "highlights", "natur"], "formate": ["loesungswort", "punkte", "foto"], "tempo": 3, "maxEtappe": 800, "stationen": {"kurz": 4, "mittel": 5, "lang": 7}, "sterne": true},
-    {"id": "familie", "name": "Familien­ausflug", "icon": "👨‍👩‍👧", "kurz": "Für Groß und Klein – Fragen für Kinder, Fakten für Eltern", "niveau": "kind", "ab18": false, "pools": ["familie", "kind"], "themen": ["highlights", "kinder", "natur", "besonderheiten", "kulinarik", "historie"], "formate": ["punkte", "loesungswort", "foto", "gefuehrt"], "tempo": 3, "maxEtappe": 1000, "stationen": {"kurz": 4, "mittel": 6, "lang": 8}, "sterne": true}
+    {"id": "entdecker", "name": "Stadt entdecken", "icon": "🧭", "kurz": "Tagesausflug, Städtetrip, einfach mal neugierig sein", "niveau": "erw", "ab18": false, "pools": ["erw", "team"], "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "natur", "spass", "kneipen"], "formate": ["gefuehrt", "loesungswort", "punkte", "foto"], "tempo": 4.5, "maxEtappe": 1500, "stationen": {"kurz": 5, "mittel": 8, "lang": 11}, "richtwert": "erw"},
+    {"id": "jga_m", "name": "JGA Männer", "icon": "🤵", "frechheit": true, "kurz": "Junggesellen­abschied mit Missionen für den Bräutigam", "niveau": "erw", "ab18": true, "pools": ["jga", "jga_m", "erw"], "themen": ["kneipen", "spass", "besonderheiten", "highlights", "kulinarik"], "formate": ["punkte", "foto", "loesungswort"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 4, "mittel": 6, "lang": 9}, "richtwert": "erw"},
+    {"id": "jga_w", "name": "JGA Frauen", "icon": "👰", "frechheit": true, "kurz": "Junggesellinnen­abschied mit Missionen für die Braut", "niveau": "erw", "ab18": true, "pools": ["jga", "jga_w", "erw"], "themen": ["spass", "kneipen", "kulinarik", "besonderheiten", "highlights"], "formate": ["punkte", "foto", "loesungswort"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 4, "mittel": 6, "lang": 9}, "richtwert": "erw"},
+    {"id": "freunde", "name": "Freunde & Kneipentour", "icon": "🍻", "kurz": "Mit der Clique durch Brauhäuser, Kneipen und Viertel", "niveau": "erw", "ab18": true, "pools": ["freunde", "erw", "team"], "themen": ["kneipen", "kulinarik", "spass", "besonderheiten", "highlights"], "formate": ["punkte", "loesungswort", "foto"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 4, "mittel": 6, "lang": 8}, "richtwert": "erw"},
+    {"id": "team", "name": "Firmen- & Teamevent", "icon": "🤝", "kurz": "Teambuilding mit Wettkampf zwischen mehreren Gruppen", "niveau": "erw", "ab18": false, "pools": ["team", "erw"], "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "spass"], "formate": ["punkte", "loesungswort", "foto"], "tempo": 4.5, "maxEtappe": 1300, "stationen": {"kurz": 5, "mittel": 7, "lang": 10}, "richtwert": "erw"},
+    {"id": "schulklasse", "name": "Schulklasse (Klasse 5–13)", "icon": "🎒", "kurz": "Wandertag, Klassenfahrt, Projekttag – lehrreich und im Team", "niveau": "jugend", "ab18": false, "pools": ["schule", "team"], "themen": ["historie", "highlights", "besonderheiten", "spass", "natur"], "formate": ["loesungswort", "punkte", "foto"], "tempo": 4, "maxEtappe": 1200, "stationen": {"kurz": 5, "mittel": 7, "lang": 10}, "klassen": [5, 6, 7, 8, 9, 10, 11, 12, 13], "klasseStandard": 7, "richtwert": "erw"},
+    {"id": "grundschule", "name": "Grundschul­klasse", "icon": "✏️", "kurz": "Kurze Wege, einfache Fragen, viel Bewegung", "niveau": "kind", "ab18": false, "pools": ["kind"], "themen": ["kinder", "besonderheiten", "highlights", "natur", "historie"], "formate": ["punkte", "loesungswort", "foto"], "tempo": 3, "maxEtappe": 800, "stationen": {"kurz": 4, "mittel": 6, "lang": 8}, "sterne": true, "klassen": [1, 2, 3, 4], "klasseStandard": 3, "richtwert": "kind"},
+    {"id": "kita", "name": "Kinder­garten", "icon": "🧸", "kurz": "Ganz kurze Strecke, Suchen, Bewegen, Staunen – Erwachsene lesen vor", "niveau": "kita", "ab18": false, "pools": ["kita"], "themen": ["kinder", "natur", "highlights", "besonderheiten"], "formate": ["punkte", "foto", "gefuehrt"], "tempo": 2, "maxEtappe": 500, "stationen": {"kurz": 3, "mittel": 4, "lang": 5}, "sterne": true, "vorlesen": true, "richtwert": "kita"},
+    {"id": "geburtstag", "name": "Kinder­geburtstag", "icon": "🎂", "kurz": "Schatzsuche durch die Stadt mit Urkunde am Ende", "niveau": "kind", "ab18": false, "pools": ["kind", "geburtstag"], "themen": ["kinder", "spass", "besonderheiten", "highlights", "natur"], "formate": ["loesungswort", "punkte", "foto"], "tempo": 3, "maxEtappe": 800, "stationen": {"kurz": 4, "mittel": 5, "lang": 7}, "sterne": true, "richtwert": "kind"},
+    {"id": "familie", "name": "Familien­ausflug", "icon": "👨‍👩‍👧", "kurz": "Für Groß und Klein – Fragen für Kinder, Fakten für Eltern", "niveau": "kind", "ab18": false, "pools": ["familie", "kind"], "themen": ["highlights", "kinder", "natur", "besonderheiten", "kulinarik", "historie"], "formate": ["punkte", "loesungswort", "foto", "gefuehrt"], "tempo": 3, "maxEtappe": 1000, "stationen": {"kurz": 4, "mittel": 6, "lang": 8}, "sterne": true, "richtwert": "kind"}
   ],
   "themen": [
     {"id": "highlights", "name": "Bunte Mischung", "icon": "🌟", "kurz": "Die Sehens­würdigkeiten, die man gesehen haben muss"},
@@ -36,19 +36,25 @@
     {"id": "foto", "name": "Foto- & Selfie-Rallye", "icon": "📸", "kurz": "An jeder Station eine Fotoaufgabe – am Ende gibt es eure Collage"},
     {"id": "gefuehrt", "name": "Geführter Spaziergang", "icon": "🎧", "kurz": "Ohne Aufgaben: Infos, Fun-Facts und Vorlesefunktion an jeder Station"}
   ],
+  "verkehr": [
+    {"id": "fuss", "name": "Zu Fuß", "icon": "🚶", "kurz": "Alles in Laufweite", "umweg": 1.25, "wechsel": 0, "nav": "walking"},
+    {"id": "rad", "name": "Fahrrad", "icon": "🚲", "kurz": "Auch Ziele im Umland", "tempo": 13, "umweg": 1.2, "wechsel": 2, "nav": "bicycling", "maxEtappe": 6000},
+    {"id": "oepnv", "name": "Bus & Bahn", "icon": "🚌", "kurz": "Weite Wege mit dem Nahverkehr – Fahrplan vorher prüfen", "tempo": 15, "umweg": 1.35, "wechsel": 10, "nav": "transit", "maxEtappe": 25000},
+    {"id": "auto", "name": "Auto / Reisebus", "icon": "🚗", "kurz": "Ausflugsziele in der ganzen Region", "tempo": 35, "umweg": 1.3, "wechsel": 8, "nav": "driving", "maxEtappe": 40000},
+    {"id": "mix", "name": "Gemischt", "icon": "🔀", "kurz": "Kurze Etappen zu Fuß, lange mit Bus & Bahn", "maxEtappe": 25000}
+  ],
+  "navigation": [
+    {"id": "karte", "name": "Karte & Pfeil", "icon": "🧭", "kurz": "Die App zeigt Karte, Richtung und Entfernung"},
+    {"id": "punkte", "name": "Kartenpunkte", "icon": "📍", "kurz": "Nur die Punkte – navigiert wird mit Google Maps oder einer anderen Karten-App"},
+    {"id": "frei", "name": "Selbst finden", "icon": "🔎", "kurz": "Nur Name und Ort – die Gruppe sucht den Weg selbst heraus"}
+  ],
+  "richtwerte": {"hinweis": "Faustwerte, keine amtlichen Vorgaben: Für Grundschulkinder werden pro Vormittag höchstens etwa 5–6 km empfohlen, ältere Klassen schaffen je nach Gelände mehr. Radtouren mit Klassen orientieren sich am schwächsten Kind, für Kinder sind 20–30 km am Tag realistisch. Vorgaben des Landes und der Schule gehen immer vor.", "fussKm": {"kita": 2, "kind": 5, "1": 4, "2": 4, "3": 5, "4": 6, "5": 7, "6": 8, "7": 9, "8": 10, "9": 11, "10": 12, "11": 14, "12": 15, "13": 15, "erw": 15}, "radKm": {"kind": 15, "4": 12, "5": 15, "6": 18, "7": 20, "8": 22, "9": 25, "10": 30, "11": 35, "12": 40, "13": 40, "erw": 50}, "tempo": {"kita": 2, "kind": 3, "1": 2.8, "2": 2.8, "3": 3, "4": 3.2, "5": 3.5, "6": 3.5, "7": 4, "8": 4, "9": 4.2, "10": 4.2, "11": 4.5, "12": 4.5, "13": 4.5, "erw": 4.5}},
   "laengen": [
     {"id": "kurz", "name": "Kurz", "kurz": "ca. 1 Stunde"},
     {"id": "mittel", "name": "Mittel", "kurz": "ca. 2 Stunden"},
     {"id": "lang", "name": "Lang", "kurz": "ca. 3–4 Stunden"}
   ],
-  "punkte": {
-    "quiz": 10,
-    "schaetzen": 10,
-    "foto": 10,
-    "mission": 15,
-    "suchen": 5,
-    "bewegen": 5
-  },
+  "punkte": {"quiz": 10, "schaetzen": 10, "foto": 10, "mission": 15, "suchen": 5, "bewegen": 5},
   "loesungsworte": ["ZOO", "HUT", "WEG", "KARTE", "STADT", "FUCHS", "SCHATZ", "BRUNNEN", "KOMPASS", "ABENTEUER", "ENTDECKER", "SPURENLESER", "STADTFUCHS", "SCHNITZELJAGD", "ERLEBNIS", "RALLYE", "GASSE", "TURM", "PLATZ", "SPUR", "REISE"],
   "aufgaben": [
     {"id": "kita1", "typ": "bewegen", "pools": ["kita", "kind"], "text": "Hüpft fünfmal wie ein Frosch – und quakt dabei!"},

@@ -48,6 +48,33 @@ function speichern() { if (S.rallye) schreibe(SPEICHER, S.rallye) }
 const anlass = (id) => S.grund.anlaesse.find((a) => a.id === id)
 const thema = (id) => S.grund.themen.find((t) => t.id === id)
 const format = (id) => S.grund.formate.find((f) => f.id === id)
+const verkehr = (id) => S.grund.verkehr.find((v) => v.id === id) || S.grund.verkehr[0]
+const navArt = (id) => S.grund.navigation.find((n) => n.id === id) || S.grund.navigation[0]
+
+// Richtwerte je Klassenstufe bzw. Altersgruppe (Faustwerte aus grundlagen.json, im Planer änderbar)
+function richtwert(p) {
+  const an = anlass(p.anlass), rw = S.grund.richtwerte
+  const schluessel = an.klassen ? String(p.klasse || an.klasseStandard) : an.richtwert
+  return { schluessel, fussKm: rw.fussKm[schluessel] ?? rw.fussKm.erw, radKm: rw.radKm[schluessel] ?? null, tempo: rw.tempo[schluessel] ?? an.tempo }
+}
+const grenzen = (p) => { const rw = richtwert(p); return { fuss: p.maxFussKm || rw.fussKm, rad: p.maxRadKm || rw.radKm } }
+// Bei „Gemischt“ wird jede Etappe einzeln entschieden: kurz zu Fuß, lang mit Bus & Bahn
+const etappenModus = (vid, dM, an) => (vid === 'mix' ? (dM <= Math.max(an.maxEtappe, 1500) ? 'fuss' : 'oepnv') : vid)
+function etappeMinuten(modus, dM, tempoFuss) {
+  const v = verkehr(modus), kmh = modus === 'fuss' ? tempoFuss : v.tempo
+  return (dM * (v.umweg || 1.25)) / (kmh * 1000) * 60 + (v.wechsel || 0)
+}
+// Etappen einer Route mit Verkehrsmittel, Strecke (inkl. Umweg) und Zeit; Orte ohne Lage werden übersprungen
+function etappenDaten(orte, startLage, p) {
+  const an = anlass(p.anlass), tempo = richtwert(p).tempo
+  let vorher = startLage
+  return orte.map((o) => {
+    if (!o.lage || !vorher) { if (o.lage) vorher = o.lage; return { d: 0, modus: p.verkehr === 'mix' ? 'fuss' : p.verkehr, min: 0, strecke: 0, unbekannt: !o.lage } }
+    const d = abstand(vorher, o.lage), modus = etappenModus(p.verkehr, d, an)
+    vorher = o.lage
+    return { d, modus, strecke: d * (verkehr(modus).umweg || 1.25), min: etappeMinuten(modus, d, tempo) }
+  })
+}
 
 const FUCHS = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="var(--fuchs)"/><path d="M14 18 L24 30 L32 27 L40 30 L50 18 L48 36 L32 50 L16 36 Z" fill="#fff"/><path d="M16 36 L32 50 L48 36 L40 40 L32 44 L24 40 Z" fill="var(--tinte)" opacity=".18"/><circle cx="25.5" cy="35" r="2.6" fill="var(--tinte)"/><circle cx="38.5" cy="35" r="2.6" fill="var(--tinte)"/><path d="M29.5 43 h5 l-2.5 3 z" fill="var(--tinte)"/></svg>`
 const PFEIL = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L19 20 L12 16 L5 20 Z" fill="var(--fuchs)"/></svg>`
@@ -56,8 +83,27 @@ const TYPNAMEN = { quiz: 'Quizfrage', schaetzen: 'Schätzfrage', foto: 'Foto-Auf
 // ---------- Daten laden ----------
 async function ladeJson(pfad) { const r = await fetch(pfad); if (!r.ok) throw new Error(pfad); return r.json() }
 async function ladeStadt(id) {
-  if (!S.stadtCache[id]) S.stadtCache[id] = await ladeJson(`daten/staedte/${id}.json`)
+  if (!S.stadtCache[id]) {
+    const stadt = await ladeJson(`daten/staedte/${id}.json`)
+    // Eine Region bündelt ihre eigenen Ausflugsziele mit allen Stationen ihrer Teilorte
+    for (const teilId of stadt.teile || []) {
+      const teil = await ladeStadt(teilId)
+      stadt.orte.push(...teil.orte.map((o) => ({ ...o, id: `${teil.id}.${o.id}`, ort: teil.name })))
+    }
+    S.stadtCache[id] = stadt
+  }
   return S.stadtCache[id]
+}
+// Selbst angelegte Station aus dem Baukasten (kommt mit dem Rallye-Link mit)
+function eigenerOrt(e, i) {
+  const aufgaben = []
+  if (e.q && e.r && (e.f || []).filter(Boolean).length) aufgaben.push({ typ: 'quiz', niveau: 'erw', frage: e.q, richtig: e.r, falsch: e.f.filter(Boolean) })
+  if (e.t) aufgaben.push({ typ: 'mission', text: e.t })
+  return { id: 'eigen:' + i, name: e.n, ort: e.a || '', lage: e.l || null, info: e.i || '', themen: [], prio: 1, aufgaben, eigen: true }
+}
+function ortZuId(stadt, id, eigene) {
+  if (id.startsWith('eigen:')) { const i = Number(id.slice(6)); return eigene?.[i] ? eigenerOrt(eigene[i], i) : null }
+  return stadt.orte.find((o) => o.id === id) || null
 }
 
 // ---------- Routenplanung ----------
@@ -70,12 +116,19 @@ function ortErlaubt(o, an, fo) {
   return true
 }
 
-function planeRoute(stadt, p, startLage) {
-  const an = anlass(p.anlass), fo = format(p.format)
-  const maxEtappe = an.maxEtappe * (p.rad ? 4 : 1)
-  const n = an.stationen[p.laenge]
+function planeRoute(stadt, p, startLage, anzahl) {
+  const an = anlass(p.anlass), fo = format(p.format), vk = verkehr(p.verkehr)
+  const maxEtappe = p.verkehr === 'fuss' ? an.maxEtappe : Math.max(vk.maxEtappe || 0, an.maxEtappe)
+  const g = grenzen(p), kraftGrenze = (p.verkehr === 'rad' ? g.rad : p.verkehr === 'fuss' || p.verkehr === 'mix' ? g.fuss : null)
+  const motorisiert = p.verkehr === 'oepnv' || p.verkehr === 'auto'
   const rnd = zufall(p.seed)
-  const erlaubt = stadt.orte.filter((o) => ortErlaubt(o, an, fo))
+  // In einer Region lohnen Rad, Bus & Bahn oder Auto nur für die großen Ziele: eigene Ausflugsziele plus Top-Stationen der Orte
+  const regionWeit = stadt.region && p.verkehr !== 'fuss'
+  const n = anzahl || an.stationen[p.laenge]
+  const filtern = (minPrio) => stadt.orte.filter((o) => o.lage && ortErlaubt(o, an, fo) && (!regionWeit || !o.ort || (o.prio || 1) >= minPrio))
+  let erlaubt = filtern(3)
+  if (erlaubt.length < n) erlaubt = filtern(2)
+  if (erlaubt.length < n) erlaubt = filtern(1)
   const passend = erlaubt.filter((o) => o.themen.includes(p.thema) || (p.thema === 'highlights' && o.prio >= 2))
   const kandidaten = passend.length >= n ? passend : [...passend, ...erlaubt.filter((o) => !passend.includes(o))]
   const gewicht = (o) => (passend.includes(o) ? 1 : 2.4) / (1 + 0.18 * (o.prio || 1))
@@ -87,19 +140,24 @@ function planeRoute(stadt, p, startLage) {
       let best = null, bestWert = Infinity
       for (const o of kandidaten) {
         if (route.includes(o)) continue
-        const w = abstand(letzter.lage, o.lage) * gewicht(o) * (0.8 + 0.4 * rnd())
+        if (regionWeit && o.ort && route.filter((x) => x.ort === o.ort).length >= Math.max(2, Math.ceil(n / 3))) continue
+        const w = (motorisiert ? Math.sqrt(abstand(letzter.lage, o.lage)) * 40 : abstand(letzter.lage, o.lage)) * gewicht(o) * (0.8 + 0.4 * rnd())
         if (w < bestWert) { bestWert = w; best = o }
       }
+      if (!best) break
       route.push(best)
     }
     verbessere(route, startLage)
     let kosten = startLage ? abstand(startLage, route[0].lage) * 0.7 : 0
+    let kraft = 0
     for (let i = 1; i < route.length; i++) {
       const d = abstand(route[i - 1].lage, route[i].lage)
-      kosten += d + Math.max(0, d - maxEtappe) * 3
+      kosten += (motorisiert ? d * 0.25 + 900 : d) + Math.max(0, d - maxEtappe) * 3
+      if (etappenModus(p.verkehr, d, an) === (p.verkehr === 'rad' ? 'rad' : 'fuss')) kraft += d * 1.25
     }
+    if (kraftGrenze) kosten += Math.max(0, kraft - kraftGrenze * 1000) * 6
     kosten += route.filter((o) => !passend.includes(o)).length * 600
-    kosten -= route.reduce((s, o) => s + (o.prio || 1), 0) * 60
+    kosten -= route.reduce((s, o) => s + (o.prio || 1), 0) * (regionWeit ? 1500 : 60)
     versuche.push({ route, kosten: kosten * (0.9 + 0.2 * rnd()) })
   }
   versuche.sort((a, b) => a.kosten - b.kosten)
@@ -149,22 +207,26 @@ function baueRallye(stadt, cfg) {
     return waehle(bevorzugt.length ? bevorzugt : quiz, rnd)
   }
 
-  const orte = cfg.o.map((id) => stadt.orte.find((o) => o.id === id)).filter(Boolean)
+  const orte = cfg.o.map((id) => ortZuId(stadt, id, cfg.e)).filter(Boolean)
   let wort = ''
+  const mitQuiz = orte.filter((o) => (o.aufgaben || []).some((a) => a.typ === 'quiz'))
   if (fo.id === 'loesungswort') {
-    const n = orte.length
+    const n = mitQuiz.length
     const woerter = [...(stadt.loesungsworte || []), ...S.grund.loesungsworte]
     const genau = woerter.filter((w) => w.length === n)
     const kuerzer = woerter.filter((w) => w.length < n).sort((a, b) => b.length - a.length)
     wort = genau.length ? waehle(genau, rnd) : (kuerzer[0] || woerter[0])
   }
 
+  const vid = cfg.v || (cfg.rad ? 'rad' : 'fuss')
   const stationen = orte.map((o, pos) => {
     const aufgaben = []
     const eigene = (typen) => (o.aufgaben || []).filter((a) => typen.includes(a.typ))
+    const bpos = mitQuiz.indexOf(o) // Position im Lösungswort, -1 = kein Buchstabe
     if (fo.id === 'loesungswort') {
       const q = nimmQuiz(o)
-      aufgaben.push(quizAufbereiten(q, pos < wort.length ? wort[pos] : null, rnd))
+      if (q) aufgaben.push(quizAufbereiten(q, bpos >= 0 && bpos < wort.length ? wort[bpos] : null, rnd))
+      else { const m = eigene(['mission', 'foto', 'suchen']); if (m.length) aufgaben.push({ ...m[0] }) }
     } else if (fo.id === 'foto') {
       if (o.respekt) { const q = nimmQuiz(o); if (q) aufgaben.push(quizAufbereiten(q, null, rnd)) }
       else {
@@ -184,9 +246,11 @@ function baueRallye(stadt, cfg) {
       }
     }
     aufgaben.forEach((a) => { a.punkte = punkte[a.typ] || 5 })
+    const vorher = pos > 0 ? orte[pos - 1].lage : null
     return {
-      id: o.id, pos, name: o.name, lage: o.lage, info: o.info, fakt: o.fakt || '', hinweis: o.hinweis || '', kosten: o.kosten || '',
-      respekt: !!o.respekt, wiki: o.wiki || '', zusatz: (cfg.zusatz || []).includes(o.id), aufgaben
+      id: o.id, pos, bpos, name: o.name, ort: o.ort || '', lage: o.lage || null, info: o.info, fakt: o.fakt || '', hinweis: o.hinweis || '', kosten: o.kosten || '',
+      respekt: !!o.respekt, wiki: o.wiki || '', zusatz: (cfg.zusatz || []).includes(o.id), aufgaben,
+      modus: vorher && o.lage ? etappenModus(vid, abstand(vorher, o.lage), an) : (vid === 'mix' ? 'fuss' : vid)
     }
   })
 
@@ -197,7 +261,7 @@ function baueRallye(stadt, cfg) {
 
   return {
     v: 1, cfg, stadtId: stadt.id, stadtName: stadt.name, wort, team: cfg.team || '', stationen: reihenfolge,
-    index: 0, angekommen: {}, antworten: {}, notizen: {}, start: null, ende: null, geloest: false, gps: !!cfg.gps, rad: !!cfg.rad
+    index: 0, angekommen: {}, antworten: {}, notizen: {}, start: null, ende: null, geloest: false, gps: !!cfg.gps, verkehr: vid, nav: cfg.n || 'karte'
   }
 }
 
@@ -263,11 +327,13 @@ function zeigeKarte(el, punkte, optionen = {}) {
   if (!window.L || !el) { if (el) el.innerHTML = '<p class="leise klein" style="padding:12px">Karte nicht verfügbar (offline?). Die Route steht in der Liste.</p>'; return }
   const karte = L.map(el, { zoomControl: true, attributionControl: true, scrollWheelZoom: false })
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(karte)
+  punkte = punkte.filter((p) => p.lage)
   const linie = punkte.map((p) => p.lage)
   if (optionen.start) linie.unshift(optionen.start)
+  if (!linie.length) { el.innerHTML = '<p class="leise klein" style="padding:12px">Keine Kartenpunkte – die Stationen werden selbst gesucht.</p>'; return }
   L.polyline(linie, { color: getComputedStyle(document.documentElement).getPropertyValue('--fuchs').trim() || '#e05a14', weight: 4, dashArray: '2 8', lineCap: 'round' }).addTo(karte)
   punkte.forEach((p, i) => {
-    const icon = L.divIcon({ className: '', html: `<div class="pin ${p.fertig ? 'fertig' : ''}">${i + 1}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] })
+    const icon = L.divIcon({ className: '', html: `<div class="pin ${p.fertig ? 'fertig' : ''}">${p.nr ?? i + 1}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] })
     L.marker(p.lage, { icon, title: p.name }).addTo(karte).bindPopup(esc(p.name))
   })
   if (optionen.start) L.circleMarker(optionen.start, { radius: 6, color: '#fff', weight: 2, fillColor: '#2a6c99', fillOpacity: 1 }).addTo(karte).bindPopup('Start')
@@ -301,7 +367,7 @@ function einmalOrt() {
 
 // ---------- Teilen: Rallye als Link ----------
 function codiere(cfg) {
-  const roh = JSON.stringify({ s: cfg.s, a: cfg.a, t: cfg.t, f: cfg.f, l: cfg.l, o: cfg.o, z: cfg.z, teams: cfg.teams, gps: cfg.gps ? 1 : 0, zusatz: cfg.zusatz, st: cfg.st, rad: cfg.rad })
+  const roh = JSON.stringify({ s: cfg.s, a: cfg.a, t: cfg.t, f: cfg.f, l: cfg.l, o: cfg.o, z: cfg.z, teams: cfg.teams, gps: cfg.gps ? 1 : 0, zusatz: cfg.zusatz, st: cfg.st, v: cfg.v, n: cfg.n, e: cfg.e })
   return btoa(unescape(encodeURIComponent(roh))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 }
 function decodiere(text) {
@@ -315,8 +381,42 @@ async function ladeQr() {
     s.onload = () => ok(true); s.onerror = () => ok(false); document.head.append(s)
   })
 }
-async function kopieren(text) {
-  try { await navigator.clipboard.writeText(text); toast('Link kopiert') } catch { window.prompt('Link kopieren:', text) }
+async function kopieren(text, meldung = 'Link kopiert') {
+  try { await navigator.clipboard.writeText(text); toast(meldung) } catch { window.prompt('Zum Kopieren markieren:', text) }
+}
+function ladeHerunter(text, name, typ) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: typ })); a.download = name
+  document.body.append(a); a.click(); a.remove(); toast('Datei wird gespeichert')
+}
+
+// ---------- Kartenpunkte für Google Maps, Listen und GPX ----------
+const gmapsPunkt = (o) => `https://www.google.com/maps/search/?api=1&query=${o.lage[0]},${o.lage[1]}`
+// Google Maps nimmt höchstens 9 Zwischenziele; Bus & Bahn erlaubt gar keine – dann eine Route je Etappe
+function gmapsTeile(orte, startLage, p) {
+  const punkte = [startLage, ...orte.filter((o) => o.lage).map((o) => o.lage)].filter(Boolean)
+  if (punkte.length < 2) return []
+  const modus = { fuss: 'walking', rad: 'bicycling', auto: 'driving', oepnv: 'transit', mix: 'transit' }[p.verkehr] || 'walking'
+  const url = (teil) => `https://www.google.com/maps/dir/?api=1&origin=${teil[0].join(',')}&destination=${teil[teil.length - 1].join(',')}${teil.length > 2 ? '&waypoints=' + teil.slice(1, -1).map((x) => x.join(',')).join('%7C') : ''}&travelmode=${modus}`
+  const teile = []
+  const schritt = modus === 'transit' ? 1 : 9
+  for (let i = 0; i < punkte.length - 1; i += schritt) teile.push(url(punkte.slice(i, i + schritt + 1)))
+  return teile
+}
+function punkteText(orte, stadt) {
+  return [`Stadtrallye ${stadt.name} – Stationen`, '', ...orte.map((o, i) => `${i + 1}. ${o.name}${o.ort ? ' (' + o.ort + ')' : ''}${o.lage ? ': ' + gmapsPunkt(o) : ' – Ort selbst suchen'}`)].join('\n')
+}
+function gpxText(orte, stadt) {
+  const x = (t) => esc(t)
+  const mit = orte.filter((o) => o.lage)
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Stadtfuchs" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>${x('Stadtrallye ' + stadt.name)}</name></metadata>
+${mit.map((o, i) => `  <wpt lat="${o.lage[0]}" lon="${o.lage[1]}"><name>${x(`${i + 1}. ${o.name}`)}</name>${o.ort ? `<desc>${x(o.ort)}</desc>` : ''}</wpt>`).join('\n')}
+  <rte><name>${x('Stadtrallye ' + stadt.name)}</name>
+${mit.map((o, i) => `    <rtept lat="${o.lage[0]}" lon="${o.lage[1]}"><name>${x(`${i + 1}. ${o.name}`)}</name></rtept>`).join('\n')}
+  </rte>
+</gpx>
+`
 }
 
 // ---------- Navigation ----------
@@ -362,7 +462,7 @@ function zeigeStart() {
       <div class="zeile"><a class="knopf haupt" href="#spiel">Weiterspielen</a><button class="knopf" id="verwerfen">Beenden &amp; verwerfen</button></div></div>` : ''}
     ${r && r.ende ? `<div class="karte weiter"><span class="etikett">Zuletzt gespielt</span><h2>${esc(r.stadtName)}</h2><div class="zeile"><a class="knopf" href="#ende">Ergebnis &amp; Fotos ansehen</a></div></div>` : ''}
     <div class="schritt"><header><h2>Wählt eure Stadt</h2></header>
-      <div class="staedte">${S.staedte.map((s) => `<button class="stadt" data-stadt="${s.id}"><b>${esc(s.name)}</b><span class="leise klein">${esc(s.kurz)}</span><span class="zahl">${s.orte} Stationen · ${esc(s.land)}</span>${s.entwurf ? '<span class="marke-entwurf">Testphase – bitte vor Ort prüfen</span>' : ''}</button>`).join('')}</div>
+      <div class="staedte">${S.staedte.map((s) => `<button class="stadt" data-stadt="${s.id}"><b>${esc(s.name)}</b><span class="leise klein">${esc(s.kurz)}</span><span class="zahl">${s.orte} Stationen · ${esc(s.land)}</span>${s.region ? '<span class="marke-entwurf">Region – für Rad, Bus &amp; Bahn oder Auto</span>' : s.entwurf ? '<span class="marke-entwurf">Testphase – bitte vor Ort prüfen</span>' : ''}</button>`).join('')}</div>
     </div>
     <div class="schritt"><header><h2>So läuft's</h2></header>
       <div class="ablauf">
@@ -389,12 +489,16 @@ async function verwerfen() {
 }
 
 // ---------- Planer ----------
+const BAUKASTEN = (id) => 'stadtfuchs.baukasten.' + id
 async function zeigePlaner(stadtId) {
   const stadt = await ladeStadt(stadtId)
   const vorher = lies('stadtfuchs.plan') || {}
   if (!S.plan || S.plan.stadt !== stadtId) {
+    const bk = lies(BAUKASTEN(stadtId)) || {}
     S.plan = { stadt: stadtId, anlass: vorher.anlass || 'entdecker', thema: vorher.thema || 'highlights', format: vorher.format || 'loesungswort', laenge: vorher.laenge || 'mittel',
-      start: 'zentrum', startLage: null, team: vorher.team || '', teams: 1, gps: false, stufe: vorher.stufe || 2, rad: false, seed: Math.floor(Math.random() * 1e9) }
+      start: 'zentrum', startLage: null, team: vorher.team || '', teams: 1, gps: false, stufe: vorher.stufe || 2, seed: Math.floor(Math.random() * 1e9),
+      verkehr: stadt.verkehr || vorher.verkehr || 'fuss', nav: vorher.nav || 'karte', klasse: vorher.klasse || null, maxFussKm: null, maxRadKm: null,
+      auswahl: bk.manuell?.length ? 'selbst' : 'auto', manuell: (bk.manuell || []).filter((id) => id.startsWith('eigen:') || stadt.orte.some((o) => o.id === id)), eigene: bk.eigene || [] }
   }
   pruefePlan(stadt)
   zeichnePlaner(stadt)
@@ -405,18 +509,23 @@ function pruefePlan(stadt) {
   if (!an.themen.includes(p.thema)) p.thema = an.themen[0]
   if (thema(p.thema).ab18 && !erwachsen(an)) p.thema = an.themen[0]
   if (!an.formate.includes(p.format)) p.format = an.formate[0]
+  if (an.klassen && !an.klassen.includes(p.klasse)) p.klasse = an.klasseStandard
+  if (!an.klassen) p.klasse = null
 }
+const sichereBaukasten = () => schreibe(BAUKASTEN(S.plan.stadt), { manuell: S.plan.manuell, eigene: S.plan.eigene })
 
 function zeichnePlaner(stadt) {
-  const p = S.plan, an = anlass(p.anlass)
+  const p = S.plan, an = anlass(p.anlass), rw = richtwert(p), g = grenzen(p)
   const zaehle = (tid) => stadt.orte.filter((o) => (o.themen.includes(tid) || (tid === 'highlights' && o.prio >= 2)) && ortErlaubt(o, an, format(p.format))).length
   const themenListe = an.themen.map(thema).filter((t) => !t.ab18 || erwachsen(an))
+  const radOhneRichtwert = p.verkehr === 'rad' && !rw.radKm
   app.innerHTML = `${kopf('<a class="knopf still klein" href="#">Städte</a>')}
-  <section class="held"><span class="unterzeile">${esc(stadt.land)}</span><h1>Rallye durch ${esc(stadt.name)}</h1><p class="leise">${esc(stadt.kurz)}</p>
+  <section class="held"><span class="unterzeile">${esc(stadt.land)}</span><h1>${stadt.region ? esc(stadt.name) : 'Rallye durch ' + esc(stadt.name)}</h1><p class="leise">${esc(stadt.kurz)}</p>
     <div class="zeile"><a class="knopf klein" href="#pruefen-${stadt.id}">Alle ${stadt.orte.length} Stationen ansehen &amp; prüfen</a></div></section>
   <div class="stapel">
     <section class="schritt"><header><span class="nr">1</span><h2>Wer ist dabei?</h2></header>
       <div class="chips">${S.grund.anlaesse.map((a) => `<button class="chip" data-anlass="${a.id}" aria-pressed="${a.id === p.anlass}"><span class="ic">${a.icon}</span><b>${esc(a.name)}</b><small>${esc(a.kurz)}</small></button>`).join('')}</div>
+      ${an.klassen ? `<div class="feld"><label for="klasse">Klassenstufe</label><select id="klasse">${an.klassen.map((k) => `<option value="${k}" ${k === p.klasse ? 'selected' : ''}>Klasse ${k}</option>`).join('')}</select></div>` : ''}
       ${an.frechheit ? `<div class="karte stapel"><h3>Wie frech darf's werden?</h3>
         <div class="chips">${S.grund.frechheit.map((f) => `<button class="chip" data-stufe="${f.stufe}" aria-pressed="${f.stufe === p.stufe}"><span class="ic">${f.icon}</span><b>${esc(f.name)}</b><small>${esc(f.kurz)}</small></button>`).join('')}</div>
         <p class="leise klein">Peinlich darf es für den Ehrengast werden – nie für Unbeteiligte. Fremde machen nur mit, wenn sie wollen, und wer eine Aufgabe nicht machen möchte, lässt sie aus.</p></div>` : ''}
@@ -427,14 +536,30 @@ function zeichnePlaner(stadt) {
     <section class="schritt"><header><span class="nr">3</span><h2>Wie wollt ihr spielen?</h2></header>
       <div class="chips">${an.formate.map(format).map((f) => `<button class="chip" data-format="${f.id}" aria-pressed="${f.id === p.format}"><span class="ic">${f.icon}</span><b>${esc(f.id === 'punkte' && an.sterne ? 'Sterne-Rallye' : f.name)}</b><small>${esc(f.kurz)}</small></button>`).join('')}</div>
     </section>
-    <section class="schritt"><header><span class="nr">4</span><h2>Wie lang?</h2></header>
+    <section class="schritt"><header><span class="nr">4</span><h2>Wie lang und wie unterwegs?</h2></header>
       <div class="segment">${S.grund.laengen.map((l) => `<button data-laenge="${l.id}" aria-pressed="${l.id === p.laenge}"><b>${l.name}</b><small>${an.stationen[l.id]} Stationen</small></button>`).join('')}</div>
-      <div class="segment" style="grid-template-columns:1fr 1fr">
-        <button data-rad="0" aria-pressed="${!p.rad}"><b>Zu Fuß</b><small>Kurze Wege</small></button>
-        <button data-rad="1" aria-pressed="${!!p.rad}"><b>Mit dem Fahrrad</b><small>Auch weiter entfernte Orte</small></button>
+      <div class="chips">${S.grund.verkehr.map((v) => `<button class="chip" data-verkehr="${v.id}" aria-pressed="${v.id === p.verkehr}"><span class="ic">${v.icon}</span><b>${esc(v.name)}</b><small>${esc(v.kurz)}</small></button>`).join('')}</div>
+      <div class="karte stapel">
+        <h3>Wie viel schafft die Gruppe?</h3>
+        <div class="zeile">
+          ${p.verkehr !== 'oepnv' && p.verkehr !== 'auto' && p.verkehr !== 'rad' ? `<div class="feld" style="flex:1;min-width:140px"><label for="maxfuss">Höchstens zu Fuß (km)</label><input id="maxfuss" type="number" inputmode="decimal" min="0.5" step="0.5" value="${g.fuss}"></div>` : ''}
+          ${p.verkehr === 'rad' ? `<div class="feld" style="flex:1;min-width:140px"><label for="maxrad">Höchstens mit dem Rad (km)</label><input id="maxrad" type="number" inputmode="decimal" min="1" step="1" value="${g.rad || ''}" placeholder="kein Richtwert"></div>` : ''}
+        </div>
+        <p class="leise klein">${p.verkehr === 'oepnv' || p.verkehr === 'auto' ? 'Mit Bus & Bahn oder Auto gibt es keine Kraft-Grenze – achtet auf Fahrpläne, Parkplätze und Eintrittszeiten.' : `Richtwert für ${an.klassen ? 'Klasse ' + p.klasse : esc(an.name)}: ${p.verkehr === 'rad' ? (rw.radKm ? rw.radKm + ' km mit dem Rad' : 'keiner') : rw.fussKm + ' km zu Fuß'}. ${esc(S.grund.richtwerte.hinweis)}`}</p>
+        ${radOhneRichtwert ? '<p class="hinweis">Radtouren im Straßenverkehr sind für diese Altersgruppe nicht empfohlen – die Radfahrausbildung findet meist in Klasse 4 statt.</p>' : ''}
       </div>
     </section>
-    <section class="schritt"><header><span class="nr">5</span><h2>Startpunkt &amp; Team</h2></header>
+    <section class="schritt"><header><span class="nr">5</span><h2>Wie findet ihr die Stationen?</h2></header>
+      <div class="chips">${S.grund.navigation.map((n) => `<button class="chip" data-nav="${n.id}" aria-pressed="${n.id === p.nav}"><span class="ic">${n.icon}</span><b>${esc(n.name)}</b><small>${esc(n.kurz)}</small></button>`).join('')}</div>
+    </section>
+    <section class="schritt"><header><span class="nr">6</span><h2>Welche Stationen?</h2></header>
+      <div class="segment" style="grid-template-columns:1fr 1fr">
+        <button data-auswahl="auto" aria-pressed="${p.auswahl === 'auto'}"><b>Automatisch planen</b><small>Passend zu Thema und Strecke</small></button>
+        <button data-auswahl="selbst" aria-pressed="${p.auswahl === 'selbst'}"><b>Selbst zusammenstellen</b><small>Auswählen, sortieren, eigene anlegen</small></button>
+      </div>
+      ${p.auswahl === 'selbst' ? baukastenHtml(stadt) : ''}
+    </section>
+    <section class="schritt"><header><span class="nr">7</span><h2>Startpunkt &amp; Team</h2></header>
       <div class="karte stapel">
         <div class="segment" style="grid-template-columns:1fr 1fr">
           <button data-start="zentrum" aria-pressed="${p.start === 'zentrum'}"><b>${esc(stadt.start.name)}</b><small>Klassischer Start</small></button>
@@ -454,61 +579,179 @@ function zeichnePlaner(stadt) {
     <section class="schritt" id="vorschau" aria-live="polite"></section>
   </div>${fuss()}`
 
-  app.querySelectorAll('[data-anlass]').forEach((b) => b.onclick = () => { p.anlass = b.dataset.anlass; pruefePlan(stadt); zeichnePlaner(stadt) })
-  app.querySelectorAll('[data-thema]').forEach((b) => b.onclick = () => { p.thema = b.dataset.thema; zeichnePlaner(stadt) })
-  app.querySelectorAll('[data-stufe]').forEach((b) => b.onclick = () => { p.stufe = Number(b.dataset.stufe); zeichnePlaner(stadt) })
-  app.querySelectorAll('[data-format]').forEach((b) => b.onclick = () => { p.format = b.dataset.format; zeichnePlaner(stadt) })
-  app.querySelectorAll('[data-laenge]').forEach((b) => b.onclick = () => { p.laenge = b.dataset.laenge; zeichnePlaner(stadt) })
-  app.querySelectorAll('[data-rad]').forEach((b) => b.onclick = () => { p.rad = b.dataset.rad === '1'; zeichnePlaner(stadt) })
+  const neu = () => { pruefePlan(stadt); const y = window.scrollY; zeichnePlaner(stadt); window.scrollTo(0, y) }
+  app.querySelectorAll('[data-anlass]').forEach((b) => b.onclick = () => { p.anlass = b.dataset.anlass; p.maxFussKm = p.maxRadKm = null; neu() })
+  app.querySelectorAll('[data-thema]').forEach((b) => b.onclick = () => { p.thema = b.dataset.thema; neu() })
+  app.querySelectorAll('[data-stufe]').forEach((b) => b.onclick = () => { p.stufe = Number(b.dataset.stufe); neu() })
+  app.querySelectorAll('[data-format]').forEach((b) => b.onclick = () => { p.format = b.dataset.format; neu() })
+  app.querySelectorAll('[data-laenge]').forEach((b) => b.onclick = () => { p.laenge = b.dataset.laenge; neu() })
+  app.querySelectorAll('[data-verkehr]').forEach((b) => b.onclick = () => { p.verkehr = b.dataset.verkehr; neu() })
+  app.querySelectorAll('[data-nav]').forEach((b) => b.onclick = () => { p.nav = b.dataset.nav; neu() })
+  app.querySelectorAll('[data-auswahl]').forEach((b) => b.onclick = () => { p.auswahl = b.dataset.auswahl; neu() })
+  const kl = $('#klasse'); if (kl) kl.onchange = (e) => { p.klasse = Number(e.target.value); p.maxFussKm = p.maxRadKm = null; neu() }
+  const mf = $('#maxfuss'); if (mf) mf.onchange = (e) => { p.maxFussKm = Number(String(e.target.value).replace(',', '.')) || null; zeichneVorschau(stadt) }
+  const mr = $('#maxrad'); if (mr) mr.onchange = (e) => { p.maxRadKm = Number(String(e.target.value).replace(',', '.')) || null; zeichneVorschau(stadt) }
   app.querySelectorAll('[data-start]').forEach((b) => b.onclick = async () => {
     if (b.dataset.start === 'ich') {
       toast('Standort wird ermittelt …')
       const lage = await einmalOrt()
-      if (!lage) { toast('Standort nicht verfügbar – wir starten im Zentrum'); p.start = 'zentrum' }
-      else if (abstand(lage, stadt.zentrum) > 15000) { toast(`Ihr seid nicht in ${stadt.name} – wir starten im Zentrum`); p.start = 'zentrum' }
+      if (!lage) { toast('Standort nicht verfügbar – wir starten am Startpunkt'); p.start = 'zentrum' }
+      else if (abstand(lage, stadt.zentrum) > (stadt.region ? 40000 : 15000)) { toast(`Ihr seid nicht in ${stadt.name} – wir starten am Startpunkt`); p.start = 'zentrum' }
       else { p.start = 'ich'; p.startLage = lage }
     } else p.start = 'zentrum'
-    zeichnePlaner(stadt)
+    neu()
   })
   $('#team').oninput = (e) => { p.team = e.target.value }
   $('#teams').onchange = (e) => { p.teams = Number(e.target.value) }
   $('#gps').onchange = (e) => { p.gps = e.target.checked }
-  schreibe('stadtfuchs.plan', { anlass: p.anlass, thema: p.thema, format: p.format, laenge: p.laenge, team: p.team, stufe: p.stufe })
+  if (p.auswahl === 'selbst') bindeBaukasten(stadt)
+  schreibe('stadtfuchs.plan', { anlass: p.anlass, thema: p.thema, format: p.format, laenge: p.laenge, team: p.team, stufe: p.stufe, verkehr: p.verkehr, nav: p.nav, klasse: p.klasse })
   zeichneVorschau(stadt)
 }
 
+// ---------- Baukasten: Stationen selbst zusammenstellen ----------
+function baukastenHtml(stadt) {
+  const p = S.plan
+  const gewaehlt = p.manuell.map((id) => ortZuId(stadt, id, p.eigene)).filter(Boolean)
+  return `<div class="karte stapel" id="baukasten">
+    <h3>Eure Stationen (${gewaehlt.length})</h3>
+    ${gewaehlt.length ? `<ol class="route">${gewaehlt.map((o, i) => `<li><span class="stempel">${i + 1}</span><div class="min-w0 zeile" style="justify-content:space-between">
+      <span class="min-w0"><b>${esc(o.name)}</b>${o.ort ? ` <span class="leise klein">· ${esc(o.ort)}</span>` : ''}${o.eigen ? ' <span class="marke-oepnv">eigene</span>' : ''}${!o.lage ? ' <span class="marke-oepnv" style="color:var(--leise)">ohne Kartenpunkt</span>' : ''}</span>
+      <span class="zeile" style="gap:4px"><button class="knopf klein still" data-hoch="${i}" aria-label="Nach oben" ${i === 0 ? 'disabled' : ''}>↑</button><button class="knopf klein still" data-runter="${i}" aria-label="Nach unten" ${i === gewaehlt.length - 1 ? 'disabled' : ''}>↓</button><button class="knopf klein still" data-weg="${i}" aria-label="Entfernen">✕</button></span></div></li>`).join('')}</ol>
+    <div class="zeile"><button class="knopf klein" id="optimieren">Reihenfolge optimieren</button><button class="knopf klein still" id="leeren">Alle entfernen</button></div>` : '<p class="leise">Noch keine Stationen. Fügt unten Stationen aus der Liste hinzu oder legt eigene an.</p>'}
+    <details class="mehr" ${gewaehlt.length < 2 ? 'open' : ''}><summary>Stationen aus der Liste hinzufügen</summary>
+      <div class="stapel" style="margin-top:10px">
+        <div class="feld"><label for="bksuche">Suchen</label><input id="bksuche" placeholder="Name, Ort oder Thema"></div>
+        <div id="bkliste" class="auswahlliste"></div>
+      </div>
+    </details>
+    <details class="mehr"><summary>Eigene Station anlegen</summary>
+      <div class="stapel" style="margin-top:10px">
+        <div class="feld"><label for="e_n">Name der Station *</label><input id="e_n" maxlength="80" placeholder="z. B. Kiosk am Marktplatz"></div>
+        <div class="feld"><label for="e_a">Adresse oder Ortsangabe</label><input id="e_a" maxlength="120" placeholder="z. B. Lippestraße 1, ${esc(stadt.name)}"></div>
+        <div class="zeile"><button class="knopf klein" id="e_suchen">Adresse auf der Karte suchen</button><button class="knopf klein" id="e_hier">Meinen Standort nehmen</button><span class="leise klein" id="e_lage">Ohne Kartenpunkt</span></div>
+        <div class="feld"><label for="e_i">Info zur Station</label><textarea id="e_i" rows="2" maxlength="400"></textarea></div>
+        <div class="feld"><label for="e_q">Quizfrage</label><input id="e_q" maxlength="160"></div>
+        <div class="zeile"><div class="feld" style="flex:1;min-width:140px"><label for="e_r">Richtige Antwort</label><input id="e_r" maxlength="80"></div>
+          <div class="feld" style="flex:1;min-width:140px"><label for="e_f1">Falsche Antwort</label><input id="e_f1" maxlength="80"></div>
+          <div class="feld" style="flex:1;min-width:140px"><label for="e_f2">Falsche Antwort</label><input id="e_f2" maxlength="80"></div></div>
+        <div class="feld"><label for="e_t">Aufgabe oder Mission (optional)</label><input id="e_t" maxlength="200" placeholder="z. B. Macht ein Gruppenfoto vor dem Eingang"></div>
+        <button class="knopf haupt" id="e_neu">Station hinzufügen</button>
+      </div>
+    </details>
+  </div>`
+}
+
+function bindeBaukasten(stadt) {
+  const p = S.plan, an = anlass(p.anlass)
+  const neu = () => { sichereBaukasten(); const y = window.scrollY; zeichnePlaner(stadt); window.scrollTo(0, y) }
+  app.querySelectorAll('[data-hoch]').forEach((b) => b.onclick = () => { const i = +b.dataset.hoch; [p.manuell[i - 1], p.manuell[i]] = [p.manuell[i], p.manuell[i - 1]]; neu() })
+  app.querySelectorAll('[data-runter]').forEach((b) => b.onclick = () => { const i = +b.dataset.runter; [p.manuell[i + 1], p.manuell[i]] = [p.manuell[i], p.manuell[i + 1]]; neu() })
+  app.querySelectorAll('[data-weg]').forEach((b) => b.onclick = () => { p.manuell.splice(+b.dataset.weg, 1); neu() })
+  const opt = $('#optimieren'); if (opt) opt.onclick = () => {
+    const orte = p.manuell.map((id) => ortZuId(stadt, id, p.eigene))
+    const mit = orte.filter((o) => o?.lage), ohne = orte.filter((o) => o && !o.lage)
+    verbessere(mit, p.start === 'ich' && p.startLage ? p.startLage : stadt.start.lage)
+    p.manuell = [...mit, ...ohne].map((o) => o.id); neu(); toast('Reihenfolge optimiert')
+  }
+  const leer = $('#leeren'); if (leer) leer.onclick = () => { p.manuell = []; neu() }
+  const liste = () => {
+    const q = ($('#bksuche')?.value || '').toLowerCase()
+    const treffer = stadt.orte.filter((o) => !(o.ab18 && !erwachsen(an)) && !p.manuell.includes(o.id))
+      .filter((o) => !q || `${o.name} ${o.ort || ''} ${o.themen.map((t) => thema(t).name).join(' ')}`.toLowerCase().includes(q))
+      .sort((a, b) => (b.prio || 1) - (a.prio || 1) || a.name.localeCompare(b.name, 'de'))
+    $('#bkliste').innerHTML = treffer.map((o) => `<div class="zeile" style="justify-content:space-between;padding-block:6px;border-bottom:1px dashed var(--linie)">
+      <span class="min-w0"><b>${esc(o.name)}</b><br><span class="leise klein">${esc([o.ort, o.themen.map((t) => thema(t).name).join(', ')].filter(Boolean).join(' · '))}</span></span>
+      <button class="knopf klein" data-dazu="${esc(o.id)}" aria-label="${esc(o.name)} hinzufügen">+ Dazu</button></div>`).join('') || '<p class="leise klein">Keine Treffer.</p>'
+    app.querySelectorAll('[data-dazu]').forEach((b) => b.onclick = () => { p.manuell.push(b.dataset.dazu); neu() })
+  }
+  if ($('#bkliste')) { liste(); $('#bksuche').oninput = liste }
+  // Eigene Station
+  let lage = null
+  const zeigeLage = () => { $('#e_lage').textContent = lage ? `Kartenpunkt: ${lage[0].toFixed(5)}, ${lage[1].toFixed(5)}` : 'Ohne Kartenpunkt' }
+  $('#e_suchen').onclick = async () => {
+    const text = $('#e_a').value.trim() || $('#e_n').value.trim()
+    if (!text) return toast('Bitte zuerst Name oder Adresse eingeben')
+    try {
+      const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=de&q=' + encodeURIComponent(`${text}, ${stadt.region ? '' : stadt.name}`))
+      const j = await r.json()
+      if (!j[0]) return toast('Nichts gefunden – Adresse genauer angeben')
+      lage = [Math.round(+j[0].lat * 1e5) / 1e5, Math.round(+j[0].lon * 1e5) / 1e5]; zeigeLage(); toast('Kartenpunkt gefunden')
+    } catch { toast('Suche nicht erreichbar – ihr könnt die Station auch ohne Kartenpunkt anlegen') }
+  }
+  $('#e_hier').onclick = async () => { toast('Standort wird ermittelt …'); const l = await einmalOrt(); if (!l) return toast('Standort nicht verfügbar'); lage = l.map((x) => Math.round(x * 1e5) / 1e5); zeigeLage() }
+  $('#e_neu').onclick = () => {
+    const wert = (id) => $('#' + id).value.trim()
+    if (!wert('e_n')) return toast('Bitte einen Namen eingeben')
+    if (wert('e_q') && (!wert('e_r') || !wert('e_f1'))) return toast('Zur Quizfrage gehören eine richtige und mindestens eine falsche Antwort')
+    p.eigene.push({ n: wert('e_n'), a: wert('e_a'), i: wert('e_i'), q: wert('e_q'), r: wert('e_r'), f: [wert('e_f1'), wert('e_f2')].filter(Boolean), t: wert('e_t'), l: lage })
+    p.manuell.push('eigen:' + (p.eigene.length - 1)); neu(); toast('Station hinzugefügt')
+  }
+}
+
+// ---------- Vorschau der Route ----------
 function zeichneVorschau(stadt) {
-  const p = S.plan, an = anlass(p.anlass), fo = format(p.format)
+  const p = S.plan, an = anlass(p.anlass), fo = format(p.format), vk = verkehr(p.verkehr), g = grenzen(p)
   const startLage = p.start === 'ich' && p.startLage ? p.startLage : stadt.start.lage
-  const { orte, zusatz } = planeRoute(stadt, p, startLage)
-  const cfg = { s: stadt.id, a: p.anlass, t: p.thema, f: p.format, l: p.laenge, o: orte.map((o) => o.id), z: p.seed, teams: p.teams, gps: p.gps, zusatz, st: an.frechheit ? p.stufe : undefined, rad: p.rad ? 1 : undefined }
-  const probe = baueRallye(stadt, cfg)
-  const etappen = orte.map((o, i) => (i ? abstand(orte[i - 1].lage, o.lage) : abstand(startLage, o.lage)))
-  const weg = etappen.reduce((s, d) => s + d, 0)
-  const verweil = p.thema === 'kneipen' ? 30 : 12
-  const minuten = (weg * 1.25) / ((p.rad ? 13 : an.tempo) * 1000) * 60 + orte.length * verweil
-  const kostenpflichtig = orte.filter((o) => o.kosten).length
   const box = $('#vorschau')
-  box.innerHTML = `<header><span class="nr">6</span><h2>Eure Route</h2></header>
+  let orte, zusatz = [], gekuerzt = 0
+  if (p.auswahl === 'selbst') {
+    orte = p.manuell.map((id) => ortZuId(stadt, id, p.eigene)).filter(Boolean)
+    if (orte.length < 1) { box.innerHTML = '<header><span class="nr">8</span><h2>Eure Route</h2></header><p class="hinweis">Wählt oben in Schritt 6 mindestens eine Station aus.</p>'; return }
+  } else {
+    // Passt die Route nicht zur Kraft-Grenze, werden Stationen weggelassen (mindestens drei bleiben)
+    const kraftModus = p.verkehr === 'rad' ? 'rad' : 'fuss', limit = p.verkehr === 'rad' ? g.rad : (p.verkehr === 'fuss' || p.verkehr === 'mix') ? g.fuss : null
+    let n = an.stationen[p.laenge]
+    for (;;) {
+      ({ orte, zusatz } = planeRoute(stadt, p, startLage, n))
+      const kraft = etappenDaten(orte, startLage, p).filter((e) => e.modus === kraftModus).reduce((s, e) => s + e.strecke, 0)
+      if (!limit || kraft <= limit * 1000 || n <= 3) break
+      n--; gekuerzt++
+    }
+  }
+  const cfg = { s: stadt.id, a: p.anlass, t: p.thema, f: p.format, l: p.laenge, o: orte.map((o) => o.id), z: p.seed, teams: p.teams, gps: p.gps, zusatz,
+    st: an.frechheit ? p.stufe : undefined, v: p.verkehr, n: p.nav, e: orte.some((o) => o.eigen) ? p.eigene : undefined }
+  const probe = baueRallye(stadt, cfg)
+  const et = etappenDaten(orte, startLage, p)
+  const summe = (m) => et.filter((e) => !m || e.modus === m).reduce((s, e) => s + e.strecke, 0)
+  const verweil = p.thema === 'kneipen' ? 30 : an.niveau === 'kita' ? 10 : 12
+  const minuten = et.reduce((s, e) => s + e.min, 0) + orte.length * verweil
+  const fussKm = summe('fuss') / 1000, radKm = summe('rad') / 1000
+  const zuViel = (p.verkehr === 'rad' && g.rad && radKm > g.rad) ? `Die Radstrecke (${zahlDe(radKm, 1)} km) liegt über eurem Richtwert von ${g.rad} km.`
+    : (fussKm > g.fuss && p.verkehr !== 'rad') ? `Die Strecke zu Fuß (${zahlDe(fussKm, 1)} km) liegt über eurem Richtwert von ${g.fuss} km.` : ''
+  const kostenpflichtig = orte.filter((o) => o.kosten).length
+  const ohneLage = orte.filter((o) => !o.lage).length
+  const modusIcon = (m) => verkehr(m).icon
+  box.innerHTML = `<header><span class="nr">8</span><h2>Eure Route</h2></header>
     <div class="kartenbox" id="karte" role="img" aria-label="Karte der Route"></div>
     <div class="kennzahlen">
       <div><span class="etikett">Stationen</span><b>${orte.length}</b></div>
-      <div><span class="etikett">${p.rad ? 'Radweg' : 'Fußweg'}</span><b>${meter(weg * 1.25)}</b></div>
+      <div><span class="etikett">${vk.icon} Strecke</span><b>${meter(summe())}</b></div>
       <div><span class="etikett">Dauer</span><b>${dauer(minuten)}</b></div>
     </div>
-    ${probe.wort ? `<p class="hinweis">Lösungswort mit ${probe.wort.length} Buchstaben${probe.wort.length < orte.length ? ` – ${orte.length - probe.wort.length} Bonusfrage(n) ohne Buchstaben` : ''}.</p>` : ''}
-    ${!p.rad && weg * 1.25 > 6000 ? '<p class="hinweis">Lange Strecke: Mit dem Fahrrad macht diese Rallye mehr Spaß – oben auf „Mit dem Fahrrad“ umstellen.</p>' : ''}
+    ${p.verkehr === 'mix' || p.verkehr === 'oepnv' ? `<p class="hinweis">Davon zu Fuß ca. ${zahlDe(fussKm, 1)} km${summe('oepnv') ? `, mit Bus & Bahn ca. ${zahlDe(summe('oepnv') / 1000, 1)} km` : ''}. Zeiten für Bus & Bahn sind grobe Schätzungen – Fahrplan vorher prüfen.</p>` : ''}
+    ${zuViel ? `<p class="hinweis"><b>Achtung:</b> ${zuViel} Wählt weniger Stationen, ein anderes Verkehrsmittel oder passt den Richtwert in Schritt 4 an.</p>` : ''}
+    ${gekuerzt ? `<p class="hinweis">Damit die Strecke zu eurem Richtwert passt, wurde die Route auf ${orte.length} Stationen gekürzt.</p>` : ''}
+    ${probe.wort ? `<p class="hinweis">Lösungswort mit ${probe.wort.length} Buchstaben${probe.wort.length < orte.length ? ` – ${orte.length - probe.wort.length} Station(en) ohne Buchstaben` : ''}.</p>` : ''}
     ${zusatz.length ? `<p class="hinweis">Für dieses Thema gibt es nicht genug Orte in der Nähe – ${zusatz.length} passende Station(en) aus anderen Themen wurden ergänzt.</p>` : ''}
+    ${ohneLage ? `<p class="hinweis">${ohneLage} Station(en) ohne Kartenpunkt: Dort sucht die Gruppe den Ort selbst, Entfernungen werden nicht mitgerechnet.</p>` : ''}
     ${p.thema === 'kneipen' ? '<p class="hinweis">Trinkt verantwortungsvoll: Jede Getränke-Mission gilt auch alkoholfrei. Zwischendurch Wasser hilft beim Lösungswort.</p>' : ''}
     ${kostenpflichtig ? `<p class="hinweis">${kostenpflichtig} Station(en) kosten Eintritt oder sind nur zu bestimmten Zeiten offen – die Aufgaben lassen sich aber auch von außen lösen.</p>` : ''}
-    <ol class="route">${orte.map((o, i) => `<li><span class="stempel">${i + 1}</span><div class="min-w0"><b>${esc(o.name)}</b>${zusatz.includes(o.id) ? ' <span class="marke-oepnv" style="color:var(--leise)">Ergänzt</span>' : ''}
-      <div class="etappe">${i === 0 ? 'ab Start' : 'Etappe'} ${meter(etappen[i] * 1.25)}${!p.rad && etappen[i] > an.maxEtappe * 1.4 ? '<span class="marke-oepnv">Bus/Bahn-Tipp</span>' : ''}${o.kosten ? ` · ${esc(o.kosten)}` : ''}</div></div></li>`).join('')}</ol>
+    <ol class="route">${orte.map((o, i) => `<li><span class="stempel">${i + 1}</span><div class="min-w0"><b>${esc(o.name)}</b>${o.ort ? ` <span class="leise klein">· ${esc(o.ort)}</span>` : ''}${zusatz.includes(o.id) ? ' <span class="marke-oepnv" style="color:var(--leise)">Ergänzt</span>' : ''}
+      <div class="etappe">${et[i].unbekannt ? 'Weg selbst finden' : `${modusIcon(et[i].modus)} ${i === 0 ? 'ab Start' : 'Etappe'} ${meter(et[i].strecke)} · ca. ${dauer(et[i].min)}${et[i].modus === 'oepnv' ? ' (Fahrplan prüfen)' : ''}`}${o.kosten ? ` · ${esc(o.kosten)}` : ''}</div></div></li>`).join('')}</ol>
     <div class="stapel">
       <button class="knopf haupt breit" id="los">Rallye starten</button>
-      <div class="zeile"><button class="knopf" id="wuerfeln">Andere Route</button><button class="knopf" id="teilen">${p.teams > 1 ? 'Link für alle Teams' : 'Link teilen'}</button><button class="knopf" id="laufzettel">Laufzettel drucken</button><button class="knopf" id="loesung">Lösungsblatt</button></div>
+      <div class="zeile"><button class="knopf" id="wuerfeln" ${p.auswahl === 'selbst' ? 'hidden' : ''}>Andere Route</button><button class="knopf" id="teilen">${p.teams > 1 ? 'Link für alle Teams' : 'Link teilen'}</button><button class="knopf" id="laufzettel">Laufzettel drucken</button><button class="knopf" id="loesung">Lösungsblatt</button></div>
+      <details class="karte mehr"><summary>Kartenpunkte für Google Maps &amp; Co.</summary>
+        <div class="stapel" style="margin-top:12px">
+          <p class="leise klein">Für Lehrkräfte und Gruppen, die lieber mit der eigenen Karten-App navigieren oder die Punkte auf einer eigenen Seite verteilen.</p>
+          <div class="zeile">${gmapsTeile(orte, startLage, p).map((url, k, alle) => `<a class="knopf" target="_blank" rel="noopener" href="${esc(url)}">Route in Google Maps${alle.length > 1 ? ` (Teil ${k + 1})` : ''}</a>`).join('')}
+            <button class="knopf" id="punkteliste">Punkteliste kopieren</button><button class="knopf" id="gpx">GPX-Datei laden</button></div>
+        </div>
+      </details>
       <div id="teilbox" hidden></div>
     </div>`
-  zeigeKarte($('#karte'), orte, { start: startLage })
+  zeigeKarte($('#karte'), orte.map((o, i) => ({ ...o, nr: i + 1 })), { start: startLage })
   $('#wuerfeln').onclick = () => { p.seed = Math.floor(Math.random() * 1e9); zeichneVorschau(stadt); $('#vorschau').scrollIntoView({ behavior: 'smooth' }) }
   $('#los').onclick = async () => {
     if (S.rallye && !S.rallye.ende) await fotosLoeschen(S.rallye.cfg.z + ':')
@@ -518,6 +761,8 @@ function zeichneVorschau(stadt) {
   $('#teilen').onclick = () => zeigeTeilen(cfg)
   $('#laufzettel').onclick = () => drucke(laufzettel(probe, stadt))
   $('#loesung').onclick = () => drucke(loesungsblatt(probe, stadt))
+  $('#punkteliste').onclick = () => kopieren(punkteText(orte, stadt), 'Punkteliste kopiert')
+  $('#gpx').onclick = () => ladeHerunter(gpxText(orte, stadt), `stadtfuchs-${stadt.id}.gpx`, 'application/gpx+xml')
 }
 
 async function zeigeTeilen(cfg) {
@@ -539,7 +784,7 @@ async function zeigeEinladung(code) {
   const stadt = await ladeStadt(cfg.s)
   app.innerHTML = `${kopf()}
   <section class="held"><span class="unterzeile">Einladung</span><h1>Rallye durch ${esc(stadt.name)}</h1>
-    <p>${anlass(cfg.a).icon} ${esc(anlass(cfg.a).name)}${cfg.st ? ' (' + esc(S.grund.frechheit.find((f) => f.stufe === cfg.st)?.name || '') + ')' : ''} · ${esc(thema(cfg.t).name)} · ${esc(format(cfg.f).name)} · ${cfg.o.length} Stationen</p></section>
+    <p>${anlass(cfg.a).icon} ${esc(anlass(cfg.a).name)}${cfg.st ? ' (' + esc(S.grund.frechheit.find((f) => f.stufe === cfg.st)?.name || '') + ')' : ''} · ${esc(thema(cfg.t).name)} · ${esc(format(cfg.f).name)} · ${cfg.o.length} Stationen · ${verkehr(cfg.v || 'fuss').icon} ${esc(verkehr(cfg.v || 'fuss').name)} · ${esc(navArt(cfg.n).name)}</p></section>
   <div class="karte stapel">
     <div class="feld"><label for="team">Euer Teamname</label><input id="team" maxlength="40" placeholder="z. B. Team Rot"></div>
     ${cfg.teams > 1 ? `<div class="feld"><label for="nr">Eure Team-Nummer</label><select id="nr">${Array.from({ length: cfg.teams }, (_, i) => `<option value="${i + 1}">Team ${i + 1}</option>`).join('')}</select><span class="leise klein">Jede Nummer startet an einer anderen Station. Sprecht euch ab, wer welche Nummer nimmt.</span></div>` : ''}
@@ -569,12 +814,7 @@ function zeigeSpiel() {
   </div>
   <div class="stapel">
     <div class="station-kopf"><span class="stempel jetzt">${r.index + 1}</span><div><span class="etikett">Station ${r.index + 1} von ${r.stationen.length}</span><h1 style="font-size:1.7rem">${esc(st.name)}</h1></div></div>
-    ${da ? '' : `
-    <div class="wegweiser" id="wegweiser"><div class="pfeil" id="pfeil">${PFEIL}</div><div><b id="entf">–</b><p class="leise klein" id="wohin">Standort wird gesucht … Erlaubt den Zugriff auf euren Standort, dann zeigt der Pfeil die Richtung.</p></div></div>
-    <div class="kartenbox klein" id="karte"></div>
-    <div class="zeile"><a class="knopf" id="navi" target="_blank" rel="noopener" href="${navLink(st.lage, r.rad)}">Route in Karten-App</a>
-      <button class="knopf haupt" id="angekommen">${r.gps ? 'Station erreicht?' : 'Wir sind da!'}</button></div>
-    ${r.gps ? '<p class="leise klein" id="gpshinweis">GPS-Prüfung ist an: Die Aufgaben erscheinen, sobald ihr in der Nähe der Station seid.</p>' : ''}`}
+    ${da ? '' : unterwegsHtml(r, st)}
     ${da ? stationsInhalt(r, st, an, fo) : ''}
     <div class="zeile" style="justify-content:space-between;margin-top:8px">
       <button class="knopf still klein" id="zurueck" ${r.index === 0 ? 'disabled' : ''}>← Vorige Station</button>
@@ -589,10 +829,11 @@ function zeigeSpiel() {
     r.ende = Date.now(); speichern(); gehe('#ende')
   }
   if (!da) {
-    zeigeKarte($('#karte'), r.stationen.map((s, i) => ({ ...s, fertig: stationFertig(r, i) })).slice(r.index, r.index + 1), { start: r.index > 0 ? r.stationen[r.index - 1].lage : null })
-    gpsStarten(); wegweiserAktualisieren()
+    if ($('#karte')) zeigeKarte($('#karte'), [{ ...st, nr: r.index + 1 }], { start: r.index > 0 ? r.stationen[r.index - 1].lage : null })
+    if ($('#wegweiser') || r.gps) { gpsStarten(); wegweiserAktualisieren() }
+    const kk = $('#koordkopie'); if (kk) kk.onclick = () => kopieren(`${st.lage[0]}, ${st.lage[1]}`, 'Koordinaten kopiert')
     $('#angekommen').onclick = () => {
-      if (r.gps && !nahGenug(st)) {
+      if (r.gps && st.lage && !nahGenug(st)) {
         if (!navigator.geolocation || S.gpsFehler) { toast('Kein GPS – Ankunft manuell bestätigt'); }
         else return toast(S.ort ? `Noch ${meter(abstand([S.ort.lat, S.ort.lng], st.lage))} bis zur Station` : 'Noch kein Standort – kurz warten')
       }
@@ -603,21 +844,41 @@ function zeigeSpiel() {
     bindeAufgaben(r, st, an, fo)
   }
 }
-const navLink = (lage, rad) => /iPhone|iPad|Macintosh/.test(navigator.userAgent) && 'ontouchend' in document
-  ? `https://maps.apple.com/?daddr=${lage[0]},${lage[1]}&dirflg=${rad ? 'c' : 'w'}`
-  : `https://www.google.com/maps/dir/?api=1&destination=${lage[0]},${lage[1]}&travelmode=${rad ? 'bicycling' : 'walking'}`
+// Google-Maps-Link öffnet auf allen Geräten (App oder Browser) mit passendem Verkehrsmittel
+const navLink = (lage, modus) => `https://www.google.com/maps/dir/?api=1&destination=${lage[0]},${lage[1]}&travelmode=${{ fuss: 'walking', rad: 'bicycling', oepnv: 'transit', auto: 'driving' }[modus] || 'walking'}`
+function unterwegsHtml(r, st) {
+  const art = st.lage ? (r.nav || 'karte') : 'frei', vk = verkehr(st.modus || r.verkehr || 'fuss')
+  const knopf = `<button class="knopf haupt" id="angekommen">${r.gps && st.lage ? 'Station erreicht?' : 'Wir sind da!'}</button>`
+  const gps = r.gps && st.lage ? '<p class="leise klein" id="gpshinweis">GPS-Prüfung ist an: Die Aufgaben erscheinen, sobald ihr in der Nähe der Station seid.</p>' : ''
+  const wie = `<p class="etikett">${vk.icon} Unterwegs: ${esc(vk.name)}${st.modus === 'oepnv' ? ' – Verbindung in der Karten- oder Fahrplan-App suchen' : ''}</p>`
+  if (art === 'karte') return `${wie}
+    <div class="wegweiser" id="wegweiser"><div class="pfeil" id="pfeil">${PFEIL}</div><div><b id="entf">–</b><p class="leise klein" id="wohin">Standort wird gesucht … Erlaubt den Zugriff auf euren Standort, dann zeigt der Pfeil die Richtung.</p></div></div>
+    <div class="kartenbox klein" id="karte"></div>
+    <div class="zeile"><a class="knopf" id="navi" target="_blank" rel="noopener" href="${navLink(st.lage, st.modus)}">Route in Karten-App</a>${knopf}</div>${gps}`
+  if (art === 'punkte') return `${wie}
+    <div class="karte stapel"><span class="etikett">Nächstes Ziel</span><h2>${esc(st.name)}</h2>${st.ort ? `<p class="leise">${esc(st.ort)}</p>` : ''}
+      <p class="zahl leise">${st.lage[0]}, ${st.lage[1]}</p>
+      <div class="zeile"><a class="knopf" target="_blank" rel="noopener" href="${navLink(st.lage, st.modus)}">In Google Maps öffnen</a><button class="knopf" id="koordkopie">Koordinaten kopieren</button></div></div>
+    <div class="zeile">${knopf}</div>${gps}`
+  return `${wie}
+    <div class="karte stapel"><span class="etikett">Findet diesen Ort</span><h2>${esc(st.name)}</h2><p>${esc(st.ort || r.stadtName)}</p>
+      <p class="leise klein">Sucht den Weg selbst heraus – mit Stadtplan, Karten-App oder indem ihr Leute fragt.</p></div>
+    <div class="zeile">${knopf}</div>${gps}`
+}
 function nahGenug(st) {
-  if (!S.ort) return false
+  if (!S.ort || !st.lage) return false
   return abstand([S.ort.lat, S.ort.lng], st.lage) <= 80 + Math.min(S.ort.genau || 0, 120)
 }
 function wegweiserAktualisieren() {
   const r = S.rallye; if (!r || location.hash !== '#spiel') return
   const st = r.stationen[r.index], entf = $('#entf'), wohin = $('#wohin'), pfeil = $('#pfeil svg')
-  if (!entf || !st) return
+  if (r.gps && st?.lage && nahGenug(st)) { const b = $('#angekommen'); if (b) b.textContent = 'Wir sind da!' }
+  if (!entf || !st || !st.lage) return
   if (!S.ort) return
   const ich = [S.ort.lat, S.ort.lng], d = abstand(ich, st.lage), grad = richtung(ich, st.lage)
   entf.textContent = meter(d)
-  wohin.textContent = d < 60 ? 'Ihr seid da! Schaut euch um.' : `Richtung ${himmel(grad)} (${Math.round(grad)}°) · ca. ${Math.max(1, Math.round(d * 1.25 / (r.rad ? 220 : 75)))} Min. ${r.rad ? 'mit dem Rad' : 'zu Fuß'}`
+  const mProMin = { fuss: 75, rad: 220 }[st.modus]
+  wohin.textContent = d < 60 ? 'Ihr seid da! Schaut euch um.' : `Richtung ${himmel(grad)} (${Math.round(grad)}°)${mProMin ? ` · ca. ${Math.max(1, Math.round(d * 1.25 / mProMin))} Min. ${st.modus === 'rad' ? 'mit dem Rad' : 'zu Fuß'}` : ''}`
   if (pfeil) pfeil.style.transform = `rotate(${grad}deg)`
   if (r.gps && nahGenug(st)) { const b = $('#angekommen'); if (b) { b.textContent = 'Wir sind da!'; } }
 }
@@ -770,9 +1031,9 @@ async function zeigeEnde() {
   if (!r.ende) { r.ende = Date.now(); speichern() }
   const stand = punktestand(r)
   const minuten = r.start ? (r.ende - r.start) / 60000 : 0
-  const buchstaben = r.wort ? r.wort.split('').map((_, pos) => {
-    const idx = r.stationen.findIndex((s) => s.pos === pos)
-    return r.antworten[`${idx}:0`]?.buchstabe || ''
+  const buchstaben = r.wort ? r.wort.split('').map((_, k) => {
+    const idx = r.stationen.findIndex((s) => (s.bpos ?? s.pos) === k)
+    return idx >= 0 ? r.antworten[`${idx}:0`]?.buchstabe || '' : ''
   }) : []
   const notizen = Object.entries(r.notizen).filter(([, t]) => t.trim())
   app.innerHTML = `${kopf()}
@@ -854,8 +1115,11 @@ async function collage(fotos, r) {
 function drucke(html) { $('#druck').innerHTML = html; setTimeout(() => window.print(), 50) }
 function laufzettel(r, stadt) {
   const fo = format(r.cfg.f)
-  return `<div class="d-seite"><h1>Stadtrallye ${esc(stadt.name)}</h1><p>${esc(anlass(r.cfg.a).name)} · ${esc(thema(r.cfg.t).name)} · ${esc(fo.name)}</p><p>Team: ____________________________ &nbsp; Start: ________ &nbsp; Ziel: ________</p>
-    ${r.stationen.map((st, i) => `<div class="d-station"><h3>${i + 1}. ${esc(st.name)}</h3>
+  const nav = r.nav || 'karte'
+  const wo = (st) => !st.lage || nav === 'frei' ? `<p><i>Findet den Ort selbst: ${esc(st.name)}, ${esc(st.ort || stadt.name)}</i></p>`
+    : `<p><i>${verkehr(st.modus || 'fuss').icon} ${esc(verkehr(st.modus || 'fuss').name)} · Kartenpunkt: ${st.lage[0]}, ${st.lage[1]}${st.ort ? ' · ' + esc(st.ort) : ''}</i></p>`
+  return `<div class="d-seite"><h1>Stadtrallye ${esc(stadt.name)}</h1><p>${esc(anlass(r.cfg.a).name)} · ${esc(thema(r.cfg.t).name)} · ${esc(fo.name)} · ${esc(verkehr(r.verkehr || 'fuss').name)} · ${esc(navArt(nav).name)}</p><p>Team: ____________________________ &nbsp; Start: ________ &nbsp; Ziel: ________</p>
+    ${r.stationen.map((st, i) => `<div class="d-station"><h3>${i + 1}. ${esc(st.name)}</h3>${wo(st)}
       ${fo.id === 'gefuehrt' ? `<p>${esc(st.info)}</p>` : ''}
       ${st.aufgaben.map((a) => a.typ === 'quiz'
         ? `<p><b>${esc(a.frage)}</b></p><p>${a.optionen.map((o, k) => `☐ ${a.buchstaben ? `[${a.buchstaben[k]}] ` : ''}${esc(o)}`).join(' &nbsp; ')}</p>`
@@ -898,7 +1162,7 @@ async function zeigePruefen(stadtId) {
     <p class="zahl leise" id="pruefstand">${z.passt} passt · ${z.falsch} korrigieren · ${stadt.orte.length - z.passt - z.falsch} offen</p></section>
   <div class="stapel">
     ${stadt.orte.map((o, i) => { const e = st.orte[o.id] || {}; return `<article class="karte stapel" id="p-${o.id}">
-      <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${i + 1}</span><div><span class="etikett">${o.themen.map((t) => esc(thema(t).name)).join(' · ')}${o.ab18 ? ' · ab 18' : ''}</span><h2>${esc(o.name)}</h2></div></div>
+      <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${i + 1}</span><div><span class="etikett">${o.ort ? esc(o.ort) + ' · ' : ''}${o.themen.map((t) => esc(thema(t).name)).join(' · ')}${o.ab18 ? ' · ab 18' : ''}</span><h2>${esc(o.name)}</h2></div></div>
       <p>${esc(o.info)}</p>${o.fakt ? `<p class="leise"><b>Fakt:</b> ${esc(o.fakt)}</p>` : ''}${o.hinweis || o.kosten ? `<p class="hinweis">${esc([o.kosten, o.hinweis].filter(Boolean).join(' · '))}</p>` : ''}
       <ul class="klein" style="margin:0;padding-left:18px;display:grid;gap:4px">${(o.aufgaben || []).map((a) => `<li>${loesung(a)}</li>`).join('')}</ul>
       ${o.lageUngefaehr ? '<p class="hinweis"><b>Lage nur ungefähr bekannt</b> – bitte vor Ort den genauen Punkt notieren.</p>' : ''}

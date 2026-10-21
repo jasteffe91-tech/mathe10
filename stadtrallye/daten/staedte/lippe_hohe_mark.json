@@ -1,0 +1,194 @@
+{
+  "id": "lippe_hohe_mark",
+  "name": "Region Lippe & Hohe Mark",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Dorsten, Haltern, Schermbeck, Voerde und die Ausflugsziele drumherum – für Touren mit Rad, Bus & Bahn oder Auto.",
+  "entwurf": true,
+  "region": true,
+  "verkehr": "rad",
+  "teile": ["dorsten", "haltern", "schermbeck", "voerde"],
+  "start": { "name": "Bahnhof Dorsten", "lage": [51.65833, 6.97046] },
+  "loesungsworte": ["LIPPE", "HALDE", "SCHLOSS", "HOHEMARK", "TETRAEDER", "AUSFLUG"],
+  "orte": [
+    {
+      "id": "movie_park",
+      "name": "Movie Park Germany",
+      "wiki": "Movie Park Germany",
+      "quelle": "Wikipedia; Wikidata (meistgenanntes Ausflugsziel im Umkreis)",
+      "themen": ["spass", "kinder", "highlights"],
+      "prio": 3,
+      "kosten": "Eintritt, nur in der Saison geöffnet",
+      "info": "Der Movie Park in Bottrop-Kirchhellen ist ein Freizeitpark rund ums Thema Film. Er wurde am 30. Juni 1996 als 'Warner Bros. Movie World' eröffnet. Auf rund 45 Hektar gibt es Achterbahnen, Shows und Studios, in denen auch Filme gedreht wurden.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Park eröffnet?", "wert": 1996, "einheit": "" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Unter welchem Namen wurde der Movie Park eröffnet?", "richtig": "Warner Bros. Movie World", "falsch": ["Disney Studios Ruhr", "Hollywood Park Bottrop"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Um welches Thema dreht sich der Movie Park?", "richtig": "Um Filme", "falsch": ["Um Dinosaurier", "Um Autos"] },
+        { "typ": "foto", "text": "Filmplakat-Foto: Stellt vor dem Eingang die Szene eures Lieblingsfilms nach." }
+      ],
+      "lage": [51.62, 6.9725]
+    },
+    {
+      "id": "schloss_beck",
+      "name": "Schloss Beck",
+      "wiki": "Schloss Beck",
+      "quelle": "Wikipedia",
+      "themen": ["kinder", "historie", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt Freizeitpark",
+      "info": "Schloss Beck in Kirchhellen-Feldhausen ist ein spätbarockes Lustschloss. Gebaut hat es von 1766 bis 1771 Johann Conrad Schlaun, der bekannteste Barockbaumeister Westfalens. Der Park drumherum wurde ab den 1960er-Jahren zu einem Freizeitpark für Familien mit kleineren Kindern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher berühmte Baumeister errichtete Schloss Beck?", "richtig": "Johann Conrad Schlaun", "falsch": ["Karl Friedrich Schinkel", "Balthasar Neumann"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es heute rund um Schloss Beck?", "richtig": "Einen Freizeitpark", "falsch": ["Einen Flughafen", "Ein Fußballstadion"] }
+      ],
+      "lage": [51.61333, 6.97806]
+    },
+    {
+      "id": "tetraeder",
+      "name": "Tetraeder auf der Halde Beckstraße",
+      "wiki": "Tetraeder (Bottrop)",
+      "quelle": "Wikipedia; Route der Industriekultur",
+      "themen": ["highlights", "besonderheiten", "spass"],
+      "prio": 3,
+      "info": "Auf der Halde Beckstraße in Bottrop steht der Tetraeder, eine begehbare Aussichtspyramide aus Stahl mit 60 Metern Seitenlänge auf neun Meter hohen Betonpfeilern. Bei klarer Sicht erkennt man das Bottroper Wahrzeichen sogar vom Essener Hauptbahnhof aus. Eröffnet wurde er am 3. Oktober 1995.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat der Tetraeder?", "richtig": "Eine Pyramide mit drei Seiten", "falsch": ["Eine Kugel", "Ein Würfel"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist eine Seite des Tetraeders (in Metern)?", "wert": 60, "einheit": "m" },
+        { "typ": "quiz", "niveau": "erw", "frage": "Woraus besteht die Halde, auf der der Tetraeder steht?", "richtig": "Aus Gestein aus dem Bergbau", "falsch": ["Aus Hausmüll", "Aus Sand vom Meer"] },
+        { "typ": "foto", "text": "Gipfelfoto ganz oben im Tetraeder – mit dem Ruhrgebiet im Hintergrund." }
+      ],
+      "lage": [51.52749, 6.95988]
+    },
+    {
+      "id": "alpincenter",
+      "name": "Alpincenter Bottrop",
+      "wiki": "Alpincenter Bottrop",
+      "quelle": "Wikipedia",
+      "themen": ["spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Auf der Halde Prosperstraße in Bottrop liegt das Alpincenter: Skifahren und Snowboarden in einer Halle – das ganze Jahr über. Draußen gibt es einen Hochseilgarten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Alpincenter auch im Sommer machen?", "richtig": "Skifahren in der Halle", "falsch": ["Eislaufen auf dem Kanal", "Schlittenhunde fahren"] },
+        { "typ": "bewegen", "text": "Trocken-Skikurs: Alle in die Hocke – und dann zehnmal von links nach rechts 'wedeln'!" }
+      ],
+      "lage": [51.52424, 6.96611]
+    },
+    {
+      "id": "halde_haniel",
+      "name": "Halde Haniel",
+      "wiki": "Halde Haniel",
+      "quelle": "Wikipedia; Route der Industriekultur",
+      "hinweis": "Die Halde wird umgebaut – Zugänglichkeit vorab prüfen",
+      "themen": ["natur", "besonderheiten", "spass"],
+      "prio": 2,
+      "info": "Die Halde Haniel an der Grenze von Bottrop und Oberhausen ist mit 184 Metern über dem Meer eine der höchsten Bergehalden des Ruhrgebiets. Sie wurde in Form zweier Spiralen aus dem Abraum der Zechen Prosper-Haniel und Osterfeld aufgeschüttet.",
+      "aufgaben": [
+        { "typ": "schaetzen", "frage": "Wie hoch liegt der Gipfel der Halde Haniel (Meter über dem Meer)?", "wert": 184, "einheit": "m" },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist eine Halde im Ruhrgebiet?", "richtig": "Ein Berg aus Gestein vom Kohleabbau", "falsch": ["Ein Vulkan", "Ein Hochhaus"] }
+      ],
+      "lage": [51.55041, 6.87577]
+    },
+    {
+      "id": "wittringen",
+      "name": "Schloss Wittringen",
+      "wiki": "Schloss Wittringen",
+      "quelle": "Wikipedia",
+      "themen": ["historie", "natur", "kinder"],
+      "prio": 2,
+      "info": "Das Wasserschloss Wittringen in Gladbeck geht bis ins 13. Jahrhundert zurück. Heute gehört es der Stadt und beherbergt ein Museum und ein Restaurant. Drumherum liegt die Freizeitstätte Wittringen mit viel Grün und Wasser.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Bis in welches Jahrhundert reichen die Wurzeln von Schloss Wittringen zurück?", "richtig": "Ins 13. Jahrhundert", "falsch": ["Ins 18. Jahrhundert", "Ins 20. Jahrhundert"] },
+        { "typ": "foto", "text": "Fotografiert das Schloss mit seinem Spiegelbild im Wasser." }
+      ],
+      "lage": [51.55965, 6.98125]
+    },
+    {
+      "id": "pankok",
+      "name": "Pankok Museum Haus Esselt",
+      "wiki": "Otto-Pankok-Museum",
+      "quelle": "Wikipedia",
+      "kosten": "Eintritt, Öffnungszeiten prüfen",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Auf dem Landgut Haus Esselt in Hünxe-Drevenack lebte die Künstler- und Journalistenfamilie Pankok ab 1958. Das Museum bewahrt einen Großteil der Werke des Malers Otto Pankok. Er war mit Sinti-Familien in Düsseldorf befreundet und porträtierte sie – in der NS-Zeit eine mutige Haltung.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann lebte die Familie Pankok auf Haus Esselt?", "richtig": "Seit 1958", "falsch": ["Seit 1908", "Seit 1998"] },
+        { "typ": "mission", "text": "Sucht euch draußen ein Motiv und zeichnet es in zwei Minuten nur mit schwarzen Strichen – wie ein Holzschnitt." }
+      ],
+      "lage": [51.71, 6.69972]
+    },
+    {
+      "id": "gartrop",
+      "name": "Schloss Gartrop",
+      "wiki": "Schloss Gartrop",
+      "quelle": "Wikipedia",
+      "themen": ["historie", "natur"],
+      "prio": 1,
+      "hinweis": "Schlossanlage nur bei Veranstaltungen zugänglich",
+      "info": "Das Wasserschloss Gartrop liegt in den Lippeauen zwischen Hünxe und Schermbeck-Gahlen. Aus der Siedlung der früheren Schlossbediensteten entstand der heutige Ort Gartrop. In der Vorburg gibt es heute Hotelzimmer.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie entstand der Ort Gartrop?", "richtig": "Aus der Siedlung der Schlossbediensteten", "falsch": ["Aus einem Römerlager", "Aus einer Bergbausiedlung"] },
+        { "typ": "suchen", "text": "Findet den Wassergraben und zählt die Brücken, die ihr seht." }
+      ],
+      "lage": [51.66243, 6.80722]
+    },
+    {
+      "id": "raesfeld",
+      "name": "Schloss Raesfeld & Tiergarten",
+      "wiki": "Schloss Raesfeld",
+      "quelle": "Wikipedia",
+      "themen": ["highlights", "historie", "natur"],
+      "prio": 3,
+      "info": "Schloss Raesfeld ist ein Wasserschloss mit markantem Stufenturm. Mitte des 17. Jahrhunderts baute Reichsgraf Alexander II. von Velen die Burg zum Renaissance-Schloss aus. Der angrenzende Tiergarten gehört zu den wenigen erhaltenen aus der Renaissance. Seit 2007 kann man hier heiraten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist am Tiergarten von Schloss Raesfeld besonders?", "richtig": "Er ist einer der wenigen erhaltenen Tiergärten aus der Renaissance", "falsch": ["Dort leben Elefanten", "Er ist komplett überdacht"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat der berühmte Turm von Schloss Raesfeld?", "richtig": "Er ist wie Stufen gebaut", "falsch": ["Er ist kugelrund", "Er ist schief"] },
+        { "typ": "foto", "text": "Hochzeitsfoto-Pose vor dem Schloss – passend, denn hier wird geheiratet." }
+      ],
+      "lage": [51.76389, 6.82722]
+    },
+    {
+      "id": "zitadelle_wesel",
+      "name": "Zitadelle Wesel",
+      "wiki": "Zitadelle Wesel",
+      "quelle": "Wikipedia",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Die Zitadelle Wesel ist eine der größten erhaltenen Festungsanlagen des Rheinlands. Sie wurde zwischen 1688 und 1722 in Form eines fünfzackigen Sterns angelegt. Heute sitzen hier das LVR-Niederrheinmuseum, die Musik- und Kunstschule und das Stadtarchiv.",
+      "fakt": "In einer Zelle der Zitadelle warteten 1809 die elf Schillschen Offiziere auf ihren Prozess.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat die Zitadelle von oben?", "richtig": "Einen Stern mit fünf Zacken", "falsch": ["Einen Kreis", "Ein Herz"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr begann der Bau der Zitadelle?", "wert": 1688, "einheit": "" }
+      ],
+      "lage": [51.65167, 6.61528]
+    },
+    {
+      "id": "deutener_moor",
+      "name": "Witte Berge & Deutener Moore",
+      "wiki": "Witte Berge und Deutener Moore",
+      "quelle": "Wikipedia; Stadt Dorsten, Imagebroschüre",
+      "themen": ["natur"],
+      "prio": 1,
+      "info": "Nördlich von Dorsten liegt das Naturschutzgebiet Witte Berge und Deutener Moore – Sandhügel, Moorflächen und Wald. Bitte auf den Wegen bleiben, die Moore sind empfindlich.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Warum soll man im Moor auf den Wegen bleiben?", "richtig": "Der Boden ist weich und die Pflanzen empfindlich", "falsch": ["Dort wohnen Drachen", "Die Wege sind beheizt"] },
+        { "typ": "suchen", "text": "Findet drei verschiedene Moos- oder Grasarten." }
+      ],
+      "lage": [51.72252, 6.94952]
+    },
+    {
+      "id": "rhader_muehle",
+      "name": "Rhader Wassermühle",
+      "lage": [51.75295, 6.94987],
+      "quelle": "Stadt Dorsten, Imagebroschüre; OpenStreetMap",
+      "themen": ["historie", "natur", "kinder"],
+      "prio": 1,
+      "info": "In Dorsten-Rhade steht eine alte Wassermühle – eines der Ausflugsziele, die die Stadt Dorsten selbst empfiehlt. Zusammen mit der Tüshaus-Mühle in Deuten zeigt sie, wie früher mit Wasserkraft gearbeitet wurde.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was treibt eine Wassermühle an?", "richtig": "Fließendes Wasser", "falsch": ["Der Wind", "Ein Pferd"] },
+        { "typ": "mission", "text": "Erklärt euch gegenseitig, was in einer Mühle aus Getreide entsteht – wer weiß die meisten Produkte?" }
+      ]
+    }
+  ],
+  "zentrum": [51.67355, 6.96395]
+}

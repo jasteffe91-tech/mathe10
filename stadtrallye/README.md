@@ -24,6 +24,23 @@ Die Route wird automatisch berechnet (nächster Nachbar + 2-opt, gewichtet nach 
 vollständig bestimmt – deshalb lässt sie sich als **Link/QR-Code** an andere Teams weitergeben.
 Bei mehreren Teams startet jedes an einer anderen Station.
 
+**Unterwegs:** zu Fuß, Fahrrad, Bus & Bahn, Auto/Reisebus oder gemischt (kurze Etappen zu Fuß, lange mit Bus & Bahn).
+Jede Etappe bekommt ihr Verkehrsmittel und eine geschätzte Zeit. Für Schulklassen wählt man die Klassenstufe; daraus
+ergibt sich ein Richtwert, wie viele Kilometer die Gruppe zu Fuß bzw. mit dem Rad schaffen soll (`richtwerte` in
+`grundlagen.json`, im Planer änderbar). Passt eine automatische Route nicht dazu, werden Stationen weggelassen.
+
+**Navigation:** *Karte & Pfeil* (Karte, Richtung, Entfernung in der App), *Kartenpunkte* (nur Koordinaten und ein
+Google-Maps-Knopf) oder *Selbst finden* (nur Name und Ort – die Gruppe sucht den Weg selbst). In der Routen-Vorschau
+gibt es außerdem die ganze Route als Google-Maps-Link, eine Punkteliste zum Kopieren und eine GPX-Datei.
+
+**Baukasten:** Statt automatischer Planung stellt man die Stationen selbst zusammen: aus der Liste wählen, sortieren
+(oder „Reihenfolge optimieren“) und eigene Stationen mit Adresse, Info, Quizfrage und Aufgabe anlegen. Eigene
+Stationen reisen mit dem Rallye-Link mit; ohne Kartenpunkt werden sie automatisch „selbst gefunden“.
+
+**Regionen:** Eine Region (z. B. `lippe_hohe_mark.json`) hat eigene Ausflugsziele und bindet über `"teile"` alle
+Stationen ihrer Orte ein. Mit Rad, Bus & Bahn oder Auto bevorzugt die Planung dort die großen Ziele und höchstens
+wenige Stationen pro Ort.
+
 **JGA-Frechheitsstufen:** Bei JGA Männer/Frauen wählt die Gruppe Harmlos, Frech, Wild oder Teuflisch.
 Die Missionen der gewählten Stufe kommen zuerst, mildere füllen auf. Aufgaben mit Fremden verlangen immer deren Einverständnis.
 

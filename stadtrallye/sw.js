@@ -1,7 +1,7 @@
 // Service Worker: App und Stadtdaten offline verfügbar machen.
 // Kartenkacheln (OpenStreetMap) werden bewusst nicht zwischengespeichert.
-const CACHE = 'stadtfuchs-v3'
-const STAEDTE = ['berlin', 'bremen', 'dorsten', 'duesseldorf', 'frankfurt', 'haltern', 'hamburg', 'koeln', 'muenchen', 'schermbeck', 'stuttgart', 'voerde']
+const CACHE = 'stadtfuchs-v4'
+const STAEDTE = ['berlin', 'bremen', 'dorsten', 'duesseldorf', 'frankfurt', 'haltern', 'hamburg', 'koeln', 'lippe_hohe_mark', 'muenchen', 'schermbeck', 'stuttgart', 'voerde']
 const DATEIEN = ['./', './app.js', './manifest.webmanifest', './icon.svg', './daten/grundlagen.json', './daten/staedte.json', ...STAEDTE.map((s) => `./daten/staedte/${s}.json`)]
 
 self.addEventListener('install', (e) => {
