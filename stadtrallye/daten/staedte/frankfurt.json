@@ -336,7 +336,224 @@
         { "typ": "quiz", "niveau": "erw", "frage": "Welcher besondere Garten liegt im Grüneburgpark?", "richtig": "Ein koreanischer Garten", "falsch": ["Ein Kakteengarten", "Ein Rosengarten aus Glas"] }
       ],
       "lage": [50.12663, 8.6604]
+    },
+    {
+      "id": "eschenheimer_turm",
+      "name": "Eschenheimer Turm",
+      "wiki": "Eschenheimer Turm",
+      "themen": ["historie", "besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Der Torturm wurde 1426 bis 1428 von Stadtbaumeister Madern Gerthener gebaut und ist fast im Originalzustand erhalten – einer der schönsten mittelalterlichen Tortürme Deutschlands. Eine Sage erzählt vom Wilddieb Hans Winkelsee, der mit neun Schüssen eine Neun in die Wetterfahne schoss.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was soll der Wilddieb Hans Winkelsee in die Wetterfahne geschossen haben?", "richtig": "Eine Neun", "falsch": ["Ein Herz", "Seinen Namen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war der Eschenheimer Turm früher?", "richtig": "Ein Stadttor der mittelalterlichen Stadtmauer", "falsch": ["Ein Kirchturm", "Ein Leuchtturm am Main"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Turm fertig?", "wert": 1428, "einheit": "" },
+        { "typ": "suchen", "text": "Schaut ganz nach oben zur Wetterfahne: Könnt ihr die „Neun“ entdecken?" }
+      ],
+      "lage": [50.11694, 8.67972]
+    },
+    {
+      "id": "china_garten",
+      "name": "Chinesischer Garten im Bethmannpark",
+      "wiki": "Garten des Himmlischen Friedens",
+      "themen": ["natur", "besonderheiten"],
+      "prio": 2,
+      "info": "Baumaterial in 27 Containern kam per Schiff aus China, 16 chinesische Handwerker bauten den Garten auf. Seit 1989 gibt es hier Pavillons, einen Felsen mit Wasserfall und einen Teich – mitten im Nordend.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welchem Land kamen die Baumaterialien für den Garten?", "richtig": "Aus China", "falsch": ["Aus Japan", "Aus Italien"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der Chinesische Garten offiziell?", "richtig": "Garten des Himmlischen Friedens", "falsch": ["Garten der goldenen Drachen", "Garten der tausend Teiche"] },
+        { "typ": "schaetzen", "frage": "In wie vielen Containern kam das Baumaterial aus China?", "wert": 27, "einheit": "Container" },
+        { "typ": "foto", "text": "Fotografiert euch so im Pavillon, dass es aussieht, als wärt ihr in China." }
+      ],
+      "lage": [50.11877, 8.6907]
+    },
+    {
+      "id": "gruene_sosse",
+      "name": "Grüne-Soße-Denkmal",
+      "wiki": "Grüne-Soße-Denkmal",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Das wohl einzige Denkmal Deutschlands für ein Regionalgericht: Sieben kleine Gewächshäuser leuchten in sieben Grüntönen – eins für jedes Kraut der Frankfurter Grünen Soße. Eingeweiht wurde es 2007 in Oberrad, wo die Kräuter seit langem angebaut werden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Kräuter gehören in die Frankfurter Grüne Soße?", "richtig": "Sieben", "falsch": ["Drei", "Zwölf"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat die Frankfurter Grüne Soße?", "richtig": "Grün", "falsch": ["Rot", "Gelb"] },
+        { "typ": "suchen", "text": "Lest die Namen der sieben Kräuter auf den Gewächshäusern. Welches kennt ihr nicht?" },
+        { "typ": "mission", "text": "Zählt alle sieben Kräuter aus dem Gedächtnis auf – ohne nachzuschauen!" }
+      ],
+      "lage": [50.10093, 8.71802]
+    },
+    {
+      "id": "goetheturm",
+      "name": "Goetheturm",
+      "wiki": "Goetheturm",
+      "themen": ["spass", "natur", "kinder"],
+      "prio": 2,
+      "info": "Der 43 Meter hohe Aussichtsturm im Stadtwald ist komplett aus Holz. 2017 brannte er nach Brandstiftung völlig ab, 2019 bis 2020 wurde er originalgetreu wieder aufgebaut. 196 Stufen führen nach oben – mit Blick auf die Skyline.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus ist der Goetheturm gebaut?", "richtig": "Aus Holz", "falsch": ["Aus Stahl", "Aus Beton"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah 2017 mit dem Goetheturm?", "richtig": "Er brannte nach Brandstiftung ab", "falsch": ["Er wurde vom Sturm umgeweht", "Er wurde nach Offenbach versetzt"] },
+        { "typ": "schaetzen", "frage": "Wie viele Stufen hat der Goetheturm?", "wert": 196, "einheit": "Stufen" },
+        { "typ": "bewegen", "text": "Steigt die Stufen hinauf und zählt laut mit – wer verzählt sich nicht?" }
+      ],
+      "lage": [50.089, 8.71139]
+    },
+    {
+      "id": "historisches_museum",
+      "name": "Historisches Museum",
+      "wiki": "Historisches Museum Frankfurt",
+      "themen": ["historie", "kinder"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Am Römerberg erzählt das Museum Frankfurter Geschichte vom Mittelalter bis heute. Ein Highlight ist das große Modell der historischen Altstadt, das die Brüder Treuner von 1926 bis 1955 bauten – so sah Frankfurt vor der Zerstörung im Krieg aus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was zeigt das Modell der Brüder Treuner?", "richtig": "Die Frankfurter Altstadt vor der Kriegszerstörung", "falsch": ["Die Skyline im Jahr 2050", "Den Frankfurter Flughafen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man in einem historischen Museum entdecken?", "richtig": "Dinge aus früheren Zeiten", "falsch": ["Lebende Tiere", "Neue Autos"] },
+        { "typ": "schaetzen", "frage": "Wie viele Jahre bauten die Brüder Treuner an ihrem Altstadtmodell?", "wert": 29, "einheit": "Jahre" }
+      ],
+      "lage": [50.10972, 8.6825]
     }
   ],
-  "zentrum": [50.11111, 8.68086]
+  "zentrum": [50.111, 8.68167],
+  "tipps": [
+    {
+      "id": "wackers",
+      "name": "Wacker's Kaffee",
+      "art": "cafe",
+      "lage": [50.11209, 8.6793],
+      "info": "Kaffeerösterei mit Ausschank am Kornmarkt – oft mit Schlange vor der Tür.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "laumer",
+      "name": "Café Laumer",
+      "art": "cafe",
+      "lage": [50.11805, 8.66245],
+      "info": "Traditionscafé im Westend mit Garten und Torten.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "bitter_zart",
+      "name": "Bitter & Zart",
+      "art": "cafe",
+      "was": "Schokoladenladen",
+      "icon": "🍫",
+      "lage": [50.1115, 8.68369],
+      "info": "Schokoladengeschäft mit Café in der Altstadt nahe dem Dom.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "dauth_schneider",
+      "name": "Dauth-Schneider",
+      "art": "restaurant",
+      "was": "Apfelweinwirtschaft",
+      "icon": "🍏",
+      "lage": [50.10487, 8.69024],
+      "info": "Große Apfelweinwirtschaft in Alt-Sachsenhausen – Grüne Soße, Handkäs und Bembel.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "fichtekraenzi",
+      "name": "Fichtekränzi",
+      "art": "restaurant",
+      "was": "Apfelweinwirtschaft",
+      "icon": "🍏",
+      "lage": [50.10462, 8.68905],
+      "info": "Traditionelle Apfelweinwirtschaft in Sachsenhausen mit Gartenwirtschaft.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "lorsbacher_thal",
+      "name": "Lorsbacher Thal",
+      "art": "restaurant",
+      "was": "Apfelweinwirtschaft",
+      "icon": "🍏",
+      "lage": [50.10545, 8.69124],
+      "info": "Apfelweinwirtschaft mit Innenhof in der Großen Rittergasse.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "atschel",
+      "name": "Atschel",
+      "art": "restaurant",
+      "was": "Apfelweinwirtschaft",
+      "icon": "🍏",
+      "lage": [50.10484, 8.68893],
+      "info": "Urige Apfelweinwirtschaft in der Wallstraße.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "bentivenga",
+      "name": "Eiscafé Bentivenga",
+      "art": "eis",
+      "lage": [50.12182, 8.69926],
+      "info": "Eiscafé auf der Berger Straße, nah am Bethmannpark.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eiswerker",
+      "name": "Der Eiswerker",
+      "art": "eis",
+      "lage": [50.10387, 8.67891],
+      "info": "Eisdiele auf der Schweizer Straße in Sachsenhausen.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "oosten",
+      "name": "Oosten",
+      "art": "bar",
+      "ab": 18,
+      "lage": [50.10773, 8.70274],
+      "info": "Bar und Restaurant am Mainufer im Ostend mit Blick auf die EZB.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "ebbelwei_express",
+      "name": "Ebbelwei-Expreß",
+      "art": "aktion",
+      "was": "Apfelwein-Straßenbahn",
+      "icon": "🚋",
+      "lage": [50.11558, 8.70314],
+      "info": "Historische Straßenbahn, in der Apfelwein (oder Saft) und Brezeln serviert werden – Rundfahrt durch die Stadt.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Nur Samstag, Sonn- und Feiertage; Fahrplan prüfen",
+      "quelle": "Wikipedia"
+    },
+    {
+      "id": "primus",
+      "name": "Main-Schifffahrt",
+      "art": "aktion",
+      "was": "Schifffahrt",
+      "icon": "⛴️",
+      "lage": [50.10892, 8.68219],
+      "info": "Rundfahrt auf dem Main ab Eiserner Steg mit Blick auf die Skyline.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Abfahrtszeiten prüfen",
+      "quelle": "OSM"
+    },
+    {
+      "id": "experiminta",
+      "name": "ExperiMINTa",
+      "art": "aktion",
+      "was": "Mitmach-Museum",
+      "icon": "🔬",
+      "lage": [50.11542, 8.64783],
+      "info": "Science Center mit vielen Experimenten zum Ausprobieren – ideal für Klassen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ]
 }

@@ -50,6 +50,9 @@ const thema = (id) => S.grund.themen.find((t) => t.id === id)
 const format = (id) => S.grund.formate.find((f) => f.id === id)
 const verkehr = (id) => S.grund.verkehr.find((v) => v.id === id) || S.grund.verkehr[0]
 const navArt = (id) => S.grund.navigation.find((n) => n.id === id) || S.grund.navigation[0]
+const tippArt = (id) => S.grund.tippArten.find((t) => t.id === id) || { id, name: id, icon: '📍', gruppe: 'essen' }
+// Alter der Gruppe: bei Klassen aus der Klassenstufe, sonst Richtwert des Anlasses
+const gruppenAlter = (an, klasse) => (an.klassen ? Number(klasse || an.klasseStandard) + 5 : an.alter || 18)
 
 // Richtwerte je Klassenstufe bzw. Altersgruppe (Faustwerte aus grundlagen.json, im Planer änderbar)
 function richtwert(p) {
@@ -76,6 +79,53 @@ function etappenDaten(orte, startLage, p) {
   })
 }
 
+// ---------- Einkehr & Extras ----------
+// Kürzester Abstand eines Punkts zu einer Wegstrecke a–b in Metern (für kurze Strecken genau genug)
+function abstandZurStrecke(p, a, b) {
+  const kx = Math.cos(p[0] * Math.PI / 180) * 111320, ky = 110540
+  const ax = (a[1] - p[1]) * kx, ay = (a[0] - p[0]) * ky, dx = (b[1] - a[1]) * kx, dy = (b[0] - a[0]) * ky
+  const l = dx * dx + dy * dy, t = l ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / l)) : 0
+  return Math.hypot(ax + t * dx, ay + t * dy)
+}
+// Tipps nahe der Route, passend zu Anlass und Alter: höchstens 2 je Art, 6 zum Essen/Trinken, 3 Aktionen
+function tippsFuerRoute(stadt, anlassId, klasse, stationen) {
+  const an = anlass(anlassId), alter = gruppenAlter(an, klasse), arten = an.tipps || []
+  const gruppe = an.klassen || an.id === 'team'
+  const mitLage = stationen.map((s, i) => ({ s, i })).filter((x) => x.s.lage)
+  const kandidaten = []
+  for (const t of stadt.tipps || []) {
+    if (!t.lage || !arten.includes(t.art) || (t.ab || 0) > alter) continue
+    let best = Infinity, nahe = 0, weg = false
+    mitLage.forEach(({ s, i }, k) => {
+      const d = abstand(t.lage, s.lage)
+      if (d < best) { best = d; nahe = i; weg = false }
+      const vor = mitLage[k - 1]?.s
+      if (vor && (s.modus === 'fuss' || s.modus === 'rad')) { const w = abstandZurStrecke(t.lage, vor.lage, s.lage); if (w < best - 30) { best = w; nahe = i; weg = true } }
+    })
+    if (best > (stationen.some((s) => s.modus === 'rad') ? 1200 : 500)) continue
+    kandidaten.push({ id: t.id, name: t.name, art: t.art, icon: t.icon, was: t.was, info: t.info, hinweis: t.hinweis, preis: t.preis, gruppe: t.gruppe, ort: t.ort,
+      lage: t.lage, d: Math.round(best), nahe, weg, wert: best + arten.indexOf(t.art) * 120 - (gruppe && t.gruppe ? 250 : 0) })
+  }
+  kandidaten.sort((a, b) => a.wert - b.wert)
+  const jeArt = {}, essen = [], aktion = []
+  for (const k of kandidaten) {
+    const ziel = tippArt(k.art).gruppe === 'aktion' ? aktion : essen
+    if ((jeArt[k.art] || 0) >= 2 || ziel.length >= (ziel === aktion ? 3 : 6)) continue
+    jeArt[k.art] = (jeArt[k.art] || 0) + 1
+    delete k.wert; ziel.push(k)
+  }
+  return [...essen, ...aktion]
+}
+const preisZeichen = (n) => (n ? `<span style="white-space:nowrap">${'€'.repeat(n)}</span>` : '')
+function tippHtml(t, wo = true) {
+  const art = tippArt(t.art)
+  const lage = wo ? `${t.weg ? 'Auf dem Weg zu' : 'Nahe'} Station ${t.nahe + 1} · ${meter(t.d)}` : t.d != null ? `${meter(t.d)} von der Station` : ''
+  return `<li class="tipp"><span class="tipp-icon" aria-hidden="true">${t.icon || art.icon}</span><div class="min-w0"><b>${esc(t.name)}</b>
+    <span class="leise klein">${esc(t.was || art.name)}${t.preis ? ' · ' + preisZeichen(t.preis) : ''}${t.gruppe ? ' · gut für Gruppen' : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</span>
+    <div class="klein">${esc(t.info)}</div>
+    <div class="leise klein">${[lage, t.hinweis && esc(t.hinweis)].filter(Boolean).join(' · ')} · <a target="_blank" rel="noopener" href="${gmapsPunkt(t)}">Karte</a></div></div></li>`
+}
+
 const FUCHS = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="var(--fuchs)"/><path d="M14 18 L24 30 L32 27 L40 30 L50 18 L48 36 L32 50 L16 36 Z" fill="#fff"/><path d="M16 36 L32 50 L48 36 L40 40 L32 44 L24 40 Z" fill="var(--tinte)" opacity=".18"/><circle cx="25.5" cy="35" r="2.6" fill="var(--tinte)"/><circle cx="38.5" cy="35" r="2.6" fill="var(--tinte)"/><path d="M29.5 43 h5 l-2.5 3 z" fill="var(--tinte)"/></svg>`
 const PFEIL = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L19 20 L12 16 L5 20 Z" fill="var(--fuchs)"/></svg>`
 const TYPNAMEN = { quiz: 'Quizfrage', schaetzen: 'Schätzfrage', foto: 'Foto-Aufgabe', mission: 'Mission', suchen: 'Such-Aufgabe', bewegen: 'Bewegung' }
@@ -85,10 +135,12 @@ async function ladeJson(pfad) { const r = await fetch(pfad); if (!r.ok) throw ne
 async function ladeStadt(id) {
   if (!S.stadtCache[id]) {
     const stadt = await ladeJson(`daten/staedte/${id}.json`)
-    // Eine Region bündelt ihre eigenen Ausflugsziele mit allen Stationen ihrer Teilorte
+    stadt.tipps = stadt.tipps || []
+    // Eine Region bündelt ihre eigenen Ausflugsziele mit allen Stationen und Tipps ihrer Teilorte
     for (const teilId of stadt.teile || []) {
       const teil = await ladeStadt(teilId)
       stadt.orte.push(...teil.orte.map((o) => ({ ...o, id: `${teil.id}.${o.id}`, ort: teil.name })))
+      stadt.tipps.push(...teil.tipps.map((t) => ({ ...t, id: `${teil.id}.${t.id}`, ort: teil.name })))
     }
     S.stadtCache[id] = stadt
   }
@@ -261,7 +313,8 @@ function baueRallye(stadt, cfg) {
 
   return {
     v: 1, cfg, stadtId: stadt.id, stadtName: stadt.name, wort, team: cfg.team || '', stationen: reihenfolge,
-    index: 0, angekommen: {}, antworten: {}, notizen: {}, start: null, ende: null, geloest: false, gps: !!cfg.gps, verkehr: vid, nav: cfg.n || 'karte'
+    index: 0, angekommen: {}, antworten: {}, notizen: {}, start: null, ende: null, geloest: false, gps: !!cfg.gps, verkehr: vid, nav: cfg.n || 'karte',
+    tipps: tippsFuerRoute(stadt, cfg.a, cfg.k, reihenfolge)
   }
 }
 
@@ -462,7 +515,8 @@ function zeigeStart() {
       <div class="zeile"><a class="knopf haupt" href="#spiel">Weiterspielen</a><button class="knopf" id="verwerfen">Beenden &amp; verwerfen</button></div></div>` : ''}
     ${r && r.ende ? `<div class="karte weiter"><span class="etikett">Zuletzt gespielt</span><h2>${esc(r.stadtName)}</h2><div class="zeile"><a class="knopf" href="#ende">Ergebnis &amp; Fotos ansehen</a></div></div>` : ''}
     <div class="schritt"><header><h2>Wählt eure Stadt</h2></header>
-      <div class="staedte">${S.staedte.map((s) => `<button class="stadt" data-stadt="${s.id}"><b>${esc(s.name)}</b><span class="leise klein">${esc(s.kurz)}</span><span class="zahl">${s.orte} Stationen · ${esc(s.land)}</span>${s.region ? '<span class="marke-entwurf">Region – für Rad, Bus &amp; Bahn oder Auto</span>' : s.entwurf ? '<span class="marke-entwurf">Testphase – bitte vor Ort prüfen</span>' : ''}</button>`).join('')}</div>
+      ${S.staedte.length > 12 ? '<div class="feld"><label for="stadtsuche">Stadt oder Bundesland suchen</label><input id="stadtsuche" type="search" placeholder="z. B. Leipzig oder Bayern" autocomplete="off"></div>' : ''}
+      <div class="staedte">${S.staedte.map((s) => `<button class="stadt" data-stadt="${s.id}" data-suche="${esc(`${s.name} ${s.land}`.toLowerCase())}"><b>${esc(s.name)}</b><span class="leise klein">${esc(s.kurz)}</span><span class="zahl">${s.orte} Stationen${s.tipps ? ` · ${s.tipps} Tipps` : ''} · ${esc(s.land)}</span>${s.region ? '<span class="marke-entwurf">Region – für Rad, Bus &amp; Bahn oder Auto</span>' : s.entwurf ? '<span class="marke-entwurf">Testphase – bitte vor Ort prüfen</span>' : ''}</button>`).join('')}</div>
     </div>
     <div class="schritt"><header><h2>So läuft's</h2></header>
       <div class="ablauf">
@@ -476,6 +530,11 @@ function zeigeStart() {
   ${fuss()}`
   app.querySelectorAll('[data-stadt]').forEach((b) => b.onclick = () => gehe('#plan-' + b.dataset.stadt))
   const v = $('#verwerfen'); if (v) v.onclick = verwerfen
+  const suche = $('#stadtsuche')
+  if (suche) suche.oninput = () => {
+    const q = suche.value.trim().toLowerCase()
+    app.querySelectorAll('[data-stadt]').forEach((b) => { b.hidden = !!q && !b.dataset.suche.includes(q) })
+  }
 }
 function fuss() {
   return `<footer class="fuss leise klein"><p>Inhalte nach bestem Wissen recherchiert (u. a. Wikipedia, OpenStreetMap). Öffnungszeiten, Preise und Zugänge ändern sich – bitte vorab prüfen. Fotos bleiben auf eurem Gerät.</p><p><a href="#ueber">Über Stadtfuchs, Datenquellen &amp; Hinweise</a></p></footer>`
@@ -710,7 +769,7 @@ function zeichneVorschau(stadt) {
     }
   }
   const cfg = { s: stadt.id, a: p.anlass, t: p.thema, f: p.format, l: p.laenge, o: orte.map((o) => o.id), z: p.seed, teams: p.teams, gps: p.gps, zusatz,
-    st: an.frechheit ? p.stufe : undefined, v: p.verkehr, n: p.nav, e: orte.some((o) => o.eigen) ? p.eigene : undefined }
+    st: an.frechheit ? p.stufe : undefined, v: p.verkehr, n: p.nav, e: orte.some((o) => o.eigen) ? p.eigene : undefined, k: an.klassen ? p.klasse : undefined }
   const probe = baueRallye(stadt, cfg)
   const et = etappenDaten(orte, startLage, p)
   const summe = (m) => et.filter((e) => !m || e.modus === m).reduce((s, e) => s + e.strecke, 0)
@@ -739,6 +798,8 @@ function zeichneVorschau(stadt) {
     ${kostenpflichtig ? `<p class="hinweis">${kostenpflichtig} Station(en) kosten Eintritt oder sind nur zu bestimmten Zeiten offen – die Aufgaben lassen sich aber auch von außen lösen.</p>` : ''}
     <ol class="route">${orte.map((o, i) => `<li><span class="stempel">${i + 1}</span><div class="min-w0"><b>${esc(o.name)}</b>${o.ort ? ` <span class="leise klein">· ${esc(o.ort)}</span>` : ''}${zusatz.includes(o.id) ? ' <span class="marke-oepnv" style="color:var(--leise)">Ergänzt</span>' : ''}
       <div class="etappe">${et[i].unbekannt ? 'Weg selbst finden' : `${modusIcon(et[i].modus)} ${i === 0 ? 'ab Start' : 'Etappe'} ${meter(et[i].strecke)} · ca. ${dauer(et[i].min)}${et[i].modus === 'oepnv' ? ' (Fahrplan prüfen)' : ''}`}${o.kosten ? ` · ${esc(o.kosten)}` : ''}</div></div></li>`).join('')}</ol>
+    ${probe.tipps.length ? `<div class="stapel"><h3>Pausen &amp; Extras unterwegs</h3><p class="leise klein">Passend zum Anlass: Essen, Trinken und Aktionen nahe eurer Route. Öffnungszeiten und Preise bitte vorab prüfen, Aktionen vorher buchen.</p>
+      <ul class="tipps">${probe.tipps.map((t) => tippHtml(t)).join('')}</ul></div>` : ''}
     <div class="stapel">
       <button class="knopf haupt breit" id="los">Rallye starten</button>
       <div class="zeile"><button class="knopf" id="wuerfeln" ${p.auswahl === 'selbst' ? 'hidden' : ''}>Andere Route</button><button class="knopf" id="teilen">${p.teams > 1 ? 'Link für alle Teams' : 'Link teilen'}</button><button class="knopf" id="laufzettel">Laufzettel drucken</button><button class="knopf" id="loesung">Lösungsblatt</button></div>
@@ -816,6 +877,7 @@ function zeigeSpiel() {
     <div class="station-kopf"><span class="stempel jetzt">${r.index + 1}</span><div><span class="etikett">Station ${r.index + 1} von ${r.stationen.length}</span><h1 style="font-size:1.7rem">${esc(st.name)}</h1></div></div>
     ${da ? '' : unterwegsHtml(r, st)}
     ${da ? stationsInhalt(r, st, an, fo) : ''}
+    ${tippsHier(r, st)}
     <div class="zeile" style="justify-content:space-between;margin-top:8px">
       <button class="knopf still klein" id="zurueck" ${r.index === 0 ? 'disabled' : ''}>← Vorige Station</button>
       <button class="knopf still klein" id="abbruch">Rallye beenden</button>
@@ -843,6 +905,13 @@ function zeigeSpiel() {
     gpsStoppen()
     bindeAufgaben(r, st, an, fo)
   }
+}
+// Tipps, die dieser Station am nächsten liegen (oder auf dem Weg dorthin)
+function tippsHier(r, st) {
+  const hier = (r.tipps || []).filter((t) => t.nahe === r.index)
+  if (!hier.length) return ''
+  return `<details class="karte mehr"><summary>☕ Pause oder Extra? ${hier.length} ${hier.length > 1 ? 'Tipps' : 'Tipp'} in der Nähe</summary>
+    <ul class="tipps" style="margin-top:12px">${hier.map((t) => tippHtml({ ...t, d: st.lage ? Math.round(abstand(t.lage, st.lage)) : null }, false)).join('')}</ul></details>`
 }
 // Google-Maps-Link öffnet auf allen Geräten (App oder Browser) mit passendem Verkehrsmittel
 const navLink = (lage, modus) => `https://www.google.com/maps/dir/?api=1&destination=${lage[0]},${lage[1]}&travelmode=${{ fuss: 'walking', rad: 'bicycling', oepnv: 'transit', auto: 'driving' }[modus] || 'walking'}`
@@ -1126,6 +1195,7 @@ function laufzettel(r, stadt) {
         : a.typ === 'schaetzen' ? `<p><b>${esc(a.frage)}</b> Euer Tipp: ________ ${esc(a.einheit)}</p>`
         : `<p><b>${TYPNAMEN[a.typ]}:</b> ${esc(a.text)}</p>${a.typ === 'mission' ? '<div class="d-linie"></div>' : ''}`).join('')}
     </div>`).join('')}
+    ${r.tipps?.length ? `<div class="d-station"><h3>Pausen &amp; Extras unterwegs</h3>${r.tipps.map((t) => `<p>${t.icon || tippArt(t.art).icon} <b>${esc(t.name)}</b> (${esc(t.was || tippArt(t.art).name)}) – ${t.weg ? 'auf dem Weg zu' : 'nahe'} Station ${t.nahe + 1}${t.hinweis ? ' · ' + esc(t.hinweis) : ''}</p>`).join('')}</div>` : ''}
     ${r.wort ? `<p><b>Lösungswort:</b> Tragt die Buchstaben eurer Antworten in Stationsreihenfolge ein.</p><div class="d-wort">${r.wort.split('').map(() => '<span></span>').join('')}</div>` : ''}
     <p style="margin-top:10px;font-size:9pt">Erstellt mit Stadtfuchs · Angaben ohne Gewähr, Öffnungszeiten bitte vorab prüfen.</p></div>`
 }
@@ -1152,14 +1222,21 @@ async function zeigePruefen(stadtId) {
   const alle = lies(PRUEF) || {}
   const st = alle[stadtId] || (alle[stadtId] = { orte: {}, vorschlag: '' })
   const sichern = () => schreibe(PRUEF, alle)
+  const tipps = stadt.tipps || []
+  const gesamt = stadt.orte.length + tipps.length
   const zaehler = () => { const w = Object.values(st.orte); return { passt: w.filter((x) => x.status === 'passt').length, falsch: w.filter((x) => x.status === 'falsch').length } }
   const loesung = (a) => a.typ === 'quiz' ? `${esc(a.frage)} → <b>${esc(a.richtig)}</b> <span class="leise">(falsch: ${a.falsch.map(esc).join(', ')})</span>`
     : a.typ === 'schaetzen' ? `${esc(a.frage)} → <b>${zahlDe(a.wert, 2)} ${esc(a.einheit)}</b>` : `${TYPNAMEN[a.typ]}: ${esc(a.text)}`
+  // Gemeinsame Bausteine für Stationen und Tipps: Karte, Passt/Stimmt nicht, Notiz
+  const bewertung = (key, lage) => { const e = st.orte[key] || {}; return `
+      <div class="zeile"><a class="knopf klein still" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${lage[0]}&mlon=${lage[1]}#map=18/${lage[0]}/${lage[1]}">Ort auf der Karte</a></div>
+      <div class="zeile"><button class="knopf klein ${e.status === 'passt' ? 'haupt' : ''}" data-pstatus="passt" data-ort="${key}">Passt</button><button class="knopf klein ${e.status === 'falsch' ? 'haupt' : ''}" data-pstatus="falsch" data-ort="${key}">Stimmt nicht</button></div>
+      <div class="feld"><label for="pn-${key}" class="leise klein">Was stimmt nicht / Ergänzung (z. B. geschlossen, falscher Ort, bessere Frage)</label><textarea id="pn-${key}" rows="2" data-pnotiz="${key}">${esc(e.notiz || '')}</textarea></div>` }
   const z = zaehler()
   app.innerHTML = `${kopf(`<a class="knopf still klein" href="#plan-${stadt.id}">Zur Rallye</a>`)}
   <section class="held"><span class="unterzeile">Prüfmodus</span><h1>${esc(stadt.name)}: alle Stationen</h1>
-    <p>Geht die Stationen durch und markiert, was passt und was nicht. Eure Notizen bleiben auf diesem Gerät, bis ihr den Prüfbericht kopiert und weitergebt.</p>
-    <p class="zahl leise" id="pruefstand">${z.passt} passt · ${z.falsch} korrigieren · ${stadt.orte.length - z.passt - z.falsch} offen</p></section>
+    <p>Geht die Stationen${tipps.length ? ' und Tipps' : ''} durch und markiert, was passt und was nicht. Eure Notizen bleiben auf diesem Gerät, bis ihr den Prüfbericht kopiert und weitergebt.</p>
+    <p class="zahl leise" id="pruefstand">${z.passt} passt · ${z.falsch} korrigieren · ${gesamt - z.passt - z.falsch} offen</p></section>
   <div class="stapel">
     ${stadt.orte.map((o, i) => { const e = st.orte[o.id] || {}; return `<article class="karte stapel" id="p-${o.id}">
       <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${i + 1}</span><div><span class="etikett">${o.ort ? esc(o.ort) + ' · ' : ''}${o.themen.map((t) => esc(thema(t).name)).join(' · ')}${o.ab18 ? ' · ab 18' : ''}</span><h2>${esc(o.name)}</h2></div></div>
@@ -1167,9 +1244,15 @@ async function zeigePruefen(stadtId) {
       <ul class="klein" style="margin:0;padding-left:18px;display:grid;gap:4px">${(o.aufgaben || []).map((a) => `<li>${loesung(a)}</li>`).join('')}</ul>
       ${o.lageUngefaehr ? '<p class="hinweis"><b>Lage nur ungefähr bekannt</b> – bitte vor Ort den genauen Punkt notieren.</p>' : ''}
       <p class="leise klein">Quelle: ${esc(o.quelle || (o.wiki ? 'Wikipedia: ' + o.wiki : 'Wikipedia/OpenStreetMap'))}</p>
-      <div class="zeile"><a class="knopf klein still" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat=${o.lage[0]}&mlon=${o.lage[1]}#map=18/${o.lage[0]}/${o.lage[1]}">Ort auf der Karte</a></div>
-      <div class="zeile"><button class="knopf klein ${e.status === 'passt' ? 'haupt' : ''}" data-pstatus="passt" data-ort="${o.id}">Passt</button><button class="knopf klein ${e.status === 'falsch' ? 'haupt' : ''}" data-pstatus="falsch" data-ort="${o.id}">Stimmt nicht</button></div>
-      <div class="feld"><label for="pn-${o.id}" class="leise klein">Was stimmt nicht / Ergänzung (z. B. geschlossen, falscher Ort, bessere Frage)</label><textarea id="pn-${o.id}" rows="2" data-pnotiz="${o.id}">${esc(e.notiz || '')}</textarea></div>
+      ${bewertung(o.id, o.lage)}
+    </article>` }).join('')}
+    ${tipps.length ? `<h2 style="margin-top:12px">Einkehr &amp; Extras (${tipps.length})</h2>
+      <p class="leise klein">Keine Stationen, sondern Tipps für Pausen und Aktionen, die neben passenden Routen angezeigt werden.</p>` : ''}
+    ${tipps.map((t) => { const key = 'tipp:' + t.id, e = st.orte[key] || {}, art = tippArt(t.art); return `<article class="karte stapel" id="p-${key}">
+      <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${t.icon || art.icon}</span><div><span class="etikett">${t.ort ? esc(t.ort) + ' · ' : ''}${esc(t.was || art.name)}${t.preis ? ' · ' + preisZeichen(t.preis) : ''}${t.ab ? ` · ab ${t.ab} Jahren` : ''}${t.gruppe ? ' · gut für Gruppen' : ''}</span><h2>${esc(t.name)}</h2></div></div>
+      <p>${esc(t.info)}</p>${t.hinweis ? `<p class="hinweis">${esc(t.hinweis)}</p>` : ''}
+      <p class="leise klein">Quelle: ${esc(t.quelle || 'OpenStreetMap')}</p>
+      ${bewertung(key, t.lage)}
     </article>` }).join('')}
     <div class="karte stapel"><h2>Fehlt etwas?</h2><div class="feld"><label for="vorschlag">Orte, Kneipen, Spielplätze oder Geheimtipps, die in die Rallye gehören</label><textarea id="vorschlag" rows="4">${esc(st.vorschlag || '')}</textarea></div></div>
     <div class="karte stapel"><h2>Prüfbericht</h2><p class="leise klein">Kopiert den Bericht und schickt ihn weiter – damit lassen sich die Stationen korrigieren.</p>
@@ -1184,9 +1267,11 @@ async function zeigePruefen(stadtId) {
   $('#vorschlag').oninput = (e) => { st.vorschlag = e.target.value; sichern() }
   $('#bericht').onclick = () => {
     const zeilen = [`Prüfbericht ${stadt.name} (${new Date().toLocaleDateString('de-DE')})`, '']
-    stadt.orte.forEach((o) => { const e = st.orte[o.id]; if (e && (e.status || e.notiz)) zeilen.push(`- ${o.name} [${o.id}]: ${e.status === 'passt' ? 'passt' : e.status === 'falsch' ? 'STIMMT NICHT' : 'Notiz'}${e.notiz ? ' – ' + e.notiz.trim() : ''}`) })
+    const zeile = (name, key) => { const e = st.orte[key]; if (e && (e.status || e.notiz)) zeilen.push(`- ${name} [${key}]: ${e.status === 'passt' ? 'passt' : e.status === 'falsch' ? 'STIMMT NICHT' : 'Notiz'}${e.notiz ? ' – ' + e.notiz.trim() : ''}`) }
+    stadt.orte.forEach((o) => zeile(o.name, o.id))
+    tipps.forEach((t) => zeile('Tipp: ' + t.name, 'tipp:' + t.id))
     if (st.vorschlag?.trim()) zeilen.push('', 'Vorschläge:', st.vorschlag.trim())
-    const z = zaehler(); zeilen.push('', `${z.passt} passt, ${z.falsch} korrigieren, ${stadt.orte.length - z.passt - z.falsch} offen`)
+    const z = zaehler(); zeilen.push('', `${z.passt} passt, ${z.falsch} korrigieren, ${gesamt - z.passt - z.falsch} offen`)
     kopieren(zeilen.join('\n'))
   }
 }

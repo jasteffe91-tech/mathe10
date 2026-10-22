@@ -411,7 +411,314 @@
         { "typ": "mission", "text": "Findet eine Kneipe mit kölschem Namen und lasst euch den Namen übersetzen." }
       ],
       "lage": [50.92156, 6.95948]
+    },
+    {
+      "id": "zuelpicher",
+      "name": "Zülpicher Viertel („Kwartier Latäng“)",
+      "wiki": "Zülpicher Straße (Köln)",
+      "suche": "Zülpicher Platz, Köln",
+      "themen": ["kneipen", "spass"],
+      "prio": 2,
+      "info": "Zwischen Zülpicher Platz und Südbahnhof reiht sich eine Kneipe an die nächste. Die Kölner nennen das Studentenviertel „Kwartier Latäng“ – kölsch für Quartier Latin. An Karneval ist hier kein Durchkommen mehr.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet „Kwartier Latäng“?", "richtig": "Quartier Latin – das Studentenviertel auf Kölsch", "falsch": ["Lateinschule auf Kölsch", "Viertel der späten Stunde"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt das typische Kölsch-Glas?", "richtig": "Stange", "falsch": ["Maß", "Humpen"] },
+        { "typ": "mission", "text": "Bringt einer fremden Gruppe einen kölschen Satz bei: „Et hätt noch immer jot jejange.“" },
+        { "typ": "foto", "text": "Gruppenfoto mit erhobenen Kölsch-Stangen – oder Wassergläsern." }
+      ],
+      "lage": [50.93069, 6.93995]
+    },
+    {
+      "id": "heliosturm",
+      "name": "Heliosturm – Leuchtturm in Ehrenfeld",
+      "wiki": "Helios (Elektrotechnikunternehmen)",
+      "suche": "Heliosturm, Köln",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Ein Leuchtturm mitten in Köln, weit weg vom Meer: Die Firma Helios baute Leuchtfeuer für Leuchttürme, etwa auf Borkum und Sylt, und testete und präsentierte sie auf diesem 44 Meter hohen Turm. Heute ist er das Wahrzeichen von Ehrenfeld.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was steht hier mitten in der Stadt?", "richtig": "Ein Leuchtturm", "falsch": ["Eine Windmühle", "Ein Raketenturm"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum wurde in Ehrenfeld ein Leuchtturm gebaut?", "richtig": "Die Firma Helios testete und zeigte hier ihre Leuchtfeuer", "falsch": ["Als Wegweiser für die Rheinschiffe", "Als Wasserturm für Ehrenfeld"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Heliosturm?", "wert": 44, "einheit": "m" },
+        { "typ": "foto", "text": "Fotografiert den Leuchtturm so, dass es aussieht, als stünde er an der Nordsee." }
+      ],
+      "lage": [50.95083, 6.914]
+    },
+    {
+      "id": "ostermannbrunnen",
+      "name": "Ostermann-Brunnen",
+      "wiki": "Willi Ostermann",
+      "suche": "Ostermannbrunnen, Köln",
+      "themen": ["besonderheiten", "kinder", "historie"],
+      "prio": 2,
+      "info": "Der Brunnen ehrt Willi Ostermann, den Sänger kölscher Karnevalslieder wie „Heimweh nach Köln“. Bildhauer Willy Klein meißelte 15 Figuren, die Ostermann in seinen Liedern besungen hatte. Eingeweiht wurde der Brunnen an Weiberfastnacht 1939.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde der Ostermann-Brunnen eingeweiht?", "richtig": "An Weiberfastnacht 1939", "falsch": ["Am 11.11.1911", "Zum Domfest 1980"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Fest feiern die Kölner besonders laut?", "richtig": "Karneval", "falsch": ["Oktoberfest", "Halloween"] },
+        { "typ": "schaetzen", "frage": "Wie viele Figuren aus Ostermanns Liedern zeigt der Brunnen?", "wert": 15, "einheit": "Figuren" },
+        { "typ": "mission", "text": "Singt „Ich möch zo Foß noh Kölle gon“ – wer kennt die Melodie?" }
+      ],
+      "lage": [50.9378, 6.96089]
+    },
+    {
+      "id": "roemerturm",
+      "name": "Römerturm",
+      "wiki": "Römerturm (Köln)",
+      "themen": ["historie", "besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Der runde Eckturm wurde um 50 nach Christus gebaut und ist der besterhaltene Teil der römischen Stadtmauer. Auffällig sind die Muster aus hellen und dunklen Natursteinen – fast wie ein Mosaik.",
+      "fakt": "Die römische Mauer um Köln hatte 19 Türme und neun Tore.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat diesen Turm gebaut?", "richtig": "Die Römer", "falsch": ["Die Wikinger", "Die Ritter"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere am Römerturm?", "richtig": "Seine Mauer ist mit Steinmustern wie ein Mosaik verziert", "falsch": ["Er ist schief wie in Pisa", "Er steht mitten im Rhein"] },
+        { "typ": "schaetzen", "frage": "Um welches Jahr nach Christus wurde der Römerturm gebaut?", "wert": 50, "einheit": "n. Chr." },
+        { "typ": "suchen", "text": "Sucht im Mauerwerk ein Muster, das wie ein Kreis oder eine Raute aussieht." }
+      ],
+      "lage": [50.94093, 6.94662]
+    },
+    {
+      "id": "sportmuseum",
+      "name": "Deutsches Sport & Olympia Museum",
+      "wiki": "Deutsches Sport & Olympia Museum",
+      "themen": ["spass", "kinder", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im alten Speicher am Rheinauhafen geht es seit 1999 um Sportgeschichte von der Antike bis heute. Spektakulär sind die Sportplätze auf dem Dach: Dort wird Fußball, Tennis oder Basketball gespielt – mit Blick über den Rhein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man auf dem Dach des Museums machen?", "richtig": "Fußball oder Basketball spielen", "falsch": ["Schwimmen", "Ski fahren"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr eröffnete das Museum?", "richtig": "1999", "falsch": ["1972", "2012"] },
+        { "typ": "bewegen", "text": "Olympisches Aufwärmen: Alle machen zehn Hampelmänner – wer zählt am lautesten mit?" }
+      ],
+      "lage": [50.93117, 6.96465]
+    },
+    {
+      "id": "el_de_haus",
+      "name": "NS-Dokumentationszentrum (EL-DE-Haus)",
+      "wiki": "NS-Dokumentationszentrum der Stadt Köln",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "kosten": "Eintritt",
+      "info": "In der NS-Zeit hatte hier die Kölner Gestapo ihren Sitz. Im Keller sind die Zellen des Gestapo-Gefängnisses mit den Inschriften der Gefangenen erhalten. Seit 1981 ist das Haus eine Gedenkstätte, heute auch Museum und Forschungsstelle.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer nutzte das EL-DE-Haus in der NS-Zeit?", "richtig": "Die Gestapo", "falsch": ["Die Reichsbahn", "Das Stadtarchiv"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist in den Kellerzellen bis heute zu sehen?", "richtig": "Inschriften der Gefangenen an den Wänden", "falsch": ["Gemälde berühmter Maler", "Weinfässer"] }
+      ],
+      "lage": [50.94064, 6.95014]
     }
   ],
-  "zentrum": [50.93928, 6.96053]
+  "zentrum": [50.93928, 6.96044],
+  "tipps": [
+    {
+      "id": "cafe_reichard",
+      "name": "Café Reichard",
+      "art": "cafe",
+      "lage": [50.941, 6.95587],
+      "info": "Traditionscafé mit Torten, Pralinen und Baumkuchen – direkt mit Blick aufs Domportal.",
+      "preis": 2,
+      "hinweis": "Terrasse früh voll",
+      "quelle": "koeln.de"
+    },
+    {
+      "id": "salon_schmitz",
+      "name": "Salon Schmitz",
+      "art": "cafe",
+      "lage": [50.93661, 6.93622],
+      "info": "Café und Bar im Belgischen Viertel, tagsüber Kuchen, abends Kölsch.",
+      "preis": 2,
+      "quelle": "koeln.de; OSM"
+    },
+    {
+      "id": "eiscafe_breda",
+      "name": "Eiscafé Breda",
+      "art": "eis",
+      "lage": [50.93664, 6.94105],
+      "info": "Eiscafé in der Innenstadt nahe Apostelnkirche.",
+      "preis": 1,
+      "quelle": "koeln.de"
+    },
+    {
+      "id": "eiscafe_cortina",
+      "name": "Eiscafé Cortina",
+      "art": "eis",
+      "lage": [50.93066, 6.94126],
+      "info": "Eiscafé am Hohenstaufenring, nah am Zülpicher Platz.",
+      "preis": 1,
+      "quelle": "koeln.de"
+    },
+    {
+      "id": "ice_cream_united",
+      "name": "Ice Cream United",
+      "art": "eis",
+      "lage": [50.94005, 6.93452],
+      "info": "Eisdiele im Belgischen Viertel mit hausgemachten Sorten.",
+      "preis": 1,
+      "quelle": "koeln.de"
+    },
+    {
+      "id": "oma_kleinmann",
+      "name": "Bei Oma Kleinmann",
+      "art": "restaurant",
+      "lage": [50.92957, 6.93824],
+      "info": "Kölner Kultlokal für riesige Schnitzel im Kwartier Latäng.",
+      "preis": 2,
+      "hinweis": "Reservieren empfohlen",
+      "quelle": "koeln.de"
+    },
+    {
+      "id": "haxenhaus",
+      "name": "Haxenhaus zum Rheingarten",
+      "art": "restaurant",
+      "lage": [50.93762, 6.96249],
+      "info": "Großes Traditionshaus am Rheinufer – Haxe, Kölsch und Platz für Gruppen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "gaffel_dom",
+      "name": "Gaffel am Dom",
+      "art": "brauhaus",
+      "lage": [50.9419, 6.95682],
+      "info": "Brauhaus mit Kölsch-Kneipen-Charme direkt am Bahnhofsvorplatz.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Accor-Kneipenführer; OSM"
+    },
+    {
+      "id": "sion",
+      "name": "Brauhaus Sion",
+      "art": "brauhaus",
+      "lage": [50.93939, 6.95927],
+      "info": "Klassisches Altstadt-Brauhaus mit Köbes und Halve Hahn.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "peters",
+      "name": "Peters Brauhaus",
+      "art": "brauhaus",
+      "lage": [50.9393, 6.9604],
+      "info": "Brauhaus mit prachtvollen Stuben in der Altstadt.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "suenner_walfisch",
+      "name": "Sünner im Walfisch",
+      "art": "brauhaus",
+      "lage": [50.9377, 6.9619],
+      "info": "Brauhaus in einem historischen Giebelhaus in der Altstadt.",
+      "preis": 2,
+      "quelle": "koeln.de"
+    },
+    {
+      "id": "lommerzheim",
+      "name": "Lommerzheim",
+      "art": "brauhaus",
+      "lage": [50.93863, 6.97364],
+      "info": "Kultkneipe in Deutz, berühmt für ihr dickes Kotelett.",
+      "preis": 2,
+      "hinweis": "Früh kommen, oft voll",
+      "quelle": "Mit Vergnügen Köln"
+    },
+    {
+      "id": "hellers",
+      "name": "Hellers Brauhaus",
+      "art": "brauhaus",
+      "lage": [50.93059, 6.93847],
+      "info": "Junges Brauhaus mit grünem Wintergarten an der Roonstraße.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "koelntourismus"
+    },
+    {
+      "id": "puetz",
+      "name": "Brauhaus Pütz",
+      "art": "brauhaus",
+      "lage": [50.93511, 6.93777],
+      "info": "Veedels-Brauhaus ohne Touristenpreise.",
+      "preis": 1,
+      "quelle": "koelntourismus"
+    },
+    {
+      "id": "stadtgarten",
+      "name": "Biergarten im Stadtgarten",
+      "art": "biergarten",
+      "lage": [50.94299, 6.93516],
+      "info": "Großer Biergarten unter Bäumen im ältesten Park Kölns.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Bei schönem Wetter",
+      "quelle": "OSM"
+    },
+    {
+      "id": "papa_joes",
+      "name": "Papa Joe's Jazzlokal",
+      "art": "bar",
+      "ab": 18,
+      "lage": [50.93786, 6.96219],
+      "info": "Jazzkneipe mit Live-Musik am Buttermarkt in der Altstadt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "klein_koeln",
+      "name": "Klein Köln",
+      "art": "bar",
+      "ab": 18,
+      "lage": [50.94065, 6.94309],
+      "info": "Urige Kultkneipe an der Friesenstraße, geöffnet bis in den Morgen.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "knobelbecher",
+      "name": "Knobelbecher",
+      "art": "bar",
+      "ab": 18,
+      "lage": [50.93666, 6.93444],
+      "info": "Klassische Eckkneipe im Belgischen Viertel – mit Kegelbahn.",
+      "preis": 1,
+      "quelle": "Mit Vergnügen Köln"
+    },
+    {
+      "id": "torburg",
+      "name": "Torburg",
+      "art": "bar",
+      "ab": 18,
+      "lage": [50.92179, 6.95895],
+      "info": "Kneipe mit Live-Blues und Terrasse in der Südstadt.",
+      "preis": 1,
+      "quelle": "Mit Vergnügen Köln"
+    },
+    {
+      "id": "rheinschiff",
+      "name": "Panoramafahrt auf dem Rhein",
+      "art": "aktion",
+      "was": "Schifffahrt",
+      "icon": "⛴️",
+      "lage": [50.93855, 6.96304],
+      "info": "Einstündige Rundfahrt ab Frankenwerft mit Blick auf Dom und Altstadt.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Abfahrtszeiten prüfen",
+      "quelle": "koelntourismus"
+    },
+    {
+      "id": "domturm",
+      "name": "Turmbesteigung Kölner Dom",
+      "art": "aktion",
+      "was": "Turm besteigen",
+      "icon": "🗼",
+      "lage": [50.9413, 6.95814],
+      "info": "533 Stufen hinauf auf den Südturm – oben belohnt der Blick über Köln.",
+      "preis": 1,
+      "gruppe": true,
+      "hinweis": "Nur zu Fuß, gute Kondition nötig",
+      "quelle": "koelntourismus"
+    }
+  ]
 }

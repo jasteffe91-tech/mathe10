@@ -280,7 +280,114 @@
         { "typ": "suchen", "text": "Findet Blüten in fünf verschiedenen Farben." }
       ],
       "lage": [53.09167, 8.88611]
+    },
+    {
+      "id": "spuckstein",
+      "name": "Spuckstein auf dem Domshof",
+      "wiki": "Gesche Gottfried",
+      "suche": "Spuckstein, Domshof, Bremen",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Ein besonderer Pflasterstein markiert die Stelle, an der 1831 die letzte öffentliche Hinrichtung Bremens stattfand. Hingerichtet wurde Gesche Gottfried, die mit Arsenik 15 Menschen vergiftet hatte – zuvor galt sie als „Engel von Bremen“. Manche Bremer spucken bis heute auf den Stein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "An wen erinnert der Spuckstein?", "richtig": "An die Giftmörderin Gesche Gottfried", "falsch": ["An einen strengen Bürgermeister", "An die Bremer Stadtmusikanten"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Womit vergiftete Gesche Gottfried ihre Opfer?", "richtig": "Mit Arsenik", "falsch": ["Mit Fliegenpilzen", "Mit Tollkirschen"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr fand hier die letzte öffentliche Hinrichtung Bremens statt?", "wert": 1831, "einheit": "" },
+        { "typ": "suchen", "text": "Findet den Spuckstein im Pflaster des Domshofs – woran erkennt man ihn?" }
+      ],
+      "lage": [53.07588, 8.80903]
+    },
+    {
+      "id": "cafe_sand",
+      "name": "Sielwallfähre & Café Sand",
+      "wiki": "Hal över Bremer Fahrgastschifffahrt",
+      "suche": "Café Sand, Bremen",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "hinweis": "Fähre nur März bis Oktober",
+      "info": "Die Sielwallfähre bringt euch vom Osterdeich über die Weser zum Café Sand auf dem Stadtwerder – mit Sandstrand mitten in der Stadt. „Hal över!“ (Hol über!) riefen früher die Leute, die übergesetzt werden wollten. So heißt heute auch die Fährgesellschaft.",
+      "fakt": "„Werder“ bedeutet Flussinsel – der Stadtwerder ist allerdings eine Halbinsel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man vom Osterdeich am schnellsten zum Café Sand?", "richtig": "Mit der Fähre über die Weser", "falsch": ["Mit einer Seilbahn", "Durch einen Tunnel"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet der Ruf „Hal över!“?", "richtig": "Hol über! – setz uns über den Fluss", "falsch": ["Halt, Überfall!", "Halbe Portion, bitte!"] },
+        { "typ": "bewegen", "text": "Lauft barfuß ein Stück durch den Sand am Weserstrand." },
+        { "typ": "foto", "text": "Strandfoto mit der Weser und der Stadt im Hintergrund." }
+      ],
+      "lage": [53.06702, 8.82155]
     }
   ],
-  "zentrum": [53.07611, 8.80906]
+  "zentrum": [53.07611, 8.80906],
+  "tipps": [
+    {
+      "id": "knigge",
+      "name": "Konditorei Knigge",
+      "art": "cafe",
+      "lage": [53.0779, 8.80773],
+      "info": "Traditionskonditorei in der Sögestraße – mit Bremer Klaben und Baumkuchen.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kleiner_ratskeller",
+      "name": "Kleiner Ratskeller",
+      "art": "restaurant",
+      "lage": [53.07519, 8.80647],
+      "info": "Urige Gaststätte mit Bremer Küche wie Kohl und Pinkel (im Winter).",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schuettinger",
+      "name": "Schüttinger Gasthausbrauerei",
+      "art": "brauhaus",
+      "lage": [53.0749, 8.8066],
+      "info": "Hausbrauerei in der Altstadt, wenige Schritte vom Marktplatz.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "feldmanns",
+      "name": "Feldmann's Bierhaus",
+      "art": "biergarten",
+      "lage": [53.07676, 8.80158],
+      "info": "Bierhaus mit Terrasse an der Schlachte, direkt an der Weser.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "emma_am_see",
+      "name": "Emma am See",
+      "art": "biergarten",
+      "lage": [53.09428, 8.8239],
+      "info": "Café und Biergarten am See im Bürgerpark.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "litfass",
+      "name": "Litfass",
+      "art": "bar",
+      "ab": 18,
+      "lage": [53.07284, 8.82036],
+      "info": "Kneipen-Klassiker im Viertel am Ostertorsteinweg.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "weserfahrt",
+      "name": "Hafen- und Weserrundfahrt",
+      "art": "aktion",
+      "was": "Schifffahrt",
+      "icon": "⛴️",
+      "lage": [53.0741, 8.80412],
+      "info": "Rundfahrt ab Martinianleger durch Hafen und Weser.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Saison und Abfahrtszeiten prüfen",
+      "quelle": "OSM"
+    }
+  ]
 }

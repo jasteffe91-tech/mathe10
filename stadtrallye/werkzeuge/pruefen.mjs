@@ -22,6 +22,7 @@ const auswahl = args.filter((a) => !a.startsWith('--'))
 
 const THEMEN = new Set(['highlights', 'historie', 'besonderheiten', 'kulinarik', 'kneipen', 'spass', 'kinder', 'natur'])
 const TYPEN = new Set(['quiz', 'schaetzen', 'foto', 'mission', 'suchen', 'bewegen'])
+const TIPPARTEN = new Set(JSON.parse(readFileSync(join(WURZEL, 'grundlagen.json'), 'utf8')).tippArten.map((t) => t.id))
 const warte = (ms) => new Promise((r) => setTimeout(r, ms))
 
 async function holeJson(url) {
@@ -114,6 +115,19 @@ function pruefeStruktur(stadt, fehler) {
     if (o.themen?.includes('kneipen') && !(o.aufgaben || []).some((a) => a.typ === 'quiz')) fehler.push(`${wo}: Kneipe ohne Quiz`)
   }
   for (const w of stadt.loesungsworte || []) if (!/^[A-Z]+$/.test(w)) fehler.push(`${stadt.id}: Lösungswort ${w} nur A–Z (Ä als AE)`)
+  // Tipps für Einkehr & Extras: keine Station, aber Lage, Art und ein Satz Info
+  const tippIds = new Set()
+  for (const t of stadt.tipps || []) {
+    const wo = `${stadt.id}/tipp:${t.id}`
+    if (tippIds.has(t.id)) fehler.push(`${wo}: doppelte id`)
+    tippIds.add(t.id)
+    if (!t.name || !t.info) fehler.push(`${wo}: name oder info fehlt`)
+    if (!TIPPARTEN.has(t.art)) fehler.push(`${wo}: unbekannte Art ${t.art}`)
+    if (!t.wiki && !t.suche && !t.lage) fehler.push(`${wo}: weder wiki, suche noch lage`)
+    if (t.ab !== undefined && typeof t.ab !== 'number') fehler.push(`${wo}: ab muss eine Zahl sein`)
+    if (t.preis !== undefined && ![1, 2, 3].includes(t.preis)) fehler.push(`${wo}: preis 1–3`)
+    if (t.art === 'bar' && !(t.ab >= 16)) fehler.push(`${wo}: Bar ohne Altersangabe (ab 16/18)`)
+  }
 }
 
 async function bearbeiteStadt(datei) {
@@ -122,31 +136,33 @@ async function bearbeiteStadt(datei) {
   const fehler = [], hinweise = []
   pruefeStruktur(stadt, fehler)
 
-  const ziele = [stadt.start, ...stadt.orte]
+  const ziele = [stadt.start, ...stadt.orte, ...(stadt.tipps || []).map((t) => Object.assign(t, { _tipp: true }))]
   const wikiTitel = [...new Set(ziele.filter((o) => o.wiki).map((o) => o.wiki))]
   const wiki = await wikiKoordinaten(wikiTitel)
   for (const o of ziele) {
     const w = o.wiki && wiki.get(o.wiki)
-    if (o.wiki && !w.existiert) fehler.push(`${stadt.id}/${o.id || 'start'}: Wikipedia-Artikel "${o.wiki}" existiert nicht – Vorschlag: ${await wikiVorschlag(o.wiki + ' ' + stadt.name)}`)
+    const name = `${stadt.id}/${o._tipp ? 'tipp:' : ''}${o.id || 'start'}`
+    if (o.wiki && !w.existiert) fehler.push(`${name}: Wikipedia-Artikel "${o.wiki}" existiert nicht – Vorschlag: ${await wikiVorschlag(o.wiki + ' ' + stadt.name)}`)
     if (o.lage) continue
     let lage = null, quelle = ''
     if (o.suche) { lage = await nominatim(o.suche); quelle = 'OSM' }
     if (!lage && w?.lage) { lage = w.lage; quelle = 'Wikipedia' }
     if (!lage && o.name) { lage = await nominatim(`${o.name}, ${stadt.name}`); quelle = 'OSM (Name)' }
-    if (!lage) { fehler.push(`${stadt.id}/${o.id || 'start'}: keine Koordinate gefunden`); continue }
+    if (!lage) { fehler.push(`${name}: keine Koordinate gefunden`); continue }
     o.lage = lage.map((x) => Math.round(x * 1e5) / 1e5)
-    hinweise.push(`${stadt.id}/${o.id || 'start'}: Koordinate aus ${quelle}`)
+    hinweise.push(`${name}: Koordinate aus ${quelle}`)
   }
 
   // Ausreißer: Orte, die weit vom Median aller Orte liegen (Regionen umfassen ihre Teilorte)
-  const teilOrte = (stadt.teile || []).flatMap((t) => JSON.parse(readFileSync(join(WURZEL, 'staedte', t + '.json'), 'utf8')).orte)
-  stadt._alle = [...stadt.orte, ...teilOrte]
+  const teile = (stadt.teile || []).map((t) => JSON.parse(readFileSync(join(WURZEL, 'staedte', t + '.json'), 'utf8')))
+  stadt._alle = [...stadt.orte, ...teile.flatMap((t) => t.orte)]
+  stadt._tipps = [...(stadt.tipps || []), ...teile.flatMap((t) => t.tipps || [])]
   const mit = stadt._alle.filter((o) => o.lage)
   const median = (i) => mit.map((o) => o.lage[i]).sort((a, b) => a - b)[Math.floor(mit.length / 2)]
   const mitte = [median(0), median(1)]
-  for (const o of mit) {
+  for (const o of [...mit, ...stadt._tipps.filter((t) => t.lage)]) {
     const d = abstandM(mitte, o.lage)
-    if (d > (stadt.region ? 40000 : 12000)) fehler.push(`${stadt.id}/${o.id}: liegt ${(d / 1000).toFixed(1)} km vom Zentrum – Koordinate prüfen`)
+    if (d > (stadt.region ? 40000 : 12000)) fehler.push(`${stadt.id}/${o._tipp ? 'tipp:' : ''}${o.id}: liegt ${(d / 1000).toFixed(1)} km vom Zentrum – Koordinate prüfen`)
   }
   stadt.zentrum = mitte.map((x) => Math.round(x * 1e5) / 1e5)
 
@@ -162,7 +178,8 @@ async function bearbeiteStadt(datei) {
     }
   }
 
-  if (!NUR_PRUEFEN) { const { _alle, ...ohne } = stadt; writeFileSync(pfad, formatiere(ohne) + '\n') }
+  for (const t of stadt.tipps || []) delete t._tipp
+  if (!NUR_PRUEFEN) { const { _alle, _tipps, ...ohne } = stadt; writeFileSync(pfad, formatiere(ohne) + '\n') }
   return { stadt, fehler, hinweise }
 }
 
@@ -171,7 +188,7 @@ let fehlerGesamt = 0
 const index = []
 for (const d of dateien) {
   const { stadt, fehler, hinweise } = await bearbeiteStadt(d)
-  console.log(`\n== ${stadt.name}: ${stadt.orte.length} Orte, ${stadt.orte.reduce((s, o) => s + (o.aufgaben || []).length, 0)} Aufgaben`)
+  console.log(`\n== ${stadt.name}: ${stadt.orte.length} Orte, ${stadt.orte.reduce((s, o) => s + (o.aufgaben || []).length, 0)} Aufgaben, ${(stadt.tipps || []).length} Tipps`)
   hinweise.forEach((h) => console.log('  · ' + h))
   fehler.forEach((f) => console.log('  ✗ ' + f))
   fehlerGesamt += fehler.length
@@ -181,7 +198,7 @@ for (const d of dateien) {
 // Städteverzeichnis neu schreiben, wenn alle Städte bearbeitet wurden
 if (!auswahl.length && !NUR_PRUEFEN) {
   const verzeichnis = index.sort((a, b) => a.name.localeCompare(b.name, 'de')).map((s) => ({
-    id: s.id, name: s.name, land: s.land, kurz: s.kurz, orte: s._alle.length, zentrum: s.zentrum, entwurf: s.entwurf || undefined, region: s.region || undefined,
+    id: s.id, name: s.name, land: s.land, kurz: s.kurz, orte: s._alle.length, tipps: s._tipps.length || undefined, zentrum: s.zentrum, entwurf: s.entwurf || undefined, region: s.region || undefined,
     themen: [...THEMEN].filter((t) => s._alle.filter((o) => o.themen.includes(t)).length >= 3)
   }))
   writeFileSync(join(WURZEL, 'staedte.json'), formatiere(verzeichnis) + '\n')

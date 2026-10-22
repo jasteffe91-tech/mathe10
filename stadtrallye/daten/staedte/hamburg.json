@@ -399,7 +399,429 @@
         { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der Stern, um den die Erde kreist?", "richtig": "Die Sonne", "falsch": ["Der Mond", "Der Polarstern"] }
       ],
       "lage": [53.59722, 10.00889]
+    },
+    {
+      "id": "mahnmal_nikolai",
+      "name": "Mahnmal St. Nikolai",
+      "wiki": "Ehemalige Hauptkirche St. Nikolai (Hamburg)",
+      "themen": ["historie", "spass", "highlights"],
+      "prio": 2,
+      "kosten": "Lift mit Eintritt",
+      "info": "Der 147 Meter hohe Turm war von 1874 bis 1877 das höchste Bauwerk der Welt. Im Zweiten Weltkrieg wurde die Kirche 1943 zerstört, die Ruine erinnert heute an die Opfer von Krieg und Gewaltherrschaft. Ein gläserner Lift fährt auf eine Aussichtsplattform in 76 Metern Höhe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hielt der Turm von St. Nikolai ab 1874?", "richtig": "Er war das höchste Bauwerk der Welt", "falsch": ["Er war die älteste Kirche Europas", "Er hatte die lauteste Glocke Deutschlands"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man heute auf die Aussichtsplattform?", "richtig": "Mit einem gläsernen Fahrstuhl", "falsch": ["Mit einer Seilbahn", "Mit einer Leiter außen am Turm"] },
+        { "typ": "schaetzen", "frage": "In welcher Höhe liegt die Aussichtsplattform?", "wert": 76, "einheit": "m" },
+        { "typ": "suchen", "text": "Schaut nach oben: Findet die Stelle, an der früher das Kirchendach ansetzte – woran erkennt ihr sie?" }
+      ],
+      "lage": [53.5475, 9.99056]
+    },
+    {
+      "id": "gruener_bunker",
+      "name": "Grüner Bunker St. Pauli",
+      "wiki": "Grüner Bunker",
+      "themen": ["besonderheiten", "spass", "natur", "historie"],
+      "prio": 3,
+      "info": "Der Flakbunker wurde 1942 von Tausenden Zwangsarbeitern in nur 300 Tagen gebaut. Seit 2024 wachsen auf fünf neuen Stockwerken Bäume und Sträucher. Ein 550 Meter langer „Bergpfad“ führt außen herum hinauf zu einem öffentlichen Dachgarten mit Blick über Hamburg.",
+      "fakt": "Der alte Bunker ist 75 mal 75 Meter groß und 38 Meter hoch – die Aufstockung brachte rund 20 Meter dazu.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wurde der Bunker ursprünglich gebaut?", "richtig": "Als Flakturm im Zweiten Weltkrieg", "falsch": ["Als Getreidespeicher", "Als Gefängnis"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wächst heute auf dem Bunker?", "richtig": "Bäume und Pflanzen – ein Dachgarten", "falsch": ["Nichts, er ist nur grau", "Ein Maisfeld"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der „Bergpfad“ hinauf auf den Bunker?", "wert": 550, "einheit": "m" },
+        { "typ": "bewegen", "text": "Lauft den Bergpfad hinauf – wer oben ist, ruft „Moin!“ über die Stadt." }
+      ],
+      "lage": [53.55639, 9.97]
+    },
+    {
+      "id": "portugiesenviertel",
+      "name": "Portugiesenviertel",
+      "wiki": "Portugiesenviertel",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Zwischen Landungsbrücken und Michel haben sich viele Einwanderer aus Portugal und Spanien niedergelassen. Daher kommen die vielen Restaurants und Cafés mit Galão, Pastel de Nata und gegrilltem Fisch. Die Hauptstraße ist die Ditmar-Koel-Straße.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat das Viertel seinen Namen?", "richtig": "Von Einwanderern aus Portugal und Spanien und ihren Lokalen", "falsch": ["Von einem portugiesischen Hafenkapitän", "Von einem Partnerschaftsvertrag mit Lissabon"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Pastel de Nata?", "richtig": "Ein kleines Blätterteig-Törtchen mit Pudding", "falsch": ["Ein Fischbrötchen", "Ein Fußballspieler"] },
+        { "typ": "mission", "text": "Bestellt ein Getränk oder Gebäck auf Portugiesisch – „Obrigado“ heißt danke." },
+        { "typ": "foto", "text": "Fotografiert das portugiesischste Detail, das ihr in den Straßen findet." }
+      ],
+      "lage": [53.54589, 9.97508]
+    },
+    {
+      "id": "dockland",
+      "name": "Dockland",
+      "wiki": "Dockland",
+      "themen": ["spass", "besonderheiten"],
+      "prio": 2,
+      "info": "Das Bürohaus ragt wie ein Schiffsbug über die Elbe. Das Beste: Die Dachterrasse ist für alle offen. 136 Stufen führen hinauf – oben liegt euch der Hafen zu Füßen.",
+      "fakt": "Die Aufzüge im Gebäude fahren nicht senkrecht, sondern schräg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran erinnert die Form des Dockland?", "richtig": "An den Bug eines Schiffes", "falsch": ["An einen Wal", "An eine Pyramide"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere an den Aufzügen im Dockland?", "richtig": "Sie fahren schräg", "falsch": ["Sie sind aus Holz", "Sie fahren nur nach unten"] },
+        { "typ": "schaetzen", "frage": "Wie viele Stufen führen auf die Dachterrasse?", "wert": 136, "einheit": "Stufen" },
+        { "typ": "bewegen", "text": "Zählt die Stufen beim Hochlaufen laut mit – wer zuerst oben ist, darf das Gruppenfoto machen." }
+      ],
+      "lage": [53.54328, 9.93428]
+    },
+    {
+      "id": "cap_san_diego",
+      "name": "Museumsschiff Cap San Diego",
+      "wiki": "Cap San Diego",
+      "themen": ["kinder", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der weiße Frachter von 1961 fuhr bis in die 1980er-Jahre Waren nach Südamerika. Heute ist er das größte betriebsfähige Museumsfrachtschiff der Welt – und legt ab und zu sogar noch ab.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hat die Cap San Diego früher transportiert?", "richtig": "Waren (Fracht) nach Südamerika", "falsch": ["Urlauber nach Mallorca", "Autos über die Alster"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Titel trägt die Cap San Diego?", "richtig": "Größtes betriebsfähiges Museumsfrachtschiff der Welt", "falsch": ["Ältestes Segelschiff Hamburgs", "Schnellster Frachter der Welt"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Cap San Diego gebaut?", "wert": 1961, "einheit": "" },
+        { "typ": "foto", "text": "Gruppenfoto mit dem Schiff im Hintergrund – alle salutieren wie Kapitäne." }
+      ],
+      "lage": [53.54333, 9.97583]
+    },
+    {
+      "id": "heiligengeistfeld",
+      "name": "Heiligengeistfeld & Hamburger DOM",
+      "wiki": "Hamburger Dom (Volksfest)",
+      "themen": ["spass", "kinder", "besonderheiten"],
+      "prio": 2,
+      "hinweis": "DOM im Frühjahr, Sommer und Winter je etwa einen Monat",
+      "info": "Dreimal im Jahr steht hier der Hamburger DOM, das größte Volksfest Norddeutschlands. Der Name stammt vom alten Mariendom, an dem der Markt früher stattfand. Gleich nebenan spielt der FC St. Pauli im Millerntor-Stadion.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat das Volksfest „DOM“ seinen Namen?", "richtig": "Vom früheren Mariendom, an dem der Markt stattfand", "falsch": ["Von „Deutsches Oktober-Markttreiben“", "Vom Kölner Dom"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie oft im Jahr gibt es den Hamburger DOM?", "richtig": "Dreimal", "falsch": ["Einmal", "Jeden Sonntag"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Fußballverein spielt im Millerntor-Stadion nebenan?", "richtig": "FC St. Pauli", "falsch": ["Hamburger SV", "Altona 93"] },
+        { "typ": "bewegen", "text": "Wettrennen über den Platz: Wer schafft die Strecke bis zur nächsten Laterne auf einem Bein?" }
+      ],
+      "lage": [53.55389, 9.97083]
+    },
+    {
+      "id": "hans_albers_platz",
+      "name": "Hans-Albers-Platz",
+      "wiki": "Hans-Albers-Platz",
+      "themen": ["kneipen", "besonderheiten"],
+      "prio": 2,
+      "ab18": true,
+      "info": "Der „Kleine Kiez“ ist nach dem Schauspieler und Sänger Hans Albers benannt („Auf der Reeperbahn nachts um halb eins“). Seit 1986 steht hier eine drei Meter hohe Bronzestatue von ihm, geschaffen von Jörg Immendorff. Rundherum: Bars und Kneipen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Lied machte Hans Albers berühmt?", "richtig": "Auf der Reeperbahn nachts um halb eins", "falsch": ["Hamburg, meine Perle", "Moin, Moin, du Schöne"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer schuf die Statue von Hans Albers?", "richtig": "Jörg Immendorff", "falsch": ["Joseph Beuys", "Ernst Barlach"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist die Hans-Albers-Statue?", "wert": 3, "einheit": "m" },
+        { "typ": "mission", "text": "Singt gemeinsam die erste Zeile von „Auf der Reeperbahn nachts um halb eins“ – laut!" }
+      ],
+      "lage": [53.54889, 9.96083]
+    },
+    {
+      "id": "kunsthalle",
+      "name": "Hamburger Kunsthalle",
+      "wiki": "Hamburger Kunsthalle",
+      "themen": ["highlights", "historie"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Eine der wichtigsten Kunstsammlungen Deutschlands, direkt am Hauptbahnhof. Sie reicht über acht Jahrhunderte vom Mittelalter bis heute – berühmt ist zum Beispiel Caspar David Friedrichs „Wanderer über dem Nebelmeer“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches berühmte Gemälde hängt in der Hamburger Kunsthalle?", "richtig": "Der Wanderer über dem Nebelmeer", "falsch": ["Die Mona Lisa", "Der Schrei"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man in einer Kunsthalle anschauen?", "richtig": "Bilder und Skulpturen", "falsch": ["Dinosaurier-Skelette", "Züge und Flugzeuge"] },
+        { "typ": "foto", "text": "Stellt den „Wanderer über dem Nebelmeer“ nach: Einer steht mit dem Rücken zur Kamera und blickt in die Ferne." }
+      ],
+      "lage": [53.555, 10.00278]
+    },
+    {
+      "id": "aussenalster",
+      "name": "Außenalster",
+      "wiki": "Alster",
+      "suche": "Alstervorland, Hamburg",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "info": "Die Außenalster ist mitten in der Stadt ein See von rund 164 Hektar. Auf dem Wasser kreuzen Segelboote, Kanus und Tretboote, am Ufer joggen die Hamburger. Bootsverleihe vermieten Ruder- und Tretboote.",
+      "fakt": "Die Außenalster ist nur bis zu viereinhalb Meter tief.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die Außenalster?", "richtig": "Ein See mitten in der Stadt", "falsch": ["Ein Meer", "Ein Schwimmbad"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie tief ist die Außenalster höchstens?", "richtig": "Etwa viereinhalb Meter", "falsch": ["Etwa 20 Meter", "Etwa 50 Meter"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist die Außenalster?", "wert": 164, "einheit": "Hektar" },
+        { "typ": "suchen", "text": "Zählt alle Segelboote, die ihr gerade auf dem Wasser seht." }
+      ],
+      "lage": [53.57371, 10.00104]
+    },
+    {
+      "id": "maritimes_museum",
+      "name": "Internationales Maritimes Museum",
+      "wiki": "Internationales Maritimes Museum Hamburg",
+      "themen": ["kinder", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Im Kaispeicher B von 1878/79, dem ältesten erhaltenen Speicher Hamburgs, zeigt das Museum Zehntausende Schiffsmodelle. Die Etagen heißen hier nicht Stockwerke, sondern „Decks“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißen die Stockwerke in diesem Museum?", "richtig": "Decks", "falsch": ["Kajüten", "Kombüsen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere am Gebäude des Museums?", "richtig": "Es ist der älteste erhaltene Speicher Hamburgs", "falsch": ["Es schwimmt auf der Elbe", "Es war früher ein Bahnhof"] },
+        { "typ": "suchen", "text": "Sucht von außen die Jahreszahl oder Inschrift am Kaispeicher B." }
+      ],
+      "lage": [53.54334, 10]
+    },
+    {
+      "id": "isemarkt",
+      "name": "Isemarkt",
+      "wiki": "Isemarkt",
+      "suche": "Isestraße, Hamburg",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 1,
+      "hinweis": "Nur dienstags und freitags, 8:30–14 Uhr",
+      "info": "Unter der Hochbahn der U3 zieht sich ein Wochenmarkt rund 750 Meter die Isestraße entlang – mit 200 bis 250 Ständen. Das Bahn-Viadukt dient als Dach, deshalb ist der Markt bei jedem Wetter gut besucht.",
+      "fakt": "Im August 2024 feierte der Isemarkt sein 75-jähriges Jubiläum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was dient dem Isemarkt als Dach?", "richtig": "Die Hochbahntrasse der U-Bahn", "falsch": ["Ein riesiges Zelt", "Eine Glaskuppel"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was fährt über den Köpfen der Marktbesucher?", "richtig": "Die U-Bahn", "falsch": ["Eine Seilbahn", "Ein Zeppelin"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Isemarkt ungefähr?", "wert": 750, "einheit": "m" },
+        { "typ": "mission", "text": "Kauft für alle etwas Kleines zum Probieren – unter 5 Euro." }
+      ],
+      "lage": [53.57923, 9.97878]
     }
   ],
-  "zentrum": [53.54861, 9.97889]
+  "zentrum": [53.54861, 9.97583],
+  "tipps": [
+    {
+      "id": "bruecke10",
+      "name": "Brücke 10",
+      "art": "imbiss",
+      "lage": [53.54543, 9.96365],
+      "info": "Fischbrötchen direkt an den Landungsbrücken – mit Blick auf die Elbe.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "hamburg-tourism.de"
+    },
+    {
+      "id": "kleine_haie",
+      "name": "Kleine Haie Große Fische",
+      "art": "imbiss",
+      "lage": [53.54901, 9.96005],
+      "info": "Fischbude auf dem Kiez, nah an der Reeperbahn.",
+      "preis": 1,
+      "quelle": "hamburg-tourism.de; OSM"
+    },
+    {
+      "id": "daniel_wischer",
+      "name": "Daniel Wischer",
+      "art": "imbiss",
+      "lage": [53.54993, 10.00257],
+      "info": "Traditions-Fischbraterei in der Altstadt – Backfisch mit Kartoffelsalat.",
+      "preis": 1,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "franz_friends",
+      "name": "Franz & Friends",
+      "art": "cafe",
+      "was": "Franzbrötchen",
+      "icon": "🥐",
+      "lage": [53.55317, 10.00579],
+      "info": "Franzbrötchen in vielen Varianten, in der Wandelhalle am Hauptbahnhof.",
+      "preis": 1,
+      "quelle": "hamburg-tourism.de"
+    },
+    {
+      "id": "rindermarkthalle",
+      "name": "Rindermarkthalle St. Pauli",
+      "art": "markt",
+      "lage": [53.55636, 9.96618],
+      "info": "Markthalle mit Essensständen am Heiligengeistfeld.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_paris",
+      "name": "Café Paris",
+      "art": "cafe",
+      "lage": [53.54989, 9.99435],
+      "info": "Brasserie mit prächtigen Jugendstil-Kacheln, ein paar Schritte vom Rathaus.",
+      "preis": 2,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "luicella",
+      "name": "Luicella's Ice Cream",
+      "art": "eis",
+      "lage": [53.55985, 10.01418],
+      "info": "Eisdiele in St. Georg mit selbst gemachtem Eis, auch vegan.",
+      "preis": 1,
+      "quelle": "kindaling"
+    },
+    {
+      "id": "delzepich",
+      "name": "Delzepich Eis",
+      "art": "eis",
+      "lage": [53.57742, 10.0182],
+      "info": "Beliebte Eisdiele auf der Uhlenhorst, nicht weit von der Außenalster.",
+      "preis": 1,
+      "quelle": "kindaling"
+    },
+    {
+      "id": "old_commercial_room",
+      "name": "Old Commercial Room",
+      "art": "restaurant",
+      "lage": [53.54818, 9.97791],
+      "info": "Traditionslokal am Michel – bekannt für Labskaus.",
+      "preis": 3,
+      "hinweis": "Reservieren empfohlen",
+      "quelle": "hamburg-tourism.de; OSM"
+    },
+    {
+      "id": "schifferboerse",
+      "name": "Schifferbörse",
+      "art": "restaurant",
+      "lage": [53.55376, 10.00878],
+      "info": "Norddeutsche Klassiker wie Pannfisch und Labskaus, gleich am Hauptbahnhof.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "hamburg.de"
+    },
+    {
+      "id": "groeninger",
+      "name": "Gröninger Braukeller",
+      "art": "brauhaus",
+      "lage": [53.54715, 9.99623],
+      "info": "Hausbrauerei in historischen Kellergewölben nahe der Speicherstadt.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "joh_albrecht",
+      "name": "Brauhaus Joh. Albrecht",
+      "art": "brauhaus",
+      "lage": [53.55045, 9.98975],
+      "info": "Brauhaus an einem Fleet, wenige Schritte vom Rathaus.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "ueberquell",
+      "name": "Überquell",
+      "art": "brauhaus",
+      "lage": [53.54629, 9.95844],
+      "info": "Brauerei mit Pizza und Hafenblick am Fischmarkt.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "altes_maedchen",
+      "name": "Altes Mädchen",
+      "art": "brauhaus",
+      "lage": [53.56319, 9.96811],
+      "info": "Brauhaus der Ratsherrn-Brauerei in den Schanzenhöfen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "strandpauli",
+      "name": "StrandPauli",
+      "art": "biergarten",
+      "was": "Beachclub",
+      "icon": "🏖️",
+      "lage": [53.54601, 9.96206],
+      "info": "Beachclub an der Hafenstraße mit Sand und Blick auf die Docks.",
+      "preis": 2,
+      "hinweis": "Saisonal",
+      "quelle": "OSM"
+    },
+    {
+      "id": "strandperle",
+      "name": "Strandperle",
+      "art": "biergarten",
+      "was": "Strandkiosk",
+      "icon": "🏖️",
+      "lage": [53.54446, 9.9055],
+      "info": "Kult-Kiosk am Elbstrand von Övelgönne, die Containerschiffe fahren direkt vorbei.",
+      "preis": 2,
+      "quelle": "Wikivoyage"
+    },
+    {
+      "id": "20up",
+      "name": "20up",
+      "art": "bar",
+      "ab": 18,
+      "lage": [53.54721, 9.96335],
+      "info": "Bar im 20. Stock mit Panoramablick über Hafen und Elbphilharmonie.",
+      "preis": 3,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "elbschlosskeller",
+      "name": "Elbschlosskeller",
+      "art": "bar",
+      "ab": 18,
+      "lage": [53.54986, 9.96151],
+      "info": "Raue Kultkneipe am Hamburger Berg – rund um die Uhr geöffnet.",
+      "preis": 1,
+      "quelle": "OSM; Stadtmagazine"
+    },
+    {
+      "id": "bodos_bootssteg",
+      "name": "Bodo's Bootssteg",
+      "art": "aktion",
+      "was": "Bootsverleih",
+      "icon": "🚣",
+      "lage": [53.56733, 10.00181],
+      "info": "Tret-, Ruder- und Segelboote auf der Außenalster mieten.",
+      "preis": 2,
+      "hinweis": "Saisonal, bei gutem Wetter",
+      "quelle": "hamburg-tourism.de"
+    },
+    {
+      "id": "faehre62",
+      "name": "Hafenfähre Linie 62",
+      "art": "aktion",
+      "was": "Fähre",
+      "icon": "⛴️",
+      "lage": [53.54611, 9.96667],
+      "info": "Mit der HADAG-Fähre ab Landungsbrücken die Elbe entlang – für den Preis eines Nahverkehrstickets.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "hamburg-tourism.de"
+    },
+    {
+      "id": "dungeon",
+      "name": "Hamburg Dungeon",
+      "art": "aktion",
+      "was": "Grusel-Show",
+      "icon": "👻",
+      "ab": 10,
+      "lage": [53.54387, 9.9894],
+      "info": "Gruselige Hamburger Geschichte mit Schauspielern in der Speicherstadt.",
+      "preis": 3,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "chocoversum",
+      "name": "Chocoversum",
+      "art": "aktion",
+      "was": "Schokoladenkurs",
+      "icon": "🍫",
+      "lage": [53.54795, 10.00254],
+      "info": "Schokoladenmuseum mit Führung, bei der man eigene Schokolade gestaltet.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Vorher buchen",
+      "quelle": "OSM"
+    },
+    {
+      "id": "dialog_dunkeln",
+      "name": "Dialog im Dunkeln",
+      "art": "aktion",
+      "was": "Erlebnis-Ausstellung",
+      "icon": "🕶️",
+      "ab": 8,
+      "suche": "Alter Wandrahm 4, Hamburg",
+      "info": "In völliger Dunkelheit, geführt von blinden Guides, durch Alltagssituationen.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Vorher buchen",
+      "quelle": "hamburg-tourism.de",
+      "lage": [53.54621, 10.00168]
+    }
+  ]
 }

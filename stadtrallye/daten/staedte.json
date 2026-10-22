@@ -4,8 +4,9 @@
     "name": "Berlin",
     "land": "Berlin",
     "kurz": "Mauer, Museen, Currywurst und Kiez – Geschichte an jeder Ecke.",
-    "orte": 32,
-    "zentrum": [52.51639, 13.39667],
+    "orte": 44,
+    "tipps": 30,
+    "zentrum": [52.51639, 13.39694],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
@@ -13,9 +14,10 @@
     "name": "Bremen",
     "land": "Bremen",
     "kurz": "Stadtmusikanten, Roland und Schnoor – Hansestadt mit Märchenzauber.",
-    "orte": 20,
+    "orte": 22,
+    "tipps": 7,
     "zentrum": [53.07611, 8.80906],
-    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "kinder", "natur"]
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
     "id": "dorsten",
@@ -32,8 +34,9 @@
     "name": "Düsseldorf",
     "land": "Nordrhein-Westfalen",
     "kurz": "Altbier, Kö und Rheinufer – die längste Theke der Welt wartet.",
-    "orte": 27,
-    "zentrum": [51.22612, 6.77258],
+    "orte": 33,
+    "tipps": 11,
+    "zentrum": [51.22612, 6.77353],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
@@ -41,9 +44,10 @@
     "name": "Frankfurt am Main",
     "land": "Hessen",
     "kurz": "Skyline, Römer, Ebbelwoi und Grie Soß – Mainhattan von alt bis neu.",
-    "orte": 24,
-    "zentrum": [50.11111, 8.68086],
-    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "kinder", "natur"]
+    "orte": 29,
+    "tipps": 13,
+    "zentrum": [50.111, 8.68167],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
     "id": "haltern",
@@ -60,8 +64,9 @@
     "name": "Hamburg",
     "land": "Hamburg",
     "kurz": "Hafen, Elbphilharmonie, Speicherstadt und Kiez – Moin aus dem Norden.",
-    "orte": 28,
-    "zentrum": [53.54861, 9.97889],
+    "orte": 39,
+    "tipps": 23,
+    "zentrum": [53.54861, 9.97583],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
@@ -69,8 +74,9 @@
     "name": "Köln",
     "land": "Nordrhein-Westfalen",
     "kurz": "Dom, Rhein, Kölsch und Karneval – die Stadt mit dem größten Herz am Strom.",
-    "orte": 28,
-    "zentrum": [50.93928, 6.96053],
+    "orte": 34,
+    "tipps": 21,
+    "zentrum": [50.93928, 6.96044],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
@@ -78,8 +84,9 @@
     "name": "München",
     "land": "Bayern",
     "kurz": "Glockenspiel, Biergarten und Surfer im Stadtpark – Weltstadt mit Herz.",
-    "orte": 28,
-    "zentrum": [48.13827, 11.57619],
+    "orte": 35,
+    "tipps": 18,
+    "zentrum": [48.13827, 11.576],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
@@ -108,8 +115,9 @@
     "name": "Stuttgart",
     "land": "Baden-Württemberg",
     "kurz": "Stäffele, Weinberge und Autoerfinder – die Stadt im Kessel.",
-    "orte": 22,
-    "zentrum": [48.77827, 9.18194],
+    "orte": 27,
+    "tipps": 14,
+    "zentrum": [48.77806, 9.17944],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {

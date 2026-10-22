@@ -310,7 +310,230 @@
         { "typ": "suchen", "text": "Findet das Stuttgarter Wappentier irgendwo am Platz." }
       ],
       "lage": [48.77519, 9.17852]
+    },
+    {
+      "id": "weissenhof",
+      "name": "Weissenhofsiedlung",
+      "wiki": "Weißenhofsiedlung",
+      "themen": ["historie", "besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "1927 bauten 17 Architekten unter der Leitung von Mies van der Rohe hier eine Mustersiedlung mit 21 Häusern: flache Dächer, weiße Wände, große Fenster. Damals galt das als revolutionär – heute gehören zwei Häuser von Le Corbusier zum UNESCO-Welterbe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer leitete den Bau der Weissenhofsiedlung?", "richtig": "Ludwig Mies van der Rohe", "falsch": ["Walter Gropius allein", "Friedensreich Hundertwasser"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist typisch für die Häuser hier?", "richtig": "Flache Dächer und weiße Wände", "falsch": ["Spitze Strohdächer", "Bunte Türmchen"] },
+        { "typ": "schaetzen", "frage": "Wie viele Häuser umfasste die Mustersiedlung 1927?", "wert": 21, "einheit": "Häuser" },
+        { "typ": "foto", "text": "Fotografiert ein Haus so, dass es wie ein Schiff aussieht – mit Reling und Deck." }
+      ],
+      "lage": [48.80056, 9.1775]
+    },
+    {
+      "id": "birkenkopf",
+      "name": "Birkenkopf („Monte Scherbelino“)",
+      "wiki": "Birkenkopf",
+      "themen": ["historie", "natur", "spass"],
+      "prio": 2,
+      "info": "Der Berg wuchs nach dem Zweiten Weltkrieg um rund 40 Meter: Hier wurden über 1,5 Millionen Kubikmeter Trümmerschutt aus der zerbombten Stadt abgeladen. Oben ragen Mauerreste aus dem Boden – und der Blick reicht über ganz Stuttgart.",
+      "fakt": "Mit gut 509 Metern ist der Birkenkopf der höchste Punkt im inneren Stadtgebiet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum nennen die Stuttgarter den Birkenkopf „Monte Scherbelino“?", "richtig": "Er wurde mit Trümmerschutt aus dem Krieg aufgeschüttet", "falsch": ["Hier stand eine Glasfabrik", "Er ist ein erloschener Vulkan"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was liegt oben auf dem Berg zwischen den Bäumen?", "richtig": "Steine und Mauerreste aus alten Häusern", "falsch": ["Ein Schwimmbad", "Ein Flughafen"] },
+        { "typ": "schaetzen", "frage": "Um wie viele Meter wuchs der Berg durch den Schutt?", "wert": 40, "einheit": "m" },
+        { "typ": "suchen", "text": "Sucht oben ein Steinstück, auf dem man noch Verzierungen eines alten Hauses erkennt (nur anschauen, nicht mitnehmen)." }
+      ],
+      "lage": [48.76528, 9.13167]
+    },
+    {
+      "id": "feuersee",
+      "name": "Feuersee & Johanneskirche",
+      "wiki": "Johanneskirche (Stuttgart-West)",
+      "themen": ["natur", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Johanneskirche steht mit ihrem Chor direkt am Feuersee auf einer künstlichen Halbinsel – es sieht aus, als würde sie im Wasser stehen. Der See war früher ein Löschwasser-Vorrat für die Stadt, daher der Name.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo steht die Johanneskirche?", "richtig": "Direkt am Wasser auf einer Halbinsel", "falsch": ["Auf einem Berg", "Unter der Erde"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür diente der Feuersee früher?", "richtig": "Als Löschwasser-Vorrat", "falsch": ["Als Badesee für den König", "Als Fischteich der Mönche"] },
+        { "typ": "foto", "text": "Fotografiert die Kirche mit ihrem Spiegelbild im See." }
+      ],
+      "lage": [48.77335, 9.16462]
+    },
+    {
+      "id": "zacke",
+      "name": "Zahnradbahn „Zacke“ am Marienplatz",
+      "wiki": "Zahnradbahn Stuttgart",
+      "suche": "Marienplatz, Stuttgart",
+      "themen": ["besonderheiten", "spass", "kinder"],
+      "prio": 2,
+      "info": "Seit 1884 klettert die Zahnradbahn vom Marienplatz hinauf nach Degerloch. Die „Zacke“ ist eine von nur vier Zahnradbahnen in Deutschland – und die einzige, die als ganz normale Linie im Nahverkehr fährt. Fahrräder fahren auf einem Vorstellwagen mit.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie nennen die Stuttgarter ihre Zahnradbahn?", "richtig": "Zacke", "falsch": ["Spätzle-Express", "Bergziege"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere an der Stuttgarter Zahnradbahn?", "richtig": "Sie fährt als normale Nahverkehrslinie", "falsch": ["Sie fährt nur an Weihnachten", "Sie wird von Pferden gezogen"] },
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr fährt die Zacke?", "wert": 1884, "einheit": "" },
+        { "typ": "bewegen", "text": "Wettrennen gegen die Zacke? Lieber nicht – aber macht zehn Kniebeugen, während ihr auf sie wartet." }
+      ],
+      "lage": [48.76421, 9.16824]
+    },
+    {
+      "id": "planetarium",
+      "name": "Carl-Zeiss-Planetarium",
+      "wiki": "Carl-Zeiss-Planetarium Stuttgart",
+      "themen": ["kinder", "besonderheiten"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Die Pyramide im Mittleren Schlossgarten ist das Planetarium. Unter der Kuppel wird der Sternenhimmel an die Decke projiziert – mit Shows für Kinder und Erwachsene.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was sieht man im Planetarium an der Decke?", "richtig": "Den Sternenhimmel", "falsch": ["Einen Kinofilm über Autos", "Ein Aquarium"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Form hat das Dach des Stuttgarter Planetariums?", "richtig": "Die einer Pyramide", "falsch": ["Die einer Kugel", "Die eines Würfels"] },
+        { "typ": "mission", "text": "Wer kann die meisten Sternbilder aufzählen? Jedes richtige gibt einen Punkt." }
+      ],
+      "lage": [48.78333, 9.18694]
     }
   ],
-  "zentrum": [48.77827, 9.18194]
+  "zentrum": [48.77806, 9.17944],
+  "tipps": [
+    {
+      "id": "udo_snack",
+      "name": "Udo Snack",
+      "art": "imbiss",
+      "lage": [48.77617, 9.17414],
+      "info": "Kult-Imbiss für Burger in der Calwer Straße.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_kaiserbau",
+      "name": "Café Kaiserbau",
+      "art": "cafe",
+      "lage": [48.76466, 9.16871],
+      "info": "Café am Marienplatz, direkt an der Talstation der Zacke.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_venedig",
+      "name": "Eiscafé Venedig",
+      "art": "eis",
+      "lage": [48.77445, 9.1745],
+      "info": "Eiscafé mitten auf der Königstraße.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_la_luna",
+      "name": "Eiscafé La Luna",
+      "art": "eis",
+      "lage": [48.76397, 9.16851],
+      "info": "Eiscafé am Marienplatz im Stuttgarter Süden.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "zur_kiste",
+      "name": "Weinstube Zur Kiste",
+      "art": "restaurant",
+      "was": "Weinstube",
+      "icon": "🍷",
+      "lage": [48.77512, 9.183],
+      "info": "Traditionsweinstube im Bohnenviertel – Maultaschen, Linsen mit Spätzle und Trollinger.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "weinstube_froehlich",
+      "name": "Weinstube Fröhlich",
+      "art": "restaurant",
+      "was": "Weinstube",
+      "icon": "🍷",
+      "lage": [48.77218, 9.17981],
+      "info": "Schwäbische Weinstube in der Leonhardstraße.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kachelofen",
+      "name": "Weinstube Kachelofen",
+      "art": "restaurant",
+      "was": "Weinstube",
+      "icon": "🍷",
+      "lage": [48.77349, 9.1775],
+      "info": "Gemütliche Weinstube mit schwäbischer Küche nahe dem Rathaus.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kloesterle",
+      "name": "Weinstube Klösterle",
+      "art": "restaurant",
+      "was": "Weinstube",
+      "icon": "🍷",
+      "lage": [48.80545, 9.2128],
+      "info": "Weinstube in einem uralten Fachwerkhaus in der Altstadt von Bad Cannstatt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schoenbuch",
+      "name": "Brauhaus Schönbuch",
+      "art": "brauhaus",
+      "lage": [48.78028, 9.17798],
+      "info": "Brauhaus am Schlossplatz mit schwäbischer Küche.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "sophies",
+      "name": "Sophie's Brauhaus",
+      "art": "brauhaus",
+      "lage": [48.77288, 9.17242],
+      "info": "Hausbrauerei an der Marienstraße.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "biergarten_schlossgarten",
+      "name": "Biergarten im Schlossgarten",
+      "art": "biergarten",
+      "lage": [48.78448, 9.1861],
+      "info": "Großer Biergarten im Mittleren Schlossgarten, nah am Planetarium.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Bei schönem Wetter",
+      "quelle": "OSM"
+    },
+    {
+      "id": "biergarten_killesberg",
+      "name": "Biergarten Killesberg",
+      "art": "biergarten",
+      "lage": [48.80469, 9.17411],
+      "info": "Biergarten am Höhenpark Killesberg.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Bei schönem Wetter",
+      "quelle": "OSM"
+    },
+    {
+      "id": "palast_republik",
+      "name": "Palast der Republik",
+      "art": "bar",
+      "ab": 18,
+      "lage": [48.7805, 9.17726],
+      "info": "Kultkneipe in einem ehemaligen Toilettenhäuschen – getrunken wird draußen auf der Straße.",
+      "preis": 1,
+      "quelle": "OSM; Stadtmagazine"
+    },
+    {
+      "id": "seilbahn_stuttgart",
+      "name": "Standseilbahn zum Waldfriedhof",
+      "art": "aktion",
+      "was": "Seilbahn",
+      "icon": "🚡",
+      "suche": "Südheimer Platz, Stuttgart",
+      "info": "Historische Standseilbahn von 1929 – fährt mit normalem Nahverkehrsticket.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "Wikipedia",
+      "lage": [48.75651, 9.14469]
+    }
+  ]
 }

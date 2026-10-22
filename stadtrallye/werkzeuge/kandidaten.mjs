@@ -9,7 +9,7 @@
 //                             Sprachversionen. Eine gute, neutrale Annäherung an „Top-Sehenswürdigkeit“.
 //   Wikivoyage (CC BY-SA)   – Einträge (vCards) aus den Abschnitten Sehenswürdigkeiten, Aktivitäten,
 //                             Küche, Nachtleben. Nur Name, Art und Lage übernehmen, Texte selbst schreiben.
-// Bereits vorhandene Stationen (gleicher Wikipedia-Titel, gleicher Name oder < 60 m entfernt) werden markiert.
+// Bereits vorhandene Stationen und Tipps (gleicher Wikipedia-Titel, gleicher Name oder < 60 m entfernt) werden markiert.
 
 import { readFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
@@ -94,7 +94,7 @@ async function wikivoyage() {
   return erg.filter((e) => e.name)
 }
 
-const vorhanden = (k) => stadt.orte.find((o) => (k.wiki && o.wiki === k.wiki) || (k.lage && o.lage && abstandM(k.lage, o.lage) < 60) || o.name.toLowerCase() === k.name.toLowerCase())
+const vorhanden = (k) => [...stadt.orte, ...(stadt.tipps || [])].find((o) => (k.wiki && o.wiki === k.wiki) || (k.lage && o.lage && abstandM(k.lage, o.lage) < 60) || o.name.toLowerCase() === k.name.toLowerCase())
 
 const [wd, wv] = await Promise.all([wikidata().catch((e) => { console.error('Wikidata:', e.message); return [] }), wikivoyage()])
 const alle = [...wd, ...wv].map((k) => ({ ...k, abstand: k.lage ? abstandM(stadt.zentrum, k.lage) : null, schon: vorhanden(k) }))

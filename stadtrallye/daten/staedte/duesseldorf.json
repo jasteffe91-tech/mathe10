@@ -390,7 +390,215 @@
         { "typ": "bewegen", "text": "Baum-Umarmung: Wie viele Kinder braucht ihr, um den dicksten Baum zu umfassen?" }
       ],
       "lage": [51.20698, 6.79882]
+    },
+    {
+      "id": "schneider_wibbel",
+      "name": "Schneider-Wibbel-Gasse",
+      "wiki": "Schneider Wibbel",
+      "suche": "Schneider-Wibbel-Gasse, Düsseldorf",
+      "themen": ["besonderheiten", "kinder", "historie"],
+      "prio": 2,
+      "info": "Schneider Wibbel ist die Hauptfigur eines Theaterstücks von 1913: Ein Schneider, der bei seiner eigenen Beerdigung zuschaut. In der Gasse erinnert ein Glockenspiel an ihn – zu bestimmten Uhrzeiten erscheint die Figur im Schneidersitz und dirigiert mit der Nadel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was benutzt Schneider Wibbel im Glockenspiel als Taktstock?", "richtig": "Eine Nähnadel", "falsch": ["Einen Kochlöffel", "Eine Schere"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was erlebt Schneider Wibbel im Theaterstück?", "richtig": "Er schaut bei seiner eigenen Beerdigung zu", "falsch": ["Er wird Bürgermeister von Düsseldorf", "Er näht den Mantel für Napoleon"] },
+        { "typ": "suchen", "text": "Unter der Uhr stehen die Spielzeiten des Glockenspiels. Welche ist die nächste?" },
+        { "typ": "foto", "text": "Alle sitzen im Schneidersitz und „dirigieren“ – wie Schneider Wibbel." }
+      ],
+      "lage": [51.22529, 6.77353]
+    },
+    {
+      "id": "ratinger_strasse",
+      "name": "Ratinger Straße & Ratinger Hof",
+      "wiki": "Ratinger Hof",
+      "suche": "Ratinger Straße 10, Düsseldorf",
+      "themen": ["kneipen", "historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Ratinger Straße ist die Kneipenstraße der Einheimischen. Im Ratinger Hof traf sich ab Ende der 1970er-Jahre die Underground-Szene – der Club gilt als Geburtsort des deutschen Punks. Das alte Gebäude wurde 1989 abgerissen, der Name lebt im Neubau weiter.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Als Geburtsort welcher Musikrichtung gilt der Ratinger Hof?", "richtig": "Des deutschen Punks", "falsch": ["Des Schlagers", "Des Hip-Hop"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Bier trinkt man in Düsseldorfer Kneipen traditionell?", "richtig": "Altbier", "falsch": ["Kölsch", "Weißbier"] },
+        { "typ": "mission", "text": "Findet jemanden, der eine Düsseldorfer Band nennen kann – und singt gemeinsam den Refrain an." }
+      ],
+      "lage": [51.2294, 6.77428]
+    },
+    {
+      "id": "schloss_benrath",
+      "name": "Schloss Benrath",
+      "wiki": "Schloss Benrath",
+      "themen": ["highlights", "historie", "natur"],
+      "prio": 2,
+      "kosten": "Schloss mit Eintritt, Park frei",
+      "info": "Das rosafarbene Lustschloss ließ Kurfürst Karl Theodor von der Pfalz 1755 bis 1771 bauen. Von außen wirkt es klein – doch hinter den Fassaden verstecken sich in vier Geschossen 80 Räume, zwei Lichthöfe und sieben Treppenhäuser. Dahinter liegt ein weitläufiger Park.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist der Überraschungseffekt von Schloss Benrath?", "richtig": "Es wirkt klein, hat aber 80 Räume", "falsch": ["Es steht auf einer Insel im Rhein", "Es hat keine Fenster"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Für wen wurde das Schloss gebaut?", "richtig": "Für einen Kurfürsten", "falsch": ["Für einen Piraten", "Für einen Fußballverein"] },
+        { "typ": "schaetzen", "frage": "Wie viele Räume verstecken sich im Schloss?", "wert": 80, "einheit": "Räume" },
+        { "typ": "foto", "text": "Ein höfisches Spiegelbild: Fotografiert das Schloss, wie es sich im Weiher spiegelt." }
+      ],
+      "lage": [51.16083, 6.87]
+    },
+    {
+      "id": "kaiserpfalz",
+      "name": "Kaiserpfalz Kaiserswerth",
+      "wiki": "Kaiserpfalz Kaiserswerth",
+      "themen": ["historie", "natur", "kinder"],
+      "prio": 2,
+      "info": "Am Rheinufer stehen die mächtigen Mauerreste einer Kaiserpfalz. Begonnen hat alles um 700 mit einem Kloster auf einer Rheininsel. Der Name verrät es: „Werth“ ist ein altes Wort für Insel – Kaiserswerth heißt also Kaiserinsel.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet „Werth“ im Namen Kaiserswerth?", "richtig": "Insel", "falsch": ["Burg", "Wert"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat hier vor langer Zeit gewohnt, wenn er auf Reisen war?", "richtig": "Der Kaiser", "falsch": ["Ein Drache", "Der Weihnachtsmann"] },
+        { "typ": "bewegen", "text": "Ritterspiel: Wer kann am längsten auf einem Bein stehen wie eine Wache auf der Mauer?" },
+        { "typ": "foto", "text": "Burg-Selfie: Alle schauen grimmig wie Wachen zwischen den alten Mauern." }
+      ],
+      "lage": [51.29956, 6.73139]
+    },
+    {
+      "id": "wildpark_grafenberg",
+      "name": "Wildpark Grafenberg",
+      "wiki": "Wildpark im Grafenberger Wald",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt frei",
+      "info": "Einer der ältesten Wildparks Deutschlands – mit rund 100 heimischen Tieren wie Rothirschen, Damwild, Mufflons und Wildschweinen. Der Park ist 36 Hektar groß, umgeben von einem über 200 Jahre alten Buchenwald, und kostet keinen Eintritt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Tiere leben im Wildpark?", "richtig": "Hirsche und Wildschweine", "falsch": ["Löwen und Zebras", "Pinguine und Robben"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere an den Tieren im Wildpark?", "richtig": "Es sind nur heimische Tierarten", "falsch": ["Es sind nur Tiere aus Afrika", "Es sind nur Haustiere"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist der Wildpark?", "wert": 36, "einheit": "Hektar" },
+        { "typ": "suchen", "text": "Wer entdeckt zuerst ein Wildschwein – und wer einen Hirsch mit Geweih?" }
+      ],
+      "lage": [51.24909, 6.8427]
+    },
+    {
+      "id": "kunstakademie",
+      "name": "Kunstakademie",
+      "wiki": "Kunstakademie Düsseldorf",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 1,
+      "info": "Eine der berühmtesten Kunsthochschulen der Welt. Hier lehrten Joseph Beuys, Gerhard Richter und Günther Uecker. Die Wurzeln reichen bis um 1762 zurück, zur Zeichenschule von Lambert Krahe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher berühmte Künstler lehrte an der Kunstakademie?", "richtig": "Joseph Beuys", "falsch": ["Pablo Picasso", "Andy Warhol"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was lernt man an einer Kunstakademie?", "richtig": "Malen, Bildhauern und Kunst machen", "falsch": ["Autofahren", "Kochen"] },
+        { "typ": "mission", "text": "Kunst in zwei Minuten: Baut aus Dingen, die ihr dabeihabt, eine Skulptur und gebt ihr einen Namen." }
+      ],
+      "lage": [51.23054, 6.77365]
     }
   ],
-  "zentrum": [51.22612, 6.77258]
+  "zentrum": [51.22612, 6.77353],
+  "tipps": [
+    {
+      "id": "heinemann",
+      "name": "Café Heinemann",
+      "art": "cafe",
+      "lage": [51.22472, 6.78098],
+      "info": "Traditionskonditorei nahe der Kö, bekannt für Torten und Pralinen.",
+      "preis": 2,
+      "quelle": "Singapore Airlines Insider Guide; OSM"
+    },
+    {
+      "id": "curry_hammer",
+      "name": "Curry",
+      "art": "imbiss",
+      "lage": [51.21573, 6.75844],
+      "info": "Currywurst-Imbiss am MedienHafen.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "ohme_jupp",
+      "name": "Ohme Jupp",
+      "art": "restaurant",
+      "lage": [51.2293, 6.77491],
+      "info": "Café-Restaurant auf der Ratinger Straße, tagsüber Frühstück, abends voll.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kuerzer",
+      "name": "Brauerei Kürzer",
+      "art": "brauhaus",
+      "lage": [51.22699, 6.77335],
+      "info": "Junge Hausbrauerei in der Altstadt – das moderne Gegenstück zu den alten Altbier-Häusern.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Time Out; AAA"
+    },
+    {
+      "id": "goldener_kessel",
+      "name": "Im Goldenen Kessel",
+      "art": "brauhaus",
+      "lage": [51.22638, 6.77506],
+      "info": "Altstadt-Ausschank der Brauerei Schumacher auf der Bolkerstraße.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "visitduesseldorf; OSM"
+    },
+    {
+      "id": "kd_duesseldorf",
+      "name": "Rheinrundfahrt ab Burgplatz",
+      "art": "aktion",
+      "was": "Schifffahrt",
+      "icon": "⛴️",
+      "suche": "Burgplatz, Düsseldorf",
+      "info": "Panoramafahrt auf dem Rhein vorbei an Altstadt, Rheinturm und MedienHafen.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Saison und Abfahrtszeiten prüfen",
+      "quelle": "visitduesseldorf",
+      "lage": [51.22703, 6.77137]
+    },
+    {
+      "id": "glowing_rooms",
+      "name": "Glowing Rooms",
+      "art": "aktion",
+      "was": "Schwarzlicht-Minigolf",
+      "icon": "⛳",
+      "suche": "Kettwiger Straße 6, Düsseldorf",
+      "info": "Minigolf unter Schwarzlicht in Flingern – bei jedem Wetter.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Vorher reservieren",
+      "quelle": "kindaling",
+      "lage": [51.22134, 6.80898]
+    },
+    {
+      "id": "jump_galaxy",
+      "name": "Jump Galaxy",
+      "art": "aktion",
+      "was": "Trampolinhalle",
+      "icon": "🤸",
+      "lage": [51.24084, 6.71586],
+      "info": "Trampolinhalle mit 4.500 Quadratmetern in Heerdt.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "freizeitinsider"
+    },
+    {
+      "id": "pia_eis",
+      "name": "Pia Eis",
+      "art": "eis",
+      "lage": [51.22471, 6.77546],
+      "info": "Beliebte Eisdiele in der Carlstadt, wenige Schritte von der Altstadt – im Sommer mit Schlange.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_schloss_benrath",
+      "name": "Eiscafé am Schloss",
+      "art": "eis",
+      "lage": [51.16346, 6.87127],
+      "info": "Eiscafé gegenüber von Schloss Benrath.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "lido_kaiserswerth",
+      "name": "Lido Eiscafé",
+      "art": "eis",
+      "lage": [51.30164, 6.73426],
+      "info": "Eiscafé am Kaiserswerther Markt, nah an der Kaiserpfalz.",
+      "preis": 1,
+      "quelle": "OSM"
+    }
+  ]
 }

@@ -456,7 +456,513 @@
         { "typ": "quiz", "niveau": "erw", "frage": "Was trägt die große Soldatenfigur auf dem Arm?", "richtig": "Ein Kind", "falsch": ["Eine Fahne", "Ein Gewehr"] }
       ],
       "lage": [52.48611, 13.47167]
+    },
+    {
+      "id": "alexanderplatz",
+      "name": "Alexanderplatz & Weltzeituhr",
+      "wiki": "Weltzeituhr (Alexanderplatz)",
+      "themen": ["highlights", "besonderheiten", "historie"],
+      "prio": 3,
+      "info": "Der „Alex“ trägt seit 1805 den Namen des russischen Zaren Alexander I. Die zehn Meter hohe Weltzeituhr von 1969 zeigt die Uhrzeit rund um den Globus und ist bis heute der Berliner Treffpunkt schlechthin.",
+      "fakt": "Auf der Rotunde der Weltzeituhr stehen die Namen von 146 Orten. Seit 2015 steht sie unter Denkmalschutz.",
+      "quelle": "Wikipedia; visitBerlin",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie nennen die Berliner den Alexanderplatz kurz?", "richtig": "Alex", "falsch": ["Xandi", "Platzi"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wem ist der Alexanderplatz benannt?", "richtig": "Nach Zar Alexander I. von Russland", "falsch": ["Nach Alexander dem Großen", "Nach Alexander von Humboldt"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist die Weltzeituhr?", "wert": 10, "einheit": "m" },
+        { "typ": "suchen", "text": "Sucht auf der Weltzeituhr eine Stadt, in der jemand von euch schon einmal war. Wie spät ist es dort gerade?" },
+        { "typ": "foto", "text": "Gruppenfoto unter der Weltzeituhr – jeder zeigt in eine andere Himmelsrichtung." }
+      ],
+      "lage": [52.52117, 13.41331]
+    },
+    {
+      "id": "neptunbrunnen",
+      "name": "Neptunbrunnen",
+      "wiki": "Neptunbrunnen (Berlin)",
+      "themen": ["kinder", "besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Reinhold Begas schuf den Brunnen von 1888 bis 1891 als Geschenk Berlins an Kaiser Wilhelm II. Oben thront der Meeresgott Neptun, am Beckenrand sitzen vier Frauen – sie stehen für die Flüsse Rhein, Elbe, Oder und Weichsel.",
+      "fakt": "Ursprünglich stand der Brunnen vor dem Berliner Schloss. Nach dessen Abriss wurde er abgebaut und erst 1969 hier wieder aufgestellt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Gott sitzt oben auf dem Brunnen?", "richtig": "Neptun, der Gott des Meeres", "falsch": ["Zeus, der Göttervater", "Thor, der Donnergott"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür stehen die vier Frauenfiguren am Beckenrand?", "richtig": "Für die Flüsse Rhein, Elbe, Oder und Weichsel", "falsch": ["Für die vier Jahreszeiten", "Für vier preußische Königinnen"] },
+        { "typ": "suchen", "text": "Am Brunnen spucken Tiere Wasser. Findet ein Krokodil, einen Seehund, eine Schildkröte und eine Schlange!" },
+        { "typ": "foto", "text": "Macht Neptun nach: Einer posiert mit erhobenem „Dreizack“, die anderen sind spritzende Meerestiere." }
+      ],
+      "lage": [52.51972, 13.40667]
+    },
+    {
+      "id": "rotes_rathaus",
+      "name": "Rotes Rathaus",
+      "wiki": "Rotes Rathaus",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Das Berliner Rathaus entstand von 1861 bis 1871. Hier regieren der Regierende Bürgermeister und der Senat. Rot ist das Rathaus übrigens nicht aus politischen Gründen – der Name kommt von der Fassade aus roten Ziegeln.",
+      "fakt": "Rund um das Gebäude läuft auf Höhe des ersten Stocks die „Steinerne Chronik“: 36 Terrakotta-Bilder aus der Geschichte Berlins und Brandenburgs.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat das Rote Rathaus seinen Namen?", "richtig": "Von seiner roten Ziegelfassade", "falsch": ["Von einer roten Fahne auf dem Turm", "Von der Partei, die es bauen ließ"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer arbeitet im Roten Rathaus?", "richtig": "Der Bürgermeister von Berlin", "falsch": ["Der Bundeskanzler", "Der Präsident der USA"] },
+        { "typ": "schaetzen", "frage": "Aus wie vielen Bildern besteht die „Steinerne Chronik“ am Rathaus?", "wert": 36, "einheit": "Bilder" },
+        { "typ": "suchen", "text": "Sucht euch ein Bild der „Steinernen Chronik“ aus und erklärt den anderen, was darauf passiert." }
+      ],
+      "lage": [52.51861, 13.40833]
+    },
+    {
+      "id": "humboldt_forum",
+      "name": "Humboldt Forum im Berliner Schloss",
+      "wiki": "Humboldt Forum",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "info": "Jahrhundertelang stand hier das Berliner Schloss. Die DDR ließ die Kriegsruine 1950 sprengen und baute später den Palast der Republik. Heute steht wieder ein Schloss mit barocken Fassaden – innen zeigen Museen Kulturen aus aller Welt.",
+      "fakt": "Wegen der Corona-Pandemie öffnete das Humboldt Forum im Dezember 2020 zuerst nur digital. 2024 kamen rund 3,3 Millionen Besucher.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was stand hier, bevor das Schloss neu aufgebaut wurde?", "richtig": "Der Palast der Republik der DDR", "falsch": ["Ein Fußballstadion", "Der erste Berliner Hauptbahnhof"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man heute im Schloss besuchen?", "richtig": "Museen mit Schätzen aus aller Welt", "falsch": ["Ein Hallenbad", "Einen Zoo"] },
+        { "typ": "schaetzen", "frage": "Wie viele Millionen Menschen besuchten das Humboldt Forum im Jahr 2024?", "wert": 3.3, "einheit": "Mio." },
+        { "typ": "foto", "text": "Spielt König und Hofstaat vor dem Schloss – mit tiefer Verbeugung!" }
+      ],
+      "lage": [52.5175, 13.40278]
+    },
+    {
+      "id": "potsdamer_platz",
+      "name": "Potsdamer Platz & Ampelturm",
+      "wiki": "Verkehrsturm am Potsdamer Platz",
+      "themen": ["besonderheiten", "highlights", "historie"],
+      "prio": 2,
+      "info": "In den 1920er-Jahren war der Potsdamer Platz der verkehrsreichste Platz Europas. Deshalb bekam er 1924 Deutschlands erste Verkehrsampel – einen fünfeckigen Turm, in dem ein Polizist die Lichter schaltete. Ein Nachbau steht heute wieder am Platz.",
+      "fakt": "Nach dem Mauerbau war der Platz jahrzehntelang Brachland. Seit den 1990er-Jahren stehen hier Hochhäuser wie der Kollhoff-Tower.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gab es hier 1924 zum ersten Mal in Deutschland?", "richtig": "Eine Verkehrsampel", "falsch": ["Ein Kino", "Eine Rolltreppe"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer schaltete die Lichter im Ampelturm?", "richtig": "Ein Polizist in der Kanzel oben im Turm", "falsch": ["Eine Zeitschaltuhr", "Der Fahrer der ersten Straßenbahn"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr ging die erste Ampel Deutschlands hier in Betrieb?", "wert": 1924, "einheit": "" },
+        { "typ": "foto", "text": "Ampel-Foto: Einer steht stramm wie das rote, einer läuft los wie das grüne Männchen." }
+      ],
+      "lage": [52.50944, 13.37667]
+    },
+    {
+      "id": "topographie",
+      "name": "Topographie des Terrors",
+      "wiki": "Topographie des Terrors",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "kosten": "Eintritt frei",
+      "info": "Auf diesem Gelände standen im Nationalsozialismus die Zentralen von Gestapo und SS. Eine Ausstellung und ein Rundgang zeigen, wie der Terror organisiert wurde. Am Rand steht noch ein langes Stück der Berliner Mauer.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Behörden hatten auf diesem Gelände ihre Zentralen?", "richtig": "Gestapo und SS", "falsch": ["Reichsbank und Reichspost", "Das Reichsverkehrsministerium"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was steht am Rand des Geländes bis heute?", "richtig": "Ein Stück der Berliner Mauer", "falsch": ["Ein alter Panzer", "Ein Flugzeug"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr eröffnete das heutige Dokumentationszentrum?", "wert": 2010, "einheit": "" }
+      ],
+      "lage": [52.50694, 13.38278]
+    },
+    {
+      "id": "ddr_museum",
+      "name": "DDR Museum",
+      "wiki": "DDR-Museum Berlin",
+      "themen": ["kinder", "historie", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Ein Museum zum Anfassen: Hier setzt ihr euch in einen Trabant, stöbert in den Schränken einer Plattenbauwohnung und erfahrt, wie der Alltag in der DDR aussah – direkt an der Spree gegenüber dem Dom.",
+      "fakt": "Im Jahr 2015 kamen 584.000 Besucher – damit gehört es zu den meistbesuchten Museen Berlins.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie hieß das bekannteste Auto der DDR?", "richtig": "Trabant", "falsch": ["Käfer", "Golf"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist im DDR Museum anders als in vielen anderen Museen?", "richtig": "Man darf die meisten Ausstellungsstücke anfassen", "falsch": ["Es ist nur nachts geöffnet", "Man darf nur flüstern"] },
+        { "typ": "mission", "text": "Fragt euch gegenseitig: Was hättet ihr im DDR-Alltag am meisten vermisst – und warum?" }
+      ],
+      "lage": [52.51893, 13.40226]
+    },
+    {
+      "id": "kulturbrauerei",
+      "name": "Kulturbrauerei",
+      "wiki": "Kulturbrauerei",
+      "themen": ["kneipen", "historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Wo heute Kinos, Theater, Clubs und Kneipen in den Backsteinhöfen liegen, wurde früher Bier gebraut – für die Schultheiss-Brauerei. Das 25.000 Quadratmeter große Ensemble steht seit 1974 unter Denkmalschutz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Für welche Brauerei wurde hier früher gebraut?", "richtig": "Schultheiss", "falsch": ["Beck's", "Paulaner"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus sind die Gebäude der Kulturbrauerei gebaut?", "richtig": "Aus roten und gelben Backsteinen", "falsch": ["Aus Holz", "Aus Glas"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist das Gelände der Kulturbrauerei?", "wert": 25000, "einheit": "m²" },
+        { "typ": "mission", "text": "Bestellt ein Getränk aus Berlin – Berliner Weiße oder Fassbrause zählt auch – und stoßt auf die alten Brauer an." }
+      ],
+      "lage": [52.53889, 13.41361]
+    },
+    {
+      "id": "molecule_man",
+      "name": "Molecule Man in der Spree",
+      "wiki": "Molecule Man",
+      "suche": "Molecule Man, Berlin",
+      "themen": ["besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Drei 30 Meter hohe Figuren aus gelochtem Aluminium stehen mitten in der Spree und treffen sich in der Mitte. Der US-Künstler Jonathan Borofsky stellte sie 1999 dort auf, wo die Bezirke Friedrichshain, Kreuzberg und Treptow aufeinandertrafen – Ost und West.",
+      "fakt": "Das Kunstwerk wiegt etwa 45 Tonnen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Riesen stehen hier im Wasser?", "richtig": "Drei", "falsch": ["Zwei", "Fünf"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum steht die Skulptur genau hier?", "richtig": "Hier trafen drei Bezirke aus Ost und West zusammen", "falsch": ["Hier entspringt die Spree", "Hier lag der erste Berliner Hafen"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Molecule Man?", "wert": 30, "einheit": "m" },
+        { "typ": "foto", "text": "Stellt die Skulptur nach: Drei von euch umarmen sich so, dass sich alle Arme in der Mitte treffen." }
+      ],
+      "lage": [52.49698, 13.45895]
+    },
+    {
+      "id": "schloss_charlottenburg",
+      "name": "Schloss Charlottenburg",
+      "wiki": "Schloss Charlottenburg",
+      "themen": ["highlights", "historie", "natur"],
+      "prio": 2,
+      "kosten": "Schloss mit Eintritt, Park frei",
+      "info": "Von 1701 bis 1888 verbrachten die preußischen Könige hier den Sommer. Gebaut wurde das Schloss für Kurfürstin Sophie Charlotte, nach ihr ist es benannt. Hinter dem Schloss liegt ein großer Park an der Spree.",
+      "fakt": "Im Zweiten Weltkrieg wurde das Schloss schwer beschädigt und danach originalgetreu wieder aufgebaut.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Nach wem ist das Schloss benannt?", "richtig": "Nach Sophie Charlotte, der Frau des Kurfürsten", "falsch": ["Nach der Stadt Charlotte in den USA", "Nach einer Prinzessin aus England"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wozu nutzten die preußischen Könige das Schloss?", "richtig": "Als Sommerresidenz", "falsch": ["Als Gefängnis", "Als Winterquartier für die Armee"] },
+        { "typ": "foto", "text": "Hofknicks und Diener vor dem Schloss – das königlichste Foto gewinnt." }
+      ],
+      "lage": [52.52111, 13.29583]
+    },
+    {
+      "id": "currywurst_tafel",
+      "name": "Gedenktafel für die Currywurst",
+      "wiki": "Herta Heuwer",
+      "suche": "Kantstraße 101, Berlin",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 1,
+      "info": "An dieser Ecke betrieb Herta Heuwer ab 1949 einen Imbiss. Ihr wird die Erfindung der Currywurst zugeschrieben. Zu ihrem 90. Geburtstag wurde 2003 hier eine Gedenktafel enthüllt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer gilt als Erfinderin der Currywurst?", "richtig": "Herta Heuwer", "falsch": ["Melitta Bentz", "Margarete Steiff"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Gewürz gibt der Currywurst ihren Namen?", "richtig": "Curry", "falsch": ["Zimt", "Pfeffer"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr eröffnete Herta Heuwer ihren Imbiss?", "wert": 1949, "einheit": "" },
+        { "typ": "mission", "text": "Fragt Passanten nach ihrer Lieblings-Currywurst in Berlin – mit oder ohne Darm?" }
+      ],
+      "lage": [52.50657, 13.30278]
+    },
+    {
+      "id": "widerstand",
+      "name": "Gedenkstätte Deutscher Widerstand",
+      "wiki": "Gedenkstätte Deutscher Widerstand",
+      "themen": ["historie"],
+      "prio": 1,
+      "respekt": true,
+      "kosten": "Eintritt frei",
+      "info": "Im Bendlerblock planten Offiziere um Claus Schenk Graf von Stauffenberg das Attentat auf Hitler vom 20. Juli 1944. Nach dem Scheitern wurden Stauffenberg und weitere Beteiligte im Innenhof erschossen. Die Gedenkstätte erinnert an den gesamten Widerstand gegen den Nationalsozialismus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woran erinnert der Innenhof des Bendlerblocks besonders?", "richtig": "An das Attentat vom 20. Juli 1944 und seine Folgen", "falsch": ["An den Mauerfall 1989", "An die Gründung der Bundeswehr"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt die Straße heute, die nach einem der Widerstandskämpfer benannt ist?", "richtig": "Stauffenbergstraße", "falsch": ["Bismarckstraße", "Friedrichstraße"] }
+      ],
+      "lage": [52.50778, 13.3625]
     }
   ],
-  "zentrum": [52.51639, 13.39667]
+  "zentrum": [52.51639, 13.39694],
+  "tipps": [
+    {
+      "id": "curry36",
+      "name": "Curry 36",
+      "art": "imbiss",
+      "lage": [52.49349, 13.38769],
+      "info": "Einer der bekanntesten Currywurst-Imbisse Berlins, benannt nach der Hausnummer am Mehringdamm.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "Wikipedia; Berliner Kurier"
+    },
+    {
+      "id": "mustafa",
+      "name": "Mustafa's Gemüse Kebap",
+      "art": "imbiss",
+      "lage": [52.49345, 13.38852],
+      "info": "Kult-Dönerstand mit gegrilltem Gemüse – die Schlange davor gehört dazu.",
+      "preis": 1,
+      "hinweis": "Wartezeit einplanen",
+      "quelle": "OSM; Berliner Imbiss-Ratgeber"
+    },
+    {
+      "id": "curry61",
+      "name": "Curry 61",
+      "art": "imbiss",
+      "lage": [52.52372, 13.40072],
+      "info": "Currywurst mit hausgemachter Soße, auch vegan – nahe Hackescher Markt.",
+      "preis": 1,
+      "quelle": "1000things; OSM"
+    },
+    {
+      "id": "burgermeister",
+      "name": "Burgermeister",
+      "art": "imbiss",
+      "lage": [52.50112, 13.44246],
+      "info": "Burger-Imbiss in einem alten Toilettenhäuschen unter der Hochbahn am Schlesischen Tor.",
+      "preis": 1,
+      "quelle": "OSM; tipBerlin"
+    },
+    {
+      "id": "marheineke",
+      "name": "Marheineke Markthalle",
+      "art": "markt",
+      "lage": [52.48929, 13.39469],
+      "info": "Historische Markthalle im Bergmannkiez mit Imbiss- und Feinkostständen.",
+      "preis": 1,
+      "gruppe": true,
+      "hinweis": "Sonntags geschlossen",
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "einstein_linden",
+      "name": "Café Einstein Unter den Linden",
+      "art": "cafe",
+      "lage": [52.5171, 13.38595],
+      "info": "Kaffeehaus im Wiener Stil mitten auf dem Prachtboulevard.",
+      "preis": 2,
+      "quelle": "visitBerlin; OSM"
+    },
+    {
+      "id": "anna_blume",
+      "name": "Anna Blume",
+      "art": "cafe",
+      "lage": [52.53806, 13.41958],
+      "info": "Café und Blumenladen in einem, bekannt für Frühstück und Torten am Kollwitzkiez.",
+      "preis": 2,
+      "quelle": "OSM; Stadtmagazine"
+    },
+    {
+      "id": "rausch",
+      "name": "Rausch Schokoladenhaus",
+      "art": "cafe",
+      "was": "Schokoladenhaus",
+      "icon": "🍫",
+      "lage": [52.51208, 13.39135],
+      "info": "Schokoladenhaus des Berliner Traditionsherstellers (gegründet 1918) am Gendarmenmarkt.",
+      "preis": 2,
+      "quelle": "Wikipedia; OSM"
+    },
+    {
+      "id": "hokey_pokey",
+      "name": "Hokey Pokey",
+      "art": "eis",
+      "lage": [52.54685, 13.41771],
+      "info": "Eisdiele im Prenzlauer Berg mit ausgefallenen Sorten – im Sommer mit Schlange.",
+      "preis": 1,
+      "quelle": "kindaling; OSM"
+    },
+    {
+      "id": "fraeulein_frost",
+      "name": "Fräulein Frost",
+      "art": "eis",
+      "lage": [52.49239, 13.42776],
+      "info": "Eisdiele im Neuköllner Reuterkiez mit wechselnden, teils verrückten Sorten.",
+      "preis": 1,
+      "quelle": "kindaling; OSM"
+    },
+    {
+      "id": "henne",
+      "name": "Henne – Alt-Berliner Wirtshaus",
+      "art": "restaurant",
+      "lage": [52.50415, 13.41775],
+      "info": "Traditionswirtshaus in Kreuzberg, berühmt für sein halbes Brathähnchen.",
+      "preis": 2,
+      "hinweis": "Reservieren empfohlen",
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "max_moritz",
+      "name": "Max und Moritz",
+      "art": "restaurant",
+      "lage": [52.50262, 13.414],
+      "info": "Über 100 Jahre alte Gaststätte mit Berliner Küche in der Oranienstraße.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "zum_nussbaum",
+      "name": "Zum Nußbaum",
+      "art": "restaurant",
+      "lage": [52.51715, 13.4071],
+      "info": "Nachbau einer der ältesten Gaststätten Berlins im Nikolaiviertel – Alt-Berliner Küche.",
+      "preis": 2,
+      "quelle": "Wikipedia (Nikolaiviertel); OSM"
+    },
+    {
+      "id": "georgbraeu",
+      "name": "Brauhaus Georgbräu",
+      "art": "brauhaus",
+      "lage": [52.51645, 13.40543],
+      "info": "Brauhaus mit eigenem Bier und Terrasse direkt an der Spree.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "visitBerlin; OSM"
+    },
+    {
+      "id": "lemke",
+      "name": "Lemke am Hackeschen Markt",
+      "art": "brauhaus",
+      "lage": [52.52327, 13.40466],
+      "info": "Hausbrauerei in den S-Bahn-Bögen am Hackeschen Markt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "hofbraeu_berlin",
+      "name": "Hofbräu Berlin",
+      "art": "brauhaus",
+      "lage": [52.5246, 13.41399],
+      "info": "Riesiges Wirtshaus am Alexanderplatz mit Platz für große Gruppen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "hops_barley",
+      "name": "Hops & Barley",
+      "art": "brauhaus",
+      "lage": [52.50895, 13.46062],
+      "info": "Kleine Hausbrauerei im Friedrichshainer Boxhagener Kiez.",
+      "preis": 2,
+      "quelle": "OSM; Stadtmagazine"
+    },
+    {
+      "id": "zollpackhof",
+      "name": "Zollpackhof",
+      "art": "biergarten",
+      "lage": [52.52119, 13.36711],
+      "info": "Biergarten an der Spree mit Blick aufs Kanzleramt.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Bei schönem Wetter",
+      "quelle": "OSM"
+    },
+    {
+      "id": "schleusenkrug",
+      "name": "Schleusenkrug",
+      "art": "biergarten",
+      "lage": [52.51124, 13.33564],
+      "info": "Biergarten an der Schleuse im Tiergarten, ein paar Schritte vom Zoo.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "golgatha",
+      "name": "Golgatha im Viktoriapark",
+      "art": "biergarten",
+      "lage": [52.48675, 13.37851],
+      "info": "Biergarten mitten im Kreuzberger Viktoriapark.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Bei schönem Wetter",
+      "quelle": "OSM"
+    },
+    {
+      "id": "monkey_bar",
+      "name": "Monkey Bar",
+      "art": "bar",
+      "ab": 18,
+      "lage": [52.50566, 13.33769],
+      "info": "Dachbar im zehnten Stock mit Blick über den Zoo – und auf die Affen.",
+      "preis": 3,
+      "quelle": "tipBerlin; OSM"
+    },
+    {
+      "id": "klunkerkranich",
+      "name": "Klunkerkranich",
+      "art": "bar",
+      "ab": 18,
+      "lage": [52.48209, 13.43215],
+      "info": "Dachgarten-Bar auf dem Parkdeck der Neukölln Arcaden mit Blick über die Stadt.",
+      "preis": 2,
+      "hinweis": "Saisonal geöffnet",
+      "quelle": "tipBerlin"
+    },
+    {
+      "id": "ankerklause",
+      "name": "Ankerklause",
+      "art": "bar",
+      "ab": 18,
+      "lage": [52.49516, 13.42135],
+      "info": "Kultkneipe am Landwehrkanal mit Blick aufs Wasser.",
+      "preis": 1,
+      "quelle": "Wikivoyage"
+    },
+    {
+      "id": "prinzipal",
+      "name": "Prinzipal Kreuzberg",
+      "art": "bar",
+      "ab": 18,
+      "lage": [52.50101, 13.41971],
+      "info": "Burlesque-Bar im Stil der 1920er-Jahre – beliebt bei JGA-Gruppen.",
+      "preis": 3,
+      "quelle": "top10berlin; OSM"
+    },
+    {
+      "id": "badeschiff",
+      "name": "Badeschiff",
+      "art": "aktion",
+      "was": "Baden in der Spree",
+      "icon": "🏊",
+      "lage": [52.49778, 13.45361],
+      "info": "Schwimmbecken auf der Spree mit Blick auf den Molecule Man.",
+      "preis": 2,
+      "hinweis": "Nur im Sommer, Öffnungszeiten prüfen",
+      "quelle": "Wikipedia"
+    },
+    {
+      "id": "unterwelten",
+      "name": "Berliner Unterwelten",
+      "art": "aktion",
+      "was": "Bunker-Führung",
+      "icon": "🔦",
+      "ab": 10,
+      "lage": [52.54781, 13.38925],
+      "info": "Führungen durch Bunker und Tunnel unter dem Bahnhof Gesundbrunnen.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Vorher buchen, Altersgrenzen je Führung",
+      "quelle": "visitBerlin; OSM"
+    },
+    {
+      "id": "panoramapunkt",
+      "name": "Panoramapunkt",
+      "art": "aktion",
+      "was": "Aussicht",
+      "icon": "🔭",
+      "lage": [52.50899, 13.37512],
+      "info": "Aussichtsplattform im Kollhoff-Tower – mit einem der schnellsten Aufzüge Europas.",
+      "preis": 2,
+      "quelle": "visitBerlin; OSM"
+    },
+    {
+      "id": "spionagemuseum",
+      "name": "Deutsches Spionagemuseum",
+      "art": "aktion",
+      "was": "Mitmach-Museum",
+      "icon": "🕵️",
+      "ab": 8,
+      "lage": [52.50901, 13.37929],
+      "info": "Museum über Spione mit Laser-Parcours zum Selbstausprobieren.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "visitBerlin; OSM"
+    },
+    {
+      "id": "legoland",
+      "name": "Legoland Discovery Centre",
+      "art": "aktion",
+      "was": "Lego-Welt",
+      "icon": "🧱",
+      "lage": [52.5097, 13.37205],
+      "info": "Lego-Erlebniswelt für Kinder von etwa 3 bis 10 Jahren am Potsdamer Platz.",
+      "preis": 3,
+      "hinweis": "Tickets online günstiger",
+      "quelle": "visitBerlin; OSM"
+    },
+    {
+      "id": "trabi_safari",
+      "name": "Trabi-Safari",
+      "art": "aktion",
+      "was": "Trabi fahren",
+      "icon": "🚗",
+      "ab": 18,
+      "lage": [52.50756, 13.38668],
+      "info": "Im Trabi-Konvoi selbst durch Berlin fahren – beliebt bei JGA und Teams.",
+      "preis": 3,
+      "hinweis": "Führerschein nötig, vorher buchen",
+      "quelle": "top10berlin; OSM"
+    }
+  ]
 }

@@ -398,7 +398,295 @@
         { "typ": "mission", "text": "Derbleckt euch gegenseitig: Jede Person sagt einen liebevoll-frechen Satz über ihre linke Nachbarin oder ihren linken Nachbarn." }
       ],
       "lage": [48.12139, 11.5825]
+    },
+    {
+      "id": "nymphenburg",
+      "name": "Schloss Nymphenburg",
+      "wiki": "Schloss Nymphenburg",
+      "themen": ["highlights", "historie", "natur"],
+      "prio": 2,
+      "kosten": "Schloss mit Eintritt, Park frei",
+      "info": "Von 1715 bis 1918 war Nymphenburg der Sommersitz der bayerischen Kurfürsten und Könige. Aus einem kleinen Landhaus wurde eine riesige Anlage – eines der größten Schlösser Deutschlands. Dazu gehören ein weiter Park, Kanäle und vier kleine Parkburgen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wozu diente Schloss Nymphenburg den Wittelsbachern?", "richtig": "Als Sommersitz", "falsch": ["Als Jagdschloss im Winter", "Als Kloster"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat früher in Schloss Nymphenburg gewohnt?", "richtig": "Die Könige von Bayern", "falsch": ["Die Bürgermeister von München", "Die Spieler des FC Bayern"] },
+        { "typ": "suchen", "text": "Zählt die Schwäne oder Enten auf dem Kanal vor dem Schloss." },
+        { "typ": "foto", "text": "Königliches Gruppenfoto vor dem Schloss – alle mit erhobenem Kinn." }
+      ],
+      "lage": [48.15806, 11.50361]
+    },
+    {
+      "id": "koenigsplatz",
+      "name": "Königsplatz & Propyläen",
+      "wiki": "Königsplatz (München)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "König Ludwig I. wollte München zum „Isar-Athen“ machen. Am Königsplatz stehen deshalb Bauten wie aus dem alten Griechenland: Glyptothek, Antikensammlung und die Propyläen, ein Torbau nach dem Vorbild des Eingangs zur Akropolis von Athen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Bauwerk war das Vorbild für die Propyläen?", "richtig": "Der Torbau der Akropolis in Athen", "falsch": ["Das Kolosseum in Rom", "Das Brandenburger Tor"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sehen die Gebäude am Königsplatz aus?", "richtig": "Wie Tempel aus dem alten Griechenland", "falsch": ["Wie Burgen aus dem Mittelalter", "Wie Hochhäuser"] },
+        { "typ": "suchen", "text": "Zählt die Säulen an der Vorderseite der Glyptothek." },
+        { "typ": "foto", "text": "Stellt euch zwischen die Säulen und posiert wie griechische Statuen." }
+      ],
+      "lage": [48.14575, 11.56538]
+    },
+    {
+      "id": "michaelskirche",
+      "name": "Michaelskirche",
+      "wiki": "St. Michael (München)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Jesuitenkirche entstand von 1583 bis 1597. Über dem Kirchenraum spannt sich das zweitgrößte freitragende Tonnengewölbe der Welt. In der Fürstengruft liegt König Ludwig II. begraben, der Erbauer von Neuschwanstein.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher berühmte König ist in der Gruft der Michaelskirche begraben?", "richtig": "Ludwig II., der „Märchenkönig“", "falsch": ["Karl der Große", "Friedrich der Große"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Engel kämpft an der Fassade gegen den Teufel?", "richtig": "Der Erzengel Michael", "falsch": ["Der Weihnachtsengel", "Der Schutzengel Gabriel"] },
+        { "typ": "suchen", "text": "Sucht an der Fassade die Figur des Erzengels Michael im Kampf gegen den Teufel." }
+      ],
+      "lage": [48.13885, 11.57053]
+    },
+    {
+      "id": "gaertnerplatz",
+      "name": "Gärtnerplatz & Glockenbachviertel",
+      "wiki": "Gärtnerplatz",
+      "themen": ["kneipen", "spass", "besonderheiten"],
+      "prio": 2,
+      "info": "Der runde Platz entstand um 1860 und ist nach dem Architekten Friedrich von Gärtner benannt. Am Gärtnerplatztheater wird Operette und Musical gespielt. An warmen Abenden sitzt halb München auf der Rasenfläche – drumherum liegen Bars und Kneipen des Glockenbachviertels.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wem ist der Gärtnerplatz benannt?", "richtig": "Nach dem Architekten Friedrich von Gärtner", "falsch": ["Nach den Gärtnern des Englischen Gartens", "Nach einer Gärtnerei"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wird im Gärtnerplatztheater gespielt?", "richtig": "Operette und Musical", "falsch": ["Nur Kasperletheater", "Fußball-Übertragungen"] },
+        { "typ": "mission", "text": "Findet eine Bar mit dem besten Namen rund um den Platz und lasst euch dort fotografieren." }
+      ],
+      "lage": [48.1317, 11.576]
+    },
+    {
+      "id": "volksbad",
+      "name": "Müller'sches Volksbad",
+      "wiki": "Müllersches Volksbad",
+      "themen": ["besonderheiten", "historie", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt zum Baden",
+      "info": "Als das Jugendstilbad 1901 öffnete, war es das größte und modernste Schwimmbad der Welt. Der Ingenieur Karl Müller spendete das Geld – mit der Auflage, ein Bad für das „unbemittelte Volk“ zu bauen. Heute gilt es als eines der schönsten Bäder Europas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Für wen sollte das Volksbad laut seinem Stifter gebaut werden?", "richtig": "Für das „unbemittelte Volk“", "falsch": ["Nur für den König", "Für Profi-Schwimmer"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Volksbad machen?", "richtig": "Schwimmen", "falsch": ["Schlittschuh laufen", "Ins Kino gehen"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Volksbad eröffnet?", "wert": 1901, "einheit": "" },
+        { "typ": "foto", "text": "Fotografiert das schönste Jugendstil-Detail an der Fassade." }
+      ],
+      "lage": [48.1321, 11.58833]
+    },
+    {
+      "id": "isartor_valentin",
+      "name": "Isartor & Valentin-Karlstadt-Musäum",
+      "wiki": "Valentin-Karlstadt-Musäum",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "hinweis": "Museum wegen Sanierung des Isartors zeitweise geschlossen – vorab prüfen",
+      "info": "Im alten Stadttor sitzt seit 1959 das Museum für den Komiker Karl Valentin und seine Partnerin Liesl Karlstadt. Zu sehen sind skurrile Dinge wie der Nagel, an den Valentin seinen Schreinerberuf hängte, oder ein pelzbesetzter Winterzahnstocher.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches skurrile Ausstellungsstück gibt es im Musäum?", "richtig": "Einen pelzbesetzten Winterzahnstocher", "falsch": ["Einen goldenen Maßkrug", "Eine Weißwurst aus Marmor"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war das Isartor früher?", "richtig": "Ein Tor in der Stadtmauer", "falsch": ["Ein Fußballtor", "Ein Bahnhof"] },
+        { "typ": "mission", "text": "Erfindet wie Karl Valentin einen völlig unsinnigen Gegenstand – und präsentiert ihn ganz ernst." }
+      ],
+      "lage": [48.13507, 11.58199]
+    },
+    {
+      "id": "ns_dokuzentrum",
+      "name": "NS-Dokumentationszentrum",
+      "wiki": "NS-Dokumentationszentrum München",
+      "themen": ["historie"],
+      "prio": 1,
+      "respekt": true,
+      "kosten": "Eintritt frei",
+      "info": "Hier stand das „Braune Haus“, die Parteizentrale der NSDAP. München galt als „Hauptstadt der Bewegung“. Seit 2015 zeigt der weiße Würfel, wie der Nationalsozialismus in München aufstieg – mit Angeboten für Schulklassen aller Altersstufen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was stand früher an der Stelle des Dokumentationszentrums?", "richtig": "Das „Braune Haus“, die NSDAP-Zentrale", "falsch": ["Das Münchner Rathaus", "Ein Bahnhof"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat das Gebäude des Dokumentationszentrums?", "richtig": "Weiß", "falsch": ["Rot", "Schwarz"] }
+      ],
+      "lage": [48.14528, 11.5675]
     }
   ],
-  "zentrum": [48.13827, 11.57619]
+  "zentrum": [48.13827, 11.576],
+  "tipps": [
+    {
+      "id": "frischhut",
+      "name": "Schmalznudel – Café Frischhut",
+      "art": "cafe",
+      "lage": [48.13489, 11.57455],
+      "info": "Kleines Café am Viktualienmarkt, berühmt für frisch ausgebackene Schmalznudeln.",
+      "preis": 1,
+      "quelle": "OSM; Stadtführer"
+    },
+    {
+      "id": "grossmarkthalle",
+      "name": "Gaststätte Großmarkthalle",
+      "art": "restaurant",
+      "lage": [48.1186, 11.5534],
+      "info": "Wirtshaus der Marktleute – bekannt für Weißwürste schon am frühen Morgen.",
+      "preis": 1,
+      "hinweis": "Früh hingehen, nachmittags oft zu",
+      "quelle": "OSM"
+    },
+    {
+      "id": "andechser_dom",
+      "name": "Andechser am Dom",
+      "art": "restaurant",
+      "lage": [48.13824, 11.57377],
+      "info": "Bayerische Küche und Klosterbier direkt an der Frauenkirche.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "franziskaner",
+      "name": "Zum Franziskaner",
+      "art": "restaurant",
+      "lage": [48.13934, 11.57724],
+      "info": "Traditionswirtshaus an der Residenzstraße – Weißwurst-Frühstück wie bei den Einheimischen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "t-online; OSM"
+    },
+    {
+      "id": "bratwurstherzl",
+      "name": "Bratwurstherzl",
+      "art": "restaurant",
+      "lage": [48.13539, 11.57726],
+      "info": "Wirtshaus am Viktualienmarkt mit Würsten vom Buchenholzgrill.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "ballabeni",
+      "name": "Ballabeni Icecream",
+      "art": "eis",
+      "lage": [48.14845, 11.5746],
+      "info": "Eismanufaktur in der Maxvorstadt nahe dem Königsplatz.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "verrueckter_eismacher",
+      "name": "Der verrückte Eismacher",
+      "art": "eis",
+      "lage": [48.15091, 11.57865],
+      "info": "Eisdiele in der Maxvorstadt mit ausgefallenen, oft verrückten Sorten.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "sarcletti",
+      "name": "Sarcletti",
+      "art": "eis",
+      "lage": [48.15238, 11.53428],
+      "info": "Traditions-Eisdiele am Rotkreuzplatz mit riesiger Sortenauswahl.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "seehaus",
+      "name": "Seehaus im Englischen Garten",
+      "art": "biergarten",
+      "lage": [48.16028, 11.59794],
+      "info": "Biergarten am Kleinhesseloher See – nebenan gibt es Ruder- und Tretboote.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "augustinerkeller",
+      "name": "Augustiner-Keller",
+      "art": "biergarten",
+      "lage": [48.1435, 11.55157],
+      "info": "Riesiger Biergarten unter alten Kastanien nahe dem Hauptbahnhof.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "hofbraeukeller",
+      "name": "Hofbräukeller",
+      "art": "biergarten",
+      "suche": "Innere Wiener Straße 19, München",
+      "info": "Biergarten am Wiener Platz in Haidhausen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage",
+      "lage": [48.13452, 11.59489]
+    },
+    {
+      "id": "loewenbraeukeller",
+      "name": "Löwenbräukeller",
+      "art": "brauhaus",
+      "suche": "Nymphenburger Straße 2, München",
+      "info": "Großes Bierhaus mit Biergarten am Stiglmaierplatz.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage",
+      "lage": [48.14811, 11.55832]
+    },
+    {
+      "id": "taxisgarten",
+      "name": "Taxisgarten",
+      "art": "biergarten",
+      "lage": [48.1631, 11.53251],
+      "info": "Familienfreundlicher Biergarten mit Spielplatz in Neuhausen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "zum_flaucher",
+      "name": "Zum Flaucher",
+      "art": "biergarten",
+      "lage": [48.10873, 11.55752],
+      "info": "Biergarten in den Isarauen, direkt am Flaucher.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schelling_salon",
+      "name": "Schelling-Salon",
+      "art": "bar",
+      "ab": 18,
+      "lage": [48.15121, 11.57317],
+      "info": "Traditionslokal mit Billardtischen in der Maxvorstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schumanns",
+      "name": "Schumann's",
+      "art": "bar",
+      "ab": 18,
+      "lage": [48.14393, 11.57862],
+      "info": "Legendäre Bar am Hofgarten.",
+      "preis": 3,
+      "quelle": "OSM"
+    },
+    {
+      "id": "sealife_muenchen",
+      "name": "Sea Life München",
+      "art": "aktion",
+      "was": "Aquarium",
+      "icon": "🐠",
+      "lage": [48.17375, 11.55632],
+      "info": "Großes Aquarium im Olympiapark.",
+      "preis": 3,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "bavaria_filmstadt",
+      "name": "Bavaria Filmstadt",
+      "art": "aktion",
+      "was": "Filmstudio-Tour",
+      "icon": "🎬",
+      "lage": [48.06543, 11.55401],
+      "info": "Führung durch echte Filmkulissen in Geiselgasteig.",
+      "preis": 3,
+      "gruppe": true,
+      "hinweis": "Vorher buchen",
+      "quelle": "OSM"
+    }
+  ]
 }
