@@ -1,0 +1,272 @@
+{
+  "id": "hannover",
+  "name": "Hannover",
+  "land": "Niedersachsen",
+  "kurz": "Barockgärten, Nanas und ein roter Faden durch die Stadt – mit Maschsee und Lindener Kneipenmeile.",
+  "start": {
+    "name": "Ernst-August-Platz am Hauptbahnhof",
+    "wiki": "Ernst-August-Denkmal",
+    "lage": [52.37628, 9.74075]
+  },
+  "loesungsworte": ["NANA", "LEINE", "FADEN", "WELFEN", "LEIBNIZ", "MASCHSEE", "LIMMERN", "HERRENHAUSEN"],
+  "orte": [
+    {
+      "id": "ernst_august",
+      "name": "Ernst-August-Denkmal („Unterm Schwanz“)",
+      "wiki": "Ernst-August-Denkmal",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Das Reiterstandbild von 1861 erinnert an König Ernst August I. von Hannover. Für die Hannoveraner ist es der Treffpunkt schlechthin – man verabredet sich „unterm Schwanz“ des Pferdes.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo treffen sich die Hannoveraner am Ernst-August-Denkmal?", "richtig": "„Unterm Schwanz“ des Pferdes", "falsch": ["Auf dem Kopf des Königs", "Unter dem Bauch des Pferdes"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wen zeigt das Reiterstandbild?", "richtig": "König Ernst August I. von Hannover", "falsch": ["Kaiser Wilhelm I.", "Heinrich den Löwen"] },
+        { "typ": "foto", "text": "Gruppenfoto „unterm Schwanz“ – alle zeigen nach oben." }
+      ],
+      "lage": [52.37628, 9.74075]
+    },
+    {
+      "id": "roter_faden",
+      "name": "Der Rote Faden",
+      "wiki": "Roter Faden (Hannover)",
+      "suche": "Ernst-August-Platz, Hannover",
+      "themen": ["besonderheiten", "historie", "spass"],
+      "prio": 2,
+      "info": "Eine 4,2 Kilometer lange rote Linie auf dem Pflaster führt zu 36 Sehenswürdigkeiten der Innenstadt. Wer ihr folgt, kann sich nicht verlaufen – inzwischen haben andere Städte die Idee kopiert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat die Linie, die durch Hannover führt?", "richtig": "Rot", "falsch": ["Blau", "Grün"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Sehenswürdigkeiten verbindet der Rote Faden?", "richtig": "36", "falsch": ["12", "100"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Rote Faden?", "wert": 4.2, "einheit": "km" },
+        { "typ": "bewegen", "text": "Balanciert 20 Schritte genau auf der roten Linie – wer fällt runter?" }
+      ],
+      "lage": [52.37623, 9.74039]
+    },
+    {
+      "id": "kroepcke",
+      "name": "Kröpcke & Kröpcke-Uhr",
+      "wiki": "Kröpcke-Uhr",
+      "themen": ["besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Die Uhr am Kröpcke ist neben dem Ernst-August-Denkmal der zweite große Treffpunkt der Stadt. In ihrem Inneren zeigt eine Vitrine wechselnde Kunstausstellungen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die Kröpcke-Uhr für die Hannoveraner?", "richtig": "Ein beliebter Treffpunkt", "falsch": ["Ein Wecker für die ganze Stadt", "Ein Leuchtturm"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist im Inneren der Kröpcke-Uhr zu sehen?", "richtig": "Wechselnde Kunstausstellungen", "falsch": ["Ein Uhrmacher bei der Arbeit", "Ein Aquarium"] },
+        { "typ": "suchen", "text": "Schaut in die Vitrine der Uhr: Was wird gerade ausgestellt?" }
+      ],
+      "lage": [52.37438, 9.73886]
+    },
+    {
+      "id": "marktkirche",
+      "name": "Marktkirche",
+      "wiki": "Marktkirche (Hannover)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Die älteste der drei Altstadtkirchen ist ein Bau der Backsteingotik mit 97 Meter hohem Turm – ein Wahrzeichen Hannovers. Daneben steht das Alte Rathaus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Material ist die Marktkirche gebaut?", "richtig": "Aus Backstein", "falsch": ["Aus Marmor", "Aus Holz"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Kirchen gab es in der Altstadt?", "richtig": "Drei", "falsch": ["Eine", "Zwanzig"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Turm der Marktkirche?", "wert": 97, "einheit": "m" }
+      ],
+      "lage": [52.37167, 9.735]
+    },
+    {
+      "id": "altes_rathaus",
+      "name": "Altes Rathaus",
+      "wiki": "Altes Rathaus (Hannover)",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Das erste Rathaus der Stadt ist ihr ältestes weltliches Gebäude. Zusammen mit der Marktkirche bildet es die südlichste Gebäudegruppe der norddeutschen Backsteingotik. Schaut euch die verzierten Backsteingiebel genau an.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere am Alten Rathaus?", "richtig": "Es ist das älteste weltliche Gebäude der Stadt", "falsch": ["Es ist aus Glas", "Es war früher ein Bahnhof"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe haben die Backsteine des Alten Rathauses?", "richtig": "Rötlich-braun", "falsch": ["Himmelblau", "Schneeweiß"] },
+        { "typ": "suchen", "text": "Sucht am Giebel ein Muster aus dunklen und hellen Steinen." }
+      ],
+      "lage": [52.37139, 9.73583]
+    },
+    {
+      "id": "holzmarktbrunnen",
+      "name": "Holzmarktbrunnen mit Wunschring",
+      "wiki": "Holzmarktbrunnen (Hannover)",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Vor dem Leibnizhaus steht der Oskar-Winter-Brunnen. Im schmiedeeisernen Gitter von 1914 steckt ein nahtloser „Wunschring“: Wer ihn dreht, dem soll ein Wunsch in Erfüllung gehen – so erzählt es eine Sage.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was soll passieren, wenn man den Ring am Brunnengitter dreht?", "richtig": "Ein Wunsch soll in Erfüllung gehen", "falsch": ["Der Brunnen spritzt alle nass", "Eine Glocke läutet"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Vor welchem Gebäude steht der Brunnen?", "richtig": "Vor dem Leibnizhaus", "falsch": ["Vor dem Neuen Rathaus", "Vor der Oper"] },
+        { "typ": "mission", "text": "Jeder dreht den Ring einmal und wünscht sich etwas – heimlich!" }
+      ],
+      "lage": [52.37146, 9.73246]
+    },
+    {
+      "id": "nanas",
+      "name": "Nanas am Leibnizufer",
+      "wiki": "Nanas (Hannover)",
+      "themen": ["besonderheiten", "kinder", "highlights"],
+      "prio": 2,
+      "info": "Drei knallbunte, üppige Frauenfiguren der Künstlerin Niki de Saint Phalle stehen seit 1974 am Ufer der Leine. Sie heißen Sophie, Caroline und Charlotte – nach berühmten Frauen aus Hannover. Damals sorgten sie für heftige Diskussionen, heute sind sie Kult.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Nanas stehen am Leibnizufer?", "richtig": "Drei", "falsch": ["Eine", "Zehn"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Künstlerin schuf die Nanas?", "richtig": "Niki de Saint Phalle", "falsch": ["Frida Kahlo", "Paula Modersohn-Becker"] },
+        { "typ": "foto", "text": "Macht die Pose der Nana „Sophie“ nach: auf einem Bein tanzend, Arme in die Luft." }
+      ],
+      "lage": [52.3722, 9.72998]
+    },
+    {
+      "id": "aegidienkirche",
+      "name": "Aegidienkirche (Mahnmal)",
+      "wiki": "Aegidienkirche (Hannover)",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "info": "Die Kirche wurde 1943 bei Luftangriffen zerstört und nicht wieder aufgebaut. Die Ruine ist heute ein Mahnmal für die Opfer von Krieg und Gewalt. Im Turm hängt eine Friedensglocke aus Hannovers Partnerstadt Hiroshima, die jedes Jahr am 6. August geläutet wird.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher stammt die Friedensglocke im Turm?", "richtig": "Aus der Partnerstadt Hiroshima", "falsch": ["Aus Rom", "Aus London"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Warum hat die Kirche kein Dach?", "richtig": "Sie wurde im Krieg zerstört und blieb als Mahnmal stehen", "falsch": ["Sie wurde nie fertig gebaut", "Das Dach wurde gestohlen"] }
+      ],
+      "lage": [52.36944, 9.73917]
+    },
+    {
+      "id": "neues_rathaus",
+      "name": "Neues Rathaus",
+      "wiki": "Neues Rathaus (Hannover)",
+      "themen": ["highlights", "historie", "spass"],
+      "prio": 3,
+      "kosten": "Kuppelfahrt mit Eintritt",
+      "info": "Das prachtvolle Rathaus entstand von 1901 bis 1913 am Maschpark. In der Halle zeigen vier Stadtmodelle Hannover im Wandel der Zeit – auch die zerstörte Stadt 1945. Ein Aufzug von 1913 fährt im Bogen schräg in die Kuppel hinauf.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist das Besondere am Aufzug in der Rathauskuppel?", "richtig": "Er fährt im Bogen schräg nach oben", "falsch": ["Er fährt unter Wasser", "Er wird mit Muskelkraft gezogen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was zeigen die vier Modelle in der Rathaushalle?", "richtig": "Hannover zu verschiedenen Zeiten", "falsch": ["Die vier Jahreszeiten", "Vier Partnerstädte"] },
+        { "typ": "suchen", "text": "Findet im Stadtmodell von heute das Neue Rathaus selbst." },
+        { "typ": "foto", "text": "Spiegelfoto: Fotografiert das Rathaus im Teich davor." }
+      ],
+      "lage": [52.36722, 9.7375]
+    },
+    {
+      "id": "maschsee",
+      "name": "Maschsee",
+      "wiki": "Maschsee",
+      "suche": "Maschsee Nordufer, Hannover",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "info": "Der künstlich angelegte See ist 2,4 Kilometer lang und mit 78 Hektar das größte Gewässer der Stadt. Hier wird gesegelt, gerudert und gejoggt – im Sommer steigt das große Maschseefest.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie ist der Maschsee entstanden?", "richtig": "Er wurde von Menschen angelegt", "falsch": ["Durch einen Meteoriten", "Durch einen Vulkan"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie groß ist der Maschsee?", "richtig": "78 Hektar", "falsch": ["8 Hektar", "780 Hektar"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Maschsee?", "wert": 2.4, "einheit": "km" },
+        { "typ": "suchen", "text": "Zählt die Segelboote, die ihr gerade auf dem See seht." }
+      ],
+      "lage": [52.36202, 9.73595]
+    },
+    {
+      "id": "grosser_garten",
+      "name": "Großer Garten Herrenhausen",
+      "wiki": "Großer Garten Hannover-Herrenhausen",
+      "themen": ["highlights", "natur", "historie"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "info": "Einer der bedeutendsten Barockgärten Europas: 50 Hektar, von einem Wassergraben umschlossen. Hauptattraktion ist seit jeher die Große Fontäne. Die Grotte wurde von Niki de Saint Phalle mit Spiegeln, Glas und Mosaiken neu gestaltet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Künstlerin gestaltete die Grotte im Großen Garten neu?", "richtig": "Niki de Saint Phalle", "falsch": ["Yayoi Kusama", "Marina Abramović"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die Hauptattraktion im Großen Garten?", "richtig": "Die Große Fontäne", "falsch": ["Eine Achterbahn", "Ein Leuchtturm"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist der Große Garten?", "wert": 50.2, "einheit": "Hektar" },
+        { "typ": "bewegen", "text": "Lauft einmal durch ein Heckenlabyrinth oder um ein Beet – im Gänsemarsch wie ein Hofstaat." }
+      ],
+      "lage": [52.38768, 9.69653]
+    },
+    {
+      "id": "zoo",
+      "name": "Erlebnis-Zoo",
+      "wiki": "Erlebnis-Zoo Hannover",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Zoo von 1865 ist in Themenwelten gegliedert – vom indischen Dschungelpalast bis zur Afrikalandschaft „Sambesi“, durch die man mit dem Boot fährt. Rund 1.500 Tiere leben hier.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt die Afrikalandschaft im Zoo, durch die man mit dem Boot fährt?", "richtig": "Sambesi", "falsch": ["Nil-Paradies", "Safari-Tal"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde der Zoo Hannover gegründet?", "richtig": "1865", "falsch": ["1965", "1765"] },
+        { "typ": "bewegen", "text": "Macht drei Gorilla-Trommelschläge auf die Brust – laut!" }
+      ],
+      "lage": [52.38083, 9.77056]
+    },
+    {
+      "id": "limmerstrasse",
+      "name": "Limmerstraße in Linden",
+      "wiki": "Limmerstraße",
+      "themen": ["kneipen", "kulinarik", "spass"],
+      "prio": 2,
+      "info": "Die rund einen Kilometer lange Straße in Linden-Nord ist das bunte Ausgehviertel Hannovers. An Sommerabenden treffen sich hier viele junge Leute zum „Limmern“: Getränk vom Kiosk und draußen feiern – sehr zum Ärger mancher Anwohner.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet „Limmern“?", "richtig": "Abends auf der Limmerstraße draußen trinken und feiern", "falsch": ["Eine Bootstour auf der Leine", "Ein Fußballspiel im Park"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Stadtteil liegt die Limmerstraße?", "richtig": "Linden-Nord", "falsch": ["Herrenhausen", "List"] },
+        { "typ": "mission", "text": "Holt euch ein Getränk und seid dabei leise und freundlich zu den Anwohnern – ein Nachbar-Selfie zählt doppelt." }
+      ],
+      "lage": [52.37438, 9.70455]
+    },
+    {
+      "id": "eilenriede",
+      "name": "Eilenriede (Stadtwald)",
+      "wiki": "Eilenriede",
+      "themen": ["natur", "kinder"],
+      "prio": 1,
+      "info": "Der Stadtwald Eilenriede ist rund 640 Hektar groß – fast doppelt so groß wie der Central Park in New York. Er liegt direkt östlich des Zentrums.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die Eilenriede?", "richtig": "Ein großer Wald mitten in der Stadt", "falsch": ["Ein Fluss", "Ein Hochhaus"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie groß ist die Eilenriede ungefähr?", "richtig": "Rund 640 Hektar", "falsch": ["Rund 64 Hektar", "Rund 6.400 Hektar"] },
+        { "typ": "suchen", "text": "Sammelt drei verschiedene Blätter vom Boden und bestimmt den Baum." }
+      ],
+      "lage": [52.38778, 9.76944]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "brauhaus_ernst_august",
+      "name": "Brauhaus Ernst August",
+      "art": "brauhaus",
+      "lage": [52.37312, 9.73459],
+      "info": "Hausbrauerei in der Altstadt mit Platz für große Gruppen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kakao_stube",
+      "name": "Holländische Kakao-Stube",
+      "art": "cafe",
+      "lage": [52.37317, 9.73841],
+      "info": "Traditionscafé mit holländischem Interieur, Torten und Kakao.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_kroepcke",
+      "name": "Café Kröpcke",
+      "art": "cafe",
+      "lage": [52.3743, 9.73915],
+      "info": "Café direkt an der Kröpcke-Uhr.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "markthalle_h",
+      "name": "Markthalle",
+      "art": "markt",
+      "lage": [52.37026, 9.73608],
+      "info": "Der „Bauch von Hannover“: Markthalle mit vielen Essensständen in der Altstadt.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "sealife_h",
+      "name": "Sea Life Hannover",
+      "art": "aktion",
+      "was": "Aquarium",
+      "icon": "🐠",
+      "lage": [52.39265, 9.699],
+      "info": "Aquarium in Herrenhausen, nah am Großen Garten.",
+      "preis": 3,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [52.37438, 9.7375]
+}

@@ -188,7 +188,55 @@
         { "typ": "quiz", "niveau": "kind", "frage": "Was treibt eine Wassermühle an?", "richtig": "Fließendes Wasser", "falsch": ["Der Wind", "Ein Pferd"] },
         { "typ": "mission", "text": "Erklärt euch gegenseitig, was in einer Mühle aus Getreide entsteht – wer weiß die meisten Produkte?" }
       ]
+    },
+    {
+      "id": "hoheward",
+      "name": "Halde Hoheward & Horizontobservatorium",
+      "wiki": "Halde Hoheward",
+      "themen": ["spass", "besonderheiten", "natur"],
+      "prio": 3,
+      "info": "Die Bergehalde zwischen Herten und Recklinghausen ist aus dem Gestein dreier Zechen aufgeschüttet. Auf dem Gipfel spannen sich seit 2008 zwei riesige Stahlbögen über einen runden Platz: das Horizontobservatorium, ein Sonnenkalender unter freiem Himmel. Hinauf geht es auch über die geschwungene Drachenbrücke.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus ist die Halde entstanden?", "richtig": "Aus Gestein, das beim Kohleabbau ausgegraben wurde", "falsch": ["Aus einem Vulkan", "Aus Sand vom Meer"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wozu dienen die beiden Bögen des Horizontobservatoriums?", "richtig": "Als Sonnenkalender und zur Himmelsbeobachtung", "falsch": ["Als Skisprungschanze", "Als Mobilfunkmast"] },
+        { "typ": "schaetzen", "frage": "Wie hoch liegt der höchste Punkt der Halde (über dem Meer)?", "wert": 152.5, "einheit": "m" },
+        { "typ": "foto", "text": "Stellt euch so unter die Bögen, dass ihr den Himmel „tragt“." }
+      ],
+      "lage": [51.567, 7.167]
+    },
+    {
+      "id": "wildpferde",
+      "name": "Wildpferdebahn im Merfelder Bruch",
+      "wiki": "Dülmener Pferd",
+      "suche": "Merfelder Bruch, Dülmen",
+      "themen": ["kinder", "natur", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "hinweis": "Öffnungszeiten saisonal",
+      "info": "In einem rund 350 Hektar großen Schutzgebiet bei Dülmen leben etwa 300 bis 400 Dülmener Wildpferde – weitgehend ohne Eingriff des Menschen. Die Herde geht auf 20 Pferde zurück, die 1847 im Auftrag des Herzogs von Croÿ eingefangen wurden. Die Rasse gilt als extrem gefährdet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer lebt im Merfelder Bruch?", "richtig": "Wilde Pferde", "falsch": ["Wilde Kühe", "Wölfe"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Wildpferde leben ungefähr im Merfelder Bruch?", "richtig": "Etwa 300 bis 400", "falsch": ["Etwa 30", "Über 3.000"] },
+        { "typ": "suchen", "text": "Sucht ein Fohlen in der Herde – woran erkennt ihr es?" }
+      ],
+      "lage": [51.84324, 7.12229]
+    },
+    {
+      "id": "zoom",
+      "name": "ZOOM Erlebniswelt",
+      "wiki": "Zoom Erlebniswelt Gelsenkirchen",
+      "themen": ["kinder", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der frühere Ruhr-Zoo ist heute in Erlebniswelten aufgeteilt: Alaska, Afrika und Asien. Allein in Alaska führt ein zwei Kilometer langer Rundweg durch Regenwald, Tundra und ewiges Eis – mit einem Glastunnel unter Wasser bei den Seelöwen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Erlebniswelt gibt es in der ZOOM Erlebniswelt?", "richtig": "Alaska", "falsch": ["Antarktis", "Australien"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß die ZOOM Erlebniswelt früher?", "richtig": "Ruhr-Zoo", "falsch": ["Tierpark Gelsenkirchen-Süd", "Zoo am Kanal"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Rundweg durch die Erlebniswelt Alaska?", "wert": 2, "einheit": "km" }
+      ],
+      "lage": [51.54415, 7.11094]
     }
   ],
-  "zentrum": [51.67355, 6.96395]
+  "zentrum": [51.67355, 6.96413],
+  "tipps": []
 }

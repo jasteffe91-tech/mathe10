@@ -199,5 +199,63 @@
       ]
     }
   ],
-  "zentrum": [51.59519, 6.68197]
+  "zentrum": [51.59519, 6.68197],
+  "tipps": [
+    {
+      "id": "eis_venezia",
+      "name": "Eiscafé Venezia",
+      "art": "eis",
+      "lage": [51.59657, 6.68272],
+      "info": "Eiscafé an der Bahnhofstraße im Zentrum.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_venezia_ff",
+      "name": "Eiscafé Venezia Friedrichsfeld",
+      "art": "eis",
+      "lage": [51.62843, 6.65051],
+      "info": "Eiscafé an der Schillerstraße in Friedrichsfeld.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "zur_arche",
+      "name": "Café-Restaurant Zur Arche",
+      "art": "cafe",
+      "lage": [51.5795, 6.66453],
+      "info": "Café-Restaurant an der Rheinpromenade in Götterswickerhamm.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "rheinwacht",
+      "name": "Rheinwacht-Biergarten",
+      "art": "biergarten",
+      "lage": [51.57954, 6.66138],
+      "info": "Biergarten an der Rheinpromenade mit Blick auf die Schiffe.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Saisonal",
+      "quelle": "OSM"
+    },
+    {
+      "id": "tannenhuegel",
+      "name": "Restaurant zum Tannenhügel",
+      "art": "restaurant",
+      "lage": [51.62959, 6.66271],
+      "info": "Restaurant in Friedrichsfeld.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "glueck_seelig",
+      "name": "Café Glück & Seelig",
+      "art": "cafe",
+      "lage": [51.6154, 6.68508],
+      "info": "Café Auf dem Kiwitt.",
+      "preis": 1,
+      "quelle": "OSM"
+    }
+  ]
 }

@@ -1,0 +1,447 @@
+{
+  "id": "leipzig",
+  "name": "Leipzig",
+  "land": "Sachsen",
+  "kurz": "Bach, Faust, Friedliche Revolution – Messestadt mit Passagen, Kanälen und Kneipenmeilen.",
+  "start": {
+    "name": "Markt am Alten Rathaus",
+    "wiki": "Altes Rathaus (Leipzig)",
+    "lage": [51.34031, 12.37538]
+  },
+  "zentrum": [51.33917, 12.37538],
+  "orte": [
+    {
+      "id": "altes_rathaus",
+      "name": "Altes Rathaus am Markt",
+      "wiki": "Altes Rathaus (Leipzig)",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Bürgermeister Hieronymus Lotter ließ das Rathaus 1556/57 im Stil der Renaissance umbauen – es gilt als eines der bedeutendsten Renaissance-Bauten Deutschlands. Typisch für die Zeit: Der Turm steht nicht genau in der Mitte. Heute ist hier das Stadtgeschichtliche Museum.",
+      "fakt": "Unter dem Dach läuft eine Inschrift rund um das ganze Gebäude – zuerst 1672 aufgemalt, später mit Messingbuchstaben erneuert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist am Turm des Alten Rathauses ungewöhnlich?", "richtig": "Er steht nicht genau in der Mitte", "falsch": ["Er ist schief", "Er hat keine Uhr"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Baustil wurde das Alte Rathaus 1556/57 umgebaut?", "richtig": "Renaissance", "falsch": ["Gotik", "Jugendstil"] },
+        { "typ": "suchen", "text": "Lest ein Stück der langen Inschrift unter dem Dach – wer schafft das längste Wort?" },
+        { "typ": "foto", "text": "Gruppenfoto so, dass der Turm genau in der Mitte des Bildes steht." }
+      ],
+      "lage": [51.34031, 12.37538]
+    },
+    {
+      "id": "thomaskirche",
+      "name": "Thomaskirche & Bach-Denkmal",
+      "wiki": "Thomaskirche (Leipzig)",
+      "themen": ["historie", "highlights"],
+      "prio": 3,
+      "info": "Johann Sebastian Bach war von 1723 bis zu seinem Tod 1750 Thomaskantor und leitete den Thomanerchor. Seine Gebeine wurden 1949 aus der zerstörten Johanniskirche hierher gebracht. Vor der Kirche steht sein Denkmal.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher berühmte Musiker arbeitete in der Thomaskirche?", "richtig": "Johann Sebastian Bach", "falsch": ["Wolfgang Amadeus Mozart", "Ludwig van Beethoven"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der berühmte Knabenchor der Thomaskirche?", "richtig": "Thomanerchor", "falsch": ["Wiener Sängerknaben", "Regensburger Domspatzen"] },
+        { "typ": "schaetzen", "frage": "Wie viele Jahre war Bach Thomaskantor in Leipzig?", "wert": 27, "einheit": "Jahre" },
+        { "typ": "mission", "text": "Summt gemeinsam eine Melodie von Bach – oder irgendeine, die ihr kennt. Wer errät sie?" }
+      ],
+      "lage": [51.33929, 12.37259]
+    },
+    {
+      "id": "nikolaikirche",
+      "name": "Nikolaikirche",
+      "wiki": "Nikolaikirche (Leipzig)",
+      "themen": ["historie", "highlights", "besonderheiten"],
+      "prio": 3,
+      "info": "Seit 1982 fanden hier montags Friedensgebete statt. Im Herbst 1989 zogen danach Zehntausende über den Ring – die Montagsdemonstrationen führten zur Friedlichen Revolution. Innen tragen die Säulen grüne Palmblätter, eine Palmsäule davor erinnert an 1989.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was begann 1989 nach den Friedensgebeten in der Nikolaikirche?", "richtig": "Die Montagsdemonstrationen", "falsch": ["Die Leipziger Buchmesse", "Der erste Weihnachtsmarkt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sehen die Säulen in der Nikolaikirche oben aus?", "richtig": "Wie Palmen mit grünen Blättern", "falsch": ["Wie Eistüten", "Wie Fußbälle"] },
+        { "typ": "suchen", "text": "Findet vor der Kirche die einzelne Säule mit den Palmblättern." }
+      ],
+      "lage": [51.34026, 12.37856]
+    },
+    {
+      "id": "maedlerpassage",
+      "name": "Mädlerpassage & Auerbachs Keller",
+      "wiki": "Auerbachs Keller",
+      "themen": ["kulinarik", "besonderheiten", "kneipen", "highlights"],
+      "prio": 3,
+      "info": "In der prächtigsten Ladenpassage Leipzigs liegt Auerbachs Keller, seit dem 16. Jahrhundert ein Weinlokal. Goethe machte ihn berühmt: In „Faust“ zaubert Mephisto hier Wein aus dem Tisch. Am Eingang stehen Bronzefiguren von Faust und Mephisto.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Werk spielt eine Szene in Auerbachs Keller?", "richtig": "In Goethes „Faust“", "falsch": ["In Schillers „Räuber“", "In Lessings „Nathan“"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Figur zaubert im Faust Wein aus dem Tisch?", "richtig": "Mephisto, der Teufel", "falsch": ["Ein Zauberer namens Merlin", "Die Weinkönigin"] },
+        { "typ": "suchen", "text": "Schaut euch die Schuhe der Bronzefiguren am Eingang an: Welcher glänzt besonders – und warum wohl?" },
+        { "typ": "foto", "text": "Posiert wie Faust und Mephisto – einer zweifelnd, einer verschlagen grinsend." }
+      ],
+      "lage": [51.33942, 12.37542]
+    },
+    {
+      "id": "naschmarkt",
+      "name": "Naschmarkt & Goethe-Denkmal",
+      "wiki": "Naschmarkt (Leipzig)",
+      "themen": ["historie", "besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Hinter dem Alten Rathaus wurde früher Obst verkauft – damals galt es als „Naschwerk“, daher der Name. Auf dem Platz steht ein Denkmal des jungen Goethe, der in Leipzig studierte, dahinter die barocke Alte Handelsbörse.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wurde auf dem Naschmarkt früher verkauft?", "richtig": "Obst", "falsch": ["Bonbons", "Spielzeug"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was machte der junge Goethe in Leipzig?", "richtig": "Er studierte hier", "falsch": ["Er war Bürgermeister", "Er arbeitete als Koch"] },
+        { "typ": "foto", "text": "Stellt euch wie der junge Goethe neben das Denkmal – lässig, mit einer Hand in der Hüfte." }
+      ],
+      "lage": [51.34038, 12.37572]
+    },
+    {
+      "id": "coffe_baum",
+      "name": "Zum Arabischen Coffe Baum",
+      "wiki": "Zum Arabischen Coffe Baum",
+      "themen": ["kulinarik", "historie"],
+      "prio": 2,
+      "info": "Seit 1711 wird hier nachweislich Kaffee ausgeschenkt – damit zählt das Haus zu den ältesten Kaffeeschenken Europas. Robert Schumann traf sich hier mit Freunden zum Stammtisch. Nach jahrelanger Sanierung ist das Kaffeehaus seit April 2025 wieder geöffnet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann wird im Coffe Baum nachweislich Kaffee ausgeschenkt?", "richtig": "Seit 1711", "falsch": ["Seit 1911", "Seit 1611"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Getränk ist hier seit über 300 Jahren die Hauptsache?", "richtig": "Kaffee", "falsch": ["Limonade", "Milch"] },
+        { "typ": "suchen", "text": "Über dem Eingang hängt ein Relief. Wer ist darauf zu sehen?" }
+      ],
+      "lage": [51.34108, 12.37294]
+    },
+    {
+      "id": "drallewatsch",
+      "name": "Drallewatsch (Kneipenmeile)",
+      "wiki": "Drallewatsch",
+      "suche": "Barfußgäßchen, Leipzig",
+      "themen": ["kneipen", "spass"],
+      "prio": 2,
+      "info": "Zwischen Markt, Barfußgäßchen und Großer Fleischergasse reiht sich Lokal an Lokal. Der Name kommt aus dem Sächsischen: „Auf den Drallewatsch gehen“ heißt um die Häuser ziehen. Leipziger Wirte haben die Meile 1996 gegründet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet „auf den Drallewatsch gehen“?", "richtig": "Um die Häuser ziehen", "falsch": ["Spazieren gehen", "Zum Friseur gehen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Bier ist eine Leipziger Spezialität?", "richtig": "Gose", "falsch": ["Kölsch", "Alt"] },
+        { "typ": "mission", "text": "Lasst euch von einer fremden Person ein sächsisches Wort beibringen – und benutzt es den restlichen Abend." }
+      ],
+      "lage": [51.34099, 12.37246]
+    },
+    {
+      "id": "riquethaus",
+      "name": "Riquethaus mit den Elefanten",
+      "wiki": "Riquet & Co.",
+      "suche": "Riquethaus, Schuhmachergäßchen, Leipzig",
+      "themen": ["besonderheiten", "kulinarik", "kinder"],
+      "prio": 2,
+      "info": "Zwei lebensgroße Elefantenköpfe aus Kupfer schmücken den Eingang. Das Haus gehörte der Firma Riquet, die mit Kakao, Schokolade und Tee aus Asien handelte – der Elefant war ihr Werbemotiv. Drinnen ist ein Kaffeehaus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Tiere schmücken den Eingang des Riquethauses?", "richtig": "Elefanten", "falsch": ["Löwen", "Kamele"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Womit handelte die Firma Riquet?", "richtig": "Mit Kakao, Schokolade und Tee", "falsch": ["Mit Pelzen", "Mit Büchern"] },
+        { "typ": "foto", "text": "Macht mit den Armen einen Rüssel und posiert zwischen den Elefanten." }
+      ],
+      "lage": [51.34067, 12.37708]
+    },
+    {
+      "id": "augustusplatz",
+      "name": "Augustusplatz mit Oper & Gewandhaus",
+      "wiki": "Augustusplatz",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "info": "Mit 40.000 Quadratmetern gehört der Platz zu den größten Stadtplätzen Deutschlands. Zu DDR-Zeiten hieß er Karl-Marx-Platz, 1989 war er Treffpunkt der Montagsdemonstrationen. Hier stehen Oper, Gewandhaus und der Mendebrunnen von 1886, der älteste erhaltene Brunnen der Stadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß der Augustusplatz zu DDR-Zeiten?", "richtig": "Karl-Marx-Platz", "falsch": ["Platz der Republik", "Leninplatz"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches berühmte Orchester spielt im Gewandhaus?", "richtig": "Das Gewandhausorchester", "falsch": ["Die Berliner Philharmoniker", "Die Wiener Sängerknaben"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist der Augustusplatz?", "wert": 40000, "einheit": "m²" },
+        { "typ": "bewegen", "text": "Überquert den Platz im Gänsemarsch – der Letzte gibt das Tempo vor." }
+      ],
+      "lage": [51.33917, 12.38083]
+    },
+    {
+      "id": "city_hochhaus",
+      "name": "City-Hochhaus („Uni-Riese“)",
+      "wiki": "City-Hochhaus Leipzig",
+      "themen": ["spass", "highlights"],
+      "prio": 2,
+      "info": "Mit 142,5 Metern ist es das höchste Gebäude Leipzigs, bei seiner Fertigstellung 1972 war es sogar das höchste Deutschlands. Von der Seite erinnert die Form an ein aufgeschlagenes Buch. Ganz oben, in 110 Metern Höhe, gibt es ein Panorama-Restaurant.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "An was erinnert die Form des Hochhauses?", "richtig": "An ein aufgeschlagenes Buch", "falsch": ["An eine Rakete", "An einen Bleistift"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hielt das City-Hochhaus 1972?", "richtig": "Höchstes Gebäude Deutschlands", "falsch": ["Erstes Hochhaus der DDR", "Schnellster Aufzug Europas"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist das City-Hochhaus (ohne Antenne)?", "wert": 142.5, "einheit": "m" }
+      ],
+      "lage": [51.33787, 12.37908]
+    },
+    {
+      "id": "moritzbastei",
+      "name": "Moritzbastei",
+      "wiki": "Moritzbastei",
+      "themen": ["kneipen", "historie"],
+      "prio": 2,
+      "info": "Die Bastei ist der einzige erhaltene Teil der alten Stadtbefestigung. Studenten bauten die verschütteten Gewölbe zu einem Studentenclub aus, der ab 1979 betrieben wurde. Heute ist sie ein Kulturzentrum mit Kneipe, Konzerten und Sommerkino.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war die Moritzbastei ursprünglich?", "richtig": "Ein Teil der Stadtbefestigung", "falsch": ["Ein Kloster", "Ein Bahnhof"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer betrieb die Moritzbastei von 1979 bis 1993?", "richtig": "Die Universität als Studentenclub", "falsch": ["Die Stadtwerke", "Die Armee"] },
+        { "typ": "mission", "text": "Findet heraus, welche Veranstaltung heute Abend in der Moritzbastei läuft." }
+      ],
+      "lage": [51.33722, 12.37917]
+    },
+    {
+      "id": "neues_rathaus",
+      "name": "Neues Rathaus",
+      "wiki": "Neues Rathaus (Leipzig)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Das Rathaus entstand von 1899 bis 1905 auf dem Gelände der alten Pleißenburg, deren Turm als Sockel für den Rathausturm erhalten blieb. Mit 1.708 Räumen ist es bis heute einer der größten Rathausbauten der Welt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was steckt im Sockel des Rathausturms?", "richtig": "Der alte Turm der Pleißenburg", "falsch": ["Ein Wasserspeicher", "Ein Gefängnis"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht man in einem Rathaus?", "richtig": "Dort arbeiten Bürgermeister und Stadtverwaltung", "falsch": ["Dort wohnen Ratten", "Dort werden Räder repariert"] },
+        { "typ": "schaetzen", "frage": "Wie viele Räume hat das Neue Rathaus?", "wert": 1708, "einheit": "Räume" }
+      ],
+      "lage": [51.33583, 12.3725]
+    },
+    {
+      "id": "reichsgericht",
+      "name": "Reichsgericht (Bundesverwaltungsgericht)",
+      "wiki": "Reichsgerichtsgebäude",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Der prachtvolle Bau wurde für das Reichsgericht errichtet, das oberste Gericht des Deutschen Reiches. Seit 2002 sitzt hier das Bundesverwaltungsgericht.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Gericht sitzt seit 2002 im Reichsgerichtsgebäude?", "richtig": "Das Bundesverwaltungsgericht", "falsch": ["Das Bundesverfassungsgericht", "Der Europäische Gerichtshof"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was passiert in einem Gericht?", "richtig": "Dort wird über Streit und Recht entschieden", "falsch": ["Dort wird gekocht", "Dort wird gesungen"] },
+        { "typ": "suchen", "text": "Schaut auf die Kuppel: Welche Figur steht ganz oben?" }
+      ],
+      "lage": [51.33302, 12.36978]
+    },
+    {
+      "id": "runde_ecke",
+      "name": "Museum in der „Runden Ecke“",
+      "wiki": "Gedenkstätte Museum in der „Runden Ecke“",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Im Gebäude mit der abgerundeten Ecke saß die Leipziger Bezirksverwaltung der Stasi. Am 4. Dezember 1989 besetzten Bürger das Haus. Das Museum zeigt, wie die Staatssicherheit Menschen überwachte – mit Original-Geräten zum Öffnen von Briefen und Verkleidungen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer hatte in der „Runden Ecke“ seinen Sitz?", "richtig": "Die Stasi", "falsch": ["Die Volkspolizei", "Der Rundfunk"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Woher hat das Haus seinen Spitznamen?", "richtig": "Von seiner abgerundeten Ecke", "falsch": ["Von einem runden Turm", "Von einer runden Uhr"] },
+        { "typ": "mission", "text": "Diskutiert kurz: Was würdet ihr tun, wenn jemand heimlich eure Post liest?" }
+      ],
+      "lage": [51.34174, 12.37005]
+    },
+    {
+      "id": "hauptbahnhof",
+      "name": "Hauptbahnhof",
+      "wiki": "Leipzig Hauptbahnhof",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Mit 83.640 Quadratmetern überdachter Fläche ist der Leipziger Hauptbahnhof der flächenmäßig größte Bahnhof Europas. Die Fassade zur Innenstadt ist fast 300 Meter breit. In der Querbahnsteighalle stehen alte Lokomotiven.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hält der Leipziger Hauptbahnhof?", "richtig": "Flächenmäßig größter Bahnhof Europas", "falsch": ["Ältester Bahnhof der Welt", "Bahnhof mit den meisten Gleisen der Welt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie nennt man einen Bahnhof, in dem die Gleise enden?", "richtig": "Kopfbahnhof", "falsch": ["Fußbahnhof", "Endlosbahnhof"] },
+        { "typ": "schaetzen", "frage": "Wie breit ist die Fassade des Hauptbahnhofs?", "wert": 298, "einheit": "m" },
+        { "typ": "suchen", "text": "Sucht in der Halle eine alte Lokomotive und findet heraus, wie alt sie ist." }
+      ],
+      "lage": [51.34528, 12.38222]
+    },
+    {
+      "id": "zoo",
+      "name": "Zoo Leipzig",
+      "wiki": "Zoo Leipzig",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Zoo am Rosental gilt in Rankings als einer der besten Zoos Europas. In der riesigen Tropenhalle Gondwanaland wachsen Urwaldbäume, und man kann mit dem Boot durch den Dschungel fahren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt die große Tropenhalle im Leipziger Zoo?", "richtig": "Gondwanaland", "falsch": ["Dschungelburg", "Tropenparadies"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Platz belegt der Zoo Leipzig im Sheridan-Ranking innerhalb Deutschlands?", "richtig": "Platz eins", "falsch": ["Platz fünf", "Platz zehn"] },
+        { "typ": "bewegen", "text": "Macht das Tier nach, das ihr im Zoo am liebsten sehen wollt – die anderen raten." }
+      ],
+      "lage": [51.34889, 12.36917]
+    },
+    {
+      "id": "voelkerschlachtdenkmal",
+      "name": "Völkerschlachtdenkmal",
+      "wiki": "Völkerschlachtdenkmal",
+      "suche": "Völkerschlachtdenkmal, Leipzig",
+      "themen": ["highlights", "historie", "spass"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "info": "Das 91 Meter hohe Denkmal erinnert an die Völkerschlacht bei Leipzig im Oktober 1813, in der die Armee Napoleons besiegt wurde. Es wurde von 1898 bis 1913 gebaut und ist eines der höchsten Denkmäler Europas. Treppen führen bis auf die oberste Aussichtsplattform.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wessen Armee wurde in der Völkerschlacht 1813 besiegt?", "richtig": "Die Armee Napoleons", "falsch": ["Die Armee der Wikinger", "Die Armee Friedrichs des Großen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man auf die Aussichtsplattform ganz oben?", "richtig": "Über viele Treppenstufen", "falsch": ["Mit einer Rutsche", "Mit einer Seilbahn"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist das Völkerschlachtdenkmal?", "wert": 91, "einheit": "m" },
+        { "typ": "foto", "text": "Spiegelfoto: Fotografiert das Denkmal im Wasserbecken davor." }
+      ],
+      "lage": [51.31247, 12.41352]
+    },
+    {
+      "id": "bayerischer_bahnhof",
+      "name": "Bayerischer Bahnhof & Gosebrauerei",
+      "wiki": "Leipzig Bayerischer Bahnhof",
+      "themen": ["kneipen", "kulinarik", "historie"],
+      "prio": 2,
+      "info": "Der Bahnhof ging 1842 in Betrieb und gilt als ältester erhaltener Kopfbahnhof der Welt. Im alten Empfangsgebäude braut seit 2000 eine Gasthausbrauerei die Original Leipziger Gose – ein säuerliches Bier mit Salz und Koriander.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Bier wird im Bayerischen Bahnhof gebraut?", "richtig": "Leipziger Gose", "falsch": ["Berliner Weiße", "Bamberger Rauchbier"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war der Bayerische Bahnhof früher?", "richtig": "Ein Bahnhof", "falsch": ["Ein Schloss", "Ein Zoo"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr ging der Bayerische Bahnhof in Betrieb?", "wert": 1842, "einheit": "" },
+        { "typ": "mission", "text": "Bestellt eine Gose (oder eine Fassbrause) und beschreibt den Geschmack in drei Worten." }
+      ],
+      "lage": [51.32917, 12.38167]
+    },
+    {
+      "id": "karli",
+      "name": "Karl-Liebknecht-Straße („Karli“)",
+      "wiki": "Karl-Liebknecht-Straße (Leipzig)",
+      "suche": "Karl-Liebknecht-Straße, Südvorstadt, Leipzig",
+      "themen": ["kneipen", "kulinarik", "spass"],
+      "prio": 2,
+      "info": "Die „Karli“ ist rund 2,5 Kilometer lang und führt vom Zentrum bis zum Connewitzer Kreuz. In der Südvorstadt reihen sich Kneipen, Cafés, Imbisse und Bars aus aller Welt – das Ausgehviertel der Studenten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennen die Leipziger die Karl-Liebknecht-Straße?", "richtig": "Karli", "falsch": ["Liebi", "Knechti"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wo endet die Karli im Süden?", "richtig": "Am Connewitzer Kreuz", "falsch": ["Am Völkerschlachtdenkmal", "Am Hauptbahnhof"] },
+        { "typ": "mission", "text": "Findet das Lokal mit dem lustigsten Namen auf der Karli und macht dort ein Gruppenfoto." }
+      ],
+      "lage": [51.32406, 12.37351]
+    },
+    {
+      "id": "panometer",
+      "name": "Panometer",
+      "wiki": "Panometer Leipzig",
+      "themen": ["spass", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "In einem alten Gasometer zeigt der Künstler Yadegar Asisi seit 2003 riesige Rundum-Panoramabilder. Aus Panorama und Gasometer wurde das Kunstwort „Panometer“. Von einem Turm in der Mitte überblickt man das ganze Bild.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war das Panometer-Gebäude früher?", "richtig": "Ein Gasometer (Gasspeicher)", "falsch": ["Ein Kino", "Eine Sternwarte"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was sieht man im Panometer?", "richtig": "Ein riesiges Bild rundherum", "falsch": ["Echte Dinosaurier", "Ein Schwimmbad"] },
+        { "typ": "mission", "text": "Erfindet ein eigenes Kunstwort aus zwei Wörtern – wie „Panometer“." }
+      ],
+      "lage": [51.31432, 12.38672]
+    },
+    {
+      "id": "clara_park",
+      "name": "Clara-Zetkin-Park & Sachsenbrücke",
+      "wiki": "Clara-Zetkin-Park (Leipzig)",
+      "themen": ["natur", "kinder", "spass"],
+      "prio": 2,
+      "info": "Der „Clara-Park“ ist Leipzigs grüne Lunge im Süden der Innenstadt. Auf der Sachsenbrücke über das Elsterflutbett treffen sich an Sommerabenden Musiker, Studenten und Familien.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie nennen die Leipziger den Clara-Zetkin-Park kurz?", "richtig": "Clara-Park", "falsch": ["Zetti", "Grünpark"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wem ist der Park benannt?", "richtig": "Nach der Politikerin und Frauenrechtlerin Clara Zetkin", "falsch": ["Nach einer Leipziger Sängerin", "Nach der Tochter eines Königs"] },
+        { "typ": "bewegen", "text": "Staffellauf über die Wiese: Jeder läuft eine Runde um den nächsten Baum." }
+      ],
+      "lage": [51.33067, 12.35564]
+    },
+    {
+      "id": "stadthafen",
+      "name": "Stadthafen & Wasserwege",
+      "wiki": "Stadthafen Leipzig",
+      "themen": ["natur", "spass"],
+      "prio": 2,
+      "info": "Vom Stadthafen aus kann man mit dem Boot über Flüsse und Kanäle bis zum Cospudener See im Süden fahren. Leipzig hat mehr Brücken als Venedig – und Bootsverleihe vermieten Kanus und Tretboote.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Bis zu welchem See kann man vom Stadthafen aus mit dem Boot fahren?", "richtig": "Bis zum Cospudener See", "falsch": ["Bis zum Bodensee", "Bis zur Ostsee"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Womit kann man am Stadthafen losfahren?", "richtig": "Mit Booten und Kanus", "falsch": ["Mit Flugzeugen", "Mit U-Booten"] },
+        { "typ": "suchen", "text": "Zählt alle Boote, die gerade im Hafen liegen." }
+      ],
+      "lage": [51.33912, 12.36053]
+    },
+    {
+      "id": "spinnerei",
+      "name": "Baumwollspinnerei",
+      "wiki": "Leipziger Baumwollspinnerei",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "info": "Auf dem 10 Hektar großen Gelände einer alten Baumwollspinnerei arbeiten heute Künstler in Ateliers, dazu kommen Galerien und Cafés. Die „Spinnerei“ ist ein Zentrum der Neuen Leipziger Schule der Malerei.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wurde auf dem Spinnerei-Gelände früher hergestellt?", "richtig": "Garn aus Baumwolle", "falsch": ["Autos", "Schokolade"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer arbeitet heute in der Spinnerei?", "richtig": "Künstlerinnen und Künstler", "falsch": ["Spinnen", "Bäcker"] },
+        { "typ": "foto", "text": "Macht ein Foto, das selbst wie ein modernes Kunstwerk aussieht." }
+      ],
+      "lage": [51.32786, 12.31975]
+    }
+  ],
+  "loesungsworte": ["BACH", "GOSE", "FAUST", "MESSE", "LERCHE", "PLEISSE", "THOMANER", "ALLERLEI", "GEWANDHAUS"],
+  "tipps": [
+    {
+      "id": "kandler",
+      "name": "Café Kandler",
+      "art": "cafe",
+      "lage": [51.33919, 12.37334],
+      "info": "Café an der Thomaskirche, bekannt für die Leipziger Lerche – ein Mürbeteig-Törtchen mit Marzipan.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_la_luna",
+      "name": "Eiscafé La Luna",
+      "art": "eis",
+      "lage": [51.3433, 12.37464],
+      "info": "Eiscafé am Brühl im Zentrum.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "thueringer_hof",
+      "name": "Thüringer Hof",
+      "art": "restaurant",
+      "lage": [51.33833, 12.37358],
+      "info": "Traditionsgaststätte mit sächsischer und thüringischer Küche in der Burgstraße.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikivoyage; OSM"
+    },
+    {
+      "id": "barthels_hof",
+      "name": "Barthels Hof",
+      "art": "restaurant",
+      "suche": "Hainstraße 1, Leipzig",
+      "info": "Gaststätte in einem historischen Durchgangshof an der Hainstraße.",
+      "preis": 2,
+      "quelle": "OSM",
+      "lage": [51.34113, 12.3737]
+    },
+    {
+      "id": "spizz",
+      "name": "Spizz",
+      "art": "cafe",
+      "lage": [51.34086, 12.37407],
+      "info": "Café am Markt, abends mit Jazzkeller.",
+      "preis": 2,
+      "quelle": "Wikivoyage"
+    },
+    {
+      "id": "gosenschenke",
+      "name": "Gosenschenke „Ohne Bedenken“",
+      "art": "brauhaus",
+      "lage": [51.35766, 12.36737],
+      "info": "Historische Gose-Schenke in Gohlis mit Biergarten.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "flower_power",
+      "name": "Flower Power",
+      "art": "bar",
+      "ab": 18,
+      "lage": [51.33117, 12.3744],
+      "info": "Kultkneipe im Hippie-Stil, geöffnet bis in den Morgen.",
+      "preis": 1,
+      "quelle": "Wikivoyage"
+    },
+    {
+      "id": "bootsverleih_herold",
+      "name": "Bootsverleih Herold",
+      "art": "aktion",
+      "was": "Bootsverleih",
+      "icon": "🚣",
+      "lage": [51.31872, 12.33917],
+      "info": "Kanus und Ruderboote mieten und durch Leipzigs Wasserwege paddeln.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Saisonal",
+      "quelle": "Wikivoyage"
+    },
+    {
+      "id": "belantis",
+      "name": "Belantis",
+      "art": "aktion",
+      "was": "Freizeitpark",
+      "icon": "🎢",
+      "lage": [51.25324, 12.31431],
+      "info": "Freizeitpark im Süden der Stadt.",
+      "preis": 3,
+      "gruppe": true,
+      "hinweis": "Saisonal geöffnet",
+      "quelle": "Wikivoyage"
+    }
+  ]
+}

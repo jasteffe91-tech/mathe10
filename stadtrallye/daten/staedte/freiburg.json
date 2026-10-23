@@ -1,0 +1,240 @@
+{
+  "id": "freiburg",
+  "name": "Freiburg im Breisgau",
+  "land": "Baden-Württemberg",
+  "kurz": "Münster, Bächle und Schwarzwald-Blick – sonnige Studentenstadt am Rand des Schwarzwalds.",
+  "start": {
+    "name": "Münsterplatz",
+    "wiki": "Münsterplatz (Freiburg im Breisgau)",
+    "lage": [47.99557, 7.85241]
+  },
+  "loesungsworte": ["BAECHLE", "MUENSTER", "BOBBELE", "DREISAM", "SCHWABE", "BREISGAU", "WALFISCH", "SCHWARZWALD"],
+  "orte": [
+    {
+      "id": "muenster",
+      "name": "Freiburger Münster",
+      "wiki": "Freiburger Münster",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "kosten": "Turm mit Eintritt",
+      "info": "Gebaut von etwa 1200 bis 1513. Den 116 Meter hohen Turm nannte der Kunsthistoriker Jacob Burckhardt „den schönsten Turm auf Erden“. In 70 Metern Höhe gibt es eine Aussichtsplattform. Außen am Münster wachen zahlreiche Wasserspeier – manche ganz schön frech.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nannte Jacob Burckhardt den Münsterturm?", "richtig": "Den schönsten Turm auf Erden", "falsch": ["Den höchsten Turm Europas", "Den schiefsten Turm Badens"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wozu dienen die Wasserspeier am Münster?", "richtig": "Sie leiten das Regenwasser vom Dach ab", "falsch": ["Sie bewachen den Schatz", "Sie spritzen Touristen nass"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Turm des Freiburger Münsters?", "wert": 116, "einheit": "m" },
+        { "typ": "suchen", "text": "Sucht den frechsten Wasserspeier am Münster – was macht er?" }
+      ],
+      "lage": [47.99556, 7.85222]
+    },
+    {
+      "id": "muensterplatz",
+      "name": "Münstermarkt & Lange Rote",
+      "wiki": "Münsterplatz (Freiburg im Breisgau)",
+      "themen": ["kulinarik", "highlights"],
+      "prio": 2,
+      "hinweis": "Markt montags bis samstags vormittags",
+      "info": "Rund um das Münster ist an Werktagen Markt – Bauern aus dem Umland verkaufen Obst, Gemüse und Blumen. Kultstatus hat die „Lange Rote“, eine besonders lange Bratwurst im Brötchen. Der Münsterplatz ist der größte Platz der Stadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die „Lange Rote“?", "richtig": "Eine sehr lange Bratwurst", "falsch": ["Eine rote Straßenbahn", "Ein langer roter Schal"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Platz ist der größte in Freiburg?", "richtig": "Der Münsterplatz", "falsch": ["Der Rathausplatz", "Der Augustinerplatz"] },
+        { "typ": "mission", "text": "Teilt euch eine Lange Rote (oder ein Stück Obst vom Markt) – wer bekommt das letzte Stück?" }
+      ],
+      "lage": [47.99557, 7.85241]
+    },
+    {
+      "id": "kaufhaus",
+      "name": "Historisches Kaufhaus",
+      "wiki": "Historisches Kaufhaus (Freiburg im Breisgau)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Das rote Gebäude an der Südseite des Münsterplatzes war früher das Zentrum des Handels – im Hof hing die Stadtwaage. An der Fassade stehen vier Habsburger: Kaiser Maximilian I., sein Sohn Philipp der Schöne sowie Karl V. und Ferdinand I.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat das Historische Kaufhaus?", "richtig": "Rot", "falsch": ["Blau", "Gelb"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Herrscherhaus zeigen die Figuren an der Fassade?", "richtig": "Die Habsburger", "falsch": ["Die Hohenzollern", "Die Wittelsbacher"] },
+        { "typ": "schaetzen", "frage": "Wie viele Herrscherfiguren stehen an der Fassade?", "wert": 4, "einheit": "Figuren" }
+      ],
+      "lage": [47.99496, 7.85273]
+    },
+    {
+      "id": "baechle",
+      "name": "Bächle",
+      "wiki": "Freiburger Bächle",
+      "suche": "Kaiser-Joseph-Straße, Freiburg",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 3,
+      "info": "Durch die Altstadt fließen kleine Wasserläufe, die „Bächle“ – zusammen fast 16 Kilometer lang, ein Teil davon unterirdisch. Eine Sage sagt: Wer aus Versehen in ein Bächle tritt, heiratet später jemanden aus Freiburg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was passiert laut Sage, wenn man aus Versehen in ein Bächle tritt?", "richtig": "Man heiratet jemanden aus Freiburg", "falsch": ["Man bekommt nasse Füße und Glück im Spiel", "Man muss ein Lied singen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Fluss werden die Bächle gespeist?", "richtig": "Aus der Dreisam", "falsch": ["Aus dem Rhein", "Aus dem Neckar"] },
+        { "typ": "schaetzen", "frage": "Wie lang sind alle Bächle zusammen?", "wert": 15.9, "einheit": "km" },
+        { "typ": "bewegen", "text": "Balanciert am Rand eines Bächles entlang – wer tritt hinein (und muss heiraten)?" }
+      ],
+      "lage": [47.99135, 7.84845]
+    },
+    {
+      "id": "martinstor",
+      "name": "Martinstor",
+      "wiki": "Martinstor",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Das ältere der beiden erhaltenen Stadttore. Kurios: Im angebauten Torbau sitzt ein Schnellrestaurant – das bekannte rot-gelbe Logo durfte aber nicht an das historische Tor, die Stadt setzte eine dezentere Lösung durch.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Kuriose am Martinstor?", "richtig": "Im Torbau ist ein Schnellrestaurant", "falsch": ["Es steht auf dem Kopf", "Es ist aus Holz"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wofür brauchte man früher Stadttore?", "richtig": "Um die Stadt nachts abzuschließen und zu schützen", "falsch": ["Für Fußballspiele", "Als Bushaltestelle"] },
+        { "typ": "suchen", "text": "Wie weist das Restaurant am Tor auf sich hin? Findet den Schriftzug." }
+      ],
+      "lage": [47.99361, 7.84889]
+    },
+    {
+      "id": "schwabentor",
+      "name": "Schwabentor",
+      "wiki": "Schwabentor (Freiburg im Breisgau)",
+      "themen": ["historie", "besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Das jüngere der beiden Stadttore zeigt auf der Stadtseite das Bild eines Kaufmanns mit Fuhrwerk. Dazu erzählt man die Legende vom Schwaben, der mit zwei Fässern voller Geld kam, um Freiburg zu kaufen – doch in den Fässern war nur Sand.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wollte der Schwabe in der Legende kaufen?", "richtig": "Die ganze Stadt Freiburg", "falsch": ["Ein Pferd", "Das Münster als Ferienhaus"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war laut Legende in den Fässern des Schwaben?", "richtig": "Sand", "falsch": ["Wein", "Gold"] },
+        { "typ": "suchen", "text": "Findet das Bild mit dem Kaufmann und seinem Fuhrwerk am Tor." }
+      ],
+      "lage": [47.99292, 7.85411]
+    },
+    {
+      "id": "schlossberg",
+      "name": "Schlossberg & Aussichtsturm",
+      "wiki": "Schlossbergturm",
+      "themen": ["spass", "natur", "highlights"],
+      "prio": 2,
+      "info": "Direkt hinter der Altstadt beginnt mit dem Schlossberg der Schwarzwald. Hinauf geht es zu Fuß oder mit der kleinen Schlossbergbahn. Oben steht ein 33 Meter hoher Aussichtsturm von 2002 mit Blick über die Stadt bis zu den Vogesen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Gebirge beginnt am Schlossberg?", "richtig": "Der Schwarzwald", "falsch": ["Die Alpen", "Der Harz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde der Aussichtsturm auf dem Schlossberg gebaut?", "richtig": "2002", "falsch": ["1902", "1802"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Schlossbergturm?", "wert": 33.27, "einheit": "m" },
+        { "typ": "foto", "text": "Gipfelfoto mit Münster im Hintergrund." }
+      ],
+      "lage": [47.99507, 7.86194]
+    },
+    {
+      "id": "augustinerplatz",
+      "name": "Augustinerplatz",
+      "wiki": "Museum Natur und Mensch Freiburg",
+      "suche": "Augustinerplatz, Freiburg",
+      "themen": ["kneipen", "spass"],
+      "prio": 2,
+      "info": "Abends sitzen hier Studenten auf den Stufen der alten Stadtmauer, rundherum liegen Kneipen und das Brauhaus Feierling in der Gerberau. Tagsüber lohnt das Museum Natur und Mensch direkt am Platz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Museum liegt direkt am Augustinerplatz?", "richtig": "Das Museum Natur und Mensch", "falsch": ["Das Augustinerbräu-Museum", "Das Schwarzwaldmuseum"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt das Freiburger Wort für ein kleines Wasserrinnsal in den Straßen?", "richtig": "Bächle", "falsch": ["Rinnle", "Wässerle"] },
+        { "typ": "mission", "text": "Setzt euch auf die Stufen und stoßt mit Einheimischen an – wer bekommt den besten Freiburg-Tipp?" }
+      ],
+      "lage": [47.99385, 7.85222]
+    },
+    {
+      "id": "rathausplatz",
+      "name": "Rathausplatz & Berthold-Schwarz-Brunnen",
+      "wiki": "Berthold Schwarz",
+      "suche": "Rathausplatz, Freiburg",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Auf dem Brunnen steht der Mönch Berthold Schwarz, der um 1359 zufällig das Schießpulver erfunden haben soll. Heute gilt er als erfundene Figur – eine Legende wie Robin Hood. Am Platz stehen das Alte und das Neue Rathaus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was soll Berthold Schwarz der Legende nach erfunden haben?", "richtig": "Das Schießpulver", "falsch": ["Den Buchdruck", "Die Kuckucksuhr"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Hat es Berthold Schwarz wirklich gegeben?", "richtig": "Wahrscheinlich nicht – er gilt als Legende", "falsch": ["Ja, er war Bürgermeister", "Ja, er wohnt noch im Rathaus"] },
+        { "typ": "suchen", "text": "Findet am Platz das Alte und das Neue Rathaus – welches ist bunter?" }
+      ],
+      "lage": [47.99616, 7.84959]
+    },
+    {
+      "id": "seepark",
+      "name": "Seepark",
+      "wiki": "Seepark Betzenhausen",
+      "themen": ["natur", "kinder", "spass"],
+      "prio": 1,
+      "info": "Der Park entstand zur Landesgartenschau 1986: 35 Hektar Grün rund um den Flückigersee, mit Aussichtsturm, Spielplätzen und Liegewiesen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der See im Seepark?", "richtig": "Flückigersee", "falsch": ["Bodensee", "Titisee"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Zu welchem Anlass entstand der Seepark?", "richtig": "Zur Landesgartenschau 1986", "falsch": ["Zu den Olympischen Spielen", "Zur Bundesgartenschau 2001"] },
+        { "typ": "bewegen", "text": "Lauft einmal um den nächsten Teich- oder Wegabschnitt – auf Zeit!" }
+      ],
+      "lage": [48.01133, 7.81817]
+    },
+    {
+      "id": "mundenhof",
+      "name": "Tiergehege Mundenhof",
+      "wiki": "Mundenhof",
+      "themen": ["kinder", "natur"],
+      "prio": 1,
+      "info": "Am westlichen Stadtrand liegt ein großes Tiergehege mit Naturerlebnispark. Der Mundenhof ist zugleich der kleinste Stadtteil Freiburgs – mit nur 48 Einwohnern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es auf dem Mundenhof zu sehen?", "richtig": "Viele Tiere", "falsch": ["Eine Achterbahn", "Ein Fußballstadion"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Einwohner hat der Stadtteil Mundenhof?", "richtig": "48", "falsch": ["4.800", "480.000"] },
+        { "typ": "suchen", "text": "Findet ein Tier, das ihr noch nie in echt gesehen habt." }
+      ],
+      "lage": [48.01667, 7.77694]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "feierling",
+      "name": "Feierling Biergarten",
+      "art": "biergarten",
+      "lage": [47.99348, 7.8528],
+      "info": "Biergarten der Hausbrauerei Feierling in der Gerberau.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Bei schönem Wetter",
+      "quelle": "OSM"
+    },
+    {
+      "id": "lazzarin",
+      "name": "Eiscafé Lazzarin",
+      "art": "eis",
+      "lage": [47.99536, 7.85162],
+      "info": "Eiscafé direkt am Münsterplatz.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "greiffenegg",
+      "name": "Greiffenegg-Schlössle",
+      "art": "restaurant",
+      "lage": [47.99265, 7.85552],
+      "info": "Restaurant mit Terrasse am Schlossberg und Blick über die Altstadt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "oberkirch",
+      "name": "Oberkirchs Weinstuben",
+      "art": "restaurant",
+      "was": "Weinstube",
+      "icon": "🍷",
+      "lage": [47.99505, 7.85243],
+      "info": "Badische Weinstube am Münsterplatz.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_schmidt",
+      "name": "Café Schmidt",
+      "art": "cafe",
+      "lage": [47.99531, 7.84753],
+      "info": "Traditionscafé an der Bertoldstraße.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schlossbergbahn",
+      "name": "Schlossbergbahn",
+      "art": "aktion",
+      "was": "Bergbahn",
+      "icon": "🚡",
+      "lage": [47.99662, 7.85888],
+      "info": "Kleine Standseilbahn vom Stadtgarten auf den Schlossberg.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [47.99507, 7.85222]
+}

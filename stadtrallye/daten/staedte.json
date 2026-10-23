@@ -25,9 +25,20 @@
     "land": "Nordrhein-Westfalen",
     "kurz": "Lippe, Kanal, Römerlager und Bergbau – Altstadt mit Planetenweg am Wasser.",
     "orte": 28,
+    "tipps": 11,
     "zentrum": [51.66534, 6.96486],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "dresden",
+    "name": "Dresden",
+    "land": "Sachsen",
+    "kurz": "Barock an der Elbe: Frauenkirche, Zwinger, Raddampfer – und die bunte Neustadt.",
+    "orte": 19,
+    "tipps": 9,
+    "zentrum": [51.05342, 13.74135],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "spass", "kinder", "natur"]
   },
   {
     "id": "duesseldorf",
@@ -50,11 +61,22 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "freiburg",
+    "name": "Freiburg im Breisgau",
+    "land": "Baden-Württemberg",
+    "kurz": "Münster, Bächle und Schwarzwald-Blick – sonnige Studentenstadt am Rand des Schwarzwalds.",
+    "orte": 11,
+    "tipps": 6,
+    "zentrum": [47.99507, 7.85222],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
+  },
+  {
     "id": "haltern",
     "name": "Haltern am See",
     "land": "Nordrhein-Westfalen",
     "kurz": "Römer, Stausee und Heide – Hansestadt zwischen Haard und Hoher Mark.",
     "orte": 27,
+    "tipps": 9,
     "zentrum": [51.74329, 7.18744],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "kneipen", "spass", "kinder", "natur"]
@@ -70,6 +92,26 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "hannover",
+    "name": "Hannover",
+    "land": "Niedersachsen",
+    "kurz": "Barockgärten, Nanas und ein roter Faden durch die Stadt – mit Maschsee und Lindener Kneipenmeile.",
+    "orte": 14,
+    "tipps": 5,
+    "zentrum": [52.37438, 9.7375],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "heidelberg",
+    "name": "Heidelberg",
+    "land": "Baden-Württemberg",
+    "kurz": "Schlossruine, Alte Brücke und die älteste Universität Deutschlands – Romantik am Neckar.",
+    "orte": 12,
+    "tipps": 6,
+    "zentrum": [49.41222, 8.70917],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
+  },
+  {
     "id": "koeln",
     "name": "Köln",
     "land": "Nordrhein-Westfalen",
@@ -78,6 +120,26 @@
     "tipps": 21,
     "zentrum": [50.93928, 6.96044],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "leipzig",
+    "name": "Leipzig",
+    "land": "Sachsen",
+    "kurz": "Bach, Faust, Friedliche Revolution – Messestadt mit Passagen, Kanälen und Kneipenmeilen.",
+    "orte": 23,
+    "tipps": 9,
+    "zentrum": [51.33917, 12.37538],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "mainz",
+    "name": "Mainz",
+    "land": "Rheinland-Pfalz",
+    "kurz": "Gutenberg, Dom und Fastnacht – Weinstuben und Chagall-Fenster am Rhein.",
+    "orte": 11,
+    "tipps": 4,
+    "zentrum": [49.99735, 8.27417],
+    "themen": ["highlights", "historie", "besonderheiten"]
   },
   {
     "id": "muenchen",
@@ -90,12 +152,33 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "muenster",
+    "name": "Münster",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Prinzipalmarkt, Westfälischer Frieden und mehr Fahrräder als Einwohner – Studentenstadt mit Aasee.",
+    "orte": 16,
+    "tipps": 6,
+    "zentrum": [51.96167, 7.62556],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "nuernberg",
+    "name": "Nürnberg",
+    "land": "Bayern",
+    "kurz": "Kaiserburg, Dürer, Bratwurst und Lebkuchen – mittelalterliche Altstadt an der Pegnitz.",
+    "orte": 18,
+    "tipps": 10,
+    "zentrum": [49.45423, 11.07521],
+    "themen": ["highlights", "historie", "besonderheiten", "kneipen", "kinder"]
+  },
+  {
     "id": "lippe_hohe_mark",
     "name": "Region Lippe & Hohe Mark",
     "land": "Nordrhein-Westfalen",
     "kurz": "Dorsten, Haltern, Schermbeck, Voerde und die Ausflugsziele drumherum – für Touren mit Rad, Bus & Bahn oder Auto.",
-    "orte": 95,
-    "zentrum": [51.67355, 6.96395],
+    "orte": 98,
+    "tipps": 32,
+    "zentrum": [51.67355, 6.96413],
     "entwurf": true,
     "region": true,
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
@@ -106,6 +189,7 @@
     "land": "Nordrhein-Westfalen",
     "kurz": "1200 Jahre Dorfgeschichte, Töpfer, Wölfe und die Heimat der Grafen von Galen.",
     "orte": 14,
+    "tipps": 6,
     "zentrum": [51.69246, 6.8707],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "kinder", "natur"]
@@ -126,6 +210,7 @@
     "land": "Nordrhein-Westfalen",
     "kurz": "Wasserschlösser, Rheinufer und eine alte Furt – Niederrhein pur.",
     "orte": 14,
+    "tipps": 6,
     "zentrum": [51.59519, 6.68197],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]

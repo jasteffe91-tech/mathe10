@@ -1,0 +1,383 @@
+{
+  "id": "nuernberg",
+  "name": "Nürnberg",
+  "land": "Bayern",
+  "kurz": "Kaiserburg, Dürer, Bratwurst und Lebkuchen – mittelalterliche Altstadt an der Pegnitz.",
+  "start": { "name": "Hauptmarkt", "wiki": "Hauptmarkt (Nürnberg)", "lage": [49.45389, 11.07694] },
+  "loesungsworte": ["BURG", "HASE", "NORIS", "DUERER", "PEGNITZ", "BRATWURST", "LEBKUCHEN", "SPIELZEUG"],
+  "orte": [
+    {
+      "id": "schoener_brunnen",
+      "name": "Hauptmarkt & Schöner Brunnen",
+      "wiki": "Schöner Brunnen (Nürnberg)",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Der rund 19 Meter hohe Brunnen von 1396 sieht aus wie eine gotische Kirchturmspitze. Im Gitter hängt ein Messingring, an dem alle drehen: Er soll Glück bringen – laut Sage sogar Kindersegen. Im Advent steht auf dem Hauptmarkt der Christkindlesmarkt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was soll passieren, wenn man am Ring im Brunnengitter dreht?", "richtig": "Es soll Glück bringen", "falsch": ["Es fängt an zu regnen", "Der Brunnen spritzt"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wem soll das Drehen am Ring laut Sage Glück bringen?", "richtig": "Paaren mit Kinderwunsch", "falsch": ["Lotto-Spielern", "Kaufleuten auf Reisen"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Schöne Brunnen?", "wert": 19, "einheit": "m" },
+        { "typ": "mission", "text": "Jeder dreht einmal am Ring und verrät (oder verschweigt) seinen Wunsch." }
+      ],
+      "lage": [49.45423, 11.07706]
+    },
+    {
+      "id": "maennleinlaufen",
+      "name": "Frauenkirche & Männleinlaufen",
+      "wiki": "Frauenkirche (Nürnberg)",
+      "themen": ["kinder", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Jeden Tag um 12 Uhr setzt sich am Giebel der Frauenkirche ein Uhrwerk von 1509 in Gang: Die sieben Kurfürsten ziehen dreimal huldigend um Kaiser Karl IV. herum. Die Kirche ließ Karl IV. selbst von 1352 bis 1362 bauen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Um wie viel Uhr startet das Männleinlaufen?", "richtig": "Um 12 Uhr mittags", "falsch": ["Um 8 Uhr morgens", "Um Mitternacht"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer zieht beim Männleinlaufen um den Kaiser?", "richtig": "Die sieben Kurfürsten", "falsch": ["Die zwölf Apostel", "Die Ratsherren der Stadt"] },
+        { "typ": "schaetzen", "frage": "Wie viele Kurfürsten ziehen um den Kaiser?", "wert": 7, "einheit": "Figuren" },
+        { "typ": "bewegen", "text": "Macht das Männleinlaufen nach: Einer ist der Kaiser, die anderen laufen dreimal um ihn herum und verbeugen sich." }
+      ],
+      "lage": [49.454, 11.078]
+    },
+    {
+      "id": "kaiserburg",
+      "name": "Kaiserburg",
+      "wiki": "Nürnberger Burg",
+      "themen": ["highlights", "historie", "spass"],
+      "prio": 3,
+      "kosten": "Eintritt für Museum und Turm",
+      "info": "Die Burg über der Altstadt war Residenz der Kaiser des Heiligen Römischen Reiches. Der runde Sinwellturm ist 41 Meter hoch und kann bei einer Führung bestiegen werden – genau wie der Tiefe Brunnen im Burghof besichtigt werden kann. Von der Burgfreiung blickt man über die Dächer der Stadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat früher auf der Kaiserburg gewohnt, wenn er in Nürnberg war?", "richtig": "Der Kaiser", "falsch": ["Der Papst", "Ein Drache"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt der runde Turm der Kaiserburg?", "richtig": "Sinwellturm", "falsch": ["Luginsland", "Schuldturm"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Sinwellturm?", "wert": 41, "einheit": "m" },
+        { "typ": "foto", "text": "Panoramafoto über die Dächer der Altstadt – alle stehen wie Burgwächter davor." }
+      ],
+      "lage": [49.45787, 11.07592]
+    },
+    {
+      "id": "duererhaus",
+      "name": "Albrecht-Dürer-Haus",
+      "wiki": "Albrecht-Dürer-Haus",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Von 1509 bis zu seinem Tod 1528 lebte und arbeitete Albrecht Dürer, der berühmteste Maler Nürnbergs, in diesem Fachwerkhaus – zusammen mit seiner Frau Agnes, seiner Mutter und Lehrlingen. Seit 1949 ist es ein Museum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier malte Albrecht Dürer besonders berühmt?", "richtig": "Einen Hasen", "falsch": ["Einen Löwen", "Einen Dackel"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie lange lebte Dürer in diesem Haus?", "richtig": "Von 1509 bis zu seinem Tod 1528", "falsch": ["Nur ein Jahr", "Seine ganze Kindheit"] },
+        { "typ": "foto", "text": "Selbstporträt-Foto wie Dürer: frontal, ernster Blick, Hand am Kragen." }
+      ],
+      "lage": [49.45718, 11.07388]
+    },
+    {
+      "id": "duerer_hase",
+      "name": "Tiergärtnertorplatz & Dürer-Hase",
+      "wiki": "Feldhase (Dürer)",
+      "suche": "Tiergärtnertor, Nürnberg",
+      "themen": ["besonderheiten", "kinder", "kneipen"],
+      "prio": 2,
+      "info": "Auf dem Platz vor dem Tiergärtnertor sitzt ein riesiger Bronzehase, aus dem andere Hasen hervorbrechen. Der Bildhauer Jürgen Goertz schuf ihn 1984 als Hommage an Dürers berühmtes Aquarell „Feldhase“ von 1502. An Sommerabenden sitzen hier Hunderte Menschen mit einem Getränk auf dem Pflaster.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier sitzt als große Skulptur auf dem Platz?", "richtig": "Ein Hase", "falsch": ["Ein Bär", "Ein Fuchs"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Jahr stammt Dürers Aquarell „Feldhase“?", "richtig": "1502", "falsch": ["1802", "1902"] },
+        { "typ": "suchen", "text": "Zählt, wie viele kleine Hasen ihr an der großen Skulptur entdeckt." },
+        { "typ": "foto", "text": "Alle machen Hasenohren und posieren neben dem Bronzehasen." }
+      ],
+      "lage": [49.45826, 11.07357]
+    },
+    {
+      "id": "weissgerbergasse",
+      "name": "Weißgerbergasse",
+      "wiki": "Weißgerbergasse (Nürnberg)",
+      "themen": ["historie", "besonderheiten", "kneipen"],
+      "prio": 2,
+      "info": "Eine der wenigen fast vollständig erhaltenen Gassen der Altstadt: Fachwerkhäuser, in denen früher die Weißgerber Leder gerbten. Heute reihen sich hier Bars, Restaurants und Galerien.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Handwerk gab der Gasse ihren Namen?", "richtig": "Die Weißgerber, die Leder herstellten", "falsch": ["Die Bäcker", "Die Weinhändler"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißen Häuser mit sichtbaren Holzbalken?", "richtig": "Fachwerkhäuser", "falsch": ["Hochhäuser", "Iglus"] },
+        { "typ": "foto", "text": "Fotografiert das schiefste Fachwerkhaus der Gasse." }
+      ],
+      "lage": [49.45519, 11.07303]
+    },
+    {
+      "id": "henkersteg",
+      "name": "Henkersteg & Weinstadel",
+      "wiki": "Henkersteg",
+      "themen": ["historie", "besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Der überdachte Holzsteg führt über die Pegnitz und hat seinen Namen vom Henkerturm: Dort wohnte früher der Henker der Reichsstadt – abseits der Bürger. Gleich daneben steht der lange Fachwerkbau des Weinstadels.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer wohnte früher im Henkerturm?", "richtig": "Der Henker", "falsch": ["Der Bürgermeister", "Der Bäcker"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum wohnte der Henker abseits?", "richtig": "Sein Beruf galt als unehrenhaft", "falsch": ["Er war sehr reich", "Er wollte angeln"] },
+        { "typ": "foto", "text": "Fotografiert den Steg mit dem Weinstadel im Hintergrund – ein klassisches Postkartenmotiv." }
+      ],
+      "lage": [49.45308, 11.07308]
+    },
+    {
+      "id": "heilig_geist_spital",
+      "name": "Heilig-Geist-Spital",
+      "wiki": "Heilig-Geist-Spital (Nürnberg)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Das Spital wurde teils direkt über die Pegnitz gebaut – das Wasser fließt unter dem Haus hindurch. Gestiftet hat es Konrad Groß, damals der reichste Bürger Nürnbergs. Von 1424 bis 1796 wurden hier die Reichskleinodien aufbewahrt, darunter die Kaiserkrone.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Schätze wurden im Heilig-Geist-Spital aufbewahrt?", "richtig": "Die Reichskleinodien mit der Kaiserkrone", "falsch": ["Der Goldschatz der Stadt", "Dürers Gemälde"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was fließt unter dem Spital hindurch?", "richtig": "Der Fluss Pegnitz", "falsch": ["Eine U-Bahn", "Ein Bach aus Milch"] },
+        { "typ": "suchen", "text": "Findet die Stelle, von der aus man sieht, wie die Pegnitz unter dem Gebäude verschwindet." }
+      ],
+      "lage": [49.45278, 11.07917]
+    },
+    {
+      "id": "lorenzkirche",
+      "name": "St. Lorenz",
+      "wiki": "St. Lorenz (Nürnberg)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Die gotische Kirche mit ihren zwei Türmen wurde ab etwa 1250 gebaut, der Chor 1477 vollendet. Die kostbare spätgotische Ausstattung wurde im Zweiten Weltkrieg ausgelagert und blieb so fast vollständig erhalten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum blieb die Ausstattung von St. Lorenz im Krieg erhalten?", "richtig": "Sie war vorher ausgelagert worden", "falsch": ["Die Kirche wurde nicht getroffen", "Sie war aus Stahl"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Türme hat die Lorenzkirche an der Vorderseite?", "richtig": "Zwei", "falsch": ["Einen", "Vier"] },
+        { "typ": "suchen", "text": "Sucht am Hauptportal die Figur von Adam und von Eva." }
+      ],
+      "lage": [49.451, 11.07806]
+    },
+    {
+      "id": "ehekarussell",
+      "name": "Ehekarussell",
+      "wiki": "Ehekarussell",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Der Brunnen am Weißen Turm zeigt in drastischen Bronzefiguren die Höhen und Tiefen der Ehe – von der ersten Liebe bis zum Streit. Grundlage ist ein Gedicht von Hans Sachs. Der Bildhauer Jürgen Weber schuf ihn, aufgestellt wurde er 1984 – und sorgte für viel Aufregung.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wessen Gedicht diente als Vorlage für das Ehekarussell?", "richtig": "Hans Sachs", "falsch": ["Johann Wolfgang von Goethe", "Heinrich Heine"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der Brunnen am Weißen Turm?", "richtig": "Ehekarussell", "falsch": ["Kinderkarussell", "Pferdekarussell"] },
+        { "typ": "mission", "text": "Spielt die Szene am Brunnen nach, die euch am meisten zum Lachen bringt." }
+      ],
+      "lage": [49.45055, 11.07095]
+    },
+    {
+      "id": "felsengaenge",
+      "name": "Felsengänge & Hausbrauerei Altstadthof",
+      "wiki": "Felsengänge (Nürnberg)",
+      "suche": "Bergstraße 19, Nürnberg",
+      "themen": ["kneipen", "historie", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Führung mit Eintritt",
+      "info": "Unter der Altstadt liegt ein Labyrinth aus Stollen und Bierkellern, in den Sandstein gehauen. Hier lagerte früher das Bier, im Zweiten Weltkrieg suchten die Menschen hier Schutz vor den Bomben. Führungen starten an der Hausbrauerei Altstadthof, die das Nürnberger Rotbier braut.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wurden die Felsenkeller ursprünglich vor allem genutzt?", "richtig": "Zum Lagern von Bier", "falsch": ["Als Gefängnis", "Für den Bergbau"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wo liegen die Felsengänge?", "richtig": "Unter der Altstadt", "falsch": ["Auf dem Burgberg-Dach", "Im Fluss"] },
+        { "typ": "mission", "text": "Probiert ein Rotbier oder einen Saft der Hausbrauerei und gebt ihm eine Note von 1 bis 10." }
+      ],
+      "lage": [49.45699, 11.07488]
+    },
+    {
+      "id": "rostbratwurst",
+      "name": "Nürnberger Rostbratwurst am Rathausplatz",
+      "wiki": "Bratwurst",
+      "suche": "Bratwursthäusle, Rathausplatz, Nürnberg",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Die Nürnberger Rostbratwurst ist geschützt: 7 bis 9 Zentimeter lang, 20 bis 25 Gramm schwer, gewürzt mit Majoran und auf Buchenholz gegrillt. Klassisch bestellt man „Drei im Weggla“ – drei Würstchen im Brötchen. Rund um den Rathausplatz gibt es sie an jeder Ecke.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bedeutet „Drei im Weggla“?", "richtig": "Drei Würstchen im Brötchen", "falsch": ["Drei Brezen im Korb", "Drei Kugeln Eis"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Gewürz ist typisch für die Nürnberger Rostbratwurst?", "richtig": "Majoran", "falsch": ["Curry", "Zimt"] },
+        { "typ": "schaetzen", "frage": "Wie viele Zentimeter ist eine Nürnberger Rostbratwurst höchstens lang?", "wert": 9, "einheit": "cm" },
+        { "typ": "mission", "text": "Bestellt „Drei im Weggla“ (oder eine Brezn) – mit fränkischem Akzent." }
+      ],
+      "lage": [49.45501, 11.07665]
+    },
+    {
+      "id": "kettensteg",
+      "name": "Kettensteg",
+      "wiki": "Kettensteg (Nürnberg)",
+      "themen": ["historie", "natur", "besonderheiten"],
+      "prio": 1,
+      "info": "Die schmale, etwa 68 Meter lange Fußgängerbrücke hängt an eisernen Ketten über der Pegnitz. Sie wurde 1824 gebaut und gilt als technikgeschichtliches Denkmal. Sie liegt direkt vor der Fronveste, einem Teil der alten Stadtbefestigung.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran hängt der Kettensteg?", "richtig": "An eisernen Ketten", "falsch": ["An Seilen aus Hanf", "An Luftballons"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie lang ist der Kettensteg ungefähr?", "richtig": "Etwa 68 Meter", "falsch": ["Etwa 8 Meter", "Etwa 680 Meter"] },
+        { "typ": "bewegen", "text": "Geht ganz langsam über den Steg – spürt ihr, wie er schwingt?" }
+      ],
+      "lage": [49.45404, 11.07078]
+    },
+    {
+      "id": "menschenrechte",
+      "name": "Straße der Menschenrechte",
+      "wiki": "Straße der Menschenrechte",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Der israelische Künstler Dani Karavan schuf beim Germanischen Nationalmuseum eine Reihe aus 27 acht Meter hohen Betonsäulen, zwei Bodenplatten und einer Eiche. Auf den 30 Elementen stehen die 30 Artikel der Allgemeinen Erklärung der Menschenrechte – auf Deutsch und in einer weiteren Sprache.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was steht auf den Säulen der Straße der Menschenrechte?", "richtig": "Die Artikel der Allgemeinen Erklärung der Menschenrechte", "falsch": ["Die Namen Nürnberger Bürgermeister", "Gedichte von Hans Sachs"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Baum gehört zur Straße der Menschenrechte?", "richtig": "Eine Eiche", "falsch": ["Eine Palme", "Ein Tannenbaum"] },
+        { "typ": "schaetzen", "frage": "Wie viele Artikel hat die Allgemeine Erklärung der Menschenrechte?", "wert": 30, "einheit": "Artikel" },
+        { "typ": "suchen", "text": "Findet die Säule mit Artikel 1 und lest ihn laut vor." }
+      ],
+      "lage": [49.44819, 11.07521]
+    },
+    {
+      "id": "spielzeugmuseum",
+      "name": "Spielzeugmuseum",
+      "wiki": "Spielzeugmuseum Nürnberg",
+      "themen": ["kinder", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Eines der bekanntesten Spielzeugmuseen der Welt: Auf 1.400 Quadratmetern zeigt es Spielzeug von der Antike bis heute – Puppenhäuser, Blechspielzeug, Eisenbahnen. Nürnberg war jahrhundertelang eine Hauptstadt der Spielzeugmacher.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Spielzeugmuseum anschauen?", "richtig": "Spielzeug aus vielen Jahrhunderten", "falsch": ["Nur Computerspiele", "Echte Ritterrüstungen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche große Messe findet jedes Jahr in Nürnberg statt?", "richtig": "Die Spielwarenmesse", "falsch": ["Die Buchmesse", "Die Automesse"] },
+        { "typ": "mission", "text": "Jeder erzählt in einem Satz von seinem liebsten Kinderspielzeug." }
+      ],
+      "lage": [49.45467, 11.07436]
+    },
+    {
+      "id": "dokuzentrum",
+      "name": "Dokumentationszentrum Reichsparteitagsgelände",
+      "wiki": "Dokumentationszentrum Reichsparteitagsgelände",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "kosten": "Eintritt",
+      "info": "Auf dem riesigen Gelände hielt die NSDAP ihre Reichsparteitage ab. Im Nordflügel der nie fertiggestellten Kongresshalle zeigt das Dokuzentrum Ursachen, Zusammenhänge und Folgen der NS-Gewaltherrschaft. Rundgänge führen über das Gelände, etwa zur Zeppelintribüne.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Gebäude befindet sich das Dokumentationszentrum?", "richtig": "In der unvollendeten Kongresshalle", "falsch": ["Im alten Rathaus", "Im Hauptbahnhof"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wurde die Kongresshalle jemals fertig gebaut?", "richtig": "Nein, sie blieb unvollendet", "falsch": ["Ja, 1939", "Ja, erst 2000"] }
+      ],
+      "lage": [49.43389, 11.11278]
+    },
+    {
+      "id": "memorium",
+      "name": "Memorium Nürnberger Prozesse",
+      "wiki": "Memorium Nürnberger Prozesse",
+      "suche": "Memorium Nürnberger Prozesse, Bärenschanzstraße, Nürnberg",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "kosten": "Eintritt",
+      "info": "Im Justizpalast standen ab 1945 die Hauptverantwortlichen des NS-Regimes vor einem internationalen Gericht. Die Nürnberger Prozesse gelten als Geburtsstunde des modernen Völkerstrafrechts. Das Museum informiert am historischen Ort.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür gelten die Nürnberger Prozesse als Meilenstein?", "richtig": "Für das internationale Völkerstrafrecht", "falsch": ["Für das Verkehrsrecht", "Für das Erbrecht"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Justizpalast?", "richtig": "Ein großes Gerichtsgebäude", "falsch": ["Ein Schloss für Könige", "Ein Einkaufszentrum"] }
+      ],
+      "lage": [49.45444, 11.04832]
+    },
+    {
+      "id": "handwerkerhof",
+      "name": "Handwerkerhof",
+      "suche": "Handwerkerhof, Nürnberg",
+      "themen": ["kulinarik", "besonderheiten", "kinder"],
+      "prio": 1,
+      "info": "Gleich am Königstor, im Schutz der Stadtmauer, liegt ein kleines Fachwerkdorf mit Werkstätten: Glasbläser, Zinngießer, Lebkuchenbäcker und Bratwurstküchen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was arbeitet ein Glasbläser?", "richtig": "Er formt Gegenstände aus heißem Glas", "falsch": ["Er bläst Luftballons auf", "Er putzt Fenster"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Gebäck ist eine Nürnberger Spezialität?", "richtig": "Lebkuchen", "falsch": ["Baumkuchen", "Stollen"] },
+        { "typ": "suchen", "text": "Findet im Handwerkerhof eine Werkstatt, in der gerade jemand arbeitet." }
+      ],
+      "lage": [49.4474, 11.08118]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "bratwurst_roeslein",
+      "name": "Bratwurst Röslein",
+      "art": "restaurant",
+      "lage": [49.45458, 11.07786],
+      "info": "Großes Bratwurstlokal am Rathausplatz – Platz für ganze Gruppen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "gulden_stern",
+      "name": "Zum Gulden Stern",
+      "art": "restaurant",
+      "lage": [49.4483, 11.07088],
+      "info": "Historische Bratwurstküche, die sich älteste Bratwurstküche der Welt nennt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "bratwursthaeusle",
+      "name": "Bratwursthäusle",
+      "art": "imbiss",
+      "lage": [49.45501, 11.07665],
+      "info": "Rostbratwürste vom Buchenholzgrill direkt am Rathausplatz.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_troedelmarkt",
+      "name": "Café am Trödelmarkt",
+      "art": "cafe",
+      "lage": [49.45323, 11.07369],
+      "info": "Café auf der Pegnitzinsel mit Blick auf den Henkersteg.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "lebkuchen_schmidt",
+      "name": "Lebkuchen Schmidt",
+      "art": "cafe",
+      "was": "Lebkuchen",
+      "icon": "🍪",
+      "lage": [49.45358, 11.07796],
+      "info": "Laden für Nürnberger Lebkuchen nahe dem Hauptmarkt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_sirena",
+      "name": "Eiscafé Sirena",
+      "art": "eis",
+      "lage": [49.45205, 11.07752],
+      "info": "Eiscafé an der Königstraße, zwischen Lorenzkirche und Hauptmarkt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schanzenbraeu",
+      "name": "Schanzenbräu Schankwirtschaft",
+      "art": "brauhaus",
+      "lage": [49.45075, 11.05079],
+      "info": "Wirtschaft der Gostenhofer Brauerei mit Biergarten.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kloster_kneipe",
+      "name": "Kloster",
+      "art": "bar",
+      "ab": 18,
+      "lage": [49.45236, 11.07271],
+      "info": "Urige Kneipe in der Altstadt nahe dem Weinstadel.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "db_museum",
+      "name": "DB Museum",
+      "art": "aktion",
+      "was": "Eisenbahnmuseum",
+      "icon": "🚂",
+      "lage": [49.4455, 11.07436],
+      "info": "Museum der Deutschen Bahn mit historischen Zügen und Kinderbereich.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "tiergarten_n",
+      "name": "Tiergarten Nürnberg",
+      "art": "aktion",
+      "was": "Zoo",
+      "icon": "🦁",
+      "lage": [49.44743, 11.14481],
+      "info": "Großer Tiergarten im Wald am östlichen Stadtrand, mit Delfinlagune.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [49.45423, 11.07521]
+}

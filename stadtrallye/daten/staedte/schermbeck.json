@@ -193,5 +193,61 @@
       ]
     }
   ],
-  "zentrum": [51.69246, 6.8707]
+  "zentrum": [51.69246, 6.8707],
+  "tipps": [
+    {
+      "id": "crema_gelato",
+      "name": "Eiscafé Crema Gelato",
+      "art": "eis",
+      "lage": [51.69566, 6.87481],
+      "info": "Eiscafé an der Schloßstraße im Ortskern.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "gaststaette_rathaus",
+      "name": "Gaststätte am Rathaus",
+      "art": "restaurant",
+      "lage": [51.69154, 6.86903],
+      "info": "Gaststätte an der Mittelstraße, direkt am Rathaus.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_haferkamp",
+      "name": "Café Haferkamp",
+      "art": "cafe",
+      "lage": [51.67592, 6.87375],
+      "info": "Café in Bricht, südlich des Ortskerns.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "alte_ziegelei",
+      "name": "Alte Ziegelei",
+      "art": "cafe",
+      "lage": [51.73602, 6.84859],
+      "info": "Café an der Westricher Straße nördlich von Schermbeck.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "sonnenhof_cafe",
+      "name": "Sonnenhof-Café",
+      "art": "cafe",
+      "lage": [51.63764, 6.8839],
+      "info": "Café am Brackenberg in Besten.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_luehlerheide",
+      "name": "Café Lühlerheide",
+      "art": "cafe",
+      "lage": [51.70242, 6.75058],
+      "info": "Café direkt an der Arbeiterkolonie Lühlerheim.",
+      "preis": 1,
+      "quelle": "OSM"
+    }
+  ]
 }

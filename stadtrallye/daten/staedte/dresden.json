@@ -1,0 +1,384 @@
+{
+  "id": "dresden",
+  "name": "Dresden",
+  "land": "Sachsen",
+  "kurz": "Barock an der Elbe: Frauenkirche, Zwinger, Raddampfer – und die bunte Neustadt.",
+  "start": {
+    "name": "Neumarkt an der Frauenkirche",
+    "wiki": "Frauenkirche (Dresden)",
+    "lage": [51.05188, 13.74158]
+  },
+  "loesungsworte": ["ELBE", "STOLLEN", "ZWINGER", "AUGUST", "BAROCK", "DAMPFER", "SEMPER", "STRIEZEL", "PORZELLAN"],
+  "orte": [
+    {
+      "id": "frauenkirche",
+      "name": "Frauenkirche",
+      "wiki": "Frauenkirche (Dresden)",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "George Bähr baute die 91 Meter hohe Kuppelkirche von 1726 bis 1743. Nach den Luftangriffen im Februar 1945 brannte sie aus und stürzte ein – jahrzehntelang lag hier ein Trümmerberg. Von 1993 bis 2005 wurde sie wieder aufgebaut, viele alte Steine kamen an ihren alten Platz zurück.",
+      "fakt": "Das goldene Turmkreuz schuf der Londoner Kunstschmied Alan Smith – Sohn eines britischen Piloten, der Dresden bombardiert hatte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woran erkennt man die alten Steine der Frauenkirche?", "richtig": "Sie sind dunkler als die neuen", "falsch": ["Sie sind rot angemalt", "Sie haben Nummern aus Gold"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer schuf das neue goldene Turmkreuz?", "richtig": "Ein Londoner Kunstschmied, Sohn eines britischen Bomberpiloten", "falsch": ["Ein Goldschmied aus Meißen", "Ein Künstler aus New York"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist die Frauenkirche?", "wert": 91, "einheit": "m" },
+        { "typ": "suchen", "text": "Zählt an einer Seite der Kirche, wie viele dunkle alte Steine ihr in einer Reihe findet." }
+      ],
+      "lage": [51.05188, 13.74158]
+    },
+    {
+      "id": "zwinger",
+      "name": "Zwinger",
+      "wiki": "Zwinger (Dresden)",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "August der Starke ließ den Zwinger von 1711 bis 1728 als Festplatz bauen – benannt nach einem früheren Teil der Festung. Der Eingang durch das Kronentor ist wie eine Krone geformt. Im Glockenspielpavillon hängen Glocken aus Meißner Porzellan.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus sind die Glocken im Glockenspiel des Zwingers?", "richtig": "Aus Porzellan", "falsch": ["Aus Schokolade", "Aus Holz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer ließ den Zwinger bauen?", "richtig": "August der Starke", "falsch": ["Friedrich der Große", "Kaiser Wilhelm II."] },
+        { "typ": "suchen", "text": "Findet das Kronentor: Welcher Vogel sitzt oben auf der Krone?" },
+        { "typ": "foto", "text": "Barock-Pose: Alle stellen sich auf wie die Figuren an den Mauern des Zwingers." }
+      ],
+      "lage": [51.05306, 13.73389]
+    },
+    {
+      "id": "semperoper",
+      "name": "Semperoper",
+      "wiki": "Semperoper",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Das Opernhaus ist nach seinem Architekten Gottfried Semper benannt. Das heutige Gebäude entstand von 1871 bis 1878, wurde 1945 zerstört und von 1977 bis 1985 originalgetreu rekonstruiert. Davor auf dem Theaterplatz reitet König Johann.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wem ist die Semperoper benannt?", "richtig": "Nach dem Architekten Gottfried Semper", "falsch": ["Nach der Sängerin Sophie Semper", "Nach dem Wort „semper“ (immer)"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wird in der Semperoper aufgeführt?", "richtig": "Opern und Ballett", "falsch": ["Fußballspiele", "Zirkus mit Tieren"] },
+        { "typ": "mission", "text": "Singt einen Ton so lange wie möglich – wie Opernsänger. Wer hält am längsten durch?" }
+      ],
+      "lage": [51.05451, 13.73517]
+    },
+    {
+      "id": "fuerstenzug",
+      "name": "Fürstenzug",
+      "wiki": "Fürstenzug",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Das 102 Meter lange Wandbild zeigt die sächsischen Herrscher aus dem Haus Wettin von 1127 bis 1902 als Reiterzug. Es besteht aus rund 23.000 Fliesen aus Meißner Porzellan und gilt als größtes Porzellanbild der Welt – es überstand sogar den Bombenangriff 1945.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woraus besteht der Fürstenzug?", "richtig": "Aus rund 23.000 Porzellanfliesen", "falsch": ["Aus Ölfarbe auf Putz", "Aus bunten Glassteinen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was zeigt das lange Bild?", "richtig": "Einen Zug von Reitern – Fürsten und Könige", "falsch": ["Einen Eisenbahnzug", "Einen Karnevalsumzug"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Fürstenzug?", "wert": 102, "einheit": "m" },
+        { "typ": "suchen", "text": "Findet im Fürstenzug August den Starken – und einen Reiter mit Hund." }
+      ],
+      "lage": [51.05268, 13.73918]
+    },
+    {
+      "id": "bruehlsche_terrasse",
+      "name": "Brühlsche Terrasse",
+      "wiki": "Brühlsche Terrasse",
+      "themen": ["highlights", "natur"],
+      "prio": 3,
+      "info": "Die rund 500 Meter lange Terrasse über der Elbe heißt auch „Balkon Europas“. Von hier sieht man die Dampfer am Terrassenufer und gegenüber die Neustadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Spitzname gehört zur Brühlschen Terrasse?", "richtig": "Balkon Europas", "falsch": ["Treppe der Könige", "Dach der Welt"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie lang ist die Brühlsche Terrasse ungefähr?", "richtig": "Etwa 500 Meter", "falsch": ["Etwa 50 Meter", "Etwa 5 Kilometer"] },
+        { "typ": "foto", "text": "Balkonfoto: Alle lehnen sich an die Brüstung, im Hintergrund die Elbe." }
+      ],
+      "lage": [51.05342, 13.74019]
+    },
+    {
+      "id": "residenzschloss",
+      "name": "Residenzschloss & Grünes Gewölbe",
+      "wiki": "Residenzschloss Dresden",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Hier residierten die Kurfürsten und Könige von Sachsen. Heute zeigen die Museen im Schloss Schätze wie das Grüne Gewölbe, eine der reichsten Schatzkammern Europas. 2019 wurde dort eingebrochen – der Juwelendiebstahl machte weltweit Schlagzeilen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie heißt die berühmte Schatzkammer im Residenzschloss?", "richtig": "Grünes Gewölbe", "falsch": ["Goldene Grotte", "Rote Kammer"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat früher im Schloss gewohnt?", "richtig": "Die Könige von Sachsen", "falsch": ["Die Bürgermeister", "Die Elbschiffer"] },
+        { "typ": "mission", "text": "Plant in 60 Sekunden einen (erfundenen!) Schatz-Coup – und dann die Verfolgungsjagd der Polizei." }
+      ],
+      "lage": [51.05274, 13.73692]
+    },
+    {
+      "id": "kreuzkirche",
+      "name": "Kreuzkirche",
+      "wiki": "Kreuzkirche (Dresden)",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Die Hauptkirche Dresdens am Altmarkt ist die Heimat des weltberühmten Dresdner Kreuzchores. In ihrer Geschichte wurde sie fünfmal zerstört, zuletzt im Zweiten Weltkrieg – innen erinnert der rohe Putz bis heute daran.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher berühmte Chor singt in der Kreuzkirche?", "richtig": "Der Dresdner Kreuzchor", "falsch": ["Der Thomanerchor", "Die Regensburger Domspatzen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie oft wurde die Kreuzkirche schon zerstört?", "richtig": "Fünfmal", "falsch": ["Noch nie", "Hundertmal"] },
+        { "typ": "schaetzen", "frage": "Wie oft wurde die Kreuzkirche in ihrer Geschichte zerstört?", "wert": 5, "einheit": "Mal" }
+      ],
+      "lage": [51.04878, 13.73936]
+    },
+    {
+      "id": "altmarkt",
+      "name": "Altmarkt & Striezelmarkt",
+      "wiki": "Altmarkt (Dresden)",
+      "themen": ["highlights", "kulinarik", "historie"],
+      "prio": 2,
+      "info": "Der Altmarkt ist der älteste Platz Dresdens. Im Advent steht hier der Striezelmarkt, einer der ältesten Weihnachtsmärkte der Welt – es gibt ihn seit 1434. Sein Name kommt vom „Striezel“, dem alten Wort für den Dresdner Christstollen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Striezel?", "richtig": "Ein Stollen, ein Weihnachtsgebäck", "falsch": ["Ein Pferdeschlitten", "Ein Weihnachtslied"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann gibt es den Dresdner Striezelmarkt?", "richtig": "Seit 1434", "falsch": ["Seit 1934", "Seit 1834"] },
+        { "typ": "mission", "text": "Findet heraus, wo man heute in der Nähe ein Stück Stollen oder Eierschecke bekommt." }
+      ],
+      "lage": [51.04967, 13.73803]
+    },
+    {
+      "id": "goldener_reiter",
+      "name": "Goldener Reiter",
+      "wiki": "Goldener Reiter (Reiterstandbild)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Das vergoldete Reiterstandbild von 1736 zeigt August den Starken, Kurfürst von Sachsen und König von Polen, als römischen Kaiser auf einem steigenden Pferd. Er schaut nach Osten – Richtung Polen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wen zeigt der Goldene Reiter?", "richtig": "August den Starken", "falsch": ["Martin Luther", "Napoleon"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welcher Farbe glänzt der Reiter?", "richtig": "Gold", "falsch": ["Silber", "Blau"] },
+        { "typ": "foto", "text": "Macht das Reiterstandbild nach – einer ist das Pferd, einer der König." }
+      ],
+      "lage": [51.05811, 13.74135]
+    },
+    {
+      "id": "kunsthofpassage",
+      "name": "Kunsthofpassage",
+      "wiki": "Kunsthofpassage",
+      "themen": ["besonderheiten", "kinder", "spass"],
+      "prio": 3,
+      "info": "Fünf bunte Hinterhöfe zwischen Görlitzer und Alaunstraße. Am berühmtesten ist der Hof der Elemente: An der blauen Fassade schlängeln sich Regenrohre und Trichter – bei Regen gluckert und plätschert das Wasser durch das Rohrsystem.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hängt an der blauen Wand im Hof der Elemente?", "richtig": "Regenrohre und Trichter", "falsch": ["Bilder von Königen", "Blumentöpfe"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Für welches Element steht die blaue Fassade?", "richtig": "Wasser", "falsch": ["Feuer", "Erde"] },
+        { "typ": "suchen", "text": "Geht durch alle Höfe: In welchem Hof findet ihr Tiere an der Wand?" },
+        { "typ": "foto", "text": "Fotografiert die verrückteste Fassade der Passage." }
+      ],
+      "lage": [51.06783, 13.75475]
+    },
+    {
+      "id": "pfunds_molkerei",
+      "name": "Pfunds Molkerei",
+      "wiki": "Pfunds Molkerei",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Der Milchladen von 1892 ist von oben bis unten mit handbemalten Fliesen von Villeroy & Boch gefliest. 1997 kam er ins Guinness-Buch der Rekorde: als „schönster Milchladen der Welt“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hält Pfunds Molkerei?", "richtig": "Schönster Milchladen der Welt", "falsch": ["Ältester Käseladen Europas", "Größte Molkerei Deutschlands"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was verkaufte Pfunds Molkerei früher vor allem?", "richtig": "Milch", "falsch": ["Brot", "Fisch"] },
+        { "typ": "suchen", "text": "Sucht auf den Fliesen ein Tier – welches findet ihr zuerst?" }
+      ],
+      "lage": [51.06383, 13.7598]
+    },
+    {
+      "id": "aeussere_neustadt",
+      "name": "Äußere Neustadt",
+      "wiki": "Äußere Neustadt",
+      "suche": "Alaunstraße, Dresden",
+      "themen": ["kneipen", "besonderheiten", "spass"],
+      "prio": 2,
+      "info": "Das Gründerzeitviertel ist Dresdens Szeneviertel: Rund um Alaun-, Louisen- und Görlitzer Straße liegen unzählige Kneipen, Bars, Imbisse und kleine Läden. Hier ist bis spät in die Nacht etwas los.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach welchem König heißt die Äußere Neustadt auch?", "richtig": "Antonstadt – nach König Anton", "falsch": ["Augustusstadt", "Johannstadt"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist die Äußere Neustadt heute?", "richtig": "Dresdens Szene- und Kneipenviertel", "falsch": ["Ein Industriegebiet", "Ein Villenviertel"] },
+        { "typ": "mission", "text": "Findet die Bar mit dem schrägsten Namen und lasst euch davor fotografieren." }
+      ],
+      "lage": [51.06509, 13.74984]
+    },
+    {
+      "id": "blaues_wunder",
+      "name": "Blaues Wunder & Bergbahnen",
+      "wiki": "Blaues Wunder (Dresden)",
+      "themen": ["besonderheiten", "spass", "historie"],
+      "prio": 2,
+      "info": "Die Stahlbrücke über die Elbe wurde 1891 bis 1893 gebaut. „Blau“ wegen ihres ursprünglich himmelblauen Anstrichs, „Wunder“, weil so eine Konstruktion damals als Wunder galt. Gleich daneben fahren eine Standseilbahn (seit 1895) und eine Schwebebahn die Hänge hinauf.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Warum heißt die Brücke „Blaues Wunder“?", "richtig": "Sie war himmelblau und galt als technisches Wunder", "falsch": ["Weil das Wasser darunter blau ist", "Weil ein Zauberer sie gebaut hat"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche zwei Bergbahnen starten nahe dem Blauen Wunder?", "richtig": "Eine Standseilbahn und eine Schwebebahn", "falsch": ["Eine Zahnradbahn und ein Sessellift", "Zwei Gondelbahnen"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Blaue Wunder fertig?", "wert": 1893, "einheit": "" }
+      ],
+      "lage": [51.05337, 13.81005]
+    },
+    {
+      "id": "canaletto_blick",
+      "name": "Canaletto-Blick am Neustädter Elbufer",
+      "wiki": "Augustusbrücke",
+      "suche": "Königsufer, Dresden",
+      "themen": ["highlights", "natur"],
+      "prio": 2,
+      "info": "Vom Neustädter Elbufer unterhalb der Augustusbrücke sieht man die berühmte Altstadt-Silhouette mit Frauenkirche, Hofkirche und Semperoper – so, wie sie der Hofmaler Bernardo Bellotto, genannt Canaletto, im 18. Jahrhundert malte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer malte die berühmte Ansicht Dresdens vom rechten Elbufer?", "richtig": "Bernardo Bellotto, genannt Canaletto", "falsch": ["Caspar David Friedrich", "Albrecht Dürer"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt durch Dresden?", "richtig": "Die Elbe", "falsch": ["Der Rhein", "Die Donau"] },
+        { "typ": "foto", "text": "Fotografiert die Altstadt-Silhouette wie ein Gemälde – mit einer Person als „Maler“ im Vordergrund." }
+      ],
+      "lage": [51.05559, 13.74292]
+    },
+    {
+      "id": "yenidze",
+      "name": "Yenidze",
+      "wiki": "Yenidze",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Eine Moschee in Dresden? Nein – die 62 Meter hohe ehemalige Zigarettenfabrik von 1909 wurde nur im orientalischen Stil gebaut, mit Kuppel und Schornstein als Minarett. Der Name kommt von der Tabakregion Yenidze, aus der der Tabak stammte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sieht die Yenidze aus?", "richtig": "Wie eine Moschee mit Kuppel", "falsch": ["Wie eine Burg", "Wie ein Leuchtturm"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wurde in der Yenidze hergestellt?", "richtig": "Zigaretten", "falsch": ["Teppiche", "Kaffee"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist die Yenidze?", "wert": 62, "einheit": "m" }
+      ],
+      "lage": [51.059, 13.72683]
+    },
+    {
+      "id": "hygiene_museum",
+      "name": "Deutsches Hygiene-Museum",
+      "wiki": "Deutsches Hygiene-Museum",
+      "themen": ["kinder", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das Museum über den Menschen und seinen Körper wurde 1912 gegründet. Berühmtester Star ist der „Gläserne Mensch“ von 1930: Man kann durch die Haut auf Knochen, Adern und Organe schauen. Es gibt auch ein Kindermuseum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist das Besondere am „Gläsernen Menschen“?", "richtig": "Man kann hineinschauen und die Organe sehen", "falsch": ["Er kann sprechen", "Er ist aus Zucker"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Jahr stammt der erste Gläserne Mensch?", "richtig": "1930", "falsch": ["1880", "1990"] },
+        { "typ": "bewegen", "text": "Zeigt auf Kommando auf die genannten Körperteile: Knie, Ellenbogen, Schulter – immer schneller!" }
+      ],
+      "lage": [51.04425, 13.74664]
+    },
+    {
+      "id": "grosser_garten",
+      "name": "Großer Garten & Parkeisenbahn",
+      "wiki": "Großer Garten (Dresden)",
+      "themen": ["natur", "kinder", "spass"],
+      "prio": 2,
+      "info": "Der größte Park der Stadt wurde ab 1676 angelegt und ist fast zwei Kilometer lang. Im Sommer dreht die Parkeisenbahn ihre Runden – und die meisten Aufgaben, vom Fahrkarten-Verkauf bis zur Zugbegleitung, übernehmen Kinder und Jugendliche.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer arbeitet bei der Parkeisenbahn mit?", "richtig": "Kinder und Jugendliche", "falsch": ["Nur Roboter", "Nur Rentner"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Ab wann wurde der Große Garten angelegt?", "richtig": "Ab 1676", "falsch": ["Ab 1876", "Ab 1976"] },
+        { "typ": "bewegen", "text": "Lauft wie eine Eisenbahn hintereinander und macht „Tschu-tschu“ bis zur nächsten Bank." }
+      ],
+      "lage": [51.0375, 13.76306]
+    },
+    {
+      "id": "raddampfer",
+      "name": "Raddampfer am Terrassenufer",
+      "wiki": "Sächsische Dampfschiffahrt",
+      "suche": "Terrassenufer, Dresden",
+      "themen": ["besonderheiten", "spass", "natur"],
+      "prio": 2,
+      "info": "Am Terrassenufer legen historische Schaufelraddampfer ab. Die Flotte gilt als älteste und größte Raddampferflotte der Welt und fährt die Elbe hinauf bis in die Sächsische Schweiz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was dreht sich an der Seite eines Raddampfers?", "richtig": "Ein großes Schaufelrad", "falsch": ["Ein Propeller auf dem Dach", "Ein Windrad"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Titel trägt die Dresdner Dampferflotte?", "richtig": "Älteste und größte Raddampferflotte der Welt", "falsch": ["Schnellste Flotte Europas", "Einzige Dampferflotte Deutschlands"] },
+        { "typ": "suchen", "text": "Lest die Namen der Dampfer, die gerade am Ufer liegen." }
+      ],
+      "lage": [51.05599, 13.73477]
+    },
+    {
+      "id": "markthalle",
+      "name": "Neustädter Markthalle",
+      "wiki": "Neustädter Markthalle",
+      "themen": ["kulinarik", "historie"],
+      "prio": 1,
+      "info": "Die Markthalle wurde 1899 eröffnet und nach einer großen Sanierung im Jahr 2000 wiedereröffnet. Unter dem alten Stahldach gibt es Stände mit Essen und regionalen Spezialitäten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde die Neustädter Markthalle eröffnet?", "richtig": "1899", "falsch": ["1799", "1999"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man in einer Markthalle machen?", "richtig": "Essen und Lebensmittel kaufen", "falsch": ["Schwimmen", "Fahrrad fahren lernen"] },
+        { "typ": "mission", "text": "Findet etwas typisch Sächsisches zum Probieren." }
+      ],
+      "lage": [51.06019, 13.74492]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "kreutzkamm",
+      "name": "Café Kreutzkamm",
+      "art": "cafe",
+      "lage": [51.05023, 13.73679],
+      "info": "Traditionskonditorei am Altmarkt – berühmt für Baumkuchen und Stollen.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_toscana",
+      "name": "Café Toscana",
+      "art": "cafe",
+      "lage": [51.05276, 13.8082],
+      "info": "Café am Schillerplatz mit Blick aufs Blaue Wunder – bekannt für Eierschecke.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_venezia_dd",
+      "name": "Eiscafé Venezia",
+      "art": "eis",
+      "lage": [51.05825, 13.742],
+      "info": "Eiscafé an der Hauptstraße, gleich beim Goldenen Reiter.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_veneto",
+      "name": "Eiscafé Veneto",
+      "art": "eis",
+      "lage": [51.0515, 13.73572],
+      "info": "Eiscafé in der Altstadt nahe dem Residenzschloss.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "pulverturm",
+      "name": "Pulverturm an der Frauenkirche",
+      "art": "restaurant",
+      "lage": [51.05225, 13.74248],
+      "info": "Erlebnisgastronomie in alten Gewölben – deftig und mit Platz für Gruppen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "waldschloesschen",
+      "name": "Brauhaus am Waldschlösschen",
+      "art": "brauhaus",
+      "lage": [51.0679, 13.77806],
+      "info": "Brauhaus mit großem Biergarten und Blick über das Elbtal.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "katys_garage",
+      "name": "Katy's Garage",
+      "art": "bar",
+      "ab": 18,
+      "lage": [51.06675, 13.75181],
+      "info": "Kneipe mit Biergarten in einer alten Werkstatt mitten in der Neustadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schwebebahn",
+      "name": "Schwebebahn Loschwitz",
+      "art": "aktion",
+      "was": "Bergbahn",
+      "icon": "🚡",
+      "lage": [51.05405, 13.81818],
+      "info": "Hängebahn vom Körnerplatz nach Oberloschwitz – oben gibt es einen Aussichtspunkt.",
+      "preis": 1,
+      "gruppe": true,
+      "hinweis": "Betriebszeiten prüfen",
+      "quelle": "Wikipedia"
+    },
+    {
+      "id": "panometer_dd",
+      "name": "Panometer Dresden",
+      "art": "aktion",
+      "was": "Panorama",
+      "icon": "🖼️",
+      "lage": [51.0255, 13.78841],
+      "info": "Riesenrundbild von Yadegar Asisi in einem alten Gasometer.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [51.05342, 13.74135]
+}

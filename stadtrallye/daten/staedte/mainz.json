@@ -1,0 +1,211 @@
+{
+  "id": "mainz",
+  "name": "Mainz",
+  "land": "Rheinland-Pfalz",
+  "kurz": "Gutenberg, Dom und Fastnacht – Weinstuben und Chagall-Fenster am Rhein.",
+  "start": { "name": "Markt am Dom", "wiki": "Markt (Mainz)", "lage": [49.99951, 8.27366] },
+  "loesungsworte": ["DOM", "WOI", "RHEIN", "HELAU", "WORSCHT", "MEENZ", "CHAGALL", "GUTENBERG", "FASTNACHT"],
+  "orte": [
+    {
+      "id": "dom",
+      "name": "Mainzer Dom",
+      "wiki": "Mainzer Dom",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Erzbischof Willigis ließ ab dem Jahr 975 einen neuen Dom bauen – seitdem prägt der romanische Kaiserdom die Stadt. Er vereint romanische, gotische und barocke Bauteile. Rund um den Dom liegen vier Plätze, der größte ist der Markt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Erzbischof begann ab 975 mit dem Bau des Doms?", "richtig": "Willigis", "falsch": ["Bonifatius", "Gutenberg"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welchem Heiligen ist der Mainzer Dom geweiht?", "richtig": "Dem heiligen Martin", "falsch": ["Dem heiligen Nikolaus", "Dem heiligen Georg"] },
+        { "typ": "suchen", "text": "Zählt die Türme des Doms – von wo seht ihr die meisten auf einmal?" }
+      ],
+      "lage": [49.99889, 8.27417]
+    },
+    {
+      "id": "markt_heunensaeule",
+      "name": "Markt & Heunensäule",
+      "wiki": "Heunensäule",
+      "suche": "Heunensäule, Markt, Mainz",
+      "themen": ["besonderheiten", "historie", "kulinarik"],
+      "prio": 2,
+      "info": "Die mächtige Sandsteinsäule auf dem Markt wurde schon im 11. Jahrhundert für den Wiederaufbau des Doms gehauen – auf Vorrat. Gebraucht wurde sie nie. Von einst 42 solchen Säulen sind nur wenige erhalten. Dienstags, freitags und samstags ist hier Wochenmarkt, samstags in der Saison mit dem Marktfrühstück „Weck, Worscht un Woi“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür war die Heunensäule ursprünglich gedacht?", "richtig": "Für den Wiederaufbau des Doms", "falsch": ["Als Maibaum", "Als Grenzstein"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was bedeutet „Weck, Worscht un Woi“?", "richtig": "Brötchen, Wurst und Wein", "falsch": ["Wecker, Wurst und Wasser", "Weg, Wort und Wind"] },
+        { "typ": "schaetzen", "frage": "Wie viele solcher Säulen soll es einmal gegeben haben?", "wert": 42, "einheit": "Säulen" }
+      ],
+      "lage": [49.99954, 8.27361]
+    },
+    {
+      "id": "gutenberg",
+      "name": "Gutenberg-Museum",
+      "wiki": "Gutenberg-Museum",
+      "suche": "Gutenberg-Museum, Reichklarastraße, Mainz",
+      "themen": ["historie", "highlights", "kinder"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "hinweis": "Interimsausstellung „Gutenberg-Museum MOVED“ im Naturhistorischen Museum, Neubau geplant",
+      "info": "Johannes Gutenberg erfand in Mainz den Buchdruck mit beweglichen Lettern. Das Museum zeigt zwei Exemplare der Gutenberg-Bibel und eine nachgebaute Druckerpresse. Bis zum geplanten Neubau läuft die Ausstellung als „Gutenberg-Museum MOVED“ im Naturhistorischen Museum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hat Johannes Gutenberg erfunden?", "richtig": "Den Buchdruck mit beweglichen Buchstaben", "falsch": ["Das Fahrrad", "Den Kugelschreiber"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Exemplare der Gutenberg-Bibel besitzt das Museum?", "richtig": "Zwei", "falsch": ["Eines", "Zehn"] },
+        { "typ": "mission", "text": "Schreibt euren Gruppennamen in Spiegelschrift – so mussten die Drucklettern gesetzt werden." }
+      ],
+      "lage": [50.00367, 8.27095]
+    },
+    {
+      "id": "kirschgarten",
+      "name": "Kirschgarten",
+      "wiki": "Kirschgarten (Mainz)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Der schönste Fachwerkplatz der Altstadt. Schon 1329 hieß er „im Kirschgarten“ – nach der Quelle Kirschborn, die hier entsprang. Die bunten Fachwerkhäuser stehen in Reihen eng beieinander.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat der Kirschgarten seinen Namen?", "richtig": "Von der Quelle „Kirschborn“", "falsch": ["Von einem Kirschbaum-Hain des Bischofs", "Von einem Kirschkuchen-Bäcker"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißen die Häuser mit sichtbaren Holzbalken?", "richtig": "Fachwerkhäuser", "falsch": ["Holzhütten", "Blockhäuser"] },
+        { "typ": "foto", "text": "Fotografiert das bunteste Fachwerkhaus am Kirschgarten." }
+      ],
+      "lage": [49.99735, 8.27355]
+    },
+    {
+      "id": "augustinerstrasse",
+      "name": "Augustinerstraße & Weinstuben",
+      "wiki": "Augustinerstraße (Mainz)",
+      "themen": ["kneipen", "kulinarik", "historie"],
+      "prio": 2,
+      "info": "Die rund 270 Meter lange Gasse ist das Herz der Mainzer Altstadt – mit alten Häusern, Läden und Weinstuben in den Seitengassen. Mainz ist Hauptstadt des größten deutschen Weinanbaugebiets Rheinhessen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Zu welchem Weinanbaugebiet gehört Mainz?", "richtig": "Rheinhessen", "falsch": ["Mosel", "Franken"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennt man in Mainz einen Schoppen Wein?", "richtig": "En Schoppe Woi", "falsch": ["En Halbe Bier", "En Viertele"] },
+        { "typ": "mission", "text": "Bestellt einen Schoppen Rheinhessen-Wein (oder Traubensaft) und ruft gemeinsam „Helau!“" }
+      ],
+      "lage": [49.99679, 8.2749]
+    },
+    {
+      "id": "st_stephan",
+      "name": "St. Stephan & Chagall-Fenster",
+      "wiki": "St. Stephan (Mainz)",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Die Kirche auf der höchsten Erhebung der Altstadt wurde 990 gegründet. Berühmt sind ihre leuchtend blauen Fenster von Marc Chagall: Ab 1978 schuf der Künstler hier neun Fenster – als Zeichen der jüdisch-deutschen Versöhnung. Einzigartig in Deutschland.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe leuchtet in den Chagall-Fenstern am stärksten?", "richtig": "Blau", "falsch": ["Rot", "Grün"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wollte Marc Chagall mit den Fenstern ausdrücken?", "richtig": "Die jüdisch-deutsche Versöhnung", "falsch": ["Die Mainzer Fastnacht", "Den Weinbau am Rhein"] },
+        { "typ": "schaetzen", "frage": "Wie viele Fenster schuf Chagall für St. Stephan?", "wert": 9, "einheit": "Fenster" }
+      ],
+      "lage": [49.99556, 8.26861]
+    },
+    {
+      "id": "fastnachtsbrunnen",
+      "name": "Fastnachtsbrunnen",
+      "wiki": "Fastnachtsbrunnen (Mainz)",
+      "themen": ["besonderheiten", "kinder", "historie"],
+      "prio": 2,
+      "info": "Der fast neun Meter hohe Bronzeturm am Schillerplatz steckt voller Narren: Über 200 Figuren erzählen von der Mainzer Fastnacht – mit Vater Rhein, Mönch, Narr und vielen Streichen. Enthüllt wurde der Brunnen im Januar 1967.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ruft man in Mainz an Fastnacht?", "richtig": "Helau!", "falsch": ["Alaaf!", "Ahoi!"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Figuren hat der Fastnachtsbrunnen ungefähr?", "richtig": "Über 200", "falsch": ["Genau 11", "Rund 50"] },
+        { "typ": "suchen", "text": "Findet am Brunnen den Narren, der rückwärts auf einem Esel reitet." },
+        { "typ": "mission", "text": "Haltet unterwegs Ausschau: Manche Mainzer Fußgängerampeln zeigen Mainzelmännchen. Wer entdeckt eine?" }
+      ],
+      "lage": [49.99803, 8.26806]
+    },
+    {
+      "id": "holzturm",
+      "name": "Holzturm",
+      "wiki": "Holzturm (Mainz)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Der gotische Stadtturm am Rhein heißt nach dem Holzstapelplatz, der früher daneben lag. Er war Stadttor, Wachturm und Gefängnis. Prominentester Gefangener war 1803 der Räuber Schinderhannes, der von hier aus zu seiner Hinrichtung ging.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher berühmte Räuber saß im Holzturm gefangen?", "richtig": "Der Schinderhannes", "falsch": ["Robin Hood", "Der Räuber Hotzenplotz"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Warum heißt der Turm Holzturm?", "richtig": "Daneben wurde früher Holz gestapelt", "falsch": ["Er ist aus Holz gebaut", "Dort wohnte ein Holzfäller"] },
+        { "typ": "foto", "text": "Räuberfoto: Alle schauen grimmig wie die Bande des Schinderhannes." }
+      ],
+      "lage": [49.99714, 8.27803]
+    },
+    {
+      "id": "roemisches_theater",
+      "name": "Römisches Theater",
+      "wiki": "Römisches Theater Mainz",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Ende der 1990er-Jahre wurde neben dem Bahnhof ein römisches Theater freigelegt. Mit 116 Metern Durchmesser war es das größte römische Bühnentheater nördlich der Alpen – mit Platz für rund 10.000 Zuschauer. Mainz hieß damals Mogontiacum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß Mainz zur Römerzeit?", "richtig": "Mogontiacum", "falsch": ["Colonia", "Augusta Treverorum"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer hat das Theater gebaut?", "richtig": "Die Römer", "falsch": ["Die Wikinger", "Die Ägypter"] },
+        { "typ": "schaetzen", "frage": "Wie viele Zuschauer fanden im Römischen Theater Platz?", "wert": 10000, "einheit": "Personen" }
+      ],
+      "lage": [49.99306, 8.27778]
+    },
+    {
+      "id": "zitadelle",
+      "name": "Zitadelle & Drususstein",
+      "wiki": "Zitadelle Mainz",
+      "themen": ["historie", "natur"],
+      "prio": 1,
+      "info": "Die Festung auf dem Jakobsberg wurde in ihrer heutigen Form um 1660 errichtet. Im Graben steht der Drususstein, ein römisches Denkmal für den Feldherrn Drusus – eines der ältesten römischen Bauwerke in Deutschland.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Für wen wurde der Drususstein errichtet?", "richtig": "Für den römischen Feldherrn Drusus", "falsch": ["Für Kaiser Karl den Großen", "Für Johannes Gutenberg"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist eine Zitadelle?", "richtig": "Eine Festung", "falsch": ["Ein Zirkus", "Ein Bahnhof"] },
+        { "typ": "bewegen", "text": "Lauft eine Runde auf der Festungsmauer wie Wachsoldaten im Gleichschritt." }
+      ],
+      "lage": [49.99306, 8.27417]
+    },
+    {
+      "id": "rheinufer",
+      "name": "Rheinufer am Fischtor",
+      "suche": "Fischtorplatz, Mainz",
+      "themen": ["natur", "spass"],
+      "prio": 1,
+      "info": "Am Fischtorplatz öffnet sich die Altstadt zum Rhein. Die Promenade lädt zum Spazieren ein, gegenüber liegt Wiesbaden-Kastel – und Mainz und Wiesbaden sind seit jeher Rivalen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Landeshauptstadt liegt Mainz am Rhein gegenüber?", "richtig": "Wiesbaden", "falsch": ["Frankfurt", "Darmstadt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt an Mainz vorbei?", "richtig": "Der Rhein", "falsch": ["Die Elbe", "Die Donau"] },
+        { "typ": "bewegen", "text": "Zählt alle Schiffe, die in fünf Minuten vorbeifahren – wer tippt die Zahl vorher am besten?" }
+      ],
+      "lage": [49.99977, 8.27784]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "weinhaus_bluhm",
+      "name": "Weinhaus Bluhm",
+      "art": "restaurant",
+      "was": "Weinstube",
+      "icon": "🍷",
+      "lage": [49.99658, 8.27343],
+      "info": "Urige Weinstube in der Altstadt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eisgrub_braeu",
+      "name": "Eisgrub-Bräu",
+      "art": "brauhaus",
+      "lage": [49.99523, 8.27336],
+      "info": "Gasthausbrauerei in historischen Gewölben in der Altstadt.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_florenz_mz",
+      "name": "Eiscafé Florenz",
+      "art": "eis",
+      "lage": [49.99586, 8.2762],
+      "info": "Eiscafé am Hopfengarten in der Altstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_gelateria_mz",
+      "name": "Eiscafé La Gelateria",
+      "art": "eis",
+      "lage": [50.00107, 8.26977],
+      "info": "Eisdiele an der Stadthausstraße nahe der Fußgängerzone.",
+      "preis": 1,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [49.99735, 8.27417]
+}

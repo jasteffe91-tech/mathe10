@@ -1,0 +1,255 @@
+{
+  "id": "heidelberg",
+  "name": "Heidelberg",
+  "land": "Baden-Württemberg",
+  "kurz": "Schlossruine, Alte Brücke und die älteste Universität Deutschlands – Romantik am Neckar.",
+  "start": {
+    "name": "Marktplatz an der Heiliggeistkirche",
+    "wiki": "Heiliggeistkirche (Heidelberg)",
+    "lage": [49.41222, 8.70944]
+  },
+  "loesungsworte": ["FASS", "AFFE", "NECKAR", "PERKEO", "KARZER", "SCHLOSS", "STUDENT", "ROMANTIK"],
+  "orte": [
+    {
+      "id": "schloss",
+      "name": "Schloss & Großes Fass",
+      "wiki": "Heidelberger Schloss",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "kosten": "Eintritt (inkl. Bergbahn möglich)",
+      "info": "Die Ruine aus rotem Sandstein ist eine der berühmtesten Deutschlands. Fast drei Jahrhunderte residierten hier die Kurfürsten von der Pfalz. Im Keller liegt das Große Fass von 1751, schon das vierte Riesenfass an dieser Stelle. Bewacht hat es der Legende nach der trinkfeste Hofzwerg Perkeo.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was liegt im Keller des Heidelberger Schlosses?", "richtig": "Ein riesiges Weinfass", "falsch": ["Ein Drache", "Ein Schwimmbad"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer war Perkeo?", "richtig": "Hofzwerg und Hüter des Großen Fasses", "falsch": ["Ein Kurfürst", "Der Baumeister des Schlosses"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das heutige Große Fass gebaut?", "wert": 1751, "einheit": "" },
+        { "typ": "foto", "text": "Fotografiert die Altstadt von der Schlossterrasse – mit allen im Vordergrund." }
+      ],
+      "lage": [49.41, 8.716]
+    },
+    {
+      "id": "alte_bruecke",
+      "name": "Alte Brücke & Brückenaffe",
+      "wiki": "Alte Brücke (Heidelberg)",
+      "themen": ["highlights", "besonderheiten", "kinder"],
+      "prio": 3,
+      "info": "Die Steinbrücke von 1788 ist schon die neunte Brücke an dieser Stelle. Am Brückentor sitzt seit 1979 ein bronzener Affe mit Spiegel. Wer den Spiegel streichelt, wird reich; wer seine Finger berührt, kehrt nach Heidelberg zurück; wer die Mäuse anfasst, bekommt viele Kinder – sagt man.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was hält der Brückenaffe in der Hand?", "richtig": "Einen Spiegel", "falsch": ["Eine Banane", "Einen Schlüssel"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was soll passieren, wenn man die Finger des Affen berührt?", "richtig": "Man kehrt nach Heidelberg zurück", "falsch": ["Man wird reich", "Man verliebt sich"] },
+        { "typ": "schaetzen", "frage": "Die wievielte Brücke an dieser Stelle ist die Alte Brücke?", "wert": 9, "einheit": "" },
+        { "typ": "mission", "text": "Jeder entscheidet sich: Spiegel, Finger oder Mäuse? Begründet eure Wahl in einem Satz." }
+      ],
+      "lage": [49.41425, 8.70955]
+    },
+    {
+      "id": "heiliggeistkirche",
+      "name": "Heiliggeistkirche & Marktplatz",
+      "wiki": "Heiliggeistkirche (Heidelberg)",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Die größte Kirche Heidelbergs entstand von 1398 bis 1515. Hier stand einst die berühmte Bibliotheca Palatina, eine der wertvollsten Büchersammlungen der Welt – bis sie 1622 im Dreißigjährigen Krieg nach Rom gebracht wurde. Zwischen den Strebepfeilern haben sich kleine Läden eingenistet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche berühmte Bibliothek stand einst in der Heiliggeistkirche?", "richtig": "Die Bibliotheca Palatina", "falsch": ["Die Bibliothek von Alexandria", "Die Anna-Amalia-Bibliothek"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was findet man zwischen den Pfeilern außen an der Kirche?", "richtig": "Kleine Läden", "falsch": ["Briefkästen", "Bushaltestellen"] },
+        { "typ": "suchen", "text": "Zählt die kleinen Läden an der Außenwand der Kirche." }
+      ],
+      "lage": [49.41222, 8.70944]
+    },
+    {
+      "id": "haus_zum_ritter",
+      "name": "Haus zum Ritter",
+      "wiki": "Haus zum Ritter (Heidelberg)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Der Tuchhändler Charles Belier ließ das Haus 1592 bauen. Es ist das älteste erhaltene Wohnhaus der Altstadt – und das einzige Bürgerhaus, das den großen Stadtbrand von 1693 überstand. Ganz oben an der Fassade steht ein Ritter.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was überstand das Haus zum Ritter als einziges Bürgerhaus?", "richtig": "Den großen Stadtbrand von 1693", "falsch": ["Ein Erdbeben", "Eine Sturmflut"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer steht ganz oben an der Fassade?", "richtig": "Ein Ritter", "falsch": ["Ein König", "Ein Bär"] },
+        { "typ": "suchen", "text": "Sucht an der Fassade das Baujahr und den Ritter ganz oben." }
+      ],
+      "lage": [49.41167, 8.70917]
+    },
+    {
+      "id": "alte_uni",
+      "name": "Alte Universität",
+      "wiki": "Alte Universität (Heidelberg)",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Die Universität Heidelberg wurde 1386 gegründet und ist die älteste Universität im heutigen Deutschland. Die Alte Universität ist ihr barocker Prachtbau am Universitätsplatz – mit der Alten Aula und dem Universitätsmuseum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde die Universität Heidelberg gegründet?", "richtig": "1386", "falsch": ["1586", "1886"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer lernt an einer Universität?", "richtig": "Studentinnen und Studenten", "falsch": ["Kindergartenkinder", "Ritter"] },
+        { "typ": "schaetzen", "frage": "Wie viele Jahre ist die Universität Heidelberg ungefähr alt?", "wert": 640, "einheit": "Jahre" }
+      ],
+      "lage": [49.41111, 8.70611]
+    },
+    {
+      "id": "karzer",
+      "name": "Studentenkarzer",
+      "wiki": "Studentenkarzer (Heidelberg)",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Bis ins frühe 20. Jahrhundert sperrte die Universität Studenten hier ein – etwa für nächtliche Ruhestörung. Die Häftlinge verewigten sich mit Namen, Porträts und Wappen ihrer Studentenverbindungen an Wänden und Decken. Eine Zeit im Karzer galt als Ehrensache.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war der Studentenkarzer?", "richtig": "Ein Gefängnis für Studenten", "falsch": ["Eine Studentenküche", "Ein Hörsaal"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Womit verewigten sich die Häftlinge im Karzer?", "richtig": "Mit Namen, Porträts und Wappen an den Wänden", "falsch": ["Mit Briefen an den König", "Mit Liedern auf Schallplatte"] },
+        { "typ": "mission", "text": "Erfindet einen harmlosen Studentenstreich, für den man früher im Karzer gelandet wäre." }
+      ],
+      "lage": [49.41136, 8.70669]
+    },
+    {
+      "id": "philosophenweg",
+      "name": "Philosophenweg",
+      "wiki": "Philosophenweg (Heidelberg)",
+      "themen": ["highlights", "natur", "spass"],
+      "prio": 3,
+      "info": "Der rund zwei Kilometer lange Weg am Heiligenberg ist am Anfang sehr steil. Dafür belohnt er mit dem schönsten Blick auf Altstadt, Alte Brücke und Schloss. Schon Professoren und Dichter sollen hier nachgedacht haben – daher der Name.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was sieht man vom Philosophenweg aus?", "richtig": "Die Altstadt mit dem Schloss", "falsch": ["Das Meer", "Die Alpen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Auf welchem Berg verläuft der Philosophenweg?", "richtig": "Am Heiligenberg", "falsch": ["Am Königstuhl", "Am Feldberg"] },
+        { "typ": "bewegen", "text": "Wer schafft den steilen Anstieg ohne Pause? Oben wird gemeinsam durchgeatmet." },
+        { "typ": "foto", "text": "Das klassische Heidelberg-Foto: Altstadt, Brücke und Schloss in einem Bild." }
+      ],
+      "lage": [49.415, 8.70028]
+    },
+    {
+      "id": "bergbahn",
+      "name": "Bergbahn & Königstuhl",
+      "wiki": "Heidelberger Bergbahn",
+      "suche": "Kornmarkt, Heidelberg",
+      "themen": ["spass", "kinder", "natur"],
+      "prio": 2,
+      "kosten": "Fahrkarte",
+      "info": "Vom Kornmarkt fährt eine Standseilbahn in fünf Minuten am Schloss vorbei zur Molkenkur – 173 Höhenmeter. Dort steigt man um und fährt weiter auf den 570 Meter hohen Königstuhl, Heidelbergs Hausberg. Oben wartet das Märchenparadies.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man ohne Laufen auf den Königstuhl?", "richtig": "Mit der Bergbahn", "falsch": ["Mit der U-Bahn", "Mit dem Schiff"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hoch ist der Königstuhl?", "richtig": "Etwa 570 Meter", "falsch": ["Etwa 1.570 Meter", "Etwa 170 Meter"] },
+        { "typ": "schaetzen", "frage": "Wie viele Höhenmeter überwindet die Bahn vom Kornmarkt zur Molkenkur?", "wert": 173, "einheit": "m" }
+      ],
+      "lage": [49.41188, 8.71154]
+    },
+    {
+      "id": "knoesel",
+      "name": "Chocolaterie Knösel & Studentenkuss",
+      "wiki": "Heidelberger Studentenkuß",
+      "suche": "Chocolaterie Knösel, Haspelgasse, Heidelberg",
+      "themen": ["kulinarik", "besonderheiten"],
+      "prio": 2,
+      "info": "Seit 1863 stellt die älteste Schokoladenmanufaktur der Stadt den „Heidelberger Studentenkuss“ her: Nougat in Zartbitterschokolade. Er soll erfunden worden sein, damit Studenten den jungen Damen einen „Kuss“ schenken konnten – ohne gegen die strengen Anstandsregeln zu verstoßen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Heidelberger Studentenkuss?", "richtig": "Eine Praline aus Schokolade", "falsch": ["Ein Brief", "Ein Tanz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann gibt es den Heidelberger Studentenkuss?", "richtig": "Seit 1863", "falsch": ["Seit 1963", "Seit 1763"] },
+        { "typ": "mission", "text": "Verschenkt einen (Schokoladen-)Kuss – an wen, entscheidet die Gruppe." }
+      ],
+      "lage": [49.41255, 8.70901]
+    },
+    {
+      "id": "roter_ochsen",
+      "name": "Zum Roten Ochsen",
+      "wiki": "Gasthaus Zum Roten Ochsen (Heidelberg)",
+      "themen": ["kneipen", "historie"],
+      "prio": 2,
+      "info": "Eines der traditionsreichsten Studentenlokale Heidelbergs, seit 1839 im Besitz der Familie Spengel – heute in der sechsten Generation. Im Gästebuch sollen Mark Twain, Marilyn Monroe und John Wayne stehen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Familie führt den Roten Ochsen seit Generationen?", "richtig": "Die Familie Spengel", "falsch": ["Die Familie Knösel", "Die Familie Perkeo"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher US-Schriftsteller soll hier zu Gast gewesen sein?", "richtig": "Mark Twain", "falsch": ["Ernest Hemingway", "Stephen King"] },
+        { "typ": "mission", "text": "Schreibt eine Zeile wie in ein Gästebuch – über euren Tag in Heidelberg." }
+      ],
+      "lage": [49.41278, 8.71347]
+    },
+    {
+      "id": "untere_strasse",
+      "name": "Untere Straße",
+      "wiki": "Hauptstraße (Heidelberg)",
+      "suche": "Untere Straße, Heidelberg",
+      "themen": ["kneipen", "spass"],
+      "prio": 2,
+      "info": "Parallel zur Hauptstraße reiht sich in der engen Unteren Straße eine Kneipe an die nächste. Hier feiern Studenten, Touristen und Junggesellenabschiede bis spät in die Nacht.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Parallel zu welcher Straße verläuft die Untere Straße?", "richtig": "Zur Hauptstraße", "falsch": ["Zum Philosophenweg", "Zur Neckarstraße"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "An welchem Fluss liegt Heidelberg?", "richtig": "Am Neckar", "falsch": ["Am Main", "An der Mosel"] },
+        { "typ": "mission", "text": "Findet in der Unteren Straße jemanden, der in Heidelberg studiert, und lasst euch einen Geheimtipp geben." }
+      ],
+      "lage": [49.41216, 8.70729]
+    },
+    {
+      "id": "zoo",
+      "name": "Zoo Heidelberg",
+      "wiki": "Zoo Heidelberg",
+      "themen": ["kinder", "natur"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Der Zoo im Stadtteil Neuenheim wurde 1934 eröffnet. Auf gut 10 Hektar leben rund 2.500 Tiere aus über 150 Arten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Tiere leben ungefähr im Zoo Heidelberg?", "richtig": "Rund 2.500", "falsch": ["Rund 25", "Rund 250.000"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde der Zoo Heidelberg eröffnet?", "richtig": "1934", "falsch": ["1884", "1984"] },
+        { "typ": "bewegen", "text": "Hüpft wie Kängurus bis zum nächsten Gehege." }
+      ],
+      "lage": [49.41528, 8.66083]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "vetters",
+      "name": "Vetter's Alt Heidelberger Brauhaus",
+      "art": "brauhaus",
+      "lage": [49.41253, 8.70969],
+      "info": "Hausbrauerei in der Steingasse zwischen Brücke und Marktplatz.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "schnookeloch",
+      "name": "Schnookeloch",
+      "art": "restaurant",
+      "lage": [49.41292, 8.70894],
+      "info": "Historisches Studentenlokal in der Haspelgasse.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kulturbrauerei_hd",
+      "name": "Kulturbrauerei Heidelberg",
+      "art": "brauhaus",
+      "lage": [49.41314, 8.71337],
+      "info": "Brauerei mit Biergarten in der Leyergasse.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "zum_seppl",
+      "name": "Zum Seppl",
+      "art": "restaurant",
+      "lage": [49.41276, 8.71318],
+      "info": "Traditionsreiches Studentenlokal an der Hauptstraße.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "gundel",
+      "name": "Konditorei Gundel",
+      "art": "cafe",
+      "lage": [49.41219, 8.71216],
+      "info": "Traditionskonditorei an der Hauptstraße nahe dem Kornmarkt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "maerchenparadies",
+      "name": "Märchenparadies",
+      "art": "aktion",
+      "was": "Kinder-Freizeitpark",
+      "icon": "🏰",
+      "lage": [49.40194, 8.72957],
+      "info": "Kleiner Märchen-Freizeitpark oben auf dem Königstuhl.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Saisonal",
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [49.41222, 8.70917]
+}

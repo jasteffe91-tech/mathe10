@@ -380,5 +380,97 @@
       ]
     }
   ],
-  "zentrum": [51.74329, 7.18744]
+  "zentrum": [51.74329, 7.18744],
+  "tipps": [
+    {
+      "id": "eis_dolomiti",
+      "name": "Eiscafé Dolomiti",
+      "art": "eis",
+      "lage": [51.74294, 7.18666],
+      "info": "Eiscafé an der Rekumer Straße am Rand der Altstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_zentral",
+      "name": "Café-Restaurant Zentral",
+      "art": "cafe",
+      "lage": [51.744, 7.18762],
+      "info": "Café-Restaurant in der Mühlenstraße, mitten in der Altstadt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "sahnehaeubchen",
+      "name": "Café Sahnehäubchen",
+      "art": "cafe",
+      "lage": [51.77251, 7.22413],
+      "info": "Café an der Marktstraße in Sythen.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "pizzeria_avanti",
+      "name": "Pizzeria Avanti",
+      "art": "restaurant",
+      "lage": [51.74327, 7.18897],
+      "info": "Pizzeria in der Lippstraße in der Altstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "wurstkultour",
+      "name": "Wurstkultour",
+      "art": "imbiss",
+      "lage": [51.7459, 7.24154],
+      "info": "Imbiss am Stockwieser Damm, nah am Stausee.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "biergarten_jupp",
+      "name": "Biergarten Jupp",
+      "art": "biergarten",
+      "lage": [51.74106, 7.22913],
+      "info": "Erlebnisbiergarten mit Blockhaus am Stausee, gleich neben dem Kletterwald.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Saisonal",
+      "quelle": "freizeitmonster.de; OSM"
+    },
+    {
+      "id": "alter_garten",
+      "name": "Alter Garten",
+      "art": "biergarten",
+      "lage": [51.74586, 7.24174],
+      "info": "Lokal unter alten Bäumen am Ufer, gutbürgerliche Küche.",
+      "preis": 2,
+      "quelle": "Radtour-Ratgeber; OSM"
+    },
+    {
+      "id": "kletterwald",
+      "name": "Kletterwald Haltern",
+      "art": "aktion",
+      "was": "Kletterwald",
+      "icon": "🧗",
+      "lage": [51.74106, 7.22913],
+      "info": "Kletterparcours zwischen den Bäumen am Südufer des Stausees.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Mindestalter und -größe je Parcours, vorher buchen",
+      "quelle": "OSM"
+    },
+    {
+      "id": "bootsverleih_niehues",
+      "name": "Bootsverleih Niehues",
+      "art": "aktion",
+      "was": "Bootsverleih",
+      "icon": "🚣",
+      "lage": [51.74332, 7.25948],
+      "info": "Boote mieten am Hullerner Stausee.",
+      "preis": 2,
+      "hinweis": "Saisonal",
+      "quelle": "freizeitmonster.de; OSM"
+    }
+  ]
 }

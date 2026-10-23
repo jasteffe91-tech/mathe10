@@ -393,5 +393,108 @@
       ]
     }
   ],
-  "zentrum": [51.66534, 6.96486]
+  "zentrum": [51.66534, 6.96486],
+  "tipps": [
+    {
+      "id": "eis_michele",
+      "name": "Eiscafé Michele",
+      "art": "eis",
+      "lage": [51.66027, 6.96486],
+      "info": "Eiscafé direkt am Marktplatz.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_san_remo",
+      "name": "Eiscafé San Remo",
+      "art": "eis",
+      "lage": [51.6594, 6.96434],
+      "info": "Eiscafé an der Essener Straße in der Altstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_dolce_vita",
+      "name": "Eiscafé La Dolce Vita",
+      "art": "eis",
+      "lage": [51.66049, 6.96777],
+      "info": "Eiscafé am Ostwall, am Rand der Altstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_riviera",
+      "name": "Eiscafé Riviera",
+      "art": "eis",
+      "lage": [51.67222, 6.98275],
+      "info": "Eiscafé auf dem Platz der ehemaligen Zeche Fürst Leopold.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_cortina",
+      "name": "Eiscafé Cortina",
+      "art": "eis",
+      "lage": [51.68146, 6.95379],
+      "info": "Eiscafé an der Freiheitsstraße in Holsterhausen.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "hafen_cafe",
+      "name": "Hafen-Café",
+      "art": "cafe",
+      "lage": [51.66398, 6.95544],
+      "info": "Café am Leinpfad in der Hardt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_anneliese",
+      "name": "Café Anneliese",
+      "art": "cafe",
+      "lage": [51.66007, 6.94186],
+      "info": "Café an der Fährstraße in der Hardt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "charlottes_cafe",
+      "name": "Charlottes Café",
+      "art": "cafe",
+      "lage": [51.74317, 7.00148],
+      "info": "Café im Schloss Lembeck.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "boehmers",
+      "name": "Böhmer's Café, Bistro & Biergarten",
+      "art": "biergarten",
+      "lage": [51.76035, 7.00083],
+      "info": "Café mit Biergarten im Ortskern von Lembeck.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "dali",
+      "name": "DALI",
+      "art": "restaurant",
+      "lage": [51.67151, 6.98307],
+      "info": "Restaurant auf dem Gelände der ehemaligen Zeche Fürst Leopold.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "rosin",
+      "name": "Restaurant Rosin",
+      "art": "restaurant",
+      "lage": [51.71917, 7.01308],
+      "info": "Restaurant des Fernsehkochs Frank Rosin in Wulfen, seit 1991 und mehrfach mit Michelin-Sternen ausgezeichnet.",
+      "preis": 3,
+      "hinweis": "Nur mit Reservierung",
+      "quelle": "Wikipedia; OSM"
+    }
+  ]
 }

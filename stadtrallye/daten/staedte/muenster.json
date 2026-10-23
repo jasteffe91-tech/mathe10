@@ -1,0 +1,311 @@
+{
+  "id": "muenster",
+  "name": "Münster",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Prinzipalmarkt, Westfälischer Frieden und mehr Fahrräder als Einwohner – Studentenstadt mit Aasee.",
+  "start": { "name": "Prinzipalmarkt am Rathaus", "wiki": "Rathaus Münster", "lage": [51.96167, 7.62806] },
+  "loesungsworte": ["LEEZE", "AASEE", "FRIEDE", "KIEPE", "TUERMER", "LAMBERTI", "PROMENADE", "PINKUS"],
+  "orte": [
+    {
+      "id": "prinzipalmarkt",
+      "name": "Prinzipalmarkt",
+      "wiki": "Prinzipalmarkt",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Die „gute Stube“ Münsters: Unter den Bogengängen der Giebelhäuser wird seit Jahrhunderten gehandelt. Der Name bedeutet Hauptmarkt. Nach der Zerstörung im Zweiten Weltkrieg wurden die Giebel im alten Stil wieder aufgebaut.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet „Prinzipalmarkt“?", "richtig": "Hauptmarkt", "falsch": ["Markt der Prinzen", "Prinzessinnenmarkt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Unter was laufen die Leute am Prinzipalmarkt trocken?", "richtig": "Unter Bogengängen", "falsch": ["Unter Sonnenschirmen", "Durch einen Tunnel"] },
+        { "typ": "suchen", "text": "Zählt die Bögen der Bogengänge auf einer Straßenseite bis zur Lambertikirche." },
+        { "typ": "foto", "text": "Fotografiert die Giebelreihe so, dass möglichst viele Giebel aufs Bild passen." }
+      ],
+      "lage": [51.96222, 7.62806]
+    },
+    {
+      "id": "rathaus_friedenssaal",
+      "name": "Historisches Rathaus & Friedenssaal",
+      "wiki": "Rathaus Münster",
+      "themen": ["historie", "highlights"],
+      "prio": 3,
+      "kosten": "Friedenssaal mit kleinem Eintritt",
+      "info": "Mit den Verhandlungen in Münster und Osnabrück endete 1648 der Dreißigjährige Krieg. Im Rathaus wurde am 15. Mai 1648 der Friede von Münster beschworen – er beendete den Krieg zwischen Spanien und den Niederlanden. Gesandte wurden mit einem Schluck aus dem Pokal „Goldener Hahn“ begrüßt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Krieg beendete der Westfälische Friede 1648?", "richtig": "Den Dreißigjährigen Krieg", "falsch": ["Den Hundertjährigen Krieg", "Den Siebenjährigen Krieg"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der Pokal, aus dem die Gäste im Rathaus tranken?", "richtig": "Goldener Hahn", "falsch": ["Silberner Schwan", "Goldene Gans"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Westfälische Friede geschlossen?", "wert": 1648, "einheit": "" },
+        { "typ": "mission", "text": "Schließt einen „Frieden“: Zwei aus der Gruppe vertragen sich feierlich per Handschlag über einen (erfundenen) Streit." }
+      ],
+      "lage": [51.96167, 7.62806]
+    },
+    {
+      "id": "lamberti",
+      "name": "St. Lamberti & Täuferkäfige",
+      "wiki": "St. Lamberti (Münster)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 3,
+      "info": "Am Turm hängen drei eiserne Körbe. Darin wurden 1536 die Leichen der drei Anführer des Täuferreichs zur Abschreckung aufgehängt. Von 21 Uhr bis Mitternacht bläst eine Türmerin halbstündlich ins Horn (außer dienstags) – ein Amt, das es seit 1379 gibt.",
+      "fakt": "Martje Thalmann ist seit 2014 die erste Frau in diesem Amt auf St. Lamberti.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was macht die Türmerin oben im Turm abends?", "richtig": "Sie bläst ins Horn", "falsch": ["Sie läutet mit einer Fahrradklingel", "Sie singt ein Lied"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer wurde 1536 in den Körben am Turm aufgehängt?", "richtig": "Die toten Anführer der Täufer", "falsch": ["Diebe vom Marktplatz", "Gefangene Soldaten"] },
+        { "typ": "schaetzen", "frage": "Wie viele Körbe hängen am Turm von St. Lamberti?", "wert": 3, "einheit": "Körbe" },
+        { "typ": "suchen", "text": "Findet die drei Körbe am Turm – welcher hängt am höchsten?" }
+      ],
+      "lage": [51.96292, 7.62861]
+    },
+    {
+      "id": "dom",
+      "name": "St.-Paulus-Dom & Astronomische Uhr",
+      "wiki": "St.-Paulus-Dom (Münster)",
+      "themen": ["historie", "highlights", "kinder"],
+      "prio": 2,
+      "info": "Im Dom tickt eine astronomische Uhr von 1540 bis 1542. Sie zeigt Stunden, Planeten und Sternzeichen. Im Dom liegt auch Kardinal von Galen begraben, der sich gegen die Morde der Nationalsozialisten an Kranken stellte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was zeigt die astronomische Uhr im Dom außer der Uhrzeit?", "richtig": "Planeten und Sternzeichen", "falsch": ["Das Wetter von morgen", "Die Fußballergebnisse"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Kardinal ist im Dom begraben?", "richtig": "Clemens August Graf von Galen", "falsch": ["Joseph Ratzinger", "Reinhard Marx"] },
+        { "typ": "suchen", "text": "Findet auf der Uhr euer Sternzeichen." }
+      ],
+      "lage": [51.96306, 7.62556]
+    },
+    {
+      "id": "domplatz",
+      "name": "Domplatz & Wochenmarkt",
+      "wiki": "Domplatz (Münster)",
+      "themen": ["kulinarik", "highlights"],
+      "prio": 2,
+      "hinweis": "Markt mittwochs und samstags",
+      "info": "Auf dem rund zwei Hektar großen Platz vor dem Dom ist mittwochs und samstags Wochenmarkt – einer der schönsten in Westfalen. Bis 1860 hieß der Platz Domhof.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß der Domplatz bis 1860?", "richtig": "Domhof", "falsch": ["Bischofswiese", "Marktanger"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "An welchen Tagen ist auf dem Domplatz Markt?", "richtig": "Mittwochs und samstags", "falsch": ["Nur sonntags", "Jeden Abend"] },
+        { "typ": "mission", "text": "Findet etwas typisch Münsterländisches zum Probieren – Mettendchen, Pumpernickel oder Käse." }
+      ],
+      "lage": [51.9625, 7.62556]
+    },
+    {
+      "id": "kiepenkerl",
+      "name": "Kiepenkerl",
+      "wiki": "Kiepenkerl (Münster)",
+      "themen": ["besonderheiten", "historie", "kinder"],
+      "prio": 2,
+      "info": "Das Bronzedenkmal am Spiekerhof zeigt einen wandernden Händler aus dem Münsterland mit seiner Rückentrage, der Kiepe. Die Kiepenkerle zogen über die Dörfer und brachten Waren und Neuigkeiten. Das erste Denkmal wurde 1896 eingeweiht.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was trägt der Kiepenkerl auf dem Rücken?", "richtig": "Eine Kiepe (Rückentrage)", "falsch": ["Einen Rucksack mit Laptop", "Ein Fahrrad"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was brachten die Kiepenkerle außer Waren in die Dörfer?", "richtig": "Neuigkeiten", "falsch": ["Post vom König", "Medizin vom Arzt"] },
+        { "typ": "foto", "text": "Stellt den Kiepenkerl nach – mit allem, was ihr gerade auf dem Rücken tragt." }
+      ],
+      "lage": [51.96411, 7.62622]
+    },
+    {
+      "id": "erbdrostenhof",
+      "name": "Erbdrostenhof",
+      "wiki": "Erbdrostenhof",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Das barocke Adelspalais baute Johann Conrad Schlaun von 1753 bis 1757 – schräg in die Ecke gesetzt, damit es an der engen Straße trotzdem prachtvoll wirkt. Heute sitzt hier der Landschaftsverband Westfalen-Lippe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Baumeister schuf den Erbdrostenhof?", "richtig": "Johann Conrad Schlaun", "falsch": ["Karl Friedrich Schinkel", "Balthasar Neumann"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "In welchem Stil ist der Erbdrostenhof gebaut?", "richtig": "Barock", "falsch": ["Modern", "Gotik"] },
+        { "typ": "foto", "text": "Fotografiert den Erbdrostenhof genau von der Ecke – so wirkt er am prächtigsten." }
+      ],
+      "lage": [51.9609, 7.63222]
+    },
+    {
+      "id": "schloss",
+      "name": "Schloss & Botanischer Garten",
+      "wiki": "Schloss Münster",
+      "themen": ["highlights", "historie", "natur"],
+      "prio": 2,
+      "info": "Das barocke Schloss der Fürstbischöfe entstand von 1767 bis 1787 nach Plänen von Johann Conrad Schlaun. Seit 1954 ist es das Hauptgebäude der Universität. Dahinter liegt der Botanische Garten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer nutzt das Schloss heute?", "richtig": "Die Universität Münster", "falsch": ["Der Bischof", "Das Finanzamt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Für wen wurde das Schloss gebaut?", "richtig": "Für die Fürstbischöfe", "falsch": ["Für einen Fußballverein", "Für Studenten"] },
+        { "typ": "bewegen", "text": "Wettrennen auf dem Schlossplatz: Wer ist zuerst am Haupteingang?" }
+      ],
+      "lage": [51.9637, 7.61306]
+    },
+    {
+      "id": "promenade",
+      "name": "Promenade",
+      "wiki": "Promenade (Münster)",
+      "suche": "Promenade, Münster",
+      "themen": ["natur", "spass", "besonderheiten"],
+      "prio": 2,
+      "info": "Auf der alten Stadtbefestigung führt ein rund 4,5 Kilometer langer, autofreier Ring um die Altstadt. In der Mitte fahren die Fahrräder – in Münster „Leezen“ genannt –, an den Seiten gehen Fußgänger unter alten Linden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sagt man in Münster zum Fahrrad?", "richtig": "Leeze", "falsch": ["Drahtesel-Kutsche", "Pedalo"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Woraus entstand die Promenade?", "richtig": "Aus dem alten Befestigungsring um die Stadt", "falsch": ["Aus einer Pferderennbahn", "Aus einem Kanal"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist die Promenade um die Altstadt?", "wert": 4.5, "einheit": "km" },
+        { "typ": "suchen", "text": "Zählt eine Minute lang alle Fahrräder, die an euch vorbeifahren." }
+      ],
+      "lage": [51.95681, 7.62441]
+    },
+    {
+      "id": "aasee",
+      "name": "Aasee & Giant Pool Balls",
+      "wiki": "Aasee (Münster)",
+      "suche": "Aaseeterrassen, Münster",
+      "themen": ["natur", "spass", "besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Der 40 Hektar große Stausee zieht sich rund 2,3 Kilometer durch die Stadt – mit Wiesen, Bootsverleih und Wegen. Am Ufer liegen die „Giant Pool Balls“: riesige Betonkugeln, die der Künstler Claes Oldenburg 1977 für die Skulptur-Projekte schuf.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sehen die „Giant Pool Balls“ aus?", "richtig": "Wie riesige Billardkugeln", "falsch": ["Wie Fußbälle", "Wie Ostereier"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer schuf die Giant Pool Balls?", "richtig": "Claes Oldenburg", "falsch": ["Joseph Beuys", "Jeff Koons"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Aasee ungefähr?", "wert": 2.3, "einheit": "km" },
+        { "typ": "foto", "text": "Billard-Foto: Einer „stößt“ mit einem Stock gegen eine der Riesenkugeln." }
+      ],
+      "lage": [51.95745, 7.61611]
+    },
+    {
+      "id": "allwetterzoo",
+      "name": "Allwetterzoo",
+      "wiki": "Allwetterzoo Münster",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Zoo heißt so, weil überdachte „Allwettergänge“ viele Tierhäuser verbinden – man kommt fast trocken durch den Regen. Er liegt im Wald nahe dem Aasee und wurde 1974 eröffnet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Warum heißt der Zoo „Allwetterzoo“?", "richtig": "Überdachte Gänge verbinden die Tierhäuser", "falsch": ["Dort scheint immer die Sonne", "Dort gibt es nur Wettertiere"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann gibt es den Allwetterzoo am Aasee?", "richtig": "Seit 1974", "falsch": ["Seit 1875", "Seit 2004"] },
+        { "typ": "bewegen", "text": "Watschelt wie Pinguine bis zum nächsten Wegweiser." }
+      ],
+      "lage": [51.94639, 7.59167]
+    },
+    {
+      "id": "naturkunde",
+      "name": "LWL-Museum für Naturkunde & Planetarium",
+      "wiki": "LWL-Museum für Naturkunde",
+      "themen": ["kinder", "besonderheiten"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Das Museum am Aasee zeigt Tiere, Pflanzen, Fossilien und Dinosaurier aus Westfalen und der Welt. Zum Haus gehört ein Planetarium mit Sternenshows.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Planetarium sehen?", "richtig": "Den Sternenhimmel", "falsch": ["Lebende Dinosaurier", "Einen Wasserfall"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer betreibt das Naturkundemuseum?", "richtig": "Der Landschaftsverband Westfalen-Lippe", "falsch": ["Die Universität Bonn", "Der Zoo"] },
+        { "typ": "mission", "text": "Zählt aus dem Gedächtnis alle Planeten unseres Sonnensystems auf." }
+      ],
+      "lage": [51.94944, 7.59111]
+    },
+    {
+      "id": "muehlenhof",
+      "name": "Mühlenhof-Freilichtmuseum",
+      "wiki": "Mühlenhof-Freilichtmuseum Münster",
+      "themen": ["historie", "kinder"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Auf fünf Hektar am Aasee stehen rund 30 historische Gebäude – Bauernhäuser, Werkstätten und eine Bockwindmühle. Sie zeigen, wie die Menschen im Münsterland früher lebten und arbeiteten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Gebäude gibt dem Mühlenhof seinen Namen?", "richtig": "Eine Windmühle", "falsch": ["Ein Leuchtturm", "Ein Bahnhof"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele historische Gebäude stehen etwa im Mühlenhof?", "richtig": "Rund 30", "falsch": ["Rund 3", "Rund 300"] },
+        { "typ": "suchen", "text": "Findet das älteste Gebäude, das ihr entdecken könnt – woran erkennt ihr sein Alter?" }
+      ],
+      "lage": [51.94972, 7.59778]
+    },
+    {
+      "id": "kuhviertel",
+      "name": "Kuhviertel & Pinkus Müller",
+      "wiki": "Brauerei Pinkus Müller",
+      "suche": "Kreuzstraße, Münster",
+      "themen": ["kneipen", "historie", "kulinarik"],
+      "prio": 2,
+      "info": "Im Kuhviertel rund um Kreuz- und Jüdefelderstraße liegen die Studentenkneipen der Stadt. Mittendrin braut Pinkus Müller seit 1866 Bier – als letzte von einst über 150 Altbierbrauereien in Münster.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann braut Pinkus Müller Bier?", "richtig": "Seit 1866", "falsch": ["Seit 1966", "Seit 1766"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Altbierbrauereien gab es früher in Münster?", "richtig": "Über 150", "falsch": ["Genau zwei", "Etwa zehn"] },
+        { "typ": "mission", "text": "Bestellt ein Münstersch Alt (oder eine Limo) und stoßt auf Münster an: „Prost, Leeze!“" }
+      ],
+      "lage": [51.96609, 7.6215]
+    },
+    {
+      "id": "hafen",
+      "name": "Hafen & Kreativkai",
+      "wiki": "Hafen Münster",
+      "suche": "Hafenweg, Münster",
+      "themen": ["kneipen", "spass", "natur"],
+      "prio": 2,
+      "info": "Der Stadthafen am Dortmund-Ems-Kanal wurde 1899 eröffnet. Heute sind in den alten Speichern am Kreativkai Bars, Restaurants und Clubs – an Sommerabenden sitzt man hier direkt am Wasser.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "An welchem Kanal liegt der Münsteraner Hafen?", "richtig": "Am Dortmund-Ems-Kanal", "falsch": ["Am Mittellandkanal", "Am Rhein-Herne-Kanal"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was lag früher in den alten Speichern am Hafen?", "richtig": "Waren von den Schiffen", "falsch": ["Fahrräder", "Spielzeug"] },
+        { "typ": "foto", "text": "Sonnenuntergangs-Foto am Kai – alle prosten in die Kamera." }
+      ],
+      "lage": [51.95236, 7.64023]
+    },
+    {
+      "id": "radstation",
+      "name": "Radstation am Hauptbahnhof",
+      "wiki": "Radstation Münster",
+      "themen": ["besonderheiten"],
+      "prio": 1,
+      "info": "Münster ist Deutschlands Fahrradhauptstadt. Am Hauptbahnhof steht die größte Fahrradstation Deutschlands mit rund 3.300 Plätzen – mit Werkstatt und Verleih.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hält die Radstation Münster?", "richtig": "Größte Fahrradstation Deutschlands", "falsch": ["Erster Fahrradladen der Welt", "Höchstes Fahrrad-Parkhaus Europas"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man in der Radstation machen?", "richtig": "Fahrräder parken und reparieren lassen", "falsch": ["Züge reparieren", "Schwimmen"] },
+        { "typ": "schaetzen", "frage": "Wie viele Fahrräder passen in die Radstation?", "wert": 3300, "einheit": "Räder" }
+      ],
+      "lage": [51.95639, 7.63417]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "stuhlmacher",
+      "name": "Gaststätte Stuhlmacher",
+      "art": "restaurant",
+      "lage": [51.96189, 7.62824],
+      "info": "Traditionsgaststätte am Prinzipalmarkt mit westfälischer Küche.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kleiner_kiepenkerl",
+      "name": "Kleiner Kiepenkerl",
+      "art": "restaurant",
+      "lage": [51.96433, 7.62621],
+      "info": "Westfälisches Restaurant direkt am Kiepenkerl-Denkmal.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_milano_ms",
+      "name": "Eiscafé Milano",
+      "art": "eis",
+      "lage": [51.96006, 7.62728],
+      "info": "Eiscafé an der Ludgeristraße in der Altstadt.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_med",
+      "name": "Café Med",
+      "art": "cafe",
+      "lage": [51.95193, 7.64331],
+      "info": "Café-Restaurant am Hafen mit Plätzen am Wasser.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cavete",
+      "name": "Cavete",
+      "art": "bar",
+      "ab": 18,
+      "lage": [51.96592, 7.62167],
+      "info": "Studentenkneipe mit Tradition im Kuhviertel.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "bootsverleih_overschmidt",
+      "name": "Bootsverleih Overschmidt",
+      "art": "aktion",
+      "was": "Bootsverleih",
+      "icon": "🚣",
+      "lage": [51.95754, 7.61447],
+      "info": "Tret- und Ruderboote auf dem Aasee mieten.",
+      "preis": 2,
+      "hinweis": "Saisonal",
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [51.96167, 7.62556]
+}
