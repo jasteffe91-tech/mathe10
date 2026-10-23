@@ -94,7 +94,7 @@ function tippsFuerRoute(stadt, anlassId, klasse, stationen) {
   const mitLage = stationen.map((s, i) => ({ s, i })).filter((x) => x.s.lage)
   const kandidaten = []
   for (const t of stadt.tipps || []) {
-    if (!t.lage || !arten.includes(t.art) || (t.ab || 0) > alter) continue
+    if (!t.lage || !arten.includes(t.art) || (t.ab || 0) > alter || (t.bis && alter > t.bis)) continue
     let best = Infinity, nahe = 0, weg = false
     mitLage.forEach(({ s, i }, k) => {
       const d = abstand(t.lage, s.lage)
@@ -1249,7 +1249,7 @@ async function zeigePruefen(stadtId) {
     ${tipps.length ? `<h2 style="margin-top:12px">Einkehr &amp; Extras (${tipps.length})</h2>
       <p class="leise klein">Keine Stationen, sondern Tipps für Pausen und Aktionen, die neben passenden Routen angezeigt werden.</p>` : ''}
     ${tipps.map((t) => { const key = 'tipp:' + t.id, e = st.orte[key] || {}, art = tippArt(t.art); return `<article class="karte stapel" id="p-${key}">
-      <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${t.icon || art.icon}</span><div><span class="etikett">${t.ort ? esc(t.ort) + ' · ' : ''}${esc(t.was || art.name)}${t.preis ? ' · ' + preisZeichen(t.preis) : ''}${t.ab ? ` · ab ${t.ab} Jahren` : ''}${t.gruppe ? ' · gut für Gruppen' : ''}</span><h2>${esc(t.name)}</h2></div></div>
+      <div class="station-kopf"><span class="stempel ${e.status === 'passt' ? 'fertig' : ''}">${t.icon || art.icon}</span><div><span class="etikett">${t.ort ? esc(t.ort) + ' · ' : ''}${esc(t.was || art.name)}${t.preis ? ' · ' + preisZeichen(t.preis) : ''}${t.ab ? ` · ab ${t.ab} Jahren` : ''}${t.bis ? ` · für Kinder bis ${t.bis}` : ''}${t.gruppe ? ' · gut für Gruppen' : ''}</span><h2>${esc(t.name)}</h2></div></div>
       <p>${esc(t.info)}</p>${t.hinweis ? `<p class="hinweis">${esc(t.hinweis)}</p>` : ''}
       <p class="leise klein">Quelle: ${esc(t.quelle || 'OpenStreetMap')}</p>
       ${bewertung(key, t.lage)}

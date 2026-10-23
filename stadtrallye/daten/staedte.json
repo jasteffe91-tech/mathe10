@@ -10,6 +10,16 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "bochum",
+    "name": "Bochum",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Currywurst, Kumpel und Bermuda3Eck – Ruhrpott pur, mit Sternenkuppel, Rollschuh-Musical und VfL.",
+    "orte": 15,
+    "tipps": 9,
+    "zentrum": [51.48215, 7.22056],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
+  },
+  {
     "id": "bremen",
     "name": "Bremen",
     "land": "Bremen",
@@ -31,6 +41,16 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "dortmund",
+    "name": "Dortmund",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Fußball, Bier und Industriekultur – vom Fußballmuseum über den U-Turm bis zum Stößchen am Alten Markt.",
+    "orte": 18,
+    "tipps": 10,
+    "zentrum": [51.51472, 7.46628],
+    "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "spass", "kinder", "natur"]
+  },
+  {
     "id": "dresden",
     "name": "Dresden",
     "land": "Sachsen",
@@ -49,6 +69,16 @@
     "tipps": 11,
     "zentrum": [51.22612, 6.77353],
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "essen",
+    "name": "Essen",
+    "land": "Nordrhein-Westfalen",
+    "kurz": "Zollverein, Krupp und Baldeneysee – vom Kohlenpott zur grünen Ruhrmetropole.",
+    "orte": 13,
+    "tipps": 3,
+    "zentrum": [51.44694, 7.01306],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "natur"]
   },
   {
     "id": "frankfurt",
@@ -132,6 +162,16 @@
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
   },
   {
+    "id": "luebeck",
+    "name": "Lübeck",
+    "land": "Schleswig-Holstein",
+    "kurz": "Königin der Hanse: Holstentor, Marzipan und verwinkelte Gänge – die ganze Altstadt ist Welterbe.",
+    "orte": 13,
+    "tipps": 2,
+    "zentrum": [53.868, 10.68577],
+    "themen": ["highlights", "historie", "besonderheiten", "kinder"]
+  },
+  {
     "id": "mainz",
     "name": "Mainz",
     "land": "Rheinland-Pfalz",
@@ -172,6 +212,16 @@
     "themen": ["highlights", "historie", "besonderheiten", "kneipen", "kinder"]
   },
   {
+    "id": "potsdam",
+    "name": "Potsdam",
+    "land": "Brandenburg",
+    "kurz": "Sanssouci, Holländisches Viertel und Agentenbrücke – Preußens Glanz und Weltgeschichte an der Havel.",
+    "orte": 11,
+    "tipps": 7,
+    "zentrum": [52.40278, 13.05705],
+    "themen": ["highlights", "historie", "besonderheiten", "kinder"]
+  },
+  {
     "id": "lippe_hohe_mark",
     "name": "Region Lippe & Hohe Mark",
     "land": "Nordrhein-Westfalen",
@@ -182,6 +232,16 @@
     "entwurf": true,
     "region": true,
     "themen": ["highlights", "historie", "besonderheiten", "kulinarik", "kneipen", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "rostock",
+    "name": "Rostock & Warnemünde",
+    "land": "Mecklenburg-Vorpommern",
+    "kurz": "Hansestadt mit Backsteingotik, astronomischer Uhr und dem breitesten Strand der deutschen Ostseeküste.",
+    "orte": 12,
+    "tipps": 4,
+    "zentrum": [54.08955, 12.13414],
+    "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
   },
   {
     "id": "schermbeck",
@@ -214,5 +274,15 @@
     "zentrum": [51.59519, 6.68197],
     "entwurf": true,
     "themen": ["highlights", "historie", "besonderheiten", "spass", "kinder", "natur"]
+  },
+  {
+    "id": "weimar",
+    "name": "Weimar",
+    "land": "Thüringen",
+    "kurz": "Goethe, Schiller, Bauhaus und Weimarer Republik – Klassikerstadt für Klassenfahrten.",
+    "orte": 13,
+    "tipps": 3,
+    "zentrum": [50.97933, 11.32919],
+    "themen": ["highlights", "historie", "besonderheiten"]
   }
 ]

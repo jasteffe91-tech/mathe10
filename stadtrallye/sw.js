@@ -1,6 +1,6 @@
 // Service Worker: App und Stadtdaten offline verfügbar machen.
 // Kartenkacheln (OpenStreetMap) werden bewusst nicht zwischengespeichert.
-const CACHE = 'stadtfuchs-v6'
+const CACHE = 'stadtfuchs-v7'
 // Stadtdateien werden beim ersten Öffnen einer Stadt zwischengespeichert (siehe fetch) – bei vielen Städten
 // wäre es zu viel, alle schon bei der Installation zu laden.
 const DATEIEN = ['./', './app.js', './manifest.webmanifest', './icon.svg', './daten/grundlagen.json', './daten/staedte.json']

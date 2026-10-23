@@ -943,6 +943,7 @@
       "id": "legoland",
       "name": "Legoland Discovery Centre",
       "art": "aktion",
+      "bis": 14,
       "was": "Lego-Welt",
       "icon": "🧱",
       "lage": [52.5097, 13.37205],

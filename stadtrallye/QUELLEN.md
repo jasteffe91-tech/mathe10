@@ -90,3 +90,28 @@ Nutzer die beste Trendquelle: Im Prüfmodus gibt es schon das Feld „Fehlt etwa
 Noch offen für die Region (zu weit für eine Fußrallye, aber gut für Rad-Rallyes oder eine eigene „Ausflugsziele“-Liste):
 Movie Park Germany und Schloss Beck (Bottrop-Kirchhellen), Pankok Museum in Hünxe-Drevenack, Schloss Gartrop,
 Kohlenmeiler in der Haard, Rhader Wassermühle, Barkenberger See, Deutener Moor.
+
+## 8. Highlights, Essen & Trinken, neue Städte (Oktober 2026)
+
+Jede Station und jeder Tipp trägt im Feld `quelle`, woher die Angabe stammt. Übernommen wurden nur Fakten
+(dass es den Ort gibt, was ihn ausmacht, Zahlen), keine Texte, Bewertungen oder Ranglisten.
+
+| Zweck | Portale |
+|---|---|
+| Welche Städte gefragt sind | weddingstyle.de und junggesellenabschied.net (JGA-Städte), cts-reisen.de und jugendtours.de (Klassenfahrt-Städte), Alpetour |
+| Berlin | visitBerlin, tipBerlin, top10berlin, 1000things, Berliner Kurier (Imbisse), kindaling |
+| Hamburg | hamburg-tourism.de, hamburg.de, Stadtmagazine, kindaling |
+| Köln | koeln.de, KölnTourismus, Mit Vergnügen Köln, Kneipenführer von Accor |
+| Düsseldorf | visitduesseldorf, Time Out, freizeitinsider, kindaling |
+| München, Stuttgart | Stadtführer, t-online, Stadtmagazine |
+| Ruhrgebiet (Essen, Bochum, Dortmund) | ruhr-tourismus.de, nrw-tourism.com, mvp.de (Brauereiführung Fiege), In Your Pocket, budgettraveller.org, ADAC Maps |
+| Neue Lokale | Meininger (Gastronomie-Fachmedium) |
+| Lage, Existenz, Grunddaten | OpenStreetMap (Lokale, Eisdielen, Spielplätze), Wikivoyage, Wikipedia |
+
+**Nicht aufgenommen, weil geschlossen:** Odysseum Köln (2025), Brauhaus „Zum Schiffchen“ in Düsseldorf
+(seit Herbst 2024), Museum für Antike Schifffahrt in Mainz (seit 2022), Buddenbrookhaus in Lübeck (Umbau, voraussichtlich
+bis 2029).
+
+**Mit Hinweis aufgenommen:** Gutenberg-Museum Mainz (Ausstellung „MOVED“ im Ausweichquartier Reichklarastraße),
+Valentin-Musäum München (Sanierung des Isartors), Florianturm Dortmund (Restaurant seit November 2025 als „Turm137“
+wieder offen). Solche Angaben ändern sich schnell – vor jeder Saison im Prüfmodus kontrollieren.

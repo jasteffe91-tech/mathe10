@@ -48,6 +48,14 @@ Die Missionen der gewählten Stufe kommen zuerst, mildere füllen auf. Aufgaben 
 je „Passt“ / „Stimmt nicht“ plus Notiz und ein Feld für fehlende Orte. „Prüfbericht kopieren“ erzeugt einen Text
 zum Weitergeben. Städte mit `"entwurf": true` tragen auf der Startseite das Etikett „Testphase“.
 
+**Pausen & Extras:** Jede Stadt kann `tipps` haben – Imbiss, Café, Eis, Restaurant, Markt, Brauhaus, Biergarten,
+Bar und Aktionen (Bootsverleih, Bowling, Aussicht …). Sie sind keine Stationen, sondern werden passend zur Route
+vorgeschlagen: in der Vorschau, unterwegs bei der nächstgelegenen Station („Pause oder Extra?“), auf dem Laufzettel
+und im Prüfmodus. Welche Arten in welcher Reihenfolge kommen, legt jeder Anlass fest (`anlaesse[].tipps` in
+`grundlagen.json`). Das Alter der Gruppe (`alter`, bei Schulklassen Klassenstufe + 5) blendet Tipps mit `ab`
+(Mindestalter) oder `bis` (nur für Kinder) aus. Berücksichtigt werden Tipps bis 500 m von Station oder Laufweg,
+mit dem Rad bis 1,2 km; höchstens zwei je Art, sechs zum Essen und Trinken und drei Aktionen.
+
 **Zu Fuß oder mit dem Rad:** Mit dem Fahrrad dürfen Etappen viermal so lang sein – wichtig für kleinere Orte.
 
 Weitere Funktionen: Karte (Leaflet + OpenStreetMap), Richtungspfeil und Entfernung per GPS,
@@ -62,11 +70,11 @@ Drucken, Urkunde, Foto-Collage, Offline-Betrieb über Service Worker.
 | `app.js` | Logik: Routenplanung, Spielablauf, Fotos, Teilen, Druck |
 | `daten/grundlagen.json` | Anlässe, Themen, Spielarten, Punkte, allgemeine Aufgaben, Lösungswörter |
 | `daten/staedte.json` | Städteverzeichnis (wird vom Werkzeug erzeugt) |
-| `daten/staedte/<stadt>.json` | Orte und Aufgaben einer Stadt |
+| `daten/staedte/<stadt>.json` | Orte und Aufgaben einer Stadt, dazu Tipps für Pausen und Extras |
 | `werkzeuge/pruefen.mjs` | Prüft die Daten und holt Koordinaten aus Wikipedia/OpenStreetMap |
 | `werkzeuge/kandidaten.mjs` | Schlägt neue Stationen vor (Wikidata nach Bekanntheit, Wikivoyage inkl. Gastronomie) |
 | `QUELLEN.md` | Welche Quellen es gibt und was davon genutzt werden darf |
-| `sw.js` | Service Worker (Offline) |
+| `sw.js` | Service Worker (Offline; Stadtdateien landen beim ersten Öffnen im Cache) |
 
 ## Neue Stadt hinzufügen
 
@@ -78,10 +86,13 @@ Drucken, Urkunde, Foto-Collage, Offline-Betrieb über Service Worker.
 3. `node stadtrallye/werkzeuge/pruefen.mjs <id> --fakten` ausführen. Das Werkzeug
    - ergänzt fehlende Koordinaten (`lage`),
    - meldet nicht existierende Wikipedia-Artikel mit Vorschlägen,
-   - meldet Orte, die über 12 km vom Zentrum liegen (meist falsche Treffer),
+   - meldet Orte und Tipps, die weit vom Zentrum liegen (meist falsche Treffer),
+   - prüft Tipps (Art, Preis 1–3, Altersangaben; Bars brauchen `ab` 16 oder 18),
    - prüft, ob Schätzwerte im Wikipedia-Text vorkommen (`--fakten`).
 4. `node stadtrallye/werkzeuge/pruefen.mjs` (ohne Stadt) schreibt `daten/staedte.json` neu.
-5. Die neue Datei in `sw.js` in die Liste `STAEDTE` eintragen und die Cache-Version erhöhen.
+5. In `sw.js` muss die Stadt nicht eingetragen werden. Nur wenn sich `app.js`, `index.html` oder
+   `grundlagen.json` ändern, die Cache-Version dort erhöhen.
+6. Vor der Freigabe: im Prüfmodus (`#pruefen-<id>`) alle Stationen und Tipps durchgehen.
 
 ### Aufbau eines Orts
 
@@ -111,6 +122,30 @@ weg), idealerweise eines für Kinder und eines für Erwachsene. Die Antwort soll
 im `info`-Text stehen, oder die Frage zielt auf etwas, das man vor Ort sieht. Fakten mit Zahlen gegen
 Wikipedia prüfen. Kneipen bekommen `"hinweis": "Öffnungszeiten vorab prüfen"`.
 
+### Aufbau eines Tipps
+
+```json
+{
+  "id": "bratwursthaus",                // eindeutig innerhalb der Stadt
+  "name": "Bratwursthaus",
+  "art": "imbiss",                      // imbiss, cafe, eis, restaurant, markt, brauhaus, biergarten, bar, aktion
+  "was": "Bootsverleih",                // optional, bei Aktionen: was man dort macht
+  "icon": "🚣",                         // optional, sonst das Symbol der Art
+  "lage": [51.47693, 7.21688],          // oder "wiki" / "suche" wie bei Orten
+  "info": "Ein Satz, warum es sich lohnt.",
+  "preis": 1,                           // optional: 1 = günstig … 3 = teuer
+  "gruppe": true,                       // optional: gut für Gruppen (wird bei Klassen/Teams bevorzugt)
+  "kinder": true,                       // optional: besonders kinderfreundlich
+  "ab": 18,                             // optional: Mindestalter (Bars: Pflicht, 16 oder 18)
+  "bis": 12,                            // optional: nur für Gruppen bis zu diesem Alter (Spielplatz)
+  "hinweis": "Saisonal",                // optional
+  "quelle": "Wikipedia; OSM"            // woher die Angabe stammt
+}
+```
+
+Tipps beschreiben eigene Eindrücke oder Fakten in eigenen Worten – keine Bewertungstexte von Portalen übernehmen
+(siehe [QUELLEN.md](QUELLEN.md)). Geschlossene Lokale fliegen raus; im Zweifel `hinweis` setzen.
+
 ## Ideen für den Ausbau
 
 Ausbauplan, Alpetour-Recherche und Finanzierung: siehe [STRATEGIE.md](STRATEGIE.md).
@@ -118,8 +153,6 @@ Ausbauplan, Alpetour-Recherche und Finanzierung: siehe [STRATEGIE.md](STRATEGIE.
 
 - **Live-Wettkampf**: Teams auf verschiedenen Handys mit gemeinsamer Bestenliste (braucht Server,
   z. B. Supabase/Firebase)
-- **Rallye-Baukasten**: Veranstalter (Lehrkräfte, Trauzeugen) stellen Stationen selbst zusammen
-  und schreiben eigene Fragen, z. B. über das Brautpaar
 - **Weitere Aufgabentypen**: Rätsel mit Hinweis-Stufen, Reihenfolge sortieren, Bilderrätsel
   (Detailfoto finden), QR-Code an der Station scannen, Audio-Guide, AR-Fundstücke
 - **Mehr Städte und Orte**: mittelgroße Städte, Urlaubsorte; pro Stadt 40+ Orte, damit Themen wie

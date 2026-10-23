@@ -1,0 +1,245 @@
+{
+  "id": "potsdam",
+  "name": "Potsdam",
+  "land": "Brandenburg",
+  "kurz": "Sanssouci, Holländisches Viertel und Agentenbrücke – Preußens Glanz und Weltgeschichte an der Havel.",
+  "start": {
+    "name": "Luisenplatz am Brandenburger Tor",
+    "wiki": "Brandenburger Tor (Potsdam)",
+    "lage": [52.39954, 13.048]
+  },
+  "loesungsworte": ["HAVEL", "SORGE", "MUEHLE", "PREUSSEN", "KARTOFFEL", "SANSSOUCI", "AGENTEN", "BABELSBERG"],
+  "orte": [
+    {
+      "id": "brandenburger_tor",
+      "name": "Brandenburger Tor & Brandenburger Straße",
+      "wiki": "Brandenburger Tor (Potsdam)",
+      "themen": ["historie", "highlights", "kulinarik"],
+      "prio": 2,
+      "info": "Das Potsdamer Brandenburger Tor entstand 1770/71 – es ist älter als das berühmte in Berlin. Von hier führt die Brandenburger Straße schnurgerade als Fußgängerzone mit Cafés und Läden durch die Barockstadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Brandenburger Tor ist älter – das in Potsdam oder das in Berlin?", "richtig": "Das in Potsdam", "falsch": ["Das in Berlin", "Beide sind gleich alt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Stadttore gibt es in Potsdam noch?", "richtig": "Drei", "falsch": ["Eines", "Zehn"] },
+        { "typ": "foto", "text": "Fotografiert das Tor so, dass man denken könnte, es sei das Berliner." }
+      ],
+      "lage": [52.39954, 13.048]
+    },
+    {
+      "id": "sanssouci",
+      "name": "Schloss Sanssouci & Grab Friedrichs",
+      "wiki": "Schloss Sanssouci",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "kosten": "Schloss mit Eintritt, Park frei",
+      "info": "Friedrich der Große ließ sich 1745 bis 1747 sein Sommerschloss über den Weinbergterrassen bauen – „sans souci“ heißt „ohne Sorge“. Neben dem Schloss liegt er seit 1991 begraben, wie er es wollte: nahe bei seinen Hunden. Besucher legen Kartoffeln auf sein Grab, weil er den Kartoffelanbau in Preußen förderte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was legen Besucher auf das Grab Friedrichs des Großen?", "richtig": "Kartoffeln", "falsch": ["Rosen", "Münzen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet „Sanssouci“?", "richtig": "Ohne Sorge", "falsch": ["Sonnenschloss", "Sechs Säulen"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde Friedrich der Große endlich hier beigesetzt?", "wert": 1991, "einheit": "" },
+        { "typ": "bewegen", "text": "Zählt die Stufen der Weinbergterrassen auf dem Weg nach oben." }
+      ],
+      "lage": [52.40419, 13.03844]
+    },
+    {
+      "id": "muehle",
+      "name": "Historische Mühle von Sanssouci",
+      "wiki": "Historische Mühle von Sanssouci",
+      "themen": ["besonderheiten", "historie", "kinder"],
+      "prio": 2,
+      "info": "Um die Mühle rankt sich eine Legende: Der König wollte sie entfernen lassen, weil sie ihn störte. Der Müller aber soll geantwortet haben, das gehe nicht – schließlich gebe es noch das Kammergericht in Berlin. Daraus wurde der Spruch „Es gibt noch Richter in Berlin“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Spruch geht auf die Legende vom Müller von Sanssouci zurück?", "richtig": "„Es gibt noch Richter in Berlin“", "falsch": ["„Ich bin ein Berliner“", "„Wer mahlt, gewinnt“"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was für eine Mühle steht neben dem Schloss?", "richtig": "Eine Windmühle", "falsch": ["Eine Wassermühle", "Eine Kaffeemühle"] },
+        { "typ": "mission", "text": "Spielt die Szene nach: Einer ist der König, einer der Müller – wer gewinnt den Streit?" }
+      ],
+      "lage": [52.40412, 13.03559]
+    },
+    {
+      "id": "chinesisches_haus",
+      "name": "Chinesisches Haus",
+      "wiki": "Chinesisches Haus (Potsdam)",
+      "themen": ["besonderheiten", "kinder"],
+      "prio": 2,
+      "info": "Friedrich der Große ließ den goldglänzenden Gartenpavillon von 1755 bis 1764 im Stil der Chinoiserie bauen – so, wie man sich damals China vorstellte. Rund um das Haus sitzen vergoldete Figuren, die Tee trinken und musizieren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was machen die goldenen Figuren am Chinesischen Haus?", "richtig": "Sie trinken Tee und musizieren", "falsch": ["Sie spielen Fußball", "Sie schlafen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennt man den Stil, der China im 18. Jahrhundert nachahmte?", "richtig": "Chinoiserie", "falsch": ["Japonismus", "Orientalismus"] },
+        { "typ": "suchen", "text": "Findet die Figur mit dem lustigsten Gesichtsausdruck." }
+      ],
+      "lage": [52.40017, 13.03207]
+    },
+    {
+      "id": "neues_palais",
+      "name": "Neues Palais",
+      "wiki": "Neues Palais",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Nach dem Siebenjährigen Krieg ließ Friedrich der Große von 1763 bis 1769 dieses riesige Schloss bauen – auch um zu zeigen, dass Preußen noch Geld hatte. Berühmt sind der Grottensaal mit Muscheln und Steinen und das Schlosstheater.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Womit ist der Grottensaal im Neuen Palais geschmückt?", "richtig": "Mit Muscheln und Steinen", "falsch": ["Mit Spiegeln aus Gold", "Mit Porzellanfiguren"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es im Neuen Palais für Aufführungen?", "richtig": "Ein Schlosstheater", "falsch": ["Ein Kino", "Eine Zirkusmanege"] },
+        { "typ": "bewegen", "text": "Lauft einmal an der langen Gartenfront entlang – wie viele Schritte braucht ihr?" }
+      ],
+      "lage": [52.40121, 13.01577]
+    },
+    {
+      "id": "hollaendisches_viertel",
+      "name": "Holländisches Viertel",
+      "wiki": "Holländisches Viertel",
+      "themen": ["highlights", "kulinarik", "besonderheiten"],
+      "prio": 3,
+      "info": "Zwischen 1733 und 1742 entstanden 134 rote Backsteinhäuser im holländischen Stil – geplant vom Amsterdamer Baumeister Jan Bouman, um Handwerker aus den Niederlanden anzulocken. Heute sind in den Häusern Cafés, Restaurants und kleine Läden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welchem Land stammt der Baustil der Häuser?", "richtig": "Aus den Niederlanden", "falsch": ["Aus Italien", "Aus Spanien"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Häuser hat das Holländische Viertel?", "richtig": "134", "falsch": ["34", "1.340"] },
+        { "typ": "suchen", "text": "Findet einen Giebel mit einer Glocke, einer Stufe oder einem Schwung – und vergleicht die Giebelformen." }
+      ],
+      "lage": [52.40278, 13.06111]
+    },
+    {
+      "id": "alter_markt",
+      "name": "Alter Markt & Museum Barberini",
+      "wiki": "Alter Markt (Potsdam)",
+      "themen": ["highlights", "historie"],
+      "prio": 2,
+      "info": "Der Alte Markt ist Markt-, Schloss-, Kirch- und Rathausplatz zugleich. Hier stehen die Nikolaikirche mit Schinkels Kuppel, das Alte Rathaus, das wiederaufgebaute Stadtschloss (heute Landtag) und das Museum Barberini mit Impressionisten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer sitzt heute im wiederaufgebauten Stadtschloss?", "richtig": "Der Landtag von Brandenburg", "falsch": ["Der Bundespräsident", "Ein Hotel"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was steht mitten auf dem Alten Markt?", "richtig": "Ein Obelisk", "falsch": ["Ein Riesenrad", "Ein Leuchtturm"] },
+        { "typ": "suchen", "text": "Findet das Museum Barberini – nach welchem Palast in Rom ist es benannt?" }
+      ],
+      "lage": [52.39583, 13.06111]
+    },
+    {
+      "id": "cecilienhof",
+      "name": "Schloss Cecilienhof",
+      "wiki": "Cecilienhof",
+      "themen": ["historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das letzte Schloss der Hohenzollern wurde 1913 bis 1917 im englischen Landhausstil gebaut. Weltgeschichte schrieb es im Sommer 1945: Bei der Potsdamer Konferenz berieten hier die Siegermächte über die Zukunft Deutschlands. Im Hof blüht seitdem ein Stern aus roten Blumen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Konferenz fand 1945 im Cecilienhof statt?", "richtig": "Die Potsdamer Konferenz", "falsch": ["Die Wannsee-Konferenz", "Die Jalta-Konferenz"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat das rote Blumenbeet im Hof?", "richtig": "Ein Stern", "falsch": ["Ein Herz", "Ein Kreis"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr fand die Potsdamer Konferenz statt?", "wert": 1945, "einheit": "" }
+      ],
+      "lage": [52.41917, 13.07083]
+    },
+    {
+      "id": "glienicker_bruecke",
+      "name": "Glienicker Brücke",
+      "wiki": "Glienicker Brücke",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Über die Mitte der Brücke verlief die Grenze zwischen der DDR und West-Berlin. Zwischen 1962 und 1986 wurden hier dreimal Agenten zwischen Ost und West ausgetauscht – deshalb heißt sie auch „Agentenbrücke“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah auf der Glienicker Brücke zwischen 1962 und 1986?", "richtig": "Agenten wurden zwischen Ost und West ausgetauscht", "falsch": ["Hier fand ein Autorennen statt", "Hier landete ein Flugzeug"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt unter der Glienicker Brücke?", "richtig": "Die Havel", "falsch": ["Die Spree", "Die Elbe"] },
+        { "typ": "mission", "text": "Spielt einen Agentenaustausch nach: Zwei laufen von beiden Seiten langsam zur Brückenmitte." }
+      ],
+      "lage": [52.41333, 13.09028]
+    },
+    {
+      "id": "alexandrowka",
+      "name": "Russische Kolonie Alexandrowka",
+      "wiki": "Alexandrowka (Potsdam)",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Holzhäuser wie in einem russischen Dorf – mitten in Potsdam. König Friedrich Wilhelm III. ließ sie 1826/28 für die letzten zwölf Sänger eines russischen Soldatenchors bauen und benannte die Kolonie nach Zar Alexander I. Sie gehört zum UNESCO-Welterbe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Für wen wurde die Kolonie Alexandrowka gebaut?", "richtig": "Für russische Sänger eines Soldatenchors", "falsch": ["Für russische Diplomaten", "Für Bauern aus Polen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus sehen die Häuser der Kolonie aus?", "richtig": "Aus Holz, wie in einem russischen Dorf", "falsch": ["Aus Glas", "Aus Stahl"] },
+        { "typ": "foto", "text": "Fotografiert das schönste Holzhaus mit Schnitzereien." }
+      ],
+      "lage": [52.41064, 13.05705]
+    },
+    {
+      "id": "filmpark",
+      "name": "Filmpark Babelsberg",
+      "wiki": "Filmpark Babelsberg",
+      "themen": ["spass", "kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "hinweis": "Saisonal geöffnet",
+      "info": "Neben dem Studio Babelsberg, dem ältesten Großatelier-Filmstudio der Welt, liegt der Filmpark mit Kulissen, Stunt-Shows und Kino. Seit 1912 entstanden hier mehr als 3.000 Kino- und Fernsehfilme.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Filmpark sehen?", "richtig": "Filmkulissen und Stunt-Shows", "falsch": ["Echte Dinosaurier", "Ein Fußballspiel"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann werden in Babelsberg Filme gedreht?", "richtig": "Seit 1912", "falsch": ["Seit 1962", "Seit 2002"] },
+        { "typ": "mission", "text": "Dreht einen 10-Sekunden-Film: Klappe, Action – und eine dramatische Szene!" }
+      ],
+      "lage": [52.38655, 13.11705]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "cafe_heider",
+      "name": "Café Heider",
+      "art": "cafe",
+      "lage": [52.40309, 13.05813],
+      "info": "Traditionscafé am Nauener Tor.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_guam",
+      "name": "Café Guam",
+      "art": "cafe",
+      "lage": [52.40289, 13.05892],
+      "info": "Café im Holländischen Viertel, bekannt für Käsekuchen.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_boulevard",
+      "name": "Eiscafé Boulevard",
+      "art": "eis",
+      "lage": [52.39996, 13.05066],
+      "info": "Eiscafé an der Brandenburger Straße.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "wartmanns",
+      "name": "Wartmanns Eismanufaktur",
+      "art": "eis",
+      "lage": [52.40891, 13.10161],
+      "info": "Eismanufaktur in Klein Glienicke, nah an der Glienicker Brücke.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "drachenhaus",
+      "name": "Drachenhaus",
+      "art": "cafe",
+      "lage": [52.40622, 13.02154],
+      "info": "Café in einer kleinen Pagode im Park Sanssouci.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "meierei",
+      "name": "Meierei im Neuen Garten",
+      "art": "brauhaus",
+      "lage": [52.42203, 13.06973],
+      "info": "Hausbrauerei mit Biergarten direkt am Jungfernsee.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "weisse_flotte_p",
+      "name": "Schifffahrt in Potsdam",
+      "art": "aktion",
+      "was": "Schifffahrt",
+      "icon": "⛴️",
+      "lage": [52.39369, 13.06085],
+      "info": "Rundfahrten auf Havel und Seen ab Lange Brücke.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Abfahrtszeiten prüfen",
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [52.40278, 13.05705]
+}

@@ -125,6 +125,7 @@ function pruefeStruktur(stadt, fehler) {
     if (!TIPPARTEN.has(t.art)) fehler.push(`${wo}: unbekannte Art ${t.art}`)
     if (!t.wiki && !t.suche && !t.lage) fehler.push(`${wo}: weder wiki, suche noch lage`)
     if (t.ab !== undefined && typeof t.ab !== 'number') fehler.push(`${wo}: ab muss eine Zahl sein`)
+    if (t.bis !== undefined && (typeof t.bis !== 'number' || t.bis < (t.ab || 0))) fehler.push(`${wo}: bis muss eine Zahl ≥ ab sein`)
     if (t.preis !== undefined && ![1, 2, 3].includes(t.preis)) fehler.push(`${wo}: preis 1–3`)
     if (t.art === 'bar' && !(t.ab >= 16)) fehler.push(`${wo}: Bar ohne Altersangabe (ab 16/18)`)
   }

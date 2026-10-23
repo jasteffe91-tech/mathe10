@@ -1,0 +1,333 @@
+{
+  "id": "bochum",
+  "name": "Bochum",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Currywurst, Kumpel und Bermuda3Eck – Ruhrpott pur, mit Sternenkuppel, Rollschuh-Musical und VfL.",
+  "start": { "name": "Willy-Brandt-Platz am Rathaus", "wiki": "Rathaus Bochum", "lage": [51.4825, 7.21528] },
+  "loesungsworte": ["VFL", "RUHR", "KOHLE", "GLOCKE", "STERNE", "KUMPEL", "BERMUDA", "GLUECKAUF", "CURRYWURST"],
+  "orte": [
+    {
+      "id": "bergbaumuseum",
+      "name": "Deutsches Bergbau-Museum",
+      "wiki": "Deutsches Bergbau-Museum Bochum",
+      "themen": ["highlights", "historie", "kinder"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "hinweis": "Fördergerüst bei starkem Wind geschlossen",
+      "info": "Das größte Bergbaumuseum der Welt: Unter dem Gelände liegt ein Anschauungsbergwerk mit rund 2,5 Kilometern Strecken. Das 71,4 Meter hohe Fördergerüst stand früher auf der Zeche Germania in Dortmund – von den Plattformen in 50 und 62 Metern Höhe blickt man weit über das Revier.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher stammt das Fördergerüst des Museums?", "richtig": "Von der Zeche Germania in Dortmund", "falsch": ["Von der Zeche Zollverein in Essen", "Es wurde für das Museum neu gebaut"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was liegt unter dem Museum?", "richtig": "Ein Bergwerk zum Anschauen", "falsch": ["Ein Schwimmbad", "Eine Tropfsteinhöhle"] },
+        { "typ": "schaetzen", "frage": "Wie viele Meter hoch ist das Fördergerüst (gerundet)?", "wert": 71, "einheit": "m" },
+        { "typ": "foto", "text": "Fotografiert das Fördergerüst so, dass es aus eurer Hand zu wachsen scheint." }
+      ],
+      "lage": [51.48917, 7.21722]
+    },
+    {
+      "id": "rathaus_glocke",
+      "name": "Rathaus & Riesenglocke",
+      "wiki": "Glocke vor dem Bochumer Rathaus",
+      "themen": ["historie", "besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Vor dem Rathaus von 1931 steht eine Glocke aus Gussstahl: 15 Tonnen schwer, gegossen 1867 vom Bochumer Verein für die Weltausstellung in Paris. Sie ist die zweitschwerste Glocke Deutschlands – läuten kann sie nicht mehr, ihr Klöppel ist verloren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Für welches Ereignis wurde die Glocke 1867 gegossen?", "richtig": "Für die Weltausstellung in Paris", "falsch": ["Für die Krönung eines Kaisers", "Für die Eröffnung des Kölner Doms"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Warum kann die große Glocke nicht mehr läuten?", "richtig": "Ihr Klöppel fehlt", "falsch": ["Sie ist aus Holz", "Sie ist eingefroren"] },
+        { "typ": "schaetzen", "frage": "Wie viele Tonnen wiegt die Glocke?", "wert": 15, "einheit": "t" },
+        { "typ": "bewegen", "text": "Fasst euch an den Händen: Wie viele von euch braucht ihr, um einmal um die Glocke herumzureichen?" }
+      ],
+      "lage": [51.48215, 7.21547]
+    },
+    {
+      "id": "christuskirche",
+      "name": "Turm der Christuskirche",
+      "wiki": "Christuskirche (Bochum)",
+      "themen": ["historie"],
+      "prio": 1,
+      "respekt": true,
+      "info": "Der 72 Meter hohe Turm von 1878 überstand den Zweiten Weltkrieg, das Kirchenschiff wurde 1956 bis 1959 neu gebaut. In der Turmhalle nennt ein Goldmosaik die Gefallenen der Gemeinde und die Staaten, gegen die Deutschland Krieg führte. Heute gilt der Turm als Mahnmal gegen den Krieg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür steht der Turm der Christuskirche heute?", "richtig": "Als Mahnmal gegen den Krieg", "falsch": ["Als Aussichtsturm mit Café", "Als Funkturm der Stadt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Teil der Kirche ist noch von 1878?", "richtig": "Der Turm", "falsch": ["Die Fenster", "Das Dach"] }
+      ],
+      "lage": [51.48194, 7.21361]
+    },
+    {
+      "id": "propsteikirche",
+      "name": "Propsteikirche St. Peter und Paul",
+      "wiki": "Propsteikirche St. Peter und Paul (Bochum)",
+      "themen": ["historie", "highlights"],
+      "prio": 1,
+      "info": "Die älteste Kirche Bochums: Bis 1655 war sie die einzige im Ort, rund 100 Jahre lang nutzten Katholiken und Protestanten sie gemeinsam. Der 68 Meter hohe Wehrturm ist ein Wahrzeichen der Stadt, der Taufstein stammt aus der Zeit um 1175.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer nutzte die Kirche rund 100 Jahre lang gemeinsam?", "richtig": "Katholiken und Protestanten", "falsch": ["Ritter und Mönche", "Bergleute und Bauern"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist das Besondere an dieser Kirche?", "richtig": "Sie ist die älteste Kirche Bochums", "falsch": ["Sie ist ganz aus Glas", "Sie steht auf Rädern"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Turm der Propsteikirche?", "wert": 68, "einheit": "m" }
+      ],
+      "lage": [51.48222, 7.22056]
+    },
+    {
+      "id": "kuhhirte",
+      "name": "Kuhhirtendenkmal",
+      "wiki": "Kuhhirtendenkmal",
+      "themen": ["besonderheiten", "kinder", "historie"],
+      "prio": 1,
+      "info": "Das Denkmal von 1908 erinnert an die Zeit, als Bochum ein kleines Landstädtchen war: Städtische Hirten trieben Kühe, Ziegen und Schweine der Bürger täglich auf die Gemeindeweide. 1841 gab es in der Stadt noch 194 Kühe. Meist wird der Hirte mit Fritz Kortebusch in Verbindung gebracht.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wohin brachte der Kuhhirte die Tiere jeden Tag?", "richtig": "Auf die Weide der Stadt", "falsch": ["In den Zoo", "Ins Bergwerk"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Mit welchem Hirten wird das Denkmal meist verbunden?", "richtig": "Fritz Kortebusch", "falsch": ["Heinz Knappe", "Jupp Steiger"] },
+        { "typ": "schaetzen", "frage": "Wie viele Kühe gab es 1841 noch in der Stadt Bochum?", "wert": 194, "einheit": "Kühe" },
+        { "typ": "bewegen", "text": "Treibt eure Herde einmal ums Denkmal: Eine Person ist Hirte, alle anderen muhen und meckern!" }
+      ],
+      "lage": [51.48192, 7.21975]
+    },
+    {
+      "id": "bermuda3eck",
+      "name": "Bermuda3Eck",
+      "wiki": "Bermuda3eck",
+      "themen": ["kneipen", "kulinarik", "spass"],
+      "prio": 3,
+      "info": "Über 80 Kneipen, Restaurants und Bars – mehr als die Hälfte der rund 8.000 Plätze liegt draußen. Mittendrin steht das Bratwursthaus: Gemeinsame Currywurst-Pausen dort sollen das Lied „Currywurst“ inspiriert haben, das Herbert Grönemeyer sang.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Lied sollen Currywurst-Pausen am Bratwursthaus inspiriert haben?", "richtig": "„Currywurst“ von Herbert Grönemeyer", "falsch": ["„Skandal im Sperrbezirk“ der Spider Murphy Gang", "„Ein Bett im Kornfeld“ von Jürgen Drews"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es im Bermuda3Eck besonders viel?", "richtig": "Restaurants und Kneipen", "falsch": ["Bergwerke", "Bauernhöfe"] },
+        { "typ": "schaetzen", "frage": "Wie viele Gastronomie-Betriebe gibt es im Bermuda3Eck (mindestens)?", "wert": 80, "einheit": "Betriebe" },
+        { "typ": "mission", "text": "Fragt an einer Imbissbude: „Currywurst mit oder ohne Darm?“ – und lasst euch den Unterschied erklären." }
+      ],
+      "lage": [51.47611, 7.21611]
+    },
+    {
+      "id": "schauspielhaus",
+      "name": "Schauspielhaus",
+      "wiki": "Schauspielhaus Bochum",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "info": "Eines der großen Theater Deutschlands: Seit 1919 hat Bochum ein eigenes Ensemble, Intendanten wie Peter Zadek und Claus Peymann machten das Haus bundesweit berühmt. Auch Herbert Grönemeyer arbeitete hier in jungen Jahren.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Musiker arbeitete in jungen Jahren am Schauspielhaus Bochum?", "richtig": "Herbert Grönemeyer", "falsch": ["Udo Lindenberg", "Peter Maffay"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was passiert in einem Schauspielhaus?", "richtig": "Es wird Theater gespielt", "falsch": ["Es wird Kohle gefördert", "Es werden Kühe gemolken"] },
+        { "typ": "mission", "text": "Großer Auftritt: Spielt in 30 Sekunden ohne Worte die Szene „Ankunft im Ruhrpott“ – die anderen raten." }
+      ],
+      "lage": [51.4725, 7.21667]
+    },
+    {
+      "id": "exzenterhaus",
+      "name": "Exzenterhaus",
+      "wiki": "Exzenterhaus",
+      "themen": ["besonderheiten"],
+      "prio": 1,
+      "info": "Ein Hochhaus auf einem Bunker: Der runde Luftschutzbunker von 1942 dient als 22 Meter hoher Sockel, darauf sitzen drei gegeneinander verdrehte Abschnitte mit je fünf Bürogeschossen. Mit 89 Metern ist das Exzenterhaus weithin sichtbar. Bei Luftangriffen drängten sich einst mehr als 3.000 Menschen in den Bunker.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Worauf steht das Exzenterhaus?", "richtig": "Auf einem alten Luftschutzbunker", "falsch": ["Auf einem stillgelegten Schacht", "Auf einem alten Gasometer"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist das Exzenterhaus?", "wert": 89, "einheit": "m" },
+        { "typ": "foto", "text": "Fotografiert das Exzenterhaus so, dass es aussieht, als würdet ihr es geraderücken." }
+      ],
+      "lage": [51.47322, 7.22592]
+    },
+    {
+      "id": "planetarium",
+      "name": "Planetarium",
+      "wiki": "Planetarium Bochum",
+      "themen": ["highlights", "kinder", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Eines der meistbesuchten Sternentheater Europas: Unter der Kuppel mit 20 Metern Durchmesser haben 251 Gäste Platz. Der Sternprojektor zeigt den Himmel so naturgetreu, dass die ESA hier Astronauten trainierte. Der Rundbau von 1964 steht unter Denkmalschutz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was sieht man im Planetarium an der Decke?", "richtig": "Den Sternenhimmel", "falsch": ["Ein Fußballspiel", "Ein Aquarium"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer hat im Bochumer Planetarium schon trainiert?", "richtig": "Astronauten der ESA", "falsch": ["Die Fußball-Nationalmannschaft", "Piloten einer Kunstflugstaffel"] },
+        { "typ": "schaetzen", "frage": "Wie viele Sitzplätze hat die Kuppel?", "wert": 251, "einheit": "Plätze" }
+      ],
+      "lage": [51.48556, 7.22778]
+    },
+    {
+      "id": "ruhrstadion",
+      "name": "Vonovia Ruhrstadion",
+      "wiki": "Ruhrstadion",
+      "themen": ["spass", "besonderheiten"],
+      "prio": 2,
+      "info": "Seit 1911 wird an der Castroper Straße Fußball gespielt – „anne Castroper“, sagt man in Bochum. Vor jedem Heimspiel des VfL läuft Herbert Grönemeyers Lied „Bochum“, und das Stadion singt mit. Grönemeyer gab hier auch schon viele ausverkaufte Konzerte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Lied läuft vor jedem Heimspiel des VfL?", "richtig": "„Bochum“ von Herbert Grönemeyer", "falsch": ["Das Steigerlied „Glück auf, der Steiger kommt“", "„You’ll Never Walk Alone“"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sagen die Bochumer, wenn sie zum Stadion gehen?", "richtig": "„Anne Castroper“", "falsch": ["„Auffe Wiese“", "„Zum Bolzplatz“"] },
+        { "typ": "schaetzen", "frage": "Seit welchem Jahr wird an dieser Stelle Fußball gespielt?", "wert": 1911, "einheit": "" },
+        { "typ": "bewegen", "text": "Macht eine La-Ola-Welle – alle nacheinander aufspringen und Arme hoch!" }
+      ],
+      "lage": [51.48992, 7.23652]
+    },
+    {
+      "id": "starlight",
+      "name": "Starlight Express Theater",
+      "wiki": "Starlight Express Theater",
+      "themen": ["spass", "besonderheiten", "highlights"],
+      "prio": 2,
+      "info": "Seit 1988 läuft hier „Starlight Express“ – in einem Theater, das nur für dieses eine Musical gebaut wurde. Die Darsteller rasen auf Rollschuhen über eine 280 Meter lange Bahn, auch mitten durchs Publikum. Mit über 18 Millionen Besuchern ist es das erfolgreichste Musical der Welt an einem Ort.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Worauf fahren die Darsteller bei Starlight Express?", "richtig": "Auf Rollschuhen", "falsch": ["Auf Fahrrädern", "Auf Skiern"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere an diesem Theater?", "richtig": "Es wurde nur für ein einziges Musical gebaut", "falsch": ["Es ist das älteste Theater Deutschlands", "Es hat eine Bühne unter Wasser"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist die Rollschuhbahn im Theater?", "wert": 280, "einheit": "m" },
+        { "typ": "suchen", "text": "Vor dem Theater steht eine echte Lokomotive. Findet sie – wie viele Räder könnt ihr auf einer Seite zählen?" }
+      ],
+      "lage": [51.49264, 7.23423]
+    },
+    {
+      "id": "tierpark",
+      "name": "Tierpark & Fossilium",
+      "wiki": "Tierpark und Fossilium Bochum",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "lage": [51.49049, 7.22715],
+      "info": "Der kleine Zoo im Stadtpark zeigt rund 3.600 Tiere in gut 300 Arten. In den Nordseewelten schwimmen Seehunde und Humboldt-Pinguine, im Aquarienhaus Schwarzspitzen-Riffhaie. Durch ein Panoramafenster kann man den Pflegern in der Futterküche zusehen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer schwimmt in den Nordseewelten mit den Seehunden?", "richtig": "Humboldt-Pinguine", "falsch": ["Flamingos", "Eisbären"] },
+        { "typ": "schaetzen", "frage": "Wie viele Tiere leben ungefähr im Tierpark?", "wert": 3600, "einheit": "Tiere" },
+        { "typ": "bewegen", "text": "Watschelt zehn Schritte wie ein Pinguin – Arme an den Körper!" }
+      ]
+    },
+    {
+      "id": "stadtpark",
+      "name": "Stadtpark & Bismarckturm",
+      "wiki": "Stadtpark Bochum",
+      "themen": ["natur"],
+      "prio": 1,
+      "hinweis": "Der Turm ist nicht immer geöffnet",
+      "info": "Nach dem Essener Stadtgarten ist er der älteste Stadtpark des Ruhrgebiets, rund 31 Hektar groß. Auf einer Anhöhe steht der Bismarckturm von 1910. Früher brannte oben bei Feiern eine Feuerschale – sie steht heute neben dem 33 Meter hohen Turm.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Park im Ruhrgebiet ist noch älter als der Bochumer Stadtpark?", "richtig": "Der Essener Stadtgarten", "falsch": ["Der Westfalenpark in Dortmund", "Der Grugapark in Essen"] },
+        { "typ": "suchen", "text": "Findet die alte Feuerschale beim Bismarckturm." },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Bismarckturm heute?", "wert": 33, "einheit": "m" }
+      ],
+      "lage": [51.49139, 7.225]
+    },
+    {
+      "id": "jahrhunderthalle",
+      "name": "Jahrhunderthalle & Westpark",
+      "wiki": "Jahrhunderthalle (Bochum)",
+      "themen": ["historie", "besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Die Stahlhalle wurde 1902 für eine Ausstellung in Düsseldorf gebaut – schon so, dass man sie wieder abbauen konnte. In Bochum trieb sie dann als Gebläsemaschinenhalle die Hochöfen des Bochumer Vereins an. Heute spielt hier die Ruhrtriennale, rundherum liegt der Westpark auf altem Stahlwerksgelände.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welcher Stadt stand die Jahrhunderthalle zuerst?", "richtig": "In Düsseldorf", "falsch": ["In Paris", "In Dortmund"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wurde früher auf diesem Gelände gemacht?", "richtig": "Stahl", "falsch": ["Schokolade", "Spielzeug"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Halle gebaut?", "wert": 1902, "einheit": "" },
+        { "typ": "foto", "text": "Fotografiert euch zwischen den alten Industrieresten im Westpark – mit Arbeiterpose!" }
+      ],
+      "lage": [51.48139, 7.19861]
+    },
+    {
+      "id": "kemnader_see",
+      "name": "Kemnader See",
+      "wiki": "Kemnader See",
+      "themen": ["natur", "spass"],
+      "prio": 1,
+      "info": "Der jüngste der sechs Ruhrstauseen wurde 1979 fertig. Ein rund acht Kilometer langer Rundweg führt um den See – beliebt bei Radfahrern, Skatern und Spaziergängern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Ruhrstauseen gibt es?", "richtig": "Sechs", "falsch": ["Zwei", "Zwölf"] },
+        { "typ": "schaetzen", "frage": "Wie lang ist der Rundweg um den See?", "wert": 8, "einheit": "km" },
+        { "typ": "suchen", "text": "Sucht am Ufer den flachsten Stein – wer hat den schönsten?" }
+      ],
+      "lage": [51.42305, 7.26628]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "bratwursthaus",
+      "name": "Bratwursthaus",
+      "art": "imbiss",
+      "wiki": "Bratwursthaus",
+      "lage": [51.47693, 7.21688],
+      "info": "Kult-Imbiss im Bermuda3Eck seit 1952 – die Würste kommen bis heute von der Fleischerei Dönninghaus.",
+      "preis": 1,
+      "gruppe": true,
+      "quelle": "Wikipedia; budgettraveller.org"
+    },
+    {
+      "id": "fiege_tour",
+      "name": "BrauKultTour bei Moritz Fiege",
+      "art": "aktion",
+      "was": "Brauereiführung mit Verkostung",
+      "icon": "🍺",
+      "ab": 18,
+      "lage": [51.48121, 7.22806],
+      "info": "Führung durch die Familienbrauerei von 1878, mit Bierprobe und Currywurst zum Abschluss.",
+      "preis": 2,
+      "gruppe": true,
+      "hinweis": "Nur zu festen Terminen, früh buchen",
+      "quelle": "mvp.de; Wikipedia"
+    },
+    {
+      "id": "rietkoetter",
+      "name": "Gasthaus Rietkötter",
+      "art": "brauhaus",
+      "lage": [51.4826, 7.21924],
+      "info": "Traditionsgasthaus in einem der ältesten Häuser der Stadt, nahe der Propsteikirche.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "budgettraveller.org; OSM"
+    },
+    {
+      "id": "mutter_wittig",
+      "name": "Mutter Wittig",
+      "art": "restaurant",
+      "lage": [51.48149, 7.22033],
+      "info": "Restaurant im Gerberviertel, wenige Schritte von Propsteikirche und Kuhhirte.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "pinte",
+      "name": "Pinte",
+      "art": "bar",
+      "ab": 18,
+      "lage": [51.47683, 7.21644],
+      "info": "Gilt als kleinste Kneipe Bochums – beliebt bei Fußballfans.",
+      "preis": 1,
+      "quelle": "In Your Pocket; OSM"
+    },
+    {
+      "id": "mandragora",
+      "name": "Mandragora",
+      "art": "cafe",
+      "lage": [51.47604, 7.21588],
+      "info": "Café-Bar am Rand des Bermuda3Ecks, im Winter mit akustischen Konzerten.",
+      "preis": 2,
+      "quelle": "Wikipedia; OSM"
+    },
+    {
+      "id": "intershop",
+      "name": "Intershop",
+      "art": "bar",
+      "ab": 18,
+      "lage": [51.47737, 7.21573],
+      "info": "Bar mitten im Bermuda3Eck.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_san_marco",
+      "name": "Eiscafé San Marco",
+      "art": "eis",
+      "lage": [51.47973, 7.22165],
+      "info": "Eiscafé in der Innenstadt, zwischen Bermuda3Eck und Propsteikirche.",
+      "preis": 1,
+      "kinder": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "bowling_treff",
+      "name": "Bochumer Bowling Treff",
+      "art": "aktion",
+      "was": "Bowling",
+      "icon": "🎳",
+      "lage": [51.48809, 7.21442],
+      "info": "Bowlingbahnen für Gruppen, ganz nah am Bergbau-Museum.",
+      "preis": 2,
+      "gruppe": true,
+      "kinder": true,
+      "quelle": "OSM",
+      "ab": 6
+    }
+  ],
+  "zentrum": [51.48215, 7.22056]
+}

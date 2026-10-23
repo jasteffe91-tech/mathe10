@@ -79,7 +79,7 @@
       "aufgaben": [
         { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde die Universität Heidelberg gegründet?", "richtig": "1386", "falsch": ["1586", "1886"] },
         { "typ": "quiz", "niveau": "kind", "frage": "Wer lernt an einer Universität?", "richtig": "Studentinnen und Studenten", "falsch": ["Kindergartenkinder", "Ritter"] },
-        { "typ": "schaetzen", "frage": "Wie viele Jahre ist die Universität Heidelberg ungefähr alt?", "wert": 640, "einheit": "Jahre" }
+        { "typ": "suchen", "text": "Sucht am Gebäude oder auf dem Universitätsplatz den Löwen – woran erinnert er euch?" }
       ],
       "lage": [49.41111, 8.70611]
     },
@@ -241,6 +241,7 @@
       "id": "maerchenparadies",
       "name": "Märchenparadies",
       "art": "aktion",
+      "bis": 12,
       "was": "Kinder-Freizeitpark",
       "icon": "🏰",
       "lage": [49.40194, 8.72957],

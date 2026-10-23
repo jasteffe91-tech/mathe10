@@ -1,0 +1,232 @@
+{
+  "id": "essen",
+  "name": "Essen",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Zollverein, Krupp und Baldeneysee – vom Kohlenpott zur grünen Ruhrmetropole.",
+  "start": { "name": "Burgplatz am Münster", "wiki": "Essener Münster", "lage": [51.45583, 7.01361] },
+  "loesungsworte": ["RUHR", "ZECHE", "KOHLE", "GRUGA", "KUMPEL", "GLUECKAUF", "MADONNA", "ZOLLVEREIN"],
+  "orte": [
+    {
+      "id": "zollverein",
+      "name": "Zeche Zollverein",
+      "wiki": "Zeche Zollverein",
+      "themen": ["highlights", "historie", "spass"],
+      "prio": 3,
+      "info": "Von 1851 bis 1986 wurde hier Steinkohle gefördert. Schacht XII galt als „schönste Zeche der Welt“, sein Doppelbock-Fördergerüst von 1930 ist das Wahrzeichen des Ruhrgebiets. Seit 2001 ist Zollverein UNESCO-Welterbe. Eine leuchtend orange Rolltreppe führt 24 Meter hoch ins Ruhr Museum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wurde auf Zollverein früher aus der Erde geholt?", "richtig": "Steinkohle", "falsch": ["Gold", "Salz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie wird Schacht XII oft genannt?", "richtig": "Schönste Zeche der Welt", "falsch": ["Tiefste Zeche Europas", "Älteste Zeche Deutschlands"] },
+        { "typ": "schaetzen", "frage": "Bis zu welchem Jahr wurde auf Zollverein Kohle gefördert?", "wert": 1986, "einheit": "" },
+        { "typ": "foto", "text": "Gruppenfoto vor dem Doppelbock-Fördergerüst – alle rufen „Glück auf!“" }
+      ],
+      "lage": [51.48653, 7.04408]
+    },
+    {
+      "id": "villa_huegel",
+      "name": "Villa Hügel",
+      "wiki": "Villa Hügel (Essen)",
+      "themen": ["historie", "highlights", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Alfred Krupp ließ sich 1870 bis 1873 dieses schlossähnliche Wohnhaus hoch über dem Baldeneysee bauen. Die Villa hat 399 Räume auf 11.000 Quadratmetern und liegt in einem 40 Hektar großen Park.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Für welche Industriellenfamilie wurde die Villa Hügel gebaut?", "richtig": "Krupp", "falsch": ["Thyssen", "Siemens"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Räume hat die Villa Hügel ungefähr?", "richtig": "Fast 400", "falsch": ["Etwa 40", "Etwa 4.000"] },
+        { "typ": "schaetzen", "frage": "Wie viele Räume hat die Villa Hügel?", "wert": 399, "einheit": "Räume" }
+      ],
+      "lage": [51.40694, 7.00833]
+    },
+    {
+      "id": "baldeneysee",
+      "name": "Baldeneysee",
+      "wiki": "Baldeneysee",
+      "themen": ["natur", "spass", "kinder"],
+      "prio": 2,
+      "info": "Der größte der sechs Ruhrstauseen liegt im grünen Süden Essens. Hier wird gesegelt, gerudert und Rad gefahren. 1973 wurde das Baden verboten – seit 2017 darf man am Seaside Beach wieder im See schwimmen, wenn das Wasser sauber genug ist.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann darf man im Baldeneysee wieder baden?", "richtig": "Seit 2017", "falsch": ["Seit 1973", "Gar nicht"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss wurde für den Baldeneysee aufgestaut?", "richtig": "Die Ruhr", "falsch": ["Der Rhein", "Die Lippe"] },
+        { "typ": "bewegen", "text": "Lauft ein Stück am Ufer entlang und sammelt drei verschiedene Blätter." }
+      ],
+      "lage": [51.4, 7.05]
+    },
+    {
+      "id": "grugapark",
+      "name": "Grugapark",
+      "wiki": "Grugapark",
+      "themen": ["natur", "kinder", "spass"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der Park entstand aus der Gartenbau-Ausstellung von 1929 und war 1965 Schauplatz der Bundesgartenschau. Heute gibt es Spielplätze, Tiere, über vierzig Skulpturen und viel Platz zum Toben.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welcher Ausstellung ging der Grugapark hervor?", "richtig": "Aus einer Gartenbau-Ausstellung 1929", "falsch": ["Aus einer Weltausstellung", "Aus einem Zoo"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Grugapark entdecken?", "richtig": "Spielplätze, Tiere und Skulpturen", "falsch": ["Eine Achterbahn", "Ein Bergwerk"] },
+        { "typ": "suchen", "text": "Findet eine Skulptur im Park und gebt ihr einen neuen Namen." }
+      ],
+      "lage": [51.42806, 6.98694]
+    },
+    {
+      "id": "muenster",
+      "name": "Essener Münster & Goldene Madonna",
+      "wiki": "Goldene Madonna",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Im Dom des Ruhrbistums steht die Goldene Madonna von etwa 980 – die älteste erhaltene vollplastische Marienfigur der abendländischen Kunst. Die Kirche geht auf ein Frauenstift zurück, das um 845 gegründet wurde.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere an der Goldenen Madonna?", "richtig": "Sie ist die älteste erhaltene vollplastische Marienfigur des Abendlandes", "falsch": ["Sie ist aus purem Gold", "Sie kann weinen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farbe hat die berühmte Madonna im Essener Dom?", "richtig": "Gold", "falsch": ["Silber", "Blau"] },
+        { "typ": "schaetzen", "frage": "Um welches Jahr entstand die Goldene Madonna?", "wert": 980, "einheit": "" }
+      ],
+      "lage": [51.45583, 7.01361]
+    },
+    {
+      "id": "folkwang",
+      "name": "Museum Folkwang",
+      "wiki": "Museum Folkwang",
+      "themen": ["highlights"],
+      "prio": 1,
+      "info": "Das Kunstmuseum wurde 1902 in Hagen gegründet und kam 1922 nach Essen. Es zeigt Impressionismus, Expressionismus und moderne Kunst – die Sammlung ist kostenlos zugänglich.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welcher Stadt wurde das Museum Folkwang ursprünglich gegründet?", "richtig": "In Hagen", "falsch": ["In Düsseldorf", "In Dortmund"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man im Museum Folkwang anschauen?", "richtig": "Bilder und Kunstwerke", "falsch": ["Dinosaurier", "Autos"] },
+        { "typ": "mission", "text": "Beschreibt euer Lieblingsbild in drei Wörtern – die anderen raten, welches es ist." }
+      ],
+      "lage": [51.44167, 7.00417]
+    },
+    {
+      "id": "margarethenhoehe",
+      "name": "Margarethenhöhe",
+      "wiki": "Margarethenhöhe",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "info": "Die Siedlung gilt als erste deutsche Gartenstadt: gestiftet von Margarethe Krupp für menschenfreundliches Wohnen, mit Gärten, Gassen und einem Marktplatz. 50 Hektar sind als Wald geschützt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Als was gilt die Margarethenhöhe?", "richtig": "Als erste deutsche Gartenstadt", "falsch": ["Als erste Zeche Essens", "Als ältester Bahnhof"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Nach wem ist die Margarethenhöhe benannt?", "richtig": "Nach Margarethe Krupp", "falsch": ["Nach einer Königin", "Nach einer Kuh"] },
+        { "typ": "foto", "text": "Fotografiert die schönste Haustür in der Siedlung." }
+      ],
+      "lage": [51.4325, 6.97722]
+    },
+    {
+      "id": "alte_synagoge",
+      "name": "Alte Synagoge",
+      "wiki": "Alte Synagoge (Essen)",
+      "themen": ["historie"],
+      "prio": 1,
+      "respekt": true,
+      "info": "Die Synagoge von 1913 ist eines der größten erhaltenen Zeugnisse jüdischer Kultur der Vorkriegszeit in Deutschland. Seit 2010 ist sie das „Haus jüdischer Kultur“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist die Alte Synagoge heute?", "richtig": "Ein Haus jüdischer Kultur", "falsch": ["Ein Konzertsaal für Rockmusik", "Ein Rathaus"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist eine Synagoge?", "richtig": "Ein Gotteshaus der Juden", "falsch": ["Ein Bahnhof", "Ein Theater"] }
+      ],
+      "lage": [51.45639, 7.01667]
+    },
+    {
+      "id": "rue",
+      "name": "Rüttenscheider Straße („Rü“)",
+      "wiki": "Rüttenscheid",
+      "suche": "Rüttenscheider Platz, Essen",
+      "themen": ["kneipen", "kulinarik", "spass"],
+      "prio": 2,
+      "info": "Die „Rü“ ist Essens Ausgehmeile: Restaurants, Cafés, Kneipen und Bars reihen sich hier aneinander. Im Sommer sitzt halb Essen draußen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennen die Essener die Rüttenscheider Straße?", "richtig": "Rü", "falsch": ["Rutsch", "Scheidi"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ruft man im Ruhrgebiet traditionell zum Gruß der Bergleute?", "richtig": "Glück auf!", "falsch": ["Petri Heil!", "Ahoi!"] },
+        { "typ": "mission", "text": "Bestellt im Ruhrpott-Slang: „Für mich ’ne Pommes Schranke!“ – und schaut, was passiert." }
+      ],
+      "lage": [51.43771, 7.00817]
+    },
+    {
+      "id": "rathaus",
+      "name": "Rathaus mit Aussichtsetage",
+      "wiki": "Rathaus Essen",
+      "themen": ["spass", "besonderheiten", "historie"],
+      "prio": 2,
+      "hinweis": "Besucherbereich zu den Öffnungszeiten der Verwaltung",
+      "info": "Mit 106 Metern und 23 Stockwerken war das Essener Rathaus bei seiner Fertigstellung 1979 das höchste Rathaus Deutschlands. Von der 22. Etage in rund 100 Metern Höhe blickt man über das Ruhrgebiet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hielt das Essener Rathaus bei seiner Fertigstellung?", "richtig": "Höchstes Rathaus Deutschlands", "falsch": ["Ältestes Rathaus Deutschlands", "Rathaus mit den meisten Fenstern"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was kann man aus der 22. Etage sehen?", "richtig": "Weit über das Ruhrgebiet", "falsch": ["Die Nordsee", "Die Alpen"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist das Essener Rathaus?", "wert": 106, "einheit": "m" }
+      ],
+      "lage": [51.45806, 7.01611]
+    },
+    {
+      "id": "lichtburg",
+      "name": "Lichtburg",
+      "wiki": "Lichtburg (Essen)",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Das Kino von 1928 hat mit 1.250 Plätzen den größten Kinosaal Deutschlands. Hier finden immer wieder Filmpremieren statt. Im Keller gibt es einen zweiten, kleinen Saal.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hält die Lichtburg?", "richtig": "Größter Kinosaal Deutschlands", "falsch": ["Ältestes Kino der Welt", "Erstes 3D-Kino Europas"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist die Lichtburg?", "richtig": "Ein Kino", "falsch": ["Eine Burg mit Lampen", "Ein Leuchtturm"] },
+        { "typ": "schaetzen", "frage": "Wie viele Plätze hat der große Saal der Lichtburg?", "wert": 1250, "einheit": "Plätze" }
+      ],
+      "lage": [51.45472, 7.01306]
+    },
+    {
+      "id": "aalto_theater",
+      "name": "Aalto-Theater",
+      "wiki": "Aalto-Theater",
+      "themen": ["besonderheiten", "highlights"],
+      "prio": 1,
+      "info": "Das Opernhaus mit der geschwungenen weißen Form entwarf der finnische Architekt Alvar Aalto. Er erlebte die Fertigstellung nicht mehr – gebaut wurde erst 1983 bis 1988, zwölf Jahre nach seinem Tod.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Aus welchem Land stammte der Architekt Alvar Aalto?", "richtig": "Aus Finnland", "falsch": ["Aus Schweden", "Aus den Niederlanden"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wird im Aalto-Theater aufgeführt?", "richtig": "Opern und Ballett", "falsch": ["Fußballspiele", "Kinofilme"] },
+        { "typ": "foto", "text": "Fotografiert die geschwungenste Stelle des Gebäudes." }
+      ],
+      "lage": [51.44694, 7.01278]
+    },
+    {
+      "id": "kokerei",
+      "name": "Kokerei Zollverein",
+      "wiki": "Kokerei Zollverein",
+      "themen": ["historie", "spass", "besonderheiten"],
+      "prio": 2,
+      "hinweis": "Eisbahn nur Anfang Dezember bis Anfang Januar",
+      "info": "In der Kokerei wurde von 1961 bis 1993 aus Kohle Koks gemacht – sie galt als modernste Kokerei Europas. Im Winter wird entlang der alten Koksöfen eine Eisbahn aufgebaut, im Sommer lockt das Werksschwimmbad, ein Kunstprojekt aus Containern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was wurde in einer Kokerei hergestellt?", "richtig": "Koks aus Kohle", "falsch": ["Kakao", "Kerzen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was gibt es im Winter an der Kokerei?", "richtig": "Eine Eisbahn", "falsch": ["Eine Skisprungschanze", "Einen Schneemann-Wettbewerb"] },
+        { "typ": "bewegen", "text": "Lauft im Gänsemarsch an den alten Koksöfen entlang und zählt die Ofentüren." }
+      ],
+      "lage": [51.48888, 7.03443]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "werksschwimmbad",
+      "name": "Werksschwimmbad Zollverein",
+      "art": "aktion",
+      "was": "Freibad (Kunstprojekt)",
+      "icon": "🏊",
+      "lage": [51.49056, 7.0386],
+      "info": "Kleines Freibad aus Containern auf dem Zechengelände – ein Kunstprojekt.",
+      "preis": 1,
+      "hinweis": "Nur im Sommer",
+      "quelle": "OSM"
+    },
+    {
+      "id": "dampfe",
+      "name": "Dampfe – Das Borbecker Brauhaus",
+      "art": "brauhaus",
+      "lage": [51.4731, 6.94672],
+      "info": "Brauhaus in Borbeck mit eigenem Bier.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_adam_sam",
+      "name": "Eiscafé Adam & Sam",
+      "art": "eis",
+      "lage": [51.43232, 7.00383],
+      "info": "Eiscafé in Rüttenscheid.",
+      "preis": 1,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [51.44694, 7.01306]
+}

@@ -1,0 +1,227 @@
+{
+  "id": "rostock",
+  "name": "Rostock & Warnemünde",
+  "land": "Mecklenburg-Vorpommern",
+  "kurz": "Hansestadt mit Backsteingotik, astronomischer Uhr und dem breitesten Strand der deutschen Ostseeküste.",
+  "start": { "name": "Neuer Markt am Rathaus", "wiki": "Rathaus Rostock", "lage": [54.08861, 12.14111] },
+  "loesungsworte": ["HANSE", "KOGGE", "OSTSEE", "MOEWE", "WARNOW", "TEEPOTT", "LEUCHTTURM", "WARNEMUENDE"],
+  "orte": [
+    {
+      "id": "rathaus",
+      "name": "Rathaus am Neuen Markt",
+      "wiki": "Rathaus Rostock",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Das Rathaus ist das älteste erhaltene weltliche Gebäude der Stadt und ein bedeutender Bau der Backsteingotik. Ein barocker Vorbau verdeckt heute große Teile der gotischen Fassade. Über ihm ragt die Schauwand mit sieben Türmchen – die Sieben gilt in Rostock als besondere Zahl.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Türmchen hat die Schauwand des Rathauses?", "richtig": "Sieben", "falsch": ["Drei", "Zwölf"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was verdeckt heute einen großen Teil der gotischen Rathausfassade?", "richtig": "Ein barocker Vorbau", "falsch": ["Ein Glasdach", "Ein Hotel"] },
+        { "typ": "suchen", "text": "Zählt die Türmchen – und findet am Neuen Markt die Giebelhäuser mit den buntesten Fassaden." }
+      ],
+      "lage": [54.08861, 12.14111]
+    },
+    {
+      "id": "marienkirche",
+      "name": "Marienkirche & Astronomische Uhr",
+      "wiki": "Marienkirche (Rostock)",
+      "themen": ["highlights", "historie", "besonderheiten"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "info": "In der Hauptkirche Rostocks tickt eine astronomische Uhr von 1472. Ihr Kalender steht auf einer Scheibe, die nur für 133 Jahre reicht: Die vierte Scheibe lief 2017 ab, seit 2018 dreht sich die fünfte. Mittags ziehen die Apostel um Christus herum.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Jahre reicht eine Kalenderscheibe der astronomischen Uhr?", "richtig": "133 Jahre", "falsch": ["10 Jahre", "1.000 Jahre"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welchem Jahr stammt die astronomische Uhr?", "richtig": "1472", "falsch": ["1972", "2002"] },
+        { "typ": "suchen", "text": "Findet auf der Kalenderscheibe euren Geburtstag." }
+      ],
+      "lage": [54.08955, 12.1386]
+    },
+    {
+      "id": "kroepeliner",
+      "name": "Kröpeliner Straße & Kröpeliner Tor",
+      "wiki": "Kröpeliner Tor",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Die Fußgängerzone führt vom Universitätsplatz zum Kröpeliner Tor, dem westlichsten der einst großen Stadttore, erbaut um 1270. Ob es nach der Kleinstadt Kröpelin oder einer Familie dieses Namens heißt, ist bis heute umstritten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher hat das Kröpeliner Tor seinen Namen?", "richtig": "Das ist umstritten – Stadt oder Familie Kröpelin", "falsch": ["Von einem krummen Torbogen", "Von einem Bäcker namens Kröpel"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wozu dienten Stadttore früher?", "richtig": "Um die Stadt zu schützen", "falsch": ["Als Fußballtor", "Als Garage"] },
+        { "typ": "schaetzen", "frage": "Um welches Jahr wurde das Kröpeliner Tor gebaut?", "wert": 1270, "einheit": "" }
+      ],
+      "lage": [54.08847, 12.12892]
+    },
+    {
+      "id": "lebensfreude",
+      "name": "Brunnen der Lebensfreude",
+      "wiki": "Brunnen der Lebensfreude (Rostock)",
+      "themen": ["besonderheiten", "kinder", "spass"],
+      "prio": 2,
+      "info": "Der begehbare Brunnen auf dem Universitätsplatz wurde 1980 eingeweiht. Die nackten Bronzefiguren brachten ihm bei den Rostockern den Spitznamen „Porno-Brunnen“ ein. Im Sommer planschen hier Kinder.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Spitznamen hat der Brunnen bei den Rostockern?", "richtig": "Porno-Brunnen", "falsch": ["Badewanne", "Nixenteich"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist das Besondere an diesem Brunnen?", "richtig": "Man kann in ihm herumlaufen", "falsch": ["Er spuckt Limonade", "Er ist nachts beheizt"] },
+        { "typ": "foto", "text": "Macht die Pose einer Brunnenfigur nach – angezogen, bitte!" }
+      ],
+      "lage": [54.0882, 12.13462]
+    },
+    {
+      "id": "universitaet",
+      "name": "Universität Rostock",
+      "wiki": "Universität Rostock",
+      "suche": "Universitätsplatz, Rostock",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Die Universität wurde 1419 gegründet – sie ist die älteste Universität im ganzen Ostseeraum. Ihr Hauptgebäude steht am Universitätsplatz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welchen Rekord hält die Universität Rostock?", "richtig": "Älteste Universität im Ostseeraum", "falsch": ["Größte Universität Deutschlands", "Erste Frauenuniversität"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "In welchem Jahr wurde die Universität gegründet?", "richtig": "1419", "falsch": ["1919", "1819"] },
+        { "typ": "suchen", "text": "Sucht am Hauptgebäude der Universität ein Wappen oder eine Jahreszahl." }
+      ],
+      "lage": [54.08801, 12.13414]
+    },
+    {
+      "id": "kloster",
+      "name": "Kloster zum Heiligen Kreuz",
+      "wiki": "Kloster zum Heiligen Kreuz (Rostock)",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Zisterzienserinnen gründeten das Kloster zwischen 1269 und 1272. Es ist die einzige vollständig erhaltene Klosteranlage der Stadt. Heute ist hier das Kulturhistorische Museum, die Klosterkirche dient als Universitätskirche.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Orden gründete das Kloster?", "richtig": "Zisterzienserinnen", "falsch": ["Benediktiner", "Franziskaner"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was befindet sich heute im Kloster?", "richtig": "Ein Museum", "falsch": ["Ein Kino", "Ein Bahnhof"] },
+        { "typ": "bewegen", "text": "Geht einmal ganz leise wie Nonnen durch den Kreuzgang – wer flüstert zuerst?" }
+      ],
+      "lage": [54.08722, 12.1325]
+    },
+    {
+      "id": "petrikirche",
+      "name": "Petrikirche & Aussichtsplattform",
+      "wiki": "Petrikirche (Rostock)",
+      "themen": ["spass", "historie"],
+      "prio": 2,
+      "kosten": "Aussicht mit Eintritt",
+      "info": "Mit 117 Metern ist die Petrikirche die höchste der alten Stadtkirchen – ihr Turm war früher ein Seezeichen für die Schiffer. In 45 Metern Höhe gibt es eine Aussichtsplattform, erreichbar über 195 enge Stufen oder per Aufzug. Von hier ging 1523 die Reformation in Rostock aus.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man auf die Aussichtsplattform?", "richtig": "Über Treppen oder mit dem Aufzug", "falsch": ["Mit einer Leiter außen", "Mit einem Heißluftballon"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ging 1523 von der Petrikirche aus?", "richtig": "Die Reformation in Rostock", "falsch": ["Die erste Hanse-Versammlung", "Der Bau des Stadthafens"] },
+        { "typ": "schaetzen", "frage": "Wie viele Stufen führen zur Aussichtsplattform?", "wert": 195, "einheit": "Stufen" }
+      ],
+      "lage": [54.09069, 12.14794]
+    },
+    {
+      "id": "stadthafen",
+      "name": "Stadthafen",
+      "wiki": "Rostocker Stadthafen",
+      "themen": ["natur", "kneipen", "spass"],
+      "prio": 2,
+      "info": "Am Ufer der Warnow liegen Traditionsschiffe, Ausflugsboote und alte Speicher mit Restaurants und Kneipen. Von hier starten Hafenrundfahrten Richtung Warnemünde. Im Sommer feiert Rostock hier die Hanse Sail.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "An welchem Fluss liegt der Rostocker Stadthafen?", "richtig": "An der Warnow", "falsch": ["An der Elbe", "An der Spree"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches große Segelschiff-Fest findet jeden Sommer in Rostock statt?", "richtig": "Die Hanse Sail", "falsch": ["Die Kieler Woche", "Der Hafengeburtstag"] },
+        { "typ": "suchen", "text": "Findet das Schiff mit den meisten Masten im Hafen." }
+      ],
+      "lage": [54.09333, 12.13944]
+    },
+    {
+      "id": "zoo",
+      "name": "Zoo Rostock & Darwineum",
+      "wiki": "Zoo Rostock",
+      "themen": ["kinder", "natur"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der größte Zoo an der deutschen Ostseeküste liegt im Barnstorfer Wald: 56 Hektar mit rund 6.500 Tieren. Im Darwineum geht es um die Entwicklung des Lebens – mit Menschenaffen in einer großen Tropenhalle.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Worum geht es im Darwineum?", "richtig": "Um die Entwicklung des Lebens", "falsch": ["Um Autos", "Um Weltraumraketen"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viele Tiere leben ungefähr im Zoo Rostock?", "richtig": "Rund 6.500", "falsch": ["Rund 650", "Rund 65.000"] },
+        { "typ": "bewegen", "text": "Macht wie Orang-Utans – Arme hängen lassen und schaukeln!" }
+      ],
+      "lage": [54.07808, 12.09035]
+    },
+    {
+      "id": "leuchtturm_wm",
+      "name": "Leuchtturm & Teepott Warnemünde",
+      "wiki": "Leuchtturm Warnemünde",
+      "themen": ["highlights", "spass", "besonderheiten"],
+      "prio": 3,
+      "kosten": "Turm mit Eintritt (saisonal)",
+      "info": "Das Wahrzeichen von Warnemünde ist der 36,9 Meter hohe Leuchtturm von 1898. Daneben steht der Teepott von 1968 mit seinem geschwungenen Schalendach, entworfen vom Ingenieur Ulrich Müther. Vom Turm sieht man die Kreuzfahrtschiffe einlaufen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt das runde Gebäude mit dem geschwungenen Dach neben dem Leuchtturm?", "richtig": "Teepott", "falsch": ["Kaffeekanne", "Muschelhaus"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Seit wann leuchtet der Leuchtturm Warnemünde?", "richtig": "Seit 1898", "falsch": ["Seit 1798", "Seit 1998"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Leuchtturm?", "wert": 36.9, "einheit": "m" },
+        { "typ": "foto", "text": "Leuchtturm-Foto: Einer „hält“ den Turm auf der Hand." }
+      ],
+      "lage": [54.18139, 12.08583]
+    },
+    {
+      "id": "alter_strom",
+      "name": "Alter Strom",
+      "wiki": "Warnemünde",
+      "suche": "Am Strom, Warnemünde",
+      "themen": ["kulinarik", "besonderheiten", "natur"],
+      "prio": 2,
+      "info": "Am Alten Strom liegen Fischkutter und kleine Boote, an der Promenade reihen sich Kapitänshäuser, Cafés und Läden. Fischbrötchen gibt es hier direkt von den Kuttern und Buden – die Möwen warten schon.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Vögel versuchen hier, Fischbrötchen zu klauen?", "richtig": "Möwen", "falsch": ["Spatzen", "Störche"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was liegt im Alten Strom vor Anker?", "richtig": "Fischkutter und kleine Boote", "falsch": ["Kreuzfahrtschiffe", "U-Boote"] },
+        { "typ": "mission", "text": "Teilt euch ein Fischbrötchen – ohne dass eine Möwe etwas abbekommt." }
+      ],
+      "lage": [54.17346, 12.09117]
+    },
+    {
+      "id": "strand_wm",
+      "name": "Strand Warnemünde",
+      "wiki": "Warnemünde",
+      "suche": "Seepromenade, Warnemünde",
+      "themen": ["natur", "kinder", "spass"],
+      "prio": 2,
+      "info": "Mit bis zu 150 Metern ist der Sandstrand von Warnemünde der breiteste an der deutschen Ostseeküste. Seit etwa 1821 kommen Badegäste hierher – vorher war Warnemünde ein kleiner Fischerort.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "An welchem Meer liegt Warnemünde?", "richtig": "An der Ostsee", "falsch": ["An der Nordsee", "Am Mittelmeer"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist das Besondere am Strand von Warnemünde?", "richtig": "Er ist der breiteste der deutschen Ostseeküste", "falsch": ["Er hat schwarzen Sand", "Er ist nur nachts geöffnet"] },
+        { "typ": "schaetzen", "frage": "Wie breit ist der Strand von Warnemünde an der breitesten Stelle?", "wert": 150, "einheit": "m" },
+        { "typ": "bewegen", "text": "Wettlauf barfuß vom Strandzugang bis zum Wasser!" }
+      ],
+      "lage": [54.18121, 12.08517]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "alter_fritz",
+      "name": "Zum Alten Fritz",
+      "art": "brauhaus",
+      "lage": [54.09217, 12.12694],
+      "info": "Brauhaus am Warnowufer im Stadthafen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "zur_kogge",
+      "name": "Zur Kogge",
+      "art": "restaurant",
+      "lage": [54.09201, 12.13542],
+      "info": "Uriges Seemannslokal mit Fischgerichten in der nördlichen Altstadt.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_milano_ro",
+      "name": "Eiscafé Milano",
+      "art": "eis",
+      "lage": [54.08778, 12.13587],
+      "info": "Eiscafé in der Kröpeliner Straße.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "teepott_restaurant",
+      "name": "Teepott",
+      "art": "restaurant",
+      "lage": [54.18168, 12.08577],
+      "info": "Restaurant und Café im markanten Schalenbau neben dem Leuchtturm.",
+      "preis": 2,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [54.08955, 12.13414]
+}

@@ -1,0 +1,222 @@
+{
+  "id": "luebeck",
+  "name": "Lübeck",
+  "land": "Schleswig-Holstein",
+  "kurz": "Königin der Hanse: Holstentor, Marzipan und verwinkelte Gänge – die ganze Altstadt ist Welterbe.",
+  "start": { "name": "Markt am Rathaus", "wiki": "Lübecker Rathaus", "lage": [53.86703, 10.68548] },
+  "loesungsworte": ["HANSE", "TRAVE", "TEUFEL", "MARZIPAN", "HOLSTEN", "SPEICHER", "BACKSTEIN", "CONCORDIA"],
+  "orte": [
+    {
+      "id": "holstentor",
+      "name": "Holstentor",
+      "wiki": "Holstentor",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "kosten": "Museum mit Eintritt",
+      "info": "Das Wahrzeichen Lübecks wurde 1478 fertiggestellt und ist neben dem Burgtor das einzige erhaltene Stadttor. Auf der Feldseite steht „Concordia domi foris pax“ – „Eintracht innen, draußen Friede“. Früher war es auf dem 50-Mark-Schein abgebildet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was bedeutet die Inschrift „Concordia domi foris pax“?", "richtig": "Eintracht innen, draußen Friede", "falsch": ["Lübeck über alles", "Ehre dem Kaiser"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele runde Türme hat das Holstentor?", "richtig": "Zwei", "falsch": ["Einen", "Vier"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Holstentor fertiggestellt?", "wert": 1478, "einheit": "" },
+        { "typ": "foto", "text": "Fotografiert das Holstentor so, als würdet ihr es zwischen zwei Fingern halten." }
+      ],
+      "lage": [53.8663, 10.6796]
+    },
+    {
+      "id": "salzspeicher",
+      "name": "Salzspeicher",
+      "wiki": "Salzspeicher",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "info": "Direkt neben dem Holstentor stehen an der Trave die Salzspeicher. In den Backsteinhäusern lagerte Salz aus Lüneburg, bevor es über die Ostsee verschifft wurde – Salz war im Mittelalter so wertvoll, dass man es „weißes Gold“ nannte.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wurde in den Salzspeichern gelagert?", "richtig": "Salz", "falsch": ["Zucker", "Schokolade"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nannte man Salz im Mittelalter wegen seines Werts?", "richtig": "Weißes Gold", "falsch": ["Graues Silber", "Meeresperle"] },
+        { "typ": "suchen", "text": "Zählt die Giebel der Salzspeicher – sind sie alle gleich?" }
+      ],
+      "lage": [53.86586, 10.68021]
+    },
+    {
+      "id": "rathaus",
+      "name": "Rathaus",
+      "wiki": "Lübecker Rathaus",
+      "themen": ["historie", "highlights"],
+      "prio": 2,
+      "info": "Das Lübecker Rathaus ist eines der größten mittelalterlichen Rathäuser Deutschlands und ein Hauptwerk der Backsteingotik. Auffällig sind die hohen Schildwände mit runden Windlöchern, damit der Wind sie nicht umwirft.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wozu dienen die runden Löcher in den hohen Schildwänden des Rathauses?", "richtig": "Damit der Wind durchpfeifen kann", "falsch": ["Für Kanonen", "Als Taubenschlag"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Aus welchem Material ist das Rathaus gebaut?", "richtig": "Aus Backstein", "falsch": ["Aus Holz", "Aus Glas"] },
+        { "typ": "suchen", "text": "Zählt die runden Windlöcher in der Schildwand am Markt." }
+      ],
+      "lage": [53.86703, 10.68548]
+    },
+    {
+      "id": "marienkirche",
+      "name": "Marienkirche & Teufel",
+      "wiki": "Marienkirche (Lübeck)",
+      "themen": ["highlights", "historie", "besonderheiten", "kinder"],
+      "prio": 3,
+      "info": "Die „Mutterkirche der Backsteingotik“ wurde von 1251 bis 1351 gebaut, ihre Türme sind rund 125 Meter hoch. Neben der Kirche sitzt ein kleiner Bronzeteufel: Der Sage nach half der Teufel beim Bau, weil er dachte, hier entstehe ein Wirtshaus. In der Kirche liegen noch die Glocken, die beim Luftangriff 1942 herunterstürzten.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer sitzt als Bronzefigur neben der Marienkirche?", "richtig": "Ein kleiner Teufel", "falsch": ["Ein Engel", "Ein Seemann"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum half der Teufel laut Sage beim Bau der Kirche?", "richtig": "Er dachte, es entstehe ein Wirtshaus", "falsch": ["Er wollte Pfarrer werden", "Er hatte eine Wette verloren"] },
+        { "typ": "schaetzen", "frage": "Wie viele Jahre dauerte der Bau der Marienkirche (1251–1351)?", "wert": 100, "einheit": "Jahre" },
+        { "typ": "foto", "text": "Gruppenfoto mit dem Bronzeteufel – alle machen Teufelshörner." }
+      ],
+      "lage": [53.868, 10.68488]
+    },
+    {
+      "id": "niederegger",
+      "name": "Niederegger & Marzipan",
+      "wiki": "Niederegger",
+      "suche": "Niederegger, Breite Straße, Lübeck",
+      "themen": ["kulinarik", "besonderheiten", "kinder"],
+      "prio": 3,
+      "info": "Lübecker Marzipan ist weltberühmt. Im Stammhaus von Niederegger gegenüber dem Rathaus gibt es Marzipan in allen Formen, oben ein Café mit vielen Torten. Marzipan besteht vor allem aus Mandeln und Zucker.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Woraus besteht Marzipan vor allem?", "richtig": "Aus Mandeln und Zucker", "falsch": ["Aus Erdnüssen und Honig", "Aus Kartoffeln und Salz"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wo liegt das Stammhaus von Niederegger?", "richtig": "Gegenüber dem Rathaus", "falsch": ["Im Holstentor", "Am Ostseestrand in Travemünde"] },
+        { "typ": "mission", "text": "Kauft das kleinste Marzipanstück, das ihr finden könnt, und teilt es gerecht." }
+      ],
+      "lage": [53.86655, 10.68577]
+    },
+    {
+      "id": "petrikirche",
+      "name": "Petrikirche & Aussichtsturm",
+      "wiki": "Petrikirche (Lübeck)",
+      "themen": ["spass", "historie"],
+      "prio": 2,
+      "kosten": "Turm mit Eintritt",
+      "info": "Die Petrikirche wird heute für Kultur und Veranstaltungen genutzt. Ein Aufzug fährt hinauf zur Aussichtsplattform im Turm – mit Blick über die Altstadtinsel, die sieben Türme und die Trave.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man in der Petrikirche nach oben?", "richtig": "Mit dem Aufzug", "falsch": ["Mit einer Seilbahn", "Gar nicht"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wird die Petrikirche heute vor allem genutzt?", "richtig": "Für Kultur und Veranstaltungen", "falsch": ["Als Markthalle", "Als Schwimmbad"] },
+        { "typ": "suchen", "text": "Zählt von oben alle Kirchtürme, die ihr auf der Altstadtinsel seht." }
+      ],
+      "lage": [53.86583, 10.68333]
+    },
+    {
+      "id": "schiffergesellschaft",
+      "name": "Haus der Schiffergesellschaft",
+      "wiki": "Schiffergesellschaft (Lübeck)",
+      "themen": ["kneipen", "kulinarik", "historie"],
+      "prio": 2,
+      "info": "Die Lübecker Kapitäne kauften das Haus an der Breiten Straße 1535. Bis heute ist es eine Gaststätte – mit langen Holzbänken, Schiffsmodellen unter der Decke und Seefahrer-Atmosphäre.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer gründete die Schiffergesellschaft?", "richtig": "Lübecker Kapitäne (Schiffer)", "falsch": ["Lübecker Bäcker", "Der Stadtrat"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann erwarben die Schiffer ihr Haus?", "richtig": "1535", "falsch": ["1835", "1235"] },
+        { "typ": "suchen", "text": "Schaut hinein: Wie viele Schiffsmodelle hängen in der Gaststube?" }
+      ],
+      "lage": [53.8711, 10.68815]
+    },
+    {
+      "id": "gaenge",
+      "name": "Gänge und Höfe",
+      "wiki": "Lübecker Gänge und Höfe",
+      "suche": "Glandorps Gang, Lübeck",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 2,
+      "info": "Durch schmale Durchgänge in den Straßenhäusern gelangt man in versteckte Höfe mit winzigen „Buden“ – früher wohnten hier Handwerker und Bedienstete. Viele Höfe wurden von reichen Bürgern gestiftet, etwa der Füchtingshof. Bitte leise sein: Hier wohnen Menschen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie nennt man die kleinen Häuser in den Lübecker Gängen?", "richtig": "Buden", "falsch": ["Hütten", "Katen"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie kommt man in einen Lübecker Gang?", "richtig": "Durch einen schmalen Durchgang im Vorderhaus", "falsch": ["Mit einer Leiter", "Durch eine Falltür"] },
+        { "typ": "suchen", "text": "Findet den schmalsten Durchgang – passen zwei Personen nebeneinander hindurch?" }
+      ],
+      "lage": [53.86919, 10.69159]
+    },
+    {
+      "id": "hansemuseum",
+      "name": "Europäisches Hansemuseum",
+      "wiki": "Europäisches Hansemuseum",
+      "themen": ["historie", "kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Das 2015 eröffnete Museum erzählt mit nachgebauten Szenen die Geschichte der Hanse – des Städtebunds, der den Handel an Nord- und Ostsee beherrschte. Lübeck war ihre „Königin“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was war die Hanse?", "richtig": "Ein Bund von Handelsstädten", "falsch": ["Eine Fluggesellschaft", "Ein Fußballverein"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie wurde Lübeck als Hauptort der Hanse genannt?", "richtig": "Königin der Hanse", "falsch": ["Mutter der Meere", "Herrin der Ostsee"] },
+        { "typ": "mission", "text": "Handelt wie Hansekaufleute: Tauscht zwei Dinge aus euren Taschen – wer macht den besseren Handel?" }
+      ],
+      "lage": [53.8741, 10.6896]
+    },
+    {
+      "id": "heiligen_geist",
+      "name": "Heiligen-Geist-Hospital",
+      "wiki": "Heiligen-Geist-Hospital (Lübeck)",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Das 1286 vollendete Hospital ist eine der ältesten bestehenden Sozialeinrichtungen der Welt. Hier wurden Alte und Kranke versorgt. Im Advent findet in der Halle ein beliebter Kunsthandwerkermarkt statt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür ist das Heiligen-Geist-Hospital bekannt?", "richtig": "Als eine der ältesten Sozialeinrichtungen der Welt", "falsch": ["Als erstes Krankenhaus für Tiere", "Als ältestes Hotel Europas"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer wurde früher im Hospital versorgt?", "richtig": "Alte und kranke Menschen", "falsch": ["Pferde", "Seeleute auf Landgang"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Hospital vollendet?", "wert": 1286, "einheit": "" }
+      ],
+      "lage": [53.8713, 10.68983]
+    },
+    {
+      "id": "burgtor",
+      "name": "Burgtor",
+      "wiki": "Burgtor (Lübeck)",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Das spätgotische Burgtor von 1444 ist das nördliche der einst vier Stadttore und neben dem Holstentor das einzige erhaltene. Seinen Namen hat es von der alten Lübecker Burg.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches andere Stadttor Lübecks ist noch erhalten?", "richtig": "Das Holstentor", "falsch": ["Das Brandenburger Tor", "Das Mühlentor"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wonach ist das Burgtor benannt?", "richtig": "Nach der alten Burg", "falsch": ["Nach Burger-Brötchen", "Nach einem Ritter Burg"] },
+        { "typ": "bewegen", "text": "Marschiert wie Torwachen durch das Tor – im Gleichschritt!" }
+      ],
+      "lage": [53.87395, 10.69115]
+    },
+    {
+      "id": "dom",
+      "name": "Lübecker Dom",
+      "wiki": "Lübecker Dom",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Heinrich der Löwe gründete den Dom 1173. Mit fast 132 Metern Länge ist er eine der längsten Backsteinkirchen – und der erste große Backsteinkirchbau an der Ostsee.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer gründete den Lübecker Dom?", "richtig": "Heinrich der Löwe", "falsch": ["Karl der Große", "Otto der Große"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie lang ist der Dom ungefähr?", "richtig": "Fast 132 Meter", "falsch": ["13 Meter", "1.320 Meter"] },
+        { "typ": "bewegen", "text": "Schätzt die Länge des Doms in Schritten – und zählt dann nach." }
+      ],
+      "lage": [53.86074, 10.68578]
+    },
+    {
+      "id": "museumshafen",
+      "name": "Museumshafen",
+      "suche": "Museumshafen, Wenditzufer, Lübeck",
+      "themen": ["natur", "historie"],
+      "prio": 1,
+      "info": "An der Untertrave liegen historische Schiffe vor der Kulisse der alten Speicher. Hier spürt man noch die Hafenstadt der Hansezeit.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "An welchem Fluss liegt der Lübecker Hafen?", "richtig": "An der Trave", "falsch": ["An der Elbe", "An der Weser"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß das typische Handelsschiff der Hanse?", "richtig": "Kogge", "falsch": ["Galeere", "Dschunke"] },
+        { "typ": "suchen", "text": "Findet das älteste Schiff im Museumshafen – wo steht sein Baujahr?" }
+      ],
+      "lage": [53.872, 10.68241]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "brauberger",
+      "name": "Brauberger",
+      "art": "brauhaus",
+      "lage": [53.86828, 10.68096],
+      "info": "Hausbrauerei in der Altstadt mit urigen Räumen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "kartoffelkeller",
+      "name": "Kartoffel-Keller",
+      "art": "restaurant",
+      "lage": [53.87122, 10.69012],
+      "info": "Gewölbekeller am Koberg mit Kartoffelgerichten – gut für Gruppen.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [53.868, 10.68577]
+}

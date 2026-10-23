@@ -18,12 +18,19 @@ Klassenfahrtziele und darauf, wie gut sich ein Ziel für eine Stadtrallye eignet
 | **Städte gesamt** | | **74** |
 | Regionen (Inseln, Seen, Mittelgebirge, Küsten) | z. B. Sylt, Rügen, Harz, Sauerland, Bodensee, Gardasee | rund 60 |
 
-**Schon in Stadtfuchs:** Berlin, Bremen, Frankfurt, Hamburg, Köln, München, Stuttgart (7 von 26 deutschen
-Alpetour-Städten). Dazu Düsseldorf und die Testregion Dorsten, Haltern am See, Schermbeck und Voerde.
+**Schon in Stadtfuchs:** Berlin, Bremen, Dresden, Frankfurt, Freiburg, Hamburg, Heidelberg, Köln, Leipzig, Mainz,
+München, Nürnberg, Potsdam, Rostock (mit Warnemünde), Stuttgart und Weimar (16 von 26 deutschen Alpetour-Städten).
+Dazu die JGA- und Ausflugsstädte Düsseldorf, Hannover, Lübeck und Münster, die Ruhrgebietsstädte Essen, Bochum und
+Dortmund sowie die Testregion Dorsten, Haltern am See, Schermbeck und Voerde (mit Region Lippe & Hohe Mark).
+Alle Städte haben Tipps für Pausen und Extras (Imbiss, Café, Eis, Brauhaus, Bar, Aktionen).
+
+**Nächste Kandidaten:** Erfurt, Aachen, Kiel und Schwerin (fehlende Alpetour-Städte), dazu Trier, Bamberg, Würzburg,
+Regensburg, Augsburg, Karlsruhe und Bonn. Für die Heimatregion bieten sich Oberhausen (Gasometer) und Duisburg
+(Landschaftspark) an.
 
 ### Empfohlene Reihenfolge für Schulen
 
-1. **Deutsche Klassiker:** Dresden, Leipzig, Weimar, Potsdam, Nürnberg, Heidelberg, Erfurt
+1. **Deutsche Klassiker:** Dresden, Leipzig, Weimar, Potsdam, Nürnberg und Heidelberg sind erledigt, Erfurt fehlt noch
 2. **Ausland mit Sprachbezug:** London, Paris, Amsterdam, Prag, Wien, Rom. Hier liegt ein echtes Alleinstellungsmerkmal:
    eine **Englisch-Rallye in London** oder eine **Französisch-Rallye in Paris**, deren Fragen auf Englisch oder
    Französisch gestellt sind. Damit wird die Rallye zur Unterrichtsaufgabe, und Lehrkräfte empfehlen sie weiter.
@@ -31,7 +38,8 @@ Alpetour-Städten). Dazu Düsseldorf und die Testregion Dorsten, Haltern am See,
    Die App hat dafür schon die Markierung „Gedenkort“.
 4. **Regionen:** Ortsrallyes für die Orte, in denen Klassen übernachten (Westerland, Binz, Lüneburg, Winterberg).
 
-Aufwand je Stadt: rund 25 bis 35 Stationen. Mit dem Prüfwerkzeug sind Koordinaten und Wikipedia-Abgleich
+Aufwand je Stadt: rund 25 bis 35 Stationen. Neue Städte starten mit 11 bis 23 Stationen – genug für jede
+Rallye-Länge zu Fuß – und wachsen mit den Rückmeldungen. Mit dem Prüfwerkzeug sind Koordinaten und Wikipedia-Abgleich
 automatisiert. Pro Stadt bleiben Texte, Fragen und die Prüfung vor Ort, im besten Fall durch Lehrkräfte,
 die mit dem eingebauten Prüfmodus Rückmeldung geben.
 
@@ -75,7 +83,8 @@ Bewusst nicht: Bannerwerbung in Kinder-Rallyes, Abo-Zwang, Bezahlschranke für S
 | Zeitraum | Schritte |
 |---|---|
 | jetzt | Testregion Dorsten, Haltern, Schermbeck, Voerde vor Ort prüfen (Prüfmodus), Fehler korrigieren |
-| 1–3 Monate | 6 deutsche Klassiker ergänzen (Dresden, Leipzig, Weimar, Potsdam, Nürnberg, Heidelberg); Impressum und Datenschutzerklärung; eigene Domain |
+| erledigt (Okt. 2026) | 15 neue Städte, darunter die 6 deutschen Klassiker (Dresden, Leipzig, Weimar, Potsdam, Nürnberg, Heidelberg); Tipps für Pausen und Extras in allen Städten |
+| 1–3 Monate | Erfurt, Aachen, Kiel, Schwerin; neue Städte mit dem Prüfmodus kontrollieren lassen; Impressum und Datenschutzerklärung; eigene Domain |
 | 3–6 Monate | London und Paris mit Sprach-Rallye; Lehrkräfte aus dem Umfeld testen lassen; Unterstützen-Knopf |
 | 6–12 Monate | Live-Wettkampf für Klassen; JGA-Paket; erste Partner-Stationen in der Testregion |
 | ab 12 Monaten | Baukasten und Kooperationen mit Veranstaltern und Städten |

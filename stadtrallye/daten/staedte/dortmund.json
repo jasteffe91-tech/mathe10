@@ -1,0 +1,385 @@
+{
+  "id": "dortmund",
+  "name": "Dortmund",
+  "land": "Nordrhein-Westfalen",
+  "kurz": "Fußball, Bier und Industriekultur – vom Fußballmuseum über den U-Turm bis zum Stößchen am Alten Markt.",
+  "start": { "name": "Alter Markt", "wiki": "Alter Markt (Dortmund)", "lage": [51.51372, 7.46609] },
+  "loesungsworte": ["BVB", "BIER", "HANSA", "ADLER", "STAHL", "KOHLE", "NASHORN", "BORUSSIA", "WESTFALEN"],
+  "orte": [
+    {
+      "id": "alter_markt",
+      "name": "Alter Markt",
+      "wiki": "Alter Markt (Dortmund)",
+      "themen": ["kneipen", "historie", "kulinarik"],
+      "prio": 2,
+      "info": "Der Marktplatz entstand wohl schon im 9. Jahrhundert. Bis 1955 stand hier das Alte Rathaus, das als ältestes steinernes Rathaus Deutschlands galt. Heute sitzt man rundherum in Kneipen – und trinkt Bier gern im „Stößchen“, einem kleinen Dortmunder Glas mit 0,1 Litern.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie viel passt in ein geeichtes Dortmunder „Stößchen“?", "richtig": "0,1 Liter", "falsch": ["0,3 Liter", "0,5 Liter"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür war das Stößchen der Überlieferung nach gedacht?", "richtig": "Für ein schnelles Bier beim Warten an der Bahnschranke", "falsch": ["Als Glas für Kinderpunsch", "Weil große Gläser verboten waren"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was stand hier bis 1955?", "richtig": "Das alte Rathaus", "falsch": ["Ein Bergwerk", "Ein Leuchtturm"] },
+        { "typ": "foto", "text": "Gruppenfoto am Bläserbrunnen von 1901 – alle blasen die Backen auf!" },
+        { "typ": "mission", "text": "Fragt in einer Kneipe nach einem „Stößchen“ und lasst euch erzählen, warum es so klein ist." }
+      ],
+      "lage": [51.51372, 7.46609]
+    },
+    {
+      "id": "reinoldi",
+      "name": "St. Reinoldi",
+      "wiki": "St. Reinoldi (Dortmund)",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "hinweis": "Turm nur zu bestimmten Zeiten begehbar",
+      "info": "Die Stadtkirche markiert den Mittelpunkt der Innenstadt. Ihr Turm galt 1454 mit 112 Metern als „Wunder von Westfalen“, stürzte 1661 aber ein. Heute ist er 104 Meter hoch, bis zur ersten Plattform in etwa 60 Metern kann man hinaufsteigen. Auf der Spitze dreht sich ein Adler – das Wappentier der Stadt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah 1661 mit dem Turm von St. Reinoldi?", "richtig": "Er stürzte ein", "falsch": ["Er wurde vergoldet", "Er wurde um 20 Meter erhöht"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier dreht sich als Wetterfahne auf der Turmspitze?", "richtig": "Ein Adler", "falsch": ["Ein Hahn", "Ein Fisch"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Turm von St. Reinoldi heute?", "wert": 104, "einheit": "m" }
+      ],
+      "lage": [51.51477, 7.46763]
+    },
+    {
+      "id": "petrikirche",
+      "name": "Petrikirche mit „Goldenem Wunder“",
+      "wiki": "Petrikirche (Dortmund)",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "hinweis": "Kirche nicht immer geöffnet",
+      "info": "Im Inneren steht das „Goldene Wunder von Westfalen“: ein Schnitzaltar aus Antwerpen von 1521, aufgeklappt 7,40 Meter breit – der größte erhaltene Antwerpener Altar. Je nach Zeit im Kirchenjahr werden seine Flügel anders geöffnet.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woher stammt der Schnitzaltar „Goldenes Wunder“?", "richtig": "Aus Antwerpen", "falsch": ["Aus Venedig", "Aus Nürnberg"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt der berühmte Altar in dieser Kirche?", "richtig": "Goldenes Wunder", "falsch": ["Silberner Schatz", "Bronzene Pracht"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Altar geschaffen?", "wert": 1521, "einheit": "" }
+      ],
+      "lage": [51.51472, 7.46028]
+    },
+    {
+      "id": "fussballmuseum",
+      "name": "Deutsches Fußballmuseum",
+      "wiki": "Deutsches Fußballmuseum",
+      "themen": ["highlights", "spass", "kinder"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "info": "Das nationale Fußballmuseum des DFB wurde 2015 eröffnet und aus Gewinnen der WM 2006 finanziert. Zu sehen ist unter anderem der Schuh, mit dem Mario Götze 2014 das WM-Finale gegen Argentinien entschied.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wessen Schuh aus dem WM-Finale 2014 ist im Museum zu sehen?", "richtig": "Mario Götzes", "falsch": ["Thomas Müllers", "Manuel Neuers"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie viele Spieler einer Mannschaft stehen beim Fußball gleichzeitig auf dem Platz?", "richtig": "11", "falsch": ["9", "15"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Fußballmuseum eröffnet?", "wert": 2015, "einheit": "" },
+        { "typ": "bewegen", "text": "Elfmeter-Pantomime: Eine Person schießt, eine hält – alle anderen jubeln wie im Stadion!" }
+      ],
+      "lage": [51.51625, 7.45856]
+    },
+    {
+      "id": "dortmunder_u",
+      "name": "Dortmunder U",
+      "wiki": "Dortmunder U",
+      "themen": ["highlights", "besonderheiten"],
+      "prio": 2,
+      "info": "Das 70 Meter hohe Haus wurde 1926/27 als Gär- und Lagerkeller der Union-Brauerei gebaut. Seit 1968 leuchtet oben das neun Meter hohe, vergoldete „U“. Heute ist es ein Zentrum für Kunst und Kreativität mit Aussichtsterrasse, an der Dachkrone laufen Adolf Winkelmanns „Fliegende Bilder“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wurde das Dortmunder U ursprünglich gebaut?", "richtig": "Als Gär- und Lagerkeller einer Brauerei", "falsch": ["Als Bahnhofshotel", "Als Kohlenbunker"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wofür steht das große U auf dem Dach?", "richtig": "Für die Union-Brauerei", "falsch": ["Für die U-Bahn", "Für einen Uhrturm"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist das vergoldete U auf dem Dach?", "wert": 9, "einheit": "m" },
+        { "typ": "foto", "text": "Fotografiert die „Fliegenden Bilder“ an der Dachkrone – was zeigen sie gerade?" }
+      ],
+      "lage": [51.515, 7.45362]
+    },
+    {
+      "id": "steinwache",
+      "name": "Gedenkstätte Steinwache",
+      "wiki": "Steinwache",
+      "themen": ["historie"],
+      "prio": 1,
+      "respekt": true,
+      "info": "Die Polizeiwache von 1906 wurde ab 1933 zum Gefängnis der Gestapo, berüchtigt für Verhöre und Folter. Zwischen 1933 und 1945 waren hier über 66.000 Menschen inhaftiert. Heute zeigt die Gedenkstätte die Ausstellung „Widerstand und Verfolgung in Dortmund 1933–1945“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was ist die Steinwache heute?", "richtig": "Eine Mahn- und Gedenkstätte", "falsch": ["Eine Polizeiwache", "Ein Hotel"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer nutzte das Gebäude ab 1933 als Gefängnis?", "richtig": "Die Gestapo", "falsch": ["Die Feuerwehr", "Die Stadtverwaltung"] }
+      ],
+      "lage": [51.51964, 7.46062]
+    },
+    {
+      "id": "adlerturm",
+      "name": "Adlerturm",
+      "wiki": "Adlerturm Dortmund",
+      "themen": ["kinder", "historie"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Der 30 Meter hohe Turm wurde 1992 über den Fundamenten eines Wehrturms der mittelalterlichen Stadtmauer neu gebaut – auf Pfeilern, damit die alten Mauerreste erhalten bleiben. Drinnen ist ein Kindermuseum: Rüstungen anprobieren, Schwerter anfassen und die Dortmunder Fehde von 1388 nachspielen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was dürfen Kinder im Adlerturm ausprobieren?", "richtig": "Rüstungen anprobieren", "falsch": ["Kanonen abfeuern", "Pferde reiten"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum steht der neue Adlerturm auf Pfeilern?", "richtig": "Um die alten Fundamente zu schonen", "falsch": ["Wegen Hochwassergefahr", "Damit Autos darunter parken können"] },
+        { "typ": "schaetzen", "frage": "Wie hoch ist der Adlerturm?", "wert": 30, "einheit": "m" },
+        { "typ": "bewegen", "text": "Ritterschlag: Eine Person kniet, eine andere schlägt sie mit einem unsichtbaren Schwert zum Ritter!" }
+      ],
+      "lage": [51.51028, 7.46935]
+    },
+    {
+      "id": "konzerthaus",
+      "name": "Konzerthaus & Nashörner",
+      "wiki": "Konzerthaus Dortmund",
+      "themen": ["besonderheiten", "spass", "kinder"],
+      "prio": 1,
+      "info": "Das Konzerthaus von 2002 hat 1.550 Plätze, seine Akustik wird mit dem berühmten Wiener Musikverein verglichen. Wappentier ist ein geflügeltes Nashorn – weil Nashörner sehr fein hören. 2006 standen über 120 bunt bemalte Nashorn-Figuren in der Stadt, einige gibt es bis heute.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welches Tier ist das Wappentier des Konzerthauses?", "richtig": "Ein Nashorn mit Flügeln", "falsch": ["Ein Adler mit Krone", "Ein Pferd mit Hut"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Warum passt ein Nashorn zum Konzerthaus?", "richtig": "Es hat ein sehr feines Gehör", "falsch": ["Es brüllt besonders laut", "Es tanzt gern Walzer"] },
+        { "typ": "suchen", "text": "Sucht ein Nashorn – am Konzerthaus oder unterwegs in der Stadt. Wer es zuerst entdeckt, darf ihm einen Namen geben!" }
+      ],
+      "lage": [51.51611, 7.46667]
+    },
+    {
+      "id": "friedensplatz",
+      "name": "Friedensplatz",
+      "wiki": "Friedensplatz (Dortmund)",
+      "suche": "Friedensplatz, Dortmund",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 1,
+      "info": "Der Platz hieß früher Neuer Markt, hier stehen Rathaus und das alte Stadthaus aus rotem Sandstein. Die Friedenssäule in der Mitte mahnt in vielen Sprachen zum Frieden, ein Ginkgobaum erinnert an die Opfer von Hiroshima. Bei Meisterfeiern des BVB feierten hier und in der Innenstadt jeweils über 100.000 Menschen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Woran erinnert der Ginkgobaum am Friedensplatz?", "richtig": "An die Opfer der Atombombe auf Hiroshima", "falsch": ["An die Gründung des BVB", "An den ersten Bürgermeister"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie hieß der Friedensplatz früher?", "richtig": "Neuer Markt", "falsch": ["Alter Hafen", "Kuhweide"] },
+        { "typ": "suchen", "text": "Lest die Friedenssäule: In wie vielen Sprachen findet ihr das Wort für Frieden?" }
+      ],
+      "lage": [51.51124, 7.46628]
+    },
+    {
+      "id": "westenhellweg",
+      "name": "Westenhellweg",
+      "wiki": "Westenhellweg (Dortmund)",
+      "suche": "Westenhellweg, Dortmund",
+      "themen": ["spass", "besonderheiten"],
+      "prio": 1,
+      "info": "Die Einkaufsstraße folgt dem uralten Handelsweg Hellweg, den schon Karl der Große nutzte. 2018 zählte man hier in Spitzenzeiten über 10.000 Passanten pro Stunde – der Westenhellweg gehört zu den meistbesuchten Einkaufsmeilen Deutschlands.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher berühmte Herrscher nutzte schon den Hellweg?", "richtig": "Karl der Große", "falsch": ["Julius Cäsar", "Friedrich der Große"] },
+        { "typ": "schaetzen", "frage": "Wie viele Menschen pro Stunde zählte man 2018 in Spitzenzeiten?", "wert": 10180, "einheit": "pro Stunde" },
+        { "typ": "mission", "text": "Zählt eine Minute lang alle, die an euch vorbeigehen – wie viele wären das hochgerechnet pro Stunde?" }
+      ],
+      "lage": [51.51411, 7.45877]
+    },
+    {
+      "id": "westfalenpark",
+      "name": "Westfalenpark & Florianturm",
+      "wiki": "Florianturm",
+      "themen": ["natur", "highlights", "kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "Der 70 Hektar große Park entstand zur Bundesgartenschau 1959 – mit dem Florianturm in der Mitte. Der Fernsehturm war damals 219 Meter hoch und hatte das erste Drehrestaurant der Welt. Im Deutschen Rosarium blühen mehr als 3.000 Rosenarten, und eine kleine Parkeisenbahn dreht ihre Runden.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was war 1959 im Florianturm eine Weltneuheit?", "richtig": "Ein Drehrestaurant", "falsch": ["Ein Glasaufzug", "Eine Rutsche nach unten"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Blumen gibt es im Rosarium besonders viele?", "richtig": "Rosen", "falsch": ["Tulpen", "Sonnenblumen"] },
+        { "typ": "schaetzen", "frage": "Wie hoch war der Florianturm 1959 (gerundet)?", "wert": 219, "einheit": "m" },
+        { "typ": "bewegen", "text": "Dreht euch ganz langsam einmal im Kreis wie das Drehrestaurant – und beschreibt dabei, was ihr seht!" }
+      ],
+      "lage": [51.4966, 7.4766]
+    },
+    {
+      "id": "stadion",
+      "name": "Signal Iduna Park",
+      "wiki": "Signal Iduna Park",
+      "themen": ["spass", "highlights"],
+      "prio": 3,
+      "info": "Das größte Fußballstadion Deutschlands: 81.365 Plätze, seit 1974 Heimat von Borussia Dortmund. Bis 2005 hieß es Westfalenstadion. Die Südtribüne ist mit 24.454 Stehplätzen die größte Stehplatztribüne Europas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wie hieß das Stadion bis 2005?", "richtig": "Westfalenstadion", "falsch": ["Ruhrstadion", "Borsigarena"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Farben trägt Borussia Dortmund?", "richtig": "Schwarz und Gelb", "falsch": ["Blau und Weiß", "Rot und Weiß"] },
+        { "typ": "schaetzen", "frage": "Wie viele Stehplätze hat die Südtribüne?", "wert": 24454, "einheit": "Plätze" },
+        { "typ": "bewegen", "text": "Fangesang: Stimmt gemeinsam einen Schlachtruf an – mit Klatschen im Takt!" }
+      ],
+      "lage": [51.49267, 7.45177]
+    },
+    {
+      "id": "kreuzviertel",
+      "name": "Kreuzviertel",
+      "wiki": "Kreuzviertel (Dortmund)",
+      "themen": ["kneipen", "kulinarik", "spass"],
+      "prio": 2,
+      "info": "Altbauten aus der Gründerzeit, Kneipen, Cafés und kleine Läden: Das Kreuzviertel gehört zu den Szenevierteln des Ruhrgebiets. Seinen Namen hat es von der Heilig-Kreuz-Kirche in der Mitte des Viertels.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wonach ist das Kreuzviertel benannt?", "richtig": "Nach der Heilig-Kreuz-Kirche", "falsch": ["Nach einer großen Straßenkreuzung", "Nach einem Kreuzritter"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie alt sind viele Häuser im Kreuzviertel?", "richtig": "Über 100 Jahre", "falsch": ["Etwa 10 Jahre", "Über 1.000 Jahre"] },
+        { "typ": "mission", "text": "Findet das Café oder die Kneipe mit dem originellsten Namen – und fotografiert das Schild." }
+      ],
+      "lage": [51.50306, 7.45472]
+    },
+    {
+      "id": "borsigplatz",
+      "name": "Borsigplatz",
+      "wiki": "Borsigplatz",
+      "themen": ["spass", "historie"],
+      "prio": 2,
+      "info": "Hier schlägt das Herz des BVB: Borussia Dortmund wurde 1909 ganz in der Nähe in der Gaststätte „Wildschütz“ gegründet. Nach großen Titeln feiern Fans und Mannschaft am runden Platz mit seinen sechs Zufahrten. „Den Borsigplatz schwarz-gelb streichen“ geht auf eine wahre Begebenheit von 1966 zurück.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wo wurde Borussia Dortmund gegründet?", "richtig": "In der Gaststätte „Wildschütz“ am Borsigplatz", "falsch": ["Im Rathaus", "In einer Zeche"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der BVB gegründet?", "wert": 1909, "einheit": "" },
+        { "typ": "suchen", "text": "Zählt die Straßen, die sternförmig auf den Borsigplatz zulaufen." }
+      ],
+      "lage": [51.52333, 7.48167]
+    },
+    {
+      "id": "brauereimuseum",
+      "name": "Brauerei-Museum",
+      "wiki": "Brauerei-Museum Dortmund",
+      "themen": ["historie", "kulinarik"],
+      "prio": 1,
+      "info": "Im Maschinenhaus der früheren Hansa-Brauerei von 1912 erzählt das Museum von Dortmunds Bierstadt-Geschichte – vor allem von den „goldenen Jahren“ der Brauereien zwischen 1950 und 1970. Zu sehen sind eine Dampfmaschine, eine Gaststätte aus den 1930er-Jahren und alte Bierwerbung.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welche Zeit gilt als die „goldenen Jahre“ der Dortmunder Brauereien?", "richtig": "1950 bis 1970", "falsch": ["1850 bis 1870", "1990 bis 2010"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was wird in einer Brauerei hergestellt?", "richtig": "Bier", "falsch": ["Brötchen", "Bonbons"] },
+        { "typ": "schaetzen", "frage": "Aus welchem Jahr stammt das Maschinenhaus des Museums?", "wert": 1912, "einheit": "" }
+      ],
+      "lage": [51.52959, 7.4671]
+    },
+    {
+      "id": "hafen",
+      "name": "Dortmunder Hafen",
+      "wiki": "Hafen Dortmund",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "info": "Kaiser Wilhelm II. eröffnete den Hafen 1899 zusammen mit dem Dortmund-Ems-Kanal. Umgeschlagen wurden vor allem Getreide, Kohle und Erz – heute sind die nördlichen Hafenbecken eine der großen Logistikdrehscheiben Europas.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer eröffnete 1899 den Dortmunder Hafen?", "richtig": "Kaiser Wilhelm II.", "falsch": ["Otto von Bismarck", "Königin Victoria"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was legt in einem Hafen an?", "richtig": "Schiffe", "falsch": ["Flugzeuge", "Seilbahnen"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde der Hafen eröffnet?", "wert": 1899, "einheit": "" }
+      ],
+      "lage": [51.52583, 7.44278]
+    },
+    {
+      "id": "phoenix_see",
+      "name": "Phoenix-See",
+      "wiki": "Phoenix-See",
+      "themen": ["natur", "besonderheiten"],
+      "prio": 2,
+      "info": "Wo seit 1841 ein Stahlwerk stand, liegt heute ein 24 Hektar großer, künstlich angelegter See. Seit 2011 ist das Ufer für alle offen – ein Vorzeigeprojekt für den Wandel des Ruhrgebiets. Die Emscher fließt nördlich am See vorbei.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was stand früher dort, wo heute der Phoenix-See liegt?", "richtig": "Ein Stahlwerk", "falsch": ["Ein Flughafen", "Ein Fußballstadion"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Ist der Phoenix-See von allein entstanden?", "richtig": "Nein, er wurde künstlich angelegt", "falsch": ["Ja, in der Eiszeit", "Ja, Biber haben ihn gestaut"] },
+        { "typ": "schaetzen", "frage": "Wie groß ist der See?", "wert": 24, "einheit": "Hektar" }
+      ],
+      "lage": [51.49, 7.51]
+    },
+    {
+      "id": "zoo",
+      "name": "Zoo Dortmund",
+      "wiki": "Zoo Dortmund",
+      "themen": ["kinder", "natur"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Auf 28 Hektar leben rund 1.700 Tiere in knapp 200 Arten. Der Zoo hat sich auf Tiere aus Südamerika spezialisiert und sieht sich als führend in der Zucht von Großen Ameisenbären und Tamanduas. Eröffnet wurde er 1953 über dem Grubenfeld einer alten Zeche.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Auf Tiere von welchem Kontinent hat sich der Zoo spezialisiert?", "richtig": "Südamerika", "falsch": ["Australien", "Antarktis"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Tier züchtet der Zoo Dortmund besonders erfolgreich?", "richtig": "Den Großen Ameisenbären", "falsch": ["Den Eisbären", "Den Großen Panda"] },
+        { "typ": "bewegen", "text": "Schnüffelt wie ein Ameisenbär mit langer Nase zehn Schritte über den Weg!" }
+      ],
+      "lage": [51.47444, 7.47083]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "hoevels",
+      "name": "Hövels Hausbrauerei",
+      "art": "brauhaus",
+      "lage": [51.51247, 7.45854],
+      "info": "Hausbrauerei am Hohen Wall – seit 1984 wird hier im Haus gebraut, bekannt ist das „Hövels Original“.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikipedia; nrw-tourism.com; OSM"
+    },
+    {
+      "id": "wenkers",
+      "name": "Wenkers am Markt",
+      "art": "brauhaus",
+      "lage": [51.51351, 7.46659],
+      "info": "Traditionsgaststätte am Alten Markt im Stammhaus der Kronen-Brauerei, das seit 1430 verbürgt ist.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "Wikipedia; OSM"
+    },
+    {
+      "id": "ratsschaenke",
+      "name": "Ratsschänke",
+      "art": "bar",
+      "ab": 18,
+      "lage": [51.51194, 7.46563],
+      "info": "Kneipe nahe dem Alten Markt – eine Beschwerde hier sorgte 2004 dafür, dass das Stößchen einen Eichstrich bekam.",
+      "preis": 1,
+      "quelle": "Wikipedia; OSM"
+    },
+    {
+      "id": "turm137",
+      "name": "Turm137 im Florianturm",
+      "art": "restaurant",
+      "lage": [51.4966, 7.4766],
+      "info": "Drehrestaurant mit Bar hoch oben im Florianturm, seit November 2025 wieder in Betrieb.",
+      "preis": 3,
+      "hinweis": "Öffnungszeiten vorher prüfen; Parkeintritt",
+      "quelle": "Wikipedia"
+    },
+    {
+      "id": "kleinbahn",
+      "name": "Kleinbahn im Westfalenpark",
+      "art": "aktion",
+      "was": "Parkeisenbahn",
+      "icon": "🚂",
+      "lage": [51.4966, 7.4766],
+      "info": "Seit 1959 dreht die kleine Bahn eine rund 2,7 Kilometer lange Runde durch den Park, ein Bahnhof liegt am Turm.",
+      "preis": 1,
+      "kinder": true,
+      "gruppe": true,
+      "hinweis": "Fährt nicht ganzjährig – vorher prüfen",
+      "quelle": "Wikipedia"
+    },
+    {
+      "id": "eis_panciera",
+      "name": "Eiscafé Panciera",
+      "art": "eis",
+      "lage": [51.50922, 7.45856],
+      "info": "Eiscafé im Klinikviertel, zwischen Innenstadt und Kreuzviertel.",
+      "preis": 1,
+      "kinder": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "cafe_fleur",
+      "name": "Café Fleur",
+      "art": "cafe",
+      "lage": [51.49006, 7.50209],
+      "info": "Café am Phoenix-See mit Frühstück, Mittagstisch und Kuchen, abends Antipasti und Wein.",
+      "preis": 2,
+      "quelle": "Meininger (2024)"
+    },
+    {
+      "id": "eis_factory",
+      "name": "Eis Factory",
+      "art": "eis",
+      "lage": [51.51415, 7.4686],
+      "info": "Eisdiele in der Kleppingstraße, wenige Schritte von St. Reinoldi.",
+      "preis": 1,
+      "kinder": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "gelato_e_caffe",
+      "name": "Gelato e Caffè",
+      "art": "eis",
+      "lage": [51.5119, 7.46445],
+      "info": "Eiscafé in der Wißstraße, zwischen Altem Markt und Friedensplatz.",
+      "preis": 1,
+      "kinder": true,
+      "quelle": "OSM"
+    },
+    {
+      "id": "spielplatz_adlerturm",
+      "name": "Spielplatz am Adlerturm",
+      "art": "aktion",
+      "bis": 12,
+      "was": "Spielplatz",
+      "icon": "🛝",
+      "lage": [51.51043, 7.46864],
+      "info": "Spielplatz auf dem Günter-Samtlebe-Platz direkt am Adlerturm – Zeit zum Toben.",
+      "kinder": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [51.51472, 7.46628]
+}

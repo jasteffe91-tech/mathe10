@@ -1,0 +1,233 @@
+{
+  "id": "weimar",
+  "name": "Weimar",
+  "land": "Thüringen",
+  "kurz": "Goethe, Schiller, Bauhaus und Weimarer Republik – Klassikerstadt für Klassenfahrten.",
+  "start": { "name": "Markt", "wiki": "Markt (Weimar)", "lage": [50.97933, 11.32919] },
+  "loesungsworte": ["ILM", "GOETHE", "BAUHAUS", "ZWIEBEL", "SCHILLER", "KLASSIK", "FAUST", "BRATWURST"],
+  "orte": [
+    {
+      "id": "markt",
+      "name": "Markt & Cranachhaus",
+      "wiki": "Markt (Weimar)",
+      "themen": ["highlights", "historie", "kulinarik"],
+      "prio": 3,
+      "info": "Seit etwa 1300 ist der Markt das Herz der Stadt. An der Ostseite stehen Renaissancehäuser, darunter das Cranachhaus, in dem der Maler Lucas Cranach wohnte. Am Markt duftet es nach Thüringer Rostbratwurst – und am zweiten Oktoberwochenende feiert Weimar hier den Zwiebelmarkt.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Volksfest feiert Weimar jedes Jahr im Oktober?", "richtig": "Den Zwiebelmarkt", "falsch": ["Das Kartoffelfest", "Den Kürbismarkt"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Wurst ist eine Thüringer Spezialität?", "richtig": "Die Thüringer Rostbratwurst", "falsch": ["Die Weißwurst", "Die Currywurst"] },
+        { "typ": "suchen", "text": "Findet am Markt das Cranachhaus – woran erkennt ihr es?" },
+        { "typ": "mission", "text": "Teilt euch eine Thüringer Rostbratwurst (oder etwas Vegetarisches) – mit Senf!" }
+      ],
+      "lage": [50.97933, 11.32919]
+    },
+    {
+      "id": "goethe_wohnhaus",
+      "name": "Goethes Wohnhaus am Frauenplan",
+      "wiki": "Goethes Wohnhaus",
+      "themen": ["historie", "highlights"],
+      "prio": 3,
+      "kosten": "Eintritt",
+      "info": "Fast 50 Jahre lebte Johann Wolfgang von Goethe in diesem Haus am Frauenplan, hier starb er 1832. Heute ist es Teil des Goethe-Nationalmuseums und gehört zum UNESCO-Welterbe „Klassisches Weimar“.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher berühmte Dichter wohnte in diesem Haus?", "richtig": "Johann Wolfgang von Goethe", "falsch": ["Wilhelm Busch", "Erich Kästner"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches berühmte Theaterstück schrieb Goethe?", "richtig": "Faust", "falsch": ["Die Räuber", "Nathan der Weise"] },
+        { "typ": "mission", "text": "Wer kann ein Goethe-Zitat aufsagen? Alle anderen raten, ob es echt ist." }
+      ],
+      "lage": [50.9775, 11.32861]
+    },
+    {
+      "id": "schiller_wohnhaus",
+      "name": "Schillers Wohnhaus",
+      "wiki": "Schillers Wohnhaus",
+      "themen": ["historie"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "In diesem Haus lebte und starb Friedrich Schiller (1759–1805). Hier schrieb er unter anderem den „Wilhelm Tell“. Auch dieses Haus gehört zum UNESCO-Welterbe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Welches Drama schrieb Schiller in Weimar?", "richtig": "Wilhelm Tell", "falsch": ["Faust", "Romeo und Julia"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer wohnte in diesem Haus?", "richtig": "Friedrich Schiller", "falsch": ["Martin Luther", "Albert Einstein"] },
+        { "typ": "foto", "text": "Schiller-Pose: Hand an die Stirn, Blick in die Ferne – dichterisch!" }
+      ],
+      "lage": [50.97894, 11.32777]
+    },
+    {
+      "id": "goethe_schiller_denkmal",
+      "name": "Goethe-Schiller-Denkmal & Nationaltheater",
+      "wiki": "Goethe-Schiller-Denkmal",
+      "themen": ["highlights", "historie"],
+      "prio": 3,
+      "info": "Seit 1857 stehen Goethe und Schiller hier Seite an Seite und halten gemeinsam einen Lorbeerkranz. Beide sind gleich groß dargestellt, obwohl Schiller in Wirklichkeit größer war. Im Theater dahinter tagte 1919 die Nationalversammlung und gab Deutschland die erste demokratische Verfassung – die Weimarer Republik.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Was halten Goethe und Schiller gemeinsam in der Hand?", "richtig": "Einen Lorbeerkranz", "falsch": ["Ein Buch", "Eine Feder"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah 1919 im Nationaltheater?", "richtig": "Die Nationalversammlung beriet die Weimarer Verfassung", "falsch": ["Goethes Faust wurde uraufgeführt", "Das Bauhaus wurde gegründet"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde das Denkmal errichtet?", "wert": 1857, "einheit": "" },
+        { "typ": "foto", "text": "Stellt das Denkmal nach – zu zweit mit einem „Kranz“ aus euren Händen." }
+      ],
+      "lage": [50.97972, 11.32556]
+    },
+    {
+      "id": "anna_amalia",
+      "name": "Herzogin Anna Amalia Bibliothek",
+      "wiki": "Herzogin-Anna-Amalia-Bibliothek",
+      "themen": ["historie", "besonderheiten"],
+      "prio": 2,
+      "kosten": "Rokokosaal mit Eintritt (Zeitfenster)",
+      "info": "Die Bibliothek wurde 1691 gegründet. Berühmt ist ihr ovaler Rokokosaal über drei Geschosse. Am 2. September 2004 brach ein Brand aus – Tausende Bücher wurden zerstört oder beschädigt, viele werden bis heute restauriert.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Was geschah am 2. September 2004 in der Bibliothek?", "richtig": "Ein Brand zerstörte viele Bücher", "falsch": ["Sie wurde neu eröffnet", "Ein Einbrecher stahl Goethes Tagebuch"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat der berühmte Rokokosaal?", "richtig": "Oval", "falsch": ["Dreieckig", "Quadratisch"] },
+        { "typ": "schaetzen", "frage": "In welchem Jahr wurde die Bibliothek gegründet?", "wert": 1691, "einheit": "" }
+      ],
+      "lage": [50.97861, 11.33222]
+    },
+    {
+      "id": "ilmpark",
+      "name": "Park an der Ilm & Goethes Gartenhaus",
+      "wiki": "Goethes Gartenhaus",
+      "themen": ["natur", "historie"],
+      "prio": 2,
+      "info": "Goethe half mit, den Landschaftspark an der Ilm anzulegen – bis heute ist er kaum verändert. Am Hang steht sein kleines Gartenhaus, in dem er wohnte und arbeitete, bevor er an den Frauenplan zog.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Welcher Fluss fließt durch den Park?", "richtig": "Die Ilm", "falsch": ["Die Elbe", "Die Saale"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer half beim Anlegen des Ilmparks mit?", "richtig": "Goethe", "falsch": ["Napoleon", "Martin Luther"] },
+        { "typ": "bewegen", "text": "Findet eine Brücke über die Ilm und lauft im Gänsemarsch hinüber." }
+      ],
+      "lage": [50.97609, 11.33691]
+    },
+    {
+      "id": "haus_am_horn",
+      "name": "Haus Am Horn",
+      "wiki": "Musterhaus Am Horn",
+      "themen": ["besonderheiten", "historie"],
+      "prio": 1,
+      "kosten": "Eintritt",
+      "info": "Das weiße, würfelförmige Haus baute das Bauhaus 1923 für seine erste Ausstellung als Musterhaus: modern, günstig, praktisch. Entworfen hat es Georg Muche. Es gehört zum UNESCO-Welterbe.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wofür wurde das Haus Am Horn 1923 gebaut?", "richtig": "Als Musterhaus für die erste Bauhausausstellung", "falsch": ["Als Ferienhaus für Goethe", "Als Schule"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Welche Form hat das Haus Am Horn?", "richtig": "Wie ein weißer Würfel", "falsch": ["Wie ein Schloss mit Türmen", "Wie ein Iglu"] },
+        { "typ": "mission", "text": "Entwerft in einer Minute euer Traumhaus – mit Fingern in die Luft gezeichnet." }
+      ],
+      "lage": [50.97389, 11.33944]
+    },
+    {
+      "id": "bauhaus_museum",
+      "name": "Bauhaus-Museum",
+      "wiki": "Bauhaus",
+      "suche": "Bauhaus-Museum Weimar, Stéphane-Hessel-Platz",
+      "themen": ["besonderheiten", "historie", "kinder"],
+      "prio": 2,
+      "kosten": "Eintritt",
+      "info": "1919 wurde in Weimar das Bauhaus gegründet, die berühmteste Kunstschule des 20. Jahrhunderts. Zum 100. Geburtstag öffnete 2019 das neue Museum – mit Möbeln, Lampen und Spielzeug, die bis heute modern wirken.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "In welchem Jahr wurde das Bauhaus in Weimar gegründet?", "richtig": "1919", "falsch": ["1819", "1969"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist typisch für Bauhaus-Design?", "richtig": "Einfache Formen wie Kreis, Quadrat und Dreieck", "falsch": ["Viele Schnörkel und Gold", "Nur Holz und Stroh"] },
+        { "typ": "suchen", "text": "Findet unterwegs etwas, das aus Kreis, Quadrat oder Dreieck besteht – und fotografiert es." }
+      ],
+      "lage": [50.98477, 11.32438]
+    },
+    {
+      "id": "stadtschloss",
+      "name": "Stadtschloss",
+      "wiki": "Weimarer Stadtschloss",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Das Residenzschloss der Herzöge von Sachsen-Weimar liegt am Rand des Ilmparks. Goethe leitete einst die Kommission für seinen Wiederaufbau nach einem Brand.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wer wohnte im Stadtschloss?", "richtig": "Die Herzöge von Weimar", "falsch": ["Goethe und Schiller", "Die Studenten"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Welcher Dichter kümmerte sich um den Wiederaufbau des Schlosses?", "richtig": "Goethe", "falsch": ["Schiller", "Herder"] },
+        { "typ": "suchen", "text": "Findet den hohen Schlossturm und fotografiert ihn mit der ganzen Gruppe davor." }
+      ],
+      "lage": [50.98056, 11.33222]
+    },
+    {
+      "id": "buchenwald",
+      "name": "Gedenkstätte Buchenwald",
+      "wiki": "KZ Buchenwald",
+      "suche": "Gedenkstätte Buchenwald, Weimar",
+      "themen": ["historie"],
+      "prio": 2,
+      "respekt": true,
+      "kosten": "Eintritt frei",
+      "info": "Auf dem Ettersberg betrieb die SS von 1937 bis 1945 eines der größten Konzentrationslager in Deutschland. Rund 277.800 Menschen aus 50 Ländern waren hier inhaftiert, etwa 56.000 starben. Die Gedenkstätte erinnert an sie – mit Angeboten für Schulklassen.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wann wurde das Konzentrationslager Buchenwald betrieben?", "richtig": "Von 1937 bis 1945", "falsch": ["Von 1914 bis 1918", "Von 1949 bis 1989"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist eine Gedenkstätte?", "richtig": "Ein Ort, an dem man an Opfer erinnert", "falsch": ["Ein Freizeitpark", "Ein Denkmal für Sportler"] }
+      ],
+      "lage": [51.0228, 11.2501]
+    },
+    {
+      "id": "herderkirche",
+      "name": "Herderkirche (Stadtkirche)",
+      "wiki": "Herderkirche",
+      "themen": ["historie"],
+      "prio": 2,
+      "info": "Eigentlich heißt sie Stadtkirche St. Peter und Paul. Ihren Spitznamen hat sie von Johann Gottfried Herder, der hier von 1776 bis zu seinem Tod 1803 als oberster Geistlicher wirkte. Vor der Kirche steht seit 1850 sein Denkmal auf dem Herderplatz.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Nach wem ist die Herderkirche benannt?", "richtig": "Nach dem Theologen und Philosophen Johann Gottfried Herder", "falsch": ["Nach einem Schäfer (Herde)", "Nach dem Baumeister Herder"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie heißt die Kirche eigentlich?", "richtig": "Stadtkirche St. Peter und Paul", "falsch": ["Goethekirche", "Marktkirche"] },
+        { "typ": "suchen", "text": "Findet das Herder-Denkmal auf dem Platz vor der Kirche." }
+      ],
+      "lage": [50.98123, 11.32924]
+    },
+    {
+      "id": "roemisches_haus",
+      "name": "Römisches Haus",
+      "wiki": "Römisches Haus (Weimar)",
+      "themen": ["historie", "natur", "besonderheiten"],
+      "prio": 1,
+      "info": "Das Gartenhaus für Herzog Carl August entstand 1791 bis 1798 und sieht aus wie ein römischer Tempel. Die Idee brachte Goethe von seiner Reise nach Italien mit. Von hier oben überblickt man den Ilmpark.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "kind", "frage": "Wie sieht das Römische Haus aus?", "richtig": "Wie ein römischer Tempel", "falsch": ["Wie eine Ritterburg", "Wie ein Bauernhaus"] },
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer brachte die Idee für das Römische Haus aus Italien mit?", "richtig": "Goethe", "falsch": ["Schiller", "Napoleon"] },
+        { "typ": "foto", "text": "Posiert zwischen den Säulen wie römische Statuen." }
+      ],
+      "lage": [50.97111, 11.33556]
+    },
+    {
+      "id": "wittumspalais",
+      "name": "Wittumspalais",
+      "wiki": "Wittumspalais (Weimar)",
+      "themen": ["historie"],
+      "prio": 1,
+      "info": "Hier lebte Herzogin Anna Amalia als Witwe. In ihrer „Tafelrunde“ trafen sich Dichter, Künstler und Gelehrte – das Palais war ein Zentrum des geistigen Lebens im klassischen Weimar.",
+      "aufgaben": [
+        { "typ": "quiz", "niveau": "erw", "frage": "Wer lebte im Wittumspalais als Witwe?", "richtig": "Herzogin Anna Amalia", "falsch": ["Königin Luise", "Charlotte von Stein"] },
+        { "typ": "quiz", "niveau": "kind", "frage": "Was ist ein Palais?", "richtig": "Ein vornehmes, schlossähnliches Haus", "falsch": ["Ein Pausenhof", "Ein Pferdestall"] },
+        { "typ": "mission", "text": "Gründet eure eigene „Tafelrunde“: Jeder erzählt in einem Satz, was ihn heute am meisten beeindruckt hat." }
+      ],
+      "lage": [50.97967, 11.32655]
+    }
+  ],
+  "tipps": [
+    {
+      "id": "residenz_cafe",
+      "name": "Residenz-Café",
+      "art": "cafe",
+      "lage": [50.97991, 11.33097],
+      "info": "Traditionscafé am Grünen Markt nahe dem Stadtschloss.",
+      "preis": 2,
+      "quelle": "OSM"
+    },
+    {
+      "id": "eis_venezia_we",
+      "name": "Eiscafé Venezia",
+      "art": "eis",
+      "lage": [50.97947, 11.32617],
+      "info": "Eiscafé am Theaterplatz, mit Blick auf Goethe und Schiller.",
+      "preis": 1,
+      "quelle": "OSM"
+    },
+    {
+      "id": "felsenkeller_we",
+      "name": "Felsenkeller",
+      "art": "brauhaus",
+      "lage": [50.97226, 11.31997],
+      "info": "Brauerei-Gaststätte mit Biergarten in der Westvorstadt.",
+      "preis": 2,
+      "gruppe": true,
+      "quelle": "OSM"
+    }
+  ],
+  "zentrum": [50.97933, 11.32919]
+}
