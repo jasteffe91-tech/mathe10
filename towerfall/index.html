@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Towerfall – Die letzte Bastion</title>
+<meta name="description" content="Klassisches Tower-Defense-Spiel: Verteidige die Bastion mit sechs Turmtypen gegen 20 Gegnerwellen. Werbefrei, ohne Konto, offline spielbar.">
+<meta name="theme-color" content="#141a24">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Towerfall">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <section id="screen-menu" class="screen screen-menu" hidden>
+    <div class="menu-card">
+      <img class="menu-logo" src="icon.svg" alt="" width="96" height="96">
+      <h1>Towerfall<span>Die letzte Bastion</span></h1>
+      <div class="menu-buttons">
+        <button id="btn-continue" class="btn primary big" hidden>Fortsetzen<small></small></button>
+        <button id="btn-play" class="btn primary big">Spielen</button>
+        <button id="btn-howto" class="btn">Anleitung</button>
+        <button id="btn-settings" class="btn">Einstellungen</button>
+        <button id="btn-stats" class="btn">Statistik</button>
+        <button id="btn-install" class="btn" hidden>Als App installieren</button>
+      </div>
+      <p id="offline-status" class="menu-status" role="status"></p>
+      <p id="storage-warning" class="menu-status warn" hidden>Dieser Browser erlaubt gerade kein dauerhaftes Speichern – Fortschritt geht beim Schließen verloren.</p>
+      <p class="menu-foot">Werbefrei · ohne Konto · ohne Tracking · Spielstände bleiben auf deinem Gerät</p>
+    </div>
+  </section>
+
+  <section id="screen-maps" class="screen screen-maps" hidden>
+    <header class="screen-head">
+      <button id="btn-maps-back" class="btn">← Zurück</button>
+      <h2>Karte wählen</h2>
+    </header>
+    <div id="map-list" class="map-list"></div>
+    <h3 class="sub-head">Schwierigkeit</h3>
+    <div id="difficulty" class="difficulty" role="radiogroup" aria-label="Schwierigkeit"></div>
+    <div class="start-row"><button id="btn-start" class="btn primary big">Partie starten</button></div>
+  </section>
+
+  <section id="screen-game" class="screen screen-game" hidden>
+    <header class="hud">
+      <div class="hud-stats">
+        <div id="hud-lives-box" class="stat lives" title="Leben der Bastion"><span class="ico" aria-hidden="true">♥</span><b id="hud-lives">20</b><span class="sr">Leben</span></div>
+        <div class="stat gold" title="Gold"><span class="ico coin" aria-hidden="true"></span><b id="hud-gold">0</b><span class="sr">Gold</span></div>
+        <div class="stat wave" title="Aktuelle Welle"><span class="lbl">Welle</span><b id="hud-wave">0/20</b></div>
+        <div class="stat progress" title="Fortschritt der Welle"><span id="hud-enemies" class="lbl">Bereit</span><div class="bar"><i id="hud-progress"></i></div></div>
+      </div>
+      <div class="hud-actions">
+        <button id="btn-next" class="btn primary next-btn">Welle 1 starten</button>
+        <button id="btn-speed" class="btn icon" title="Tempo (F)">1×</button>
+        <button id="btn-pause" class="btn icon" title="Pause (Leertaste)">❚❚</button>
+        <button id="btn-menu" class="btn icon" title="Menü (Esc)" aria-label="Menü">☰</button>
+      </div>
+    </header>
+    <div id="stage" class="stage">
+      <canvas id="canvas" aria-label="Spielfeld"></canvas>
+      <div id="toasts" class="toasts" aria-live="polite"></div>
+      <button id="pause-banner" class="pause-banner" hidden>Pausiert – tippen zum Fortsetzen</button>
+    </div>
+    <aside class="panel" aria-label="Baumenü und Informationen">
+      <div id="shop" class="shop" role="toolbar" aria-label="Türme"></div>
+      <div id="info" class="info" aria-live="polite"></div>
+      <div id="wave-preview" class="wave-preview"></div>
+    </aside>
+  </section>
+
+  <div id="modal-root"></div>
+</div>
+<noscript><p style="color:#fff;padding:2em">Towerfall braucht JavaScript.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
