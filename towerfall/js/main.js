@@ -53,7 +53,7 @@ const toastArea = $('#toasts')
 
 function toast(text, kind = 'info') {
   const el = document.createElement('div')
-  el.className = `toast ${kind}`
+  el.className = `toast toast-${kind}`
   el.textContent = text
   el.setAttribute('role', kind === 'error' ? 'alert' : 'status')
   toastArea.appendChild(el)

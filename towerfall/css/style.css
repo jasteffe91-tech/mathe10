@@ -135,14 +135,15 @@ h1, h2, h3, h4 { margin: 0; }
 .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
 .toasts { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); display: grid; gap: 6px; justify-items: center; pointer-events: none; width: min(92%, 460px); z-index: 2; }
 .toast { padding: 8px 14px; border-radius: 10px; background: rgba(20,26,36,.92); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.4); font-weight: 600; text-align: center; animation: toast-in .2s ease-out; transition: opacity .4s, transform .4s; }
-.toast.error { border-color: var(--red); color: #ffd2cd; }
-.toast.good { border-color: var(--green); color: #d7ffd4; }
-.toast.boss { border-color: var(--red); background: rgba(80,20,20,.92); color: #ffe1b0; font-size: 17px; }
+.toast-error { border-color: var(--red); color: #ffd2cd; }
+.toast-good { border-color: var(--green); color: #d7ffd4; }
+.toast-boss { border-color: var(--red); background: rgba(80,20,20,.92); color: #ffe1b0; font-size: 17px; }
 .toast.out { opacity: 0; transform: translateY(-6px); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } }
 .pause-banner { position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; padding: 14px 22px; border-radius: 14px; border: 1px solid var(--gold); background: rgba(12,16,24,.85); color: var(--gold); font: 700 20px var(--f-title); cursor: pointer; z-index: 3; }
 
 /* ---------- Seitenleiste ---------- */
+.panel > * { flex-shrink: 0; }
 .panel { grid-area: panel; display: flex; flex-direction: column; gap: 10px; padding: 10px 10px calc(10px + var(--safe-b)); background: var(--bg2); border-left: 1px solid var(--line); overflow-y: auto; min-height: 0; }
 .shop { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .shop-btn {
@@ -180,7 +181,7 @@ h1, h2, h3, h4 { margin: 0; }
 .reason:empty { display: none; }
 .hint-line { color: var(--gold); font-size: 13.5px; }
 .actions { display: flex; gap: 6px; margin-top: 8px; }
-.actions .btn { flex: 1; }
+.actions .btn { flex: 1; white-space: nowrap; padding-inline: 8px; }
 .segmented { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 6px; background: rgba(0,0,0,.25); padding: 3px; border-radius: 10px; }
 .seg { border: 0; background: transparent; padding: 6px 2px; border-radius: 7px; font-size: 12px; cursor: pointer; color: var(--muted); min-height: 32px; }
 .seg.on { background: var(--panel2); color: var(--gold); font-weight: 700; }
@@ -236,7 +237,7 @@ h1, h2, h3, h4 { margin: 0; }
     grid-template-areas: "hud" "stage" "panel";
   }
   .stage { aspect-ratio: 16 / 9; width: 100%; max-height: 62dvh; }
-  .panel { border-left: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; align-content: start; }
   .shop { grid-template-columns: repeat(6, 1fr); }
   .shop-name { display: none; }
   .shop-btn kbd { display: none; }

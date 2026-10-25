@@ -3,6 +3,7 @@
 // Bezahlbarkeit); laufende Zahlen werden direkt aktualisiert. So gehen keine Klicks verloren.
 import { TOWERS, TOWER_ORDER, TARGET_MODES, TARGET_MODE_ORDER } from '../config/towers.js'
 import { ENEMIES } from '../config/enemies.js'
+import { BALANCE } from '../config/balance.js'
 import { drawTowerIcon, drawEnemyIcon } from '../render/sprites.js'
 import { esc, num, statTable, HINTS } from './format.js'
 
@@ -132,7 +133,7 @@ export class Panel {
         <button class="btn ${this.sellArmed ? 'danger' : ''}" data-act="sell">${this.sellArmed ? 'Wirklich?' : 'Verkaufen'} <b>+${value} G</b></button>
       </div>
       <p class="reason" data-live="reason">${next && !up.ok ? esc(up.reason) : ''}</p>
-      <p class="muted small">Verkauf erstattet ${Math.round((value / t.invested) * 100)} % von ${t.invested} G investiertem Gold.</p>`
+      <p class="muted small">Verkauf erstattet ${Math.round(BALANCE.sellRefund * 100)} % von ${t.invested} G investiertem Gold (abgerundet).</p>`
   }
 
   typeInfo(type, spotIndex) {

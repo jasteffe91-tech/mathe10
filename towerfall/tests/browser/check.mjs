@@ -80,7 +80,7 @@ try {
   await page.waitForTimeout(250)
   const reason = await page.locator('#info .reason').textContent()
   await page.click('[data-act="build"]', { force: true }) // bewusst klickbar trotz aria-disabled: zeigt die Begründung
-  const toastText = await page.locator('.toast.error').last().textContent().catch(() => '')
+  const toastText = await page.locator('.toast-error').last().textContent().catch(() => '')
   const towers2 = await page.evaluate(() => window.__towerfall.game.towers.length)
   check('Zu wenig Gold verhindert Bau mit Begründung', towers2 === 1 && /fehlen/.test(reason) && /fehlen/.test(toastText), reason)
   await page.evaluate(() => { window.__towerfall.game.wallet.gold = 2000 })
@@ -200,6 +200,17 @@ try {
   await tp.click('.modal-actions .btn.primary')
   await tp.waitForTimeout(400)
   await tp.screenshot({ path: shots + 'tablet.png' })
+  // Niederlage: Leben auf 0 → Endbildschirm, Neustart ohne Neuladen
+  await tp.evaluate(() => { const g = window.__towerfall.game; g.callNextWave(); g.lives = 0 })
+  await tp.waitForSelector('.modal.result', { timeout: 5000 }).catch(() => {})
+  const title = await tp.locator('.modal h2').textContent().catch(() => '')
+  await tp.screenshot({ path: shots + 'defeat.png' })
+  check('Niederlage wird erkannt und angezeigt', /gefallen/.test(title), title)
+  await tp.click('.modal-actions .btn.primary')
+  const fresh = await tp.evaluate(() => ({ wave: window.__towerfall.game.wave, lives: window.__towerfall.game.lives, status: window.__towerfall.game.status }))
+  check('Neustart ohne Neuladen', fresh.wave === 0 && fresh.lives === 20 && fresh.status === 'playing', JSON.stringify(fresh))
+  const best = await tp.evaluate(() => JSON.parse(localStorage.getItem('towerfall.progress.v1')).maps.gruenental.games)
+  check('Ergebnis lokal gespeichert', best === 1)
   await tab.close()
 } finally {
   await browser.close()
