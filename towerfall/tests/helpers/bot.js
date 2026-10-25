@@ -11,22 +11,42 @@ export const PLANS = {
   nothing: [],
 }
 
-function bestSpot(game, type) {
-  const range = TOWERS[type].levels[0].range
-  if (TOWERS[type].attack === 'aura') {
-    let best = null, n = -1
-    for (const s of game.spots) {
-      if (s.tower) continue
-      const c = game.towers.filter((t) => (t.x - s.x) ** 2 + (t.y - s.y) ** 2 <= range * range).length
-      if (c > n) { n = c; best = s }
-    }
-    return best
+// Wegpunkte einmal abtasten, dann je Kandidat nur zählen (schnell genug für alle Rasterpositionen)
+function samples(game) {
+  if (game._botSamples) return game._botSamples
+  const pts = []
+  const p = {}
+  for (const rt of game.routes) for (let d = 0; d < rt.length; d += 16) { rt.sample(d, p); pts.push(p.x, p.y) }
+  return (game._botSamples = pts)
+}
+
+function coverageAt(game, x, y, range, minRange = 0) {
+  const pts = samples(game)
+  let n = 0
+  for (let i = 0; i < pts.length; i += 2) {
+    const d2 = (pts[i] - x) ** 2 + (pts[i + 1] - y) ** 2
+    if (d2 <= range * range && d2 >= minRange * minRange) n++
   }
-  let best = null, bestCov = -1
-  for (const s of game.spots) {
-    if (s.tower) continue
-    const cov = game.coverage(s.x, s.y, range, 12)
-    if (cov > bestCov) { bestCov = cov; best = s }
+  return n
+}
+
+// Beste gültige Rasterposition für einen Turmtyp
+export function bestPlacement(game, type) {
+  const def = TOWERS[type]
+  const lvl = def.levels[0]
+  let best = null, bestScore = -1
+  const rots = def.footprint.rotatable ? [0, 1] : [0]
+  for (const rot of rots) {
+    for (let r = 0; r < game.grid.rows; r++) {
+      for (let c = 0; c < game.grid.cols; c++) {
+        const p = game.canPlace(type, c, r, rot)
+        if (!p.ok) continue
+        const score = def.attack === 'aura'
+          ? game.towers.filter((t) => (t.x - p.x) ** 2 + (t.y - p.y) ** 2 <= lvl.range * lvl.range).length
+          : coverageAt(game, p.x, p.y, lvl.range, lvl.minRange || 0)
+        if (score > bestScore) { bestScore = score; best = p }
+      }
+    }
   }
   return best
 }
@@ -40,8 +60,8 @@ function cheapestUpgrade(game) {
   return best
 }
 
-export function runBot({ mapId = 'gruenental', difficulty = 'normal', plan = 'mixed', seed = 1, callEarly = false, maxSeconds = 3600 } = {}) {
-  const game = new Game({ mapId, difficulty, seed })
+export function runBot({ mapId = 'gruenental', difficulty = 'normal', plan = 'mixed', seed = 1, callEarly = false, maxSeconds = 3600, mode = 'normal' } = {}) {
+  const game = new Game({ mapId, difficulty, seed, mode })
   const steps = PLANS[plan].slice()
   const dt = 1 / 60
   let ticks = 0
@@ -53,9 +73,11 @@ export function runBot({ mapId = 'gruenental', difficulty = 'normal', plan = 'mi
         if (!t) { steps.shift(); continue }
         if (!game.upgrade(t).ok) return
       } else {
-        const spot = bestSpot(game, action)
-        if (!spot) { steps.shift(); continue }
-        if (!game.build(spot.index, action).ok) return
+        const cost = TOWERS[action].levels[0].cost
+        if (game.gold < cost) return
+        const place = bestPlacement(game, action)
+        if (!place) { steps.shift(); continue }
+        if (!game.build(action, place.c, place.r, place.rot).ok) return
       }
       steps.shift()
     }

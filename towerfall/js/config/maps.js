@@ -2,8 +2,11 @@
 // festen Bauplätzen, optionaler Deko (Teiche) und dem Namen des Wellensatzes.
 // Weltkoordinaten: 1280 × 720, unabhängig von der Bildschirmgröße.
 //
-// Bauplatz-Hinweise (kurve, weit, engpass) berechnet das Spiel aus der Geometrie
-// (siehe spotHint in game/game.js); ein Bauplatz kann sie mit `tag: '…'` überschreiben.
+// Gebaut wird frei auf einem Raster (siehe config/terrain.js); bebaubar ist alles außer Wegen,
+// Wasser, Bastion und Hindernissen. `spots` sind die früheren festen Bauplätze – sie dienen nur
+// noch der Übernahme alter Spielstände.
+// `advanced`: Zusätze für den fortgeschrittenen Modus – Flüsse (Brücken entstehen automatisch, wo
+// eine Route sie kreuzt), weitere Teiche und eigene Hindernisanzahlen (überschreiben MODES.scatter).
 
 export const WORLD = { width: 1280, height: 720 }
 
@@ -15,7 +18,7 @@ export const MAPS = [
     difficultyHint: 'Einstieg',
     theme: 'meadow',
     waves: 'classic',
-    hpMult: 1,
+    hpMult: 0.92,
     pathWidth: 44,
     seed: 7,
     path: [
@@ -32,6 +35,10 @@ export const MAPS = [
       { x: 1080, y: 470 },
     ],
     ponds: [{ x: 1100, y: 70, rx: 90, ry: 40 }, { x: 70, y: 660, rx: 60, ry: 30 }],
+    advanced: {
+      rivers: [{ points: [[650, -20], [640, 110], [690, 250], [680, 420], [740, 560], [760, 740]], width: 30 }],
+      scatter: { tree: 40, stones: 14, rock: 8, wall: 4, cliff: 2 },
+    },
     palette: { grass: '#5d8f45', grassDark: '#4b7a38', grassLight: '#76a956', path: '#cda96b', pathEdge: '#7c5d36' },
   },
   {
@@ -41,7 +48,7 @@ export const MAPS = [
     difficultyHint: 'Fortgeschritten',
     theme: 'rock',
     waves: 'classic',
-    hpMult: 1,
+    hpMult: 1.15,
     pathWidth: 42,
     seed: 23,
     unlock: { map: 'gruenental', wave: 10 },
@@ -57,6 +64,7 @@ export const MAPS = [
       { x: 304, y: 136 },
     ],
     ponds: [{ x: 1120, y: 150, rx: 110, ry: 55 }],
+    advanced: { scatter: { tree: 22, stones: 16, rock: 12, cliff: 9, wall: 1 } },
     palette: { grass: '#7d8a5a', grassDark: '#66724a', grassLight: '#97a36d', path: '#bfae8c', pathEdge: '#6a5d48' },
   },
   {
@@ -85,6 +93,10 @@ export const MAPS = [
       { x: 670, y: 430 }, { x: 1080, y: 510 }, { x: 1010, y: 120 },
     ],
     ponds: [{ x: 140, y: 360, rx: 90, ry: 50 }, { x: 760, y: 560, rx: 110, ry: 45 }, { x: 620, y: 90, rx: 70, ry: 35 }],
+    advanced: {
+      ponds: [{ x: 880, y: 430, rx: 45, ry: 30 }, { x: 330, y: 40, rx: 60, ry: 25 }, { x: 560, y: 650, rx: 70, ry: 30 }],
+      scatter: { tree: 42, stones: 10, rock: 5, cliff: 0, wall: 2 },
+    },
     palette: { grass: '#4f6b45', grassDark: '#3d5536', grassLight: '#678555', path: '#9c8a62', pathEdge: '#5a4a32' },
   },
   {
@@ -94,7 +106,7 @@ export const MAPS = [
     difficultyHint: 'Lange Serpentinen',
     theme: 'snow',
     waves: 'classic',
-    hpMult: 1.6,
+    hpMult: 1.45,
     pathWidth: 42,
     seed: 57,
     unlock: { map: 'sumpfgabel', wave: 10 },
@@ -111,6 +123,10 @@ export const MAPS = [
       { x: 880, y: 410 }, { x: 990, y: 570 }, { x: 840, y: 580 },
     ],
     ponds: [{ x: 60, y: 640, rx: 70, ry: 35, ice: true }],
+    advanced: {
+      rivers: [{ points: [[1290, 380], [1180, 400], [1120, 470], [1200, 560], [1290, 600]], width: 26, frozen: true }],
+      scatter: { tree: 40, stones: 10, rock: 8, cliff: 8, wall: 0 },
+    },
     palette: { grass: '#e6edf2', grassDark: '#c9d6df', grassLight: '#f7fafc', path: '#b9a891', pathEdge: '#7d6c58' },
   },
   {
@@ -138,6 +154,7 @@ export const MAPS = [
       { x: 560, y: 440 }, { x: 850, y: 300 }, { x: 860, y: 450 },
     ],
     ponds: [{ x: 860, y: 370, rx: 55, ry: 30, oasis: true }],
+    advanced: { scatter: { tree: 16, stones: 16, rock: 8, cliff: 4, wall: 8 } },
     palette: { grass: '#e2c58f', grassDark: '#cfa96b', grassLight: '#f0dcae', path: '#b98d58', pathEdge: '#8a6236' },
   },
 ]

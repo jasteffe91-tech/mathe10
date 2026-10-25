@@ -1,8 +1,9 @@
-// Statischer Kartenhintergrund: Boden, Gewässer, Wege, Deko und Bauplatz-Fundamente – je nach
+// Statischer Kartenhintergrund: Boden, Gewässer, Flüsse mit Brücken, Wege und Hindernisse – je nach
 // Kartenthema (meadow, rock, swamp, snow, desert). Wird einmal pro Größenänderung in ein
 // Offscreen-Canvas gezeichnet und danach nur noch kopiert.
 import { createRng } from '../core/rng.js'
 import { WORLD } from '../config/maps.js'
+import { bridgeSpans } from '../game/terrainmap.js'
 
 const TAU = Math.PI * 2
 
@@ -14,63 +15,43 @@ export function renderTerrain(game, pixelScale) {
   const theme = map.theme || 'meadow'
   const pal = map.palette
   const rng = createRng(map.seed)
-  const pw = map.pathWidth
+  const grid = game.grid
 
-  // Freie Fläche prüfen: nicht auf Wegen, Bauplätzen, Bastion oder Gewässern
-  const free = (x, y, margin) => {
-    if (game.distanceToPath(x, y) < pw / 2 + margin) return false
-    for (const s of game.spots) if ((s.x - x) ** 2 + (s.y - y) ** 2 < (34 + margin) ** 2) return false
-    if ((map.base.x - x) ** 2 + (map.base.y - y) ** 2 < (70 + margin) ** 2) return false
-    for (const p of map.ponds || []) if (((x - p.x) / (p.rx + margin)) ** 2 + ((y - p.y) / (p.ry + margin)) ** 2 < 1) return false
-    return x > -20 && x < WORLD.width + 20 && y > -20 && y < WORLD.height + 20
+  // Kleine, nicht blockierende Bodendetails nur auf freiem Bauland
+  const free = (x, y) => {
+    const { c, r } = grid.cellAt(x, y)
+    if (!grid.inBounds(c, r)) return false
+    const i = grid.idx(c, r)
+    return (grid.terrain[i] === 'grass' || grid.terrain[i] === 'outside') && !grid.obstacle[i]
   }
-  const scatter = (count, tries, margin, fn) => {
+  const scatter = (count, tries, fn) => {
     for (let i = 0, n = 0; i < tries && n < count; i++) {
       const x = rng() * WORLD.width, y = rng() * WORLD.height
-      if (!free(x, y, margin)) continue
+      if (!free(x, y)) continue
       fn(x, y)
       n++
     }
   }
 
   drawGround(ctx, theme, pal, rng)
-  for (const p of map.ponds || []) drawPond(ctx, p, theme, rng)
+  for (const p of game.ponds) drawPond(ctx, p, theme, rng)
+  for (const rv of game.rivers) drawRiver(ctx, rv, theme)
   drawPaths(ctx, game, theme, pal, rng)
+  for (const span of bridgeSpans(game.routes, game.rivers)) drawBridge(ctx, span, game.map.pathWidth)
 
-  // Kleine Bodendetails
   if (theme === 'meadow' || theme === 'rock') {
     const flowers = theme === 'meadow' ? ['#f5e663', '#f2f2f2', '#e98ab0', '#b9a3f0'] : ['#e8e2c8', '#c9c2e8']
-    scatter(theme === 'meadow' ? 170 : 60, 1500, 4, (x, y) => circle(ctx, x, y, rng.range(1.2, 2.2), rng.pick(flowers)))
+    scatter(theme === 'meadow' ? 170 : 60, 1500, (x, y) => circle(ctx, x, y, rng.range(1.2, 2.2), rng.pick(flowers)))
   }
-  if (theme === 'swamp') scatter(40, 800, 6, (x, y) => drawReeds(ctx, x, y, rng))
-  if (theme === 'desert') scatter(30, 800, 10, (x, y) => drawDryBush(ctx, x, y, rng))
-  if (theme === 'snow') scatter(50, 800, 6, (x, y) => drawSnowTuft(ctx, x, y, rng))
+  if (theme === 'swamp') scatter(40, 800, (x, y) => drawReeds(ctx, x, y, rng))
+  if (theme === 'desert') scatter(30, 800, (x, y) => drawDryBush(ctx, x, y, rng))
+  if (theme === 'snow') scatter(50, 800, (x, y) => drawSnowTuft(ctx, x, y, rng))
 
-  // Steine (im Felsenpass deutlich mehr und größer)
-  const rocks = theme === 'rock' ? 46 : theme === 'desert' ? 22 : 20
-  scatter(rocks, 1500, 10, (x, y) => drawRock(ctx, x, y, rng.range(5, theme === 'rock' ? 20 : 13), rng, theme))
-
-  // Bäume, Kakteen usw. nach y sortiert, damit hintere zuerst gezeichnet werden
-  const props = []
-  const want = { meadow: 48, rock: 26, swamp: 34, snow: 50, desert: 18 }[theme] || 40
-  for (let i = 0; i < 1500 && props.length < want; i++) {
-    const x = rng() * WORLD.width, y = rng() * WORLD.height
-    const r = rng.range(12, 26)
-    if (!free(x, y, r + 8)) continue
-    if (props.some((t) => (t.x - x) ** 2 + (t.y - y) ** 2 < (t.r + r) ** 2)) continue
-    props.push({ x, y, r, seed: rng() })
-  }
-  props.sort((a, b) => a.y - b.y)
-  for (const t of props) {
-    if (theme === 'snow') drawPine(ctx, t, true)
-    else if (theme === 'rock') (t.seed < 0.6 ? drawPine(ctx, t, false) : drawTree(ctx, t))
-    else if (theme === 'swamp') (t.seed < 0.45 ? drawDeadTree(ctx, t) : drawWillow(ctx, t))
-    else if (theme === 'desert') (t.seed < 0.65 ? drawCactus(ctx, t) : drawPalm(ctx, t))
-    else drawTree(ctx, t)
-  }
+  // Hindernisse – genau das, was gezeichnet wird, blockiert auch den Bau (nach y sortiert)
+  const obstacles = [...game.obstacles.values()].sort((a, b) => a.y - b.y)
+  for (const o of obstacles) drawObstacle(ctx, o, theme, grid.cell)
 
   for (const route of game.routes) drawSpawn(ctx, route)
-  for (const s of game.spots) drawSpot(ctx, s.x, s.y, theme)
 
   // Vignette
   const v = ctx.createRadialGradient(WORLD.width / 2, WORLD.height / 2, WORLD.height * 0.45, WORLD.width / 2, WORLD.height / 2, WORLD.width * 0.75)
@@ -79,6 +60,143 @@ export function renderTerrain(game, pixelScale) {
   ctx.fillStyle = v
   ctx.fillRect(0, 0, WORLD.width, WORLD.height)
   return canvas
+}
+
+// ---------- Hindernisse ----------
+export function drawObstacle(ctx, o, theme, cell) {
+  const t = { x: o.x, y: o.y, r: cell * 0.48, seed: o.seed }
+  switch (o.type) {
+    case 'tree':
+      if (theme === 'snow') drawPine(ctx, t, true)
+      else if (theme === 'rock') (o.seed < 0.6 ? drawPine(ctx, t, false) : drawTree(ctx, t))
+      else if (theme === 'swamp') (o.seed < 0.45 ? drawDeadTree(ctx, t) : drawWillow(ctx, t))
+      else if (theme === 'desert') (o.seed < 0.65 ? drawCactus(ctx, t) : drawPalm(ctx, t))
+      else drawTree(ctx, t)
+      break
+    case 'stones': {
+      const rng = createRng(Math.floor(o.seed * 1e6))
+      for (let i = 0; i < 3; i++) drawRock(ctx, o.x + rng.range(-8, 8), o.y + rng.range(-7, 7), rng.range(3.5, 6.5), rng, theme)
+      break
+    }
+    case 'rock': {
+      const rng = createRng(Math.floor(o.seed * 1e6))
+      drawRock(ctx, o.x, o.y + 2, cell * 0.85, rng, theme)
+      drawRock(ctx, o.x + cell * 0.55, o.y + cell * 0.45, cell * 0.35, rng, theme)
+      break
+    }
+    case 'wall': drawWall(ctx, o, cell, theme); break
+    case 'cliff': drawCliff(ctx, o, cell, theme); break
+  }
+}
+
+function drawWall(ctx, o, cell, theme) {
+  const light = theme === 'desert' ? '#d8bc8c' : '#bdb6a6'
+  const dark = theme === 'desert' ? '#8f6d45' : '#6f685c'
+  const cells = [...o.cells].sort((a, b) => a.r - b.r || a.c - b.c)
+  const rng = createRng(Math.floor(o.seed * 1e6))
+  for (const { c, r } of cells) {
+    const x = c * cell + 3, y = r * cell + 6, w = cell - 6, h = cell - 12
+    ctx.fillStyle = 'rgba(0,0,0,.28)'
+    ctx.fillRect(x + 4, y + 6, w, h)
+    ctx.fillStyle = dark
+    ctx.fillRect(x, y + h - 5, w, 8) // Vorderseite
+    ctx.fillStyle = light
+    ctx.fillRect(x, y, w, h - 4)
+    // Fugen und Zinnen, teils verfallen
+    ctx.strokeStyle = 'rgba(60,50,40,.45)'
+    ctx.lineWidth = 1
+    for (let yy = y + 5; yy < y + h - 4; yy += 6) { ctx.beginPath(); ctx.moveTo(x, yy); ctx.lineTo(x + w, yy); ctx.stroke() }
+    ctx.fillStyle = light
+    for (let i = 0; i < 3; i++) if (rng() < 0.7) ctx.fillRect(x + i * (w / 3) + 1, y - 4, w / 3 - 3, 5)
+    ctx.fillStyle = 'rgba(80,110,60,.5)'
+    if (rng() < 0.5) circle(ctx, x + rng.range(4, w - 4), y + h - 4, 3, 'rgba(80,120,60,.55)')
+  }
+}
+
+function drawCliff(ctx, o, cell, theme) {
+  const top = theme === 'snow' ? '#e9eef3' : theme === 'desert' ? '#c99b66' : '#8d8a80'
+  const side = theme === 'snow' ? '#7f8c99' : theme === 'desert' ? '#8a5f37' : '#55524b'
+  const cells = [...o.cells].sort((a, b) => a.r - b.r || a.c - b.c)
+  const rng = createRng(Math.floor(o.seed * 1e6))
+  const lift = 10
+  // Schatten und Seitenwände zuerst, dann die Oberflächen
+  for (const { c, r } of cells) {
+    const x = c * cell, y = r * cell
+    ctx.fillStyle = 'rgba(0,0,0,.3)'
+    ctx.fillRect(x + 5, y + 6, cell, cell)
+    ctx.fillStyle = side
+    ctx.fillRect(x - 1, y - lift + cell * 0.5, cell + 2, cell * 0.5 + lift)
+  }
+  for (const { c, r } of cells) {
+    const x = c * cell, y = r * cell - lift
+    const g = ctx.createLinearGradient(x, y, x + cell, y + cell)
+    g.addColorStop(0, shadeHex(top, 0.15))
+    g.addColorStop(1, shadeHex(top, -0.15))
+    ctx.fillStyle = g
+    ctx.beginPath()
+    ctx.moveTo(x - 1 + rng.range(0, 3), y - 1)
+    ctx.lineTo(x + cell + 1 - rng.range(0, 3), y - 1 + rng.range(0, 2))
+    ctx.lineTo(x + cell + 1, y + cell * 0.75)
+    ctx.lineTo(x - 1, y + cell * 0.75)
+    ctx.closePath()
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(0,0,0,.18)'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(x + rng.range(4, cell - 4), y + 3)
+    ctx.lineTo(x + rng.range(4, cell - 4), y + cell * 0.6)
+    ctx.stroke()
+  }
+}
+
+function shadeHex(hex, f) {
+  const n = parseInt(hex.slice(1), 16)
+  const ch = (v) => Math.max(0, Math.min(255, Math.round(f < 0 ? v * (1 + f) : v + (255 - v) * f)))
+  return `rgb(${ch((n >> 16) & 255)},${ch((n >> 8) & 255)},${ch(n & 255)})`
+}
+
+// ---------- Flüsse und Brücken ----------
+function drawRiver(ctx, rv, theme) {
+  const ice = rv.frozen || theme === 'snow'
+  const line = (w, style) => {
+    ctx.strokeStyle = style
+    ctx.lineWidth = w
+    ctx.lineJoin = ctx.lineCap = 'round'
+    ctx.beginPath()
+    rv.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)))
+    ctx.stroke()
+  }
+  line(rv.width + 10, ice ? 'rgba(120,140,170,.45)' : 'rgba(70,60,35,.45)')
+  line(rv.width, ice ? '#bfe1f2' : '#3d8fb0')
+  line(rv.width * 0.55, ice ? 'rgba(255,255,255,.55)' : 'rgba(110,195,216,.6)')
+  line(2, ice ? 'rgba(255,255,255,.8)' : 'rgba(255,255,255,.35)')
+}
+
+function drawBridge(ctx, span, pathWidth) {
+  const p = {}
+  const half = pathWidth / 2 + 4
+  for (let d = span.from; d <= span.to; d += 5) {
+    span.route.sample(d, p)
+    const nx = -Math.sin(p.angle), ny = Math.cos(p.angle)
+    ctx.strokeStyle = (d / 5) % 2 < 1 ? '#8a6136' : '#9c7040'
+    ctx.lineWidth = 4.5
+    ctx.beginPath()
+    ctx.moveTo(p.x + nx * half, p.y + ny * half)
+    ctx.lineTo(p.x - nx * half, p.y - ny * half)
+    ctx.stroke()
+  }
+  // Geländer auf beiden Seiten
+  for (const side of [1, -1]) {
+    ctx.strokeStyle = '#4a321b'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    for (let d = span.from; d <= span.to; d += 4) {
+      span.route.sample(d, p)
+      const x = p.x - Math.sin(p.angle) * half * side, y = p.y + Math.cos(p.angle) * half * side
+      d === span.from ? ctx.moveTo(x, y) : ctx.lineTo(x, y)
+    }
+    ctx.stroke()
+  }
 }
 
 function makeCanvas(w, h) {
@@ -514,42 +632,4 @@ function drawSpawn(ctx, route) {
   ctx.arc(-20, 0, 70, 0, TAU)
   ctx.fill()
   ctx.restore()
-}
-
-function drawSpot(ctx, x, y, theme) {
-  ctx.fillStyle = 'rgba(0,0,0,.3)'
-  ctx.beginPath()
-  ctx.ellipse(x + 3, y + 5, 27, 21, 0, 0, TAU)
-  ctx.fill()
-  // Fundament mit sichtbarer Kante (leicht erhöht)
-  const base = theme === 'desert' ? ['#c9a679', '#8d6b45'] : theme === 'snow' ? ['#c8ccd2', '#868c95'] : ['#b3ab98', '#7a7363']
-  ctx.fillStyle = base[1]
-  octagon(ctx, x, y + 3, 25)
-  ctx.fill()
-  const g = ctx.createLinearGradient(x - 24, y - 24, x + 24, y + 24)
-  g.addColorStop(0, base[0])
-  g.addColorStop(1, base[1])
-  ctx.fillStyle = g
-  octagon(ctx, x, y, 25)
-  ctx.fill()
-  ctx.strokeStyle = 'rgba(60,52,40,.65)'
-  ctx.lineWidth = 1.6
-  ctx.stroke()
-  ctx.strokeStyle = 'rgba(255,255,255,.2)'
-  ctx.lineWidth = 1
-  ctx.beginPath()
-  ctx.moveTo(x - 25, y); ctx.lineTo(x + 25, y)
-  ctx.moveTo(x, y - 25); ctx.lineTo(x, y + 25)
-  ctx.stroke()
-  circle(ctx, x, y, 9, 'rgba(40,34,26,.3)')
-}
-
-function octagon(ctx, x, y, r) {
-  ctx.beginPath()
-  for (let i = 0; i < 8; i++) {
-    const a = (i / 8) * TAU + Math.PI / 8
-    const px = x + Math.cos(a) * r, py = y + Math.sin(a) * r * 0.86
-    i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)
-  }
-  ctx.closePath()
 }

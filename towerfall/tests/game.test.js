@@ -24,7 +24,24 @@ function addEnemy(game, type, dist, hpScale = 1) {
   return e
 }
 
-// Strecke auf der Route, die einem Bauplatz am nächsten liegt
+// Turm in der Nähe eines (alten) Bauplatzes der Karte auf das Raster setzen
+const spotsOf = (game) => game.map.spots.map((p, index) => ({ ...p, index }))
+
+// wie buildAt, aber ohne Fehler, wenn in der Nähe kein Platz mehr frei ist
+function tryBuildAt(game, type, spotIndex) {
+  const s = game.map.spots[spotIndex]
+  const place = game.findPlacementNear(type, s.x, s.y, 0, 3)
+  return place ? game.build(type, place.c, place.r, place.rot) : { ok: false }
+}
+
+function buildAt(game, type, spotIndex, rot = 0) {
+  const s = game.map.spots[spotIndex]
+  const place = game.findPlacementNear(type, s.x, s.y, rot, 6)
+  assert.ok(place, `kein Platz für ${type} bei Bauplatz ${spotIndex}`)
+  return game.build(type, place.c, place.r, place.rot)
+}
+
+// Strecke auf der Route, die einem Punkt am nächsten liegt
 function nearestDist(game, spot) {
   let best = 0, bestD = Infinity
   const p = {}
@@ -53,18 +70,18 @@ test('Konfiguration: mindestens 6 Türme, 5 Gegnertypen, 15–20 Wellen, Bosswel
   for (const w of waves) for (const g of w.groups) assert.ok(ENEMIES[g.type], `unbekannter Gegner ${g.type}`)
 })
 
-test('Karten: Bauplätze liegen neben dem Weg, nicht darauf, und überlappen nicht', () => {
+test('Karten: alte Bauplatz-Positionen liegen neben dem Weg (Übernahme alter Spielstände)', () => {
   for (const m of MAPS) {
     const g = new Game({ mapId: m.id })
-    for (const s of g.spots) {
+    for (const s of spotsOf(g)) {
       const d = g.distanceToPath(s.x, s.y)
       assert.ok(d >= m.pathWidth / 2 + 30, `${m.id} Platz ${s.index} zu nah am Weg (${d.toFixed(0)})`)
       assert.ok(g.coverage(s.x, s.y, 140) > 0, `${m.id} Platz ${s.index} erreicht den Weg nicht`)
       assert.ok(s.x > 20 && s.x < 1260 && s.y > 20 && s.y < 700, `${m.id} Platz ${s.index} am Rand`)
-      for (const o of g.spots) if (o !== s) assert.ok(Math.hypot(o.x - s.x, o.y - s.y) >= 64, `${m.id} Plätze ${s.index}/${o.index} überlappen`)
+      for (const o of spotsOf(g)) if (o.index !== s.index) assert.ok(Math.hypot(o.x - s.x, o.y - s.y) >= 64, `${m.id} Plätze ${s.index}/${o.index} überlappen`)
       assert.ok(Math.hypot(m.base.x - s.x, m.base.y - s.y) >= 80, `${m.id} Platz ${s.index} auf der Bastion`)
     }
-    assert.ok(g.spots.length >= 12)
+    assert.ok(m.spots.length >= 12)
     for (const r of g.routes) assert.ok(r.length > 1200, `${m.id}: Weg zu kurz (${r.length.toFixed(0)})`)
   }
 })
@@ -82,11 +99,12 @@ test('Route: Position und Länge sind stetig', () => {
 test('Bauen: kostet Gold, Bauplatz wird belegt, zweiter Turm auf demselben Platz verboten', () => {
   const g = new Game()
   const start = g.gold
-  const r = g.build(0, 'arrow')
+  const r = buildAt(g, 'arrow', 0)
   assert.ok(r.ok)
   assert.equal(g.gold, start - TOWERS.arrow.levels[0].cost)
-  assert.equal(g.spots[0].tower, r.tower)
-  const again = g.build(0, 'cannon')
+  for (const { c, r: row } of r.tower.cells) assert.equal(g.towerAt(c, row), r.tower)
+  // genau auf derselben Fläche ist kein zweiter Turm möglich
+  const again = g.build('cannon', r.tower.c, r.tower.r)
   assert.equal(again.ok, false)
   assert.match(again.reason, /schon/)
 })
@@ -94,20 +112,22 @@ test('Bauen: kostet Gold, Bauplatz wird belegt, zweiter Turm auf demselben Platz
 test('Unzureichendes Gold verhindert den Bau mit verständlicher Begründung', () => {
   const g = new Game()
   g.wallet.gold = 50
-  const check = g.canBuild(1, 'sniper')
+  const s = g.map.spots[1]
+  const place = g.findPlacementNear('sniper', s.x, s.y)
+  const check = g.canBuild('sniper', place.c, place.r)
   assert.equal(check.ok, false)
   assert.equal(check.missing, TOWERS.sniper.levels[0].cost - 50)
   assert.match(check.reason, /fehlen \d+ Gold/)
-  const r = g.build(1, 'sniper')
+  const r = g.build('sniper', place.c, place.r)
   assert.equal(r.ok, false)
   assert.equal(g.gold, 50)
-  assert.equal(g.spots[1].tower, null)
+  assert.equal(g.towerAt(place.c, place.r), null)
+  assert.equal(g.towers.length, 0)
 })
 
 test('Türme greifen nur Gegner in Reichweite an', () => {
   const g = new Game()
-  const spot = g.spots[0]
-  g.build(0, 'arrow')
+  const spot = buildAt(g, 'arrow', 0).tower
   const far = addEnemy(g, 'grunt', g.route.length - 30) // am Ziel, weit weg
   far.dist = g.route.length - 30
   const fired = []
@@ -125,8 +145,8 @@ test('Türme greifen nur Gegner in Reichweite an', () => {
 
 test('Besiegte Gegner geben Gold und werden entfernt; niemand schießt auf Tote', () => {
   const g = new Game()
-  g.build(0, 'arrow')
-  const e = addEnemy(g, 'grunt', nearestDist(g, g.spots[0]))
+  const tw = buildAt(g, 'arrow', 0).tower
+  const e = addEnemy(g, 'grunt', nearestDist(g, tw))
   e.def = { ...e.def, speed: 0 }
   const goldBefore = g.gold
   let shotsAtDead = 0
@@ -153,7 +173,7 @@ test('Gegner erreichen das Ziel und kosten Leben', () => {
 test('Verbessern: kostet Gold, erhöht Stufe und Werte; Höchststufe ist begrenzt', () => {
   const g = new Game()
   g.wallet.gold = 10000
-  const t = g.build(0, 'cannon').tower
+  const t = buildAt(g, 'cannon', 0).tower
   const d1 = TOWERS.cannon.levels[0].damage
   assert.ok(g.upgrade(t).ok)
   assert.equal(t.level, 1)
@@ -169,7 +189,7 @@ test('Verbessern: kostet Gold, erhöht Stufe und Werte; Höchststufe ist begrenz
 
 test('Verbessern ohne genug Gold scheitert', () => {
   const g = new Game()
-  const t = g.build(0, 'arrow').tower
+  const t = buildAt(g, 'arrow', 0).tower
   g.wallet.gold = 1
   const r = g.upgrade(t)
   assert.equal(r.ok, false)
@@ -180,7 +200,7 @@ test('Verbessern ohne genug Gold scheitert', () => {
 test('Verkauf erstattet 70 % des investierten Goldes und gibt den Platz frei', () => {
   const g = new Game()
   g.wallet.gold = 1000
-  const t = g.build(3, 'frost').tower
+  const t = buildAt(g, 'frost', 3).tower
   g.upgrade(t)
   const invested = t.invested
   const before = g.gold
@@ -189,7 +209,7 @@ test('Verkauf erstattet 70 % des investierten Goldes und gibt den Platz frei', (
   assert.equal(r.value, Math.floor(invested * BALANCE.sellRefund))
   assert.equal(r.value, sellValue(invested))
   assert.equal(g.gold, before + r.value)
-  assert.equal(g.spots[3].tower, null)
+  for (const { c, r: row } of t.cells) assert.equal(g.towerAt(c, row), null)
   assert.equal(g.towers.length, 0)
 })
 
@@ -205,7 +225,7 @@ test('Die erste Welle wartet auf den Spieler', () => {
 test('Wellenende, Pause und automatischer Start der nächsten Welle', () => {
   const g = new Game()
   g.wallet.gold = 100000
-  for (const s of g.spots) g.build(s.index, 'arrow')
+  for (const s of spotsOf(g)) tryBuildAt(g, 'arrow', s.index)
   g.callNextWave()
   let ended = 0
   g.on('waveEnd', () => ended++)
@@ -271,8 +291,7 @@ test('Panzerung reduziert Pfeilschaden, Scharfschützen durchschlagen sie', () =
 test('Frost verlangsamt, Gift schadet über Zeit', () => {
   const g = new Game()
   g.wallet.gold = 10000
-  const spot = g.spots[4]
-  g.build(4, 'frost')
+  const spot = buildAt(g, 'frost', 4).tower
   const e = addEnemy(g, 'armored', nearestDist(g, spot), 10)
   const baseSpeed = e.def.speed
   run(g, 2)
@@ -282,8 +301,8 @@ test('Frost verlangsamt, Gift schadet über Zeit', () => {
   assert.ok(e.dist - before < baseSpeed * DT)
 
   const g2 = new Game()
-  g2.build(4, 'poison')
-  const p = addEnemy(g2, 'armored', nearestDist(g2, g2.spots[4]), 10)
+  const pt = buildAt(g2, 'poison', 4).tower
+  const p = addEnemy(g2, 'armored', nearestDist(g2, pt), 10)
   p.def = { ...p.def, speed: 0 }
   run(g2, 3)
   assert.ok(p.poisonTime > 0)
@@ -296,8 +315,8 @@ test('Frost verlangsamt, Gift schadet über Zeit', () => {
 test('Blitz trifft mehrere Gegner', () => {
   const g = new Game()
   g.wallet.gold = 10000
-  g.build(4, 'lightning')
-  const d = nearestDist(g, g.spots[4])
+  const lt = buildAt(g, 'lightning', 4).tower
+  const d = nearestDist(g, lt)
   const es = [0, 12, 24].map((o) => { const e = addEnemy(g, 'grunt', d + o, 5); e.def = { ...e.def, speed: 0 }; return e })
   let points = 0
   g.on('chain', (c) => { points = Math.max(points, c.points.length - 1) })
@@ -309,8 +328,8 @@ test('Blitz trifft mehrere Gegner', () => {
 test('Kanone verursacht Flächenschaden', () => {
   const g = new Game()
   g.wallet.gold = 10000
-  g.build(4, 'cannon')
-  const d = nearestDist(g, g.spots[4])
+  const ct = buildAt(g, 'cannon', 4).tower
+  const d = nearestDist(g, ct)
   const es = [0, 10, 20].map((o) => { const e = addEnemy(g, 'grunt', d + o, 5); e.def = { ...e.def, speed: 0 }; return e })
   run(g, 3)
   assert.ok(es.every((e) => e.hp < e.maxHp), 'alle Gegner der Gruppe getroffen')
@@ -340,7 +359,7 @@ test('Sieg nach der letzten Welle', () => {
   g.waves.phase = 'countdown'
   g.waves.countdown = 0.01
   g.wallet.gold = 1e7
-  for (const s of g.spots) { const t = g.build(s.index, 'sniper').tower; g.upgrade(t); g.upgrade(t) }
+  for (const s of spotsOf(g)) { const t = tryBuildAt(g, 'sniper', s.index).tower; if (t) { g.upgrade(t); g.upgrade(t) } }
   run(g, 900)
   assert.equal(g.status, 'won', `Status ${g.status}, Leben ${g.lives}`)
   assert.equal(won, 1)
@@ -351,7 +370,7 @@ test('Simulation hängt nicht von der Bildrate ab (30 vs. 60 FPS)', async () => 
   const { GameLoop } = await import('../js/core/loop.js')
   const make = () => {
     const g = new Game({ seed: 42 })
-    g.build(0, 'arrow'); g.build(2, 'cannon')
+    buildAt(g, 'arrow', 0); buildAt(g, 'cannon', 2)
     g.callNextWave()
     return g
   }
@@ -397,7 +416,7 @@ test('Pause hält die gesamte Simulation an; Tempo beschleunigt sie', async () =
 test('Spielstand: Speichern und Wiederherstellen zwischen den Wellen', () => {
   const g = new Game({ difficulty: 'hard', seed: 3 })
   g.wallet.gold = 1000
-  const t = g.build(2, 'sniper').tower
+  const t = buildAt(g, 'sniper', 2).tower
   g.upgrade(t)
   g.setTargetMode(t, 'close')
   g.waves.started = 4
@@ -412,7 +431,8 @@ test('Spielstand: Speichern und Wiederherstellen zwischen den Wellen', () => {
   assert.equal(r.towers.length, 1)
   assert.equal(r.towers[0].level, 1)
   assert.equal(r.towers[0].targetMode, 'close')
-  assert.equal(r.spots[2].tower, r.towers[0])
+  assert.equal(r.towerAt(t.c, t.r), r.towers[0])
+  assert.equal(r.towers[0].c, t.c)
   assert.equal(r.phase, 'build')
   assert.ok(r.callNextWave().ok)
   assert.equal(r.wave, 5)
@@ -434,7 +454,7 @@ test('Schwierigkeitsgrade unterscheiden sich in Leben und Gegnerstärke', () => 
 test('Keine unbegrenzt wachsenden Listen: Geschosse und Gegner werden aufgeräumt', () => {
   const g = new Game()
   g.wallet.gold = 100000
-  for (const s of g.spots) g.build(s.index, TOWER_ORDER[s.index % 6])
+  for (const s of spotsOf(g)) tryBuildAt(g, TOWER_ORDER[s.index % 6], s.index)
   g.callNextWave()
   let maxP = 0
   run(g, 300, (game) => { maxP = Math.max(maxP, game.projectiles.length); if (game.phase === 'countdown') game.callNextWave() })
@@ -446,8 +466,8 @@ test('Keine unbegrenzt wachsenden Listen: Geschosse und Gegner werden aufgeräum
 test('Speerschleuder durchbohrt mehrere Gegner in einer Linie', () => {
   const g = new Game()
   g.wallet.gold = 10000
-  g.build(4, 'ballista')
-  const d = nearestDist(g, g.spots[4])
+  const bt = buildAt(g, 'ballista', 4).tower
+  const d = nearestDist(g, bt)
   const es = [0, 14, 28, 42].map((o) => { const e = addEnemy(g, 'armored', d + o, 5); e.def = { ...e.def, speed: 0 }; return e })
   let shots = 0
   g.on('shot', () => shots++)
@@ -459,38 +479,43 @@ test('Speerschleuder durchbohrt mehrere Gegner in einer Linie', () => {
   assert.ok(g.projectiles.length === 0 || g.projectiles.every((p) => p.alive))
 })
 
-test('Kriegsbanner verstärkt Türme in Reichweite, nicht sich selbst; Verkauf hebt es auf', () => {
+test('Kriegsbanner wirkt abhängig von seiner Position; Versetzen und Verkauf heben es auf', () => {
   const g = new Game()
   g.wallet.gold = 10000
-  // zwei nahe Bauplätze suchen
-  let a = null, b = null
-  for (const s of g.spots) for (const o of g.spots) {
-    if (s !== o && !a && Math.hypot(s.x - o.x, s.y - o.y) <= TOWERS.banner.levels[0].range) { a = s; b = o }
-  }
-  assert.ok(a, 'Karte braucht zwei Bauplätze in Bannerreichweite')
-  const arrow = g.build(a.index, 'arrow').tower
-  const base = arrow.stats.damage
-  const banner = g.build(b.index, 'banner').tower
-  assert.equal(banner.buff, null)
-  assert.ok(arrow.buff && arrow.buff.from === banner)
-  assert.ok(Math.abs(arrow.stats.damage - base * (1 + TOWERS.banner.levels[0].auraDamage)) < 1e-9)
-  assert.ok(arrow.stats.rate > TOWERS.arrow.levels[0].rate)
+  const near = buildAt(g, 'arrow', 0).tower
+  const far = buildAt(g, 'arrow', 15).tower // anderes Kartenende
+  const base = near.stats.damage
+  const place = g.findPlacementNear('banner', near.x + 70, near.y, 0, 5)
+  const banner = g.build('banner', place.c, place.r).tower
+  const range = TOWERS.banner.levels[0].range
+  assert.ok(Math.hypot(banner.x - near.x, banner.y - near.y) <= range)
+  assert.ok(Math.hypot(banner.x - far.x, banner.y - far.y) > range)
+  assert.equal(banner.buff, null, 'Banner verstärkt sich nicht selbst')
+  assert.ok(near.buff && near.buff.from === banner)
+  assert.equal(far.buff, null, 'weit entfernter Turm wird nicht verstärkt')
+  assert.ok(Math.abs(near.stats.damage - base * (1 + TOWERS.banner.levels[0].auraDamage)) < 1e-9)
+  assert.ok(near.stats.rate > TOWERS.arrow.levels[0].rate)
   g.upgrade(banner)
-  assert.ok(Math.abs(arrow.stats.damage - base * (1 + TOWERS.banner.levels[1].auraDamage)) < 1e-9)
+  assert.ok(Math.abs(near.stats.damage - base * (1 + TOWERS.banner.levels[1].auraDamage)) < 1e-9)
   // Banner greift nicht an
   let bannerShots = 0
   g.on('shot', ({ tower }) => { if (tower === banner) bannerShots++ })
-  const e = addEnemy(g, 'grunt', nearestDist(g, b))
+  const e = addEnemy(g, 'grunt', nearestDist(g, banner))
   e.def = { ...e.def, speed: 0 }
   run(g, 2)
   assert.equal(bannerShots, 0)
   // Wiederherstellen berücksichtigt die Verstärkung
   g.waves.phase = 'build'
   const r = Game.restore(JSON.parse(JSON.stringify(g.snapshot())))
-  assert.ok(r.spots[a.index].tower.buff)
+  assert.ok(r.towerAt(near.c, near.r).buff)
+  // Banner zum anderen Turm versetzen: Verstärkung wandert mit
+  const dest = g.findPlacementNear('banner', far.x - 70, far.y, 0, 5)
+  assert.ok(g.moveTower(banner, dest.c, dest.r).ok)
+  assert.equal(near.buff, null)
+  assert.ok(far.buff && far.buff.from === banner)
   g.sell(banner)
-  assert.equal(arrow.buff, null)
-  assert.equal(arrow.stats.damage, base)
+  assert.equal(far.buff, null)
+  assert.equal(near.stats.damage, base)
 })
 
 test('Karten mit zwei Eingängen verteilen Gegner auf beide Wege', () => {
@@ -507,7 +532,7 @@ test('Karten mit zwei Eingängen verteilen Gegner auf beide Wege', () => {
   assert.ok(Math.hypot(p.x - q.x, p.y - q.y) < 1)
   // „Vorderster“ vergleicht die Reststrecke, nicht die zurückgelegte
   g.wallet.gold = 1e6
-  for (const s of g.spots) g.build(s.index, 'arrow')
+  for (const s of spotsOf(g)) tryBuildAt(g, 'arrow', s.index)
   run(g, 120)
   assert.ok(g.stats.kills > 0)
 })

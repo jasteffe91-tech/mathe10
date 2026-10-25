@@ -2,6 +2,7 @@
 // Eingaben, Audio, Speicherung und PWA.
 import { MAPS, getMap } from './config/maps.js'
 import { DIFFICULTIES, SIM } from './config/balance.js'
+import { MODES } from './config/terrain.js'
 import { TOWERS, TOWER_ORDER } from './config/towers.js'
 import { ENEMIES, ENEMY_ORDER } from './config/enemies.js'
 import { Game } from './game/game.js'
@@ -22,7 +23,7 @@ const $ = (sel) => document.querySelector(sel)
 const storage = new Storage()
 let settings = storage.loadSettings()
 const sfx = new Sfx()
-const state = { screen: 'menu', game: null, detachers: [], mapId: MAPS[0].id, difficulty: 'normal', pausedByUser: false }
+const state = { screen: 'menu', game: null, detachers: [], mapId: MAPS[0].id, difficulty: 'normal', mode: 'normal', pausedByUser: false }
 
 // ---------- Bildschirme ----------
 function showScreen(name) {
@@ -81,13 +82,17 @@ const loop = new GameLoop({
     if (!state.game || state.screen !== 'game') return
     const sel = controller.sel
     renderer.render(alpha, {
-      spot: sel.spot, tower: sel.tower, type: sel.type, hoverSpot: sel.hoverSpot,
-      upgradeHover: sel.upgradeHover, showAllRanges: settings.showAllRanges,
+      tower: sel.tower, type: sel.type, moving: sel.moving, obstacle: sel.obstacle, preview: sel.preview,
+      placing: controller.placing, upgradeHover: sel.upgradeHover, showAllRanges: settings.showAllRanges,
     }, visualDt)
     // Oberfläche ~10× pro Sekunde aktualisieren reicht und spart DOM-Arbeit
     uiTimer -= realDt
     if (uiTimer <= 0) {
       uiTimer = 0.1
+      // Vorschau aktuell halten (Gold ändert sich laufend), Auswahl bereinigen
+      if (controller.placing) controller.updatePreview()
+      controller.validate()
+      canvas.style.touchAction = controller.placing ? 'none' : 'manipulation'
       hud.update(state.game, loop)
       panel.update()
     }
@@ -102,22 +107,23 @@ function setPaused(paused, byUser = true) {
 }
 
 // ---------- Spiel starten ----------
-function startGame({ mapId, difficulty, snapshot = null }) {
+function startGame({ mapId, difficulty, mode = 'normal', snapshot = null }) {
   for (const d of state.detachers) d()
   state.detachers = []
   closeModal(true)
   let game
   try {
-    game = snapshot ? Game.restore(snapshot) : new Game({ mapId, difficulty, seed: (Math.random() * 1e9) | 0 })
+    game = snapshot ? Game.restore(snapshot) : new Game({ mapId, difficulty, mode, seed: (Math.random() * 1e9) | 0 })
   } catch (err) {
     console.error(err)
     storage.clearSave()
     toast('Der gespeicherte Spielstand war nicht lesbar und wurde verworfen.', 'error')
-    game = new Game({ mapId, difficulty })
+    game = new Game({ mapId, difficulty, mode })
   }
   state.game = game
   state.mapId = game.map.id
   state.difficulty = game.difficulty.id
+  state.mode = game.mode.id
   controller.setGame(game)
   hud.reset()
   panel.invalidate()
@@ -130,6 +136,7 @@ function startGame({ mapId, difficulty, snapshot = null }) {
   setPaused(false)
   loop.start()
   if (snapshot) toast(`Spielstand geladen: Welle ${game.wave + 1} wartet auf dich.`)
+  if (game.migratedRefund) toast(`Neues Bausystem: ${game.migratedRefund} G für Türme ohne passenden Platz erstattet.`, 'good')
   if (!settings.introSeen) showIntro(true)
   autosave()
 }
@@ -146,7 +153,7 @@ function wireGame(game) {
     autosave()
   })
   on('enrage', ({ enemy }) => toast(`${enemy.def.name} wird wütend!`, 'boss'))
-  for (const t of ['build', 'upgrade', 'sell', 'targetMode']) on(t, () => { autosave(); panel.invalidate() })
+  for (const t of ['build', 'upgrade', 'sell', 'targetMode', 'move', 'clear']) on(t, () => { autosave(); panel.invalidate() })
   // kurze Verzögerung, damit die letzte Explosion noch zu sehen ist
   on('victory', () => setTimeout(() => { if (state.game === game) endGame(true) }, 900))
   on('defeat', () => setTimeout(() => { if (state.game === game) endGame(false) }, 900))
@@ -164,7 +171,7 @@ function endGame(won) {
   if (!g) return
   storage.clearSave()
   const result = storage.recordResult({
-    mapId: g.map.id, difficulty: g.difficulty.id, won, wave: g.wave,
+    mapId: g.map.id, difficulty: g.mode.id === 'advanced' ? `${g.difficulty.id}-advanced` : g.difficulty.id, won, wave: g.wave,
     score: g.stats.score, lives: g.lives, kills: g.stats.kills,
   })
   loop.paused = true
@@ -175,7 +182,7 @@ function endGame(won) {
     className: won ? 'result win' : 'result lose',
     dismissible: false,
     body: `<p class="result-lead">${won
-      ? `Du hast alle ${g.totalWaves} Wellen auf <b>${esc(g.map.name)}</b> (${g.difficulty.name}) abgewehrt.`
+      ? `Du hast alle ${g.totalWaves} Wellen auf <b>${esc(g.map.name)}</b> (${g.difficulty.name}, ${g.mode.name}) abgewehrt.`
       : `Welle ${g.wave} von ${g.totalWaves} auf <b>${esc(g.map.name)}</b>. ${g.wave >= g.totalWaves ? 'So knapp!' : 'Versuch eine andere Turm-Kombination.'}`}</p>
       <dl class="result-stats">
         <div><dt>Punkte</dt><dd>${num(s.score)}${result.newBest ? ' <span class="badge">Neue Bestleistung!</span>' : ''}</dd></div>
@@ -188,7 +195,7 @@ function endGame(won) {
       ${unlocked.length ? `<p class="unlock">Neue Karte freigeschaltet: <b>${unlocked.map((m) => esc(m.name)).join(', ')}</b></p>` : ''}
       ${!won ? '<p class="muted small">Tipp: Frost vor Kanonen, Scharfschützen gegen Bosse, Gift gegen Eisenwachen.</p>' : ''}`,
     actions: [
-      { label: 'Nochmal', primary: true, onClick: () => startGame({ mapId: g.map.id, difficulty: g.difficulty.id }) },
+      { label: 'Nochmal', primary: true, onClick: () => startGame({ mapId: g.map.id, difficulty: g.difficulty.id, mode: g.mode.id }) },
       { label: 'Kartenwahl', onClick: () => { stopGame(); showScreen('maps') } },
       { label: 'Hauptmenü', onClick: () => { stopGame(); showScreen('menu') } },
     ],
@@ -266,13 +273,13 @@ function openPauseMenu() {
   const g = state.game
   openModal({
     title: 'Pause',
-    body: `<p><b>${esc(g.map.name)}</b> · ${g.difficulty.name} · Welle ${g.wave}/${g.totalWaves}</p>
+    body: `<p><b>${esc(g.map.name)}</b> · ${g.difficulty.name} · ${g.mode.name} · Welle ${g.wave}/${g.totalWaves}</p>
       <p class="muted small">${g.canSnapshot() ? 'Dein Spielstand ist gespeichert.' : 'Gespeichert ist der Stand vor dieser Welle. Beim Fortsetzen startet die Welle neu.'}</p>`,
     actions: [
       { label: 'Weiterspielen', primary: true, onClick: () => setPaused(wasPaused && state.pausedByUser) },
       { label: 'Anleitung', onClick: () => { showHowTo(() => openPauseMenu()); return true } },
       { label: 'Einstellungen', onClick: () => { showSettings(() => openPauseMenu()); return true } },
-      { label: 'Neu starten', onClick: () => { confirmBox('Partie neu starten?', 'Der aktuelle Fortschritt dieser Partie geht verloren.', () => { storage.clearSave(); startGame({ mapId: g.map.id, difficulty: g.difficulty.id }) }, () => openPauseMenu()); return true } },
+      { label: 'Neu starten', onClick: () => { confirmBox('Partie neu starten?', 'Der aktuelle Fortschritt dieser Partie geht verloren.', () => { storage.clearSave(); startGame({ mapId: g.map.id, difficulty: g.difficulty.id, mode: g.mode.id }) }, () => openPauseMenu()); return true } },
       { label: 'Hauptmenü', onClick: () => { autosave(); stopGame(); showScreen('menu') } },
     ],
     onClose: () => setPaused(wasPaused && state.pausedByUser),
@@ -295,9 +302,9 @@ function confirmBox(title, text, yes, no) {
 function refreshMenu() {
   const save = storage.loadSave()
   const btn = $('#btn-continue')
-  if (save && save.v === 1 && MAPS.some((m) => m.id === save.mapId)) {
+  if (save && (save.v === 1 || save.v === 2) && MAPS.some((m) => m.id === save.mapId)) {
     btn.hidden = false
-    btn.querySelector('small').textContent = `${getMap(save.mapId).name} · ${DIFFICULTIES[save.difficulty]?.name || ''} · Welle ${save.wave + 1}`
+    btn.querySelector('small').textContent = `${getMap(save.mapId).name} · ${DIFFICULTIES[save.difficulty]?.name || ''}${save.mode === 'advanced' ? ' · Fortgeschritten' : ''} · Welle ${save.wave + 1}`
   } else btn.hidden = true
   $('#storage-warning').hidden = storage.persistent
 }
@@ -330,11 +337,16 @@ function renderMaps() {
     <input type="radio" name="difficulty" value="${d.id}" ${state.difficulty === d.id ? 'checked' : ''}>
     <b>${d.name}</b><span>${d.lives} Leben · ${esc(d.description)}</span></label>`).join('')
   dl.querySelectorAll('input').forEach((i) => i.addEventListener('change', () => { state.difficulty = i.value; renderMaps() }))
+  const ml = $('#mode')
+  ml.innerHTML = Object.values(MODES).map((m) => `<label class="diff ${state.mode === m.id ? 'on' : ''}">
+    <input type="radio" name="mode" value="${m.id}" ${state.mode === m.id ? 'checked' : ''}>
+    <b>${m.name}</b><span>${esc(m.description)}</span></label>`).join('')
+  ml.querySelectorAll('input').forEach((i) => i.addEventListener('change', () => { state.mode = i.value; renderMaps() }))
 }
 
 // Kleine Kartenvorschau: Route und Bauplätze
 function drawThumb(c, map) {
-  const g = new Game({ mapId: map.id })
+  const g = new Game({ mapId: map.id, mode: state.mode })
   const ctx = c.getContext('2d')
   const s = c.width / 1280
   ctx.fillStyle = map.palette.grass
@@ -348,8 +360,12 @@ function drawThumb(c, map) {
   ctx.strokeStyle = map.palette.path
   ctx.lineWidth = map.pathWidth
   g.routes.forEach(line)
-  ctx.fillStyle = '#d8cdb4'
-  for (const sp of g.spots) { ctx.beginPath(); ctx.arc(sp.x, sp.y, 20, 0, Math.PI * 2); ctx.fill() }
+  // Hindernisse als dunkle Zellen, damit der Modus-Unterschied sichtbar wird
+  ctx.fillStyle = 'rgba(30,40,25,.55)'
+  for (const o of g.obstacles.values()) for (const { c: oc, r: or } of o.cells) ctx.fillRect(oc * 32 + 3, or * 32 + 3, 26, 26)
+  ctx.strokeStyle = '#3d8fb0'
+  ctx.lineWidth = 26
+  for (const rv of g.rivers) { ctx.beginPath(); rv.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke() }
   ctx.fillStyle = '#b8473a'
   ctx.fillRect(map.base.x - 40, map.base.y - 40, 80, 80)
 }
@@ -361,7 +377,7 @@ $('#btn-continue').addEventListener('click', () => {
 })
 $('#btn-start').addEventListener('click', () => {
   const save = storage.loadSave()
-  const go = () => { storage.clearSave(); startGame({ mapId: state.mapId, difficulty: state.difficulty }) }
+  const go = () => { storage.clearSave(); startGame({ mapId: state.mapId, difficulty: state.difficulty, mode: state.mode }) }
   if (save) confirmBox('Neue Partie beginnen?', `Dein gespeicherter Spielstand (${getMap(save.mapId).name}, Welle ${save.wave + 1}) wird dabei überschrieben.`, go)
   else go()
 })
@@ -373,8 +389,10 @@ $('#btn-stats').addEventListener('click', () => showStats())
 // ---------- Anleitung ----------
 const INTRO = `<ol class="intro-steps">
   <li><b>Ziel:</b> Gegner laufen den Weg entlang zur Bastion. Jeder, der ankommt, kostet Leben. Überstehe alle 20 Wellen.</li>
-  <li><b>Bauen:</b> Tippe auf eine runde Steinplatte am Weg und wähle einen Turm. Gold bekommst du für besiegte Gegner.</li>
-  <li><b>Verbessern:</b> Tippe auf einen Turm, um ihn zu verbessern, seine Zielwahl zu ändern oder ihn zu verkaufen.</li>
+  <li><b>Bauen:</b> Wähle einen Turm im Baumenü. Auf der Karte erscheint ein Raster mit Vorschau: grün = passt, rot = belegt (Weg, Wasser, Hindernis, anderer Turm). Klicken bzw. nochmal tippen baut. Gold bekommst du für besiegte Gegner.</li>
+  <li><b>Platz:</b> Jeder Turm belegt seine Grundfläche – kleine Türme 1 × 1, Kanone und Banner 2 × 2, der Tribok 3 × 3. Die Speerschleuder (2 × 1) lässt sich mit R drehen.</li>
+  <li><b>Gelände:</b> Bäume, Steine und Ruinen kannst du antippen und gegen Gold räumen. Klippen und Wasser bleiben. Klippen und Mauern versperren Türmen die Sicht.</li>
+  <li><b>Verbessern &amp; Versetzen:</b> Tippe auf einen Turm, um ihn zu verbessern, seine Zielwahl zu ändern, ihn gegen eine kleine Gebühr zu versetzen oder zu verkaufen.</li>
   <li><b>Kombinieren:</b> Frost vor Kanonen hält Gruppen im Explosionsradius. Scharfschützen gegen Bosse, Gift gegen Gepanzerte, Blitz gegen Schwärme.</li>
   <li><b>Tempo:</b> Starte die erste Welle, wenn du bereit bist. Wer die nächste Welle früher ruft, bekommt Bonusgold.</li>
 </ol>`
@@ -385,7 +403,7 @@ function showIntro(first) {
   $('#pause-banner').hidden = true
   openModal({
     title: 'Willkommen, Kommandant!',
-    body: INTRO + '<p class="muted small">Tasten: 1–8 Turm wählen · Leertaste Pause · N nächste Welle · F Tempo · U verbessern · V verkaufen · T Zielwahl · Pfeiltasten Bauplätze</p>',
+    body: INTRO + '<p class="muted small">Tasten: 1–9 Turm wählen · Pfeile Vorschau verschieben · R drehen · Enter bauen · Esc abbrechen · M versetzen · C räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>',
     actions: [{ label: 'Los geht’s', primary: true }],
     onClose: () => {
       if (first) { settings.introSeen = true; applySettings() }
@@ -401,8 +419,10 @@ function showHowTo(back) {
     title: 'Anleitung',
     className: 'wide',
     body: `${INTRO}<h3>Türme</h3><ul class="codex">${towers}</ul><h3>Gegner</h3><ul class="codex">${enemies}</ul>
-      <h3>Steuerung</h3><p>Maus oder Finger: Bauplatz antippen, Turm wählen, nochmal antippen zum Bauen. Rechtsklick hebt die Auswahl auf.<br>
-      Tastatur: 1–8 Turm · Pfeiltasten Bauplatz · Enter bauen/verbessern · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo · Esc Menü</p>
+      <h3>Steuerung</h3><p>Maus: Turm wählen, Vorschau folgt dem Zeiger, Klick baut (mit Umschalt bleibt der Baumodus aktiv). Rechtsklick bricht ab.<br>
+      Finger: Turm wählen, auf die Karte tippen oder ziehen, dann nochmal tippen oder „Bauen“. Mit den Pfeil-Knöpfen lässt sich die Vorschau zellgenau verschieben.<br>
+      Tastatur: 1–9 Turm · Pfeiltasten Vorschau verschieben (sonst Türme durchblättern) · R drehen · Enter bauen · Esc abbrechen · M versetzen · C Hindernis räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>
+      <h3>Modi</h3><p><b>Normal:</b> übersichtliches Gelände, wenige Hindernisse. <b>Fortgeschritten:</b> Flüsse, Klippen, Ruinen, dichter Wald und eine Bauzone nahe am Weg – Räumen kostet Gold, dafür gibt es mehr Punkte.</p>
       <h3>Offline spielen &amp; installieren</h3>
       <p>Das Spiel speichert sich beim ersten Öffnen komplett auf deinem Gerät. Danach läuft es ohne Internet. Installieren: im Browsermenü „App installieren“ bzw. „Zum Home-Bildschirm“ (Safari: Teilen → Zum Home-Bildschirm).</p>`,
     actions: [{ label: back ? 'Zurück' : 'Schließen', primary: true, onClick: () => { if (back) { back(); return true } } }],
@@ -472,10 +492,10 @@ function showStats() {
   const p = storage.loadProgress()
   const rows = MAPS.map((m) => {
     const s = storage.mapProgress(m.id)
-    const diffs = Object.values(DIFFICULTIES).map((d) => {
-      const b = s.bestByDifficulty?.[d.id]
-      return `${d.name}: ${b ? `${num(b.score)}${b.won ? ' ✓' : ''}` : '–'}`
-    }).join(' · ')
+    const diffs = Object.values(MODES).map((mode) => `${mode.name}: ` + Object.values(DIFFICULTIES).map((d) => {
+      const b = s.bestByDifficulty?.[mode.id === 'advanced' ? `${d.id}-advanced` : d.id]
+      return `${d.name} ${b ? `${num(b.score)}${b.won ? ' ✓' : ''}` : '–'}`
+    }).join(' · ')).join('<br>')
     return `<div class="stat-card"><h3>${esc(m.name)}</h3>
       <dl class="result-stats"><div><dt>Höchste Welle</dt><dd>${s.highestWave}/20</dd></div>
       <div><dt>Bestleistung</dt><dd>${num(s.bestScore)}</dd></div>

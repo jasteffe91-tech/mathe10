@@ -39,7 +39,8 @@ export function placeEnemy(e) {
 
 export function currentSpeed(e) {
   const resist = e.def.slowResist || 0
-  const slowFactor = 1 - e.slow * (1 - resist)
+  // Überlappende Frosteffekte stapeln nicht (es zählt der stärkste) und sind nach oben gedeckelt
+  const slowFactor = 1 - Math.min(e.slow, BALANCE.maxSlow) * (1 - resist)
   return e.def.speed * slowFactor * (e.enraged ? BALANCE.enrageSpeed : 1)
 }
 
