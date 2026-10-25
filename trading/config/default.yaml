@@ -1,0 +1,131 @@
+# Grundkonfiguration des S&P-500-Analysesystems.
+# Persönliche Werte (Kapital, Broker) NICHT hier eintragen, sondern in config/lokal.yaml
+# (wird nicht eingecheckt) oder über Umgebungsvariablen / GitHub-Secrets:
+#   SPX_KAPITAL_EUR, SPX_TAGESERGEBNIS_EUR, SPX_OFFENES_RISIKO_EUR
+#   ALPACA_API_KEY_ID, ALPACA_API_SECRET_KEY, FINNHUB_API_KEY, SEC_USER_AGENT
+#   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORT, BERICHT_EMPFAENGER
+
+konto:
+  # ANNAHME, bis du dein tatsächliches Handelskapital nennst.
+  kapital_eur: 10000
+  waehrung: EUR
+  short_erlaubt: false        # hängt von Broker und Kontoart ab
+  hebel_erlaubt: false        # Hebel bleibt aus, bis Nutzen und Risiko geprüft sind
+
+risiko:
+  risiko_je_trade_pct: 0.25   # Testphase: 0,25–0,5 %
+  tagesverlust_limit_pct: 1.0
+  max_offenes_risiko_pct: 1.5 # Summe aller offenen Risiken (korrelationsbereinigt)
+  min_crv: 2.0                # nach Kosten; muss empirisch validiert werden
+  max_positionswert_pct: 25   # max. Anteil des Kapitals in einer Position (kein Hebel)
+  korrelation_warnschwelle: 0.7
+  max_stop_atr: 3.0           # Stops weiter als 3 ATR werden verworfen
+  min_stop_atr: 0.3           # Stops enger als 0,3 ATR gelten als Rauschen
+
+kosten:
+  # Standard: Kostenmodell ähnlich Interactive Brokers (Tiered, US-Direkthandel).
+  # Für deutsche Neobroker (Handel über deutsche Börsenplätze in EUR) anpassen.
+  modell: pro_aktie
+  gebuehr_pro_aktie_usd: 0.005
+  min_gebuehr_usd: 1.0
+  max_gebuehr_pct_ordervolumen: 1.0
+  gebuehr_fix_eur: 0.0        # z. B. 1.0 bei Neobrokern (modell: fix)
+  spread_bps: 3               # halber Spread je Seite wird angesetzt
+  slippage_bps: 5             # je Seite; bei Stop-Ausführung doppelt
+  fx_kosten_bps: 2            # Währungsumrechnung EUR/USD je Seite
+
+zeitplan:
+  zeitzone: Europe/Berlin
+  bericht_uhrzeit: "14:00"    # vorbörslicher Bericht
+  toleranz_minuten: 90        # verspätete Cloud-Ausführung noch zulassen
+
+ziel:
+  tagesziel_eur_min: 200
+  tagesziel_eur_max: 300
+  # Hypothetische Annahmen für die Machbarkeitsrechnung, solange keine Backtests vorliegen
+  annahme_trefferquote: 0.45
+  annahme_crv: 2.0
+  handelstage_jahr: 252
+
+validierung:
+  # Solange false, werden Signale höchstens als WATCHLIST ausgegeben.
+  strategien_validiert: false
+
+universum:
+  quelle_primaer: spy_holdings     # SSGA-Bestandsliste des SPY-ETF (tagesaktuell)
+  quelle_sektoren: wikipedia       # GICS-Sektoren als Sekundärquelle
+  max_alter_tage: 7
+  min_preis_usd: 10
+  min_dollarvolumen_mio_usd: 50    # 20-Tage-Durchschnitt
+  max_detailkandidaten: 25         # so viele Titel bekommen Intraday-/4h-Analyse
+
+daten:
+  kursquelle: yahoo                # yahoo (Entwicklung, inoffiziell) | alpaca (offiziell, Schlüssel nötig)
+  alpaca_feed: iex
+  parallel: 6
+  max_alter_vorboerse_min: 30      # vorbörsliche Kurse älter als das gelten als veraltet
+
+markt:
+  indizes:
+    "^GSPC": S&P 500
+    "^NDX": Nasdaq-100
+    "^VIX": VIX
+  futures:
+    "ES=F": S&P-500-Future
+    "NQ=F": Nasdaq-100-Future
+  sektoren:
+    XLK: Technologie
+    XLF: Finanzen
+    XLV: Gesundheit
+    XLY: Zyklischer Konsum
+    XLP: Basiskonsum
+    XLE: Energie
+    XLI: Industrie
+    XLB: Grundstoffe
+    XLU: Versorger
+    XLRE: Immobilien
+    XLC: Kommunikation
+
+nachrichten:
+  max_alter_stunden: 20
+  feeds:
+    - name: SEC EDGAR 8-K
+      url: https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&output=atom&count=100
+      typ: primaer
+    - name: Federal Reserve
+      url: https://www.federalreserve.gov/feeds/press_all.xml
+      typ: primaer
+    - name: MarketWatch
+      url: https://feeds.content.dowjones.io/public/rss/mw_topstories
+      typ: medien
+    - name: CNBC
+      url: https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114
+      typ: medien
+  # Ticker-Feeds von Yahoo Finance für die Detailkandidaten
+  yahoo_ticker_feed: true
+
+makro:
+  # Quelle: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm (Abruf 2026-10-25)
+  # 2027er Termine gelten laut Fed als vorläufig.
+  fomc:
+    - [2026-01-27, 2026-01-28]
+    - [2026-03-17, 2026-03-18]
+    - [2026-04-28, 2026-04-29]
+    - [2026-06-16, 2026-06-17]
+    - [2026-07-28, 2026-07-29]
+    - [2026-09-15, 2026-09-16]
+    - [2026-10-27, 2026-10-28]
+    - [2026-12-08, 2026-12-09]
+    - [2027-01-26, 2027-01-27]
+    - [2027-03-16, 2027-03-17]
+    - [2027-04-27, 2027-04-28]
+    - [2027-06-08, 2027-06-09]
+    - [2027-07-27, 2027-07-28]
+    - [2027-09-14, 2027-09-15]
+    - [2027-10-26, 2027-10-27]
+    - [2027-12-07, 2027-12-08]
+
+kalender:
+  # Außerplanmäßige Schließungen, die nicht aus den Regeln folgen (z. B. Staatstrauer).
+  sonderschliessungen:
+    2025-01-09: Nationaler Trauertag (Jimmy Carter)

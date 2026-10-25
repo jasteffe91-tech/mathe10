@@ -1,0 +1,9 @@
+# Laufzeit
+numpy>=1.26
+pandas>=2.1
+requests>=2.31
+PyYAML>=6.0
+lxml>=5.0
+openpyxl>=3.1
+# Entwicklung
+pytest>=8.0

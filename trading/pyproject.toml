@@ -1,0 +1,9 @@
+[project]
+name = "spx-analyse"
+version = "0.1.0"
+description = "Analyse- und Berichtssystem für Day- und Swingtrading im S&P 500 (ohne Brokerzugriff)"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
