@@ -137,6 +137,7 @@ h1, h2, h3, h4 { margin: 0; }
 .toast { padding: 8px 14px; border-radius: 10px; background: rgba(20,26,36,.92); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.4); font-weight: 600; text-align: center; animation: toast-in .2s ease-out; transition: opacity .4s, transform .4s; }
 .toast-error { border-color: var(--red); color: #ffd2cd; }
 .toast-good { border-color: var(--green); color: #d7ffd4; }
+.toast-intro { border-color: #a07cff; background: rgba(40,26,70,.94); color: #efe6ff; font-weight: 500; font-size: 14px; line-height: 1.35; }
 .toast-boss { border-color: var(--red); background: rgba(80,20,20,.92); color: #ffe1b0; font-size: 17px; }
 .toast.out { opacity: 0; transform: translateY(-6px); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } }
@@ -167,6 +168,8 @@ h1, h2, h3, h4 { margin: 0; }
 .info-head h3 { font: 700 17px var(--f-title); }
 .info-head .lvl { font: 600 12px var(--f-ui); color: var(--gold); margin-left: 4px; }
 .info-head .role { margin: 0; font-size: 12.5px; color: var(--muted); }
+.info-head .dtype { margin: 2px 0 0; font-size: 12px; font-weight: 600; }
+.dtype .no-air { color: #ffb4ab; font-weight: 500; }
 .info-empty h3 { font: 700 17px var(--f-title); margin-bottom: 4px; }
 .desc { font-size: 13.5px; }
 .stats { display: grid; grid-template-columns: 1fr; gap: 2px; margin: 8px 0; font-size: 13.5px; }
@@ -201,6 +204,7 @@ h1, h2, h3, h4 { margin: 0; }
 .wave-preview { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; }
 .wave-preview h4 { font: 700 15px var(--f-title); display: flex; align-items: center; gap: 6px; }
 .wave-title { margin: 2px 0 0; color: #ffb4ab; font-style: italic; font-size: 13px; }
+.wave-intro { margin: 6px 0 0; padding: 6px 8px; font-size: 12.5px; line-height: 1.35; color: #e9ddff; background: rgba(120,80,200,.18); border: 1px solid rgba(160,120,255,.45); border-radius: 8px; }
 .wave-list { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; }
 .wave-list li { display: flex; align-items: center; gap: 4px; }
 .boss-tag { font: 800 10px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--red); padding: 2px 6px; border-radius: 99px; }

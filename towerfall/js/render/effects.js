@@ -231,6 +231,16 @@ export class Effects {
     })
     on('heal', ({ enemy, radius }) => this.ring(enemy.x, enemy.y, radius, 'rgba(110,255,200,.8)', 0.6, 2))
     on('summon', ({ enemy }) => this.ring(enemy.x, enemy.y, 50, '#c67bff', 0.5, 3))
+    on('frenzy', ({ enemy }) => {
+      this.ring(enemy.x, enemy.y, 26, '#ff6a3a', 0.4, 3)
+      this.burst(enemy.x, enemy.y, 10, { color: '#ff8a4a', speed: 90, life: 0.4, size: 3 })
+    })
+    on('hex', ({ enemy, radius, kind }) => {
+      const quake = kind === 'quake'
+      this.ring(enemy.x, enemy.y, radius, quake ? '#e6aa5a' : '#c08cff', 0.6, 4)
+      this.flash(enemy.x, enemy.y, radius * 0.6, quake ? 'rgba(230,170,90,A)' : 'rgba(180,110,255,A)', 0.3)
+      if (quake) { this.burst(enemy.x, enemy.y, 16, { color: '#8a6a44', speed: 140, life: 0.6, size: 4, gravity: 120 }); this.addShake(4) }
+    })
     on('build', ({ tower }) => { this.ring(tower.x, tower.y, 34, '#f1e3b8', 0.4, 3); this.burst(tower.x, tower.y, 12, { color: '#d8c9a5', speed: 80, life: 0.5, size: 3 }) })
     on('upgrade', ({ tower }) => { this.ring(tower.x, tower.y, 40, '#ffd257', 0.5, 3); this.burst(tower.x, tower.y, 16, { color: '#ffd257', speed: 100, life: 0.6, size: 3, gravity: -40 }) })
     on('move', ({ tower }) => { this.ring(tower.x, tower.y, 34, '#9fd6ee', 0.4, 3); this.burst(tower.x, tower.y, 10, { color: '#d8c9a5', speed: 70, life: 0.5, size: 3 }) })

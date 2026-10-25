@@ -5,7 +5,7 @@ import { TOWERS } from '../config/towers.js'
 import { lerp } from '../core/math.js'
 import { renderTerrain } from './terrain.js'
 import { createRng } from '../core/rng.js'
-import { drawTower, drawEnemy, drawHealthBar, drawProjectile, drawBastion } from './sprites.js'
+import { drawTower, drawEnemy, drawHealthBar, drawProjectile, drawBastion, drawSilenced } from './sprites.js'
 import { Effects } from './effects.js'
 
 export class Renderer {
@@ -109,6 +109,7 @@ export class Renderer {
     if (this.terrain) ctx.drawImage(this.terrain, 0, 0, WORLD.width, WORLD.height)
 
     this.drawBuildOverlay(view)
+    this.drawFlightLines(t)
     this.drawFoundations(view)
     this.drawAuras(view, t)
     drawBastion(ctx, game.map.base, game.lives / game.maxLives, t, this.reduced)
@@ -121,8 +122,10 @@ export class Renderer {
     for (const e of game.enemies) list.push(e)
     list.sort((a, b) => a.y - b.y)
     for (const o of list) {
-      if (o.def.levels) drawTower(ctx, o, o.x, o.y, t)
-      else {
+      if (o.def.levels) {
+        drawTower(ctx, o, o.x, o.y, t)
+        if (o.silenced > 0) drawSilenced(ctx, o, o.x, o.y, t)
+      } else {
         const x = lerp(o.px, o.x, alpha), y = lerp(o.py, o.y, alpha)
         drawEnemy(ctx, o, x, y, t)
       }
@@ -159,6 +162,27 @@ export class Renderer {
       for (const { c, r } of view.obstacle.cells) ctx.strokeRect(c * grid.cell + 1, r * grid.cell + 1, grid.cell - 2, grid.cell - 2)
       ctx.setLineDash([])
     }
+  }
+
+  // Fluglinien der Harpyien: gestrichelt, sobald Flieger angekündigt oder unterwegs sind
+  drawFlightLines(t) {
+    const { ctx, game } = this
+    if (!game.flightRoutes?.length) return
+    const air = game.enemies.some((e) => e.def.flying) || game.nextWavePreview()?.counts.harpy
+    if (!air) return
+    ctx.save()
+    ctx.strokeStyle = 'rgba(200,180,255,.45)'
+    ctx.lineWidth = 2
+    ctx.setLineDash([10, 10])
+    ctx.lineDashOffset = -t * 20
+    for (const f of game.flightRoutes) {
+      const [a, b] = f.points
+      ctx.beginPath()
+      ctx.moveTo(a[0], a[1])
+      ctx.lineTo(b[0], b[1])
+      ctx.stroke()
+    }
+    ctx.restore()
   }
 
   // Fundament unter jedem Turm zeigt seine belegte Grundfläche; Auswahl hervorgehoben

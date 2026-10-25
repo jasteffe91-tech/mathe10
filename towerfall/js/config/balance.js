@@ -22,6 +22,11 @@ export const BALANCE = {
   largeEnemyRadius: 14,         // ab diesem Radius gilt ein Gegner als „groß“ (Tribok-Bonus)
   moveCostRatio: 0.1,           // Versetzen kostet 10 % des investierten Goldes …
   moveCostMin: 5,               // … mindestens 5 Gold
+  elite: { hpMult: 1.6, armorBonus: 2, rewardMult: 2 },  // Elite-Gegner (goldener Rand)
+  // Flieger brauchen mindestens diesen Anteil der Zeit, die ein Plünderer (58 px/s) für den Fußweg
+  // braucht – sonst wären sie auf Karten mit kurzer Luftlinie (Felsenpass) kaum aufzuhalten
+  flightTimeShare: 0.5,
+  flightReferenceSpeed: 58,
   score: { killFactor: 10, waveFactor: 100, lifeFactor: 150 },
 }
 

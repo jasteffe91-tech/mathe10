@@ -54,7 +54,7 @@ export class WaveManager {
       s.timer -= dt
       // while statt if: bei sehr kurzen Abständen mehrere Gegner im selben Schritt
       while (s.timer <= 0 && s.spawned < s.group.count) {
-        spawn(s.group.type, s.group.hp, s.wave, s.spawned)
+        spawn(s.group.type, s.group.hp, s.wave, s.spawned, s.group)
         s.spawned++
         this.spawnedThisWave++
         s.timer += Math.max(s.group.interval, 0.05)

@@ -3,8 +3,8 @@
 import { MAPS, getMap } from './config/maps.js'
 import { DIFFICULTIES, SIM } from './config/balance.js'
 import { MODES } from './config/terrain.js'
-import { TOWERS, TOWER_ORDER } from './config/towers.js'
-import { ENEMIES, ENEMY_ORDER } from './config/enemies.js'
+import { TOWERS, TOWER_ORDER, DAMAGE_TYPES } from './config/towers.js'
+import { ENEMIES, ENEMY_ORDER, ELITE_HINT } from './config/enemies.js'
 import { Game } from './game/game.js'
 import { GameLoop } from './core/loop.js'
 import { Renderer } from './render/renderer.js'
@@ -52,15 +52,15 @@ const canvas = $('#canvas')
 const renderer = new Renderer(canvas)
 const toastArea = $('#toasts')
 
-function toast(text, kind = 'info') {
+function toast(text, kind = 'info', ms = 2200) {
   const el = document.createElement('div')
   el.className = `toast toast-${kind}`
   el.textContent = text
   el.setAttribute('role', kind === 'error' ? 'alert' : 'status')
   toastArea.appendChild(el)
   while (toastArea.children.length > 3) toastArea.firstChild.remove()
-  setTimeout(() => el.classList.add('out'), 2200)
-  setTimeout(() => el.remove(), 2700)
+  setTimeout(() => el.classList.add('out'), ms)
+  setTimeout(() => el.remove(), ms + 500)
 }
 
 const controller = new Controller({
@@ -144,9 +144,12 @@ function startGame({ mapId, difficulty, mode = 'normal', snapshot = null }) {
 function wireGame(game) {
   const off = []
   const on = (t, fn) => off.push(game.on(t, fn))
-  on('waveStart', ({ wave, boss, title }) => {
+  on('waveStart', ({ wave, boss, title, intro }) => {
     storage.noteWave(game.map.id, wave)
     toast(boss ? `Welle ${wave}: ${title || 'Bosswelle!'}` : `Welle ${wave} kommt!`, boss ? 'boss' : 'info')
+    // neue Gegnerart: Erklärung länger einblenden
+    const hint = intro && (intro === 'elite' ? ELITE_HINT : ENEMIES[intro]?.hint)
+    if (hint) toast(hint, 'intro', 6000)
   })
   on('waveEnd', ({ wave, bonus }) => {
     if (game.status === 'playing') toast(`Welle ${wave} überstanden${bonus ? ` · +${bonus} Gold` : ''}`, 'good')
@@ -413,12 +416,14 @@ function showIntro(first) {
 }
 
 function showHowTo(back) {
-  const towers = TOWER_ORDER.map((t) => `<li><span data-ticon="${t}"></span><div><b>${TOWERS[t].name}</b> · ${TOWERS[t].levels[0].cost} G<br><span class="muted">${esc(TOWERS[t].description)}</span></div></li>`).join('')
+  const dtype = (def) => { const d = DAMAGE_TYPES[def.damageType]; return d ? ` · <span style="color:${d.color}">${d.icon} ${d.name}</span>${def.attack === 'shell' ? ' · trifft keine Flieger' : ''}` : '' }
+  const towers = TOWER_ORDER.map((t) => `<li><span data-ticon="${t}"></span><div><b>${TOWERS[t].name}</b> · ${TOWERS[t].levels[0].cost} G${dtype(TOWERS[t])}<br><span class="muted">${esc(TOWERS[t].description)}</span></div></li>`).join('')
   const enemies = ENEMY_ORDER.map((t) => `<li><span data-eicon="${t}"></span><div><b>${ENEMIES[t].name}</b>${ENEMIES[t].boss ? ' <span class="boss-tag">Boss</span>' : ''}<br><span class="muted">${esc(ENEMIES[t].description)}</span></div></li>`).join('')
   const el = openModal({
     title: 'Anleitung',
     className: 'wide',
     body: `${INTRO}<h3>Türme</h3><ul class="codex">${towers}</ul><h3>Gegner</h3><ul class="codex">${enemies}</ul>
+      <h3>Schadensarten &amp; Konter</h3><p>Jeder Turm macht eine Schadensart: ⚔ physisch (Pfeil, Speer, Scharfschütze), ✹ explosiv (Kanone, Tribok), ✦ Magie (Blitz), ❄ Frost, ☠ Gift. Panzerung zieht von jedem Treffer einen festen Betrag ab – starke Einzeltreffer und Gift kommen besser durch. Geister halten physischem Schaden stand, Harpyien fliegen über Bogengeschosse hinweg, Berserker ignorieren Frost während ihrer Raserei, Runenhexer und Bosse lähmen Türme, die dicht am Weg geballt stehen. ${esc(ELITE_HINT.replace('Neu: ', ''))}</p>
       <h3>Steuerung</h3><p>Maus: Turm wählen, Vorschau folgt dem Zeiger, Klick baut (mit Umschalt bleibt der Baumodus aktiv). Rechtsklick bricht ab.<br>
       Finger: Turm wählen, auf die Karte tippen oder ziehen, dann nochmal tippen oder „Bauen“. Mit den Pfeil-Knöpfen lässt sich die Vorschau zellgenau verschieben.<br>
       Tastatur: 1–9 Turm · Pfeiltasten Vorschau verschieben (sonst Türme durchblättern) · R drehen · Enter bauen · Esc abbrechen · M versetzen · C Hindernis räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>

@@ -28,6 +28,7 @@ export function createTower(type, place, id) {
     fireAnim: 0,      // kurze Rückstoß-Animation nach einem Schuss
     kills: 0,
     damageDealt: 0,
+    silenced: 0,      // Restdauer einer Lähmung durch den Runenhexer
     buff: null,       // Verstärkung durch ein Kriegsbanner in Reichweite
     stats: def.levels[0],
   }
@@ -44,21 +45,26 @@ export function computeStats(t, buff) {
   return s
 }
 
-// Nach jedem Bau, Verkauf oder Upgrade neu berechnen. Mehrere Banner stapeln sich nicht –
-// es zählt das stärkste in Reichweite.
+// Nach jedem Bau, Verkauf, Versetzen oder Upgrade neu berechnen. Ein Banner verstärkt höchstens
+// `maxTargets` Türme in Reichweite – die nächstgelegenen zuerst. Mehrere Banner stapeln sich nicht:
+// Jeder Turm erhält die stärkste Verstärkung, die ihn erreicht.
 export function refreshBuffs(towers) {
-  for (const t of towers) {
-    let best = null
-    if (t.def.attack !== 'aura') {
-      for (const a of towers) {
-        if (a === t || a.def.attack !== 'aura') continue
-        const s = a.def.levels[a.level]
-        if ((a.x - t.x) ** 2 + (a.y - t.y) ** 2 > s.range * s.range) continue
-        if (!best || s.auraDamage > best.damage) best = { damage: s.auraDamage, rate: s.auraRate, range: s.auraRange || 0, from: a }
-      }
+  const offers = new Map() // Turm → beste angebotene Verstärkung
+  for (const a of towers) {
+    if (a.def.attack !== 'aura') continue
+    const s = a.def.levels[a.level]
+    const inRange = towers
+      .filter((t) => t !== a && t.def.attack !== 'aura' && (a.x - t.x) ** 2 + (a.y - t.y) ** 2 <= s.range * s.range)
+      .sort((p, q) => ((a.x - p.x) ** 2 + (a.y - p.y) ** 2) - ((a.x - q.x) ** 2 + (a.y - q.y) ** 2) || p.id - q.id)
+      .slice(0, s.maxTargets ?? Infinity)
+    for (const t of inRange) {
+      const cur = offers.get(t)
+      if (!cur || s.auraDamage > cur.damage) offers.set(t, { damage: s.auraDamage, rate: s.auraRate, range: s.auraRange || 0, from: a })
     }
-    t.buff = best
-    t.stats = computeStats(t, best)
+  }
+  for (const t of towers) {
+    t.buff = offers.get(t) || null
+    t.stats = computeStats(t, t.buff)
   }
 }
 
@@ -89,10 +95,12 @@ export function findTarget(t, enemies, stats, sees = null) {
   const pref = t.def.targetPreference
   const singleShot = t.def.attack === 'projectile' && !stats.splash
   const min2 = stats.minRange ? stats.minRange * stats.minRange : 0
+  const groundOnly = t.def.attack === 'shell' // Bogengeschosse treffen keine Flieger
   let best = null, bestScore = -Infinity, bestTier = -1
   for (const e of enemies) {
     if (!e.alive || !inRange(t, e, stats.range)) continue
     if (min2 && (e.x - t.x) ** 2 + (e.y - t.y) ** 2 < min2) continue
+    if (groundOnly && e.def.flying) continue
     if (sees && !sees(e)) continue
     let tier = 1
     if (singleShot && e.incoming >= e.hp) tier = 0
@@ -108,6 +116,8 @@ export function findTarget(t, enemies, stats, sees = null) {
 
 export function updateTower(t, dt, game) {
   if (t.def.attack === 'aura') return // Banner greift nicht selbst an
+  // Vom Runenhexer gelähmt: feuert und dreht nicht, Abklingzeit ruht
+  if (t.silenced > 0) { t.silenced -= dt; if (t.silenced <= 0) t.silenced = 0; return }
   const stats = t.stats
   if (t.fireAnim > 0) t.fireAnim -= dt
   t.cooldown -= dt
@@ -205,8 +215,9 @@ export function applyImpact(game, p) {
   const src = p.tower
   if (s.splash) {
     const r2 = s.splash * s.splash
+    const groundOnly = p.attack === 'shell'
     for (const e of game.enemies) {
-      if (!e.alive) continue
+      if (!e.alive || (groundOnly && e.def.flying)) continue
       const d2 = (e.x - p.tx) ** 2 + (e.y - p.ty) ** 2
       if (d2 > (s.splash + e.radius) ** 2) continue
       const d = Math.sqrt(Math.min(d2, r2))

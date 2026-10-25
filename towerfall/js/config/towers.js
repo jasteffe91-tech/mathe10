@@ -9,6 +9,8 @@
 //   pierce     – gerades Geschoss, durchbohrt bis zu `pierceCount` Gegner auf seiner Linie
 //   aura       – greift nicht an, verstärkt Türme in Reichweite (auraDamage, auraRate, auraRange)
 //
+// damageType: physical | explosive | magic | frost | poison – manche Gegner sind dagegen resistent
+//   oder anfällig (siehe enemies.js `resist`), angezeigt im Infobereich und in der Anleitung.
 // footprint: belegte Rasterzellen (w × h); rotatable: Grundfläche lässt sich um 90° drehen.
 // spriteScale: Zeichengröße passend zur Grundfläche (rein optisch).
 // Optional je Stufe: minRange (toter Winkel nahe am Turm), largeBonus (Zusatzschaden gegen große Gegner).
@@ -16,6 +18,7 @@
 export const TOWERS = {
   arrow: {
     id: 'arrow',
+    damageType: 'physical',
     footprint: { w: 1, h: 1 },
     spriteScale: 0.8,
     name: 'Pfeilturm',
@@ -36,6 +39,7 @@ export const TOWERS = {
   },
   cannon: {
     id: 'cannon',
+    damageType: 'explosive',
     footprint: { w: 2, h: 2 },
     spriteScale: 1.35,
     name: 'Kanonenturm',
@@ -57,6 +61,7 @@ export const TOWERS = {
   },
   frost: {
     id: 'frost',
+    damageType: 'frost',
     footprint: { w: 1, h: 1 },
     spriteScale: 0.8,
     name: 'Frostturm',
@@ -78,6 +83,7 @@ export const TOWERS = {
   },
   lightning: {
     id: 'lightning',
+    damageType: 'magic',
     footprint: { w: 2, h: 2 },
     spriteScale: 1.3,
     name: 'Blitzturm',
@@ -89,13 +95,14 @@ export const TOWERS = {
     color: '#9a6ad6',
     accent: '#ffe27a',
     levels: [
-      { cost: 140, damage: 16, range: 120, rate: 0.85, chains: 3, chainRange: 85, chainFalloff: 0.8, armorPierce: 0.5 },
-      { cost: 120, damage: 24, range: 128, rate: 0.95, chains: 4, chainRange: 90, chainFalloff: 0.82, armorPierce: 0.5 },
-      { cost: 200, damage: 36, range: 138, rate: 1.05, chains: 6, chainRange: 95, chainFalloff: 0.85, armorPierce: 0.5 },
+      { cost: 140, damage: 21, range: 120, rate: 0.85, chains: 3, chainRange: 85, chainFalloff: 0.8, armorPierce: 0.5 },
+      { cost: 120, damage: 31, range: 128, rate: 0.95, chains: 4, chainRange: 90, chainFalloff: 0.82, armorPierce: 0.5 },
+      { cost: 200, damage: 46, range: 138, rate: 1.05, chains: 6, chainRange: 95, chainFalloff: 0.85, armorPierce: 0.5 },
     ],
   },
   sniper: {
     id: 'sniper',
+    damageType: 'physical',
     footprint: { w: 1, h: 1 },
     spriteScale: 0.82,
     name: 'Scharfschützenturm',
@@ -114,6 +121,7 @@ export const TOWERS = {
   },
   poison: {
     id: 'poison',
+    damageType: 'poison',
     footprint: { w: 1, h: 1 },
     spriteScale: 0.8,
     name: 'Giftschleuderer',
@@ -136,6 +144,7 @@ export const TOWERS = {
   },
   ballista: {
     id: 'ballista',
+    damageType: 'physical',
     footprint: { w: 2, h: 1, rotatable: true },
     spriteScale: 1,
     name: 'Speerschleuder',
@@ -149,9 +158,9 @@ export const TOWERS = {
     color: '#8c5a35',
     accent: '#d9d2c0',
     levels: [
-      { cost: 130, damage: 22, range: 165, rate: 0.7, pierceCount: 5, armorPierce: 0.3 },
-      { cost: 110, damage: 34, range: 175, rate: 0.75, pierceCount: 7, armorPierce: 0.3 },
-      { cost: 190, damage: 52, range: 190, rate: 0.8, pierceCount: 10, armorPierce: 0.4 },
+      { cost: 130, damage: 28, range: 165, rate: 0.7, pierceCount: 5, armorPierce: 0.3 },
+      { cost: 110, damage: 43, range: 175, rate: 0.75, pierceCount: 7, armorPierce: 0.3 },
+      { cost: 190, damage: 64, range: 190, rate: 0.8, pierceCount: 10, armorPierce: 0.4 },
     ],
   },
   banner: {
@@ -174,11 +183,12 @@ export const TOWERS = {
   },
   trebuchet: {
     id: 'trebuchet',
+    damageType: 'explosive',
     footprint: { w: 3, h: 3 },
     spriteScale: 1,
     name: 'Tribok',
     role: 'Belagerung gegen große Gegner',
-    description: 'Riesiges Wurfgeschütz: schleudert Felsbrocken über weite Distanz. Extraschaden gegen große Gegner (Eisenwachen, Bosse), trifft aber nichts direkt vor sich.',
+    description: 'Riesiges Wurfgeschütz: schleudert Felsbrocken über weite Distanz. Extraschaden gegen große Gegner (Eisenwachen, Berserker, Bosse), trifft aber nichts direkt vor sich.',
     tip: 'Braucht viel Platz (3 × 3). Mit Abstand zum Weg aufstellen – unter 80 px Entfernung kann er nicht zielen.',
     attack: 'shell',
     projectile: 'boulder',
@@ -188,9 +198,9 @@ export const TOWERS = {
     color: '#7a5c3a',
     accent: '#b9b2a3',
     levels: [
-      { cost: 240, damage: 110, range: 250, minRange: 80, rate: 0.28, splash: 40, largeBonus: 0.6 },
-      { cost: 200, damage: 170, range: 270, minRange: 80, rate: 0.3, splash: 45, largeBonus: 0.8 },
-      { cost: 320, damage: 260, range: 290, minRange: 80, rate: 0.33, splash: 50, largeBonus: 1 },
+      { cost: 240, damage: 75, range: 250, minRange: 80, rate: 0.28, splash: 40, largeBonus: 0.5 },
+      { cost: 200, damage: 115, range: 270, minRange: 80, rate: 0.3, splash: 45, largeBonus: 0.6 },
+      { cost: 320, damage: 175, range: 290, minRange: 80, rate: 0.33, splash: 50, largeBonus: 0.75 },
     ],
   },
 }
@@ -211,3 +221,12 @@ export const TARGET_MODES = {
   close: { name: 'Nächster', hint: 'Der Gegner, der dem Turm am nächsten ist' },
 }
 export const TARGET_MODE_ORDER = ['first', 'last', 'strong', 'close']
+
+// Schadensarten mit Namen und Symbol für die Anzeige
+export const DAMAGE_TYPES = {
+  physical: { name: 'Physisch', icon: '⚔', color: '#d9d2c0' },
+  explosive: { name: 'Explosiv', icon: '✹', color: '#ffb347' },
+  magic: { name: 'Magie', icon: '✦', color: '#b98cff' },
+  frost: { name: 'Frost', icon: '❄', color: '#9fdcf6' },
+  poison: { name: 'Gift', icon: '☠', color: '#8ee34f' },
+}

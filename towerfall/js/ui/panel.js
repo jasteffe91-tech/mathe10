@@ -1,8 +1,8 @@
 // Seitenleiste: Baumenü, Infobereich (Turm/Bauplatz) und Vorschau der nächsten Welle.
 // Der Infobereich wird nur neu aufgebaut, wenn sich etwas Strukturelles ändert (Auswahl, Stufe,
 // Bezahlbarkeit); laufende Zahlen werden direkt aktualisiert. So gehen keine Klicks verloren.
-import { TOWERS, TOWER_ORDER, TARGET_MODES, TARGET_MODE_ORDER } from '../config/towers.js'
-import { ENEMIES } from '../config/enemies.js'
+import { TOWERS, TOWER_ORDER, TARGET_MODES, TARGET_MODE_ORDER, DAMAGE_TYPES } from '../config/towers.js'
+import { ENEMIES, ELITE_HINT } from '../config/enemies.js'
 import { BALANCE } from '../config/balance.js'
 import { drawTowerIcon, drawEnemyIcon } from '../render/sprites.js'
 import { esc, num, statTable, HINTS } from './format.js'
@@ -18,6 +18,14 @@ function iconCanvas(size, draw) {
   c.setAttribute('aria-hidden', 'true')
   draw(c)
   return c
+}
+
+// Schadensart und Einschränkungen eines Turms (z. B. Bogengeschosse treffen keine Flieger)
+function damageBadge(def) {
+  const d = DAMAGE_TYPES[def.damageType]
+  if (!d) return ''
+  const air = def.attack === 'shell' ? ' · <span class="no-air">trifft keine Flieger</span>' : ''
+  return `<p class="dtype"><span style="color:${d.color}">${d.icon} ${d.name}</span>${air}</p>`
 }
 
 export class Panel {
@@ -120,7 +128,7 @@ export class Panel {
   head(type, level, sub) {
     const def = TOWERS[type]
     return `<div class="info-head"><span data-icon="${type}" data-level="${level}"></span>
-      <div><h3>${esc(def.name)}${sub ? ` <span class="lvl">${sub}</span>` : ''}</h3><p class="role">${esc(def.role)}</p></div></div>`
+      <div><h3>${esc(def.name)}${sub ? ` <span class="lvl">${sub}</span>` : ''}</h3><p class="role">${esc(def.role)}</p>${damageBadge(def)}</div></div>`
   }
 
   towerInfo(t) {
@@ -274,6 +282,7 @@ export class Panel {
     const game = this.ctl.game
     const p = game.nextWavePreview()
     const key = p ? `${p.number}` : 'none'
+    const hint = p?.intro ? (p.intro === 'elite' ? ELITE_HINT : ENEMIES[p.intro]?.hint) : ''
     if (key === this.previewKey) return
     this.previewKey = key
     if (!p) {
@@ -281,14 +290,15 @@ export class Panel {
       return
     }
     this.previewEl.innerHTML = `<h4>Nächste Welle ${p.number}${p.boss ? ' <span class="boss-tag">Boss</span>' : ''}</h4>
-      ${p.title ? `<p class="wave-title">${esc(p.title)}</p>` : ''}<ul class="wave-list"></ul>`
+      ${p.title ? `<p class="wave-title">${esc(p.title)}</p>` : ''}${hint ? `<p class="wave-intro">${esc(hint)}</p>` : ''}<ul class="wave-list"></ul>`
     const ul = this.previewEl.querySelector('ul')
     for (const [type, count] of Object.entries(p.counts)) {
       const li = document.createElement('li')
       li.title = `${ENEMIES[type].name}: ${ENEMIES[type].description}`
       li.appendChild(iconCanvas(26, (c) => drawEnemyIcon(c, type)))
       const span = document.createElement('span')
-      span.textContent = `${count}× ${ENEMIES[type].name}`
+      const elite = p.elite[type] || 0
+      span.textContent = `${count}× ${ENEMIES[type].name}${elite ? ` (${elite === count ? '' : `${elite} `}Elite)` : ''}`
       li.appendChild(span)
       ul.appendChild(li)
     }
