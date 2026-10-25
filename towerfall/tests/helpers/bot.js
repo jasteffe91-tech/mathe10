@@ -5,16 +5,27 @@ import { TOWERS } from '../../js/config/towers.js'
 
 export const PLANS = {
   mixed: ['arrow', 'arrow', 'cannon', 'frost', 'up', 'sniper', 'arrow', 'up', 'lightning', 'poison', 'up', 'cannon', 'up', 'sniper', 'up', 'frost', 'lightning', 'up', 'up', 'poison', 'up', 'up', 'up', 'sniper', 'cannon', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up'],
+  // nutzt auch Speerschleuder und Kriegsbanner
+  modern: ['arrow', 'arrow', 'cannon', 'frost', 'up', 'ballista', 'sniper', 'up', 'banner', 'lightning', 'poison', 'up', 'up', 'ballista', 'sniper', 'up', 'up', 'cannon', 'banner', 'up', 'up', 'frost', 'up', 'up', 'up', 'sniper', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up', 'up'],
   arrowsOnly: Array.from({ length: 60 }, (_, i) => (i % 2 ? 'up' : 'arrow')),
   nothing: [],
 }
 
 function bestSpot(game, type) {
   const range = TOWERS[type].levels[0].range
+  if (TOWERS[type].attack === 'aura') {
+    let best = null, n = -1
+    for (const s of game.spots) {
+      if (s.tower) continue
+      const c = game.towers.filter((t) => (t.x - s.x) ** 2 + (t.y - s.y) ** 2 <= range * range).length
+      if (c > n) { n = c; best = s }
+    }
+    return best
+  }
   let best = null, bestCov = -1
   for (const s of game.spots) {
     if (s.tower) continue
-    const cov = game.route.coverage(s.x, s.y, range, 12)
+    const cov = game.coverage(s.x, s.y, range, 12)
     if (cov > bestCov) { bestCov = cov; best = s }
   }
   return best

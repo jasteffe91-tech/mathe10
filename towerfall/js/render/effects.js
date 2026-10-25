@@ -2,6 +2,8 @@
 // Rein dekorativ – beeinflussen die Simulation nicht. Feste Obergrenzen verhindern,
 // dass bei vielen Gegnern unbegrenzt Objekte entstehen.
 
+import { muzzleHeight } from './sprites.js'
+
 const TAU = Math.PI * 2
 
 export class Effects {
@@ -11,6 +13,7 @@ export class Effects {
     this.rings = []
     this.bolts = []
     this.texts = []
+    this.flashes = []
     this.shake = 0
   }
 
@@ -21,6 +24,7 @@ export class Effects {
     this.rings.length = 0
     this.bolts.length = 0
     this.texts.length = 0
+    this.flashes.length = 0
     this.shake = 0
   }
 
@@ -59,6 +63,12 @@ export class Effects {
     this.bolts.push({ points: jag, color, life, max: life, width })
   }
 
+  // kurzes Aufleuchten (Mündungsfeuer, Explosion) – Farbe mit Platzhalter A für die Deckkraft
+  flash(x, y, r, color, life = 0.12) {
+    if (this.flashes.length > 40) this.flashes.shift()
+    this.flashes.push({ x, y, r, color, life, max: life })
+  }
+
   text(x, y, text, color = '#ffd257') {
     if (this.texts.length > 30) this.texts.shift()
     this.texts.push({ x, y, text, color, life: 0.9, max: 0.9 })
@@ -84,7 +94,7 @@ export class Effects {
       ps[j++] = p
     }
     ps.length = j
-    for (const list of [this.rings, this.bolts, this.texts]) {
+    for (const list of [this.rings, this.bolts, this.texts, this.flashes]) {
       let n = 0
       for (let i = 0; i < list.length; i++) {
         list[i].life -= dt
@@ -97,6 +107,19 @@ export class Effects {
   }
 
   draw(ctx) {
+    // Lichteffekte additiv, damit sie wie Licht wirken
+    ctx.globalCompositeOperation = 'lighter'
+    for (const f of this.flashes) {
+      const k = f.life / f.max
+      const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r)
+      g.addColorStop(0, f.color.replace('A', 0.9 * k))
+      g.addColorStop(1, f.color.replace('A', 0))
+      ctx.fillStyle = g
+      ctx.beginPath()
+      ctx.arc(f.x, f.y, f.r, 0, TAU)
+      ctx.fill()
+    }
+    ctx.globalCompositeOperation = 'source-over'
     for (const r of this.rings) {
       const t = 1 - r.life / r.max
       ctx.strokeStyle = r.color
@@ -155,16 +178,26 @@ export class Effects {
     const on = (type, fn) => off.push(game.on(type, fn))
     on('shot', ({ tower, beam }) => {
       if (beam) {
-        this.bolt([{ x: beam.x1, y: beam.y1 }, { x: beam.x2, y: beam.y2 }], '#ffe9a8', 0.12, 1.6)
+        const h = muzzleHeight(tower.type, tower.level)
+        this.bolt([{ x: beam.x1, y: beam.y1 - h }, { x: beam.x2, y: beam.y2 }], '#ffe9a8', 0.12, 1.6)
+        this.flash(beam.x1 + Math.cos(tower.angle) * 30, beam.y1 - h + Math.sin(tower.angle) * 30, 16, 'rgba(255,230,160,A)')
         this.burst(beam.x2, beam.y2, 6, { color: '#fff3c4', speed: 90, life: 0.3, size: 2.5 })
       } else if (tower.type === 'cannon') {
-        const a = tower.angle
-        this.burst(tower.x + Math.cos(a) * 24, tower.y + Math.sin(a) * 24, 5, { color: 'rgba(200,200,200,.8)', speed: 40, life: 0.5, size: 5 })
+        const a = tower.angle, h = muzzleHeight('cannon', tower.level)
+        const mx = tower.x + Math.cos(a) * 26, my = tower.y - h + Math.sin(a) * 26
+        this.flash(mx, my, 18, 'rgba(255,200,120,A)')
+        this.burst(mx, my, 5, { color: 'rgba(200,200,200,.8)', speed: 40, life: 0.5, size: 5 })
       }
     })
-    on('chain', ({ points }) => this.bolt(points, '#b98cff', 0.18, 2.4))
+    on('chain', ({ tower, points }) => {
+      const pts = points.slice()
+      pts[0] = { x: tower.x, y: tower.y - muzzleHeight('lightning', tower.level) }
+      this.bolt(pts, '#b98cff', 0.18, 2.4)
+      for (const p of pts.slice(1)) this.flash(p.x, p.y, 16, 'rgba(200,160,255,A)')
+    })
     on('impact', ({ kind, x, y, radius }) => {
       if (kind === 'ball') {
+        this.flash(x, y, radius * 1.1, 'rgba(255,190,90,A)', 0.3)
         this.ring(x, y, radius, '#ffb347', 0.35, 4)
         this.burst(x, y, 16, { color: '#ffb347', speed: 160, life: 0.4, size: 3.5 })
         this.burst(x, y, 8, { color: 'rgba(90,90,90,.7)', speed: 50, life: 0.8, size: 6 })

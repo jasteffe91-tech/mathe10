@@ -33,3 +33,11 @@ test('Frühes Rufen der Wellen ist möglich und bleibt spielbar', () => {
   const r = runBot({ plan: 'mixed', difficulty: 'easy', callEarly: true })
   assert.equal(r.status, 'won', `verloren in Welle ${r.wave}`)
 })
+
+test('Alle Karten sind auf Entspannt mit gemischter Verteidigung schaffbar', async () => {
+  const { MAPS } = await import('../js/config/maps.js')
+  for (const m of MAPS) {
+    const r = runBot({ mapId: m.id, difficulty: 'easy', plan: 'modern' })
+    assert.equal(r.status, 'won', `${m.id}: verloren in Welle ${r.wave}`)
+  }
+})

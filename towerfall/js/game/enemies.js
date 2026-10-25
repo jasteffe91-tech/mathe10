@@ -1,7 +1,7 @@
 // Gegner: Bewegung entlang der Route, Statuseffekte (Frost, Gift) und Fähigkeiten (Heilen, Beschwören).
 import { BALANCE } from '../config/balance.js'
 
-export function createEnemy(def, { id, hpScale = 1, dist = 0, lane = 0 }) {
+export function createEnemy(def, { id, hpScale = 1, dist = 0, lane = 0, route }) {
   const hp = Math.round(def.hp * hpScale)
   return {
     id,
@@ -13,6 +13,7 @@ export function createEnemy(def, { id, hpScale = 1, dist = 0, lane = 0 }) {
     armor: def.armor,
     radius: def.radius,
     reward: def.reward,
+    route,           // Weg, dem dieser Gegner folgt (Karten können mehrere haben)
     dist,
     lane,            // seitlicher Versatz auf dem Weg, damit Gruppen nicht in einer Linie laufen
     x: 0, y: 0, px: 0, py: 0, angle: 0,
@@ -29,8 +30,8 @@ export function createEnemy(def, { id, hpScale = 1, dist = 0, lane = 0 }) {
 
 // Position aus der zurückgelegten Strecke berechnen (inkl. seitlichem Versatz)
 const tmp = {}
-export function placeEnemy(e, route) {
-  route.sample(e.dist, tmp)
+export function placeEnemy(e) {
+  e.route.sample(e.dist, tmp)
   e.angle = tmp.angle
   e.x = tmp.x - Math.sin(tmp.angle) * e.lane
   e.y = tmp.y + Math.cos(tmp.angle) * e.lane
@@ -92,11 +93,11 @@ export function updateEnemy(e, dt, game) {
   }
 
   e.dist += currentSpeed(e) * dt
-  if (e.dist >= game.route.length) {
+  if (e.dist >= e.route.length) {
     game.leakEnemy(e)
     return
   }
-  placeEnemy(e, game.route)
+  placeEnemy(e)
 
   if (e.def.heal) updateHealer(e, dt, game)
   if (e.def.summon) updateSummoner(e, dt, game)
@@ -125,7 +126,7 @@ function updateSummoner(e, dt, game) {
   const s = e.def.summon
   e.abilityTimer += s.every
   for (let i = 0; i < s.count; i++) {
-    game.queueSpawn(s.type, { dist: Math.max(0, e.dist - 16 - i * 14), hpScale: game.currentHpScale(), minion: true })
+    game.queueSpawn(s.type, { dist: Math.max(0, e.dist - 16 - i * 14), hpScale: game.currentHpScale(), minion: true, route: e.route })
   }
   game.emit('summon', { enemy: e, count: s.count })
 }

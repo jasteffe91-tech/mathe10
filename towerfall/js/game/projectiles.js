@@ -2,9 +2,12 @@
 // letzten bekannten Punkt weiter; Einzelgeschosse suchen sich einen Gegner in der Nähe oder verpuffen.
 import { BALANCE } from '../config/balance.js'
 import { applyImpact } from './towers.js'
+import { damageEnemy } from './enemies.js'
+import { distToSegment } from '../core/math.js'
 
 export function updateProjectile(p, dt, game) {
   p.px = p.x; p.py = p.y
+  if (p.attack === 'pierce') { updatePiercing(p, dt, game); return }
   if (p.target) {
     if (p.target.alive) {
       p.tx = p.target.x; p.ty = p.target.y
@@ -40,4 +43,25 @@ function retarget(p, enemies) {
     if (d < bestD) { bestD = d; best = e }
   }
   return best
+}
+
+// Durchbohrendes Geschoss: prüft je Schritt die überflogene Strecke, trifft jeden Gegner nur einmal
+function updatePiercing(p, dt, game) {
+  const dx = p.tx - p.x, dy = p.ty - p.y
+  const d = Math.hypot(dx, dy)
+  const step = Math.min(d, p.speed * dt)
+  const nx = p.x + (dx / (d || 1)) * step, ny = p.y + (dy / (d || 1)) * step
+  const s = p.stats
+  for (const e of game.enemies) {
+    if (!e.alive || p.hits.has(e)) continue
+    if (distToSegment(e.x, e.y, p.x, p.y, nx, ny) > e.radius + 5) continue
+    p.hits.add(e)
+    damageEnemy(game, e, s.damage, { pierce: s.armorPierce || 0, source: p.tower })
+    game.emit('impact', { kind: p.kind, x: e.x, y: e.y, radius: 0 })
+    if (p.hits.size >= s.pierceCount) { p.alive = false; break }
+  }
+  p.x = nx; p.y = ny
+  p.angle = Math.atan2(dy, dx)
+  p.traveled += step
+  if (d - step < 1) p.alive = false
 }

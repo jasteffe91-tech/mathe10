@@ -180,6 +180,8 @@ try {
   check('Kein horizontales Überlaufen auf dem Smartphone', !overflow)
   const hudVisible = await mp.evaluate(() => ['#hud-lives', '#hud-gold', '#hud-wave', '#btn-next', '#btn-pause'].every((s) => { const r = document.querySelector(s).getBoundingClientRect(); return r.width > 0 && r.right <= innerWidth + 1 && r.top >= 0 }))
   check('HUD vollständig sichtbar (Hochformat)', hudVisible)
+  const shopOk = await mp.evaluate(() => [...document.querySelectorAll('.shop-btn')].every((b) => { const r = b.getBoundingClientRect(); return r.width >= 40 && r.right <= innerWidth + 1 && r.left >= 0 }))
+  check('Alle Türme im Baumenü sichtbar (Hochformat)', shopOk)
   await mp.tap('#btn-next')
   await mp.waitForTimeout(2000)
   await mp.screenshot({ path: shots + 'phone-portrait.png' })
@@ -188,6 +190,8 @@ try {
   await mp.screenshot({ path: shots + 'phone-landscape.png' })
   const landscapeOk = await mp.evaluate(() => ['#hud-lives', '#hud-gold', '#btn-next', '#shop'].every((s) => { const r = document.querySelector(s).getBoundingClientRect(); return r.width > 0 && r.right <= innerWidth + 1 && r.bottom <= innerHeight + 1 }))
   check('HUD und Baumenü sichtbar (Querformat)', landscapeOk)
+  const shopLand = await mp.evaluate(() => [...document.querySelectorAll('.shop-btn')].every((b) => { const r = b.getBoundingClientRect(); return r.width >= 34 && r.right <= innerWidth + 1 && r.bottom <= innerHeight + 1 }))
+  check('Alle Türme im Baumenü sichtbar (Querformat)', shopLand)
   check('Keine Fehler in der Konsole (Smartphone)', errs2.length === 0, errs2.join(' | '))
   await phone.close()
 

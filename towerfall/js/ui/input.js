@@ -41,7 +41,7 @@ export function setupKeyboard({ isActive, controller, actions }) {
     // Leertaste/Enter auf einer per Tab fokussierten Schaltfläche lösen diese aus, nicht das Spiel
     if ((k === ' ' || k === 'Enter') && e.target.closest('button, a')) return
     let handled = true
-    if (k >= '1' && k <= '6') controller.chooseIndex(Number(k) - 1)
+    if (k >= '1' && k <= '8') controller.chooseIndex(Number(k) - 1)
     else if (k === ' ' || k === 'p' || k === 'P') actions.togglePause()
     else if (k === 'n' || k === 'N') actions.nextWave()
     else if (k === 'f' || k === 'F' || k === '+') actions.cycleSpeed()

@@ -6,7 +6,9 @@ import { ENEMIES } from '../config/enemies.js'
 import { BALANCE } from '../config/balance.js'
 import { drawTowerIcon, drawEnemyIcon } from '../render/sprites.js'
 import { esc, num, statTable, HINTS } from './format.js'
+import { computeStats } from '../game/towers.js'
 
+const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Scharfschütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner' }
 const dpr = () => Math.min(2, window.devicePixelRatio || 1)
 
 function iconCanvas(size, draw) {
@@ -47,7 +49,7 @@ export class Panel {
       b.appendChild(iconCanvas(44, (c) => drawTowerIcon(c, type)))
       const label = document.createElement('span')
       label.className = 'shop-name'
-      label.textContent = def.name.replace('turm', '').replace('Scharfschützen', 'Scharfschütze')
+      label.textContent = SHORT[type] || def.name
       const cost = document.createElement('span')
       cost.className = 'shop-cost'
       cost.textContent = def.levels[0].cost
@@ -80,7 +82,7 @@ export class Panel {
 
     const t = sel.tower
     const key = [
-      sel.spot, sel.type, t?.id, t?.level, t?.targetMode, this.sellArmed ? 1 : 0,
+      sel.spot, sel.type, t?.id, t?.level, t?.targetMode, t?.buff?.from?.id, game.towers.length, this.sellArmed ? 1 : 0,
       sel.type ? game.gold >= TOWERS[sel.type].levels[0].cost : '',
       t ? game.canUpgrade(t).ok : '', game.status,
     ].join('|')
@@ -99,9 +101,9 @@ export class Panel {
     if (sel.tower) html = this.towerInfo(sel.tower)
     else if (sel.type) html = this.typeInfo(sel.type, sel.spot)
     else if (sel.spot !== null) html = this.spotInfo(game.spots[sel.spot])
-    else html = `<div class="info-empty"><p><b>Bauplätze</b> sind die runden Steinplatten am Weg.</p>
+    else html = `<div class="info-empty"><p><b>Bauplätze</b> sind die Steinplatten am Weg.</p>
       <p>Tippe auf einen Bauplatz und wähle einen Turm – oder wähle zuerst einen Turm und tippe dann auf einen Platz.</p>
-      <p class="muted">Tasten: 1–6 Turm · Leertaste Pause · N nächste Welle · F Tempo</p></div>`
+      <p class="muted">Tasten: 1–8 Turm · Leertaste Pause · N nächste Welle · F Tempo</p></div>`
     this.infoEl.innerHTML = html
     for (const slot of this.infoEl.querySelectorAll('[data-icon]')) {
       slot.replaceWith(iconCanvas(48, (c) => drawTowerIcon(c, slot.dataset.icon, Number(slot.dataset.level || 0))))
@@ -117,15 +119,18 @@ export class Panel {
   towerInfo(t) {
     const game = this.ctl.game
     const def = t.def
-    const cur = def.levels[t.level]
-    const next = def.levels[t.level + 1] || null
+    const cur = t.stats
+    const next = def.levels[t.level + 1] ? computeStats({ ...t, level: t.level + 1 }, t.buff) : null
     const up = game.canUpgrade(t)
     const value = game.sellValue(t)
     const modes = TARGET_MODE_ORDER.map((m) => `<button class="seg ${t.targetMode === m ? 'on' : ''}" data-act="target" data-mode="${m}" title="${esc(TARGET_MODES[m].hint)}" aria-pressed="${t.targetMode === m}">${TARGET_MODES[m].name}</button>`).join('')
     return `${this.head(t.type, t.level, `Stufe ${t.level + 1}/${def.levels.length}`)}
       ${statTable(def, cur, next)}
-      <p class="meta">Besiegt: <b data-live="kills">${t.kills}</b> · Schaden gesamt: <b data-live="dmg">${num(t.damageDealt)}</b></p>
-      <div class="segmented" role="group" aria-label="Zielwahl (Taste T)">${modes}</div>
+      ${t.buff ? `<p class="buff">Verstärkt durch Kriegsbanner: +${Math.round(t.buff.damage * 100)} % Schaden, +${Math.round(t.buff.rate * 100)} % Feuerrate</p>` : ''}
+      ${def.attack === 'aura'
+        ? `<p class="meta">Verstärkt gerade <b>${game.towers.filter((o) => o.buff?.from === t).length}</b> Türme.</p>`
+        : `<p class="meta">Besiegt: <b data-live="kills">${t.kills}</b> · Schaden gesamt: <b data-live="dmg">${num(t.damageDealt)}</b></p>
+      <div class="segmented" role="group" aria-label="Zielwahl (Taste T)">${modes}</div>`}
       <div class="actions">
         ${next
           ? `<button class="btn primary ${up.ok ? '' : 'disabled'}" data-act="upgrade" aria-disabled="${!up.ok}">Verbessern <b>${next.cost} G</b></button>`

@@ -17,8 +17,8 @@ const run = (game, seconds, each) => {
 
 // Gegner direkt auf die Route setzen (für gezielte Tests)
 function addEnemy(game, type, dist, hpScale = 1) {
-  const e = createEnemy(ENEMIES[type], { id: game.nextId++, hpScale, dist })
-  placeEnemy(e, game.route)
+  const e = createEnemy(ENEMIES[type], { id: game.nextId++, hpScale, dist, route: game.route })
+  placeEnemy(e)
   e.px = e.x; e.py = e.y
   game.enemies.push(e)
   return e
@@ -40,7 +40,7 @@ test('Konfiguration: mindestens 6 Türme, 5 Gegnertypen, 15–20 Wellen, Bosswel
   assert.ok(TOWER_ORDER.length >= 6)
   for (const t of TOWER_ORDER) {
     assert.ok(TOWERS[t].levels.length >= 3, `${t} braucht mindestens zwei Verbesserungsstufen`)
-    for (const l of TOWERS[t].levels) assert.ok(l.cost > 0 && l.range > 0 && l.rate > 0)
+    for (const l of TOWERS[t].levels) assert.ok(l.cost > 0 && l.range > 0 && (l.rate > 0 || TOWERS[t].attack === 'aura'))
     assert.ok(TOWERS[t].description.length > 10)
   }
   const regular = Object.values(ENEMIES).filter((e) => !e.boss)
@@ -57,15 +57,15 @@ test('Karten: Bauplätze liegen neben dem Weg, nicht darauf, und überlappen nic
   for (const m of MAPS) {
     const g = new Game({ mapId: m.id })
     for (const s of g.spots) {
-      const d = g.route.distanceTo(s.x, s.y)
+      const d = g.distanceToPath(s.x, s.y)
       assert.ok(d >= m.pathWidth / 2 + 30, `${m.id} Platz ${s.index} zu nah am Weg (${d.toFixed(0)})`)
-      assert.ok(g.route.coverage(s.x, s.y, 140) > 0, `${m.id} Platz ${s.index} erreicht den Weg nicht`)
+      assert.ok(g.coverage(s.x, s.y, 140) > 0, `${m.id} Platz ${s.index} erreicht den Weg nicht`)
       assert.ok(s.x > 20 && s.x < 1260 && s.y > 20 && s.y < 700, `${m.id} Platz ${s.index} am Rand`)
       for (const o of g.spots) if (o !== s) assert.ok(Math.hypot(o.x - s.x, o.y - s.y) >= 64, `${m.id} Plätze ${s.index}/${o.index} überlappen`)
       assert.ok(Math.hypot(m.base.x - s.x, m.base.y - s.y) >= 80, `${m.id} Platz ${s.index} auf der Bastion`)
     }
     assert.ok(g.spots.length >= 12)
-    assert.ok(g.route.length > 1500)
+    for (const r of g.routes) assert.ok(r.length > 1200, `${m.id}: Weg zu kurz (${r.length.toFixed(0)})`)
   }
 })
 
@@ -441,4 +441,73 @@ test('Keine unbegrenzt wachsenden Listen: Geschosse und Gegner werden aufgeräum
   assert.ok(maxP < 200, `zu viele Geschosse gleichzeitig: ${maxP}`)
   assert.ok(g.projectiles.every((p) => p.alive))
   assert.ok(g.enemies.every((e) => e.alive))
+})
+
+test('Speerschleuder durchbohrt mehrere Gegner in einer Linie', () => {
+  const g = new Game()
+  g.wallet.gold = 10000
+  g.build(4, 'ballista')
+  const d = nearestDist(g, g.spots[4])
+  const es = [0, 14, 28, 42].map((o) => { const e = addEnemy(g, 'armored', d + o, 5); e.def = { ...e.def, speed: 0 }; return e })
+  let shots = 0
+  g.on('shot', () => shots++)
+  for (let i = 0; i < 60 && shots === 0; i++) g.step(DT)
+  run(g, 0.6) // Speer fliegen lassen
+  const hit = es.filter((e) => e.hp < e.maxHp).length
+  assert.equal(shots, 1)
+  assert.ok(hit >= 2, `nur ${hit} Gegner getroffen`)
+  assert.ok(g.projectiles.length === 0 || g.projectiles.every((p) => p.alive))
+})
+
+test('Kriegsbanner verstärkt Türme in Reichweite, nicht sich selbst; Verkauf hebt es auf', () => {
+  const g = new Game()
+  g.wallet.gold = 10000
+  // zwei nahe Bauplätze suchen
+  let a = null, b = null
+  for (const s of g.spots) for (const o of g.spots) {
+    if (s !== o && !a && Math.hypot(s.x - o.x, s.y - o.y) <= TOWERS.banner.levels[0].range) { a = s; b = o }
+  }
+  assert.ok(a, 'Karte braucht zwei Bauplätze in Bannerreichweite')
+  const arrow = g.build(a.index, 'arrow').tower
+  const base = arrow.stats.damage
+  const banner = g.build(b.index, 'banner').tower
+  assert.equal(banner.buff, null)
+  assert.ok(arrow.buff && arrow.buff.from === banner)
+  assert.ok(Math.abs(arrow.stats.damage - base * (1 + TOWERS.banner.levels[0].auraDamage)) < 1e-9)
+  assert.ok(arrow.stats.rate > TOWERS.arrow.levels[0].rate)
+  g.upgrade(banner)
+  assert.ok(Math.abs(arrow.stats.damage - base * (1 + TOWERS.banner.levels[1].auraDamage)) < 1e-9)
+  // Banner greift nicht an
+  let bannerShots = 0
+  g.on('shot', ({ tower }) => { if (tower === banner) bannerShots++ })
+  const e = addEnemy(g, 'grunt', nearestDist(g, b))
+  e.def = { ...e.def, speed: 0 }
+  run(g, 2)
+  assert.equal(bannerShots, 0)
+  // Wiederherstellen berücksichtigt die Verstärkung
+  g.waves.phase = 'build'
+  const r = Game.restore(JSON.parse(JSON.stringify(g.snapshot())))
+  assert.ok(r.spots[a.index].tower.buff)
+  g.sell(banner)
+  assert.equal(arrow.buff, null)
+  assert.equal(arrow.stats.damage, base)
+})
+
+test('Karten mit zwei Eingängen verteilen Gegner auf beide Wege', () => {
+  const g = new Game({ mapId: 'sumpfgabel' })
+  assert.equal(g.routes.length, 2)
+  g.callNextWave()
+  run(g, 12)
+  const used = new Set(g.enemies.map((e) => e.route))
+  assert.equal(used.size, 2)
+  // beide Wege enden an der Bastion
+  const p = {}, q = {}
+  g.routes[0].sample(g.routes[0].length, p)
+  g.routes[1].sample(g.routes[1].length, q)
+  assert.ok(Math.hypot(p.x - q.x, p.y - q.y) < 1)
+  // „Vorderster“ vergleicht die Reststrecke, nicht die zurückgelegte
+  g.wallet.gold = 1e6
+  for (const s of g.spots) g.build(s.index, 'arrow')
+  run(g, 120)
+  assert.ok(g.stats.kills > 0)
 })

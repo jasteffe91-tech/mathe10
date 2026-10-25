@@ -315,7 +315,7 @@ function renderMaps() {
       <div class="map-text"><h3>${esc(m.name)} <span class="tag">${esc(m.difficultyHint)}</span></h3>
       <p>${esc(m.subtitle)}</p>
       <p class="muted small">${unlocked
-        ? `Beste Welle: ${p.highestWave}/${20} · Bestleistung: ${num(p.bestScore)} · Siege: ${p.wins}`
+        ? `Beste Welle: ${p.highestWave}/20 · Bestleistung: ${num(p.bestScore)} · Siege: ${p.wins}`
         : `Gesperrt – erreiche Welle ${m.unlock.wave} auf ${esc(getMap(m.unlock.map).name)}`}</p></div>`
     drawThumb(card.querySelector('canvas'), m)
     card.addEventListener('click', () => {
@@ -343,13 +343,11 @@ function drawThumb(c, map) {
   ctx.strokeStyle = map.palette.pathEdge
   ctx.lineWidth = map.pathWidth + 8
   ctx.lineJoin = ctx.lineCap = 'round'
-  const pts = g.route.points
-  ctx.beginPath()
-  pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)))
-  ctx.stroke()
+  const line = (r) => { ctx.beginPath(); r.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke() }
+  g.routes.forEach(line)
   ctx.strokeStyle = map.palette.path
   ctx.lineWidth = map.pathWidth
-  ctx.stroke()
+  g.routes.forEach(line)
   ctx.fillStyle = '#d8cdb4'
   for (const sp of g.spots) { ctx.beginPath(); ctx.arc(sp.x, sp.y, 20, 0, Math.PI * 2); ctx.fill() }
   ctx.fillStyle = '#b8473a'
@@ -387,7 +385,7 @@ function showIntro(first) {
   $('#pause-banner').hidden = true
   openModal({
     title: 'Willkommen, Kommandant!',
-    body: INTRO + '<p class="muted small">Tasten: 1–6 Turm wählen · Leertaste Pause · N nächste Welle · F Tempo · U verbessern · V verkaufen · T Zielwahl · Pfeiltasten Bauplätze</p>',
+    body: INTRO + '<p class="muted small">Tasten: 1–8 Turm wählen · Leertaste Pause · N nächste Welle · F Tempo · U verbessern · V verkaufen · T Zielwahl · Pfeiltasten Bauplätze</p>',
     actions: [{ label: 'Los geht’s', primary: true }],
     onClose: () => {
       if (first) { settings.introSeen = true; applySettings() }
@@ -404,7 +402,7 @@ function showHowTo(back) {
     className: 'wide',
     body: `${INTRO}<h3>Türme</h3><ul class="codex">${towers}</ul><h3>Gegner</h3><ul class="codex">${enemies}</ul>
       <h3>Steuerung</h3><p>Maus oder Finger: Bauplatz antippen, Turm wählen, nochmal antippen zum Bauen. Rechtsklick hebt die Auswahl auf.<br>
-      Tastatur: 1–6 Turm · Pfeiltasten Bauplatz · Enter bauen/verbessern · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo · Esc Menü</p>
+      Tastatur: 1–8 Turm · Pfeiltasten Bauplatz · Enter bauen/verbessern · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo · Esc Menü</p>
       <h3>Offline spielen &amp; installieren</h3>
       <p>Das Spiel speichert sich beim ersten Öffnen komplett auf deinem Gerät. Danach läuft es ohne Internet. Installieren: im Browsermenü „App installieren“ bzw. „Zum Home-Bildschirm“ (Safari: Teilen → Zum Home-Bildschirm).</p>`,
     actions: [{ label: back ? 'Zurück' : 'Schließen', primary: true, onClick: () => { if (back) { back(); return true } } }],
