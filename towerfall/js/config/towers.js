@@ -6,6 +6,8 @@
 //   shell      – Bogengeschoss, explodiert am Zielpunkt (Flächenschaden)
 //   chain      – sofortiger Blitz, springt auf weitere Gegner über
 //   instant    – sofortiger Treffer (Scharfschütze)
+//   pierce     – gerades Geschoss, durchbohrt bis zu `pierceCount` Gegner auf seiner Linie
+//   aura       – greift nicht an, verstärkt Türme in Reichweite (auraDamage, auraRate)
 
 export const TOWERS = {
   arrow: {
@@ -116,10 +118,44 @@ export const TOWERS = {
       { cost: 170, damage: 9, range: 150, rate: 0.85, splash: 60, poisonDps: 28, poisonDuration: 5 },
     ],
   },
+  ballista: {
+    id: 'ballista',
+    name: 'Speerschleuder',
+    role: 'Durchschlag in einer Linie',
+    description: 'Schießt schwere Speere, die alle Gegner auf ihrer Flugbahn durchbohren – auch weit hinter dem Ziel.',
+    tip: 'Am stärksten an langen Geraden, wo Gegner hintereinander laufen.',
+    attack: 'pierce',
+    projectile: 'bolt',
+    projectileSpeed: 720,
+    targetMode: 'first',
+    color: '#8c5a35',
+    accent: '#d9d2c0',
+    levels: [
+      { cost: 130, damage: 22, range: 165, rate: 0.7, pierceCount: 5, armorPierce: 0.3 },
+      { cost: 110, damage: 34, range: 175, rate: 0.75, pierceCount: 7, armorPierce: 0.3 },
+      { cost: 190, damage: 52, range: 190, rate: 0.8, pierceCount: 10, armorPierce: 0.4 },
+    ],
+  },
+  banner: {
+    id: 'banner',
+    name: 'Kriegsbanner',
+    role: 'Verstärkt Türme in der Nähe',
+    description: 'Greift nicht selbst an. Alle Türme in Reichweite machen mehr Schaden und feuern schneller.',
+    tip: 'Zwischen mehrere starke Türme stellen. Mehrere Banner verstärken sich nicht gegenseitig.',
+    attack: 'aura',
+    targetMode: 'first',
+    color: '#b23a3a',
+    accent: '#f2c14e',
+    levels: [
+      { cost: 140, range: 190, auraDamage: 0.2, auraRate: 0.1 },
+      { cost: 120, range: 215, auraDamage: 0.3, auraRate: 0.15 },
+      { cost: 180, range: 240, auraDamage: 0.4, auraRate: 0.2 },
+    ],
+  },
 }
 
-// Reihenfolge im Baumenü (und Tastenkürzel 1–6)
-export const TOWER_ORDER = ['arrow', 'cannon', 'frost', 'lightning', 'sniper', 'poison']
+// Reihenfolge im Baumenü (und Tastenkürzel 1–8)
+export const TOWER_ORDER = ['arrow', 'cannon', 'frost', 'lightning', 'sniper', 'poison', 'ballista', 'banner']
 
 export const TARGET_MODES = {
   first: { name: 'Vorderster', hint: 'Der Gegner, der der Bastion am nächsten ist' },

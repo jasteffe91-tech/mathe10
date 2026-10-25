@@ -8,7 +8,7 @@ import { getMap } from '../config/maps.js'
 import { createRng } from '../core/rng.js'
 import { Route, smoothRoute } from './path.js'
 import { createEnemy, placeEnemy, updateEnemy } from './enemies.js'
-import { createTower, updateTower, towerStats, nextLevelStats, isMaxLevel } from './towers.js'
+import { createTower, updateTower, towerStats, nextLevelStats, isMaxLevel, refreshBuffs } from './towers.js'
 import { updateProjectile } from './projectiles.js'
 import { WaveManager } from './waves.js'
 import { Wallet, sellValue, waveBonus, earlyCallBonus } from './economy.js'
@@ -19,8 +19,11 @@ export class Game {
     this.difficulty = DIFFICULTIES[difficulty] || DIFFICULTIES.normal
     this.seed = seed
     this.rng = createRng(seed)
-    this.route = new Route(smoothRoute(this.map.path))
-    this.spots = this.map.spots.map((s, index) => ({ index, x: s.x, y: s.y, tower: null, hint: spotHint(this.route, this.map, s) }))
+    // Eine Karte hat einen Weg (`path`) oder mehrere (`paths`), die sich vor der Bastion treffen
+    this.routes = (this.map.paths || [this.map.path]).map((p) => new Route(smoothRoute(p)))
+    this.route = this.routes[0]
+    this.spawnCounter = 0
+    this.spots = this.map.spots.map((s, index) => ({ index, x: s.x, y: s.y, tower: null, hint: spotHint(this, s) }))
     this.wallet = new Wallet(BALANCE.startGold + this.difficulty.startGoldBonus)
     this.maxLives = this.difficulty.lives
     this.lives = this.maxLives
@@ -87,18 +90,24 @@ export class Game {
     }
   }
 
-  queueSpawn(type, { hpScale = 1, dist = 0, minion = false } = {}) {
-    this.pendingSpawns.push({ type, hpScale, dist, minion })
+  // Ohne vorgegebenen Weg verteilen sich neue Gegner abwechselnd auf alle Wege
+  queueSpawn(type, { hpScale = 1, dist = 0, minion = false, route = null } = {}) {
+    if (!route) route = this.routes[this.spawnCounter++ % this.routes.length]
+    this.pendingSpawns.push({ type, hpScale, dist, minion, route })
   }
+
+  // Abstand zum nächsten Weg und Wegabdeckung eines Kreises (alle Wege zusammen)
+  distanceToPath(x, y) { return Math.min(...this.routes.map((r) => r.distanceTo(x, y))) }
+  coverage(x, y, r, stepLen = 8) { return this.routes.reduce((sum, rt) => sum + rt.coverage(x, y, r, stepLen), 0) }
 
   flushSpawns() {
     if (!this.pendingSpawns.length) return
     for (const s of this.pendingSpawns) {
       const def = ENEMIES[s.type]
       const lane = (this.rng() * 2 - 1) * def.lane
-      const e = createEnemy(def, { id: this.nextId++, hpScale: s.hpScale, dist: s.dist, lane })
+      const e = createEnemy(def, { id: this.nextId++, hpScale: s.hpScale, dist: s.dist, lane, route: s.route })
       if (s.minion) e.reward = Math.ceil(e.reward / 2)
-      placeEnemy(e, this.route)
+      placeEnemy(e)
       e.px = e.x; e.py = e.y
       this.enemies.push(e)
       if (e.boss) this.emit('bossSpawn', { enemy: e })
@@ -201,6 +210,7 @@ export class Game {
     const tower = createTower(type, spot, this.nextId++)
     spot.tower = tower
     this.towers.push(tower)
+    refreshBuffs(this.towers)
     this.emit('build', { tower })
     return { ok: true, tower, cost: check.cost }
   }
@@ -221,6 +231,7 @@ export class Game {
     this.wallet.spend(check.cost)
     tower.level++
     tower.invested += check.cost
+    refreshBuffs(this.towers)
     this.emit('upgrade', { tower })
     return { ok: true, tower, cost: check.cost }
   }
@@ -233,6 +244,7 @@ export class Game {
     this.wallet.refund(value)
     this.spots[tower.spot].tower = null
     this.towers.splice(this.towers.indexOf(tower), 1)
+    refreshBuffs(this.towers)
     this.emit('sell', { tower, value })
     return { ok: true, value }
   }
@@ -298,6 +310,7 @@ export class Game {
       spot.tower = tower
       g.towers.push(tower)
     }
+    refreshBuffs(g.towers)
     return g
   }
 }
@@ -310,12 +323,13 @@ function compact(list) {
 }
 
 // Taktischer Hinweis zu einem Bauplatz, aus der Geometrie der Route berechnet
-function spotHint(route, map, s) {
+function spotHint(game, s) {
   if (s.tag) return s.tag
+  const map = game.map
   if (Math.hypot(map.base.x - s.x, map.base.y - s.y) < 240) return 'engpass'
-  const near = route.coverage(s.x, s.y, 140)
+  const near = game.coverage(s.x, s.y, 140)
   if (near >= 290) return 'kurve'
-  const far = route.coverage(s.x, s.y, 320)
+  const far = game.coverage(s.x, s.y, 320)
   if (far >= 1000) return 'weit'
   return 'standard'
 }

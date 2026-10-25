@@ -21,10 +21,39 @@ export function createTower(type, spot, id) {
     fireAnim: 0,      // kurze Rückstoß-Animation nach einem Schuss
     kills: 0,
     damageDealt: 0,
+    buff: null,       // Verstärkung durch ein Kriegsbanner in Reichweite
+    stats: def.levels[0],
   }
 }
 
-export const towerStats = (t) => t.def.levels[t.level]
+// Wirksame Werte: Stufenwerte plus Banner-Verstärkung (Schaden, Gift und Feuerrate)
+export function computeStats(t, buff) {
+  const base = t.def.levels[t.level]
+  if (!buff || t.def.attack === 'aura') return base
+  const s = { ...base, damage: base.damage * (1 + buff.damage), rate: base.rate * (1 + buff.rate) }
+  if (base.poisonDps) s.poisonDps = base.poisonDps * (1 + buff.damage)
+  return s
+}
+
+// Nach jedem Bau, Verkauf oder Upgrade neu berechnen. Mehrere Banner stapeln sich nicht –
+// es zählt das stärkste in Reichweite.
+export function refreshBuffs(towers) {
+  for (const t of towers) {
+    let best = null
+    if (t.def.attack !== 'aura') {
+      for (const a of towers) {
+        if (a === t || a.def.attack !== 'aura') continue
+        const s = a.def.levels[a.level]
+        if ((a.x - t.x) ** 2 + (a.y - t.y) ** 2 > s.range * s.range) continue
+        if (!best || s.auraDamage > best.damage) best = { damage: s.auraDamage, rate: s.auraRate, from: a }
+      }
+    }
+    t.buff = best
+    t.stats = computeStats(t, best)
+  }
+}
+
+export const towerStats = (t) => t.stats
 export const nextLevelStats = (t) => t.def.levels[t.level + 1] || null
 export const isMaxLevel = (t) => t.level >= t.def.levels.length - 1
 
@@ -36,10 +65,11 @@ const inRange = (t, e, range) => {
 // Wertung eines Kandidaten je Zielmodus (höher = besser)
 function score(t, e, mode) {
   switch (mode) {
-    case 'last': return -e.dist
-    case 'strong': return e.hp * 10000 + e.dist
+    // Bei mehreren Wegen zählt die verbleibende Strecke bis zur Bastion
+    case 'last': return e.route.length - e.dist
+    case 'strong': return e.hp * 10000 + e.dist - e.route.length
     case 'close': return -((e.x - t.x) ** 2 + (e.y - t.y) ** 2)
-    default: return e.dist
+    default: return e.dist - e.route.length
   }
 }
 
@@ -64,7 +94,8 @@ export function findTarget(t, enemies, stats) {
 }
 
 export function updateTower(t, dt, game) {
-  const stats = towerStats(t)
+  if (t.def.attack === 'aura') return // Banner greift nicht selbst an
+  const stats = t.stats
   if (t.fireAnim > 0) t.fireAnim -= dt
   t.cooldown -= dt
 
@@ -110,6 +141,25 @@ function fire(t, target, stats, game) {
     case 'chain':
       fireChain(t, target, stats, game)
       break
+    case 'pierce': {
+      // Gerader Speer: fliegt in Zielrichtung über die Reichweite hinaus und durchbohrt alles auf dem Weg
+      const a = Math.atan2(target.y - t.y, target.x - t.x)
+      const len = stats.range * 1.3
+      game.addProjectile({
+        kind: def.projectile,
+        attack: 'pierce',
+        tower: t,
+        target: null,
+        x: t.x, y: t.y, sx: t.x, sy: t.y,
+        tx: t.x + Math.cos(a) * len, ty: t.y + Math.sin(a) * len,
+        speed: def.projectileSpeed,
+        arc: 0,
+        stats,
+        hits: new Set(),
+      })
+      game.emit('shot', { tower: t, target })
+      break
+    }
   }
 }
 

@@ -4,6 +4,7 @@ import { WORLD } from '../config/maps.js'
 import { TOWERS } from '../config/towers.js'
 import { lerp } from '../core/math.js'
 import { renderTerrain } from './terrain.js'
+import { createRng } from '../core/rng.js'
 import { drawTower, drawEnemy, drawHealthBar, drawProjectile, drawBastion } from './sprites.js'
 import { Effects } from './effects.js'
 
@@ -32,6 +33,7 @@ export class Renderer {
     this.detach = this.effects.attach(game)
     this.terrain = null
     this.terrainKey = ''
+    this.ambient = makeAmbient(game.map.theme || 'meadow', game.map.seed)
     this.resize()
   }
 
@@ -100,6 +102,7 @@ export class Renderer {
     if (this.terrain) ctx.drawImage(this.terrain, 0, 0, WORLD.width, WORLD.height)
 
     this.drawSpots(view, t)
+    this.drawAuras(view, t)
     drawBastion(ctx, game.map.base, game.lives / game.maxLives, t, this.reduced)
     this.drawRanges(view)
 
@@ -122,6 +125,7 @@ export class Renderer {
     for (const p of game.projectiles) drawProjectile(ctx, p, lerp(p.px, p.x, alpha), lerp(p.py, p.y, alpha))
 
     this.effects.draw(ctx)
+    this.drawAmbient(t)
     this.drawPreview(view)
     ctx.restore()
     this.drawBossBar()
@@ -206,6 +210,82 @@ export class Renderer {
     }
   }
 
+  // Kriegsbanner: dezenter Bodenring; bei Auswahl Linien zu den verstärkten Türmen
+  drawAuras(view, t) {
+    const { ctx, game } = this
+    for (const tw of game.towers) {
+      if (tw.def.attack !== 'aura') continue
+      const r = tw.def.levels[tw.level].range
+      const pulse = this.reduced ? 0.5 : 0.5 + Math.sin(t * 2 + tw.id) * 0.2
+      ctx.strokeStyle = `rgba(242,193,78,${0.18 * pulse + 0.06})`
+      ctx.lineWidth = 2
+      ctx.setLineDash([4, 8])
+      ctx.beginPath()
+      ctx.arc(tw.x, tw.y, r, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
+    const sel = view.tower
+    if (!sel) return
+    ctx.lineWidth = 2
+    for (const tw of game.towers) {
+      const from = tw.buff?.from
+      if (!from || (from !== sel && tw !== sel)) continue
+      ctx.strokeStyle = 'rgba(255,207,138,.7)'
+      ctx.setLineDash([5, 5])
+      ctx.beginPath()
+      ctx.moveTo(from.x, from.y)
+      ctx.lineTo(tw.x, tw.y)
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
+  }
+
+  // Atmosphäre: Wolkenschatten, Schneefall, Nebel und Glühwürmchen (bei reduzierter Bewegung aus)
+  drawAmbient(t) {
+    if (this.reduced || !this.ambient) return
+    const { ctx } = this
+    const W = WORLD.width, H = WORLD.height
+    const a = this.ambient
+    for (const c of a.clouds) {
+      const x = ((c.x + t * c.speed) % (W + 700)) - 350
+      const g = ctx.createRadialGradient(x, c.y, 0, x, c.y, c.r)
+      g.addColorStop(0, `rgba(${c.color},${c.alpha})`)
+      g.addColorStop(1, `rgba(${c.color},0)`)
+      ctx.fillStyle = g
+      ctx.save()
+      ctx.translate(x, c.y)
+      ctx.scale(1.8, 1)
+      ctx.translate(-x, -c.y)
+      ctx.beginPath()
+      ctx.arc(x, c.y, c.r, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.restore()
+    }
+    if (a.flakes.length) {
+      ctx.fillStyle = 'rgba(255,255,255,.85)'
+      for (const f of a.flakes) {
+        const y = (f.y + t * f.speed) % (H + 20) - 10
+        const x = (f.x + Math.sin(t * f.sway + f.phase) * 12 + t * 8) % W
+        ctx.fillRect(x, y, f.size, f.size)
+      }
+    }
+    if (a.flies.length) {
+      ctx.globalCompositeOperation = 'lighter'
+      for (const f of a.flies) {
+        const x = f.x + Math.sin(t * f.sx + f.phase) * 30
+        const y = f.y + Math.cos(t * f.sy + f.phase) * 20
+        const k = 0.35 + 0.35 * Math.sin(t * 3 + f.phase)
+        const g = ctx.createRadialGradient(x, y, 0, x, y, 7)
+        g.addColorStop(0, `rgba(220,255,140,${k})`)
+        g.addColorStop(1, 'rgba(220,255,140,0)')
+        ctx.fillStyle = g
+        ctx.fillRect(x - 7, y - 7, 14, 14)
+      }
+      ctx.globalCompositeOperation = 'source-over'
+    }
+  }
+
   // Durchscheinende Vorschau des gewählten Turms über dem Bauplatz
   drawPreview(view) {
     const { ctx, game } = this
@@ -255,6 +335,19 @@ export class Renderer {
     ctx.fillStyle = '#ffe9b0'
     ctx.fillText(`${boss.def.name}${boss.enraged ? ' – wütend!' : ''}  ·  ${Math.ceil(boss.hp)} / ${boss.maxHp}`, WORLD.width / 2, y + 8)
   }
+}
+
+// Vorberechnete Atmosphäre-Teilchen je Thema (keine Objekte pro Frame)
+function makeAmbient(theme, seed) {
+  const rng = createRng(seed * 31 + 7)
+  const clouds = [], flakes = [], flies = []
+  const cloudColor = theme === 'swamp' ? '235,240,235' : '0,0,0'
+  const cloudAlpha = theme === 'swamp' ? 0.1 : theme === 'snow' ? 0.04 : 0.07
+  const n = theme === 'swamp' ? 4 : 3
+  for (let i = 0; i < n; i++) clouds.push({ x: rng() * 1900, y: rng() * 720, r: rng.range(110, 190), speed: rng.range(6, 14), color: cloudColor, alpha: cloudAlpha })
+  if (theme === 'snow') for (let i = 0; i < 90; i++) flakes.push({ x: rng() * 1280, y: rng() * 740, speed: rng.range(18, 45), sway: rng.range(0.5, 1.5), phase: rng() * 6, size: rng.range(1.5, 3.2) })
+  if (theme === 'swamp') for (let i = 0; i < 26; i++) flies.push({ x: rng() * 1280, y: rng() * 720, sx: rng.range(0.2, 0.6), sy: rng.range(0.2, 0.6), phase: rng() * 6 })
+  return { clouds, flakes, flies }
 }
 
 function roundRect(ctx, x, y, w, h, r) {

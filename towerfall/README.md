@@ -8,11 +8,19 @@ Aufruf (GitHub Pages): `https://jasteffe91-tech.github.io/mathe10/towerfall/`
 
 ## Inhalt
 
-- **2 Karten:** *Grünental* (17 Bauplätze, lange Route) und *Felsenpass* (13 Bauplätze, kurze Route –
-  wird freigeschaltet, sobald du auf Grünental Welle 10 erreichst)
+- **5 Karten** mit eigener Landschaft. Jede weitere Karte wird freigeschaltet, sobald du auf der vorherigen
+  Welle 10 erreichst:
+
+| Karte | Landschaft | Besonderheit |
+|---|---|---|
+| Grünental | Wiesen und Wälder | Einstieg, lange gewundene Route |
+| Felsenpass | Geröll und Nadelwald, Pflasterweg | kurze Route, wenig Reaktionszeit |
+| Sumpfgabel | Nebelsumpf, Bohlenwege, Glühwürmchen | zwei Eingänge, die Wege treffen sich in der Mitte |
+| Frostgipfel | Schnee, Fichten, Schneefall | lange Serpentinen, Plätze zwischen den Kehren, stärkere Gegner |
+| Wüstenschlucht | Sand, Kakteen, Oase | Spirale mit der Bastion in der Mitte, deutlich stärkere Gegner |
 - **20 Wellen** mit Bosswellen in Welle 5, 10, 15 und 20
 - **3 Schwierigkeitsgrade:** Entspannt (30 Leben), Normal (20), Hart (10)
-- **6 Türme** mit je 3 Stufen, umschaltbarer Zielwahl (Vorderster, Hinterster, Stärkster, Nächster)
+- **8 Türme** mit je 3 Stufen, umschaltbarer Zielwahl (Vorderster, Hinterster, Stärkster, Nächster)
   und Verkauf zu 70 % des investierten Goldes
 
 | Turm | Preis | Rolle |
@@ -23,6 +31,8 @@ Aufruf (GitHub Pages): `https://jasteffe91-tech.github.io/mathe10/towerfall/`
 | Blitzturm | 140 | Kettenblitz über 3–6 Gegner, halbiert Panzerung |
 | Scharfschützenturm | 160 | riesige Reichweite, durchschlägt Panzerung, zielt auf den Stärksten |
 | Giftschleuderer | 110 | Gift auf alle Gegner im Umkreis, ignoriert Panzerung |
+| Speerschleuder | 130 | Speer durchbohrt bis zu 5–10 Gegner auf einer Linie |
+| Kriegsbanner | 140 | greift nicht an; Türme in Reichweite +20–40 % Schaden, +10–20 % Feuerrate (stapelt nicht) |
 
 | Gegner | Besonderheit |
 |---|---|
@@ -69,7 +79,7 @@ geladen oder gesendet. Spielstände, Bestleistungen und Einstellungen liegen im 
 - **Maus/Touch:** Bauplatz antippen → Turm im Baumenü wählen → nochmal antippen (oder „Bauen“).
   Alternativ zuerst den Turm wählen und dann auf einen leuchtenden Bauplatz tippen.
   Turm antippen → verbessern, Zielwahl ändern, verkaufen. Rechtsklick hebt die Auswahl auf.
-- **Tastatur:** `1`–`6` Turm · Pfeiltasten Bauplatz wechseln · `Enter` bauen/verbessern ·
+- **Tastatur:** `1`–`8` Turm · Pfeiltasten Bauplatz wechseln · `Enter` bauen/verbessern ·
   `U` verbessern · `V` verkaufen · `T` Zielwahl · `Leertaste` Pause · `N` nächste Welle · `F` Tempo · `Esc` Menü
 
 ## Speichern
@@ -123,7 +133,8 @@ towerfall/
 │   │   ├── projectiles.js        Geschossflug, Neuausrichtung, Einschlag
 │   │   ├── waves.js              Phasen (Aufbau, Pause, Welle), Spawner
 │   │   └── economy.js            Gold, Verkaufswert, Boni
-│   ├── render/                   Canvas 2D: renderer.js, terrain.js (vorgerendert), sprites.js, effects.js
+│   ├── render/                   Canvas 2D: renderer.js (inkl. Atmosphäre), terrain.js (vorgerendert, je Thema),
+│   │                             sprites.js (Türme in 3/4-Ansicht, Gegner, Geschosse), effects.js (Partikel, Licht)
 │   ├── ui/                       controller.js (Auswahl/Aktionen), panel.js, hud.js, input.js, modal.js, format.js
 │   ├── storage.js                localStorage mit Fallback im Speicher
 │   ├── audio.js                  Soundeffekte per Web Audio API (keine Audiodateien)
@@ -157,7 +168,9 @@ und Oberfläche hängen sich daran, die Simulation kennt sie nicht.
   hpMult: 1.1,             // optional: Gegner stärker
   pathWidth: 44, seed: 5,  // seed bestimmt die Deko
   unlock: { map: 'felsenpass', wave: 15 },   // optional
+  theme: 'swamp',          // meadow | rock | swamp | snow | desert – bestimmt Boden, Deko, Weg und Atmosphäre
   path: [[-50, 300], [200, 280], …],         // Kontrollpunkte, werden geglättet; Start außerhalb des Bildes
+  // oder mehrere Eingänge: paths: [[…], […]] – Gegner verteilen sich abwechselnd, Wege sollten an der Bastion enden
   base: { x: 1180, y: 400 },                 // Bastion am Ende der Route
   spots: [{ x: 300, y: 200 }, …],            // Bauplätze, ca. 60–70 px neben dem Weg
   ponds: [{ x: 600, y: 80, rx: 80, ry: 40 }],
@@ -169,8 +182,8 @@ und Oberfläche hängen sich daran, die Simulation kennt sie nicht.
 Wenn die Datei `sw.js` neue Dateien braucht, dort eintragen und `CACHE` hochzählen.
 
 **Neuer Turm** – in `js/config/towers.js` ein Objekt mit `attack` (`projectile`, `shell`, `chain`,
-`instant`), Farben und `levels` anlegen und die ID in `TOWER_ORDER` aufnehmen. Werte wie `splash`,
-`slow`, `poisonDps`, `chains`, `armorPierce` wirken automatisch. Für das Aussehen eine Zeichenfunktion
+`instant`, `pierce`, `aura`), Farben und `levels` anlegen und die ID in `TOWER_ORDER` aufnehmen. Werte wie `splash`,
+`slow`, `poisonDps`, `chains`, `pierceCount`, `armorPierce`, `auraDamage`/`auraRate` wirken automatisch. Für das Aussehen eine Zeichenfunktion
 in `js/render/sprites.js` (`drawTower`) ergänzen.
 
 **Neuer Gegner** – in `js/config/enemies.js` ergänzen (`hp`, `speed`, `armor`, `reward`, `damage`,
@@ -190,4 +203,17 @@ sonst behalten installierte Geräte die alte Version.
 - Safari unter iOS zeigt keinen Installieren-Knopf – dort über „Teilen → Zum Home-Bildschirm“.
 - Löscht der Browser die Website-Daten (z. B. privater Modus, Speicher voll), sind Spielstand und
   Bestleistungen weg. Das Hauptmenü warnt, wenn dauerhaftes Speichern nicht möglich ist.
-- Die Balance ist mit dem Bot und durch Probespielen abgestimmt, nicht mit vielen echten Spielern.
+- Die Balance ist mit dem Bot abgestimmt (Ergebnis siehe unten) und für Grünental einmal von Hand
+  durchgespielt; die neuen Karten sind noch nicht von Menschen probegespielt.
+
+### Balance-Stand (Bot, gemischte Verteidigung inkl. neuer Türme)
+
+| Karte | Entspannt | Normal | Hart |
+|---|---|---|---|
+| Grünental | gewonnen | gewonnen | verloren (Welle 5–20) |
+| Felsenpass | gewonnen | verloren (Welle 20) | verloren |
+| Sumpfgabel | gewonnen | verloren (Welle 20) | verloren |
+| Frostgipfel | gewonnen | gewonnen, knapp | verloren |
+| Wüstenschlucht | gewonnen | verloren (Welle 10–20) | verloren |
+
+Ein Mensch, der Türme gezielt kombiniert, spielt deutlich besser als der Bot.

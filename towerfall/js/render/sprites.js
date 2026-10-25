@@ -29,17 +29,19 @@ function shade(hex, f) {
 }
 
 // ---------------- Türme ----------------
-// t: { type, level, angle, fireAnim }  – kann auch ein Vorschau-Objekt sein
+// Leichte 3/4-Ansicht: Jeder Turm steht auf einem Sockel mit sichtbarer Seitenwand; der Kopf sitzt
+// auf der Oberseite. (x, y) ist der Fußpunkt – dort liegt auch der Mittelpunkt der Reichweite.
+// t: { type, level, angle, fireAnim } – kann auch ein Vorschau-Objekt sein
 export function drawTower(ctx, t, x, y, time = 0) {
   const def = TOWERS[t.type]
   const lvl = t.level || 0
   const recoil = t.fireAnim > 0 ? t.fireAnim / 0.12 : 0
   ctx.save()
   ctx.translate(x, y)
-  // Schatten
-  ctx.fillStyle = 'rgba(0,0,0,.32)'
+  // Schatten nach rechts unten (Licht von links oben)
+  ctx.fillStyle = 'rgba(0,0,0,.3)'
   ctx.beginPath()
-  ctx.ellipse(3, 6, 24, 18, 0, 0, TAU)
+  ctx.ellipse(6, 8, 25, 17, 0.2, 0, TAU)
   ctx.fill()
   switch (t.type) {
     case 'arrow': drawArrowTower(ctx, def, lvl, t.angle, recoil); break
@@ -48,7 +50,13 @@ export function drawTower(ctx, t, x, y, time = 0) {
     case 'lightning': drawLightningTower(ctx, def, lvl, time, recoil); break
     case 'sniper': drawSniperTower(ctx, def, lvl, t.angle, recoil); break
     case 'poison': drawPoisonTower(ctx, def, lvl, t.angle, time, recoil); break
+    case 'ballista': drawBallistaTower(ctx, def, lvl, t.angle, recoil); break
+    case 'banner': drawBannerTower(ctx, def, lvl, time); break
   }
+  ctx.restore()
+  if (t.noPips) return
+  ctx.save()
+  ctx.translate(x, y)
   drawLevelPips(ctx, lvl)
   ctx.restore()
 }
@@ -57,152 +65,233 @@ function drawLevelPips(ctx, lvl) {
   for (let i = 0; i <= lvl; i++) {
     const px = (i - lvl / 2) * 8
     ctx.fillStyle = '#2a2116'
-    poly(ctx, px, 21, 4.2, 4, Math.PI / 4)
+    poly(ctx, px, 23, 4.2, 4, Math.PI / 4)
     ctx.fill()
     ctx.fillStyle = i === 2 ? '#ffd257' : '#f1e3b8'
-    poly(ctx, px, 21, 2.8, 4, Math.PI / 4)
+    poly(ctx, px, 23, 2.8, 4, Math.PI / 4)
     ctx.fill()
   }
 }
 
-function stoneBase(ctx, r, sides, color, lvl) {
-  const g = ctx.createLinearGradient(-r, -r, r, r)
-  g.addColorStop(0, shade(color, 0.25))
-  g.addColorStop(1, shade(color, -0.35))
-  ctx.fillStyle = g
-  poly(ctx, 0, 0, r, sides, Math.PI / sides)
-  ctx.fill()
-  ctx.strokeStyle = 'rgba(20,16,10,.55)'
-  ctx.lineWidth = 2
-  ctx.stroke()
-  if (lvl >= 1) {
-    ctx.strokeStyle = lvl >= 2 ? '#ffd257' : 'rgba(241,227,184,.8)'
-    ctx.lineWidth = 1.6
-    poly(ctx, 0, 0, r - 3.5, sides, Math.PI / sides)
-    ctx.stroke()
+// Sockel als Prisma: Seitenwand (dunkler, mit Fugen) und Deckfläche. Gibt die Höhe zurück;
+// danach steht der Ursprung auf der Mitte der Deckfläche.
+function pillar(ctx, { r, sides, h, top, side, lvl, joints = true, rot = Math.PI / sides }) {
+  const sq = 0.82 // Deckfläche leicht gestaucht → Draufsicht schräg von oben
+  const pts = []
+  for (let i = 0; i < sides; i++) {
+    const a = rot + (i / sides) * TAU
+    pts.push([Math.cos(a) * r, Math.sin(a) * r * sq])
   }
+  const minX = Math.min(...pts.map((p) => p[0])), maxX = Math.max(...pts.map((p) => p[0]))
+  // Seitenwand: Unterkante + Rechteck + Oberkante
+  const sg = ctx.createLinearGradient(minX, 0, maxX, 0)
+  sg.addColorStop(0, shade(side, 0.18))
+  sg.addColorStop(0.55, side)
+  sg.addColorStop(1, shade(side, -0.35))
+  ctx.fillStyle = sg
+  ctx.beginPath()
+  pts.forEach(([px, py], i) => (i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)))
+  ctx.closePath()
+  ctx.fill()
+  ctx.beginPath()
+  pts.forEach(([px, py], i) => (i ? ctx.lineTo(px, py - h) : ctx.moveTo(px, py - h)))
+  ctx.closePath()
+  ctx.fill()
+  ctx.fillRect(minX, -h, maxX - minX, h)
+  if (joints) {
+    ctx.strokeStyle = 'rgba(0,0,0,.22)'
+    ctx.lineWidth = 1
+    for (let yy = -h + 5; yy < 0; yy += 5) {
+      ctx.beginPath()
+      ctx.moveTo(minX + 1, yy + r * sq * 0.6)
+      ctx.lineTo(maxX - 1, yy + r * sq * 0.6)
+      ctx.stroke()
+    }
+  }
+  ctx.translate(0, -h)
+  const tg = ctx.createLinearGradient(-r, -r, r, r)
+  tg.addColorStop(0, shade(top, 0.3))
+  tg.addColorStop(1, shade(top, -0.2))
+  ctx.fillStyle = tg
+  ctx.beginPath()
+  pts.forEach(([px, py], i) => (i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)))
+  ctx.closePath()
+  ctx.fill()
+  ctx.strokeStyle = lvl >= 2 ? '#ffd257' : lvl >= 1 ? 'rgba(241,227,184,.85)' : 'rgba(20,16,10,.5)'
+  ctx.lineWidth = lvl >= 1 ? 1.8 : 1.4
+  ctx.stroke()
+  return h
+}
+
+function glow(ctx, x, y, r, color, alpha) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r)
+  g.addColorStop(0, color.replace('A', alpha))
+  g.addColorStop(1, color.replace('A', 0))
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.arc(x, y, r, 0, TAU)
+  ctx.fill()
 }
 
 function drawArrowTower(ctx, def, lvl, angle, recoil) {
-  stoneBase(ctx, 20 + lvl, 8, '#8a6a43', lvl)
+  pillar(ctx, { r: 19 + lvl, sides: 8, h: 10 + lvl * 3, top: '#9b7a4c', side: '#6d5032', lvl })
+  // Holzplattform mit Brüstung
   circle(ctx, 0, 0, 13 + lvl, '#5e4428')
-  circle(ctx, 0, 0, 10 + lvl, def.color)
+  circle(ctx, 0, 0, 10.5 + lvl, def.color)
   ctx.rotate(angle)
   ctx.translate(-recoil * 3, 0)
-  // Armbrust: Bogen + Schaft
+  const bow = 10 + lvl
   ctx.strokeStyle = '#3b2a17'
-  ctx.lineWidth = 3
+  ctx.lineWidth = 3.2
   ctx.lineCap = 'round'
   ctx.beginPath()
-  ctx.arc(6, 0, 10 + lvl, -1.2, 1.2)
+  ctx.arc(5, 0, bow, -1.25, 1.25)
   ctx.stroke()
   ctx.strokeStyle = def.accent
   ctx.lineWidth = 1
   ctx.beginPath()
-  ctx.moveTo(6 + Math.cos(-1.2) * (10 + lvl), Math.sin(-1.2) * (10 + lvl))
-  ctx.lineTo(-2 + recoil * 4, 0)
-  ctx.lineTo(6 + Math.cos(1.2) * (10 + lvl), Math.sin(1.2) * (10 + lvl))
+  ctx.moveTo(5 + Math.cos(-1.25) * bow, Math.sin(-1.25) * bow)
+  ctx.lineTo(-3 + recoil * 4, 0)
+  ctx.lineTo(5 + Math.cos(1.25) * bow, Math.sin(1.25) * bow)
   ctx.stroke()
   ctx.fillStyle = '#4a321b'
-  ctx.fillRect(-6, -2, 22, 4)
-  ctx.fillStyle = '#d8d8d8'
+  ctx.fillRect(-7, -2, 23, 4)
+  ctx.fillStyle = '#e8e8e8'
   ctx.beginPath()
-  ctx.moveTo(18, -3); ctx.lineTo(22, 0); ctx.lineTo(18, 3)
+  ctx.moveTo(19, -3.2); ctx.lineTo(24, 0); ctx.lineTo(19, 3.2)
   ctx.fill()
 }
 
 function drawCannonTower(ctx, def, lvl, angle, recoil) {
-  stoneBase(ctx, 21 + lvl, 6, '#7d828c', lvl)
-  // Zinnen
-  ctx.fillStyle = '#5c6068'
+  pillar(ctx, { r: 21 + lvl, sides: 6, h: 11 + lvl * 3, top: '#8b909a', side: '#5d626b', lvl })
+  ctx.fillStyle = '#4c5058'
   for (let i = 0; i < 6; i++) {
     const a = (i / 6) * TAU
-    ctx.fillRect(Math.cos(a) * 15 - 3, Math.sin(a) * 15 - 3, 6, 6)
+    ctx.fillRect(Math.cos(a) * 15.5 - 3, Math.sin(a) * 13 - 3, 6, 6)
   }
-  circle(ctx, 0, 0, 12 + lvl, '#4a4e56')
+  circle(ctx, 0, 0, 12 + lvl, '#43474e')
   ctx.rotate(angle)
   ctx.translate(-recoil * 5, 0)
-  const len = 20 + lvl * 3, w = 7 + lvl
+  const len = 21 + lvl * 3, w = 6.5 + lvl
   const g = ctx.createLinearGradient(0, -w, 0, w)
-  g.addColorStop(0, '#5a5f69')
-  g.addColorStop(0.5, '#23262b')
+  g.addColorStop(0, '#6a707b')
+  g.addColorStop(0.45, '#2a2e34')
   g.addColorStop(1, '#3a3e45')
   ctx.fillStyle = g
   ctx.fillRect(0, -w, len, w * 2)
-  ctx.fillStyle = '#16181b'
+  ctx.fillStyle = '#15171a'
   ctx.fillRect(len - 3, -w - 1.5, 5, w * 2 + 3)
+  ctx.fillStyle = 'rgba(255,255,255,.18)'
+  ctx.fillRect(2, -w + 1, len - 6, 2)
   circle(ctx, 0, 0, 9 + lvl, '#2b2f36')
-  circle(ctx, -2, -2, 3, 'rgba(255,255,255,.25)')
+  circle(ctx, -2.5, -2.5, 3, 'rgba(255,255,255,.28)')
 }
 
 function drawFrostTower(ctx, def, lvl, time) {
-  stoneBase(ctx, 20 + lvl, 6, '#5d7f99', lvl)
-  circle(ctx, 0, 0, 13 + lvl, '#a6dcf2')
-  // Kristall in der Mitte, leicht pulsierend
-  const pulse = 1 + Math.sin(time * 3) * 0.06
-  ctx.save()
-  ctx.scale(pulse, pulse)
-  const spikes = 4 + lvl
-  for (let i = 0; i < spikes; i++) {
-    const a = (i / spikes) * TAU + time * 0.4
-    ctx.fillStyle = i % 2 ? '#e8f7ff' : '#7cc8ec'
+  pillar(ctx, { r: 19 + lvl, sides: 6, h: 9 + lvl * 3, top: '#9fd6ee', side: '#4f7d99', lvl, joints: false })
+  glow(ctx, 0, -8, 26 + lvl * 3, 'rgba(160,225,255,A)', 0.35 + Math.sin(time * 3) * 0.08)
+  // Eiskristall, der nach oben ragt
+  const hgt = 26 + lvl * 6
+  const g = ctx.createLinearGradient(-8, 0, 8, -hgt)
+  g.addColorStop(0, '#5fb6e2')
+  g.addColorStop(0.5, '#cdeffd')
+  g.addColorStop(1, '#ffffff')
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.moveTo(-8, 2); ctx.lineTo(-5, -hgt * 0.6); ctx.lineTo(0, -hgt); ctx.lineTo(5, -hgt * 0.6); ctx.lineTo(8, 2)
+  ctx.closePath()
+  ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.7)'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(0, -hgt); ctx.lineTo(0, 0)
+  ctx.stroke()
+  // kleine Nebenkristalle
+  for (const s of [-1, 1]) {
+    ctx.fillStyle = s < 0 ? '#9fdcf6' : '#7cc8ec'
     ctx.beginPath()
-    ctx.moveTo(Math.cos(a - 0.35) * 5, Math.sin(a - 0.35) * 5)
-    ctx.lineTo(Math.cos(a) * (15 + lvl * 2), Math.sin(a) * (15 + lvl * 2))
-    ctx.lineTo(Math.cos(a + 0.35) * 5, Math.sin(a + 0.35) * 5)
+    ctx.moveTo(s * 6, 1); ctx.lineTo(s * 14, -hgt * 0.45); ctx.lineTo(s * 11, 2)
     ctx.fill()
   }
-  circle(ctx, 0, 0, 6, '#ffffff')
-  ctx.restore()
+  const sp = (time * 0.8) % 1
+  circle(ctx, Math.sin(time * 2) * 6, -hgt * (0.3 + sp * 0.7), 1.6 * (1 - sp) + 0.4, '#ffffff')
 }
 
 function drawLightningTower(ctx, def, lvl, time, recoil) {
-  stoneBase(ctx, 20 + lvl, 8, '#5f4a7c', lvl)
-  // Kupferspulen
-  ctx.strokeStyle = '#c47b3a'
-  ctx.lineWidth = 3
-  for (let i = 0; i < 2 + lvl; i++) {
+  pillar(ctx, { r: 19 + lvl, sides: 8, h: 10 + lvl * 3, top: '#6d5590', side: '#45355e', lvl })
+  // gestapelte Kupferspulen
+  const coils = 3 + lvl
+  for (let i = 0; i < coils; i++) {
+    const yy = -i * 4.5
+    ctx.strokeStyle = i % 2 ? '#d98b45' : '#b86e2f'
+    ctx.lineWidth = 3
     ctx.beginPath()
-    ctx.arc(0, 0, 15 - i * 3.2, 0, TAU)
+    ctx.ellipse(0, yy, 12 - i * 1.2, (12 - i * 1.2) * 0.45, 0, 0, TAU)
     ctx.stroke()
   }
-  const glow = 0.55 + Math.sin(time * 6) * 0.15 + recoil * 0.3
-  const g = ctx.createRadialGradient(0, 0, 1, 0, 0, 16)
-  g.addColorStop(0, `rgba(255,248,200,${glow})`)
-  g.addColorStop(0.4, `rgba(190,140,255,${glow * 0.8})`)
-  g.addColorStop(1, 'rgba(150,90,230,0)')
-  ctx.fillStyle = g
+  const top = -coils * 4.5 - 4
+  ctx.strokeStyle = '#3a2d4d'
+  ctx.lineWidth = 3
   ctx.beginPath()
-  ctx.arc(0, 0, 16, 0, TAU)
-  ctx.fill()
-  circle(ctx, 0, 0, 5 + lvl, def.accent)
+  ctx.moveTo(0, 0); ctx.lineTo(0, top)
+  ctx.stroke()
+  const a = 0.55 + Math.sin(time * 7) * 0.15 + recoil * 0.4
+  glow(ctx, 0, top, 22, 'rgba(200,160,255,A)', a)
+  circle(ctx, 0, top, 6 + lvl, def.accent)
+  circle(ctx, -1.5, top - 1.5, 2.2, '#ffffff')
+  // kleine Funken
+  if (Math.sin(time * 13) > 0.6) {
+    ctx.strokeStyle = 'rgba(255,240,180,.9)'
+    ctx.lineWidth = 1.2
+    const fa = time * 20
+    ctx.beginPath()
+    ctx.moveTo(0, top)
+    ctx.lineTo(Math.cos(fa) * 9, top + Math.sin(fa) * 6)
+    ctx.lineTo(Math.cos(fa) * 14, top + Math.sin(fa) * 9 + 3)
+    ctx.stroke()
+  }
 }
 
 function drawSniperTower(ctx, def, lvl, angle, recoil) {
-  stoneBase(ctx, 19 + lvl, 4, '#556b4e', lvl)
-  ctx.fillStyle = '#3c4c37'
+  pillar(ctx, { r: 15 + lvl, sides: 4, h: 22 + lvl * 4, top: '#6b8262', side: '#3f5139', lvl, rot: Math.PI / 4 })
+  // Brüstung
+  ctx.strokeStyle = '#2f3d2a'
+  ctx.lineWidth = 3
   poly(ctx, 0, 0, 12 + lvl, 4, Math.PI / 4)
-  ctx.fill()
+  ctx.stroke()
   ctx.rotate(angle)
   ctx.translate(-recoil * 4, 0)
-  ctx.fillStyle = '#1f241e'
-  ctx.fillRect(-6, -2.5, 34 + lvl * 4, 5)
+  ctx.fillStyle = '#1b201a'
+  ctx.fillRect(-6, -2.2, 36 + lvl * 4, 4.4)
+  ctx.fillStyle = '#0f120e'
+  ctx.fillRect(30 + lvl * 4, -3, 4, 6)
   ctx.fillStyle = def.accent
-  ctx.fillRect(-2, -5, 10, 3)
-  circle(ctx, 3, -5, 2, '#9fe3ff')
+  ctx.fillRect(-2, -5.5, 11, 3.2)
+  circle(ctx, 9, -4, 1.8, '#9fe3ff')
   circle(ctx, -4, 0, 7, '#2a3127')
+  circle(ctx, -6, -2, 2.2, 'rgba(255,255,255,.2)')
 }
 
 function drawPoisonTower(ctx, def, lvl, angle, time, recoil) {
-  stoneBase(ctx, 20 + lvl, 7, '#4d6b3a', lvl)
-  // Kessel mit blubberndem Gift
-  circle(ctx, 0, 0, 13 + lvl, '#2c2f2a')
-  circle(ctx, 0, 0, 10 + lvl, '#6fd13f')
+  pillar(ctx, { r: 20 + lvl, sides: 7, h: 9 + lvl * 3, top: '#5f7d48', side: '#3d5230', lvl })
+  // Moos auf dem Sockel
+  for (let i = 0; i < 5; i++) circle(ctx, Math.cos(i * 1.3) * 15, Math.sin(i * 1.3) * 11, 2.5, 'rgba(120,170,70,.6)')
+  // Kessel
+  circle(ctx, 0, 1.5, 13 + lvl, '#1e211d')
+  circle(ctx, 0, 0, 12.5 + lvl, '#2f332d')
+  const g = ctx.createRadialGradient(-3, -3, 1, 0, 0, 11 + lvl)
+  g.addColorStop(0, '#c4ff7a')
+  g.addColorStop(1, '#4fae2a')
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.arc(0, 0, 10 + lvl, 0, TAU)
+  ctx.fill()
   for (let i = 0; i < 3; i++) {
     const a = time * 1.3 + i * 2.1
-    const r = 2 + ((time * 2 + i) % 1) * 2.5
-    circle(ctx, Math.cos(a) * 5, Math.sin(a) * 4, r, 'rgba(200,255,140,.65)')
+    const r = 1.5 + ((time * 2 + i * 0.33) % 1) * 2.5
+    circle(ctx, Math.cos(a) * 5, Math.sin(a) * 4, r, 'rgba(225,255,170,.7)')
   }
+  glow(ctx, 0, -6, 18, 'rgba(150,255,90,A)', 0.18)
   // Schleuderarm
   ctx.rotate(angle)
   ctx.rotate(-recoil * 0.9)
@@ -211,10 +300,91 @@ function drawPoisonTower(ctx, def, lvl, angle, time, recoil) {
   ctx.lineCap = 'round'
   ctx.beginPath()
   ctx.moveTo(-4, 0)
-  ctx.lineTo(18 + lvl * 2, 0)
+  ctx.lineTo(19 + lvl * 2, 0)
   ctx.stroke()
-  circle(ctx, 19 + lvl * 2, 0, 4.5, '#3c2a17')
-  circle(ctx, 19 + lvl * 2, 0, 2.6, def.accent)
+  circle(ctx, 20 + lvl * 2, 0, 4.5, '#3c2a17')
+  circle(ctx, 20 + lvl * 2, 0, 2.6, def.accent)
+}
+
+function drawBallistaTower(ctx, def, lvl, angle, recoil) {
+  pillar(ctx, { r: 19 + lvl, sides: 4, h: 9 + lvl * 3, top: '#a07b52', side: '#6b4c2e', lvl, rot: 0 })
+  // Holzbohlen auf der Plattform
+  ctx.strokeStyle = 'rgba(60,40,20,.45)'
+  ctx.lineWidth = 1
+  for (let i = -12; i <= 12; i += 6) {
+    ctx.beginPath()
+    ctx.moveTo(i, -14); ctx.lineTo(i, 14)
+    ctx.stroke()
+  }
+  ctx.rotate(angle)
+  ctx.translate(-recoil * 4, 0)
+  const arm = 15 + lvl * 2
+  // Schaft
+  ctx.fillStyle = '#4a321b'
+  ctx.fillRect(-10, -3, 30, 6)
+  // Bogenarme
+  ctx.strokeStyle = '#3a2614'
+  ctx.lineWidth = 4
+  ctx.lineCap = 'round'
+  ctx.beginPath()
+  ctx.moveTo(10, 0)
+  ctx.quadraticCurveTo(6, -arm * 0.6, 2, -arm)
+  ctx.moveTo(10, 0)
+  ctx.quadraticCurveTo(6, arm * 0.6, 2, arm)
+  ctx.stroke()
+  // Sehne
+  ctx.strokeStyle = def.accent
+  ctx.lineWidth = 1.2
+  ctx.beginPath()
+  ctx.moveTo(2, -arm)
+  ctx.lineTo(-6 + recoil * 8, 0)
+  ctx.lineTo(2, arm)
+  ctx.stroke()
+  // eingelegter Speer
+  if (recoil < 0.5) {
+    ctx.fillStyle = '#7a5a36'
+    ctx.fillRect(-6, -1.4, 30, 2.8)
+    ctx.fillStyle = '#d9dde3'
+    ctx.beginPath()
+    ctx.moveTo(24, -3.5); ctx.lineTo(31, 0); ctx.lineTo(24, 3.5)
+    ctx.fill()
+  }
+  circle(ctx, 0, 0, 4, '#2a1c0e')
+}
+
+function drawBannerTower(ctx, def, lvl, time) {
+  pillar(ctx, { r: 17 + lvl, sides: 8, h: 8 + lvl * 2, top: '#b9ae96', side: '#7d735f', lvl })
+  const pole = 38 + lvl * 6
+  ctx.strokeStyle = '#3a2f22'
+  ctx.lineWidth = 3
+  ctx.lineCap = 'round'
+  ctx.beginPath()
+  ctx.moveTo(0, 0); ctx.lineTo(0, -pole)
+  ctx.stroke()
+  circle(ctx, 0, -pole - 2, 3, '#ffd257')
+  // wehendes Banner
+  const w = 22 + lvl * 3, hgt = 16 + lvl * 3
+  ctx.fillStyle = def.color
+  ctx.beginPath()
+  ctx.moveTo(0, -pole + 2)
+  for (let i = 0; i <= 8; i++) {
+    const xx = (i / 8) * w
+    ctx.lineTo(xx, -pole + 2 + Math.sin(time * 4 + i * 0.7) * 2.2 * (i / 8))
+  }
+  for (let i = 8; i >= 0; i--) {
+    const xx = (i / 8) * w
+    ctx.lineTo(xx, -pole + 2 + hgt + Math.sin(time * 4 + i * 0.7) * 2.2 * (i / 8) - (i === 8 ? 4 : 0))
+  }
+  ctx.closePath()
+  ctx.fill()
+  ctx.strokeStyle = def.accent
+  ctx.lineWidth = 1.2
+  ctx.stroke()
+  // Emblem
+  const ex = w * 0.45, ey = -pole + 2 + hgt / 2 + Math.sin(time * 4 + 3) * 1
+  ctx.fillStyle = def.accent
+  poly(ctx, ex, ey, 4.5 + lvl * 0.5, 4, 0)
+  ctx.fill()
 }
 
 // ---------------- Gegner ----------------
@@ -239,6 +409,12 @@ export function drawEnemy(ctx, e, x, y, time) {
     case 'ogre': drawOgre(ctx, def, r, time, e); break
     case 'titan': drawTitan(ctx, def, r, time, e); break
   }
+  // dunkle Kontur für bessere Lesbarkeit auf jedem Untergrund
+  ctx.strokeStyle = 'rgba(15,12,10,.55)'
+  ctx.lineWidth = def.boss ? 2 : 1.3
+  ctx.beginPath()
+  ctx.arc(0, 0, r + 0.5, 0, TAU)
+  ctx.stroke()
   // Statuseffekte als Überlagerung
   if (e.slowTime > 0) {
     ctx.fillStyle = 'rgba(150,215,255,.38)'
@@ -445,9 +621,23 @@ export function drawHealthBar(ctx, e, x, y) {
   }
 }
 
+// Höhe des Turmkopfs über dem Boden – dort starten Geschosse und Strahlen
+export function muzzleHeight(type, level = 0) {
+  switch (type) {
+    case 'sniper': return 22 + level * 4
+    case 'lightning': return 10 + level * 3 + (3 + level) * 4.5 + 4
+    case 'frost': return 20 + level * 6
+    case 'cannon': return 11 + level * 3
+    case 'banner': return 0
+    default: return 10 + level * 3
+  }
+}
+
 // ---------------- Geschosse ----------------
 export function drawProjectile(ctx, p, x, y) {
-  const lift = p.arc ? Math.sin(Math.PI * (p.progress || 0)) * p.arc : 0
+  // Start auf Kopfhöhe des Turms, auf den ersten ~150 px zum Boden absinkend
+  const h0 = p.tower ? muzzleHeight(p.tower.type, p.tower.level) * Math.max(0, 1 - (p.traveled || 0) / 150) : 0
+  const lift = (p.arc ? Math.sin(Math.PI * (p.progress || 0)) * p.arc : 0) + h0
   if (lift) {
     ctx.fillStyle = 'rgba(0,0,0,.25)'
     ctx.beginPath()
@@ -455,7 +645,34 @@ export function drawProjectile(ctx, p, x, y) {
     ctx.fill()
   }
   const py = y - lift
+  // Flugspur
+  if (p.kind === 'arrow' || p.kind === 'bolt' || p.kind === 'shard') {
+    const len = p.kind === 'bolt' ? 34 : 20
+    const g = ctx.createLinearGradient(x, py, x - Math.cos(p.angle) * len, py - Math.sin(p.angle) * len)
+    g.addColorStop(0, p.kind === 'shard' ? 'rgba(200,240,255,.55)' : 'rgba(255,250,230,.45)')
+    g.addColorStop(1, 'rgba(255,255,255,0)')
+    ctx.strokeStyle = g
+    ctx.lineWidth = p.kind === 'bolt' ? 3 : 2
+    ctx.beginPath()
+    ctx.moveTo(x, py)
+    ctx.lineTo(x - Math.cos(p.angle) * len, py - Math.sin(p.angle) * len)
+    ctx.stroke()
+  }
   switch (p.kind) {
+    case 'bolt':
+      ctx.save()
+      ctx.translate(x, py)
+      ctx.rotate(p.angle)
+      ctx.fillStyle = '#7a5a36'
+      ctx.fillRect(-18, -1.6, 26, 3.2)
+      ctx.fillStyle = '#d9dde3'
+      ctx.beginPath()
+      ctx.moveTo(8, -4); ctx.lineTo(16, 0); ctx.lineTo(8, 4)
+      ctx.fill()
+      ctx.fillStyle = '#c0392b'
+      ctx.fillRect(-19, -3.5, 4, 7)
+      ctx.restore()
+      break
     case 'arrow':
       ctx.save()
       ctx.translate(x, py)
@@ -512,6 +729,12 @@ export function drawBastion(ctx, base, health, time, reduced) {
     g.addColorStop(1, c2)
     return g
   }
+  // Mauerseiten (Tiefe nach unten), dann die Mauerkrone
+  ctx.fillStyle = '#6f6553'
+  ctx.fillRect(-40, -28, 80, 80)
+  ctx.strokeStyle = 'rgba(0,0,0,.25)'
+  ctx.lineWidth = 1
+  for (let yy = 44; yy < 52; yy += 4) { ctx.beginPath(); ctx.moveTo(-40, yy); ctx.lineTo(40, yy); ctx.stroke() }
   ctx.fillStyle = wall('#d8cdb4', '#8f8368')
   ctx.fillRect(-40, -40, 80, 80)
   ctx.strokeStyle = '#5a5140'
@@ -525,6 +748,9 @@ export function drawBastion(ctx, base, health, time, reduced) {
   }
   // Ecktürme
   for (const [cx, cy] of [[-40, -40], [40, -40], [-40, 40], [40, 40]]) {
+    circle(ctx, cx, cy + 10, 15, '#554c3e')
+    ctx.fillStyle = '#5f5647'
+    ctx.fillRect(cx - 15, cy, 30, 10)
     circle(ctx, cx, cy, 15, '#6f6553')
     circle(ctx, cx, cy, 12.5, '#c9bea4')
     circle(ctx, cx, cy, 6, '#8a3b30')
@@ -586,7 +812,10 @@ export function drawTowerIcon(canvas, type, level = 0) {
   const s = canvas.width / 56
   ctx.setTransform(s, 0, 0, s, 0, 0)
   ctx.clearRect(0, 0, 56, 56)
-  drawTower(ctx, { type, level, angle: -Math.PI / 4, fireAnim: 0 }, 28, 25, 0.6)
+  // Türme sind in der 3/4-Ansicht höher als breit: etwas verkleinert und nach unten versetzt
+  ctx.translate(28, 41)
+  ctx.scale(0.72, 0.72)
+  drawTower(ctx, { type, level, angle: -Math.PI / 4, fireAnim: 0, noPips: true }, 0, 0, 0.6)
 }
 
 export function drawEnemyIcon(canvas, type) {
