@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node tools/serve.mjs 8080",
     "test": "node --test",
-    "test:browser": "node tests/browser/check.mjs",
+    "test:browser": "node tests/browser/check.mjs && node tests/browser/placement.mjs",
+    "measure:map": "node tests/browser/measure-map.mjs",
+    "balance": "node tools/balance-report.mjs gruenental,felsenpass,sumpfgabel,frostgipfel,wuestenschlucht normal normal 1",
     "icons": "node tools/icons.mjs"
   },
   "engines": { "node": ">=18" }

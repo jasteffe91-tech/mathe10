@@ -83,6 +83,7 @@ export const ENEMIES = {
   },
   ogre: {
     id: 'ogre',
+    hint: 'Neu: Ogerhäuptling – stampft, sobald Türme näher als 100 px sind (brauner Ring lädt auf): Sie sind 2,5 s betäubt. Türme mit etwas Abstand zum Weg bleiben verschont.',
     name: 'Ogerhäuptling',
     description: 'Boss: ruft Schwärmer herbei, wird bei wenig Leben wütend und stampft, sobald Türme in 100 px Nähe sind – sie sind dann 2,5 s betäubt (höchstens alle 10 s).',
     hp: 1100, speed: 30, armor: 3, reward: 120, damage: 8, radius: 22, lane: 0,

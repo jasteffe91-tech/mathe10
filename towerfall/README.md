@@ -29,27 +29,35 @@ Aufruf (GitHub Pages): `https://jasteffe91-tech.github.io/mathe10/towerfall/`
 - **9 Türme** mit je 3 Stufen, umschaltbarer Zielwahl (Vorderster, Hinterster, Stärkster, Nächster),
   Verkauf zu 70 % und Versetzen gegen eine kleine Gebühr (10 % des investierten Goldes, mind. 5 G)
 
-| Turm | Preis | Grundfläche | Rolle |
-|---|---|---|---|
-| Pfeilturm | 70 | 1 × 1 | schnell, günstig, schwach gegen Panzerung |
-| Kanonenturm | 120 | 2 × 2 | langsam, Flächenschaden |
-| Frostturm | 90 | 1 × 1 | verlangsamt Gegner im Trefferbereich (stapelt nicht, max. 70 %) |
-| Blitzturm | 140 | 2 × 2 | Kettenblitz über 3–6 Gegner, halbiert Panzerung |
-| Scharfschützenturm | 160 | 1 × 1 | riesige Reichweite, durchschlägt Panzerung, zielt auf den Stärksten |
-| Giftschleuderer | 110 | 1 × 1 | Gift auf alle Gegner im Umkreis, ignoriert Panzerung |
-| Speerschleuder | 130 | 2 × 1, drehbar | Speer durchbohrt bis zu 5–10 Gegner auf einer Linie |
-| Kriegsbanner | 140 | 2 × 2 | greift nicht an; Türme im Radius 140–170 px: +20–40 % Schaden, +10–20 % Feuerrate, längere Verlangsamung, Stufe 3 auch +10 % Reichweite (stapelt nicht) |
-| Tribok | 240 | 3 × 3 | Belagerungsgeschütz, 250–290 px Reichweite, trifft nichts unter 80 px, +60–100 % Schaden gegen große Gegner |
+| Turm | Preis | Grundfläche | Schadensart | Rolle |
+|---|---|---|---|---|
+| Pfeilturm | 70 | 1 × 1 | ⚔ physisch | schnell, günstig, schwach gegen Panzerung |
+| Kanonenturm | 120 | 2 × 2 | ✹ explosiv | langsam, Flächenschaden, trifft keine Flieger |
+| Frostturm | 90 | 1 × 1 | ❄ Frost | verlangsamt Gegner im Trefferbereich (stapelt nicht, max. 70 %) |
+| Blitzturm | 140 | 2 × 2 | ✦ Magie | Kettenblitz über 3–6 Gegner, halbiert Panzerung |
+| Scharfschützenturm | 160 | 1 × 1 | ⚔ physisch | riesige Reichweite, durchschlägt Panzerung, zielt auf den Stärksten |
+| Giftschleuderer | 110 | 1 × 1 | ☠ Gift | Gift auf alle Gegner im Umkreis, ignoriert Panzerung, trifft keine Flieger |
+| Speerschleuder | 130 | 2 × 1, drehbar | ⚔ physisch | Speer durchbohrt bis zu 5–10 Gegner auf einer Linie |
+| Kriegsbanner | 140 | 2 × 2 | – | greift nicht an; Türme im Radius 140–170 px: +20–40 % Schaden, +10–20 % Feuerrate, längere Verlangsamung, Stufe 3 auch +10 % Reichweite (stapelt nicht) |
+| Tribok | 240 | 3 × 3 | ✹ explosiv | Belagerungsgeschütz, 250–290 px Reichweite, trifft nichts unter 80 px, +50–75 % Schaden gegen große Gegner, trifft keine Flieger |
 
-| Gegner | Besonderheit |
-|---|---|
-| Plünderer | ausgewogen |
-| Flitzer | schnell, wenig Leben |
-| Eisenwache | langsam, Panzerung 5 |
-| Schwärmer | winzig, in großen Gruppen |
-| Schamane | heilt Gegner in der Nähe |
-| Ogerhäuptling (Boss) | ruft Schwärmer, wird unter 35 % Leben wütend und schneller |
-| Schattentitan (Endboss) | Panzerung 6, kaum zu verlangsamen, schickt Flitzer voraus |
+| Gegner | Besonderheit | ab Welle |
+|---|---|---|
+| Plünderer | ausgewogen | 1 |
+| Flitzer | schnell, wenig Leben | 2 |
+| Eisenwache | langsam, Panzerung 5 | 4 |
+| Schwärmer | winzig, in großen Gruppen | 6 |
+| Schamane | heilt Gegner in der Nähe | 8 |
+| Geist | physischer Schaden nur 40 %, Blitz +25 % | 6 |
+| Harpyie | fliegt geradlinig zur Bastion (gestrichelte Linie); Kanone, Tribok, Gift treffen nicht | 7 |
+| Berserker | Raserei alle 8 s: schneller und frostimmun (rote Aura) | 8 |
+| Runenhexer | lädt sichtbar auf und lähmt Türme in 100 px für 2,5 s | 11 |
+| Elite-Gegner | goldener Rand: +60 % Leben, +2 Panzerung, doppelte Belohnung | 13 |
+| Ogerhäuptling (Boss) | ruft Schwärmer, stampft (betäubt nahe Türme), wird unter 35 % Leben wütend | 5 |
+| Schattentitan (Endboss) | Panzerung 6, −25 % physischer Schaden, stampft, schickt Flitzer voraus | 20 |
+
+Neue Gegnerarten werden beim ersten Auftauchen in der Wellenvorschau und per Meldung erklärt. Wie die
+Gegnerrollen gegen übermächtige Turm-Ballungen wirken, steht in [BALANCE.md](BALANCE.md).
 
 **Wirtschaft:** nur Gold. Gold gibt es für besiegte Gegner, für jede überstandene Welle und als Bonus,
 wenn du die nächste Welle früher startest. Keine Echtgeldkäufe, keine Wartezeiten.
@@ -85,16 +93,25 @@ geladen oder gesendet. Spielstände, Bestleistungen und Einstellungen liegen im 
 
 - **Bauen:** Turm im Baumenü wählen → auf der Karte erscheint das Raster mit Vorschau (grün = passt,
   gelb = Position passt, aber zu wenig Gold, rot = belegt; nur die betroffenen Zellen sind rot) →
-  bestätigen. Erst dann wird bezahlt.
+  bestätigen. Erst dann wird bezahlt; Abbrechen kostet nie etwas.
   - *Maus:* Vorschau folgt dem Zeiger, Klick baut, Umschalt+Klick baut und bleibt im Baumodus, Rechtsklick bricht ab.
-  - *Finger:* tippen oder ziehen setzt die Vorschau, ein zweiter Tipp auf dieselbe Stelle oder „Bauen“
-    bestätigt. Die Pfeil-Knöpfe im Panel verschieben die Vorschau zellgenau.
+  - *Finger:* Die Vorschau folgt dem Finger, eine **Lupe** über dem Finger zeigt Raster, Grundfläche
+    (grün/rot) und ein Fadenkreuz vergrößert. **Loslassen baut nie** – gebaut wird nur mit „Bauen“.
+    Nach einem Bau sind weitere Aktionen 0,4 s gesperrt, damit ein Doppeltipp nicht doppelt baut oder den
+    neuen Turm verbessert. Die Pfeil-Knöpfe (Infobereich hochziehen) verschieben die Vorschau zellgenau.
   - Steht ein räumbares Hindernis im Weg, bietet das Panel „… räumen“ direkt an.
+- **Smartphone-Ansicht:** Im Hochformat wird die Karte um 90° gedreht dargestellt (Türme, Gegner und Texte
+  bleiben aufrecht) – sie ist so etwa dreimal so groß. Abschaltbar unter Einstellungen → „Karte im
+  Hochformat drehen“. Unten liegen die Turmleiste (waagerecht scrollbar) und der Infobereich als
+  *Bottom Sheet*: kompakt zeigt er nur das Wichtigste und die Hauptaktion (Bauen, Verbessern, Räumen),
+  per Wischen am Griff öffnet er halb oder ganz. Kartentipps öffnen ihn nie. Im Querformat liegt die Karte
+  in voller Höhe links, rechts eine schmale Spalte.
 - **Turm antippen:** verbessern, Zielwahl ändern, versetzen (der Turm bleibt bis zur Bestätigung stehen
   und schießt weiter), verkaufen.
 - **Hindernis antippen:** Eigenschaften (Fläche, passierbar, sichtblockierend, Aufwand) und „Räumen“.
-- **Tastatur:** `1`–`9` Turm · Pfeiltasten Vorschau verschieben (sonst Türme durchblättern) · `R` drehen ·
-  `Enter` bauen/bestätigen · `Esc` abbrechen · `M` versetzen · `C` Hindernis räumen · `U` verbessern ·
+- **Tastatur:** `1`–`9` Turm (nochmal = abbrechen) · Pfeiltasten Vorschau verschieben, die Lupe folgt
+  (Richtung wie auf dem Bildschirm, auch bei gedrehter Karte; sonst Türme durchblättern) · `R` drehen ·
+  `Enter` bauen/bestätigen (nur im Baumodus) · `Esc` abbrechen · `M` versetzen · `C` Hindernis räumen · `U` verbessern ·
   `V` verkaufen · `T` Zielwahl · `Leertaste` Pause · `N` nächste Welle · `F` Tempo
 
 ## Speichern
@@ -115,10 +132,24 @@ Welle wieder ein. „Einstellungen → Zurücksetzen“ löscht alles (mit Siche
 ## Tests
 
 ```bash
-npm test               # Spielmechanik, Raster, Balance-Bot, Speicherung, Service-Worker-Liste (node --test)
-npm run test:browser   # echter Browser via Playwright: Vorschau, Bauen per Maus/Touch/Tastatur, ungültige
-                       # Positionen, Räumen, Versetzen, Pause, Tempo, Offline-Start, Smartphone/Tablet
+npm test               # Spielmechanik, Raster, Gegnerrollen, Platzierung, Ansicht, Balancekriterien (node --test)
+npm run test:browser   # echter Browser via Playwright: Bauen per Maus/Touch/Tastatur, Räumen, Versetzen,
+                       # Pause, Tempo, Offline-Start, Smartphone/Tablet; danach Lupe und Präzisionsplatzierung
+npm run measure:map    # Kartenfläche auf iPhone-Viewports (Browser-Simulation)
+npm run balance        # Balance-Tabelle aller Strategien (siehe BALANCE.md)
 ```
+
+`tests/placement.test.js` prüft die Bausteuerung ohne Browser: Touch-Tipps und Ziehen bauen nie, „Bauen“
+baut genau einmal mit genau einem Abzug (auch bei Doppeltipp und Enter-Enter), Abbrechen ist kostenlos,
+Vorschau und Bau nutzen an jeder Zelle dieselbe Prüfung, beim Bestätigen wird neu geprüft, Touch und
+Tastatur führen zur selben Vorschau, die Vorschau bleibt an allen Rändern im Raster, die Umrechnung
+Bildschirm ↔ Welt stimmt hin und zurück (gedreht und ungedreht) und die Lupe liegt nie außerhalb des
+Spielfelds oder unter dem Finger.
+
+`tests/browser/placement.mjs` simuliert iPhone SE (DPR 2), iPhone 14 (DPR 3, hoch und quer) und ein
+Android-Gerät (DPR 2,625): schnelles Ziehen, Pixelvergleich Lupe ↔ Spielfeld, alle vier Kartenränder und
+darüber hinaus, Drehen des Geräts mitten im Bauen, Doppeltipp auf „Bauen“, Bottom Sheet, Tastatur mit Lupe.
+**Das sind Browser-Simulationen** (Chromium mit Touch-Emulation), keine Tests auf echten iPhones.
 
 `test:browser` braucht Playwright mit Chromium (`npm i -D playwright && npx playwright install chromium`).
 Screenshots landen in `towerfall/.shots/` (nicht im Repository).
@@ -129,9 +160,9 @@ Hindernisse blockieren, Räumkosten und nicht entfernbare Klippen, Wege bleiben 
 und Räumaktionen je Karte und Modus passierbar, Sichtlinie, Mindestreichweite, Verlangsamungsdeckel,
 Spielstand v2 und Übernahme von v1 sowie ein Leistungstest (60 Türme, 200 Gegner: < 8 ms je Schritt).
 
-Der **Balance-Bot** (`tests/helpers/bot.js`) baut nach einem festen Plan an den Rasterpositionen mit der
-meisten Wegabdeckung (räumt aber keine Hindernisse). Die Tests sichern ab: ohne Türme verliert man nach wenigen Wellen, nur mit Pfeiltürmen
-vor dem Ende, mit gemischter Verteidigung gewinnt man Grünental auf Normal.
+Die **Balance-Tests** spielen mit sechs Strategie-Bots (`tests/helpers/strategies.js`) echte Partien und
+prüfen die Kriterien aus [BALANCE.md](BALANCE.md) (z. B. „keine Strategie gewinnt alle Karten fehlerfrei“,
+„die Ballung an einer Stelle ist nicht automatisch die beste Strategie“).
 
 ## Architektur
 
@@ -163,17 +194,21 @@ towerfall/
 │   │   ├── towers.js             Zielwahl und Angriffe (Geschoss, Bogen, Kette, Sofort)
 │   │   ├── projectiles.js        Geschossflug, Neuausrichtung, Einschlag
 │   │   ├── waves.js              Phasen (Aufbau, Pause, Welle), Spawner
+│   │   ├── telemetry.js          Zähler für Balance-Auswertungen (Schaden je Turm/Gegner, Durchbrüche)
 │   │   └── economy.js            Gold, Verkaufswert, Boni
-│   ├── render/                   Canvas 2D: renderer.js (Atmosphäre, Raster-Overlay, Vorschau), terrain.js
-│   │                             (vorgerendert je Thema inkl. Hindernissen, Flüssen, Brücken),
-│   │                             sprites.js (Türme in 3/4-Ansicht, Gegner, Geschosse), effects.js (Partikel, Licht)
-│   ├── ui/                       controller.js (Auswahl, Bau-/Versetzmodus, Vorschau), panel.js, hud.js, input.js,
-│   │                             modal.js, format.js
+│   ├── render/                   Canvas 2D: renderer.js (Ansicht inkl. Drehung im Hochformat, Raster-Overlay,
+│   │                             Vorschau), terrain.js (vorgerendert je Thema und Ansicht), sprites.js (Türme in
+│   │                             3/4-Ansicht, Gegner, Geschosse – aufrecht auch bei gedrehter Karte),
+│   │                             effects.js (Partikel, Licht), loupe.js (Lupe für die Platzierung)
+│   ├── ui/                       controller.js (Auswahl, Bau-/Versetzmodus, Vorschau, Doppeltipp-Sperre),
+│   │                             panel.js (Baumenü, Infobereich, Kompaktzeile), sheet.js (Bottom Sheet),
+│   │                             hud.js, input.js (Maus/Touch/Tastatur), modal.js, format.js
 │   ├── storage.js                localStorage mit Fallback im Speicher
 │   ├── audio.js                  Soundeffekte per Web Audio API (keine Audiodateien)
 │   └── pwa.js                    Service-Worker-Registrierung, Installationsangebot, Offline-Status
-├── tests/                        node:test-Tests, Balance-Bot, Browser-Check
-└── tools/                        serve.mjs (Mini-Webserver), icons.mjs
+├── tests/                        node:test-Tests, Strategie-Bots, Browser-Checks
+└── tools/                        serve.mjs (Mini-Webserver), icons.mjs, balance-report.mjs,
+                                  balance-experiment.mjs, tower-efficiency.mjs
 ```
 
 **Simulation:** `GameLoop` sammelt die echte Zeit (× Tempo) und ruft `game.step(1/60)` so oft wie nötig.
@@ -259,8 +294,9 @@ anlegen und die ID in `TOWER_ORDER` aufnehmen. Werte wie `splash`, `slow`, `pois
 in `js/render/sprites.js` (`drawTower`) ergänzen.
 
 **Neuer Gegner** – in `js/config/enemies.js` ergänzen (`hp`, `speed`, `armor`, `reward`, `damage`,
-`radius`, optional `heal`, `summon`, `boss`, `slowResist`), Zeichenfunktion in `drawEnemy` hinzufügen und
-in `waves.js` verwenden.
+`radius`, optional `heal`, `summon`, `boss`, `slowResist`, `resist`, `flying`, `frenzy`, `disrupt`, `hint`),
+Zeichenfunktion in `drawEnemy` hinzufügen und in `waves.js` verwenden (mit `intro`, wenn er eine neue
+Fähigkeit mitbringt). Jede Fähigkeit braucht eine sichtbare Kennzeichnung und eine Erklärung.
 
 **Balancing** – alle Zahlen stehen in `js/config/`. Nach Änderungen `npm test` laufen lassen; die
 Balance-Tests melden, wenn das Spiel zu leicht oder unschaffbar wird.
@@ -271,51 +307,38 @@ sonst behalten installierte Geräte die alte Version.
 ## Bekannte Einschränkungen
 
 - Der Spielstand wird nur zwischen Wellen gesichert (siehe oben).
-- Auf sehr schmalen Smartphones im Hochformat ist das Spielfeld klein; Querformat spielt sich besser.
+- Auf kleinen Smartphones (iPhone SE) bleibt die Karte trotz Drehung schmal (266 × 472 px); Rasterzellen
+  sind dort etwa 12 px groß. Die Lupe gleicht das beim Bauen aus.
+- iPhone-Verhalten (Safe Areas, Home-Indikator, Safari-Gesten am Bildschirmrand) ist nur in der
+  Chromium-Simulation geprüft, nicht auf echten Geräten.
 - Safari unter iOS zeigt keinen Installieren-Knopf – dort über „Teilen → Zum Home-Bildschirm“.
 - Löscht der Browser die Website-Daten (z. B. privater Modus, Speicher voll), sind Spielstand und
   Bestleistungen weg. Das Hauptmenü warnt, wenn dauerhaftes Speichern nicht möglich ist.
-- Die Balance ist mit dem Bot abgestimmt (Ergebnis siehe unten). Das Raster-Bausystem ist noch nicht von
-  Menschen probegespielt; besonders Banner-Ballungen und der Tribok sollten im echten Spiel beobachtet werden.
+- Die Balance ist mit Bots abgestimmt (siehe [BALANCE.md](BALANCE.md)); wie schwer sich das für Menschen
+  anfühlt, ist nicht gemessen. Auf „Hart“ scheitern fast alle Bots am ersten Boss (Welle 5).
 - Gegner laufen auf festen Routen; Türme und Hindernisse beeinflussen den Weg nicht (siehe Erweiterungen).
-- Auf dem Smartphone sind Rasterzellen klein (etwa 10 px). Zum genauen Platzieren gibt es die Pfeil-Knöpfe
-  im Panel; Querformat oder Tablet sind angenehmer.
 - Sichtlinien gelten für das Zielen; ein Geschoss, das bereits fliegt, wird von Hindernissen nicht aufgehalten.
 - Die Hindernisse sind je Karte und Modus fest (nicht zufällig pro Partie) – Aufstellungen lassen sich so
   vergleichen und lernen.
 
-### Balance-Stand (Bot mit allen Turmtypen, platziert an den Stellen mit der meisten Wegabdeckung, räumt nicht)
+### Balance-Stand
 
-Normalmodus:
-
-| Karte | Entspannt | Normal | Hart |
-|---|---|---|---|
-| Grünental | gewonnen (30 ♥) | gewonnen (20 ♥) | verloren W5 |
-| Felsenpass | gewonnen (30 ♥) | verloren W20 | verloren W5 |
-| Sumpfgabel | gewonnen (30 ♥) | gewonnen (20 ♥) | verloren W15 |
-| Frostgipfel | gewonnen (30 ♥) | gewonnen (18 ♥) | verloren W5 |
-| Wüstenschlucht | gewonnen (30 ♥) | gewonnen (18 ♥) | verloren W4 |
-
-Fortgeschrittener Modus:
-
-| Karte | Entspannt | Normal | Hart |
-|---|---|---|---|
-| Grünental | gewonnen (30 ♥) | gewonnen (20 ♥) | verloren W10 |
-| Felsenpass | gewonnen (30 ♥) | verloren W20 | verloren W5 |
-| Sumpfgabel | gewonnen (30 ♥) | gewonnen (20 ♥) | verloren W20 |
-| Frostgipfel | gewonnen (30 ♥) | verloren W20 | verloren W5 |
-| Wüstenschlucht | gewonnen (30 ♥) | verloren W5 | verloren W5 |
-
-Durch das freie Bauen wurde das Spiel deutlich leichter; ein globaler Faktor (`BALANCE.enemyHpMult = 1.25`)
-und angepasste Kartenfaktoren gleichen das aus. Ein Mensch, der Türme gezielt kombiniert und Hindernisse
-räumt, spielt deutlich besser als der Bot.
+Kurzfassung (Normal, Strategie-Bots, Details und Vorher-Nachher in [BALANCE.md](BALANCE.md)): Vorher gewann
+die Ballung aller Türme an einer Stelle jede Karte ohne Lebensverlust. Jetzt scheitert sie auf drei von
+fünf Karten (Harpyien fliegen an ihr vorbei); gemischte und panzerbrechende Aufstellungen gewinnen, keine
+Strategie ist überall fehlerfrei.
 
 ## Nächste Erweiterungen mit dem größten Mehrwert
 
-1. **Fallenleger** (1 × 1, baut Fallen auf Wegzellen) – nutzt das Raster direkt und macht Engstellen wertvoll.
-2. **Karten mit offener Wegfindung** (Labyrinth-Modus): Gegner suchen ihren Weg selbst, Türme lenken sie um.
-   Die Passierbarkeitsprüfung (`routes.js`) ist dafür schon vorbereitet und müsste auf eine Breitensuche
-   über begehbare Zellen umgestellt werden.
-3. **Feuerturm** (2 × 2, Brand über Zeit, entzündet Bäume?) und **Reparaturstation** für die Bastion.
-4. **Brückenbau** im fortgeschrittenen Modus: Bauland jenseits von Flüssen erschließen.
-5. **Kartenspezifische Wellen** statt eines gemeinsamen Wellensatzes.
+Abgeleitet aus den Messungen:
+
+1. **Probespielen durch Menschen auf echten Geräten** (iPhone/Android): Lupe, Bottom Sheet und gedrehte
+   Karte sind nur simuliert geprüft. Besonders: Gesten am Bildschirmrand in Safari, Lesbarkeit kleiner Zellen.
+2. **„Hart“ entschärfen oder neu definieren:** Fast alle Bots scheitern am Oger in Welle 5 – der Sprung von
+   Welle 4 zu 5 ist dort zu groß (z. B. Oger-Leben auf „Hart“ nicht voll skalieren).
+3. **Bot mit Zielwahl und Räumen:** Die Bots unterschätzen menschliche Spieler; ein Bot, der Hindernisse
+   räumt und die Zielwahl nutzt, würde die Balance-Tabellen aussagekräftiger machen.
+4. **Frost aufwerten:** 7 Schaden je Gold und 3 % Schadensanteil – sein Nutzen ist die Verlangsamung, die
+   gegen Berserker zeitweise wegfällt. Eine messbare Kenngröße „gewonnene Zeit je Gold“ fehlt noch.
+5. **Fallenleger / Labyrinth-Modus:** nutzt das Raster direkt; die Passierbarkeitsprüfung (`routes.js`) ist
+   vorbereitet.

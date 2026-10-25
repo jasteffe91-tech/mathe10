@@ -5,8 +5,8 @@
 //   delay     Sekunden nach Wellenbeginn, bevor die Gruppe startet
 //   hp        zusätzlicher Lebenspunkte-Faktor für diese Gruppe (Standard 1)
 // intro: Gegnertyp (oder 'elite'), der in dieser Welle zum ersten Mal auftaucht – das Spiel erklärt
-// ihn beim Wellenstart. Neue Fähigkeiten kommen schrittweise: Geist (6), Harpyie (7), Berserker (8), Runenhexer (11),
-// Elite (13). Die Schwierigkeit steigt über Mischung, Fähigkeiten und Abstände, nicht nur über Leben.
+// ihn beim Wellenstart. Neue Fähigkeiten kommen schrittweise: Stampfen des Ogers (5), Geist (6), Harpyie (7),
+// Berserker (8), Runenhexer (11), Elite (13). Die Schwierigkeit steigt über Mischung, Fähigkeiten und Abstände, nicht nur über Leben.
 
 const g = (type, count, interval, delay = 0, hp = 1) => ({ type, count, interval, delay, hp })
 // Elite-Gruppe: mehr Leben und Panzerung, doppelte Belohnung, goldener Rand (siehe balance.js)
@@ -18,7 +18,7 @@ export const WAVE_SETS = {
     /* 2 */ { groups: [g('grunt', 12, 1.0), g('runner', 4, 0.8, 9)] },
     /* 3 */ { groups: [g('runner', 10, 0.7), g('grunt', 10, 1.0, 4)] },
     /* 4 */ { groups: [g('grunt', 10, 0.9), g('armored', 4, 2.6, 5)] },
-    /* 5 */ { title: 'Der Ogerhäuptling', groups: [g('grunt', 10, 0.9), g('ogre', 1, 0, 6), g('runner', 6, 0.6, 10)] },
+    /* 5 */ { title: 'Der Ogerhäuptling', intro: 'ogre', groups: [g('grunt', 10, 0.9), g('ogre', 1, 0, 6), g('runner', 6, 0.6, 10)] },
     /* 6 */ { intro: 'wraith', groups: [g('swarm', 18, 0.25), g('wraith', 6, 1.2, 3), g('swarm', 14, 0.25, 10)] },
     /* 7 */ { intro: 'harpy', groups: [g('armored', 6, 2.0), g('harpy', 4, 1.4, 3), g('runner', 10, 0.55, 6)] },
     /* 8 */ { intro: 'berserker', groups: [g('grunt', 12, 0.7), g('berserker', 5, 2.2, 3), g('healer', 2, 4, 6), g('armored', 4, 2, 10)] },

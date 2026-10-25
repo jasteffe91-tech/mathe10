@@ -176,15 +176,15 @@ test('Neue Fähigkeiten kommen schrittweise, jede mit Erklärung', () => {
       assert.ok(ENEMIES[type].hint?.startsWith('Neu:'), `${type} ohne Hinweis`)
     }
   }
-  assert.deepEqual(intros.map(([, w]) => w), [6, 7, 8, 11, 13])
+  assert.deepEqual(intros.map(([, w]) => w), [5, 6, 7, 8, 11, 13])
   // alle Gegner mit Fähigkeit haben eine Erklärung und kommen in der Gegnerübersicht vor
   for (const [id, def] of Object.entries(ENEMIES)) {
     assert.ok(ENEMY_ORDER.includes(id))
     assert.ok(def.description.length > 20)
   }
-  // die ersten fünf Wellen kommen ohne neue Fähigkeiten aus (Lernphase)
-  for (const w of waves.slice(0, 5)) for (const gr of w.groups) {
+  // die ersten vier Wellen kommen ohne Fähigkeiten aus (Lernphase), danach höchstens eine neue je Welle
+  for (const w of waves.slice(0, 4)) for (const gr of w.groups) {
     const d = ENEMIES[gr.type]
-    assert.ok(!d.flying && !d.resist && !d.frenzy && (!d.disrupt || d.boss) && !gr.elite)
+    assert.ok(!d.flying && !d.resist && !d.frenzy && !d.disrupt && !gr.elite)
   }
 })
