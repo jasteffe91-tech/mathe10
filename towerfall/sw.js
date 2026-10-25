@@ -1,7 +1,7 @@
 // Service Worker: Das ganze Spiel wird bei der Installation zwischengespeichert und danach
 // zuerst aus dem Cache geladen („cache first“) – so startet es auch ganz ohne Internet.
 // Bei jeder Änderung an einer Datei die Versionsnummer erhöhen, damit Geräte das Update holen.
-const CACHE = 'towerfall-v2'
+const CACHE = 'towerfall-v3'
 const DATEIEN = [
   './',
   './index.html',
@@ -19,16 +19,24 @@ const DATEIEN = [
   './js/config/balance.js',
   './js/config/enemies.js',
   './js/config/maps.js',
+  './js/config/terrain.js',
   './js/config/towers.js',
   './js/config/waves.js',
   './js/core/loop.js',
   './js/core/math.js',
   './js/core/rng.js',
+  './js/game/construction.js',
   './js/game/economy.js',
   './js/game/enemies.js',
   './js/game/game.js',
+  './js/game/grid.js',
+  './js/game/obstacles.js',
   './js/game/path.js',
+  './js/game/placement.js',
   './js/game/projectiles.js',
+  './js/game/routes.js',
+  './js/game/savegame.js',
+  './js/game/terrainmap.js',
   './js/game/towers.js',
   './js/game/waves.js',
   './js/render/effects.js',

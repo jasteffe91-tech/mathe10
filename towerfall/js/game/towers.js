@@ -1,17 +1,24 @@
 // Türme: Zielwahl, Ausrichtung und Angriff. Werte kommen ausschließlich aus config/towers.js.
 import { TOWERS } from '../config/towers.js'
+import { BALANCE } from '../config/balance.js'
 import { approachAngle } from '../core/math.js'
 import { damageEnemy, applySlow, applyPoison } from './enemies.js'
 
-export function createTower(type, spot, id) {
+// `place`: geprüfte Platzierung aus placement.js (Ankerzelle, Drehung, Zellen, Mittelpunkt)
+export function createTower(type, place, id) {
   const def = TOWERS[type]
   return {
     id,
     type,
     def,
-    spot: spot.index,
-    x: spot.x,
-    y: spot.y,
+    c: place.c,       // linke obere Zelle der Grundfläche
+    r: place.r,
+    rot: place.rot || 0,
+    w: place.w,
+    h: place.h,
+    cells: place.cells.map(({ c, r }) => ({ c, r })),
+    x: place.x,       // Mittelpunkt der Grundfläche = Ursprung von Reichweite und Geschossen
+    y: place.y,
     level: 0,
     invested: def.levels[0].cost,
     targetMode: def.targetMode,
@@ -32,6 +39,8 @@ export function computeStats(t, buff) {
   if (!buff || t.def.attack === 'aura') return base
   const s = { ...base, damage: base.damage * (1 + buff.damage), rate: base.rate * (1 + buff.rate) }
   if (base.poisonDps) s.poisonDps = base.poisonDps * (1 + buff.damage)
+  if (base.slowDuration) s.slowDuration = base.slowDuration * (1 + buff.damage)
+  if (buff.range) s.range = base.range * (1 + buff.range)
   return s
 }
 
@@ -45,7 +54,7 @@ export function refreshBuffs(towers) {
         if (a === t || a.def.attack !== 'aura') continue
         const s = a.def.levels[a.level]
         if ((a.x - t.x) ** 2 + (a.y - t.y) ** 2 > s.range * s.range) continue
-        if (!best || s.auraDamage > best.damage) best = { damage: s.auraDamage, rate: s.auraRate, from: a }
+        if (!best || s.auraDamage > best.damage) best = { damage: s.auraDamage, rate: s.auraRate, range: s.auraRange || 0, from: a }
       }
     }
     t.buff = best
@@ -73,14 +82,18 @@ function score(t, e, mode) {
   }
 }
 
-// Zielwahl: nur lebende Gegner in Reichweite. Einzelziel-Türme überspringen Gegner, die bereits
-// durch fliegende Geschosse sicher fallen; Frost/Gift bevorzugen noch nicht betroffene Gegner.
-export function findTarget(t, enemies, stats) {
+// Zielwahl: nur lebende Gegner in Reichweite (und außerhalb einer Mindestreichweite). Einzelziel-Türme
+// überspringen Gegner, die bereits durch fliegende Geschosse sicher fallen; Frost/Gift bevorzugen noch
+// nicht betroffene Gegner. `sees(e)` prüft optional die Sichtlinie (Klippen, Mauern).
+export function findTarget(t, enemies, stats, sees = null) {
   const pref = t.def.targetPreference
   const singleShot = t.def.attack === 'projectile' && !stats.splash
+  const min2 = stats.minRange ? stats.minRange * stats.minRange : 0
   let best = null, bestScore = -Infinity, bestTier = -1
   for (const e of enemies) {
     if (!e.alive || !inRange(t, e, stats.range)) continue
+    if (min2 && (e.x - t.x) ** 2 + (e.y - t.y) ** 2 < min2) continue
+    if (sees && !sees(e)) continue
     let tier = 1
     if (singleShot && e.incoming >= e.hp) tier = 0
     if (pref === 'unslowed' && e.slowTime > 0.3) tier = Math.min(tier, 0.5)
@@ -100,7 +113,8 @@ export function updateTower(t, dt, game) {
   t.cooldown -= dt
 
   // Ziel jeden Schritt neu bestimmen, damit sich der Turm sichtbar mitdreht
-  const target = findTarget(t, game.enemies, stats)
+  const sees = game.grid.sightBlockers ? (e) => game.canSee(t, e) : null
+  const target = findTarget(t, game.enemies, stats, sees)
   t.aim = target
   if (target) t.angle = approachAngle(t.angle, Math.atan2(target.y - t.y, target.x - t.x), dt * 9)
 
@@ -199,7 +213,8 @@ export function applyImpact(game, p) {
       const falloff = 1 - 0.5 * Math.max(0, (d - s.splash * 0.35) / (s.splash * 0.65))
       if (s.slow) applySlow(e, s.slow, s.slowDuration)
       if (s.poisonDps) applyPoison(e, s.poisonDps, s.poisonDuration, src)
-      damageEnemy(game, e, s.damage * falloff, { pierce: s.armorPierce || 0, source: src })
+      const large = s.largeBonus && e.radius >= BALANCE.largeEnemyRadius ? 1 + s.largeBonus : 1
+      damageEnemy(game, e, s.damage * falloff * large, { pierce: s.armorPierce || 0, source: src })
     }
     game.emit('impact', { kind: p.kind, x: p.tx, y: p.ty, radius: s.splash })
   } else if (p.target && p.target.alive) {

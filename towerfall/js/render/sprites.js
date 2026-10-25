@@ -36,8 +36,10 @@ export function drawTower(ctx, t, x, y, time = 0) {
   const def = TOWERS[t.type]
   const lvl = t.level || 0
   const recoil = t.fireAnim > 0 ? t.fireAnim / 0.12 : 0
+  const k = def.spriteScale || 1
   ctx.save()
   ctx.translate(x, y)
+  ctx.scale(k, k)
   // Schatten nach rechts unten (Licht von links oben)
   ctx.fillStyle = 'rgba(0,0,0,.3)'
   ctx.beginPath()
@@ -50,13 +52,16 @@ export function drawTower(ctx, t, x, y, time = 0) {
     case 'lightning': drawLightningTower(ctx, def, lvl, time, recoil); break
     case 'sniper': drawSniperTower(ctx, def, lvl, t.angle, recoil); break
     case 'poison': drawPoisonTower(ctx, def, lvl, t.angle, time, recoil); break
-    case 'ballista': drawBallistaTower(ctx, def, lvl, t.angle, recoil); break
+    case 'ballista': drawBallistaTower(ctx, def, lvl, t.angle, recoil, t.rot || 0); break
     case 'banner': drawBannerTower(ctx, def, lvl, time); break
+    case 'trebuchet': drawTrebuchetTower(ctx, def, lvl, t.angle, recoil, time); break
   }
   ctx.restore()
   if (t.noPips) return
   ctx.save()
-  ctx.translate(x, y)
+  // Stufenanzeige knapp unter der Grundfläche (Höhe in Zellen à 32 px, ggf. gedreht)
+  const cellsHigh = t.rot % 2 && def.footprint.rotatable ? def.footprint.w : def.footprint.h
+  ctx.translate(x, y + cellsHigh * 16 - 21)
   drawLevelPips(ctx, lvl)
   ctx.restore()
 }
@@ -306,14 +311,35 @@ function drawPoisonTower(ctx, def, lvl, angle, time, recoil) {
   circle(ctx, 20 + lvl * 2, 0, 2.6, def.accent)
 }
 
-function drawBallistaTower(ctx, def, lvl, angle, recoil) {
-  pillar(ctx, { r: 19 + lvl, sides: 4, h: 9 + lvl * 3, top: '#a07b52', side: '#6b4c2e', lvl, rot: 0 })
+// Quaderförmiger Sockel (für rechteckige Grundflächen)
+function box(ctx, hw, hh, h, top, side, lvl) {
+  const sq = 0.82
+  const sg = ctx.createLinearGradient(-hw, 0, hw, 0)
+  sg.addColorStop(0, shade(side, 0.15))
+  sg.addColorStop(1, shade(side, -0.3))
+  ctx.fillStyle = sg
+  ctx.fillRect(-hw, -h - hh * sq, hw * 2, hh * sq * 2 + h)
+  ctx.translate(0, -h)
+  const tg = ctx.createLinearGradient(-hw, -hh, hw, hh)
+  tg.addColorStop(0, shade(top, 0.25))
+  tg.addColorStop(1, shade(top, -0.15))
+  ctx.fillStyle = tg
+  ctx.fillRect(-hw, -hh * sq, hw * 2, hh * sq * 2)
+  ctx.strokeStyle = lvl >= 2 ? '#ffd257' : lvl >= 1 ? 'rgba(241,227,184,.85)' : 'rgba(20,16,10,.5)'
+  ctx.lineWidth = 1.5
+  ctx.strokeRect(-hw, -hh * sq, hw * 2, hh * sq * 2)
+}
+
+function drawBallistaTower(ctx, def, lvl, angle, recoil, rot = 0) {
+  // Grundfläche 2 × 1 Zellen (gedreht 1 × 2): Plattform entsprechend lang
+  const long = 29, short = 13
+  box(ctx, rot % 2 ? short : long, rot % 2 ? long : short, 8 + lvl * 2, '#a07b52', '#6b4c2e', lvl)
   // Holzbohlen auf der Plattform
   ctx.strokeStyle = 'rgba(60,40,20,.45)'
   ctx.lineWidth = 1
-  for (let i = -12; i <= 12; i += 6) {
+  for (let i = -24; i <= 24; i += 6) {
     ctx.beginPath()
-    ctx.moveTo(i, -14); ctx.lineTo(i, 14)
+    if (rot % 2) { ctx.moveTo(-11, i); ctx.lineTo(11, i) } else { ctx.moveTo(i, -10); ctx.lineTo(i, 10) }
     ctx.stroke()
   }
   ctx.rotate(angle)
@@ -385,6 +411,51 @@ function drawBannerTower(ctx, def, lvl, time) {
   ctx.fillStyle = def.accent
   poly(ctx, ex, ey, 4.5 + lvl * 0.5, 4, 0)
   ctx.fill()
+}
+
+function drawTrebuchetTower(ctx, def, lvl, angle, recoil, time) {
+  // 3 × 3 Zellen: breites Steinfundament, darauf ein drehbares Holzgerüst mit Wurfarm
+  pillar(ctx, { r: 60, sides: 4, h: 10 + lvl * 2, top: '#9a9286', side: '#5f584d', lvl, rot: Math.PI / 4 })
+  ctx.fillStyle = 'rgba(0,0,0,.18)'
+  for (let i = -30; i <= 30; i += 15) ctx.fillRect(i - 1, -36, 2, 72 * 0.82)
+  ctx.rotate(angle)
+  // Drehkranz
+  circle(ctx, 0, 0, 24, '#5a3d22')
+  circle(ctx, 0, 0, 20, '#7a5532')
+  // A-Gestell (zwei Seitenwände)
+  ctx.fillStyle = '#6b4a2a'
+  for (const s of [-1, 1]) {
+    ctx.beginPath()
+    ctx.moveTo(-26, s * 16); ctx.lineTo(26, s * 16); ctx.lineTo(4, s * 12); ctx.lineTo(-4, s * 12)
+    ctx.closePath()
+    ctx.fill()
+    ctx.fillRect(-26, s * 16 - (s > 0 ? 0 : 4), 52, 4)
+  }
+  // Wurfarm: schwingt nach dem Schuss nach vorn
+  const swing = recoil > 0 ? recoil : 0
+  const armA = Math.PI - 0.5 + swing * 1.4
+  const len = 44 + lvl * 4
+  ctx.save()
+  ctx.rotate(armA)
+  ctx.fillStyle = '#4a321b'
+  ctx.fillRect(-12, -3.5, len, 7)
+  // Gegengewicht
+  ctx.fillStyle = '#3d3a36'
+  ctx.fillRect(-24, -10, 14, 20)
+  ctx.fillStyle = 'rgba(255,255,255,.15)'
+  ctx.fillRect(-23, -9, 12, 4)
+  // Schlinge mit Stein
+  if (swing < 0.3) {
+    ctx.strokeStyle = '#2a1c0e'
+    ctx.lineWidth = 1.2
+    ctx.beginPath()
+    ctx.moveTo(len - 12, 0); ctx.lineTo(len - 2, 8)
+    ctx.stroke()
+    circle(ctx, len - 2, 10, 6 + lvl, '#8d8a80')
+    circle(ctx, len - 4, 8, 2, 'rgba(255,255,255,.35)')
+  }
+  ctx.restore()
+  circle(ctx, 0, 0, 5, '#2a1c0e')
 }
 
 // ---------------- Gegner ----------------
@@ -623,12 +694,17 @@ export function drawHealthBar(ctx, e, x, y) {
 
 // Höhe des Turmkopfs über dem Boden – dort starten Geschosse und Strahlen
 export function muzzleHeight(type, level = 0) {
+  return baseMuzzle(type, level) * (TOWERS[type].spriteScale || 1)
+}
+
+function baseMuzzle(type, level) {
   switch (type) {
     case 'sniper': return 22 + level * 4
     case 'lightning': return 10 + level * 3 + (3 + level) * 4.5 + 4
     case 'frost': return 20 + level * 6
     case 'cannon': return 11 + level * 3
     case 'banner': return 0
+    case 'trebuchet': return 34
     default: return 10 + level * 3
   }
 }
@@ -690,6 +766,10 @@ export function drawProjectile(ctx, p, x, y) {
       ctx.fillStyle = '#d24d3c'
       ctx.fillRect(-10, -2, 3, 4)
       ctx.restore()
+      break
+    case 'boulder':
+      circle(ctx, x, py, 8.5, '#6f6a60')
+      circle(ctx, x - 2, py - 2, 3, 'rgba(255,255,255,.35)')
       break
     case 'ball':
       circle(ctx, x, py, 5.5, '#1d1f23')
@@ -813,8 +893,11 @@ export function drawTowerIcon(canvas, type, level = 0) {
   ctx.setTransform(s, 0, 0, s, 0, 0)
   ctx.clearRect(0, 0, 56, 56)
   // Türme sind in der 3/4-Ansicht höher als breit: etwas verkleinert und nach unten versetzt
-  ctx.translate(28, 41)
-  ctx.scale(0.72, 0.72)
+  // Türme unterschiedlicher Größe einheitlich ins Icon einpassen
+  const k = TOWERS[type].spriteScale || 1
+  const fit = type === 'trebuchet' ? 0.36 : 0.72 / k
+  ctx.translate(28, type === 'trebuchet' ? 34 : 41)
+  ctx.scale(fit, fit)
   drawTower(ctx, { type, level, angle: -Math.PI / 4, fireAnim: 0, noPips: true }, 0, 0, 0.6)
 }
 

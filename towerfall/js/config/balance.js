@@ -12,11 +12,16 @@ export const BALANCE = {
   minDamageRatio: 0.15,         // Panzerung kann einen Treffer höchstens auf 15 % drücken
   hpGrowthLinear: 0.085,        // Lebenspunkte wachsen je Welle linear …
   hpGrowthQuad: 0.0035,         // … und leicht quadratisch
+  enemyHpMult: 1.25,             // globaler Faktor (gleicht die freie Platzierung auf dem Raster aus)
   enrageThreshold: 0.35,        // Bosse werden unter 35 % Leben wütend …
   enrageSpeed: 1.35,            // … und laufen schneller
   bossHealFactor: 0.25,         // Heiler heilen Bosse nur zu einem Viertel
   bossGrowthShare: 0.5,         // Bosse wachsen nur mit der Hälfte des Lebenspunkte-Zuwachses
   retargetRadius: 70,           // Pfeile suchen sich ein neues Ziel, wenn ihres vorher fällt
+  maxSlow: 0.7,                 // Verlangsamung wirkt höchstens zu 70 % – Gegner bleiben nie ganz stehen
+  largeEnemyRadius: 14,         // ab diesem Radius gilt ein Gegner als „groß“ (Tribok-Bonus)
+  moveCostRatio: 0.1,           // Versetzen kostet 10 % des investierten Goldes …
+  moveCostMin: 5,               // … mindestens 5 Gold
   score: { killFactor: 10, waveFactor: 100, lifeFactor: 150 },
 }
 
@@ -46,5 +51,5 @@ export const SIM = {
 export function hpScaleForWave(waveNumber, difficulty, boss = false) {
   const n = waveNumber - 1
   const growth = BALANCE.hpGrowthLinear * n + BALANCE.hpGrowthQuad * n * n
-  return (1 + growth * (boss ? BALANCE.bossGrowthShare : 1)) * difficulty.hpMult
+  return (1 + growth * (boss ? BALANCE.bossGrowthShare : 1)) * difficulty.hpMult * BALANCE.enemyHpMult
 }

@@ -4,27 +4,44 @@ import { TOWERS } from '../config/towers.js'
 import { ENEMIES } from '../config/enemies.js'
 import { WAVE_SETS } from '../config/waves.js'
 import { BALANCE, DIFFICULTIES, hpScaleForWave } from '../config/balance.js'
-import { getMap } from '../config/maps.js'
+import { getMap, WORLD } from '../config/maps.js'
+import { MODES } from '../config/terrain.js'
 import { createRng } from '../core/rng.js'
 import { Route, smoothRoute } from './path.js'
 import { createEnemy, placeEnemy, updateEnemy } from './enemies.js'
-import { createTower, updateTower, towerStats, nextLevelStats, isMaxLevel, refreshBuffs } from './towers.js'
+import { updateTower, towerStats, nextLevelStats, isMaxLevel, refreshBuffs } from './towers.js'
+import { Grid } from './grid.js'
+import { buildTerrain } from './terrainmap.js'
+import { generateObstacles, clearCost } from './obstacles.js'
+import { computeRouteCells } from './routes.js'
+import * as construction from './construction.js'
+import * as savegame from './savegame.js'
+import { checkPlacement } from './placement.js'
 import { updateProjectile } from './projectiles.js'
 import { WaveManager } from './waves.js'
 import { Wallet, sellValue, waveBonus, earlyCallBonus } from './economy.js'
 
 export class Game {
-  constructor({ mapId, difficulty = 'normal', seed = 1 } = {}) {
+  constructor({ mapId, difficulty = 'normal', seed = 1, mode = 'normal' } = {}) {
     this.map = getMap(mapId)
     this.difficulty = DIFFICULTIES[difficulty] || DIFFICULTIES.normal
+    this.mode = MODES[mode] || MODES.normal
     this.seed = seed
     this.rng = createRng(seed)
     // Eine Karte hat einen Weg (`path`) oder mehrere (`paths`), die sich vor der Bastion treffen
     this.routes = (this.map.paths || [this.map.path]).map((p) => new Route(smoothRoute(p)))
     this.route = this.routes[0]
     this.spawnCounter = 0
-    this.spots = this.map.spots.map((s, index) => ({ index, x: s.x, y: s.y, tower: null, hint: spotHint(this, s) }))
-    this.wallet = new Wallet(BALANCE.startGold + this.difficulty.startGoldBonus)
+    // Raster: Gelände aus der Karte ableiten, dann Hindernisse verteilen
+    const adv = this.mode.features ? this.map.advanced || {} : {}
+    this.ponds = [...(this.map.ponds || []), ...(adv.ponds || [])]
+    this.rivers = adv.rivers || []
+    this.grid = new Grid(WORLD.width, WORLD.height)
+    buildTerrain(this.grid, { map: this.map, routes: this.routes, mode: this.mode, ponds: this.ponds, rivers: this.rivers })
+    this.routeCells = computeRouteCells(this.grid, this.routes)
+    this.obstacles = new Map(generateObstacles(this.grid, { map: this.map, mode: this.mode, routes: this.routes }).map((o) => [o.id, o]))
+    this.clearedObstacles = []
+    this.wallet = new Wallet(BALANCE.startGold + this.difficulty.startGoldBonus + this.mode.startGoldBonus)
     this.maxLives = this.difficulty.lives
     this.lives = this.maxLives
     this.waves = new WaveManager(WAVE_SETS[this.map.waves])
@@ -161,7 +178,7 @@ export class Game {
     if (this.status !== 'playing') return
     this.status = result
     if (result === 'won') this.stats.score += this.lives * BALANCE.score.lifeFactor
-    this.stats.score = Math.round(this.stats.score * this.difficulty.scoreMult)
+    this.stats.score = Math.round(this.stats.score * this.difficulty.scoreMult * this.mode.scoreMult)
     this.emit(result === 'won' ? 'victory' : 'defeat', { stats: this.stats })
   }
 
@@ -188,31 +205,44 @@ export class Game {
     return { ok: true, wave, bonus }
   }
 
-  // ---------- Türme ----------
-  canBuild(spotIndex, type) {
-    const spot = this.spots[spotIndex]
-    const def = TOWERS[type]
-    if (!spot || !def) return { ok: false, reason: 'Unbekannter Bauplatz oder Turm.' }
-    if (spot.tower) return { ok: false, reason: 'Hier steht schon ein Turm.' }
-    if (this.status !== 'playing') return { ok: false, reason: 'Die Partie ist beendet.' }
-    const cost = def.levels[0].cost
-    if (!this.wallet.canAfford(cost)) {
-      return { ok: false, cost, missing: cost - this.gold, reason: `Dir fehlen ${cost - this.gold} Gold. Besiege Gegner, um Gold zu verdienen.` }
-    }
-    return { ok: true, cost, remaining: this.gold - cost }
+  // ---------- Bauen auf dem Raster (Logik in construction.js) ----------
+  canPlace(type, c, r, rot = 0, ignoreTower = null) { return checkPlacement(this, type, c, r, rot, ignoreTower) }
+  canBuild(type, c, r, rot = 0) { return construction.canBuild(this, type, c, r, rot) }
+  build(type, c, r, rot = 0) { return construction.build(this, type, c, r, rot) }
+  findPlacementNear(type, x, y, rot = 0, maxRing = 4) { return construction.findPlacementNear(this, type, x, y, rot, maxRing) }
+  moveCost(tower) { return construction.moveCost(tower) }
+  canMove(tower, c, r, rot) { return construction.canMove(this, tower, c, r, rot) }
+  moveTower(tower, c, r, rot) { return construction.moveTower(this, tower, c, r, rot) }
+  clearCost(obstacle) { return clearCost(obstacle, this.mode) }
+  canClear(obstacle) { return construction.canClear(this, obstacle) }
+  clearObstacle(obstacle) { return construction.clearObstacle(this, obstacle) }
+
+  towerAt(c, r) {
+    if (!this.grid.inBounds(c, r)) return null
+    const id = this.grid.tower[this.grid.idx(c, r)]
+    return id ? this.towers.find((t) => t.id === id) || null : null
   }
 
-  build(spotIndex, type) {
-    const check = this.canBuild(spotIndex, type)
-    if (!check.ok) return check
-    const spot = this.spots[spotIndex]
-    this.wallet.spend(check.cost)
-    const tower = createTower(type, spot, this.nextId++)
-    spot.tower = tower
-    this.towers.push(tower)
-    refreshBuffs(this.towers)
-    this.emit('build', { tower })
-    return { ok: true, tower, cost: check.cost }
+  obstacleAt(c, r) {
+    if (!this.grid.inBounds(c, r)) return null
+    const id = this.grid.obstacle[this.grid.idx(c, r)]
+    return id ? this.obstacles.get(id) || null : null
+  }
+
+  // Sichtlinie Turm → Gegner (nur relevant, wenn Klippen/Mauern auf der Karte stehen)
+  canSee(tower, enemy) {
+    return this.grid.lineOfSight(tower.x, tower.y, enemy.x, enemy.y, (id) => {
+      const o = this.obstacles.get(id)
+      return !!o && o.def.blocksSight
+    })
+  }
+
+  // Taktischer Hinweis zu einer Position, aus der Geometrie der Wege berechnet
+  hintAt(x, y) {
+    if (Math.hypot(this.map.base.x - x, this.map.base.y - y) < 240) return 'engpass'
+    if (this.coverage(x, y, 140) >= 290) return 'kurve'
+    if (this.coverage(x, y, 320) >= 1000) return 'weit'
+    return 'standard'
   }
 
   canUpgrade(tower) {
@@ -242,9 +272,7 @@ export class Game {
     if (!tower || !this.towers.includes(tower)) return { ok: false, reason: 'Kein Turm ausgewählt.' }
     const value = this.sellValue(tower)
     this.wallet.refund(value)
-    this.spots[tower.spot].tower = null
-    this.towers.splice(this.towers.indexOf(tower), 1)
-    refreshBuffs(this.towers)
+    construction.removeTower(this, tower)
     this.emit('sell', { tower, value })
     return { ok: true, value }
   }
@@ -268,51 +296,9 @@ export class Game {
   // Wellennummer und Türme beschrieben und lässt sich zuverlässig wiederherstellen.
   canSnapshot() { return this.status === 'playing' && this.waves.phase !== 'active' }
 
-  snapshot() {
-    return {
-      v: 1,
-      mapId: this.map.id,
-      difficulty: this.difficulty.id,
-      seed: this.seed,
-      gold: this.wallet.gold,
-      earned: this.wallet.earned,
-      spent: this.wallet.spent,
-      lives: this.lives,
-      wave: this.waves.current,
-      stats: { ...this.stats },
-      time: this.time,
-      towers: this.towers.map((t) => ({ spot: t.spot, type: t.type, level: t.level, invested: t.invested, targetMode: t.targetMode, kills: t.kills, damageDealt: t.damageDealt })),
-      savedAt: Date.now(),
-    }
-  }
+  snapshot() { return savegame.snapshot(this) }
 
-  static restore(snap) {
-    if (!snap || snap.v !== 1) throw new Error('Unbekanntes Spielstand-Format')
-    const g = new Game({ mapId: snap.mapId, difficulty: snap.difficulty, seed: snap.seed })
-    if (g.map.id !== snap.mapId) throw new Error('Karte nicht gefunden')
-    g.wallet.gold = snap.gold
-    g.wallet.earned = snap.earned || 0
-    g.wallet.spent = snap.spent || 0
-    g.lives = snap.lives
-    g.waves.started = Math.min(snap.wave, g.waves.total)
-    g.waves.phase = 'build'   // nach dem Laden wartet das Spiel, bis der Spieler die Welle startet
-    Object.assign(g.stats, snap.stats)
-    g.time = snap.time || 0
-    for (const t of snap.towers) {
-      const spot = g.spots[t.spot]
-      if (!spot || spot.tower || !TOWERS[t.type]) continue
-      const tower = createTower(t.type, spot, g.nextId++)
-      tower.level = Math.min(t.level, tower.def.levels.length - 1)
-      tower.invested = t.invested
-      tower.targetMode = t.targetMode || tower.targetMode
-      tower.kills = t.kills || 0
-      tower.damageDealt = t.damageDealt || 0
-      spot.tower = tower
-      g.towers.push(tower)
-    }
-    refreshBuffs(g.towers)
-    return g
-  }
+  static restore(snap) { return savegame.restore(Game, snap) }
 }
 
 // Entfernt nicht mehr aktive Objekte, ohne ein neues Array anzulegen
@@ -320,18 +306,6 @@ function compact(list) {
   let j = 0
   for (let i = 0; i < list.length; i++) if (list[i].alive) list[j++] = list[i]
   list.length = j
-}
-
-// Taktischer Hinweis zu einem Bauplatz, aus der Geometrie der Route berechnet
-function spotHint(game, s) {
-  if (s.tag) return s.tag
-  const map = game.map
-  if (Math.hypot(map.base.x - s.x, map.base.y - s.y) < 240) return 'engpass'
-  const near = game.coverage(s.x, s.y, 140)
-  if (near >= 290) return 'kurve'
-  const far = game.coverage(s.x, s.y, 320)
-  if (far >= 1000) return 'weit'
-  return 'standard'
 }
 
 export { towerStats, nextLevelStats, isMaxLevel }

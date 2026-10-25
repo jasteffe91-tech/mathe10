@@ -196,7 +196,13 @@ export class Effects {
       for (const p of pts.slice(1)) this.flash(p.x, p.y, 16, 'rgba(200,160,255,A)')
     })
     on('impact', ({ kind, x, y, radius }) => {
-      if (kind === 'ball') {
+      if (kind === 'boulder') {
+        this.flash(x, y, radius * 1.2, 'rgba(255,220,160,A)', 0.25)
+        this.ring(x, y, radius, '#d9cbb0', 0.45, 5)
+        this.burst(x, y, 18, { color: '#8d8a80', speed: 150, life: 0.6, size: 4, gravity: 120 })
+        this.burst(x, y, 8, { color: 'rgba(160,140,110,.6)', speed: 50, life: 0.9, size: 7 })
+        this.addShake(3.5)
+      } else if (kind === 'ball') {
         this.flash(x, y, radius * 1.1, 'rgba(255,190,90,A)', 0.3)
         this.ring(x, y, radius, '#ffb347', 0.35, 4)
         this.burst(x, y, 16, { color: '#ffb347', speed: 160, life: 0.4, size: 3.5 })
@@ -227,6 +233,12 @@ export class Effects {
     on('summon', ({ enemy }) => this.ring(enemy.x, enemy.y, 50, '#c67bff', 0.5, 3))
     on('build', ({ tower }) => { this.ring(tower.x, tower.y, 34, '#f1e3b8', 0.4, 3); this.burst(tower.x, tower.y, 12, { color: '#d8c9a5', speed: 80, life: 0.5, size: 3 }) })
     on('upgrade', ({ tower }) => { this.ring(tower.x, tower.y, 40, '#ffd257', 0.5, 3); this.burst(tower.x, tower.y, 16, { color: '#ffd257', speed: 100, life: 0.6, size: 3, gravity: -40 }) })
+    on('move', ({ tower }) => { this.ring(tower.x, tower.y, 34, '#9fd6ee', 0.4, 3); this.burst(tower.x, tower.y, 10, { color: '#d8c9a5', speed: 70, life: 0.5, size: 3 }) })
+    on('clear', ({ obstacle }) => {
+      const leafy = obstacle.type === 'tree'
+      this.burst(obstacle.x, obstacle.y, 22, { color: leafy ? '#5d9447' : '#a59f92', speed: 110, life: 0.7, size: 4, gravity: 80 })
+      this.burst(obstacle.x, obstacle.y, 10, { color: 'rgba(170,150,120,.6)', speed: 40, life: 1, size: 7 })
+    })
     on('sell', ({ tower, value }) => { this.text(tower.x, tower.y - 20, `+${value}`); this.burst(tower.x, tower.y, 10, { color: '#b9ad92', speed: 70, life: 0.5, size: 4 }) })
     return () => off.forEach((f) => f())
   }

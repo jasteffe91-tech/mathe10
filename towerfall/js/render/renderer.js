@@ -55,12 +55,18 @@ export class Renderer {
     this.scale = Math.min(rect.width / WORLD.width, rect.height / WORLD.height)
     this.offsetX = (rect.width - WORLD.width * this.scale) / 2
     this.offsetY = (rect.height - WORLD.height * this.scale) / 2
-    // Hintergrund nur neu zeichnen, wenn sich die Auflösung spürbar ändert
-    const px = Math.min(2.5, this.scale * dpr)
-    const key = `${this.game?.map.id}:${px.toFixed(2)}`
-    // Unsichtbares Canvas (Größe 0) überspringen – ein leeres Bild ließe sich nicht zeichnen
-    if (this.game && rect.width > 0 && rect.height > 0 && key !== this.terrainKey) {
-      this.terrain = renderTerrain(this.game, px)
+    this.visible = rect.width > 0 && rect.height > 0
+    this.ensureTerrain()
+  }
+
+  // Hintergrund nur neu zeichnen, wenn sich Auflösung oder Hindernisse ändern (z. B. nach dem Räumen)
+  ensureTerrain() {
+    const game = this.game
+    if (!game || !this.visible) return // unsichtbares Canvas: ein leeres Bild ließe sich nicht zeichnen
+    const px = Math.min(2.5, this.scale * this.dpr)
+    const key = `${game.map.id}:${game.mode.id}:${px.toFixed(2)}:${game.obstacles.size}`
+    if (key !== this.terrainKey) {
+      this.terrain = renderTerrain(game, px)
       this.terrainKey = key
     }
   }
@@ -99,9 +105,11 @@ export class Renderer {
     ctx.rect(0, 0, WORLD.width, WORLD.height)
     ctx.clip()
 
+    this.ensureTerrain()
     if (this.terrain) ctx.drawImage(this.terrain, 0, 0, WORLD.width, WORLD.height)
 
-    this.drawSpots(view, t)
+    this.drawBuildOverlay(view)
+    this.drawFoundations(view)
     this.drawAuras(view, t)
     drawBastion(ctx, game.map.base, game.lives / game.maxLives, t, this.reduced)
     this.drawRanges(view)
@@ -131,36 +139,43 @@ export class Renderer {
     this.drawBossBar()
   }
 
-  drawSpots(view, t) {
+  // Raster im Bau- oder Versetzmodus: freie Bauzellen mit feinen Linien, Zonen außerhalb abgedunkelt.
+  // Als Bild zwischengespeichert und nur bei Änderungen am Raster (grid.version) neu erzeugt.
+  drawBuildOverlay(view) {
     const { ctx, game } = this
-    const placing = !!view.type
-    for (const s of game.spots) {
-      if (s.tower) continue
-      const selected = view.spot === s.index
-      const hover = view.hoverSpot === s.index
-      if (!placing && !selected && !hover) continue
-      const pulse = this.reduced ? 0.6 : 0.5 + Math.sin(t * 4 + s.index) * 0.25
-      ctx.strokeStyle = selected ? '#ffd257' : `rgba(255,236,170,${pulse})`
-      ctx.lineWidth = selected ? 3 : 2
-      ctx.setLineDash(selected ? [] : [6, 5])
-      ctx.beginPath()
-      ctx.arc(s.x, s.y, 29, 0, Math.PI * 2)
-      ctx.stroke()
-      ctx.setLineDash([])
-      if (placing && !selected) {
-        ctx.fillStyle = 'rgba(255,236,170,.12)'
-        ctx.beginPath()
-        ctx.arc(s.x, s.y, 25, 0, Math.PI * 2)
-        ctx.fill()
+    const grid = game.grid
+    if (view.placing) {
+      if (!this.overlay || this.overlayVersion !== grid.version) {
+        this.overlay = makeOverlay(game)
+        this.overlayVersion = grid.version
       }
+      ctx.drawImage(this.overlay, 0, 0, WORLD.width, WORLD.height)
     }
-    // Auswahl-Rahmen um einen Turm
-    if (view.tower) {
-      ctx.strokeStyle = '#ffd257'
-      ctx.lineWidth = 2.5
-      ctx.beginPath()
-      ctx.arc(view.tower.x, view.tower.y, 30, 0, Math.PI * 2)
-      ctx.stroke()
+    // ausgewähltes Hindernis hervorheben
+    if (view.obstacle) {
+      ctx.strokeStyle = view.obstacle.def.removable ? '#ffd257' : '#ec5a4f'
+      ctx.lineWidth = 2
+      ctx.setLineDash([5, 4])
+      for (const { c, r } of view.obstacle.cells) ctx.strokeRect(c * grid.cell + 1, r * grid.cell + 1, grid.cell - 2, grid.cell - 2)
+      ctx.setLineDash([])
+    }
+  }
+
+  // Fundament unter jedem Turm zeigt seine belegte Grundfläche; Auswahl hervorgehoben
+  drawFoundations(view) {
+    const { ctx, game } = this
+    const cell = game.grid.cell
+    for (const tw of game.towers) {
+      const sel = tw === view.tower
+      const moving = tw === view.moving
+      ctx.fillStyle = moving ? 'rgba(106,180,234,.18)' : 'rgba(30,24,16,.22)'
+      roundRect(ctx, tw.c * cell + 2, tw.r * cell + 2, tw.w * cell - 4, tw.h * cell - 4, 6)
+      ctx.fill()
+      if (sel || moving) {
+        ctx.strokeStyle = moving ? '#6ab4ea' : '#ffd257'
+        ctx.lineWidth = 2
+        ctx.stroke()
+      }
     }
   }
 
@@ -180,13 +195,13 @@ export class Renderer {
         ctx.strokeStyle = 'rgba(255,255,255,.18)'
         ctx.lineWidth = 1
         ctx.beginPath()
-        ctx.arc(tw.x, tw.y, tw.def.levels[tw.level].range, 0, Math.PI * 2)
+        ctx.arc(tw.x, tw.y, tw.stats.range, 0, Math.PI * 2)
         ctx.stroke()
       }
     }
-    if (view.tower) {
+    if (view.tower && view.tower !== view.moving) {
       const tw = view.tower
-      const r = tw.def.levels[tw.level].range
+      const r = tw.stats.range
       circle(tw.x, tw.y, r, 'rgba(255,236,170,.75)', 'rgba(255,236,170,.08)')
       const next = tw.def.levels[tw.level + 1]
       if (next && next.range > r && view.upgradeHover) {
@@ -286,25 +301,56 @@ export class Renderer {
     }
   }
 
-  // Durchscheinende Vorschau des gewählten Turms über dem Bauplatz
+  // Platzierungsvorschau: belegte Zellen grün (gültig) bzw. rot (ungültig), halbtransparenter Turm,
+  // Reichweite und – je nach Turm – Mindestreichweite oder die Türme, die ein Banner verstärken würde
   drawPreview(view) {
     const { ctx, game } = this
-    if (!view.type) return
-    const idx = view.spot ?? view.hoverSpot
-    if (idx == null) return
-    const s = game.spots[idx]
-    if (!s || s.tower) return
-    const def = TOWERS[view.type]
-    const ok = game.gold >= def.levels[0].cost
-    ctx.fillStyle = ok ? 'rgba(140,230,140,.10)' : 'rgba(240,90,80,.10)'
-    ctx.strokeStyle = ok ? 'rgba(140,230,140,.85)' : 'rgba(240,90,80,.85)'
+    const p = view.preview
+    if (!p) return
+    const cell = game.grid.cell
+    const def = TOWERS[p.type]
+    const badSet = new Set(p.bad.map((b) => `${b.c},${b.r}`))
+    for (const c of p.cells) {
+      const bad = badSet.has(`${c.c},${c.r}`)
+      ctx.fillStyle = bad ? 'rgba(236,90,79,.45)' : p.goldOk ? 'rgba(107,209,106,.38)' : 'rgba(242,193,78,.4)'
+      ctx.strokeStyle = bad ? '#ec5a4f' : p.goldOk ? '#6bd16a' : '#f2c14e'
+      ctx.lineWidth = 1.5
+      ctx.fillRect(c.c * cell + 1, c.r * cell + 1, cell - 2, cell - 2)
+      ctx.strokeRect(c.c * cell + 1, c.r * cell + 1, cell - 2, cell - 2)
+    }
+    const range = p.range
+    const ok = p.ok && p.goldOk
+    ctx.fillStyle = ok ? 'rgba(140,230,140,.08)' : 'rgba(240,90,80,.07)'
+    ctx.strokeStyle = ok ? 'rgba(140,230,140,.85)' : 'rgba(240,90,80,.75)'
     ctx.lineWidth = 2
     ctx.beginPath()
-    ctx.arc(s.x, s.y, def.levels[0].range, 0, Math.PI * 2)
+    ctx.arc(p.x, p.y, range, 0, Math.PI * 2)
     ctx.fill()
     ctx.stroke()
-    ctx.globalAlpha = 0.65
-    drawTower(ctx, { type: view.type, level: 0, angle: -Math.PI / 2, fireAnim: 0 }, s.x, s.y, this.time)
+    const minRange = def.levels[p.level || 0].minRange
+    if (minRange) {
+      ctx.setLineDash([4, 5])
+      ctx.strokeStyle = 'rgba(240,90,80,.75)'
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, minRange, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
+    if (def.attack === 'aura') {
+      ctx.strokeStyle = 'rgba(255,207,138,.75)'
+      ctx.setLineDash([5, 5])
+      for (const tw of game.towers) {
+        if (tw === view.moving || tw.def.attack === 'aura') continue
+        if ((tw.x - p.x) ** 2 + (tw.y - p.y) ** 2 > range * range) continue
+        ctx.beginPath()
+        ctx.moveTo(p.x, p.y)
+        ctx.lineTo(tw.x, tw.y)
+        ctx.stroke()
+      }
+      ctx.setLineDash([])
+    }
+    ctx.globalAlpha = p.ok ? 0.75 : 0.45
+    drawTower(ctx, { type: p.type, level: p.level || 0, angle: -Math.PI / 4, fireAnim: 0, rot: p.rot, noPips: true }, p.x, p.y, this.time)
     ctx.globalAlpha = 1
   }
 
@@ -335,6 +381,41 @@ export class Renderer {
     ctx.fillStyle = '#ffe9b0'
     ctx.fillText(`${boss.def.name}${boss.enraged ? ' – wütend!' : ''}  ·  ${Math.ceil(boss.hp)} / ${boss.maxHp}`, WORLD.width / 2, y + 8)
   }
+}
+
+// Raster-Overlay als Bild: freie Bauzellen umrandet, Zellen außerhalb der Bauzone abgedunkelt,
+// räumbare Hindernisse gestrichelt markiert
+function makeOverlay(game) {
+  const { grid } = game
+  const c = typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(WORLD.width, WORLD.height) : Object.assign(document.createElement('canvas'), { width: WORLD.width, height: WORLD.height })
+  const ctx = c.getContext('2d')
+  const cell = grid.cell
+  for (let r = 0; r < grid.rows; r++) {
+    for (let col = 0; col < grid.cols; col++) {
+      const i = grid.idx(col, r)
+      const kind = grid.terrain[i]
+      const x = col * cell, y = r * cell
+      if (kind === 'outside') {
+        ctx.fillStyle = 'rgba(10,12,20,.35)'
+        ctx.fillRect(x, y, cell, cell)
+      } else if (kind === 'grass' && !grid.tower[i]) {
+        if (grid.obstacle[i]) {
+          const o = game.obstacles.get(grid.obstacle[i])
+          ctx.strokeStyle = o?.def.removable ? 'rgba(242,193,78,.45)' : 'rgba(236,90,79,.4)'
+          ctx.setLineDash([3, 3])
+          ctx.strokeRect(x + 2.5, y + 2.5, cell - 5, cell - 5)
+          ctx.setLineDash([])
+        } else {
+          ctx.fillStyle = 'rgba(255,255,255,.05)'
+          ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2)
+          ctx.strokeStyle = 'rgba(255,255,255,.22)'
+          ctx.lineWidth = 1
+          ctx.strokeRect(x + 0.5, y + 0.5, cell - 1, cell - 1)
+        }
+      }
+    }
+  }
+  return c
 }
 
 // Vorberechnete Atmosphäre-Teilchen je Thema (keine Objekte pro Frame)

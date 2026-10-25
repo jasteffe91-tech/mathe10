@@ -8,7 +8,7 @@ import { drawTowerIcon, drawEnemyIcon } from '../render/sprites.js'
 import { esc, num, statTable, HINTS } from './format.js'
 import { computeStats } from '../game/towers.js'
 
-const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Scharfschütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner' }
+const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Scharfschütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner', trebuchet: 'Tribok' }
 const dpr = () => Math.min(2, window.devicePixelRatio || 1)
 
 function iconCanvas(size, draw) {
@@ -44,7 +44,7 @@ export class Panel {
       const b = document.createElement('button')
       b.className = 'shop-btn'
       b.dataset.type = type
-      b.title = `${def.name} (Taste ${i + 1}) – ${def.role}`
+      b.title = `${def.name} (Taste ${i + 1}) – ${def.role} – Grundfläche ${def.footprint.w} × ${def.footprint.h}`
       b.setAttribute('aria-label', `${def.name}, ${def.levels[0].cost} Gold, Taste ${i + 1}`)
       b.appendChild(iconCanvas(44, (c) => drawTowerIcon(c, type)))
       const label = document.createElement('span')
@@ -55,6 +55,10 @@ export class Panel {
       cost.textContent = def.levels[0].cost
       const key = document.createElement('kbd')
       key.textContent = i + 1
+      const size = document.createElement('span')
+      size.className = 'shop-size'
+      size.textContent = `${def.footprint.w}×${def.footprint.h}`
+      b.append(size)
       b.append(label, cost, key)
       b.addEventListener('click', () => this.ctl.chooseType(type))
       this.shopEl.appendChild(b)
@@ -81,10 +85,12 @@ export class Panel {
     if (this.sellArmed && performance.now() > this.sellArmed) { this.sellArmed = 0; this.invalidate() }
 
     const t = sel.tower
+    const pv = sel.preview
     const key = [
-      sel.spot, sel.type, t?.id, t?.level, t?.targetMode, t?.buff?.from?.id, game.towers.length, this.sellArmed ? 1 : 0,
+      sel.type, sel.moving?.id, sel.rot, pv ? `${pv.c},${pv.r},${pv.ok},${pv.goldOk},${pv.code}` : '', sel.obstacle?.id,
+      t?.id, t?.level, t?.targetMode, t?.buff?.from?.id, game.towers.length, this.sellArmed ? 1 : 0,
       sel.type ? game.gold >= TOWERS[sel.type].levels[0].cost : '',
-      t ? game.canUpgrade(t).ok : '', game.status,
+      t ? game.canUpgrade(t).ok : '', sel.obstacle ? game.canClear(sel.obstacle).ok : '', game.status,
     ].join('|')
     if (key !== this.key) {
       this.key = key
@@ -98,12 +104,13 @@ export class Panel {
     const game = this.ctl.game
     const sel = this.ctl.sel
     let html = ''
-    if (sel.tower) html = this.towerInfo(sel.tower)
-    else if (sel.type) html = this.typeInfo(sel.type, sel.spot)
-    else if (sel.spot !== null) html = this.spotInfo(game.spots[sel.spot])
-    else html = `<div class="info-empty"><p><b>Bauplätze</b> sind die Steinplatten am Weg.</p>
-      <p>Tippe auf einen Bauplatz und wähle einen Turm – oder wähle zuerst einen Turm und tippe dann auf einen Platz.</p>
-      <p class="muted">Tasten: 1–8 Turm · Leertaste Pause · N nächste Welle · F Tempo</p></div>`
+    if (sel.moving) html = this.moveInfo(sel.moving, sel.preview)
+    else if (sel.type) html = this.typeInfo(sel.type, sel.preview)
+    else if (sel.tower) html = this.towerInfo(sel.tower)
+    else if (sel.obstacle) html = this.obstacleInfo(sel.obstacle)
+    else html = `<div class="info-empty"><p><b>Bauen:</b> Wähle oben einen Turm. Auf der Karte erscheint das Raster mit einer Vorschau – grün heißt passt, rot heißt besetzt.</p>
+      <p>Jeder Turm belegt seine Grundfläche (1 × 1 bis 3 × 3 Zellen). Bäume, Steine und Ruinen lassen sich antippen und gegen Gold räumen.</p>
+      <p class="muted">Tasten: 1–9 Turm · Pfeile verschieben · R drehen · Enter bauen · Esc abbrechen · M versetzen · Leertaste Pause</p></div>`
     this.infoEl.innerHTML = html
     for (const slot of this.infoEl.querySelectorAll('[data-icon]')) {
       slot.replaceWith(iconCanvas(48, (c) => drawTowerIcon(c, slot.dataset.icon, Number(slot.dataset.level || 0))))
@@ -137,38 +144,85 @@ export class Panel {
           : '<button class="btn disabled" aria-disabled="true">Höchste Stufe</button>'}
         <button class="btn ${this.sellArmed ? 'danger' : ''}" data-act="sell">${this.sellArmed ? 'Wirklich?' : 'Verkaufen'} <b>+${value} G</b></button>
       </div>
+      <div class="actions"><button class="btn" data-act="move" title="Taste M">Versetzen <b>${game.moveCost(t)} G</b></button></div>
       <p class="reason" data-live="reason">${next && !up.ok ? esc(up.reason) : ''}</p>
-      <p class="muted small">Verkauf erstattet ${Math.round(BALANCE.sellRefund * 100)} % von ${t.invested} G investiertem Gold (abgerundet).</p>`
+      <p class="muted small">Grundfläche ${t.w} × ${t.h} · Verkauf erstattet ${Math.round(BALANCE.sellRefund * 100)} % von ${t.invested} G (abgerundet).</p>`
   }
 
-  typeInfo(type, spotIndex) {
+  // Steuerleiste der Vorschau: drehen, zellweise verschieben, bestätigen, abbrechen
+  placeControls(rotatable, confirmLabel, enabled) {
+    return `<div class="place-controls">
+        <div class="nudge" role="group" aria-label="Vorschau verschieben">
+          <button class="btn icon" data-act="nudge" data-dc="0" data-dr="-1" aria-label="nach oben">▲</button>
+          <button class="btn icon" data-act="nudge" data-dc="-1" data-dr="0" aria-label="nach links">◀</button>
+          <button class="btn icon" data-act="nudge" data-dc="1" data-dr="0" aria-label="nach rechts">▶</button>
+          <button class="btn icon" data-act="nudge" data-dc="0" data-dr="1" aria-label="nach unten">▼</button>
+        </div>
+        ${rotatable ? '<button class="btn" data-act="rotate" title="Taste R">⟳ Drehen</button>' : ''}
+      </div>
+      <div class="actions">
+        <button class="btn primary ${enabled ? '' : 'disabled'}" data-act="confirm" aria-disabled="${!enabled}">${confirmLabel}</button>
+        <button class="btn" data-act="cancel">Abbrechen</button>
+      </div>`
+  }
+
+  previewStatus(p, okText) {
+    if (!p) return '<p class="hint-line">Zeige oder tippe auf die Karte, um den Turm zu platzieren.</p>'
+    if (p.ok && p.goldOk) return `<p class="place-ok">✓ ${okText}</p>${this.hintLine(p)}`
+    // Räumbares Hindernis im Weg: direkt anbieten (ein Hindernis nach dem anderen)
+    const o = p.code === 'obstacle' && p.obstacle?.def.removable ? p.obstacle : null
+    return `<p class="reason">${esc(p.reason || 'Hier geht das nicht.')}</p>
+      ${o ? `<div class="actions"><button class="btn" data-act="clear-preview">${esc(o.def.name)} räumen <b>${this.ctl.game.clearCost(o)} G</b></button></div>` : ''}`
+  }
+
+  typeInfo(type, p) {
     const game = this.ctl.game
     const def = TOWERS[type]
     const s = def.levels[0]
-    const spot = spotIndex !== null ? game.spots[spotIndex] : null
-    const check = spot ? game.canBuild(spot.index, type) : null
     const ok = game.gold >= s.cost
-    return `${this.head(type, 0, '')}
+    // Status und Knöpfe zuerst – auf dem Smartphone ohne Scrollen erreichbar
+    return `${this.head(type, 0, `${def.footprint.w} × ${def.footprint.h} Zellen`)}
+      <p class="cost-line">Preis <b>${s.cost} G</b> · danach <b data-live="remaining" class="${ok ? '' : 'neg'}">${game.gold - s.cost} G</b></p>
+      ${this.previewStatus(p, 'Gültige Position – zum Bauen klicken oder bestätigen.')}
+      ${this.placeControls(def.footprint.rotatable, `Bauen <b>${s.cost} G</b>`, !!(p && p.ok && p.goldOk))}
       <p class="desc">${esc(def.description)}</p>
       ${statTable(def, s)}
-      <p class="cost-line">Preis <b>${s.cost} G</b> · danach <b data-live="remaining" class="${ok ? '' : 'neg'}">${game.gold - s.cost} G</b></p>
-      ${spot
-        ? `<div class="actions"><button class="btn primary ${check.ok ? '' : 'disabled'}" data-act="build" aria-disabled="${!check.ok}">Bauen <b>${s.cost} G</b></button>
-           <button class="btn" data-act="cancel">Abbrechen</button></div>`
-        : '<p class="hint-line">Tippe auf einen leuchtenden Bauplatz, um den Turm zu bauen.</p>'}
-      <p class="reason" data-live="reason">${ok ? '' : `Dir fehlen ${s.cost - game.gold} Gold. Besiege Gegner, um Gold zu verdienen.`}</p>
-      <p class="muted small">${esc(def.tip)}</p>
-      ${spot ? this.hintLine(spot) : ''}`
+      <p class="muted small">${esc(def.tip)}</p>`
   }
 
-  spotInfo(spot) {
-    return `<div class="info-empty"><h3>Freier Bauplatz</h3>${this.hintLine(spot)}
-      <p>Wähle im Baumenü einen Turm. Ein zweiter Tipp auf denselben Turm baut ihn.</p></div>`
+  moveInfo(t, p) {
+    const game = this.ctl.game
+    const cost = game.moveCost(t)
+    return `${this.head(t.type, t.level, 'versetzen')}
+      <p class="desc">Neue Position wählen. Der Turm bleibt bis zur Bestätigung an seinem Platz und schießt weiter.</p>
+      ${p && p.code === 'same' ? '<p class="hint-line">Der Turm steht bereits hier.</p>' : this.previewStatus(p, 'Gültige Position.')}
+      ${this.placeControls(t.def.footprint.rotatable, `Versetzen <b>${cost} G</b>`, !!(p && p.ok && p.goldOk && p.code !== 'same'))}`
   }
 
-  hintLine(spot) {
-    const h = HINTS[spot.hint] || HINTS.standard
-    return `<p class="spot-hint"><span class="tag tag-${spot.hint}">${h.name}</span> ${h.text}</p>`
+  obstacleInfo(o) {
+    const game = this.ctl.game
+    const d = o.def
+    const check = game.canClear(o)
+    const props = [
+      `Belegt ${o.cells.length} ${o.cells.length === 1 ? 'Zelle' : 'Zellen'}`,
+      'nicht bebaubar',
+      d.walkable ? 'für Gegner passierbar' : 'für Gegner unpassierbar',
+      d.blocksSight ? 'blockiert Sicht und Geschosse' : 'Türme schießen darüber hinweg',
+      `Aufwand: ${d.effort}`,
+    ]
+    return `<div class="info-head"><div><h3>${esc(d.name)}</h3><p class="role">Hindernis</p></div></div>
+      <ul class="props">${props.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>
+      ${d.removable
+        ? `<div class="actions"><button class="btn primary ${check.ok ? '' : 'disabled'}" data-act="clear" aria-disabled="${!check.ok}" title="Taste C">Räumen <b>${game.clearCost(o)} G</b></button></div>
+           <p class="reason">${check.ok ? '' : esc(check.reason)}</p>
+           <p class="muted small">Danach ist die Fläche sofort bebaubar.</p>`
+        : '<p class="reason">Lässt sich nicht entfernen – plane um das Hindernis herum.</p>'}`
+  }
+
+  hintLine(p) {
+    const hint = this.ctl.game.hintAt(p.x, p.y)
+    const h = HINTS[hint] || HINTS.standard
+    return `<p class="spot-hint"><span class="tag tag-${hint}">${h.name}</span> ${h.text}</p>`
   }
 
   updateLive() {
@@ -186,7 +240,6 @@ export class Panel {
     } else if (sel.type) {
       const cost = TOWERS[sel.type].levels[0].cost
       set('remaining', `${game.gold - cost} G`)
-      set('reason', game.gold >= cost ? '' : `Dir fehlen ${cost - game.gold} Gold. Besiege Gegner, um Gold zu verdienen.`)
     }
   }
 
@@ -194,8 +247,13 @@ export class Panel {
     const b = e.target.closest('[data-act]')
     if (!b) return
     switch (b.dataset.act) {
-      case 'build': this.ctl.build(); break
-      case 'cancel': this.ctl.clear(); break
+      case 'confirm': this.ctl.confirm(); break
+      case 'cancel': this.ctl.cancel(); break
+      case 'nudge': this.ctl.nudge(Number(b.dataset.dc), Number(b.dataset.dr)); break
+      case 'rotate': this.ctl.rotate(); break
+      case 'move': this.ctl.startMove(); break
+      case 'clear': this.ctl.clearObstacle(); break
+      case 'clear-preview': this.ctl.clearPreviewObstacle(); break
       case 'upgrade': this.ctl.upgrade(); break
       case 'target': this.ctl.setTargetMode(b.dataset.mode); break
       case 'sell': this.requestSell(); break

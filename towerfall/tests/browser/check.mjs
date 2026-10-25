@@ -62,37 +62,65 @@ try {
     const ox = (box.width - 1280 * s) / 2, oy = (box.height - 720 * s) / 2
     await page.mouse.click(box.x + ox + x * s, box.y + oy + y * s)
   }
-  const spot = await page.evaluate(() => { const s = window.__towerfall.game.spots[4]; return { x: s.x, y: s.y } })
+  // Gültige Rasterposition nahe einem Punkt (über die Spiel-API ermittelt)
+  const placeNear = (type, x, y) => page.evaluate(([type, x, y]) => { const p = window.__towerfall.game.findPlacementNear(type, x, y, 0, 6); return p && { x: p.x, y: p.y, c: p.c, r: p.r } }, [type, x, y])
+  const spot = await placeNear('arrow', 405, 325)
   const gold0 = await page.evaluate(() => window.__towerfall.game.gold)
-  await clickWorld(spot.x, spot.y)
+  // Bauen per Maus: Turm wählen → Vorschau folgt dem Zeiger → Klick bestätigt
   await page.click('.shop-btn[data-type="arrow"]')
-  await page.waitForTimeout(200)
+  const box0 = await page.locator('#canvas').boundingBox()
+  const sc0 = Math.min(box0.width / 1280, box0.height / 720)
+  await page.mouse.move(box0.x + (box0.width - 1280 * sc0) / 2 + spot.x * sc0, box0.y + (box0.height - 720 * sc0) / 2 + spot.y * sc0)
+  await page.waitForTimeout(250)
   await page.screenshot({ path: shots + 'build-preview.png' })
-  await page.click('[data-act="build"]')
+  const pv = await page.evaluate(() => { const p = window.__towerfall.controller.sel.preview; return p && { ok: p.ok, goldOk: p.goldOk, c: p.c, r: p.r } })
+  check('Vorschau zeigt gültige Position an', pv && pv.ok && pv.goldOk && pv.c === spot.c && pv.r === spot.r, JSON.stringify(pv))
+  await clickWorld(spot.x, spot.y)
   const after = await page.evaluate(() => ({ gold: window.__towerfall.game.gold, towers: window.__towerfall.game.towers.length }))
   check('Turm per Maus gebaut', after.towers === 1 && after.gold === gold0 - 70, JSON.stringify(after))
 
+  // Ungültige Position (auf dem Weg): kein Bau, kein Goldabzug
+  await page.click('.shop-btn[data-type="arrow"]')
+  const pathPt = await page.evaluate(() => { const p = {}; window.__towerfall.game.route.sample(600, p); return { x: p.x, y: p.y } })
+  await clickWorld(pathPt.x, pathPt.y)
+  const after2 = await page.evaluate(() => ({ gold: window.__towerfall.game.gold, towers: window.__towerfall.game.towers.length }))
+  const reasonPath = await page.locator('.toast-error').last().textContent().catch(() => '')
+  check('Ungültige Position auf dem Weg wird abgelehnt', after2.towers === 1 && after2.gold === after.gold && /Weg/.test(reasonPath), reasonPath)
+  await page.keyboard.press('Escape')
+
   // Zu wenig Gold: Ablehnung mit Begründung
   await page.evaluate(() => { window.__towerfall.game.wallet.gold = 20 })
-  const spot2 = await page.evaluate(() => { const s = window.__towerfall.game.spots[2]; return { x: s.x, y: s.y } })
-  await clickWorld(spot2.x, spot2.y)
+  const spot2 = await placeNear('sniper', 232, 561)
   await page.click('.shop-btn[data-type="sniper"]')
+  await clickWorld(spot2.x, spot2.y)
   await page.waitForTimeout(250)
-  const reason = await page.locator('#info .reason').textContent()
-  await page.click('[data-act="build"]', { force: true }) // bewusst klickbar trotz aria-disabled: zeigt die Begründung
+  const reason = await page.locator('#info .reason').textContent().catch(() => '')
   const toastText = await page.locator('.toast-error').last().textContent().catch(() => '')
   const towers2 = await page.evaluate(() => window.__towerfall.game.towers.length)
-  check('Zu wenig Gold verhindert Bau mit Begründung', towers2 === 1 && /fehlen/.test(reason) && /fehlen/.test(toastText), reason)
+  check('Zu wenig Gold verhindert Bau mit Begründung', towers2 === 1 && /fehlen/.test(reason + toastText), reason || toastText)
   await page.evaluate(() => { window.__towerfall.game.wallet.gold = 2000 })
   await page.keyboard.press('Escape')
 
-  // Tastatur: 2 = Kanone, Pfeiltaste wählt Bauplatz, Enter baut
-  await page.keyboard.press('ArrowRight')
+  // Tastatur: 2 = Kanone (2×2), Pfeiltasten verschieben die Vorschau, Enter baut
   await page.keyboard.press('2')
+  await page.keyboard.press('ArrowRight')
+  await page.keyboard.press('ArrowDown')
   await page.waitForTimeout(150)
+  let tries = 0
+  while (tries++ < 20 && !(await page.evaluate(() => window.__towerfall.controller.sel.preview?.ok))) await page.keyboard.press('ArrowRight')
   await page.keyboard.press('Enter')
-  const towers3 = await page.evaluate(() => window.__towerfall.game.towers.length)
-  check('Bauen per Tastatur', towers3 === 2)
+  const kb = await page.evaluate(() => window.__towerfall.game.towers.map((t) => `${t.type}:${t.cells.length}`))
+  check('Bauen per Tastatur (Kanone belegt 4 Zellen)', kb.includes('cannon:4'), kb.join(','))
+  await page.keyboard.press('Escape')
+
+  // Hindernis antippen und räumen
+  const obst = await page.evaluate(() => { const o = [...window.__towerfall.game.obstacles.values()].find((x) => x.def.removable); return o && { x: o.x, y: o.y, id: o.id } })
+  await clickWorld(obst.x, obst.y)
+  await page.waitForTimeout(250)
+  const g3 = await page.evaluate(() => window.__towerfall.game.gold)
+  await page.click('[data-act="clear"]')
+  const cleared = await page.evaluate((id) => ({ gone: !window.__towerfall.game.obstacles.has(id), gold: window.__towerfall.game.gold }), obst.id)
+  check('Hindernis räumen kostet Gold und entfernt es', cleared.gone && cleared.gold < g3, `${g3} → ${cleared.gold}`)
 
   // Welle starten, Tempo, Pause
   await page.click('#btn-next')
@@ -112,18 +140,26 @@ try {
   const t3 = await page.evaluate(() => window.__towerfall.game.time)
   check('Fortsetzen läuft weiter', t3 > t2)
 
-  // Turm auswählen, verbessern, verkaufen
+  // Turm auswählen, versetzen, verbessern, verkaufen
+  await clickWorld(spot.x, spot.y)
+  await page.waitForTimeout(200)
+  await page.click('[data-act="move"]')
+  const dest = await page.evaluate(() => { const g = window.__towerfall.game; const t = window.__towerfall.controller.sel.moving; const p = g.findPlacementNear('arrow', t.x, t.y + 96, 0, 6); return { x: p.x, y: p.y } })
+  await clickWorld(dest.x, dest.y)
+  const moved = await page.evaluate(() => window.__towerfall.game.towers.find((t) => t.type === 'arrow'))
+  check('Turm versetzen', Math.abs(moved.x - dest.x) < 1 && Math.abs(moved.y - dest.y) < 1)
+  spot.x = dest.x; spot.y = dest.y
   await clickWorld(spot.x, spot.y)
   await page.waitForTimeout(200)
   await page.screenshot({ path: shots + 'tower-selected.png' })
   await page.click('[data-act="upgrade"]')
-  const lvl = await page.evaluate(() => window.__towerfall.game.towers.find((t) => t.spot === 4).level)
+  const lvl = await page.evaluate(() => window.__towerfall.game.towers.find((t) => t.type === 'arrow').level)
   check('Verbessern per Klick', lvl === 1)
   const g1 = await page.evaluate(() => window.__towerfall.game.gold)
   await page.click('[data-act="sell"]')
   await page.waitForTimeout(150)
   await page.click('[data-act="sell"]') // Bestätigung
-  const sold = await page.evaluate(() => ({ gold: window.__towerfall.game.gold, has: window.__towerfall.game.towers.some((t) => t.spot === 4) }))
+  const sold = await page.evaluate(() => ({ gold: window.__towerfall.game.gold, has: window.__towerfall.game.towers.some((t) => t.type === 'arrow') }))
   check('Verkauf mit Bestätigung erstattet 70 %', !sold.has && sold.gold - g1 >= Math.floor((70 + 65) * 0.7), `+${sold.gold - g1}`)
 
   // Einstellungen: Sound aus → Neuladen → bleibt aus
@@ -170,10 +206,12 @@ try {
     const ox = (box.width - 1280 * sc) / 2, oy = (box.height - 720 * sc) / 2
     await mp.touchscreen.tap(box.x + ox + x * sc, box.y + oy + y * sc)
   }
-  const sp = await mp.evaluate(() => { const s = window.__towerfall.game.spots[0]; return { x: s.x, y: s.y } })
-  await tapWorld(sp.x, sp.y)
+  const sp = await mp.evaluate(() => { const p = window.__towerfall.game.findPlacementNear('frost', 206, 185, 0, 6); return { x: p.x, y: p.y } })
   await mp.tap('.shop-btn[data-type="frost"]')
-  await mp.tap('.shop-btn[data-type="frost"]') // zweiter Tipp baut
+  await tapWorld(sp.x, sp.y)   // erster Tipp: Vorschau
+  const before = await mp.evaluate(() => window.__towerfall.game.towers.length)
+  await tapWorld(sp.x, sp.y)   // zweiter Tipp auf dieselbe Stelle: bauen
+  check('Touch: erster Tipp zeigt nur die Vorschau', before === 0)
   const mt = await mp.evaluate(() => window.__towerfall.game.towers.map((t) => t.type))
   check('Bauen per Touch', mt.length === 1 && mt[0] === 'frost', JSON.stringify(mt))
   const overflow = await mp.evaluate(() => document.documentElement.scrollWidth > innerWidth)

@@ -7,11 +7,17 @@
 //   chain      – sofortiger Blitz, springt auf weitere Gegner über
 //   instant    – sofortiger Treffer (Scharfschütze)
 //   pierce     – gerades Geschoss, durchbohrt bis zu `pierceCount` Gegner auf seiner Linie
-//   aura       – greift nicht an, verstärkt Türme in Reichweite (auraDamage, auraRate)
+//   aura       – greift nicht an, verstärkt Türme in Reichweite (auraDamage, auraRate, auraRange)
+//
+// footprint: belegte Rasterzellen (w × h); rotatable: Grundfläche lässt sich um 90° drehen.
+// spriteScale: Zeichengröße passend zur Grundfläche (rein optisch).
+// Optional je Stufe: minRange (toter Winkel nahe am Turm), largeBonus (Zusatzschaden gegen große Gegner).
 
 export const TOWERS = {
   arrow: {
     id: 'arrow',
+    footprint: { w: 1, h: 1 },
+    spriteScale: 0.8,
     name: 'Pfeilturm',
     role: 'Schnelle Grundverteidigung',
     description: 'Günstig und schnell. Viele kleine Treffer – stark gegen leichte Gegner, schwach gegen Panzerung.',
@@ -30,6 +36,8 @@ export const TOWERS = {
   },
   cannon: {
     id: 'cannon',
+    footprint: { w: 2, h: 2 },
+    spriteScale: 1.35,
     name: 'Kanonenturm',
     role: 'Flächenschaden',
     description: 'Langsame, schwere Kugeln, die beim Einschlag alle Gegner im Umkreis treffen.',
@@ -49,6 +57,8 @@ export const TOWERS = {
   },
   frost: {
     id: 'frost',
+    footprint: { w: 1, h: 1 },
+    spriteScale: 0.8,
     name: 'Frostturm',
     role: 'Verlangsamung',
     description: 'Eissplitter verlangsamen Gegner im Trefferbereich. Macht kaum Schaden, aber andere Türme treffen länger.',
@@ -68,6 +78,8 @@ export const TOWERS = {
   },
   lightning: {
     id: 'lightning',
+    footprint: { w: 2, h: 2 },
+    spriteScale: 1.3,
     name: 'Blitzturm',
     role: 'Kettenschaden',
     description: 'Ein Blitz springt von Gegner zu Gegner. Je dichter die Gruppe, desto mehr Treffer.',
@@ -84,6 +96,8 @@ export const TOWERS = {
   },
   sniper: {
     id: 'sniper',
+    footprint: { w: 1, h: 1 },
+    spriteScale: 0.82,
     name: 'Scharfschützenturm',
     role: 'Einzelziel auf große Distanz',
     description: 'Enorme Reichweite und schwere Treffer, die jede Panzerung durchschlagen. Sehr langsam.',
@@ -100,6 +114,8 @@ export const TOWERS = {
   },
   poison: {
     id: 'poison',
+    footprint: { w: 1, h: 1 },
+    spriteScale: 0.8,
     name: 'Giftschleuderer',
     role: 'Schaden über Zeit',
     description: 'Schleudert Giftbeutel, die alle Gegner im Umkreis vergiften. Gift ignoriert Panzerung.',
@@ -120,6 +136,8 @@ export const TOWERS = {
   },
   ballista: {
     id: 'ballista',
+    footprint: { w: 2, h: 1, rotatable: true },
+    spriteScale: 1,
     name: 'Speerschleuder',
     role: 'Durchschlag in einer Linie',
     description: 'Schießt schwere Speere, die alle Gegner auf ihrer Flugbahn durchbohren – auch weit hinter dem Ziel.',
@@ -138,24 +156,53 @@ export const TOWERS = {
   },
   banner: {
     id: 'banner',
+    footprint: { w: 2, h: 2 },
+    spriteScale: 1.25,
     name: 'Kriegsbanner',
     role: 'Verstärkt Türme in der Nähe',
-    description: 'Greift nicht selbst an. Alle Türme in Reichweite machen mehr Schaden und feuern schneller.',
-    tip: 'Zwischen mehrere starke Türme stellen. Mehrere Banner verstärken sich nicht gegenseitig.',
+    description: 'Greift nicht selbst an. Türme in Reichweite machen mehr Schaden, feuern schneller und verlangsamen länger; auf Stufe 3 reichen sie auch weiter.',
+    tip: 'Mitten in eine Gruppe starker Türme stellen. Mehrere Banner verstärken sich nicht gegenseitig.',
     attack: 'aura',
     targetMode: 'first',
     color: '#b23a3a',
     accent: '#f2c14e',
     levels: [
-      { cost: 140, range: 190, auraDamage: 0.2, auraRate: 0.1 },
-      { cost: 120, range: 215, auraDamage: 0.3, auraRate: 0.15 },
-      { cost: 180, range: 240, auraDamage: 0.4, auraRate: 0.2 },
+      { cost: 140, range: 140, auraDamage: 0.2, auraRate: 0.1, auraRange: 0 },
+      { cost: 120, range: 155, auraDamage: 0.3, auraRate: 0.15, auraRange: 0 },
+      { cost: 180, range: 170, auraDamage: 0.4, auraRate: 0.2, auraRange: 0.1 },
+    ],
+  },
+  trebuchet: {
+    id: 'trebuchet',
+    footprint: { w: 3, h: 3 },
+    spriteScale: 1,
+    name: 'Tribok',
+    role: 'Belagerung gegen große Gegner',
+    description: 'Riesiges Wurfgeschütz: schleudert Felsbrocken über weite Distanz. Extraschaden gegen große Gegner (Eisenwachen, Bosse), trifft aber nichts direkt vor sich.',
+    tip: 'Braucht viel Platz (3 × 3). Mit Abstand zum Weg aufstellen – unter 80 px Entfernung kann er nicht zielen.',
+    attack: 'shell',
+    projectile: 'boulder',
+    projectileSpeed: 280,
+    arc: 90,
+    targetMode: 'strong',
+    color: '#7a5c3a',
+    accent: '#b9b2a3',
+    levels: [
+      { cost: 240, damage: 110, range: 250, minRange: 80, rate: 0.28, splash: 40, largeBonus: 0.6 },
+      { cost: 200, damage: 170, range: 270, minRange: 80, rate: 0.3, splash: 45, largeBonus: 0.8 },
+      { cost: 320, damage: 260, range: 290, minRange: 80, rate: 0.33, splash: 50, largeBonus: 1 },
     ],
   },
 }
 
-// Reihenfolge im Baumenü (und Tastenkürzel 1–8)
-export const TOWER_ORDER = ['arrow', 'cannon', 'frost', 'lightning', 'sniper', 'poison', 'ballista', 'banner']
+// Reihenfolge im Baumenü (und Tastenkürzel 1–9)
+export const TOWER_ORDER = ['arrow', 'cannon', 'frost', 'lightning', 'sniper', 'poison', 'ballista', 'banner', 'trebuchet']
+
+// Grundfläche unter Berücksichtigung der Drehung (rot 1 = um 90° gedreht)
+export function footprintOf(type, rot = 0) {
+  const f = TOWERS[type].footprint
+  return rot % 2 && f.rotatable ? { w: f.h, h: f.w } : { w: f.w, h: f.h }
+}
 
 export const TARGET_MODES = {
   first: { name: 'Vorderster', hint: 'Der Gegner, der der Bastion am nächsten ist' },
