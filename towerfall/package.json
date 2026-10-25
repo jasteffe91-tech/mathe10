@@ -1,0 +1,14 @@
+{
+  "name": "towerfall",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Towerfall – Die letzte Bastion: offlinefähiges Tower-Defense-Spiel (PWA, ohne Abhängigkeiten)",
+  "type": "module",
+  "scripts": {
+    "start": "node tools/serve.mjs 8080",
+    "test": "node --test",
+    "test:browser": "node tests/browser/check.mjs",
+    "icons": "node tools/icons.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
