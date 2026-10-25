@@ -45,20 +45,26 @@ export class Hud {
       progress = 1
     }
     this.set('enemies', 'text', label)
-    this.set('progress', 'width', `${Math.round(Math.max(0, Math.min(1, progress)) * 100)}%`)
+    const pct = `${Math.round(Math.max(0, Math.min(1, progress)) * 100)}%`
+    this.set('progress', 'width', pct)
+    if (this.els.line) this.set('line', 'width', pct)
 
-    let next = 'Welle starten'
+    // Langtext für breite Bildschirme, Kurztext für die kompakte Kopfleiste auf dem Smartphone
+    let next = 'Welle starten', short = '▶'
     let disabled = false
-    if (w.phase === 'build') next = `Welle ${w.current + 1} starten`
+    if (w.phase === 'build') { next = `Welle ${w.current + 1} starten`; short = `▶ Start` }
     else if (w.phase === 'countdown') {
       const bonus = earlyCallBonus(w.countdown)
       next = `Welle ${w.current + 1} jetzt${bonus ? ` +${bonus} G` : ''}`
+      short = bonus ? `▶ +${bonus}` : `▶ ${w.current + 1}`
     } else if (w.phase === 'active') {
-      if (w.canCallNext()) next = `Welle ${w.current + 1} vorziehen +${BALANCE.overlapCallBonus} G`
-      else { next = `Welle ${w.current} läuft`; disabled = true }
-    } else { next = 'Letzte Welle'; disabled = true }
+      if (w.canCallNext()) { next = `Welle ${w.current + 1} vorziehen +${BALANCE.overlapCallBonus} G`; short = `▶▶ +${BALANCE.overlapCallBonus}` }
+      else { next = `Welle ${w.current} läuft`; short = 'läuft'; disabled = true }
+    } else { next = 'Letzte Welle'; short = '–'; disabled = true }
     this.set('next', 'text', next)
-    this.set('next', 'aria-disabled', String(disabled))
+    if (this.els.nextShort) this.set('nextShort', 'text', short)
+    if (this.els.nextBtn) this.set('nextBtn', 'aria-label', next)
+    this.set(this.els.nextBtn ? 'nextBtn' : 'next', 'aria-disabled', String(disabled))
     this.set('nextCls', 'class', `btn primary next-btn ${disabled ? 'disabled' : ''} ${w.phase === 'build' ? 'pulse' : ''}`)
 
     this.set('speed', 'text', `${loop.speed}×`)

@@ -7,10 +7,16 @@ import { bridgeSpans } from '../game/terrainmap.js'
 
 const TAU = Math.PI * 2
 
-export function renderTerrain(game, pixelScale) {
-  const canvas = makeCanvas(Math.round(WORLD.width * pixelScale), Math.round(WORLD.height * pixelScale))
+// rot: Ansichtsdrehung (Hochformat). Der Boden wird in Weltlage gezeichnet und vom Renderer mitgedreht;
+// Hindernisse mit Höhe (Bäume, Felsen, Mauern) werden vorab zurückgedreht, damit sie aufrecht stehen.
+// Das Bild entsteht gleich in Bildschirmlage (gedreht: 720 × 1280 Weltpixel hoch), damit es beim
+// Zeichnen jedes Frames nur achsenparallel kopiert werden muss – das ist deutlich schneller.
+export function renderTerrain(game, pixelScale, rot = 0) {
+  const W = Math.round(WORLD.width * pixelScale), H = Math.round(WORLD.height * pixelScale)
+  const canvas = rot ? makeCanvas(H, W) : makeCanvas(W, H)
   const ctx = canvas.getContext('2d')
-  ctx.scale(pixelScale, pixelScale)
+  if (rot) ctx.setTransform(0, pixelScale, -pixelScale, 0, WORLD.height * pixelScale, 0)
+  else ctx.scale(pixelScale, pixelScale)
   const map = game.map
   const theme = map.theme || 'meadow'
   const pal = map.palette
@@ -48,8 +54,9 @@ export function renderTerrain(game, pixelScale) {
   if (theme === 'snow') scatter(50, 800, (x, y) => drawSnowTuft(ctx, x, y, rng))
 
   // Hindernisse – genau das, was gezeichnet wird, blockiert auch den Bau (nach y sortiert)
-  const obstacles = [...game.obstacles.values()].sort((a, b) => a.y - b.y)
-  for (const o of obstacles) drawObstacle(ctx, o, theme, grid.cell)
+  // nach Bildschirmtiefe sortiert (gedreht: Welt-x)
+  const obstacles = [...game.obstacles.values()].sort(rot ? (a, b) => a.x - b.x : (a, b) => a.y - b.y)
+  for (const o of obstacles) drawObstacle(ctx, o, theme, grid.cell, rot)
 
   for (const route of game.routes) drawSpawn(ctx, route)
 
@@ -63,7 +70,33 @@ export function renderTerrain(game, pixelScale) {
 }
 
 // ---------- Hindernisse ----------
-export function drawObstacle(ctx, o, theme, cell) {
+export function drawObstacle(ctx, o, theme, cell, rot = 0) {
+  if (o.type === 'wall' || o.type === 'cliff') {
+    (o.type === 'wall' ? drawWall : drawCliff)(ctx, o, cell, theme, rot)
+    return
+  }
+  if (rot) { ctx.save(); turnAround(ctx, o.x, o.y, -rot) }
+  drawProp(ctx, o, theme, cell)
+  if (rot) ctx.restore()
+}
+
+// dreht das Koordinatensystem um den Punkt (x, y)
+function turnAround(ctx, x, y, a) {
+  ctx.translate(x, y)
+  ctx.rotate(a)
+  ctx.translate(-x, -y)
+}
+
+// Mauern und Klippen zellweise aufrecht: jede Zelle um ihre eigene Mitte drehen
+function eachCell(ctx, cells, cell, rot, fn) {
+  for (const cr of cells) {
+    if (rot) { ctx.save(); turnAround(ctx, (cr.c + 0.5) * cell, (cr.r + 0.5) * cell, -rot) }
+    fn(cr)
+    if (rot) ctx.restore()
+  }
+}
+
+function drawProp(ctx, o, theme, cell) {
   const t = { x: o.x, y: o.y, r: cell * 0.48, seed: o.seed }
   switch (o.type) {
     case 'tree':
@@ -84,17 +117,15 @@ export function drawObstacle(ctx, o, theme, cell) {
       drawRock(ctx, o.x + cell * 0.55, o.y + cell * 0.45, cell * 0.35, rng, theme)
       break
     }
-    case 'wall': drawWall(ctx, o, cell, theme); break
-    case 'cliff': drawCliff(ctx, o, cell, theme); break
   }
 }
 
-function drawWall(ctx, o, cell, theme) {
+function drawWall(ctx, o, cell, theme, rot) {
   const light = theme === 'desert' ? '#d8bc8c' : '#bdb6a6'
   const dark = theme === 'desert' ? '#8f6d45' : '#6f685c'
   const cells = [...o.cells].sort((a, b) => a.r - b.r || a.c - b.c)
   const rng = createRng(Math.floor(o.seed * 1e6))
-  for (const { c, r } of cells) {
+  eachCell(ctx, cells, cell, rot, ({ c, r }) => {
     const x = c * cell + 3, y = r * cell + 6, w = cell - 6, h = cell - 12
     ctx.fillStyle = 'rgba(0,0,0,.28)'
     ctx.fillRect(x + 4, y + 6, w, h)
@@ -110,24 +141,24 @@ function drawWall(ctx, o, cell, theme) {
     for (let i = 0; i < 3; i++) if (rng() < 0.7) ctx.fillRect(x + i * (w / 3) + 1, y - 4, w / 3 - 3, 5)
     ctx.fillStyle = 'rgba(80,110,60,.5)'
     if (rng() < 0.5) circle(ctx, x + rng.range(4, w - 4), y + h - 4, 3, 'rgba(80,120,60,.55)')
-  }
+  })
 }
 
-function drawCliff(ctx, o, cell, theme) {
+function drawCliff(ctx, o, cell, theme, rot) {
   const top = theme === 'snow' ? '#e9eef3' : theme === 'desert' ? '#c99b66' : '#8d8a80'
   const side = theme === 'snow' ? '#7f8c99' : theme === 'desert' ? '#8a5f37' : '#55524b'
   const cells = [...o.cells].sort((a, b) => a.r - b.r || a.c - b.c)
   const rng = createRng(Math.floor(o.seed * 1e6))
   const lift = 10
   // Schatten und Seitenwände zuerst, dann die Oberflächen
-  for (const { c, r } of cells) {
+  eachCell(ctx, cells, cell, rot, ({ c, r }) => {
     const x = c * cell, y = r * cell
     ctx.fillStyle = 'rgba(0,0,0,.3)'
     ctx.fillRect(x + 5, y + 6, cell, cell)
     ctx.fillStyle = side
     ctx.fillRect(x - 1, y - lift + cell * 0.5, cell + 2, cell * 0.5 + lift)
-  }
-  for (const { c, r } of cells) {
+  })
+  eachCell(ctx, cells, cell, rot, ({ c, r }) => {
     const x = c * cell, y = r * cell - lift
     const g = ctx.createLinearGradient(x, y, x + cell, y + cell)
     g.addColorStop(0, shadeHex(top, 0.15))
@@ -146,7 +177,7 @@ function drawCliff(ctx, o, cell, theme) {
     ctx.moveTo(x + rng.range(4, cell - 4), y + 3)
     ctx.lineTo(x + rng.range(4, cell - 4), y + cell * 0.6)
     ctx.stroke()
-  }
+  })
 }
 
 function shadeHex(hex, f) {

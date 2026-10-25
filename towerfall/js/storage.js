@@ -12,6 +12,7 @@ export const DEFAULT_SETTINGS = {
   reducedMotion: 'auto', // auto | on | off
   defaultSpeed: 1,
   showAllRanges: false,
+  rotateMap: 'auto',     // Karte im Hochformat um 90° drehen (auto | off)
   confirmSell: true,
   autoPause: true,       // pausiert, wenn der Tab in den Hintergrund geht
   introSeen: false,
