@@ -59,21 +59,29 @@
         <div class="stat progress" title="Fortschritt der Welle"><span id="hud-enemies" class="lbl">Bereit</span><div class="bar"><i id="hud-progress"></i></div></div>
       </div>
       <div class="hud-actions">
-        <button id="btn-next" class="btn primary next-btn">Welle 1 starten</button>
+        <button id="btn-next" class="btn primary next-btn"><span id="btn-next-long" class="long">Welle 1 starten</span><span id="btn-next-short" class="short" aria-hidden="true">▶ 1</span></button>
         <button id="btn-speed" class="btn icon" title="Tempo (F)">1×</button>
         <button id="btn-pause" class="btn icon" title="Pause (Leertaste)">❚❚</button>
         <button id="btn-menu" class="btn icon" title="Menü (Esc)" aria-label="Menü">☰</button>
       </div>
+      <div class="hud-line" aria-hidden="true"><i id="hud-line"></i></div>
     </header>
     <div id="stage" class="stage">
       <canvas id="canvas" aria-label="Spielfeld"></canvas>
+      <canvas id="loupe" class="loupe" aria-hidden="true" hidden></canvas>
       <div id="toasts" class="toasts" aria-live="polite"></div>
       <button id="pause-banner" class="pause-banner" hidden>Pausiert – tippen zum Fortsetzen</button>
     </div>
-    <aside class="panel" aria-label="Baumenü und Informationen">
-      <div id="shop" class="shop" role="toolbar" aria-label="Türme"></div>
-      <div id="info" class="info" aria-live="polite"></div>
-      <div id="wave-preview" class="wave-preview"></div>
+    <div id="shop" class="shop" role="toolbar" aria-label="Türme"></div>
+    <aside id="sheet" class="sheet" aria-label="Informationen" data-snap="compact">
+      <div class="sheet-panel">
+        <button id="sheet-grip" class="sheet-grip" type="button" aria-label="Infobereich vergrößern" aria-expanded="false"><span></span></button>
+        <div id="sheet-compact" class="sheet-compact"></div>
+        <div class="sheet-body">
+          <div id="info" class="info" aria-live="polite"></div>
+          <div id="wave-preview" class="wave-preview"></div>
+        </div>
+      </div>
     </aside>
   </section>
 

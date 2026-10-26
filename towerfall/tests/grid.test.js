@@ -255,8 +255,8 @@ test('Tribok: Mindestreichweite und Extraschaden gegen große Gegner', async () 
   const p = g.findPlacementNear('trebuchet', 640, 420, 0, 6)
   const t = g.build('trebuchet', p.c, p.r).tower
   const s = t.stats
-  const close = { alive: true, x: t.x + s.minRange - 20, y: t.y, radius: 10, hp: 10, dist: 0, route: g.route, incoming: 0 }
-  const ok = { alive: true, x: t.x + s.minRange + 40, y: t.y, radius: 10, hp: 10, dist: 0, route: g.route, incoming: 0 }
+  const close = { alive: true, x: t.x + s.minRange - 20, y: t.y, radius: 10, hp: 10, dist: 0, route: g.route, incoming: 0, def: {} }
+  const ok = { alive: true, x: t.x + s.minRange + 40, y: t.y, radius: 10, hp: 10, dist: 0, route: g.route, incoming: 0, def: {} }
   assert.equal(findTarget(t, [close], s), null, 'zu nah')
   assert.equal(findTarget(t, [close, ok], s), ok)
   assert.ok(TOWERS.trebuchet.levels.every((l) => l.largeBonus > 0))

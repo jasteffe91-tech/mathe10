@@ -1,19 +1,33 @@
 // Maus-, Touch- und Tastatureingaben. Pointer Events decken Maus, Stift und Finger gemeinsam ab.
-// Im Baumodus folgt die Vorschau der Maus bzw. dem Finger (Ziehen); ein Tipp zählt nur, wenn sich
-// der Finger kaum bewegt hat.
+// Maus: Die Vorschau folgt dem Zeiger, ein Klick baut (Desktop-Bedienung).
+// Finger/Stift: Im Baumodus folgt die Vorschau dem Finger, die Lupe zeigt den Bereich unter dem Finger
+//   vergrößert. Loslassen baut nie – gebaut wird nur mit „Bauen“. Ein kurzer Tipp ohne Baumodus wählt
+//   Türme bzw. Hindernisse aus.
+// Tastatur: Pfeiltasten verschieben die Vorschau (in Bildschirmrichtung), die Lupe folgt; Enter baut.
 import { handleModalKey } from './modal.js'
 
-export function setupPointer(canvas, renderer, controller) {
+const FINGER_GAP = 34 // Abstand der Lupe zum Berührungspunkt (CSS-Pixel), damit der Finger sie nicht verdeckt
+
+export function setupPointer(canvas, renderer, controller, loupe = null) {
   let down = null
+
+  const showLoupeAt = (w) => loupe?.show(w.x, w.y, { finger: FINGER_GAP })
 
   canvas.addEventListener('pointerdown', (e) => {
     down = { x: e.clientX, y: e.clientY, id: e.pointerId, type: e.pointerType, dragged: false }
-    if (e.pointerType !== 'mouse' && controller.placing) canvas.setPointerCapture?.(e.pointerId)
+    if (e.pointerType === 'mouse') { controller.inputMode = 'mouse'; loupe?.hide(); return }
+    controller.inputMode = 'touch'
+    if (!controller.game || !controller.placing) return
+    canvas.setPointerCapture?.(e.pointerId)
+    // Vorschau sofort unter den Finger setzen und die Lupe zeigen – gebaut wird dabei nichts
+    const w = renderer.toWorld(e.clientX, e.clientY)
+    controller.setCursor(w.x, w.y)
+    showLoupeAt(w)
   })
   canvas.addEventListener('pointermove', (e) => {
     if (!controller.game) return
-    const w = renderer.toWorld(e.clientX, e.clientY)
     if (e.pointerType === 'mouse') {
+      const w = renderer.toWorld(e.clientX, e.clientY)
       if (controller.placing) controller.setCursor(w.x, w.y)
       else {
         const { c, r } = controller.game.grid.cellAt(w.x, w.y)
@@ -21,29 +35,39 @@ export function setupPointer(canvas, renderer, controller) {
       }
       return
     }
-    // Finger/Stift: Vorschau ziehen
-    if (down && down.id === e.pointerId && controller.placing && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) {
-      down.dragged = true
-      controller.setCursor(w.x, w.y)
-    }
+    // Finger/Stift: Vorschau ziehen (auch sehr schnelle Bewegungen: alle Zwischenpunkte des Frames)
+    if (!down || down.id !== e.pointerId || !controller.placing) return
+    if (Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) down.dragged = true
+    const events = e.getCoalescedEvents?.() || []
+    const last = events.length ? events[events.length - 1] : e
+    const w = renderer.toWorld(last.clientX, last.clientY)
+    controller.setCursor(w.x, w.y)
+    showLoupeAt(w)
   })
-  canvas.addEventListener('pointerup', (e) => {
+  const release = (e) => {
     if (!down || down.id !== e.pointerId) return
     const { type, dragged } = down
     const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y)
     down = null
+    if (type !== 'mouse') loupe?.hide()
     if (!controller.game || dragged || moved > 12) return
     const w = renderer.toWorld(e.clientX, e.clientY)
+    // Touch im Baumodus: setzt nur die Vorschau (siehe Controller.tap) – Loslassen baut nie
     controller.tap(w.x, w.y, { touch: type !== 'mouse', shift: e.shiftKey })
-  })
-  canvas.addEventListener('pointercancel', () => { down = null })
+  }
+  canvas.addEventListener('pointerup', release)
+  canvas.addEventListener('pointercancel', () => { down = null; loupe?.hide() })
+  // Browser „korrigieren“ Fingertipps zu nahe gelegenen klickbaren Elementen (Touch Adjustment).
+  // Ein Klick-Handler macht das Spielfeld selbst klickbar – ein Tipp knapp am Kartenrand landet so
+  // auf der Karte statt auf einem Knopf der Kopfleiste oder des Infobereichs (z. B. „Bauen“).
+  canvas.addEventListener('click', () => {})
   canvas.addEventListener('contextmenu', (e) => {
     e.preventDefault()
     controller.placing ? controller.cancel() : controller.clear()
   })
 }
 
-export function setupKeyboard({ isActive, controller, actions }) {
+export function setupKeyboard({ isActive, controller, actions, loupe = null }) {
   document.addEventListener('keydown', (e) => {
     if (handleModalKey(e)) return
     if (!isActive()) return
@@ -57,8 +81,12 @@ export function setupKeyboard({ isActive, controller, actions }) {
     let handled = true
     if (k >= '1' && k <= '9') controller.chooseIndex(Number(k) - 1)
     else if (arrows[k]) {
-      if (placing) controller.nudge(...arrows[k])
-      else controller.cycleTower(arrows[k][0] + arrows[k][1] > 0 ? 1 : -1)
+      if (placing) {
+        controller.inputMode = 'keyboard'
+        controller.nudgeScreen(...arrows[k])
+        const p = controller.sel.preview
+        if (p && loupe) loupe.show(p.x, p.y)
+      } else controller.cycleTower(arrows[k][0] + arrows[k][1] > 0 ? 1 : -1)
     } else if (k === 'r' || k === 'R') controller.rotate()
     else if (k === 'Enter') controller.confirm({ keepPlacing: e.shiftKey })
     else if (k === ' ' || k === 'p' || k === 'P') actions.togglePause()

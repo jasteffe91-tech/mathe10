@@ -1,11 +1,14 @@
 // Zeichnet den Spielzustand auf das Canvas. Die Spielwelt hat feste Koordinaten (1280 × 720);
 // der Renderer skaliert sie passend ins Canvas (Letterbox) und berücksichtigt die Pixeldichte.
+// In hohen, schmalen Spielflächen (Smartphone hochkant) dreht er die Karte um 90°, damit sie die
+// Fläche besser ausnutzt. Alle Umrechnungen Bildschirm ↔ Welt laufen über dieselbe Transformation
+// (viewMatrix); Eingaben, Lupe und Zeichnen sehen also immer dieselbe Lage.
 import { WORLD } from '../config/maps.js'
 import { TOWERS } from '../config/towers.js'
 import { lerp } from '../core/math.js'
 import { renderTerrain } from './terrain.js'
 import { createRng } from '../core/rng.js'
-import { drawTower, drawEnemy, drawHealthBar, drawProjectile, drawBastion } from './sprites.js'
+import { drawTower, drawEnemy, drawHealthBar, drawProjectile, drawBastion, drawSilenced, view as spriteView } from './sprites.js'
 import { Effects } from './effects.js'
 
 export class Renderer {
@@ -19,6 +22,8 @@ export class Renderer {
     this.scale = 1
     this.offsetX = 0
     this.offsetY = 0
+    this.rot = 0            // 0 oder 1 (Viertelumdrehung im Uhrzeigersinn)
+    this.rotateMode = 'auto' // 'auto' | 'off'
     this.dpr = 1
     this.time = 0
     this.reduced = false
@@ -52,11 +57,54 @@ export class Renderer {
       this.canvas.height = h
     }
     this.dpr = dpr
-    this.scale = Math.min(rect.width / WORLD.width, rect.height / WORLD.height)
-    this.offsetX = (rect.width - WORLD.width * this.scale) / 2
-    this.offsetY = (rect.height - WORLD.height * this.scale) / 2
+    const flat = Math.min(rect.width / WORLD.width, rect.height / WORLD.height)
+    const turned = Math.min(rect.width / WORLD.height, rect.height / WORLD.width)
+    // drehen nur, wenn es deutlich mehr Fläche bringt (sonst springt die Ansicht unnötig)
+    this.rot = this.rotateMode !== 'off' && turned > flat * 1.15 ? 1 : 0
+    this.scale = this.rot ? turned : flat
+    const vw = this.rot ? WORLD.height : WORLD.width, vh = this.rot ? WORLD.width : WORLD.height
+    this.offsetX = (rect.width - vw * this.scale) / 2
+    this.offsetY = (rect.height - vh * this.scale) / 2
     this.visible = rect.width > 0 && rect.height > 0
     this.ensureTerrain()
+  }
+
+  setRotateMode(mode) {
+    if (this.rotateMode === mode) return
+    this.rotateMode = mode
+    this.resize()
+  }
+
+  // Abbildung Welt → CSS-Pixel im Canvas: [a, b, c, d, e, f] wie bei ctx.setTransform
+  //   x' = a·x + c·y + e,  y' = b·x + d·y + f
+  // Gedreht (90° im Uhrzeigersinn): Welt-x zeigt nach unten, Welt-y nach links.
+  viewMatrix(shakeX = 0, shakeY = 0) {
+    const s = this.scale
+    if (this.rot) return [0, s, -s, 0, this.offsetX + WORLD.height * s + shakeX, this.offsetY + shakeY]
+    return [s, 0, 0, s, this.offsetX + shakeX, this.offsetY + shakeY]
+  }
+
+  // Weltkoordinaten → CSS-Pixel relativ zum Canvas
+  worldToCanvas(x, y) {
+    const [a, b, c, d, e, f] = this.viewMatrix()
+    return { x: a * x + c * y + e, y: b * x + d * y + f }
+  }
+
+  // CSS-Pixel relativ zum Canvas → Weltkoordinaten
+  canvasToWorld(px, py) {
+    const s = this.scale
+    if (this.rot) return { x: (py - this.offsetY) / s, y: (this.offsetX + WORLD.height * s - px) / s }
+    return { x: (px - this.offsetX) / s, y: (py - this.offsetY) / s }
+  }
+
+  // Richtung auf dem Bildschirm (Pfeiltasten, Pfeilknöpfe) → Zellschritt in der Welt
+  screenStepToWorld(dx, dy) { return this.rot ? { dc: dy, dr: -dx } : { dc: dx, dr: dy } }
+
+  // Sichtbare Kartenfläche in CSS-Pixeln (Viewport-Koordinaten)
+  mapRect() {
+    const r = this.canvas.getBoundingClientRect()
+    const vw = (this.rot ? WORLD.height : WORLD.width) * this.scale, vh = (this.rot ? WORLD.width : WORLD.height) * this.scale
+    return { x: r.left + this.offsetX, y: r.top + this.offsetY, width: vw, height: vh, rotated: !!this.rot }
   }
 
   // Hintergrund nur neu zeichnen, wenn sich Auflösung oder Hindernisse ändern (z. B. nach dem Räumen)
@@ -64,9 +112,9 @@ export class Renderer {
     const game = this.game
     if (!game || !this.visible) return // unsichtbares Canvas: ein leeres Bild ließe sich nicht zeichnen
     const px = Math.min(2.5, this.scale * this.dpr)
-    const key = `${game.map.id}:${game.mode.id}:${px.toFixed(2)}:${game.obstacles.size}`
+    const key = `${game.map.id}:${game.mode.id}:${px.toFixed(2)}:${game.obstacles.size}:${this.rot}`
     if (key !== this.terrainKey) {
-      this.terrain = renderTerrain(game, px)
+      this.terrain = renderTerrain(game, px, this.rot ? Math.PI / 2 : 0)
       this.terrainKey = key
     }
   }
@@ -74,10 +122,7 @@ export class Renderer {
   // Bildschirmkoordinaten (clientX/Y) → Weltkoordinaten
   toWorld(clientX, clientY) {
     const rect = this.canvas.getBoundingClientRect()
-    return {
-      x: (clientX - rect.left - this.offsetX) / this.scale,
-      y: (clientY - rect.top - this.offsetY) / this.scale,
-    }
+    return this.canvasToWorld(clientX - rect.left, clientY - rect.top)
   }
 
   // Wie viele Weltpixel entsprechen einem CSS-Pixel? (für Fingertipp-Toleranzen)
@@ -93,22 +138,33 @@ export class Renderer {
     ctx.setTransform(1, 0, 0, 1, 0, 0)
     ctx.fillStyle = '#0d1118'
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
-    const s = this.scale * this.dpr
     let sx = 0, sy = 0
     if (this.effects.shake > 0) {
       sx = (Math.random() - 0.5) * this.effects.shake
       sy = (Math.random() - 0.5) * this.effects.shake
     }
-    ctx.setTransform(s, 0, 0, s, (this.offsetX + sx) * this.dpr, (this.offsetY + sy) * this.dpr)
+    const d = this.dpr
+    ctx.setTransform(...this.viewMatrix(sx, sy).map((v) => v * d))
+    spriteView.rot = this.rot ? Math.PI / 2 : 0
     ctx.save()
     ctx.beginPath()
     ctx.rect(0, 0, WORLD.width, WORLD.height)
     ctx.clip()
 
     this.ensureTerrain()
-    if (this.terrain) ctx.drawImage(this.terrain, 0, 0, WORLD.width, WORLD.height)
+    if (this.terrain) {
+      if (this.rot) {
+        // Hintergrund liegt schon gedreht vor: achsenparallel kopieren
+        ctx.save()
+        const k = this.scale * d
+        ctx.setTransform(k, 0, 0, k, (this.offsetX + sx) * d, (this.offsetY + sy) * d)
+        ctx.drawImage(this.terrain, 0, 0, WORLD.height, WORLD.width)
+        ctx.restore()
+      } else ctx.drawImage(this.terrain, 0, 0, WORLD.width, WORLD.height)
+    }
 
     this.drawBuildOverlay(view)
+    this.drawFlightLines(t)
     this.drawFoundations(view)
     this.drawAuras(view, t)
     drawBastion(ctx, game.map.base, game.lives / game.maxLives, t, this.reduced)
@@ -119,10 +175,14 @@ export class Renderer {
     list.length = 0
     for (const tw of game.towers) list.push(tw)
     for (const e of game.enemies) list.push(e)
-    list.sort((a, b) => a.y - b.y)
+    // Tiefe = Bildschirm-y (in der gedrehten Ansicht entspricht das Welt-x)
+    if (this.rot) list.sort((a, b) => a.x - b.x)
+    else list.sort((a, b) => a.y - b.y)
     for (const o of list) {
-      if (o.def.levels) drawTower(ctx, o, o.x, o.y, t)
-      else {
+      if (o.def.levels) {
+        drawTower(ctx, o, o.x, o.y, t)
+        if (o.silenced > 0) drawSilenced(ctx, o, o.x, o.y, t)
+      } else {
         const x = lerp(o.px, o.x, alpha), y = lerp(o.py, o.y, alpha)
         drawEnemy(ctx, o, x, y, t)
       }
@@ -145,11 +205,19 @@ export class Renderer {
     const { ctx, game } = this
     const grid = game.grid
     if (view.placing) {
-      if (!this.overlay || this.overlayVersion !== grid.version) {
-        this.overlay = makeOverlay(game)
+      if (!this.overlay || this.overlayVersion !== grid.version || this.overlayRot !== this.rot) {
+        this.overlay = makeOverlay(game, this.rot)
         this.overlayVersion = grid.version
+        this.overlayRot = this.rot
       }
-      ctx.drawImage(this.overlay, 0, 0, WORLD.width, WORLD.height)
+      if (this.rot) {
+        // wie der Hintergrund schon in Bildschirmlage erzeugt: achsenparallel kopieren
+        ctx.save()
+        const k = this.scale * this.dpr
+        ctx.setTransform(k, 0, 0, k, this.offsetX * this.dpr, this.offsetY * this.dpr)
+        ctx.drawImage(this.overlay, 0, 0, WORLD.height, WORLD.width)
+        ctx.restore()
+      } else ctx.drawImage(this.overlay, 0, 0, WORLD.width, WORLD.height)
     }
     // ausgewähltes Hindernis hervorheben
     if (view.obstacle) {
@@ -159,6 +227,27 @@ export class Renderer {
       for (const { c, r } of view.obstacle.cells) ctx.strokeRect(c * grid.cell + 1, r * grid.cell + 1, grid.cell - 2, grid.cell - 2)
       ctx.setLineDash([])
     }
+  }
+
+  // Fluglinien der Harpyien: gestrichelt, sobald Flieger angekündigt oder unterwegs sind
+  drawFlightLines(t) {
+    const { ctx, game } = this
+    if (!game.flightRoutes?.length) return
+    const air = game.enemies.some((e) => e.def.flying) || game.nextWavePreview()?.counts.harpy
+    if (!air) return
+    ctx.save()
+    ctx.strokeStyle = 'rgba(200,180,255,.45)'
+    ctx.lineWidth = 2
+    ctx.setLineDash([10, 10])
+    ctx.lineDashOffset = -t * 20
+    for (const f of game.flightRoutes) {
+      const [a, b] = f.points
+      ctx.beginPath()
+      ctx.moveTo(a[0], a[1])
+      ctx.lineTo(b[0], b[1])
+      ctx.stroke()
+    }
+    ctx.restore()
   }
 
   // Fundament unter jedem Turm zeigt seine belegte Grundfläche; Auswahl hervorgehoben
@@ -278,11 +367,13 @@ export class Renderer {
       ctx.restore()
     }
     if (a.flakes.length) {
+      // Schnee fällt auf dem Bildschirm nach unten – in der gedrehten Ansicht also entlang Welt-x
       ctx.fillStyle = 'rgba(255,255,255,.85)'
       for (const f of a.flakes) {
-        const y = (f.y + t * f.speed) % (H + 20) - 10
-        const x = (f.x + Math.sin(t * f.sway + f.phase) * 12 + t * 8) % W
-        ctx.fillRect(x, y, f.size, f.size)
+        const fall = (f.y + t * f.speed) % (H + 20) - 10
+        const drift = (f.x + Math.sin(t * f.sway + f.phase) * 12 + t * 8) % W
+        if (this.rot) ctx.fillRect(fall * (W / H), H - drift * (H / W), f.size, f.size)
+        else ctx.fillRect(drift, fall, f.size, f.size)
       }
     }
     if (a.flies.length) {
@@ -354,41 +445,45 @@ export class Renderer {
     ctx.globalAlpha = 1
   }
 
+  // Bossleiste in Bildschirmpixeln über dem oberen Kartenrand (gut lesbar, auch auf dem Smartphone)
   drawBossBar() {
     const { ctx, game } = this
     let boss = null
     for (const e of game.enemies) if (e.boss && (!boss || e.hp > boss.hp)) boss = e
     if (!boss) return
-    const s = this.scale * this.dpr
-    ctx.setTransform(s, 0, 0, s, this.offsetX * this.dpr, this.offsetY * this.dpr)
-    const w = 420, h = 14, x = (WORLD.width - w) / 2, y = 16
+    const d = this.dpr
+    ctx.setTransform(d, 0, 0, d, 0, 0)
+    const mapW = (this.rot ? WORLD.height : WORLD.width) * this.scale
+    const w = Math.min(420, mapW - 24), h = 9, x = this.offsetX + (mapW - w) / 2, y = this.offsetY + 8
     const f = Math.max(0, boss.hp / boss.maxHp)
     ctx.fillStyle = 'rgba(12,10,18,.8)'
-    roundRect(ctx, x - 6, y - 6, w + 12, h + 30, 8)
+    roundRect(ctx, x - 6, y - 4, w + 12, h + 26, 8)
     ctx.fill()
     ctx.fillStyle = '#3a1d22'
-    ctx.fillRect(x, y + 16, w, h)
+    ctx.fillRect(x, y + 15, w, h)
     const g = ctx.createLinearGradient(x, 0, x + w, 0)
     g.addColorStop(0, boss.enraged ? '#ff6a3a' : '#c0392b')
     g.addColorStop(1, boss.enraged ? '#ffb347' : '#e74c3c')
     ctx.fillStyle = g
-    ctx.fillRect(x, y + 16, w * f, h)
+    ctx.fillRect(x, y + 15, w * f, h)
     ctx.strokeStyle = '#ffd257'
-    ctx.lineWidth = 1.5
-    ctx.strokeRect(x, y + 16, w, h)
-    ctx.font = 'bold 13px system-ui, sans-serif'
+    ctx.lineWidth = 1
+    ctx.strokeRect(x, y + 15, w, h)
+    ctx.font = 'bold 12px system-ui, sans-serif'
     ctx.textAlign = 'center'
     ctx.fillStyle = '#ffe9b0'
-    ctx.fillText(`${boss.def.name}${boss.enraged ? ' – wütend!' : ''}  ·  ${Math.ceil(boss.hp)} / ${boss.maxHp}`, WORLD.width / 2, y + 8)
+    ctx.fillText(`${boss.def.name}${boss.enraged ? ' – wütend!' : ''}  ·  ${Math.ceil(boss.hp)} / ${boss.maxHp}`, x + w / 2, y + 10, w)
   }
 }
 
 // Raster-Overlay als Bild: freie Bauzellen umrandet, Zellen außerhalb der Bauzone abgedunkelt,
 // räumbare Hindernisse gestrichelt markiert
-function makeOverlay(game) {
+function makeOverlay(game, rot = 0) {
   const { grid } = game
-  const c = typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(WORLD.width, WORLD.height) : Object.assign(document.createElement('canvas'), { width: WORLD.width, height: WORLD.height })
+  const w = rot ? WORLD.height : WORLD.width, h = rot ? WORLD.width : WORLD.height
+  const c = typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(w, h) : Object.assign(document.createElement('canvas'), { width: w, height: h })
   const ctx = c.getContext('2d')
+  if (rot) ctx.setTransform(0, 1, -1, 0, WORLD.height, 0)
   const cell = grid.cell
   for (let r = 0; r < grid.rows; r++) {
     for (let col = 0; col < grid.cols; col++) {

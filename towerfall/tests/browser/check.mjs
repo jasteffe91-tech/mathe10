@@ -80,6 +80,8 @@ try {
   check('Turm per Maus gebaut', after.towers === 1 && after.gold === gold0 - 70, JSON.stringify(after))
 
   // Ungültige Position (auf dem Weg): kein Bau, kein Goldabzug
+  // (nach einem Bau sind weitere Aktionen kurz gesperrt – Schutz vor Doppelklicks)
+  await page.waitForTimeout(450)
   await page.click('.shop-btn[data-type="arrow"]')
   const pathPt = await page.evaluate(() => { const p = {}; window.__towerfall.game.route.sample(600, p); return { x: p.x, y: p.y } })
   await clickWorld(pathPt.x, pathPt.y)
@@ -118,7 +120,7 @@ try {
   await clickWorld(obst.x, obst.y)
   await page.waitForTimeout(250)
   const g3 = await page.evaluate(() => window.__towerfall.game.gold)
-  await page.click('[data-act="clear"]')
+  await page.click('#info [data-act="clear"]')
   const cleared = await page.evaluate((id) => ({ gone: !window.__towerfall.game.obstacles.has(id), gold: window.__towerfall.game.gold }), obst.id)
   check('Hindernis räumen kostet Gold und entfernt es', cleared.gone && cleared.gold < g3, `${g3} → ${cleared.gold}`)
 
@@ -143,22 +145,23 @@ try {
   // Turm auswählen, versetzen, verbessern, verkaufen
   await clickWorld(spot.x, spot.y)
   await page.waitForTimeout(200)
-  await page.click('[data-act="move"]')
+  await page.click('#info [data-act="move"]')
   const dest = await page.evaluate(() => { const g = window.__towerfall.game; const t = window.__towerfall.controller.sel.moving; const p = g.findPlacementNear('arrow', t.x, t.y + 96, 0, 6); return { x: p.x, y: p.y } })
   await clickWorld(dest.x, dest.y)
+  await page.waitForTimeout(450) // kurze Sperre nach kostenpflichtigen Aktionen (Doppelklick-Schutz)
   const moved = await page.evaluate(() => window.__towerfall.game.towers.find((t) => t.type === 'arrow'))
   check('Turm versetzen', Math.abs(moved.x - dest.x) < 1 && Math.abs(moved.y - dest.y) < 1)
   spot.x = dest.x; spot.y = dest.y
   await clickWorld(spot.x, spot.y)
   await page.waitForTimeout(200)
   await page.screenshot({ path: shots + 'tower-selected.png' })
-  await page.click('[data-act="upgrade"]')
+  await page.click('#info [data-act="upgrade"]')
   const lvl = await page.evaluate(() => window.__towerfall.game.towers.find((t) => t.type === 'arrow').level)
   check('Verbessern per Klick', lvl === 1)
   const g1 = await page.evaluate(() => window.__towerfall.game.gold)
-  await page.click('[data-act="sell"]')
+  await page.click('#info [data-act="sell"]')
   await page.waitForTimeout(150)
-  await page.click('[data-act="sell"]') // Bestätigung
+  await page.click('#info [data-act="sell"]') // Bestätigung
   const sold = await page.evaluate(() => ({ gold: window.__towerfall.game.gold, has: window.__towerfall.game.towers.some((t) => t.type === 'arrow') }))
   check('Verkauf mit Bestätigung erstattet 70 %', !sold.has && sold.gold - g1 >= Math.floor((70 + 65) * 0.7), `+${sold.gold - g1}`)
 
@@ -200,26 +203,33 @@ try {
   await mp.tap('#btn-play')
   await mp.tap('#btn-start')
   await mp.tap('.modal-actions .btn.primary')
-  const tapWorld = async (x, y) => {
-    const box = await mp.locator('#canvas').boundingBox()
-    const sc = Math.min(box.width / 1280, box.height / 720)
-    const ox = (box.width - 1280 * sc) / 2, oy = (box.height - 720 * sc) / 2
-    await mp.touchscreen.tap(box.x + ox + x * sc, box.y + oy + y * sc)
-  }
-  const sp = await mp.evaluate(() => { const p = window.__towerfall.game.findPlacementNear('frost', 206, 185, 0, 6); return { x: p.x, y: p.y } })
+  // Welt → Bildschirm über die Umrechnung des Renderers (die Karte ist im Hochformat gedreht)
+  const screenOf = (x, y) => mp.evaluate(([x, y]) => { const r = window.__towerfall.renderer; const c = r.canvas.getBoundingClientRect(); const p = r.worldToCanvas(x, y); return { x: c.left + p.x, y: c.top + p.y } }, [x, y])
+  const tapWorld = async (x, y) => { const p = await screenOf(x, y); await mp.touchscreen.tap(p.x, p.y) }
+  check('Karte im Hochformat gedreht', await mp.evaluate(() => window.__towerfall.renderer.mapRect().rotated))
+  const sp = await mp.evaluate(() => { const p = window.__towerfall.game.findPlacementNear('frost', 206, 185, 0, 6); return { x: p.x, y: p.y, c: p.c, r: p.r } })
+  const goldStart = await mp.evaluate(() => window.__towerfall.game.gold)
   await mp.tap('.shop-btn[data-type="frost"]')
   await tapWorld(sp.x, sp.y)   // erster Tipp: Vorschau
+  await tapWorld(sp.x, sp.y)   // zweiter Tipp auf dieselbe Stelle: baut ebenfalls nicht
+  const pvTouch = await mp.evaluate(() => { const p = window.__towerfall.controller.sel.preview; return p && { c: p.c, r: p.r, ok: p.ok } })
   const before = await mp.evaluate(() => window.__towerfall.game.towers.length)
-  await tapWorld(sp.x, sp.y)   // zweiter Tipp auf dieselbe Stelle: bauen
-  check('Touch: erster Tipp zeigt nur die Vorschau', before === 0)
-  const mt = await mp.evaluate(() => window.__towerfall.game.towers.map((t) => t.type))
-  check('Bauen per Touch', mt.length === 1 && mt[0] === 'frost', JSON.stringify(mt))
+  check('Touch: Tippen auf die Karte setzt nur die Vorschau (auch zweimal)', before === 0 && pvTouch?.c === sp.c && pvTouch?.r === sp.r, JSON.stringify(pvTouch))
+  // „Bauen“ in der Kompaktzeile des Sheets – zweimal schnell hintereinander getippt
+  await mp.tap('#sheet-compact [data-act="confirm"]')
+  await mp.tap('#sheet-compact [data-act]').catch(() => {})
+  await mp.waitForTimeout(100)
+  const mt = await mp.evaluate(() => ({ towers: window.__towerfall.game.towers.map((t) => `${t.type}:${t.level}`), gold: window.__towerfall.game.gold }))
+  check('Bauen per Touch über „Bauen“, Doppeltipp baut/verbessert nicht doppelt', mt.towers.length === 1 && mt.towers[0] === 'frost:0' && mt.gold === goldStart - 90, JSON.stringify(mt))
   const overflow = await mp.evaluate(() => document.documentElement.scrollWidth > innerWidth)
   check('Kein horizontales Überlaufen auf dem Smartphone', !overflow)
   const hudVisible = await mp.evaluate(() => ['#hud-lives', '#hud-gold', '#hud-wave', '#btn-next', '#btn-pause'].every((s) => { const r = document.querySelector(s).getBoundingClientRect(); return r.width > 0 && r.right <= innerWidth + 1 && r.top >= 0 }))
   check('HUD vollständig sichtbar (Hochformat)', hudVisible)
-  const shopOk = await mp.evaluate(() => [...document.querySelectorAll('.shop-btn')].every((b) => { const r = b.getBoundingClientRect(); return r.width >= 40 && r.right <= innerWidth + 1 && r.left >= 0 }))
-  check('Alle Türme im Baumenü sichtbar (Hochformat)', shopOk)
+  // Turmleiste: waagerecht scrollbar – jeder Turm lässt sich in den sichtbaren Bereich holen
+  const shopOk = await mp.evaluate(() => [...document.querySelectorAll('.shop-btn')].every((b) => { b.scrollIntoView({ inline: 'nearest', block: 'nearest' }); const r = b.getBoundingClientRect(); return r.width >= 44 && r.height >= 44 && r.right <= innerWidth + 1 && r.left >= -1 }))
+  check('Alle Türme im Baumenü erreichbar (Hochformat)', shopOk)
+  const mapShare = await mp.evaluate(() => { const r = window.__towerfall.renderer.mapRect(); return r.width * r.height / (innerWidth * innerHeight) })
+  check('Karte nutzt im Hochformat mindestens 60 % des Bildschirms', mapShare >= 0.6, `${Math.round(mapShare * 100)} %`)
   await mp.tap('#btn-next')
   await mp.waitForTimeout(2000)
   await mp.screenshot({ path: shots + 'phone-portrait.png' })

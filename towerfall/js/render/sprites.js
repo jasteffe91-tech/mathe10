@@ -5,6 +5,32 @@ import { ENEMIES } from '../config/enemies.js'
 
 const TAU = Math.PI * 2
 
+// Ansichtsdrehung: Im Hochformat zeigt der Renderer die Karte um 90° gedreht. Figuren mit Höhe
+// (Türme, Gegner, Lebensbalken, Geschosse, Texte) bleiben trotzdem aufrecht („Billboard“): sie werden
+// an ihrer Weltposition zurückgedreht, Blickrichtungen um die Ansichtsdrehung ergänzt.
+export const view = { rot: 0 }
+
+// Weltvektor, der auf dem Bildschirm um h nach oben zeigt (Kopfhöhe von Türmen, Flughöhe)
+export function screenUp(h) {
+  return view.rot ? { dx: -Math.sin(view.rot) * h, dy: -Math.cos(view.rot) * h } : { dx: 0, dy: -h }
+}
+
+// zeichnet fn in einem aufrechten Koordinatensystem mit Ursprung an der Weltposition (x, y)
+export function upright(ctx, x, y, fn) {
+  ctx.save()
+  ctx.translate(x, y)
+  if (view.rot) ctx.rotate(-view.rot)
+  fn()
+  ctx.restore()
+}
+
+// Symbole immer ungedreht zeichnen (Baumenü, Anleitung)
+function unrotated(fn) {
+  const r = view.rot
+  view.rot = 0
+  try { fn() } finally { view.rot = r }
+}
+
 function circle(ctx, x, y, r, fill) {
   ctx.fillStyle = fill
   ctx.beginPath()
@@ -37,8 +63,12 @@ export function drawTower(ctx, t, x, y, time = 0) {
   const lvl = t.level || 0
   const recoil = t.fireAnim > 0 ? t.fireAnim / 0.12 : 0
   const k = def.spriteScale || 1
+  const angle = (t.angle || 0) + view.rot
+  // Speerschleuder: Plattform folgt der Grundfläche, wie sie auf dem Bildschirm liegt
+  const footRot = (t.rot || 0) + (view.rot ? 1 : 0)
   ctx.save()
   ctx.translate(x, y)
+  if (view.rot) ctx.rotate(-view.rot)
   ctx.scale(k, k)
   // Schatten nach rechts unten (Licht von links oben)
   ctx.fillStyle = 'rgba(0,0,0,.3)'
@@ -46,24 +76,26 @@ export function drawTower(ctx, t, x, y, time = 0) {
   ctx.ellipse(6, 8, 25, 17, 0.2, 0, TAU)
   ctx.fill()
   switch (t.type) {
-    case 'arrow': drawArrowTower(ctx, def, lvl, t.angle, recoil); break
-    case 'cannon': drawCannonTower(ctx, def, lvl, t.angle, recoil); break
+    case 'arrow': drawArrowTower(ctx, def, lvl, angle, recoil); break
+    case 'cannon': drawCannonTower(ctx, def, lvl, angle, recoil); break
     case 'frost': drawFrostTower(ctx, def, lvl, time); break
     case 'lightning': drawLightningTower(ctx, def, lvl, time, recoil); break
-    case 'sniper': drawSniperTower(ctx, def, lvl, t.angle, recoil); break
-    case 'poison': drawPoisonTower(ctx, def, lvl, t.angle, time, recoil); break
-    case 'ballista': drawBallistaTower(ctx, def, lvl, t.angle, recoil, t.rot || 0); break
+    case 'sniper': drawSniperTower(ctx, def, lvl, angle, recoil); break
+    case 'poison': drawPoisonTower(ctx, def, lvl, angle, time, recoil); break
+    case 'ballista': drawBallistaTower(ctx, def, lvl, angle, recoil, footRot); break
     case 'banner': drawBannerTower(ctx, def, lvl, time); break
-    case 'trebuchet': drawTrebuchetTower(ctx, def, lvl, t.angle, recoil, time); break
+    case 'trebuchet': drawTrebuchetTower(ctx, def, lvl, angle, recoil, time); break
   }
   ctx.restore()
   if (t.noPips) return
-  ctx.save()
-  // Stufenanzeige knapp unter der Grundfläche (Höhe in Zellen à 32 px, ggf. gedreht)
-  const cellsHigh = t.rot % 2 && def.footprint.rotatable ? def.footprint.w : def.footprint.h
-  ctx.translate(x, y + cellsHigh * 16 - 21)
-  drawLevelPips(ctx, lvl)
-  ctx.restore()
+  // Stufenanzeige knapp unter der Grundfläche (Höhe in Zellen à 32 px, wie sie auf dem Bildschirm liegt)
+  const turned = t.rot % 2 && def.footprint.rotatable
+  const fw = turned ? def.footprint.h : def.footprint.w, fh = turned ? def.footprint.w : def.footprint.h
+  const cellsHigh = view.rot ? fw : fh
+  upright(ctx, x, y, () => {
+    ctx.translate(0, cellsHigh * 16 - 21)
+    drawLevelPips(ctx, lvl)
+  })
 }
 
 function drawLevelPips(ctx, lvl) {
@@ -463,14 +495,21 @@ export function drawEnemy(ctx, e, x, y, time) {
   const def = e.def || ENEMIES[e.type]
   const r = e.radius || def.radius
   const bob = Math.sin(time * 10 + (e.id || 0)) * (def.boss ? 0.6 : 1.2)
+  // Flieger schweben: Schatten weiter unten und kleiner, Körper angehoben
+  const lift = def.flying ? 10 + Math.sin(time * 4 + (e.id || 0)) * 1.5 : 0
   ctx.save()
   ctx.translate(x, y)
-  ctx.fillStyle = 'rgba(0,0,0,.3)'
+  if (view.rot) ctx.rotate(-view.rot)
+  // Lähm-Puls lädt sich auf: Ring zeigt den betroffenen Umkreis und füllt sich bis zur Auslösung
+  if (e.hexCharge > 0 && def.disrupt) drawDisruptCharge(ctx, def.disrupt, 1 - e.hexCharge / def.disrupt.charge, time)
+  ctx.fillStyle = def.flying ? 'rgba(0,0,0,.2)' : 'rgba(0,0,0,.3)'
   ctx.beginPath()
-  ctx.ellipse(2, r * 0.55, r * 1.05, r * 0.55, 0, 0, TAU)
+  ctx.ellipse(def.flying ? 6 : 2, def.flying ? r * 0.9 : r * 0.55, r * (def.flying ? 0.8 : 1.05), r * (def.flying ? 0.4 : 0.55), 0, 0, TAU)
   ctx.fill()
-  ctx.translate(0, bob * 0.5)
-  ctx.rotate(e.angle || 0)
+  ctx.save()
+  ctx.translate(0, bob * 0.5 - lift)
+  if (e.frenzy > 0) drawFrenzyAura(ctx, r, time)
+  ctx.rotate((e.angle || 0) + view.rot)
   switch (def.id) {
     case 'grunt': drawGrunt(ctx, def, r, time, e); break
     case 'runner': drawRunner(ctx, def, r, time, e); break
@@ -479,13 +518,24 @@ export function drawEnemy(ctx, e, x, y, time) {
     case 'healer': drawHealer(ctx, def, r, time); break
     case 'ogre': drawOgre(ctx, def, r, time, e); break
     case 'titan': drawTitan(ctx, def, r, time, e); break
+    case 'wraith': drawWraith(ctx, def, r, time, e); break
+    case 'harpy': drawHarpy(ctx, def, r, time, e); break
+    case 'berserker': drawBerserker(ctx, def, r, time, e); break
+    case 'hexer': drawHexer(ctx, def, r, time, e); break
   }
-  // dunkle Kontur für bessere Lesbarkeit auf jedem Untergrund
+  // dunkle Kontur für bessere Lesbarkeit auf jedem Untergrund; Elite-Gegner mit goldenem Doppelrand
   ctx.strokeStyle = 'rgba(15,12,10,.55)'
   ctx.lineWidth = def.boss ? 2 : 1.3
   ctx.beginPath()
   ctx.arc(0, 0, r + 0.5, 0, TAU)
   ctx.stroke()
+  if (e.elite) {
+    ctx.strokeStyle = '#ffd257'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.arc(0, 0, r + 2.5, 0, TAU)
+    ctx.stroke()
+  }
   // Statuseffekte als Überlagerung
   if (e.slowTime > 0) {
     ctx.fillStyle = 'rgba(150,215,255,.38)'
@@ -502,8 +552,95 @@ export function drawEnemy(ctx, e, x, y, time) {
   ctx.restore()
   if (e.poisonTime > 0) {
     const t = (time * 1.6 + (e.id || 0) * 0.37) % 1
-    circle(ctx, x + Math.sin((e.id || 0) + time * 3) * r * 0.5, y - r - t * 10, 2.2 * (1 - t) + 0.6, `rgba(150,240,90,${0.8 - t * 0.6})`)
+    circle(ctx, Math.sin((e.id || 0) + time * 3) * r * 0.5, -lift - r - t * 10, 2.2 * (1 - t) + 0.6, `rgba(150,240,90,${0.8 - t * 0.6})`)
   }
+  // Elite: kleine Krone über dem Gegner
+  if (e.elite) {
+    ctx.translate(0, -lift - r - 5)
+    ctx.fillStyle = '#ffd257'
+    ctx.strokeStyle = 'rgba(40,25,0,.8)'
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(-5, 2); ctx.lineTo(-5, -3); ctx.lineTo(-2.5, -0.5); ctx.lineTo(0, -4); ctx.lineTo(2.5, -0.5); ctx.lineTo(5, -3); ctx.lineTo(5, 2)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+  }
+  ctx.restore()
+}
+
+// Höhe, um die ein Gegner über dem Boden schwebt (für Lebensbalken)
+export const enemyLift = (e) => (e.def.flying ? 10 : 0)
+
+// Raserei (Berserker): flackernde rote Flammenaura
+function drawFrenzyAura(ctx, r, time) {
+  const g = ctx.createRadialGradient(0, 0, r * 0.6, 0, 0, r * 1.9)
+  g.addColorStop(0, 'rgba(255,70,30,.55)')
+  g.addColorStop(1, 'rgba(255,70,30,0)')
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.arc(0, 0, r * 1.9, 0, TAU)
+  ctx.fill()
+  ctx.fillStyle = 'rgba(255,150,60,.8)'
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * TAU + time * 3
+    const fl = r * (1.25 + Math.sin(time * 14 + i * 2) * 0.2)
+    ctx.beginPath()
+    ctx.moveTo(Math.cos(a - 0.2) * r, Math.sin(a - 0.2) * r)
+    ctx.lineTo(Math.cos(a) * fl, Math.sin(a) * fl)
+    ctx.lineTo(Math.cos(a + 0.2) * r, Math.sin(a + 0.2) * r)
+    ctx.fill()
+  }
+}
+
+// Aufladen des Lähm-Pulses: gestrichelter Umkreis, der sich von innen füllt (violett = Hexer, braun = Stampfen)
+function drawDisruptCharge(ctx, d, k, time) {
+  const hex = d.kind === 'hex'
+  const col = hex ? '180,110,255' : '230,170,90'
+  ctx.save()
+  ctx.fillStyle = `rgba(${col},${0.08 + k * 0.16})`
+  ctx.beginPath()
+  ctx.arc(0, 0, d.radius * k, 0, TAU)
+  ctx.fill()
+  ctx.strokeStyle = `rgba(${col},${0.5 + k * 0.4})`
+  ctx.lineWidth = 2
+  ctx.setLineDash([8, 6])
+  ctx.lineDashOffset = -time * 30
+  ctx.beginPath()
+  ctx.arc(0, 0, d.radius, 0, TAU)
+  ctx.stroke()
+  ctx.restore()
+}
+
+// Gelähmter Turm: abgedunkelt mit kreisenden Runen über dem Kopf
+export function drawSilenced(ctx, t, x, y, time) {
+  const h = muzzleHeight(t.type, t.level) + 10
+  ctx.save()
+  ctx.translate(x, y)
+  if (view.rot) ctx.rotate(-view.rot)
+  ctx.save()
+  ctx.translate(0, -h)
+  ctx.globalAlpha = Math.min(1, t.silenced * 3)
+  ctx.fillStyle = 'rgba(40,20,70,.6)'
+  ctx.beginPath()
+  ctx.ellipse(0, 0, 18, 7, 0, 0, TAU)
+  ctx.fill()
+  ctx.strokeStyle = 'rgba(200,160,255,.9)'
+  ctx.lineWidth = 1.5
+  ctx.stroke()
+  for (let i = 0; i < 3; i++) {
+    const a = time * 4 + (i / 3) * TAU
+    ctx.fillStyle = '#e6d0ff'
+    poly(ctx, Math.cos(a) * 15, Math.sin(a) * 6, 4, 4, a)
+    ctx.fill()
+  }
+  ctx.restore()
+  // violetter Schimmer am Fuß: Turm feuert nicht
+  ctx.fillStyle = `rgba(150,90,255,${0.18 + Math.sin(time * 8) * 0.06})`
+  ctx.beginPath()
+  ctx.ellipse(0, 0, 22, 14, 0, 0, TAU)
+  ctx.fill()
+  ctx.restore()
 }
 
 function feet(ctx, r, time, speed, color) {
@@ -676,11 +813,123 @@ function drawTitan(ctx, def, r, time, e) {
   }
 }
 
+// Geist: halb durchsichtiger, flackernder Körper mit Schleppe – zeigt die Resistenz gegen physischen Schaden
+function drawWraith(ctx, def, r, time, e) {
+  const fl = 0.55 + Math.sin(time * 6 + (e.id || 0)) * 0.12
+  ctx.globalAlpha = fl
+  ctx.fillStyle = shade(def.color, -0.2)
+  ctx.beginPath()
+  ctx.moveTo(r * 0.2, -r)
+  for (let i = 0; i <= 4; i++) {
+    const yy = -r + (i / 4) * r * 2
+    const wav = Math.sin(time * 8 + i * 1.7) * r * 0.25
+    ctx.lineTo(-r * 1.9 + wav, yy)
+  }
+  ctx.lineTo(r * 0.2, r)
+  ctx.closePath()
+  ctx.fill()
+  circle(ctx, 0, 0, r, def.color)
+  circle(ctx, r * 0.1, 0, r * 0.7, 'rgba(235,250,255,.7)')
+  ctx.globalAlpha = 1
+  circle(ctx, r * 0.45, -r * 0.3, 2.2, '#1e3f66')
+  circle(ctx, r * 0.45, r * 0.3, 2.2, '#1e3f66')
+}
+
+// Harpyie: Flügel schlagen, Krallen und Schnabel in Flugrichtung
+function drawHarpy(ctx, def, r, time, e) {
+  const flap = Math.sin(time * 14 + (e.id || 0)) * 0.5
+  ctx.fillStyle = shade(def.color, -0.25)
+  for (const s of [-1, 1]) {
+    ctx.beginPath()
+    ctx.moveTo(r * 0.2, s * r * 0.3)
+    ctx.quadraticCurveTo(-r * 0.2, s * r * (1.8 + flap), -r * 1.3, s * r * (1.6 + flap))
+    ctx.lineTo(-r * 0.7, s * r * 0.9)
+    ctx.lineTo(-r * 0.5, s * r * 0.3)
+    ctx.closePath()
+    ctx.fill()
+  }
+  ctx.fillStyle = def.color
+  ctx.beginPath()
+  ctx.ellipse(0, 0, r * 1.05, r * 0.7, 0, 0, TAU)
+  ctx.fill()
+  circle(ctx, r * 0.7, 0, r * 0.42, '#c9b98f')
+  ctx.fillStyle = '#e8b94a'
+  ctx.beginPath()
+  ctx.moveTo(r * 1.05, -r * 0.15); ctx.lineTo(r * 1.45, 0); ctx.lineTo(r * 1.05, r * 0.15)
+  ctx.fill()
+  circle(ctx, r * 0.8, -r * 0.16, 1.4, '#2a1630')
+  circle(ctx, r * 0.8, r * 0.16, 1.4, '#2a1630')
+}
+
+// Berserker: breite Schultern, zwei Äxte
+function drawBerserker(ctx, def, r, time, e) {
+  feet(ctx, r, time, e.frenzy > 0 ? 20 : 12, '#4a1a10')
+  ctx.fillStyle = shade(def.color, -0.35)
+  ctx.beginPath()
+  ctx.ellipse(0, 0, r * 0.9, r * 1.1, 0, 0, TAU)
+  ctx.fill()
+  circle(ctx, -r * 0.05, 0, r * 0.8, def.color)
+  // Fellkragen und Kopf
+  circle(ctx, r * 0.1, 0, r * 0.5, '#6b4a2a')
+  circle(ctx, r * 0.3, 0, r * 0.36, '#e0a77a')
+  ctx.fillStyle = '#efe6d2'
+  for (const s of [-1, 1]) {
+    ctx.beginPath()
+    ctx.moveTo(r * 0.25, s * r * 0.3)
+    ctx.lineTo(r * 0.45, s * r * 0.7)
+    ctx.lineTo(r * 0.45, s * r * 0.3)
+    ctx.fill()
+  }
+  // Äxte
+  for (const s of [-1, 1]) {
+    ctx.fillStyle = '#5a3a1e'
+    ctx.fillRect(r * 0.1, s * r * 0.95 - 1.2, r * 1.0, 2.4)
+    ctx.fillStyle = '#cfd3d8'
+    ctx.beginPath()
+    ctx.moveTo(r * 1.0, s * r * 0.95)
+    ctx.quadraticCurveTo(r * 1.45, s * r * 0.55, r * 1.3, s * r * 0.95)
+    ctx.quadraticCurveTo(r * 1.45, s * r * 1.35, r * 1.0, s * r * 0.95)
+    ctx.fill()
+  }
+}
+
+// Runenhexer: Kapuzenrobe, Runenstab mit leuchtendem Kristall
+function drawHexer(ctx, def, r, time, e) {
+  feet(ctx, r, time, 10, '#2a1640')
+  ctx.fillStyle = shade(def.color, -0.4)
+  poly(ctx, 0, 0, r * 1.05, 3, Math.PI)
+  ctx.fill()
+  circle(ctx, 0, 0, r * 0.8, def.color)
+  circle(ctx, r * 0.15, 0, r * 0.5, '#2a1640')
+  // Rune auf dem Rücken
+  ctx.strokeStyle = '#d9b8ff'
+  ctx.lineWidth = 1.4
+  ctx.beginPath()
+  ctx.moveTo(-r * 0.55, -r * 0.3); ctx.lineTo(-r * 0.25, 0); ctx.lineTo(-r * 0.55, r * 0.3)
+  ctx.moveTo(-r * 0.25, -r * 0.35); ctx.lineTo(-r * 0.25, r * 0.35)
+  ctx.stroke()
+  // Stab
+  ctx.strokeStyle = '#5a3a1e'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(-r * 0.3, r * 0.85)
+  ctx.lineTo(r * 1.25, r * 0.85)
+  ctx.stroke()
+  const glow = e.hexCharge > 0 ? 1 : 0.55 + Math.sin(time * 5) * 0.2
+  circle(ctx, r * 1.35, r * 0.85, 4.5, `rgba(190,130,255,${glow * 0.5})`)
+  circle(ctx, r * 1.35, r * 0.85, 2.6, '#f0ddff')
+}
+
 // Lebensbalken über einem Gegner
 export function drawHealthBar(ctx, e, x, y) {
+  if (view.rot) { upright(ctx, x, y, () => healthBar(ctx, e, 0, 0)); return }
+  healthBar(ctx, e, x, y)
+}
+
+function healthBar(ctx, e, x, y) {
   const r = e.radius
   const w = Math.max(18, r * 2.2), h = e.boss ? 5 : 3.5
-  const bx = x - w / 2, by = y - r - (e.boss ? 14 : 9)
+  const bx = x - w / 2, by = y - r - (e.boss ? 14 : 9) - enemyLift(e) - (e.elite ? 8 : 0)
   const f = Math.max(0, e.hp / e.maxHp)
   ctx.fillStyle = 'rgba(10,10,14,.75)'
   ctx.fillRect(bx - 1, by - 1, w + 2, h + 2)
@@ -711,6 +960,11 @@ function baseMuzzle(type, level) {
 
 // ---------------- Geschosse ----------------
 export function drawProjectile(ctx, p, x, y) {
+  if (view.rot) { upright(ctx, x, y, () => projectile(ctx, p, 0, 0, p.angle + view.rot)); return }
+  projectile(ctx, p, x, y, p.angle)
+}
+
+function projectile(ctx, p, x, y, angle) {
   // Start auf Kopfhöhe des Turms, auf den ersten ~150 px zum Boden absinkend
   const h0 = p.tower ? muzzleHeight(p.tower.type, p.tower.level) * Math.max(0, 1 - (p.traveled || 0) / 150) : 0
   const lift = (p.arc ? Math.sin(Math.PI * (p.progress || 0)) * p.arc : 0) + h0
@@ -724,21 +978,21 @@ export function drawProjectile(ctx, p, x, y) {
   // Flugspur
   if (p.kind === 'arrow' || p.kind === 'bolt' || p.kind === 'shard') {
     const len = p.kind === 'bolt' ? 34 : 20
-    const g = ctx.createLinearGradient(x, py, x - Math.cos(p.angle) * len, py - Math.sin(p.angle) * len)
+    const g = ctx.createLinearGradient(x, py, x - Math.cos(angle) * len, py - Math.sin(angle) * len)
     g.addColorStop(0, p.kind === 'shard' ? 'rgba(200,240,255,.55)' : 'rgba(255,250,230,.45)')
     g.addColorStop(1, 'rgba(255,255,255,0)')
     ctx.strokeStyle = g
     ctx.lineWidth = p.kind === 'bolt' ? 3 : 2
     ctx.beginPath()
     ctx.moveTo(x, py)
-    ctx.lineTo(x - Math.cos(p.angle) * len, py - Math.sin(p.angle) * len)
+    ctx.lineTo(x - Math.cos(angle) * len, py - Math.sin(angle) * len)
     ctx.stroke()
   }
   switch (p.kind) {
     case 'bolt':
       ctx.save()
       ctx.translate(x, py)
-      ctx.rotate(p.angle)
+      ctx.rotate(angle)
       ctx.fillStyle = '#7a5a36'
       ctx.fillRect(-18, -1.6, 26, 3.2)
       ctx.fillStyle = '#d9dde3'
@@ -752,7 +1006,7 @@ export function drawProjectile(ctx, p, x, y) {
     case 'arrow':
       ctx.save()
       ctx.translate(x, py)
-      ctx.rotate(p.angle)
+      ctx.rotate(angle)
       ctx.strokeStyle = '#3d2b18'
       ctx.lineWidth = 2
       ctx.beginPath()
@@ -778,7 +1032,7 @@ export function drawProjectile(ctx, p, x, y) {
     case 'shard':
       ctx.save()
       ctx.translate(x, py)
-      ctx.rotate(p.angle)
+      ctx.rotate(angle)
       ctx.fillStyle = '#d9f3ff'
       ctx.beginPath()
       ctx.moveTo(8, 0); ctx.lineTo(-4, -3.5); ctx.lineTo(-7, 0); ctx.lineTo(-4, 3.5)
@@ -798,6 +1052,7 @@ export function drawBastion(ctx, base, health, time, reduced) {
   const { x, y } = base
   ctx.save()
   ctx.translate(x, y)
+  if (view.rot) ctx.rotate(-view.rot)
   ctx.fillStyle = 'rgba(0,0,0,.35)'
   ctx.beginPath()
   ctx.ellipse(6, 12, 60, 44, 0, 0, TAU)
@@ -898,7 +1153,7 @@ export function drawTowerIcon(canvas, type, level = 0) {
   const fit = type === 'trebuchet' ? 0.36 : 0.72 / k
   ctx.translate(28, type === 'trebuchet' ? 34 : 41)
   ctx.scale(fit, fit)
-  drawTower(ctx, { type, level, angle: -Math.PI / 4, fireAnim: 0, noPips: true }, 0, 0, 0.6)
+  unrotated(() => drawTower(ctx, { type, level, angle: -Math.PI / 4, fireAnim: 0, noPips: true }, 0, 0, 0.6))
 }
 
 export function drawEnemyIcon(canvas, type) {
@@ -910,5 +1165,5 @@ export function drawEnemyIcon(canvas, type) {
   const k = Math.min(1, 15 / def.radius)
   ctx.translate(20, 20)
   ctx.scale(k, k)
-  drawEnemy(ctx, { def, type, radius: def.radius, angle: 0, id: 1 }, 0, 0, 0)
+  unrotated(() => drawEnemy(ctx, { def, type, radius: def.radius, angle: 0, id: 1 }, 0, 0, 0))
 }

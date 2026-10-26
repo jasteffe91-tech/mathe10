@@ -2,7 +2,7 @@
 // Rein dekorativ – beeinflussen die Simulation nicht. Feste Obergrenzen verhindern,
 // dass bei vielen Gegnern unbegrenzt Objekte entstehen.
 
-import { muzzleHeight } from './sprites.js'
+import { muzzleHeight, screenUp, view } from './sprites.js'
 
 const TAU = Math.PI * 2
 
@@ -69,9 +69,10 @@ export class Effects {
     this.flashes.push({ x, y, r, color, life, max: life })
   }
 
-  text(x, y, text, color = '#ffd257') {
+  // Text über dem Bodenpunkt (x, y); lift = Starthöhe in Bildschirmrichtung „oben“
+  text(x, y, text, color = '#ffd257', lift = 0) {
     if (this.texts.length > 30) this.texts.shift()
-    this.texts.push({ x, y, text, color, life: 0.9, max: 0.9 })
+    this.texts.push({ x, y, text, color, life: 0.9, max: 0.9, rise: lift })
   }
 
   addShake(amount) {
@@ -102,7 +103,7 @@ export class Effects {
       }
       list.length = n
     }
-    for (const t of this.texts) t.y -= 26 * dt
+    for (const t of this.texts) t.rise += 26 * dt // steigt auf dem Bildschirm nach oben
     this.shake = Math.max(0, this.shake - dt * 18)
   }
 
@@ -157,10 +158,15 @@ export class Effects {
     ctx.textAlign = 'center'
     for (const t of this.texts) {
       ctx.globalAlpha = Math.min(1, t.life / t.max * 2)
+      // Texte aufrecht, auch in der gedrehten Ansicht
+      ctx.save()
+      ctx.translate(t.x, t.y)
+      if (view.rot) ctx.rotate(-view.rot)
       ctx.fillStyle = 'rgba(0,0,0,.6)'
-      ctx.fillText(t.text, t.x + 1, t.y + 1)
+      ctx.fillText(t.text, 1, 1 - t.rise)
       ctx.fillStyle = t.color
-      ctx.fillText(t.text, t.x, t.y)
+      ctx.fillText(t.text, 0, -t.rise)
+      ctx.restore()
     }
     ctx.globalAlpha = 1
   }
@@ -178,20 +184,21 @@ export class Effects {
     const on = (type, fn) => off.push(game.on(type, fn))
     on('shot', ({ tower, beam }) => {
       if (beam) {
-        const h = muzzleHeight(tower.type, tower.level)
-        this.bolt([{ x: beam.x1, y: beam.y1 - h }, { x: beam.x2, y: beam.y2 }], '#ffe9a8', 0.12, 1.6)
-        this.flash(beam.x1 + Math.cos(tower.angle) * 30, beam.y1 - h + Math.sin(tower.angle) * 30, 16, 'rgba(255,230,160,A)')
+        const up = screenUp(muzzleHeight(tower.type, tower.level))
+        this.bolt([{ x: beam.x1 + up.dx, y: beam.y1 + up.dy }, { x: beam.x2, y: beam.y2 }], '#ffe9a8', 0.12, 1.6)
+        this.flash(beam.x1 + up.dx + Math.cos(tower.angle) * 30, beam.y1 + up.dy + Math.sin(tower.angle) * 30, 16, 'rgba(255,230,160,A)')
         this.burst(beam.x2, beam.y2, 6, { color: '#fff3c4', speed: 90, life: 0.3, size: 2.5 })
       } else if (tower.type === 'cannon') {
-        const a = tower.angle, h = muzzleHeight('cannon', tower.level)
-        const mx = tower.x + Math.cos(a) * 26, my = tower.y - h + Math.sin(a) * 26
+        const a = tower.angle, up = screenUp(muzzleHeight('cannon', tower.level))
+        const mx = tower.x + up.dx + Math.cos(a) * 26, my = tower.y + up.dy + Math.sin(a) * 26
         this.flash(mx, my, 18, 'rgba(255,200,120,A)')
         this.burst(mx, my, 5, { color: 'rgba(200,200,200,.8)', speed: 40, life: 0.5, size: 5 })
       }
     })
     on('chain', ({ tower, points }) => {
       const pts = points.slice()
-      pts[0] = { x: tower.x, y: tower.y - muzzleHeight('lightning', tower.level) }
+      const up = screenUp(muzzleHeight('lightning', tower.level))
+      pts[0] = { x: tower.x + up.dx, y: tower.y + up.dy }
       this.bolt(pts, '#b98cff', 0.18, 2.4)
       for (const p of pts.slice(1)) this.flash(p.x, p.y, 16, 'rgba(200,160,255,A)')
     })
@@ -221,16 +228,26 @@ export class Effects {
     on('enemyDeath', ({ enemy, gold }) => {
       const c = enemy.def.color
       this.burst(enemy.x, enemy.y, enemy.boss ? 40 : 10, { color: c, speed: enemy.boss ? 200 : 110, life: enemy.boss ? 0.9 : 0.45, size: enemy.boss ? 5 : 3 })
-      if (gold) this.text(enemy.x, enemy.y - enemy.radius - 4, `+${gold}`)
+      if (gold) this.text(enemy.x, enemy.y, `+${gold}`, undefined, enemy.radius + 4)
       if (enemy.boss) { this.ring(enemy.x, enemy.y, 90, '#ffd257', 0.8, 5); this.addShake(7) }
     })
     on('leak', ({ enemy }) => {
       this.burst(enemy.x, enemy.y, 12, { color: '#ff5a4f', speed: 130, life: 0.5, size: 3 })
-      this.text(enemy.x, enemy.y - 20, `−${enemy.def.damage} ♥`, '#ff7a6e')
+      this.text(enemy.x, enemy.y, `−${enemy.def.damage} ♥`, '#ff7a6e', 20)
       this.addShake(enemy.boss ? 8 : 3)
     })
     on('heal', ({ enemy, radius }) => this.ring(enemy.x, enemy.y, radius, 'rgba(110,255,200,.8)', 0.6, 2))
     on('summon', ({ enemy }) => this.ring(enemy.x, enemy.y, 50, '#c67bff', 0.5, 3))
+    on('frenzy', ({ enemy }) => {
+      this.ring(enemy.x, enemy.y, 26, '#ff6a3a', 0.4, 3)
+      this.burst(enemy.x, enemy.y, 10, { color: '#ff8a4a', speed: 90, life: 0.4, size: 3 })
+    })
+    on('hex', ({ enemy, radius, kind }) => {
+      const quake = kind === 'quake'
+      this.ring(enemy.x, enemy.y, radius, quake ? '#e6aa5a' : '#c08cff', 0.6, 4)
+      this.flash(enemy.x, enemy.y, radius * 0.6, quake ? 'rgba(230,170,90,A)' : 'rgba(180,110,255,A)', 0.3)
+      if (quake) { this.burst(enemy.x, enemy.y, 16, { color: '#8a6a44', speed: 140, life: 0.6, size: 4, gravity: 120 }); this.addShake(4) }
+    })
     on('build', ({ tower }) => { this.ring(tower.x, tower.y, 34, '#f1e3b8', 0.4, 3); this.burst(tower.x, tower.y, 12, { color: '#d8c9a5', speed: 80, life: 0.5, size: 3 }) })
     on('upgrade', ({ tower }) => { this.ring(tower.x, tower.y, 40, '#ffd257', 0.5, 3); this.burst(tower.x, tower.y, 16, { color: '#ffd257', speed: 100, life: 0.6, size: 3, gravity: -40 }) })
     on('move', ({ tower }) => { this.ring(tower.x, tower.y, 34, '#9fd6ee', 0.4, 3); this.burst(tower.x, tower.y, 10, { color: '#d8c9a5', speed: 70, life: 0.5, size: 3 }) })
@@ -239,7 +256,7 @@ export class Effects {
       this.burst(obstacle.x, obstacle.y, 22, { color: leafy ? '#5d9447' : '#a59f92', speed: 110, life: 0.7, size: 4, gravity: 80 })
       this.burst(obstacle.x, obstacle.y, 10, { color: 'rgba(170,150,120,.6)', speed: 40, life: 1, size: 7 })
     })
-    on('sell', ({ tower, value }) => { this.text(tower.x, tower.y - 20, `+${value}`); this.burst(tower.x, tower.y, 10, { color: '#b9ad92', speed: 70, life: 0.5, size: 4 }) })
+    on('sell', ({ tower, value }) => { this.text(tower.x, tower.y, `+${value}`, undefined, 20); this.burst(tower.x, tower.y, 10, { color: '#b9ad92', speed: 70, life: 0.5, size: 4 }) })
     return () => off.forEach((f) => f())
   }
 }

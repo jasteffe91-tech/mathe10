@@ -1,14 +1,14 @@
 // Seitenleiste: Baumenü, Infobereich (Turm/Bauplatz) und Vorschau der nächsten Welle.
 // Der Infobereich wird nur neu aufgebaut, wenn sich etwas Strukturelles ändert (Auswahl, Stufe,
 // Bezahlbarkeit); laufende Zahlen werden direkt aktualisiert. So gehen keine Klicks verloren.
-import { TOWERS, TOWER_ORDER, TARGET_MODES, TARGET_MODE_ORDER } from '../config/towers.js'
-import { ENEMIES } from '../config/enemies.js'
+import { TOWERS, TOWER_ORDER, TARGET_MODES, TARGET_MODE_ORDER, DAMAGE_TYPES } from '../config/towers.js'
+import { ENEMIES, ELITE_HINT } from '../config/enemies.js'
 import { BALANCE } from '../config/balance.js'
 import { drawTowerIcon, drawEnemyIcon } from '../render/sprites.js'
 import { esc, num, statTable, HINTS } from './format.js'
 import { computeStats } from '../game/towers.js'
 
-const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Scharfschütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner', trebuchet: 'Tribok' }
+const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Schütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner', trebuchet: 'Tribok' }
 const dpr = () => Math.min(2, window.devicePixelRatio || 1)
 
 function iconCanvas(size, draw) {
@@ -20,18 +20,29 @@ function iconCanvas(size, draw) {
   return c
 }
 
+// Schadensart und Einschränkungen eines Turms (z. B. Bogengeschosse treffen keine Flieger)
+function damageBadge(def) {
+  const d = DAMAGE_TYPES[def.damageType]
+  if (!d) return ''
+  const air = def.attack === 'shell' ? ' · <span class="no-air">trifft keine Flieger</span>' : ''
+  return `<p class="dtype"><span style="color:${d.color}">${d.icon} ${d.name}</span>${air}</p>`
+}
+
 export class Panel {
-  constructor({ shop, info, preview, controller, settings }) {
+  constructor({ shop, info, preview, compact, controller, settings }) {
     this.shopEl = shop
     this.infoEl = info
     this.previewEl = preview
+    this.compactEl = compact
     this.ctl = controller
     this.settings = settings
     this.key = ''
     this.previewKey = ''
+    this.compactKey = ''
     this.sellArmed = 0
     this.buildShop()
     this.infoEl.addEventListener('click', (e) => this.onInfoClick(e))
+    this.compactEl?.addEventListener('click', (e) => this.onInfoClick(e))
     this.infoEl.addEventListener('pointerover', (e) => { if (e.target.closest('[data-act="upgrade"]')) this.ctl.sel.upgradeHover = true })
     this.infoEl.addEventListener('pointerout', (e) => { if (e.target.closest('[data-act="upgrade"]')) this.ctl.sel.upgradeHover = false })
   }
@@ -80,6 +91,8 @@ export class Panel {
       if (b.classList.contains('active') !== active) {
         b.classList.toggle('active', active)
         b.setAttribute('aria-pressed', active)
+        // in der waagerechten Turmleiste (Hochformat) den gewählten Turm sichtbar halten
+        if (active && this.shopEl.scrollWidth > this.shopEl.clientWidth) b.scrollIntoView({ block: 'nearest', inline: 'nearest' })
       }
     }
     if (this.sellArmed && performance.now() > this.sellArmed) { this.sellArmed = 0; this.invalidate() }
@@ -98,6 +111,81 @@ export class Panel {
     }
     this.updateLive()
     this.updatePreview()
+    const ckey = `${key}|${this.previewKey}`
+    if (this.compactEl && ckey !== this.compactKey) {
+      this.compactKey = ckey
+      this.renderCompact()
+    }
+  }
+
+  // Kompaktzeile des Sheets (Smartphone): das Wichtigste und genau eine Hauptaktion
+  renderCompact() {
+    const game = this.ctl.game
+    const sel = this.ctl.sel
+    const p = sel.preview
+    let icon = null, title = '', sub = '', subCls = '', actions = ''
+    const close = (label) => `<button class="btn icon" data-act="${sel.type || sel.moving ? 'cancel' : 'deselect'}" aria-label="${label}">✕</button>`
+    const status = () => {
+      if (!p) return ['Ziehe auf der Karte an die gewünschte Stelle.', '']
+      if (p.code === 'same') return ['Der Turm steht bereits hier.', '']
+      if (p.ok && p.goldOk) return ['✓ Gültige Position', 'ok']
+      if (p.ok) return [p.reason || 'Zu wenig Gold.', 'warn']
+      return [p.reason || 'Hier geht das nicht.', 'bad']
+    }
+    if (sel.moving) {
+      const t = sel.moving
+      icon = [t.type, t.level]
+      title = `${TOWERS[t.type].name} versetzen`;
+      [sub, subCls] = status()
+      const ok = !!(p && p.ok && p.goldOk && p.code !== 'same')
+      actions = `<button class="btn primary ${ok ? '' : 'disabled'}" data-act="confirm" aria-disabled="${!ok}">Versetzen <b>${game.moveCost(t)} G</b></button>${close('Versetzen abbrechen')}`
+    } else if (sel.type) {
+      const def = TOWERS[sel.type]
+      icon = [sel.type, 0]
+      title = `${def.name} · ${def.levels[0].cost} G`;
+      [sub, subCls] = status()
+      const ok = !!(p && p.ok && p.goldOk)
+      actions = `<button class="btn primary ${ok ? '' : 'disabled'}" data-act="confirm" aria-disabled="${!ok}">Bauen</button>${close('Bauen abbrechen')}`
+    } else if (sel.tower) {
+      const t = sel.tower
+      const def = t.def
+      const up = game.canUpgrade(t)
+      icon = [t.type, t.level]
+      title = `${def.name} · Stufe ${t.level + 1}/${def.levels.length}`
+      sub = up.max ? 'Höchste Stufe erreicht' : up.ok ? `Verbessern für ${up.cost} G` : up.reason
+      subCls = up.max ? '' : up.ok ? 'ok' : 'bad'
+      actions = `${up.max ? '' : `<button class="btn primary ${up.ok ? '' : 'disabled'}" data-act="upgrade" aria-disabled="${!up.ok}">⬆ <b>${up.cost} G</b></button>`}${close('Auswahl aufheben')}`
+    } else if (sel.obstacle) {
+      const o = sel.obstacle
+      const check = game.canClear(o)
+      title = o.def.name
+      sub = o.def.removable ? (check.ok ? `Räumen für ${game.clearCost(o)} G` : check.reason) : 'Lässt sich nicht entfernen'
+      subCls = o.def.removable && !check.ok ? 'bad' : ''
+      actions = `${o.def.removable ? `<button class="btn primary ${check.ok ? '' : 'disabled'}" data-act="clear" aria-disabled="${!check.ok}">Räumen</button>` : ''}${close('Auswahl aufheben')}`
+    } else {
+      // nichts gewählt: Vorschau der nächsten Welle
+      const w = game.nextWavePreview()
+      const html = w
+        ? `<div class="c-text"><span class="c-title">Nächste Welle ${w.number}${w.boss ? ' <span class="boss-tag">Boss</span>' : ''}${w.intro ? ' <span class="c-new">Neu</span>' : ''}</span><span class="c-wave"></span></div>`
+        : '<div class="c-text"><span class="c-title">Keine weiteren Wellen</span><span class="c-sub">Halte durch!</span></div>'
+      this.compactEl.innerHTML = html
+      const list = this.compactEl.querySelector('.c-wave')
+      if (w && list) {
+        for (const [type, count] of Object.entries(w.counts)) {
+          const span = document.createElement('span')
+          span.title = ENEMIES[type].name
+          span.appendChild(iconCanvas(18, (c) => drawEnemyIcon(c, type)))
+          span.append(`${count}`)
+          list.appendChild(span)
+        }
+      }
+      return
+    }
+    this.compactEl.innerHTML = `${icon ? '<span class="c-icon"></span>' : ''}
+      <div class="c-text"><span class="c-title">${esc(title)}</span><span class="c-sub ${subCls}">${esc(sub)}</span></div>
+      <div class="c-actions">${actions}</div>`
+    const slot = this.compactEl.querySelector('.c-icon')
+    if (slot) slot.replaceWith(Object.assign(iconCanvas(36, (c) => drawTowerIcon(c, icon[0], icon[1])), { className: 'c-icon' }))
   }
 
   renderInfo() {
@@ -120,7 +208,7 @@ export class Panel {
   head(type, level, sub) {
     const def = TOWERS[type]
     return `<div class="info-head"><span data-icon="${type}" data-level="${level}"></span>
-      <div><h3>${esc(def.name)}${sub ? ` <span class="lvl">${sub}</span>` : ''}</h3><p class="role">${esc(def.role)}</p></div></div>`
+      <div><h3>${esc(def.name)}${sub ? ` <span class="lvl">${sub}</span>` : ''}</h3><p class="role">${esc(def.role)}</p>${damageBadge(def)}</div></div>`
   }
 
   towerInfo(t) {
@@ -249,7 +337,8 @@ export class Panel {
     switch (b.dataset.act) {
       case 'confirm': this.ctl.confirm(); break
       case 'cancel': this.ctl.cancel(); break
-      case 'nudge': this.ctl.nudge(Number(b.dataset.dc), Number(b.dataset.dr)); break
+      case 'nudge': this.ctl.nudgeScreen(Number(b.dataset.dc), Number(b.dataset.dr)); break
+      case 'deselect': this.ctl.clear(); break
       case 'rotate': this.ctl.rotate(); break
       case 'move': this.ctl.startMove(); break
       case 'clear': this.ctl.clearObstacle(); break
@@ -274,6 +363,7 @@ export class Panel {
     const game = this.ctl.game
     const p = game.nextWavePreview()
     const key = p ? `${p.number}` : 'none'
+    const hint = p?.intro ? (p.intro === 'elite' ? ELITE_HINT : ENEMIES[p.intro]?.hint) : ''
     if (key === this.previewKey) return
     this.previewKey = key
     if (!p) {
@@ -281,14 +371,15 @@ export class Panel {
       return
     }
     this.previewEl.innerHTML = `<h4>Nächste Welle ${p.number}${p.boss ? ' <span class="boss-tag">Boss</span>' : ''}</h4>
-      ${p.title ? `<p class="wave-title">${esc(p.title)}</p>` : ''}<ul class="wave-list"></ul>`
+      ${p.title ? `<p class="wave-title">${esc(p.title)}</p>` : ''}${hint ? `<p class="wave-intro">${esc(hint)}</p>` : ''}<ul class="wave-list"></ul>`
     const ul = this.previewEl.querySelector('ul')
     for (const [type, count] of Object.entries(p.counts)) {
       const li = document.createElement('li')
       li.title = `${ENEMIES[type].name}: ${ENEMIES[type].description}`
       li.appendChild(iconCanvas(26, (c) => drawEnemyIcon(c, type)))
       const span = document.createElement('span')
-      span.textContent = `${count}× ${ENEMIES[type].name}`
+      const elite = p.elite[type] || 0
+      span.textContent = `${count}× ${ENEMIES[type].name}${elite ? ` (${elite === count ? '' : `${elite} `}Elite)` : ''}`
       li.appendChild(span)
       ul.appendChild(li)
     }

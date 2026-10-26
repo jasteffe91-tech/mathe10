@@ -16,6 +16,7 @@ import { generateObstacles, clearCost } from './obstacles.js'
 import { computeRouteCells } from './routes.js'
 import * as construction from './construction.js'
 import * as savegame from './savegame.js'
+import { Telemetry } from './telemetry.js'
 import { checkPlacement } from './placement.js'
 import { updateProjectile } from './projectiles.js'
 import { WaveManager } from './waves.js'
@@ -31,6 +32,13 @@ export class Game {
     // Eine Karte hat einen Weg (`path`) oder mehrere (`paths`), die sich vor der Bastion treffen
     this.routes = (this.map.paths || [this.map.path]).map((p) => new Route(smoothRoute(p)))
     this.route = this.routes[0]
+    // Flugrouten: geradlinig vom Eingang jeder Route zur Bastion (für fliegende Gegner)
+    this.flightRoutes = this.routes.map((r) => {
+      const f = new Route([r.points[0], [this.map.base.x, this.map.base.y]])
+      f.maxSpeed = f.length / ((BALANCE.flightTimeShare * r.length) / BALANCE.flightReferenceSpeed)
+      f.flight = true
+      return f
+    })
     this.spawnCounter = 0
     // Raster: Gelände aus der Karte ableiten, dann Hindernisse verteilen
     const adv = this.mode.features ? this.map.advanced || {} : {}
@@ -53,6 +61,7 @@ export class Game {
     this.time = 0
     this.nextId = 1
     this.stats = { kills: 0, leaked: 0, damage: 0, score: 0, bossesKilled: 0, wavesCleared: 0 }
+    this.telemetry = new Telemetry()
     this.listeners = new Map()
   }
 
@@ -84,9 +93,9 @@ export class Game {
     if (this.status !== 'playing') return
     this.time += dt
 
-    const signal = this.waves.update(dt, (type, hpFactor, waveNo) => {
+    const signal = this.waves.update(dt, (type, hpFactor, waveNo, idx, group) => {
       const scale = hpScaleForWave(waveNo, this.difficulty, ENEMIES[type].boss) * (this.map.hpMult || 1) * hpFactor
-      this.queueSpawn(type, { hpScale: scale })
+      this.queueSpawn(type, { hpScale: scale, elite: !!group?.elite })
     })
     if (signal === 'auto-start') this.startWave()
     this.flushSpawns()
@@ -108,9 +117,12 @@ export class Game {
   }
 
   // Ohne vorgegebenen Weg verteilen sich neue Gegner abwechselnd auf alle Wege
-  queueSpawn(type, { hpScale = 1, dist = 0, minion = false, route = null } = {}) {
-    if (!route) route = this.routes[this.spawnCounter++ % this.routes.length]
-    this.pendingSpawns.push({ type, hpScale, dist, minion, route })
+  queueSpawn(type, { hpScale = 1, dist = 0, minion = false, route = null, elite = false } = {}) {
+    if (!route) {
+      const list = ENEMIES[type].flying ? this.flightRoutes : this.routes
+      route = list[this.spawnCounter++ % list.length]
+    }
+    this.pendingSpawns.push({ type, hpScale, dist, minion, route, elite })
   }
 
   // Abstand zum nächsten Weg und Wegabdeckung eines Kreises (alle Wege zusammen)
@@ -122,11 +134,12 @@ export class Game {
     for (const s of this.pendingSpawns) {
       const def = ENEMIES[s.type]
       const lane = (this.rng() * 2 - 1) * def.lane
-      const e = createEnemy(def, { id: this.nextId++, hpScale: s.hpScale, dist: s.dist, lane, route: s.route })
+      const e = createEnemy(def, { id: this.nextId++, hpScale: s.hpScale, dist: s.dist, lane, route: s.route, elite: s.elite })
       if (s.minion) e.reward = Math.ceil(e.reward / 2)
       placeEnemy(e)
       e.px = e.x; e.py = e.y
       this.enemies.push(e)
+      this.telemetry.count(this.telemetry.spawned, e.type)
       if (e.boss) this.emit('bossSpawn', { enemy: e })
     }
     this.pendingSpawns.length = 0
@@ -144,6 +157,7 @@ export class Game {
 
   killEnemy(e, source) {
     if (!e.alive) return
+    this.telemetry.count(this.telemetry.killed, e.type)
     e.alive = false
     const gold = this.wallet.earn(e.reward)
     this.stats.kills++
@@ -155,6 +169,8 @@ export class Game {
 
   leakEnemy(e) {
     if (!e.alive) return
+    this.telemetry.count(this.telemetry.leaked, e.type)
+    this.telemetry.count(this.telemetry.livesLost, e.type, Math.min(e.def.damage, this.lives))
     e.alive = false
     this.lives = Math.max(0, this.lives - e.def.damage)
     this.stats.leaked++
@@ -170,6 +186,7 @@ export class Game {
       this.stats.wavesCleared++
     }
     if (bonus) this.wallet.earn(bonus)
+    this.telemetry.waveEnd(this.time)
     this.emit('waveEnd', { wave: this.waves.current, bonus })
     if (this.waves.phase === 'done') this.finish('won')
   }
@@ -187,7 +204,8 @@ export class Game {
     const n = this.waves.start()
     if (!n) return 0
     const wave = this.waves.waves[n - 1]
-    this.emit('waveStart', { wave: n, boss: wave.groups.some((g) => ENEMIES[g.type].boss), title: wave.title || '' })
+    this.telemetry.waveStart(n, this.time)
+    this.emit('waveStart', { wave: n, boss: wave.groups.some((g) => ENEMIES[g.type].boss), title: wave.title || '', intro: wave.intro || null })
     return n
   }
 
@@ -287,8 +305,12 @@ export class Game {
     const wave = this.waves.next()
     if (!wave) return null
     const counts = {}
-    for (const g of wave.groups) counts[g.type] = (counts[g.type] || 0) + g.count
-    return { number: this.waves.current + 1, title: wave.title || '', counts, boss: wave.groups.some((g) => ENEMIES[g.type].boss) }
+    const elite = {}
+    for (const g of wave.groups) {
+      counts[g.type] = (counts[g.type] || 0) + g.count
+      if (g.elite) elite[g.type] = (elite[g.type] || 0) + g.count
+    }
+    return { number: this.waves.current + 1, title: wave.title || '', counts, elite, intro: wave.intro || null, boss: wave.groups.some((g) => ENEMIES[g.type].boss) }
   }
 
   // ---------- Speichern ----------

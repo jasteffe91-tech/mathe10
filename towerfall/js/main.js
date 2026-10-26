@@ -3,14 +3,16 @@
 import { MAPS, getMap } from './config/maps.js'
 import { DIFFICULTIES, SIM } from './config/balance.js'
 import { MODES } from './config/terrain.js'
-import { TOWERS, TOWER_ORDER } from './config/towers.js'
-import { ENEMIES, ENEMY_ORDER } from './config/enemies.js'
+import { TOWERS, TOWER_ORDER, DAMAGE_TYPES } from './config/towers.js'
+import { ENEMIES, ENEMY_ORDER, ELITE_HINT } from './config/enemies.js'
 import { Game } from './game/game.js'
 import { GameLoop } from './core/loop.js'
 import { Renderer } from './render/renderer.js'
 import { drawTowerIcon, drawEnemyIcon } from './render/sprites.js'
 import { Controller } from './ui/controller.js'
 import { Panel } from './ui/panel.js'
+import { Sheet } from './ui/sheet.js'
+import { Loupe } from './render/loupe.js'
 import { Hud } from './ui/hud.js'
 import { openModal, closeModal, modalOpen } from './ui/modal.js'
 import { setupPointer, setupKeyboard } from './ui/input.js'
@@ -42,6 +44,7 @@ function applySettings() {
   sfx.setEnabled(settings.sound)
   sfx.setVolume(settings.volume)
   renderer.setReducedMotion(reducedMotion())
+  renderer.setRotateMode(settings.rotateMap === 'off' ? 'off' : 'auto')
   document.documentElement.classList.toggle('reduced-motion', reducedMotion())
   storage.saveSettings(settings)
 }
@@ -52,27 +55,36 @@ const canvas = $('#canvas')
 const renderer = new Renderer(canvas)
 const toastArea = $('#toasts')
 
-function toast(text, kind = 'info') {
+function toast(text, kind = 'info', ms = 2200) {
   const el = document.createElement('div')
   el.className = `toast toast-${kind}`
   el.textContent = text
   el.setAttribute('role', kind === 'error' ? 'alert' : 'status')
   toastArea.appendChild(el)
   while (toastArea.children.length > 3) toastArea.firstChild.remove()
-  setTimeout(() => el.classList.add('out'), 2200)
-  setTimeout(() => el.remove(), 2700)
+  setTimeout(() => el.classList.add('out'), ms)
+  setTimeout(() => el.remove(), ms + 500)
 }
 
 const controller = new Controller({
-  onChange: () => panel?.invalidate(),
+  onChange: () => {
+    panel?.invalidate()
+    if (!controller.placing) loupe?.hide() // Lupe gehört nur zum Bau-/Versetzmodus
+    // sofort umschalten (nicht erst beim nächsten UI-Takt): Im Baumodus darf der Browser einen
+    // Fingerzug auf der Karte nie als Scrollen/Zoomen übernehmen, sonst bricht das Ziehen ab
+    canvas.style.touchAction = controller.placing ? 'none' : 'manipulation'
+  },
   onMessage: toast,
   sfx,
 })
-const panel = new Panel({ shop: $('#shop'), info: $('#info'), preview: $('#wave-preview'), controller, settings: () => settings })
+const panel = new Panel({ shop: $('#shop'), info: $('#info'), preview: $('#wave-preview'), compact: $('#sheet-compact'), controller, settings: () => settings })
+const sheet = new Sheet({ root: $('#sheet'), stage: $('#stage') })
+const loupe = new Loupe($('#loupe'), renderer)
+controller.screenStep = (dx, dy) => renderer.screenStepToWorld(dx, dy)
 const hud = new Hud({
   lives: $('#hud-lives'), livesBox: $('#hud-lives-box'), gold: $('#hud-gold'), wave: $('#hud-wave'),
-  enemies: $('#hud-enemies'), progress: $('#hud-progress'), next: $('#btn-next'), nextCls: $('#btn-next'),
-  speed: $('#btn-speed'), pause: $('#btn-pause'),
+  enemies: $('#hud-enemies'), progress: $('#hud-progress'), line: $('#hud-line'), next: $('#btn-next-long'), nextShort: $('#btn-next-short'),
+  nextBtn: $('#btn-next'), nextCls: $('#btn-next'), speed: $('#btn-speed'), pause: $('#btn-pause'),
 })
 
 let uiTimer = 0
@@ -85,6 +97,12 @@ const loop = new GameLoop({
       tower: sel.tower, type: sel.type, moving: sel.moving, obstacle: sel.obstacle, preview: sel.preview,
       placing: controller.placing, upgradeHover: sel.upgradeHover, showAllRanges: settings.showAllRanges,
     }, visualDt)
+    // Lupe: nur im Baumodus; per Tastatur folgt sie der Vorschau
+    if (loupe.visible) {
+      if (!controller.placing) loupe.hide()
+      else if (controller.inputMode === 'keyboard' && sel.preview) loupe.show(sel.preview.x, sel.preview.y)
+      loupe.draw(sel.preview)
+    }
     // Oberfläche ~10× pro Sekunde aktualisieren reicht und spart DOM-Arbeit
     uiTimer -= realDt
     if (uiTimer <= 0) {
@@ -92,7 +110,6 @@ const loop = new GameLoop({
       // Vorschau aktuell halten (Gold ändert sich laufend), Auswahl bereinigen
       if (controller.placing) controller.updatePreview()
       controller.validate()
-      canvas.style.touchAction = controller.placing ? 'none' : 'manipulation'
       hud.update(state.game, loop)
       panel.update()
     }
@@ -144,9 +161,12 @@ function startGame({ mapId, difficulty, mode = 'normal', snapshot = null }) {
 function wireGame(game) {
   const off = []
   const on = (t, fn) => off.push(game.on(t, fn))
-  on('waveStart', ({ wave, boss, title }) => {
+  on('waveStart', ({ wave, boss, title, intro }) => {
     storage.noteWave(game.map.id, wave)
     toast(boss ? `Welle ${wave}: ${title || 'Bosswelle!'}` : `Welle ${wave} kommt!`, boss ? 'boss' : 'info')
+    // neue Gegnerart: Erklärung länger einblenden
+    const hint = intro && (intro === 'elite' ? ELITE_HINT : ENEMIES[intro]?.hint)
+    if (hint) toast(hint, 'intro', 6000)
   })
   on('waveEnd', ({ wave, bonus }) => {
     if (game.status === 'playing') toast(`Welle ${wave} überstanden${bonus ? ` · +${bonus} Gold` : ''}`, 'good')
@@ -251,13 +271,20 @@ $('#pause-banner').addEventListener('click', () => setPaused(false))
 // Mausklicks auf Spielknöpfe sollen den Fokus nicht verschieben – sonst würde die Leertaste
 // danach den zuletzt geklickten Knopf erneut auslösen statt zu pausieren
 $('#screen-game').addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault() })
-setupPointer(canvas, renderer, controller)
-setupKeyboard({ isActive: () => state.screen === 'game' && !!state.game, controller, actions })
+setupPointer(canvas, renderer, controller, loupe)
+setupKeyboard({ isActive: () => state.screen === 'game' && !!state.game, controller, actions, loupe })
 // Audio darf erst nach einer Nutzeraktion starten
 addEventListener('pointerdown', () => sfx.unlock(), { capture: true })
 addEventListener('keydown', () => sfx.unlock(), { capture: true })
-addEventListener('resize', () => renderer.resize())
-new ResizeObserver(() => renderer.resize()).observe($('#stage'))
+// Größenänderung und Drehen des Geräts: Ansicht neu berechnen, Sheet einrasten, Lupe schließen
+// (die Vorschau bleibt in Weltkoordinaten erhalten)
+function relayout() {
+  renderer.resize()
+  sheet.layout()
+  loupe.hide()
+}
+addEventListener('resize', relayout)
+new ResizeObserver(relayout).observe($('#stage'))
 
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && state.game && state.screen === 'game' && settings.autoPause && state.game.status === 'playing') {
@@ -389,7 +416,7 @@ $('#btn-stats').addEventListener('click', () => showStats())
 // ---------- Anleitung ----------
 const INTRO = `<ol class="intro-steps">
   <li><b>Ziel:</b> Gegner laufen den Weg entlang zur Bastion. Jeder, der ankommt, kostet Leben. Überstehe alle 20 Wellen.</li>
-  <li><b>Bauen:</b> Wähle einen Turm im Baumenü. Auf der Karte erscheint ein Raster mit Vorschau: grün = passt, rot = belegt (Weg, Wasser, Hindernis, anderer Turm). Klicken bzw. nochmal tippen baut. Gold bekommst du für besiegte Gegner.</li>
+  <li><b>Bauen:</b> Wähle einen Turm im Baumenü. Auf der Karte erscheint ein Raster mit Vorschau: grün = passt, rot = belegt (Weg, Wasser, Hindernis, anderer Turm). Mit der Maus baut ein Klick; auf dem Smartphone ziehst du den Turm mit dem Finger (die Lupe zeigt die Stelle vergrößert) und tippst dann auf „Bauen“. Gold bekommst du für besiegte Gegner.</li>
   <li><b>Platz:</b> Jeder Turm belegt seine Grundfläche – kleine Türme 1 × 1, Kanone und Banner 2 × 2, der Tribok 3 × 3. Die Speerschleuder (2 × 1) lässt sich mit R drehen.</li>
   <li><b>Gelände:</b> Bäume, Steine und Ruinen kannst du antippen und gegen Gold räumen. Klippen und Wasser bleiben. Klippen und Mauern versperren Türmen die Sicht.</li>
   <li><b>Verbessern &amp; Versetzen:</b> Tippe auf einen Turm, um ihn zu verbessern, seine Zielwahl zu ändern, ihn gegen eine kleine Gebühr zu versetzen oder zu verkaufen.</li>
@@ -413,15 +440,17 @@ function showIntro(first) {
 }
 
 function showHowTo(back) {
-  const towers = TOWER_ORDER.map((t) => `<li><span data-ticon="${t}"></span><div><b>${TOWERS[t].name}</b> · ${TOWERS[t].levels[0].cost} G<br><span class="muted">${esc(TOWERS[t].description)}</span></div></li>`).join('')
+  const dtype = (def) => { const d = DAMAGE_TYPES[def.damageType]; return d ? ` · <span style="color:${d.color}">${d.icon} ${d.name}</span>${def.attack === 'shell' ? ' · trifft keine Flieger' : ''}` : '' }
+  const towers = TOWER_ORDER.map((t) => `<li><span data-ticon="${t}"></span><div><b>${TOWERS[t].name}</b> · ${TOWERS[t].levels[0].cost} G${dtype(TOWERS[t])}<br><span class="muted">${esc(TOWERS[t].description)}</span></div></li>`).join('')
   const enemies = ENEMY_ORDER.map((t) => `<li><span data-eicon="${t}"></span><div><b>${ENEMIES[t].name}</b>${ENEMIES[t].boss ? ' <span class="boss-tag">Boss</span>' : ''}<br><span class="muted">${esc(ENEMIES[t].description)}</span></div></li>`).join('')
   const el = openModal({
     title: 'Anleitung',
     className: 'wide',
     body: `${INTRO}<h3>Türme</h3><ul class="codex">${towers}</ul><h3>Gegner</h3><ul class="codex">${enemies}</ul>
+      <h3>Schadensarten &amp; Konter</h3><p>Jeder Turm macht eine Schadensart: ⚔ physisch (Pfeil, Speer, Scharfschütze), ✹ explosiv (Kanone, Tribok), ✦ Magie (Blitz), ❄ Frost, ☠ Gift. Panzerung zieht von jedem Treffer einen festen Betrag ab – starke Einzeltreffer und Gift kommen besser durch. Geister halten physischem Schaden stand, Harpyien fliegen über Bogengeschosse hinweg, Berserker ignorieren Frost während ihrer Raserei, Runenhexer und Bosse lähmen Türme, die dicht am Weg geballt stehen. ${esc(ELITE_HINT.replace('Neu: ', ''))}</p>
       <h3>Steuerung</h3><p>Maus: Turm wählen, Vorschau folgt dem Zeiger, Klick baut (mit Umschalt bleibt der Baumodus aktiv). Rechtsklick bricht ab.<br>
-      Finger: Turm wählen, auf die Karte tippen oder ziehen, dann nochmal tippen oder „Bauen“. Mit den Pfeil-Knöpfen lässt sich die Vorschau zellgenau verschieben.<br>
-      Tastatur: 1–9 Turm · Pfeiltasten Vorschau verschieben (sonst Türme durchblättern) · R drehen · Enter bauen · Esc abbrechen · M versetzen · C Hindernis räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>
+      Finger: Turm in der Leiste wählen, auf der Karte ziehen – die Lupe über dem Finger zeigt Raster und Grundfläche vergrößert. Loslassen baut nicht; gebaut wird erst mit „Bauen“. Mit den Pfeil-Knöpfen (Infobereich nach oben ziehen) lässt sich die Vorschau zellgenau verschieben. Im Hochformat wird die Karte gedreht, damit sie größer ist (abschaltbar in den Einstellungen).<br>
+      Tastatur: 1–9 Turm · Pfeiltasten Vorschau verschieben, die Lupe folgt (sonst Türme durchblättern) · R drehen · Enter bauen · Esc abbrechen · M versetzen · C Hindernis räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>
       <h3>Modi</h3><p><b>Normal:</b> übersichtliches Gelände, wenige Hindernisse. <b>Fortgeschritten:</b> Flüsse, Klippen, Ruinen, dichter Wald und eine Bauzone nahe am Weg – Räumen kostet Gold, dafür gibt es mehr Punkte.</p>
       <h3>Offline spielen &amp; installieren</h3>
       <p>Das Spiel speichert sich beim ersten Öffnen komplett auf deinem Gerät. Danach läuft es ohne Internet. Installieren: im Browsermenü „App installieren“ bzw. „Zum Home-Bildschirm“ (Safari: Teilen → Zum Home-Bildschirm).</p>`,
@@ -453,6 +482,9 @@ function showSettings(back) {
         <option value="on" ${settings.reducedMotion === 'on' ? 'selected' : ''}>An</option>
         <option value="off" ${settings.reducedMotion === 'off' ? 'selected' : ''}>Aus</option></select></label>
       <label class="row"><span>Starttempo</span><select name="defaultSpeed">${SIM.speeds.map((s) => `<option value="${s}" ${settings.defaultSpeed === s ? 'selected' : ''}>${s}×</option>`).join('')}</select></label>
+      <label class="row"><span>Karte im Hochformat drehen</span><select name="rotateMap">
+        <option value="auto" ${settings.rotateMap !== 'off' ? 'selected' : ''}>Automatisch (größere Karte)</option>
+        <option value="off" ${settings.rotateMap === 'off' ? 'selected' : ''}>Nie drehen</option></select></label>
       <label class="row"><span>Reichweite aller Türme zeigen</span><input type="checkbox" name="showAllRanges" ${settings.showAllRanges ? 'checked' : ''}></label>
       <label class="row"><span>Verkauf bestätigen</span><input type="checkbox" name="confirmSell" ${settings.confirmSell ? 'checked' : ''}></label>
       <label class="row"><span>Pause, wenn das Fenster verdeckt ist</span><input type="checkbox" name="autoPause" ${settings.autoPause ? 'checked' : ''}></label>
@@ -469,6 +501,7 @@ function showSettings(back) {
     settings.reducedMotion = form.reducedMotion.value
     settings.defaultSpeed = Number(form.defaultSpeed.value)
     settings.showAllRanges = form.showAllRanges.checked
+    settings.rotateMap = form.rotateMap.value
     settings.confirmSell = form.confirmSell.checked
     settings.autoPause = form.autoPause.checked
     applySettings()
@@ -532,4 +565,4 @@ $('#btn-install').addEventListener('click', () => pwa.install())
 applySettings()
 showScreen('menu')
 // Für automatisierte Tests im Browser
-window.__towerfall = { get game() { return state.game }, loop, controller, storage, startGame }
+window.__towerfall = { get game() { return state.game }, loop, controller, storage, startGame, renderer, loupe, sheet }

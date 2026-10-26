@@ -102,16 +102,18 @@ h1, h2, h3, h4 { margin: 0; }
 .start-row { margin-top: 20px; display: flex; justify-content: flex-end; }
 
 /* ---------- Spielansicht ---------- */
+/* Desktop: Karte links, rechts Baumenü und darunter der Infobereich. Smartphones siehe unten. */
 .screen-game {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  grid-template-rows: auto minmax(0, 1fr);
-  grid-template-areas: "hud hud" "stage panel";
+  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-areas: "hud hud" "stage shop" "stage sheet";
   padding: var(--safe-t) var(--safe-r) 0 var(--safe-l);
   background: var(--bg);
+  overflow: hidden;
 }
 .hud {
-  grid-area: hud; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  grid-area: hud; position: relative; display: flex; align-items: center; justify-content: space-between; gap: 10px;
   padding: 8px 12px; background: linear-gradient(#1b2331, #151c27); border-bottom: 1px solid var(--line);
 }
 .hud-stats { display: flex; align-items: center; gap: 8px; min-width: 0; flex-wrap: wrap; }
@@ -128,24 +130,33 @@ h1, h2, h3, h4 { margin: 0; }
 .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width .2s; }
 .hud-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .next-btn { min-width: 150px; }
+.next-btn .short { display: none; }
+.hud-line { display: none; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: rgba(0,0,0,.4); }
+.hud-line i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--green)); transition: width .2s; }
 .next-btn.pulse { animation: pulse 1.6s infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(242,193,78,.25); } }
 
 .stage { grid-area: stage; position: relative; min-height: 0; background: #0d1118; overflow: hidden; }
-.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+.stage #canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+/* Lupe für die genaue Platzierung: Kopie des Spielfelds rund um die Vorschau, vergrößert */
+.loupe { position: absolute; left: 0; top: 0; width: 132px; height: 132px; border-radius: 50%; border: 3px solid #f1e3b8; box-shadow: 0 6px 22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.6); background: #0d1118; pointer-events: none; z-index: 4; }
 .toasts { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); display: grid; gap: 6px; justify-items: center; pointer-events: none; width: min(92%, 460px); z-index: 2; }
 .toast { padding: 8px 14px; border-radius: 10px; background: rgba(20,26,36,.92); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.4); font-weight: 600; text-align: center; animation: toast-in .2s ease-out; transition: opacity .4s, transform .4s; }
 .toast-error { border-color: var(--red); color: #ffd2cd; }
 .toast-good { border-color: var(--green); color: #d7ffd4; }
+.toast-intro { border-color: #a07cff; background: rgba(40,26,70,.94); color: #efe6ff; font-weight: 500; font-size: 14px; line-height: 1.35; }
 .toast-boss { border-color: var(--red); background: rgba(80,20,20,.92); color: #ffe1b0; font-size: 17px; }
 .toast.out { opacity: 0; transform: translateY(-6px); }
 @keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } }
 .pause-banner { position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; padding: 14px 22px; border-radius: 14px; border: 1px solid var(--gold); background: rgba(12,16,24,.85); color: var(--gold); font: 700 20px var(--f-title); cursor: pointer; z-index: 3; }
 
 /* ---------- Seitenleiste ---------- */
-.panel > * { flex-shrink: 0; }
-.panel { grid-area: panel; display: flex; flex-direction: column; gap: 10px; padding: 10px 10px calc(10px + var(--safe-b)); background: var(--bg2); border-left: 1px solid var(--line); overflow-y: auto; min-height: 0; }
-.shop { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.shop { grid-area: shop; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; padding: 10px 10px 0; background: var(--bg2); border-left: 1px solid var(--line); }
+.sheet { grid-area: sheet; min-height: 0; background: var(--bg2); border-left: 1px solid var(--line); overflow-y: auto; }
+.sheet-panel { display: flex; flex-direction: column; gap: 10px; padding: 10px 10px calc(10px + var(--safe-b)); }
+.sheet-panel > * { flex-shrink: 0; }
+.sheet-body { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; }
+.sheet-grip, .sheet-compact { display: none; }
 .shop-btn {
   position: relative; display: flex; flex-direction: column; align-items: center; gap: 1px;
   padding: 6px 4px 5px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); cursor: pointer;
@@ -167,6 +178,8 @@ h1, h2, h3, h4 { margin: 0; }
 .info-head h3 { font: 700 17px var(--f-title); }
 .info-head .lvl { font: 600 12px var(--f-ui); color: var(--gold); margin-left: 4px; }
 .info-head .role { margin: 0; font-size: 12.5px; color: var(--muted); }
+.info-head .dtype { margin: 2px 0 0; font-size: 12px; font-weight: 600; }
+.dtype .no-air { color: #ffb4ab; font-weight: 500; }
 .info-empty h3 { font: 700 17px var(--f-title); margin-bottom: 4px; }
 .desc { font-size: 13.5px; }
 .stats { display: grid; grid-template-columns: 1fr; gap: 2px; margin: 8px 0; font-size: 13.5px; }
@@ -187,8 +200,8 @@ h1, h2, h3, h4 { margin: 0; }
 .reason { color: #ffb4ab; font-size: 13px; min-height: 0; }
 .reason:empty { display: none; }
 .hint-line { color: var(--gold); font-size: 13.5px; }
-.actions { display: flex; gap: 6px; margin-top: 8px; }
-.actions .btn { flex: 1; white-space: nowrap; padding-inline: 8px; }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.actions .btn { flex: 1 1 auto; white-space: nowrap; padding-inline: 8px; }
 .segmented { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 6px; background: rgba(0,0,0,.25); padding: 3px; border-radius: 10px; }
 .seg { border: 0; background: transparent; padding: 6px 2px; border-radius: 7px; font-size: 12px; cursor: pointer; color: var(--muted); min-height: 32px; }
 .seg.on { background: var(--panel2); color: var(--gold); font-weight: 700; }
@@ -201,6 +214,7 @@ h1, h2, h3, h4 { margin: 0; }
 .wave-preview { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; }
 .wave-preview h4 { font: 700 15px var(--f-title); display: flex; align-items: center; gap: 6px; }
 .wave-title { margin: 2px 0 0; color: #ffb4ab; font-style: italic; font-size: 13px; }
+.wave-intro { margin: 6px 0 0; padding: 6px 8px; font-size: 12.5px; line-height: 1.35; color: #e9ddff; background: rgba(120,80,200,.18); border: 1px solid rgba(160,120,255,.45); border-radius: 8px; }
 .wave-list { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 13px; }
 .wave-list li { display: flex; align-items: center; gap: 4px; }
 .boss-tag { font: 800 10px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--red); padding: 2px 6px; border-radius: 99px; }
@@ -236,54 +250,120 @@ h1, h2, h3, h4 { margin: 0; }
 .settings [data-reset] { margin-top: 10px; }
 .stat-card { margin-bottom: 12px; }
 
-/* ---------- Hochformat (Smartphone): Spielfeld oben, Menü darunter ---------- */
-@media (max-aspect-ratio: 1/1), (max-width: 760px) {
-  .screen-game {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
-    grid-template-areas: "hud" "stage" "panel";
+/* ---------- Smartphone: gemeinsame Bausteine ----------
+   Kompakte Kopfleiste, Turmleiste mit Symbol/Kurzname/Preis und ein Infobereich als „Bottom Sheet“:
+   kompakt (nur das Wichtigste und die Hauptaktion), halb oder voll – per Wischen oder Tippen auf den Griff.
+   Das Sheet liegt beim Aufziehen über der Karte, die Karte selbst ändert ihre Größe dabei nicht. */
+@media (max-aspect-ratio: 1/1), (max-height: 520px) {
+  .hud { padding: 4px 6px; gap: 4px; }
+  .hud-stats { gap: 3px; flex-wrap: nowrap; min-width: 0; }
+  .stat { padding: 2px 6px; gap: 3px; }
+  .stat b { font-size: 14px; }
+  .stat .ico { font-size: 14px; }
+  .coin { width: 13px; height: 13px; }
+  .stat.wave .lbl { font-size: 0; }
+  .stat.wave .lbl::before { content: "W"; font-size: 10.5px; }
+  .stat.progress { display: none; }
+  .hud-line { display: block; }
+  .hud-actions { gap: 3px; }
+  .btn.icon { min-width: 36px; min-height: 38px; padding: 4px 4px; }
+  .next-btn { min-width: 0; min-height: 38px; padding: 4px 8px; font-size: 13.5px; white-space: nowrap; }
+  .next-btn .long { display: none; }
+  .next-btn .short { display: inline; }
+
+  .shop-name { font-size: 10.5px; line-height: 1.1; }
+  .shop-btn kbd { display: none; }
+  .shop-size { top: 2px; right: 3px; font-size: 9px; }
+
+  .sheet { position: relative; overflow: visible; border-left: 0; z-index: 5; background: none; }
+  .sheet-panel {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 100%;
+    padding: 0 8px 8px; gap: 8px; background: var(--bg2); border-top: 1px solid var(--line);
+    border-radius: 14px 14px 0 0; box-shadow: 0 -8px 24px rgba(0,0,0,.35);
+    overflow: hidden; transition: height .22s ease-out;
   }
-  .stage { aspect-ratio: 16 / 9; width: 100%; max-height: 62dvh; }
-  .panel { border-left: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; align-content: start; }
-  .shop { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
-  .shop-btn { padding: 12px 2px 3px; }
-  .shop-btn canvas { width: 32px !important; height: 32px !important; }
-  .shop-cost { font-size: 12px; }
-  .shop-size { top: 2px; right: 4px; }
-  .shop-name { display: none; }
-  .shop-size { position: absolute; top: 3px; right: 5px; font: 600 9.5px var(--f-ui); color: var(--muted); }
-.shop-btn kbd { display: none; }
-  .hud { flex-wrap: wrap; padding: 6px 8px; gap: 6px; }
-  .hud-stats { gap: 5px; }
-  .stat { padding: 3px 8px; }
-  .stat b { font-size: 15px; }
-  .stat.progress { min-width: 0; }
-  .bar { width: 48px; }
-  .hud-actions { width: 100%; }
-  .next-btn { flex: 1; min-width: 0; }
+  .sheet.dragging .sheet-panel { transition: none; }
+  .sheet-panel { gap: 6px; padding-bottom: 6px; }
+  .sheet-grip { display: block; flex-shrink: 0; width: 100%; height: 14px; margin: 0; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; }
+  .sheet-grip span { display: block; width: 40px; height: 4px; margin: 5px auto; border-radius: 4px; background: #4a566c; }
+  .sheet-compact { display: flex; align-items: center; gap: 8px; min-height: 44px; flex-shrink: 0; touch-action: none; }
+  .sheet-body { overflow-y: auto; overscroll-behavior: contain; min-height: 0; flex: 1; }
+  .sheet[data-snap="compact"] .sheet-body { visibility: hidden; }
+  .sheet:not([data-snap="compact"]) .sheet-compact .c-expand { transform: rotate(180deg); }
+  .info { min-height: 0; }
   .toasts { top: 6px !important; }
   .toast { font-size: 13px; padding: 6px 10px; }
 }
+
+/* Kompaktzeile des Sheets */
+.sheet-compact .c-icon { flex-shrink: 0; width: 36px; height: 36px; }
+.sheet-compact .c-text { flex: 1; min-width: 0; line-height: 1.2; }
+.sheet-compact .c-title { display: block; font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sheet-compact .c-sub { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sheet-compact .c-sub.ok { color: var(--green); }
+.sheet-compact .c-sub.bad { color: #ffb4ab; }
+.sheet-compact .c-sub.warn { color: var(--gold); }
+.sheet-compact .c-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.sheet-compact .btn { min-height: 40px; padding: 6px 12px; white-space: nowrap; }
+.sheet-compact .btn.icon { min-width: 40px; padding: 6px; }
+.sheet-compact .c-wave { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; overflow: hidden; font-size: 12.5px; }
+.sheet-compact .c-wave span { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.sheet-compact .c-new { font: 800 10px var(--f-ui); text-transform: uppercase; letter-spacing: .06em; color: #fff; background: #7a52d1; padding: 2px 6px; border-radius: 99px; }
+
+/* ---------- Hochformat (Smartphone): Kopfleiste, Karte (gedreht), Sheet, Turmleiste ---------- */
+@media (max-aspect-ratio: 1/1) {
+  .screen-game {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) 66px auto;
+    grid-template-areas: "hud" "stage" "sheet" "shop";
+    padding: var(--safe-t) var(--safe-r) 0 var(--safe-l);
+  }
+  .hud { border-bottom: 1px solid var(--line); }
+  .shop {
+    display: flex; gap: 4px; padding: 6px 6px calc(6px + var(--safe-b)); border-left: 0; border-top: 1px solid var(--line);
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 14px), transparent);
+            mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 14px), transparent);
+  }
+  .shop::-webkit-scrollbar { display: none; }
+  .shop-btn { flex: 0 0 auto; width: 60px; padding: 4px 2px 3px; scroll-snap-align: start; gap: 0; }
+  .shop-btn canvas { width: 30px !important; height: 30px !important; }
+  .shop-cost { font-size: 11.5px; }
+}
+/* breite Hochformat-Geräte (Tablets): alle Türme passen nebeneinander */
 @media (max-aspect-ratio: 1/1) and (min-width: 600px) {
-  .panel { grid-template-columns: 1fr 1fr; }
-  .shop { grid-column: 1 / -1; }
+  .shop { overflow: visible; -webkit-mask-image: none; mask-image: none; justify-content: center; }
+  .shop-btn { width: 72px; }
 }
 
-/* ---------- Querformat mit wenig Höhe (Smartphone quer) ---------- */
+/* ---------- Querformat mit wenig Höhe (Smartphone quer): Karte links in voller Höhe, rechts eine schmale Spalte ---------- */
 @media (max-height: 520px) and (min-aspect-ratio: 1/1) {
-  .screen-game { grid-template-columns: minmax(0, 1fr) 230px; }
-  .hud { padding: 4px 8px; }
-  .stat { padding: 2px 8px; }
-  .stat b { font-size: 14px; }
-  .btn { min-height: 34px; padding: 5px 10px; }
-  .btn.icon { min-width: 38px; }
-  .next-btn { min-width: 0; font-size: 13px; }
-  .stat.progress .bar { display: none; }
-  .panel { padding: 6px; gap: 6px; }
-  .shop { gap: 4px; }
+  .screen-game {
+    grid-template-columns: minmax(0, 1fr) calc(184px + var(--safe-r));
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "stage hud" "stage shop" "stage sheet";
+    padding: 0 0 0 var(--safe-l);
+  }
+  .hud { flex-direction: column; align-items: stretch; gap: 4px; padding: calc(4px + var(--safe-t)) calc(6px + var(--safe-r)) 6px 6px; border-left: 1px solid var(--line); }
+  .hud-stats { justify-content: space-between; }
+  .stat { padding: 2px 5px; }
+  .hud-actions { justify-content: space-between; }
+  .next-btn { flex: 1; min-height: 34px; }
+  .hud-actions .btn.icon { min-height: 34px; min-width: 34px; }
+  .shop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 6px calc(6px + var(--safe-r)) 6px 6px; overflow-y: auto; align-content: start; }
+  .shop-btn { padding: 4px 2px 2px; gap: 0; }
+  .shop-btn canvas { width: 28px !important; height: 28px !important; }
   .shop-name { display: none; }
-  .shop-btn { padding: 3px; }
-  .shop-btn canvas { width: 34px !important; height: 34px !important; }
+  .shop-cost { font-size: 11px; }
+  .sheet { height: 112px; border-left: 1px solid var(--line); }
+  .sheet-panel { left: auto; width: calc(184px + var(--safe-r)); padding-right: calc(8px + var(--safe-r)); }
+  .sheet:not([data-snap="compact"]) .sheet-panel { width: min(400px, 62vw); border-left: 1px solid var(--line); }
+  .sheet-compact { flex-wrap: wrap; row-gap: 4px; }
+  .sheet-compact .c-icon { width: 30px; height: 30px; }
+  .sheet-compact .c-text { flex: 1 1 100px; }
+  .sheet-compact .c-actions { flex: 1 1 100%; }
+  .sheet-compact .c-actions .btn:not(.icon) { flex: 1; padding-inline: 6px; font-size: 13px; }
+  .sheet-compact .c-wave { flex-wrap: wrap; row-gap: 2px; }
   .info { padding: 8px; font-size: 13px; }
   .wave-preview { padding: 6px 8px; }
 }
