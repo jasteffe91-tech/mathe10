@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#2f6bff">
+<meta name="description" content="Blitzheld – Das Mathe-Abenteuer: Jump-and-Run für Kinder der 2. Klasse. Springen, Münzen sammeln, Bosse besiegen – und nach einem Unfall drei Plus- oder Minusaufgaben lösen.">
+<title>Blitzheld – Das Mathe-Abenteuer</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%232f6bff'/%3E%3Cpath d='M13.5 3 6 13.5h5L9.5 21l8.5-11.5h-5z' fill='%23ffd23f'/%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <div id="game" aria-label="Spielfeld"></div>
+
+    <!-- Anzeige im Spiel -->
+    <div id="hud" class="hidden" aria-live="polite">
+      <div class="hud-left">
+        <div id="hud-hearts" class="hud-hearts" aria-label="Herzen"></div>
+        <div id="hud-energy" class="hud-energy hidden" aria-label="Kraft im Bosskampf"></div>
+      </div>
+      <div class="hud-center">
+        <div id="hud-label" class="hud-label"></div>
+        <div id="hud-progress" class="hud-progress"><div id="hud-progress-bar"></div></div>
+        <div id="boss-bar" class="boss-bar hidden">
+          <div id="boss-name" class="boss-name"></div>
+          <div id="boss-hp" class="boss-hp"></div>
+        </div>
+      </div>
+      <div class="hud-right">
+        <div class="hud-coins"><span class="ico-wrap" data-icon="coin"></span><span id="hud-coins">0</span></div>
+        <button id="btn-pause" class="hud-btn" type="button" aria-label="Pause" data-action="pause"><span class="ico-wrap" data-icon="pause"></span></button>
+      </div>
+    </div>
+
+    <div id="ready-text" class="ready-text hidden"></div>
+    <div id="start-hint" class="start-hint hidden"></div>
+    <div id="toast" class="toast hidden" role="status"></div>
+    <button id="btn-jump" class="jump-btn hidden" type="button" aria-label="Springen"><span class="ico-wrap" data-icon="up"></span><span>Springen</span></button>
+  </div>
+
+  <!-- Hauptmenü -->
+  <section id="screen-menu" class="screen menu-screen hidden" aria-label="Hauptmenü">
+    <div class="menu-card">
+      <h1 class="title"><span class="title-main">Blitzheld</span><span class="title-sub">Das Mathe-Abenteuer</span></h1>
+      <div class="menu-buttons">
+        <button class="btn btn-big btn-play" type="button" data-action="play"><span class="ico-wrap" data-icon="play"></span><span>Spielen</span></button>
+        <button class="btn" type="button" data-action="worlds"><span class="ico-wrap" data-icon="map"></span><span>Welten</span></button>
+        <button class="btn" type="button" data-action="help"><span class="ico-wrap" data-icon="help"></span><span>Hilfe</span></button>
+        <button class="btn btn-sound" type="button" data-action="sound"><span class="ico-wrap sound-icon"></span><span class="sound-label">Ton an</span></button>
+      </div>
+      <div id="menu-stats" class="menu-stats"></div>
+    </div>
+  </section>
+
+  <!-- Weltenauswahl -->
+  <section id="screen-worlds" class="screen hidden" aria-label="Welten">
+    <div class="panel panel-wide">
+      <div class="panel-head">
+        <button class="btn btn-icon" type="button" data-action="back" aria-label="Zurück"><span class="ico-wrap" data-icon="back"></span></button>
+        <h2>Welten</h2>
+      </div>
+      <div id="world-list" class="world-list"></div>
+    </div>
+  </section>
+
+  <!-- Hilfe und Einstellungen -->
+  <section id="screen-help" class="screen hidden" aria-label="Hilfe">
+    <div class="panel">
+      <div class="panel-head">
+        <button class="btn btn-icon" type="button" data-action="back" aria-label="Zurück"><span class="ico-wrap" data-icon="back"></span></button>
+        <h2>So geht's</h2>
+      </div>
+      <ul class="help-list">
+        <li><span class="key">Leertaste</span> oder <span class="key">Tippen</span> = Springen</li>
+        <li>Lange drücken = <b>höher und weiter</b> springen</li>
+        <li><span class="ico-wrap" data-icon="coin"></span> Münzen und <span class="ico-wrap" data-icon="star"></span> Sterne sammeln</li>
+        <li>Auf Gegner draufhüpfen – dann sind sie weg!</li>
+        <li>Die grüne Fahne merkt sich, wo du warst.</li>
+        <li>Unfall? Rechne <b>3 Aufgaben</b>, dann geht es weiter.</li>
+        <li>Am Ende jeder Welt wartet ein <b>Boss</b>: Spring über seine Würfe, dann greif an!</li>
+      </ul>
+      <div class="settings">
+        <label class="switch-row">
+          <span><b>Hilfsmodus</b><br><small>Langsamer, mehr Zeit, Sprungpfeile</small></span>
+          <input id="opt-help" type="checkbox" role="switch">
+          <span class="switch" aria-hidden="true"></span>
+        </label>
+        <button class="btn btn-danger" type="button" data-action="reset">Spielstand löschen</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pause -->
+  <section id="screen-pause" class="screen overlay hidden" aria-label="Pause">
+    <div class="panel panel-small">
+      <h2>Pause</h2>
+      <div class="menu-buttons">
+        <button class="btn btn-big btn-play" type="button" data-action="resume"><span class="ico-wrap" data-icon="play"></span><span>Weiter</span></button>
+        <button class="btn" type="button" data-action="restart"><span class="ico-wrap" data-icon="restart"></span><span>Nochmal von vorn</span></button>
+        <button class="btn btn-sound" type="button" data-action="sound"><span class="ico-wrap sound-icon"></span><span class="sound-label">Ton an</span></button>
+        <button class="btn" type="button" data-action="menu"><span class="ico-wrap" data-icon="home"></span><span>Menü</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mathefenster -->
+  <section id="screen-math" class="screen overlay hidden" aria-label="Rechenaufgaben" role="dialog" aria-modal="true">
+    <div class="panel math-panel">
+      <div class="math-head">
+        <h2 id="math-title">Autsch!</h2>
+        <p id="math-sub"></p>
+      </div>
+      <div class="math-body">
+        <div class="math-left">
+          <div class="math-progress">
+            <span id="math-count">Aufgabe 1 von 3</span>
+            <span id="math-dots" class="math-dots"></span>
+          </div>
+          <div id="math-task" class="math-task">Wie viel ist 7 + 5?</div>
+          <div class="math-answer-row">
+            <input id="math-input" class="math-input" type="text" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="Deine Antwort">
+          </div>
+          <div id="math-feedback" class="math-feedback" aria-live="assertive"></div>
+        </div>
+        <div class="math-right">
+          <div id="math-pad" class="math-pad"></div>
+          <button id="math-check" class="btn btn-big btn-check" type="button"><span class="ico-wrap" data-icon="check"></span><span>Prüfen</span></button>
+        </div>
+      </div>
+      <div id="math-choice" class="math-choice hidden">
+        <p>Super gerechnet! Wie möchtest du weitermachen?</p>
+        <div class="menu-buttons row">
+          <button class="btn btn-big btn-play" type="button" data-action="math-revive"><span class="ico-wrap" data-icon="heart"></span><span>Weiterspielen</span></button>
+          <button class="btn" type="button" data-action="math-restart"><span class="ico-wrap" data-icon="restart"></span><span>Level neu starten</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Level geschafft -->
+  <section id="screen-complete" class="screen overlay hidden" aria-label="Geschafft">
+    <div class="panel panel-small complete-panel">
+      <h2 id="complete-title">Geschafft!</h2>
+      <div id="complete-stars" class="complete-stars"></div>
+      <div id="complete-info" class="complete-info"></div>
+      <div class="menu-buttons">
+        <button id="btn-next" class="btn btn-big btn-play" type="button" data-action="next"><span class="ico-wrap" data-icon="play"></span><span>Weiter</span></button>
+        <button class="btn" type="button" data-action="replay"><span class="ico-wrap" data-icon="restart"></span><span>Nochmal</span></button>
+        <button class="btn" type="button" data-action="menu"><span class="ico-wrap" data-icon="home"></span><span>Menü</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spiel durchgespielt -->
+  <section id="screen-gamecomplete" class="screen overlay hidden" aria-label="Alle Welten geschafft">
+    <div class="panel panel-small complete-panel">
+      <h2>Hurra!</h2>
+      <p class="big-text">Du hast alle vier Welten gerettet!</p>
+      <div id="final-trophies" class="final-trophies"></div>
+      <div id="final-info" class="complete-info"></div>
+      <div class="menu-buttons">
+        <button class="btn btn-big btn-play" type="button" data-action="menu"><span class="ico-wrap" data-icon="home"></span><span>Zum Menü</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sicherheitsabfrage -->
+  <section id="dialog-confirm" class="screen overlay hidden" role="alertdialog" aria-modal="true" aria-labelledby="confirm-text">
+    <div class="panel panel-small">
+      <h2 id="confirm-text">Wirklich?</h2>
+      <p id="confirm-sub"></p>
+      <div class="menu-buttons row">
+        <button class="btn btn-danger" type="button" data-action="confirm-yes">Ja, löschen</button>
+        <button class="btn btn-big btn-play" type="button" data-action="confirm-no">Nein</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hinweis Hochformat -->
+  <section id="rotate-hint" class="screen overlay hidden" aria-label="Gerät drehen">
+    <div class="panel panel-small">
+      <div class="rotate-icon" aria-hidden="true"></div>
+      <h2>Dreh dein Gerät quer</h2>
+      <p>Dann ist das Spiel schön groß.</p>
+      <button class="btn" type="button" data-action="rotate-ok">Trotzdem spielen</button>
+    </div>
+  </section>
+
+  <noscript><p class="noscript">Bitte JavaScript einschalten, um Blitzheld zu spielen.</p></noscript>
+</div>
+<script type="module" src="./main.ts"></script>
+</body>
+</html>
