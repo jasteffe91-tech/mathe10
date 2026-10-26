@@ -3,17 +3,27 @@
 // Finger/Stift: Im Baumodus folgt die Vorschau dem Finger, die Lupe zeigt den Bereich unter dem Finger
 //   vergrößert. Loslassen baut nie – gebaut wird nur mit „Bauen“. Ein kurzer Tipp ohne Baumodus wählt
 //   Türme bzw. Hindernisse aus.
-// Tastatur: Pfeiltasten verschieben die Vorschau (in Bildschirmrichtung), die Lupe folgt; Enter baut.
+// Tastatur: Pfeiltasten verschieben die Vorschau bzw. den ausgewählten Turm (in Bildschirmrichtung),
+//   die Lupe folgt; Enter baut bzw. bestätigt das Versetzen, Esc bricht kostenlos ab.
 import { handleModalKey } from './modal.js'
+import { shopIndexForCode } from './keys.js'
 
-const FINGER_GAP = 34 // Abstand der Lupe zum Berührungspunkt (CSS-Pixel), damit der Finger sie nicht verdeckt
-
+// Gibt reset() zurück: beendet eine laufende Geste (Ziehen, Lupe), z. B. wenn das Fenster den Fokus verliert
 export function setupPointer(canvas, renderer, controller, loupe = null) {
   let down = null
 
-  const showLoupeAt = (w) => loupe?.show(w.x, w.y, { finger: FINGER_GAP })
+  const reset = () => {
+    if (down && canvas.hasPointerCapture?.(down.id)) canvas.releasePointerCapture(down.id)
+    down = null
+    loupe?.hide()
+  }
+
+  // Abstand zum Finger und bevorzugte Lage (links oben für Rechtshänder): config/ui.js
+  const showLoupeAt = (w) => loupe?.show(w.x, w.y, { finger: true })
 
   canvas.addEventListener('pointerdown', (e) => {
+    // ein zweiter Finger oder ein verlorenes Ende der letzten Geste: alte Geste verwerfen
+    if (down && down.id !== e.pointerId) reset()
     down = { x: e.clientX, y: e.clientY, id: e.pointerId, type: e.pointerType, dragged: false }
     if (e.pointerType === 'mouse') { controller.inputMode = 'mouse'; loupe?.hide(); return }
     controller.inputMode = 'touch'
@@ -56,38 +66,48 @@ export function setupPointer(canvas, renderer, controller, loupe = null) {
     controller.tap(w.x, w.y, { touch: type !== 'mouse', shift: e.shiftKey })
   }
   canvas.addEventListener('pointerup', release)
-  canvas.addEventListener('pointercancel', () => { down = null; loupe?.hide() })
+  canvas.addEventListener('pointercancel', reset)
+  // Zeigererfassung ohne pointerup verloren (Browser hat die Geste übernommen): aufräumen
+  canvas.addEventListener('lostpointercapture', (e) => { if (down && down.id === e.pointerId) reset() })
   // Browser „korrigieren“ Fingertipps zu nahe gelegenen klickbaren Elementen (Touch Adjustment).
   // Ein Klick-Handler macht das Spielfeld selbst klickbar – ein Tipp knapp am Kartenrand landet so
   // auf der Karte statt auf einem Knopf der Kopfleiste oder des Infobereichs (z. B. „Bauen“).
   canvas.addEventListener('click', () => {})
   canvas.addEventListener('contextmenu', (e) => {
     e.preventDefault()
+    // Long-Press auf Touch-Geräten löst ebenfalls contextmenu aus – das soll den Baumodus nicht beenden
+    if (down && down.type !== 'mouse') return
     controller.placing ? controller.cancel() : controller.clear()
   })
+  return { reset, get active() { return !!down } }
 }
 
 export function setupKeyboard({ isActive, controller, actions, loupe = null }) {
   document.addEventListener('keydown', (e) => {
     if (handleModalKey(e)) return
     if (!isActive()) return
-    if (e.target.closest('input, select, textarea')) return
+    // Ziel kann auch das Dokument selbst sein (kein Element fokussiert) – dann gibt es kein closest()
+    const el = e.target instanceof Element ? e.target : null
+    if (el?.closest('input, select, textarea, [contenteditable="true"]')) return
     if (e.ctrlKey || e.metaKey || e.altKey) return
     const k = e.key
     // Leertaste/Enter auf einer per Tab fokussierten Schaltfläche lösen diese aus, nicht das Spiel
-    if ((k === ' ' || k === 'Enter') && e.target.closest('button, a')) return
+    if ((k === ' ' || k === 'Enter') && el?.closest('button, a')) return
     const placing = controller.placing
     const arrows = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }
     let handled = true
-    if (k >= '1' && k <= '9') controller.chooseIndex(Number(k) - 1)
+    const shopIndex = e.shiftKey ? -1 : shopIndexForCode(e.code)
+    if (shopIndex >= 0) controller.chooseIndex(shopIndex)
     else if (arrows[k]) {
-      if (placing) {
-        controller.inputMode = 'keyboard'
-        controller.nudgeScreen(...arrows[k])
+      // Vorschau bzw. ausgewählten Turm verschieben; ohne Auswahl tun die Pfeiltasten nichts
+      // (preventDefault verhindert trotzdem das Scrollen der Seite)
+      controller.inputMode = 'keyboard'
+      if (controller.arrow(...arrows[k])) {
         const p = controller.sel.preview
         if (p && loupe) loupe.show(p.x, p.y)
-      } else controller.cycleTower(arrows[k][0] + arrows[k][1] > 0 ? 1 : -1)
-    } else if (k === 'r' || k === 'R') controller.rotate()
+      }
+    } else if (k === ',' || k === '.') controller.cycleTower(k === '.' ? 1 : -1)
+    else if (k === 'r' || k === 'R') controller.rotate()
     else if (k === 'Enter') controller.confirm({ keepPlacing: e.shiftKey })
     else if (k === ' ' || k === 'p' || k === 'P') actions.togglePause()
     else if (k === 'n' || k === 'N') actions.nextWave()

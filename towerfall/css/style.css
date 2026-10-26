@@ -35,6 +35,11 @@ button, input, select { font: inherit; color: inherit; }
 h1, h2, h3, h4 { margin: 0; }
 
 #app { height: 100%; }
+/* Spieloberfläche ist keine Textseite: keine Textauswahl, kein Long-Press-Menü, kein Ziehen von Bildern.
+   Safari (iPhone/iPad) braucht dafür die -webkit-Varianten. Eingabefelder bleiben auswählbar. */
+#app { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+#app input, #app textarea, #app [contenteditable="true"] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+#app img, #app canvas { -webkit-user-drag: none; }
 .screen { height: 100%; height: 100dvh; }
 
 /* ---------- Schaltflächen ---------- */
@@ -43,7 +48,7 @@ h1, h2, h3, h4 { margin: 0; }
   min-height: 40px; padding: 8px 14px; border-radius: 10px;
   background: var(--panel2); border: 1px solid var(--line); cursor: pointer;
   transition: background .15s, border-color .15s, transform .05s;
-  touch-action: manipulation; user-select: none;
+  touch-action: manipulation; -webkit-user-select: none; user-select: none;
 }
 .btn:hover { background: #2a3548; border-color: #43516a; }
 .btn:active { transform: translateY(1px); }
@@ -102,12 +107,13 @@ h1, h2, h3, h4 { margin: 0; }
 .start-row { margin-top: 20px; display: flex; justify-content: flex-end; }
 
 /* ---------- Spielansicht ---------- */
-/* Desktop: Karte links, rechts Baumenü und darunter der Infobereich. Smartphones siehe unten. */
+/* Desktop: Karte links, darunter die Turmauswahl in zwei Reihen (nutzt den Platz unter der 16:9-Karte),
+   rechts der Infobereich. Smartphones siehe unten. */
 .screen-game {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  grid-template-rows: auto auto minmax(0, 1fr);
-  grid-template-areas: "hud hud" "stage shop" "stage sheet";
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas: "hud hud" "stage sheet" "shop sheet";
   padding: var(--safe-t) var(--safe-r) 0 var(--safe-l);
   background: var(--bg);
   overflow: hidden;
@@ -139,7 +145,7 @@ h1, h2, h3, h4 { margin: 0; }
 .stage { grid-area: stage; position: relative; min-height: 0; background: #0d1118; overflow: hidden; }
 .stage #canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
 /* Lupe für die genaue Platzierung: Kopie des Spielfelds rund um die Vorschau, vergrößert */
-.loupe { position: absolute; left: 0; top: 0; width: 132px; height: 132px; border-radius: 50%; border: 3px solid #f1e3b8; box-shadow: 0 6px 22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.6); background: #0d1118; pointer-events: none; z-index: 4; }
+.loupe { position: absolute; left: 0; top: 0; width: 164px; height: 164px; border-radius: 50%; border: 3px solid #f1e3b8; box-sizing: content-box; box-shadow: 0 6px 22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.6); background: #0d1118; pointer-events: none; z-index: 4; }
 .toasts { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); display: grid; gap: 6px; justify-items: center; pointer-events: none; width: min(92%, 460px); z-index: 2; }
 .toast { padding: 8px 14px; border-radius: 10px; background: rgba(20,26,36,.92); border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.4); font-weight: 600; text-align: center; animation: toast-in .2s ease-out; transition: opacity .4s, transform .4s; }
 .toast-error { border-color: var(--red); color: #ffd2cd; }
@@ -151,7 +157,13 @@ h1, h2, h3, h4 { margin: 0; }
 .pause-banner { position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; padding: 14px 22px; border-radius: 14px; border: 1px solid var(--gold); background: rgba(12,16,24,.85); color: var(--gold); font: 700 20px var(--f-title); cursor: pointer; z-index: 3; }
 
 /* ---------- Seitenleiste ---------- */
-.shop { grid-area: shop; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; padding: 10px 10px 0; background: var(--bg2); border-left: 1px solid var(--line); }
+/* Turmauswahl: immer zwei Reihen; die Spaltenzahl (--shop-cols = Türme ÷ 2) setzt panel.js, damit die
+   Anordnung auch mit mehr Türmen zweireihig bleibt. Zu schmal → waagerecht scrollen. */
+.shop {
+  grid-area: shop; display: grid; grid-template-columns: repeat(var(--shop-cols, 6), minmax(62px, 98px));
+  grid-auto-flow: row; justify-content: center; gap: 6px; padding: 8px 10px; background: var(--bg2);
+  border-top: 1px solid var(--line); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin;
+}
 .sheet { grid-area: sheet; min-height: 0; background: var(--bg2); border-left: 1px solid var(--line); overflow-y: auto; }
 .sheet-panel { display: flex; flex-direction: column; gap: 10px; padding: 10px 10px calc(10px + var(--safe-b)); }
 .sheet-panel > * { flex-shrink: 0; }
@@ -163,10 +175,11 @@ h1, h2, h3, h4 { margin: 0; }
   touch-action: manipulation; transition: border-color .15s, background .15s;
 }
 .shop-btn:hover { background: var(--panel2); }
-.shop-btn.active { border-color: var(--gold); background: #2c2a22; }
+.shop-btn.active { border-color: var(--gold); background: #2c2a22; box-shadow: 0 0 0 2px rgba(242,193,78,.35); }
+.shop-btn.active::after { content: ""; position: absolute; left: 50%; bottom: -2px; width: 18px; height: 3px; margin-left: -9px; border-radius: 3px; background: var(--gold); }
 .shop-btn.poor { opacity: .55; }
 .shop-btn.poor .shop-cost { color: var(--red); }
-.shop-name { font-size: 12px; font-weight: 600; white-space: nowrap; }
+.shop-name { font-size: 12px; font-weight: 600; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .shop-cost { font-size: 13px; font-weight: 800; color: var(--gold); }
 .shop-cost::after { content: " G"; font-weight: 600; }
 .shop-size { position: absolute; top: 3px; right: 5px; font: 600 9.5px var(--f-ui); color: var(--muted); }
@@ -188,6 +201,7 @@ h1, h2, h3, h4 { margin: 0; }
 .stats dd { margin: 0; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
 .stats .up { color: var(--green); font-weight: 700; white-space: nowrap; }
 .meta { font-size: 13px; color: var(--muted); }
+.limits { font-size: 12.5px; color: #cfe3f2; background: rgba(106,180,234,.1); border-left: 3px solid var(--blue); border-radius: 6px; padding: 4px 8px; }
 .place-ok { color: var(--green); font-weight: 600; font-size: 13.5px; }
 .place-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .nudge { display: grid; grid-template-columns: repeat(4, 38px); gap: 3px; }
@@ -319,21 +333,30 @@ h1, h2, h3, h4 { margin: 0; }
     padding: var(--safe-t) var(--safe-r) 0 var(--safe-l);
   }
   .hud { border-bottom: 1px solid var(--line); }
+  /* zwei Reihen à 6 Kacheln (bei 12 Türmen); auf sehr schmalen Geräten waagerecht scrollbar */
   .shop {
-    display: flex; gap: 4px; padding: 6px 6px calc(6px + var(--safe-b)); border-left: 0; border-top: 1px solid var(--line);
-    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 14px), transparent);
-            mask-image: linear-gradient(90deg, transparent 0, #000 10px, #000 calc(100% - 14px), transparent);
+    grid-template-columns: repeat(var(--shop-cols, 6), minmax(52px, 1fr)); justify-content: stretch;
+    gap: 4px; padding: 5px 6px calc(5px + var(--safe-b)); scroll-snap-type: x proximity; scrollbar-width: none;
   }
   .shop::-webkit-scrollbar { display: none; }
-  .shop-btn { flex: 0 0 auto; width: 60px; padding: 4px 2px 3px; scroll-snap-align: start; gap: 0; }
-  .shop-btn canvas { width: 30px !important; height: 30px !important; }
-  .shop-cost { font-size: 11.5px; }
+  .shop-btn { padding: 3px 1px 2px; scroll-snap-align: start; gap: 0; min-height: 52px; }
+  .shop-btn canvas { width: 26px !important; height: 26px !important; }
+  .shop-name { font-size: 10px; }
+  .shop-cost { font-size: 11px; }
 }
-/* breite Hochformat-Geräte (Tablets): alle Türme passen nebeneinander */
+/* kleine Smartphones (z. B. iPhone SE): flachere Kacheln, damit genug Höhe für die (gedrehte) Karte bleibt */
+@media (max-aspect-ratio: 1/1) and (max-height: 740px) {
+  .shop-btn { min-height: 44px; padding: 2px 1px 1px; }
+  .shop-btn canvas { width: 20px !important; height: 20px !important; }
+  .shop-name { font-size: 9.5px; }
+  .shop-cost { font-size: 10px; }
+  .shop-size { font-size: 8.5px; top: 1px; right: 2px; }
+}
+/* breite Hochformat-Geräte (Tablets): Kacheln mit Obergrenze, mittig */
 @media (max-aspect-ratio: 1/1) and (min-width: 600px) {
-  .shop { overflow: visible; -webkit-mask-image: none; mask-image: none; justify-content: center; }
-  .shop-btn { width: 72px; }
+  .shop { grid-template-columns: repeat(var(--shop-cols, 6), minmax(60px, 92px)); justify-content: center; }
+  .shop-btn canvas { width: 32px !important; height: 32px !important; }
+  .shop-name { font-size: 11px; }
 }
 
 /* ---------- Querformat mit wenig Höhe (Smartphone quer): Karte links in voller Höhe, rechts eine schmale Spalte ---------- */
@@ -345,16 +368,19 @@ h1, h2, h3, h4 { margin: 0; }
     padding: 0 0 0 var(--safe-l);
   }
   .hud { flex-direction: column; align-items: stretch; gap: 4px; padding: calc(4px + var(--safe-t)) calc(6px + var(--safe-r)) 6px 6px; border-left: 1px solid var(--line); }
-  .hud-stats { justify-content: space-between; }
+  .hud-stats { justify-content: space-between; flex-wrap: wrap; row-gap: 3px; }
   .stat { padding: 2px 5px; }
   .hud-actions { justify-content: space-between; }
   .next-btn { flex: 1; min-height: 34px; }
   .hud-actions .btn.icon { min-height: 34px; min-width: 34px; }
-  .shop { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 6px calc(6px + var(--safe-r)) 6px 6px; overflow-y: auto; align-content: start; }
-  .shop-btn { padding: 4px 2px 2px; gap: 0; }
-  .shop-btn canvas { width: 28px !important; height: 28px !important; }
-  .shop-name { display: none; }
-  .shop-cost { font-size: 11px; }
+  /* Querformat: für zwei Reihen fehlt die Höhe – 4 Spalten × 3 Reihen in der Seitenspalte, alle Türme
+     ohne Scrollen sichtbar (Name steht im Tooltip und im Infobereich) */
+  .shop { grid-template-columns: repeat(4, minmax(0, 1fr)); justify-content: stretch; gap: 3px; padding: 5px calc(5px + var(--safe-r)) 5px 5px; overflow-y: auto; align-content: start; border-top: 0; border-left: 1px solid var(--line); }
+  .shop-btn { padding: 3px 1px 2px; gap: 0; min-height: 40px; }
+  .shop-btn canvas { width: 24px !important; height: 24px !important; }
+  .shop-name, .shop-size { display: none; }
+  .shop-cost { font-size: 10.5px; }
+  .shop-cost::after { content: ""; }
   .sheet { height: 112px; border-left: 1px solid var(--line); }
   .sheet-panel { left: auto; width: calc(184px + var(--safe-r)); padding-right: calc(8px + var(--safe-r)); }
   .sheet:not([data-snap="compact"]) .sheet-panel { width: min(400px, 62vw); border-left: 1px solid var(--line); }

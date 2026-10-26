@@ -2,7 +2,8 @@
 import { TOWERS } from '../config/towers.js'
 import { BALANCE } from '../config/balance.js'
 import { approachAngle } from '../core/math.js'
-import { damageEnemy, applySlow, applyPoison } from './enemies.js'
+import { damageEnemy } from './enemies.js'
+import { applyStatus, statusTime } from './status.js'
 
 // `place`: geprüfte Platzierung aus placement.js (Ankerzelle, Drehung, Zellen, Mittelpunkt)
 export function createTower(type, place, id) {
@@ -40,7 +41,10 @@ export function computeStats(t, buff) {
   if (!buff || t.def.attack === 'aura') return base
   const s = { ...base, damage: base.damage * (1 + buff.damage), rate: base.rate * (1 + buff.rate) }
   if (base.poisonDps) s.poisonDps = base.poisonDps * (1 + buff.damage)
+  if (base.burnDps) s.burnDps = base.burnDps * (1 + buff.damage)
+  if (base.slimeDps) s.slimeDps = base.slimeDps * (1 + buff.damage)
   if (base.slowDuration) s.slowDuration = base.slowDuration * (1 + buff.damage)
+  if (base.slimeDuration) s.slimeDuration = base.slimeDuration * (1 + buff.damage)
   if (buff.range) s.range = base.range * (1 + buff.range)
   return s
 }
@@ -104,8 +108,9 @@ export function findTarget(t, enemies, stats, sees = null) {
     if (sees && !sees(e)) continue
     let tier = 1
     if (singleShot && e.incoming >= e.hp) tier = 0
-    if (pref === 'unslowed' && e.slowTime > 0.3) tier = Math.min(tier, 0.5)
-    if (pref === 'unpoisoned' && e.poisonTime > 0.5) tier = Math.min(tier, 0.5)
+    if (pref === 'unslowed' && statusTime(e, 'slow') > 0.3) tier = Math.min(tier, 0.5)
+    if (pref === 'unpoisoned' && statusTime(e, 'poison') > 0.5) tier = Math.min(tier, 0.5)
+    if (pref === 'unslimed' && statusTime(e, 'slime') > 1) tier = Math.min(tier, 0.5)
     const s = score(t, e, t.targetMode)
     if (tier > bestTier || (tier === bestTier && s > bestScore)) {
       best = e; bestScore = s; bestTier = tier
@@ -165,6 +170,12 @@ function fire(t, target, stats, game) {
     case 'chain':
       fireChain(t, target, stats, game)
       break
+    case 'cone':
+      fireCone(t, target, stats, game)
+      break
+    case 'pulse':
+      firePulse(t, stats, game)
+      break
     case 'pierce': {
       // Gerader Speer: fliegt in Zielrichtung über die Reichweite hinaus und durchbohrt alles auf dem Weg
       const a = Math.atan2(target.y - t.y, target.x - t.x)
@@ -209,6 +220,63 @@ function fireChain(t, first, stats, game) {
   game.emit('chain', { tower: t, points })
 }
 
+// Flammenwerfer: Feuerkegel in Zielrichtung. Trifft alle Gegner im Kegel (Reichweite, halber
+// Öffnungswinkel stats.cone/2) und setzt sie in Brand (Stufen, siehe status.js).
+function fireCone(t, target, stats, game) {
+  const a = Math.atan2(target.y - t.y, target.x - t.x)
+  const half = (stats.cone * Math.PI) / 360
+  const hits = []
+  for (const e of game.enemies) {
+    if (!e.alive || !inRange(t, e, stats.range)) continue
+    let d = Math.atan2(e.y - t.y, e.x - t.x) - a
+    d = Math.atan2(Math.sin(d), Math.cos(d))
+    // dicht am Turm zählt der Gegnerradius mit, damit niemand „durch“ den Kegel läuft
+    const slack = Math.atan2(e.radius, Math.max(1, Math.hypot(e.x - t.x, e.y - t.y)))
+    if (Math.abs(d) > half + slack) continue
+    hits.push(e)
+  }
+  for (const e of hits) {
+    applyStatus(e, 'burn', { dps: stats.burnDps, duration: stats.burnDuration, source: t })
+    damageEnemy(game, e, stats.damage, { pierce: stats.armorPierce || 0, source: t })
+  }
+  game.emit('flame', { tower: t, angle: a, range: stats.range, cone: stats.cone, hits: hits.length })
+}
+
+// Tesla-Spule: Entladung auf die nächsten Gegner im Umkreis (höchstens maxTargets, jeder nur einmal):
+// Schaden plus Schock (kurzes Stehenbleiben, danach Immunität – siehe status.js)
+function firePulse(t, stats, game) {
+  const near = []
+  for (const e of game.enemies) {
+    if (!e.alive || !inRange(t, e, stats.range)) continue
+    near.push(e)
+  }
+  near.sort((p, q) => ((p.x - t.x) ** 2 + (p.y - t.y) ** 2) - ((q.x - t.x) ** 2 + (q.y - t.y) ** 2))
+  const hits = near.slice(0, stats.maxTargets)
+  const points = []
+  for (const e of hits) {
+    points.push({ x: e.x, y: e.y })
+    const stunned = applyStatus(e, 'shock', { duration: stats.stunDuration, source: t })
+    damageEnemy(game, e, stats.damage, { pierce: stats.armorPierce || 0, source: t })
+    if (stunned && e.alive) game.emit('stun', { enemy: e, kind: 'shock' })
+  }
+  game.emit('pulse', { tower: t, points, range: stats.range })
+}
+
+// Wirkung eines Treffers auf einen Gegner: Statuseffekte der Turmstufe
+function applyHitEffects(game, e, s, src) {
+  if (s.slow) {
+    applyStatus(e, 'slow', { slow: s.slow, duration: s.slowDuration, source: src })
+    // Frost: Kälte sammelt sich; bei freezeHits Treffern friert der Gegner kurz ein
+    if (s.freezeHits) {
+      const before = statusTime(e, 'freeze')
+      applyStatus(e, 'chill', { duration: s.slowDuration * 1.5, threshold: s.freezeHits, then: { type: 'freeze', duration: s.freezeDuration }, source: src })
+      if (!before && statusTime(e, 'freeze') > 0) game.emit('stun', { enemy: e, kind: 'freeze' })
+    }
+  }
+  if (s.slimeSlow) applyStatus(e, 'slime', { slow: s.slimeSlow, dps: s.slimeDps || 0, duration: s.slimeDuration, source: src })
+  if (s.poisonDps) applyStatus(e, 'poison', { dps: s.poisonDps, duration: s.poisonDuration, source: src })
+}
+
 // Treffer eines Geschosses: Einzelziel oder Fläche mit Abfall zum Rand
 export function applyImpact(game, p) {
   const s = p.stats
@@ -222,15 +290,14 @@ export function applyImpact(game, p) {
       if (d2 > (s.splash + e.radius) ** 2) continue
       const d = Math.sqrt(Math.min(d2, r2))
       const falloff = 1 - 0.5 * Math.max(0, (d - s.splash * 0.35) / (s.splash * 0.65))
-      if (s.slow) applySlow(e, s.slow, s.slowDuration)
-      if (s.poisonDps) applyPoison(e, s.poisonDps, s.poisonDuration, src)
+      applyHitEffects(game, e, s, src)
       const large = s.largeBonus && e.radius >= BALANCE.largeEnemyRadius ? 1 + s.largeBonus : 1
       damageEnemy(game, e, s.damage * falloff * large, { pierce: s.armorPierce || 0, source: src })
     }
     game.emit('impact', { kind: p.kind, x: p.tx, y: p.ty, radius: s.splash })
   } else if (p.target && p.target.alive) {
     p.target.incoming = Math.max(0, p.target.incoming - s.damage)
-    if (s.slow) applySlow(p.target, s.slow, s.slowDuration)
+    applyHitEffects(game, p.target, s, src)
     damageEnemy(game, p.target, s.damage, { pierce: s.armorPierce || 0, source: src })
     game.emit('impact', { kind: p.kind, x: p.tx, y: p.ty, radius: 0 })
   }

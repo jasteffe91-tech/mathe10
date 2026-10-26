@@ -113,10 +113,11 @@ export class Sfx {
   attach(game) {
     const off = []
     const on = (type, fn) => off.push(game.on(type, fn))
-    const shotSound = { arrow: 'arrow', cannon: 'cannon', frost: 'frost', lightning: 'zap', sniper: 'sniper', poison: 'poison' }
+    const shotSound = { arrow: 'arrow', cannon: 'cannon', frost: 'frost', lightning: 'zap', sniper: 'sniper', poison: 'poison', slime: 'poison' }
     on('shot', ({ tower }) => this.play(shotSound[tower.type]))
     on('chain', () => this.play('zap'))
-    on('impact', ({ kind }) => { if (kind === 'ball') this.play('boom'); else if (kind === 'glob') this.play('splat') })
+    on('pulse', () => this.play('zap'))
+    on('impact', ({ kind }) => { if (kind === 'ball') this.play('boom'); else if (kind === 'glob' || kind === 'slime') this.play('splat') })
     on('enemyDeath', ({ enemy }) => { this.play(enemy.boss ? 'boom' : 'death'); this.play('coin') })
     on('leak', () => this.play('leak'))
     on('build', () => this.play('build'))

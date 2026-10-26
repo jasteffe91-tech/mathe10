@@ -59,8 +59,8 @@ export class Renderer {
     this.dpr = dpr
     const flat = Math.min(rect.width / WORLD.width, rect.height / WORLD.height)
     const turned = Math.min(rect.width / WORLD.height, rect.height / WORLD.width)
-    // drehen nur, wenn es deutlich mehr Fläche bringt (sonst springt die Ansicht unnötig)
-    this.rot = this.rotateMode !== 'off' && turned > flat * 1.15 ? 1 : 0
+    // drehen nur, wenn es spürbar mehr Fläche bringt (sonst springt die Ansicht unnötig)
+    this.rot = this.rotateMode !== 'off' && turned > flat * 1.1 ? 1 : 0
     this.scale = this.rot ? turned : flat
     const vw = this.rot ? WORLD.height : WORLD.width, vh = this.rot ? WORLD.width : WORLD.height
     this.offsetX = (rect.width - vw * this.scale) / 2

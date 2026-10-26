@@ -9,6 +9,10 @@ const PLANS = {
   mixed: ['arrow', 'arrow', 'cannon', 'frost', 'up', 'ballista', 'sniper', 'up', 'banner', 'lightning', 'poison', 'up', 'up', 'ballista', 'sniper', 'up', 'up', 'cannon', 'banner', 'up', 'up', 'frost', 'trebuchet', 'up', 'up', 'sniper', 'up', 'up', 'up', 'up'],
   aoe: ['cannon', 'frost', 'up', 'lightning', 'poison', 'up', 'cannon', 'up', 'banner', 'lightning', 'up', 'poison', 'up', 'frost', 'cannon', 'up', 'up', 'lightning', 'up', 'up', 'up', 'poison', 'up', 'up'],
   single: ['arrow', 'arrow', 'sniper', 'up', 'ballista', 'up', 'arrow', 'sniper', 'up', 'banner', 'ballista', 'up', 'trebuchet', 'up', 'sniper', 'up', 'up', 'ballista', 'up', 'up', 'trebuchet', 'up', 'up', 'up'],
+  // gemischt mit den Elementtürmen (Flamme, Schleim, Tesla) statt einiger klassischer Türme
+  elements: ['arrow', 'flame', 'slime', 'up', 'sniper', 'up', 'tesla', 'flame', 'up', 'ballista', 'lightning', 'up', 'up', 'slime', 'sniper', 'up', 'up', 'flame', 'banner', 'up', 'up', 'tesla', 'poison', 'up', 'up', 'sniper', 'up', 'up', 'up', 'up'],
+  // nur die drei neuen Türme – darf nicht alles andere überflüssig machen
+  newOnly: ['flame', 'flame', 'slime', 'up', 'tesla', 'up', 'flame', 'up', 'slime', 'up', 'tesla', 'up', 'flame', 'up', 'up', 'flame', 'up', 'up', 'tesla', 'up', 'up', 'flame', 'up', 'up'],
 }
 
 export const STRATEGIES = {
@@ -18,6 +22,8 @@ export const STRATEGIES = {
   single: { plan: 'single', placement: 'best', label: 'Einzelziel & Panzerbrechung' },
   control: { plan: 'mixed', placement: 'best', label: 'Gemischt mit Kontrolle' },
   economy: { plan: 'mixed', placement: 'best', budget: 1400, callEarly: true, label: 'Sparsam (max. 1400 G verbaut)' },
+  elements: { plan: 'elements', placement: 'best', label: 'Gemischt mit Flamme, Schleim, Tesla' },
+  newOnly: { plan: 'newOnly', placement: 'best', label: 'Nur Flamme, Schleim, Tesla' },
 }
 
 // Wegpunkte einmal abtasten; Abdeckung = Anzahl Wegpunkte in Reichweite. Mit `air` zählen auch die

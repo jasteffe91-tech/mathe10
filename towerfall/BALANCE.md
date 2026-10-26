@@ -64,6 +64,7 @@ Die Ballung war fehlerfrei auf jeder Karte – die dominante Strategie.
 | K5 | Auf Entspannt gewinnt eine gemischte Verteidigung jede Karte. | `tests/balance.test.js` |
 | K6 | Ohne Türme bzw. nur mit Pfeiltürmen ist das Spiel nicht zu gewinnen. | `tests/balance.test.js` |
 | K7 | Die ersten vier Wellen kommen ohne Fähigkeiten aus; danach kommt höchstens eine neue Fähigkeit je Welle (5, 6, 7, 8, 11, 13), jede mit sichtbarer Kennzeichnung und Erklärung. | `tests/enemies.test.js` |
+| K8 | Die Elementtürme tragen eine gemischte Verteidigung (mind. eine Karte gewonnen), allein gewinnen sie auf Normal keine Karte. | `tests/balance.test.js` |
 
 ## Neue Gegnerrollen und ihre Konter
 
@@ -104,7 +105,7 @@ Nicht geändert: `enemyHpMult` (1,25), Startgold, Verkaufsquote, Banner (die Beg
 n Türme ist im Code möglich – `maxTargets` –, brachte in Messungen aber kaum Wirkung; die neuen Gegner
 lösen das Ballungsproblem wirksamer).
 
-## Ergebnisse nachher
+## Ergebnisse nachher (Stand mit 9 Türmen; mit 12 Türmen siehe unten)
 
 Normal, gleiche Bots und Seeds:
 
@@ -138,9 +139,59 @@ Schaden je Gold (Grünental, Felsenpass, Sumpfgabel × cluster/control/spread):
 | Speer | 29 | 14 % |
 | Frost | 7 | 3 % (Kontrollturm, wirkt über Verlangsamung) |
 
+## Erweiterung auf 12 Türme (Flammenwerfer, Schleimwerfer, Tesla-Spule, Einfrieren)
+
+Rollen, damit sich nichts doppelt: Blitzturm = Kettenschaden (springt weiter), Tesla-Spule = Betäubung
+mehrerer naher Gegner (springt nicht); Frost = starke, kurze Verlangsamung + Einfrieren, Schleim = schwache,
+lange Verlangsamung + Säure; Gift = Einzeldosis über Zeit, Brand = stapelbar bis 3, schneller Kegel.
+
+| Turm | Stufe 1 | Stufe 3 | Rolle |
+|---|---|---|---|
+| Flammenwerfer | 100 G · 3 Schaden · 2,4/s · 86 px · Kegel 50° · Brand 5/s je Stufe, 3 s | 7 · 3/s · 104 px · 60° · Brand 12/s, 3,5 s | schnell, wenig Direktschaden, Flächen-Brand |
+| Schleimwerfer | 80 G · 3 Schaden · 0,9/s · 135 px · −30 % für 5 s · Säure 2/s | 8 · 1,1/s · 155 px · −40 % für 7 s · 6/s | Unterstützung |
+| Tesla-Spule | 150 G · 12 Schaden · 0,45/s · 95 px · 4 Ziele · Schock 0,5 s | 28 · 0,55/s · 115 px · 6 Ziele · 0,75 s | Kontrolle, langsam |
+| Frost (neu: Einfrieren) | nach 6 Treffern 0,6 s Stillstand | nach 5 Treffern 0,9 s | Kontrolle |
+
+Grenzen: Verlangsamungen addieren sich nie (max. 70 %); nach jeder Betäubung (Schock, Einfrieren) ist ein
+Gegner 2,5 s immun, Bosse 6 s und sie stehen nur ein Drittel der Zeit; Brand höchstens 3 Stufen.
+
+Zwei zusätzliche Bot-Strategien: **elements** (gemischt, mit Flamme/Schleim/Tesla statt einiger klassischer
+Türme) und **newOnly** (nur die drei neuen Türme). Normal, gleiche Seeds:
+
+| Strategie | Grün | Fels | Sumpf | Frost | Wüste |
+|---|---|---|---|---|---|
+| control (klassisch gemischt) | S−4 | W19 | S−18 | W20 | S−0 |
+| elements | S−0 | W20 | S−18 | W20 | W10 |
+| newOnly | W5 | W7 | W10 | W5 | W5 |
+| cluster | W19 | S−19 | S−0 | W19 | S−0 |
+
+Entspannt: elements gewinnt alle Karten fehlerfrei, newOnly keine. Hart: wie bisher fast alle früh verloren.
+Ergebnis: Die neuen Türme tragen eine gemischte Verteidigung etwa so gut wie die klassische Mischung, allein
+reichen sie nicht (Kriterium **K8**, `tests/balance.test.js`). Durch das Einfrieren gewinnt die Ballung jetzt
+eine Karte mehr (Felsenpass, knapp mit 19 verlorenen Leben); K1–K3 gelten weiter.
+
+Schaden je Gold mit den neuen Türmen (Grünental, Felsenpass, Sumpfgabel, Frostgipfel × elements/control/cluster):
+
+| Turm | Schaden je Gold | Anteil am Schaden |
+|---|---|---|
+| Gift | 66 | 13 % |
+| Scharfschütze | 58 | 30 % |
+| Pfeil | 44 | 10 % |
+| Tribok | 43 | 4 % |
+| Speer | 40 | 13 % |
+| Blitz | 37 | 8 % |
+| Flammenwerfer | 35 | 7 % |
+| Schleimwerfer | 30 | 3 % |
+| Kanone | 30 | 8 % |
+| Frost | 10 | 2 % (Kontrolle) |
+| Tesla-Spule | 10 | 2 % (Kontrolle) |
+
+Kein neuer Turm ist ein Ausreißer. Der Wert von Frost, Schleim und Tesla liegt in der gewonnenen Zeit; dafür
+gibt es noch keine eigene Kenngröße.
+
 ## Bewiesen vs. manuell zu prüfen
 
-**Durch Tests bewiesen** (`npm test`): K1–K7, Reproduzierbarkeit (gleicher Seed → gleiches Ergebnis),
+**Durch Tests bewiesen** (`npm test`): K1–K8, Statuseffekt-Regeln (`tests/status.test.js`), Reproduzierbarkeit (gleicher Seed → gleiches Ergebnis),
 Resistenzen und Panzerung in der richtigen Reihenfolge, Raserei-Immunität, Lähm-Puls nur bei Nähe und
 nicht gegen Banner, gelähmte Türme feuern nicht, Elite-Werte, Flieger-Route und -Tempo, Bogengeschosse
 ignorieren Flieger.
@@ -151,3 +202,4 @@ ignorieren Flieger.
 - Ob „Hart“ ab Welle 5 zu steil ist – die Bots scheitern dort fast immer, ein Mensch mit gezielter
   Turmwahl vermutlich seltener.
 - Ob die Einführungsmeldungen beim ersten Auftauchen ausreichend erklären.
+- Ob sich Brand, Schleim, Schock und Einfrieren im Getümmel gut auseinanderhalten lassen.

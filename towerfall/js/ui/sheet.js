@@ -43,6 +43,9 @@ export class Sheet {
     this.layout()
   }
 
+  // laufendes Ziehen abbrechen (Fokusverlust, App im Hintergrund) – das Sheet rastet wieder ein
+  cancelDrag() { if (this.drag) this.endDrag(null) }
+
   get mobile() { return this.mq.matches }
 
   heights() {

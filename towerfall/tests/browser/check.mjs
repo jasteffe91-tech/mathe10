@@ -225,11 +225,12 @@ try {
   check('Kein horizontales Überlaufen auf dem Smartphone', !overflow)
   const hudVisible = await mp.evaluate(() => ['#hud-lives', '#hud-gold', '#hud-wave', '#btn-next', '#btn-pause'].every((s) => { const r = document.querySelector(s).getBoundingClientRect(); return r.width > 0 && r.right <= innerWidth + 1 && r.top >= 0 }))
   check('HUD vollständig sichtbar (Hochformat)', hudVisible)
-  // Turmleiste: waagerecht scrollbar – jeder Turm lässt sich in den sichtbaren Bereich holen
-  const shopOk = await mp.evaluate(() => [...document.querySelectorAll('.shop-btn')].every((b) => { b.scrollIntoView({ inline: 'nearest', block: 'nearest' }); const r = b.getBoundingClientRect(); return r.width >= 44 && r.height >= 44 && r.right <= innerWidth + 1 && r.left >= -1 }))
-  check('Alle Türme im Baumenü erreichbar (Hochformat)', shopOk)
+  // Turmauswahl: zwei Reihen, alle 12 Türme ohne Scrollen sichtbar und groß genug für den Finger
+  const shopInfo = await mp.evaluate(() => { const bs = [...document.querySelectorAll('.shop-btn')]; return { n: bs.length, rows: new Set(bs.map((b) => Math.round(b.getBoundingClientRect().top))).size, ok: bs.every((b) => { const r = b.getBoundingClientRect(); return r.width >= 44 && r.height >= 44 && r.right <= innerWidth + 1 && r.left >= -1 && r.bottom <= innerHeight + 1 }) } })
+  check('Alle 12 Türme in zwei Reihen sichtbar (Hochformat)', shopInfo.n === 12 && shopInfo.rows === 2 && shopInfo.ok, JSON.stringify(shopInfo))
   const mapShare = await mp.evaluate(() => { const r = window.__towerfall.renderer.mapRect(); return r.width * r.height / (innerWidth * innerHeight) })
-  check('Karte nutzt im Hochformat mindestens 60 % des Bildschirms', mapShare >= 0.6, `${Math.round(mapShare * 100)} %`)
+  // Grenze 55 %: Die Turmauswahl hat seit 12 Türmen zwei Reihen und braucht etwas mehr Höhe
+  check('Karte nutzt im Hochformat mindestens 55 % des Bildschirms', mapShare >= 0.55, `${Math.round(mapShare * 100)} %`)
   await mp.tap('#btn-next')
   await mp.waitForTimeout(2000)
   await mp.screenshot({ path: shots + 'phone-portrait.png' })

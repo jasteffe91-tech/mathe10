@@ -2,6 +2,7 @@
 // Alles wird mit Canvas-Pfaden gezeichnet – keine Bilddateien nötig.
 import { TOWERS } from '../config/towers.js'
 import { ENEMIES } from '../config/enemies.js'
+import { getStatus } from '../game/status.js'
 
 const TAU = Math.PI * 2
 
@@ -85,6 +86,9 @@ export function drawTower(ctx, t, x, y, time = 0) {
     case 'ballista': drawBallistaTower(ctx, def, lvl, angle, recoil, footRot); break
     case 'banner': drawBannerTower(ctx, def, lvl, time); break
     case 'trebuchet': drawTrebuchetTower(ctx, def, lvl, angle, recoil, time); break
+    case 'flame': drawFlameTower(ctx, def, lvl, angle, time, recoil); break
+    case 'slime': drawSlimeTower(ctx, def, lvl, angle, time, recoil); break
+    case 'tesla': drawTeslaTower(ctx, def, lvl, time, recoil); break
   }
   ctx.restore()
   if (t.noPips) return
@@ -344,6 +348,116 @@ function drawPoisonTower(ctx, def, lvl, angle, time, recoil) {
 }
 
 // Quaderförmiger Sockel (für rechteckige Grundflächen)
+// Flammenwerfer: eiserner Sockel, roter Brennstofftank, drehbare Düse mit Zündflamme
+function drawFlameTower(ctx, def, lvl, angle, time, recoil) {
+  pillar(ctx, { r: 19 + lvl, sides: 6, h: 9 + lvl * 3, top: '#5b4a42', side: '#382c26', lvl })
+  // Tank hinten
+  ctx.fillStyle = '#7e2618'
+  ctx.fillRect(-11, -9, 9, 12)
+  ctx.fillStyle = '#b8402a'
+  ctx.fillRect(-10, -8, 4, 10)
+  circle(ctx, -6.5, -9, 4.5, '#9c3320')
+  circle(ctx, 0, 0, 9 + lvl, '#2b2420')
+  circle(ctx, 0, -1, 7 + lvl, '#4a3d35')
+  ctx.rotate(angle)
+  const k = recoil > 0 ? 1 - recoil * 0.15 : 1
+  // Düse
+  ctx.fillStyle = '#2a2522'
+  ctx.fillRect(0, -4.5, (20 + lvl * 3) * k, 9)
+  ctx.fillStyle = '#6d625a'
+  ctx.fillRect(2, -3, (17 + lvl * 3) * k, 3)
+  ctx.fillStyle = '#c9a26b'
+  ctx.fillRect((18 + lvl * 3) * k, -5.5, 4, 11)
+  // Zündflamme an der Düse
+  const fl = 3.5 + Math.sin(time * 18) * 1.2 + recoil * 3
+  const tip = (23 + lvl * 3) * k
+  glow(ctx, tip + 2, 0, 9 + recoil * 6, 'rgba(255,150,60,A)', 0.55)
+  circle(ctx, tip + 1.5, 0, fl, '#ff9d3a')
+  circle(ctx, tip + 1, 0, fl * 0.55, '#ffe9a0')
+}
+
+// Schleimwerfer: Bottich mit blubberndem Schleim und breitem Wurflöffel
+function drawSlimeTower(ctx, def, lvl, angle, time, recoil) {
+  pillar(ctx, { r: 19 + lvl, sides: 6, h: 9 + lvl * 3, top: '#6d4c62', side: '#46303f', lvl })
+  circle(ctx, 0, 1.5, 12.5 + lvl, '#2a1d26')
+  circle(ctx, 0, 0, 12 + lvl, '#4a3242')
+  const g = ctx.createRadialGradient(-3, -3, 1, 0, 0, 10 + lvl)
+  g.addColorStop(0, '#ffc2e6')
+  g.addColorStop(1, '#c2448f')
+  ctx.fillStyle = g
+  ctx.beginPath()
+  ctx.ellipse(0, 0, 10 + lvl, 9 + lvl, 0, 0, TAU)
+  ctx.fill()
+  for (let i = 0; i < 3; i++) {
+    const t = (time * 0.9 + i * 0.33) % 1
+    circle(ctx, Math.cos(i * 2.1 + time) * 4, Math.sin(i * 2.1) * 3 - t * 3, 1.2 + t * 2.4, `rgba(255,210,240,${0.8 - t * 0.6})`)
+  }
+  // überquellender Schleim am Rand
+  ctx.fillStyle = '#d4559e'
+  for (const a of [0.4, 2.3, 4.1]) {
+    ctx.beginPath()
+    ctx.ellipse(Math.cos(a) * (11 + lvl), Math.sin(a) * (10 + lvl) + 3, 2.5, 5, 0, 0, TAU)
+    ctx.fill()
+  }
+  ctx.rotate(angle)
+  ctx.rotate(-recoil * 1.1)
+  ctx.strokeStyle = '#4a3020'
+  ctx.lineWidth = 3.5
+  ctx.lineCap = 'round'
+  ctx.beginPath()
+  ctx.moveTo(-3, 0)
+  ctx.lineTo(17 + lvl * 2, 0)
+  ctx.stroke()
+  ctx.fillStyle = '#3a2618'
+  ctx.beginPath()
+  ctx.ellipse(20 + lvl * 2, 0, 6, 4.5, 0, 0, TAU)
+  ctx.fill()
+  if (recoil < 0.4) circle(ctx, 20 + lvl * 2, 0, 3.5, '#ff8fd0')
+}
+
+// Tesla-Spule: Steinsockel, Metallmast mit Kupferringen und leuchtender Kugel; nach einer Entladung
+// knistern Bögen um die Kugel
+function drawTeslaTower(ctx, def, lvl, time, recoil) {
+  box(ctx, 24, 22, 8 + lvl * 2, '#66727b', '#3c454c', lvl)
+  // Mast
+  const hgt = 30 + lvl * 6
+  ctx.fillStyle = '#2f363c'
+  ctx.fillRect(-3.5, -hgt, 7, hgt)
+  ctx.fillStyle = '#8b98a2'
+  ctx.fillRect(-1.5, -hgt, 2, hgt)
+  // Kupferringe (Toroide)
+  const rings = 2 + lvl
+  for (let i = 0; i < rings; i++) {
+    const y = -6 - i * ((hgt - 12) / rings)
+    const w = 13 - i * 1.5
+    ctx.fillStyle = '#7a4a22'
+    ctx.beginPath()
+    ctx.ellipse(0, y + 1.5, w, 4, 0, 0, TAU)
+    ctx.fill()
+    ctx.fillStyle = '#d08a45'
+    ctx.beginPath()
+    ctx.ellipse(0, y, w, 3.5, 0, 0, TAU)
+    ctx.fill()
+  }
+  // Kugel
+  const pulse = 0.5 + Math.sin(time * 6) * 0.15 + recoil * 0.5
+  glow(ctx, 0, -hgt - 4, 16 + recoil * 10, 'rgba(150,230,255,A)', Math.min(0.9, pulse))
+  circle(ctx, 0, -hgt - 4, 7, '#cfefff')
+  circle(ctx, -2, -hgt - 6, 2.5, '#ffffff')
+  if (recoil > 0) {
+    ctx.strokeStyle = `rgba(200,245,255,${recoil})`
+    ctx.lineWidth = 1.4
+    for (let i = 0; i < 3; i++) {
+      const a = time * 23 + i * 2.1
+      ctx.beginPath()
+      ctx.moveTo(0, -hgt - 4)
+      ctx.lineTo(Math.cos(a) * 9, -hgt - 4 + Math.sin(a) * 6)
+      ctx.lineTo(Math.cos(a + 0.4) * 16, -hgt - 4 + Math.sin(a + 0.4) * 10)
+      ctx.stroke()
+    }
+  }
+}
+
 function box(ctx, hw, hh, h, top, side, lvl) {
   const sq = 0.82
   const sg = ctx.createLinearGradient(-hw, 0, hw, 0)
@@ -536,11 +650,26 @@ export function drawEnemy(ctx, e, x, y, time) {
     ctx.arc(0, 0, r + 2.5, 0, TAU)
     ctx.stroke()
   }
-  // Statuseffekte als Überlagerung
-  if (e.slowTime > 0) {
+  // Statuseffekte als Überlagerung (Farbe auf dem Körper)
+  const fx = e.effects || []
+  const has = (type) => fx.length > 0 && getStatus(e, type)
+  if (has('slow')) {
     ctx.fillStyle = 'rgba(150,215,255,.38)'
     ctx.beginPath()
     ctx.arc(0, 0, r + 1, 0, TAU)
+    ctx.fill()
+  }
+  const burn = has('burn')
+  if (burn) {
+    ctx.fillStyle = `rgba(255,110,30,${0.18 + burn.stacks * 0.08 + Math.sin(time * 14 + (e.id || 0)) * 0.06})`
+    ctx.beginPath()
+    ctx.arc(0, 0, r + 1, 0, TAU)
+    ctx.fill()
+  }
+  if (has('slime')) {
+    ctx.fillStyle = 'rgba(230,90,170,.4)'
+    ctx.beginPath()
+    ctx.arc(-r * 0.15, 0, r + 1.5, 0, TAU)
     ctx.fill()
   }
   if (e.hitFlash > 0) {
@@ -550,10 +679,7 @@ export function drawEnemy(ctx, e, x, y, time) {
     ctx.fill()
   }
   ctx.restore()
-  if (e.poisonTime > 0) {
-    const t = (time * 1.6 + (e.id || 0) * 0.37) % 1
-    circle(ctx, Math.sin((e.id || 0) + time * 3) * r * 0.5, -lift - r - t * 10, 2.2 * (1 - t) + 0.6, `rgba(150,240,90,${0.8 - t * 0.6})`)
-  }
+  if (fx.length) drawStatusMarks(ctx, e, r, lift, bob, time)
   // Elite: kleine Krone über dem Gegner
   if (e.elite) {
     ctx.translate(0, -lift - r - 5)
@@ -567,6 +693,81 @@ export function drawEnemy(ctx, e, x, y, time) {
     ctx.stroke()
   }
   ctx.restore()
+}
+
+// Aufrechte Kennzeichnung der Statuseffekte (Ursprung = Fußpunkt des Gegners, Bildschirm aufrecht):
+// Gift = grüne Blasen, Brand = Flammen (je Stufe eine), Schleim = rosa Tropfen, Schock = Funken und
+// Sterne, Einfrieren = Eisblock, Kälte = blaue Punkte (wie viele Treffer bis zum Einfrieren gesammelt)
+function drawStatusMarks(ctx, e, r, lift, bob, time) {
+  const id = e.id || 0
+  const top = -lift - r
+  for (const f of e.effects) {
+    switch (f.type) {
+      case 'poison': {
+        const t = (time * 1.6 + id * 0.37) % 1
+        circle(ctx, Math.sin(id + time * 3) * r * 0.5, top - t * 10, 2.2 * (1 - t) + 0.6, `rgba(150,240,90,${0.8 - t * 0.6})`)
+        break
+      }
+      case 'burn': {
+        for (let i = 0; i < f.stacks; i++) {
+          const t = (time * 2.2 + i * 0.31 + id * 0.17) % 1
+          const x = (i - (f.stacks - 1) / 2) * r * 0.6 + Math.sin(time * 9 + i) * 1.5
+          const y = top + r * 0.6 - t * (8 + r * 0.4)
+          const sz = (4.5 + r * 0.2) * (1 - t * 0.5)
+          ctx.fillStyle = `rgba(255,${120 + t * 100 | 0},40,${0.9 - t * 0.6})`
+          ctx.beginPath()
+          ctx.moveTo(x - sz * 0.6, y + sz * 0.5)
+          ctx.quadraticCurveTo(x, y - sz * 1.6, x + sz * 0.6, y + sz * 0.5)
+          ctx.fill()
+        }
+        break
+      }
+      case 'slime': {
+        const t = (time * 0.8 + id * 0.29) % 1
+        circle(ctx, -r * 0.4, -lift + r * 0.3 + t * 6, 1.8 * (1 - t) + 0.8, `rgba(240,110,190,${0.85 - t * 0.6})`)
+        break
+      }
+      case 'shock': {
+        ctx.strokeStyle = 'rgba(200,245,255,.9)'
+        ctx.lineWidth = 1.3
+        for (let i = 0; i < 3; i++) {
+          const a = time * 17 + i * 2.1 + id
+          ctx.beginPath()
+          ctx.moveTo(Math.cos(a) * r * 0.5, -lift + bob * 0.5 + Math.sin(a) * r * 0.5)
+          ctx.lineTo(Math.cos(a + 0.5) * (r + 4), -lift + bob * 0.5 + Math.sin(a + 0.5) * (r + 4))
+          ctx.stroke()
+        }
+        for (let i = 0; i < 3; i++) {
+          const a = time * 5 + (i / 3) * TAU
+          ctx.fillStyle = '#ffe97a'
+          poly(ctx, Math.cos(a) * (r * 0.7 + 3), top - 5 + Math.sin(a) * 2.5, 2.4, 4, a)
+          ctx.fill()
+        }
+        break
+      }
+      case 'freeze': {
+        const k = Math.min(1, f.time * 4)
+        ctx.globalAlpha = 0.85 * k
+        ctx.fillStyle = 'rgba(200,240,255,.55)'
+        ctx.strokeStyle = '#ffffff'
+        ctx.lineWidth = 1.5
+        poly(ctx, 0, -lift + bob * 0.5, r + 4, 6, Math.PI / 6)
+        ctx.fill()
+        ctx.stroke()
+        ctx.strokeStyle = 'rgba(255,255,255,.8)'
+        ctx.beginPath()
+        ctx.moveTo(-r * 0.5, -lift - r * 0.4); ctx.lineTo(-r * 0.1, -lift - r * 0.8)
+        ctx.moveTo(r * 0.2, -lift + r * 0.5); ctx.lineTo(r * 0.6, -lift + r * 0.1)
+        ctx.stroke()
+        ctx.globalAlpha = 1
+        break
+      }
+      case 'chill': {
+        for (let i = 0; i < f.stacks; i++) circle(ctx, (i - (f.stacks - 1) / 2) * 4, top - 3, 1.5, '#bfeaff')
+        break
+      }
+    }
+  }
 }
 
 // Höhe, um die ein Gegner über dem Boden schwebt (für Lebensbalken)
@@ -954,6 +1155,9 @@ function baseMuzzle(type, level) {
     case 'cannon': return 11 + level * 3
     case 'banner': return 0
     case 'trebuchet': return 34
+    case 'flame': return 13 + level * 3
+    case 'slime': return 12 + level * 3
+    case 'tesla': return 38 + level * 8
     default: return 10 + level * 3
   }
 }
@@ -1043,6 +1247,12 @@ function projectile(ctx, p, x, y, angle) {
       circle(ctx, x, py, 6, '#3e8a24')
       circle(ctx, x, py, 4.5, '#8ee34f')
       circle(ctx, x - 1.5, py - 1.5, 1.5, 'rgba(255,255,255,.6)')
+      break
+    case 'slime':
+      circle(ctx, x, py, 6, '#8e2c64')
+      circle(ctx, x, py, 4.6, '#e05aa8')
+      circle(ctx, x - Math.cos(angle) * 6, py - Math.sin(angle) * 6, 2.6, 'rgba(224,90,168,.7)')
+      circle(ctx, x - 1.5, py - 1.5, 1.4, 'rgba(255,230,245,.8)')
       break
   }
 }

@@ -1,6 +1,8 @@
-// Gegner: Bewegung entlang der Route, Statuseffekte (Frost, Gift), Resistenzen und Fähigkeiten
-// (Heilen, Beschwören, Raserei mit Frost-Immunität, Lähm-Puls gegen Türme).
+// Gegner: Bewegung entlang der Route, Resistenzen und Fähigkeiten (Heilen, Beschwören, Raserei,
+// Lähm-Puls gegen Türme). Statuseffekte (Frost, Schleim, Gift, Brand, Schock, Einfrieren) verwaltet
+// status.js in einem gemeinsamen Update.
 import { BALANCE } from '../config/balance.js'
+import { applyStatus, updateStatus, movementFactor, clearImpairments } from './status.js'
 
 export function createEnemy(def, { id, hpScale = 1, dist = 0, lane = 0, route, elite = false }) {
   // Elite: mehr Leben, mehr Panzerung, doppelte Belohnung (Werte in balance.js)
@@ -21,8 +23,8 @@ export function createEnemy(def, { id, hpScale = 1, dist = 0, lane = 0, route, e
     lane,            // seitlicher Versatz auf dem Weg, damit Gruppen nicht in einer Linie laufen
     x: 0, y: 0, px: 0, py: 0, angle: 0,
     alive: true,
-    slow: 0, slowTime: 0,
-    poisonDps: 0, poisonTime: 0, poisonSource: null,
+    effects: [],     // aktive Statuseffekte (status.js)
+    stunImmune: 0,   // verbleibende Immunität gegen Betäubung
     incoming: 0,     // Schaden bereits fliegender Einzelgeschosse – verhindert unnötigen Overkill
     hitFlash: 0,
     abilityTimer: def.heal ? def.heal.every : def.summon ? def.summon.every * 0.6 : 0,
@@ -48,13 +50,12 @@ export function placeEnemy(e) {
 }
 
 export function currentSpeed(e) {
-  const resist = e.def.slowResist || 0
   const frenzy = e.frenzy > 0 ? e.def.frenzy.speed : 1
-  // Überlappende Frosteffekte stapeln nicht (es zählt der stärkste) und sind nach oben gedeckelt
-  const slowFactor = 1 - Math.min(e.slow, BALANCE.maxSlow) * (1 - resist)
+  // Verlangsamungen stapeln nicht (es zählt die stärkste), sind gedeckelt; Betäubung = Stillstand
+  const move = movementFactor(e)
   // Flugrouten begrenzen das Tempo (siehe BALANCE.flightTimeShare)
   const base = e.route?.maxSpeed ? Math.min(e.def.speed, e.route.maxSpeed) : e.def.speed
-  return base * slowFactor * frenzy * (e.enraged ? BALANCE.enrageSpeed : 1)
+  return base * move * frenzy * (e.enraged ? BALANCE.enrageSpeed : 1)
 }
 
 // Schaden zufügen. Panzerung zieht einen festen Betrag ab (durch armorPierce teilweise ignoriert);
@@ -80,33 +81,18 @@ export function damageEnemy(game, e, raw, { pierce = 0, source = null, dot = fal
   return dealt
 }
 
-export function applySlow(e, strength, duration) {
-  if (e.frenzy > 0) return false // Raserei: immun gegen Verlangsamung
-  if (strength >= e.slow) e.slow = strength
-  e.slowTime = Math.max(e.slowTime, duration)
-  return true
-}
-
-export function applyPoison(e, dps, duration, source) {
-  if (dps >= e.poisonDps) { e.poisonDps = dps; e.poisonSource = source }
-  e.poisonTime = Math.max(e.poisonTime, duration)
-}
+// Kurzformen für die häufigsten Effekte (Raserei: immun gegen Verlangsamung, siehe status.js)
+export const applySlow = (e, strength, duration, source = null) => applyStatus(e, 'slow', { slow: strength, duration, source })
+export const applyPoison = (e, dps, duration, source = null) => applyStatus(e, 'poison', { dps, duration, source })
 
 export function updateEnemy(e, dt, game) {
   e.px = e.x; e.py = e.y
   e.age += dt
   if (e.hitFlash > 0) e.hitFlash -= dt
 
-  if (e.slowTime > 0) {
-    e.slowTime -= dt
-    if (e.slowTime <= 0) { e.slow = 0; e.slowTime = 0 }
-  }
-  if (e.poisonTime > 0) {
-    e.poisonTime -= dt
-    damageEnemy(game, e, e.poisonDps * dt, { dot: true, source: e.poisonSource, type: 'poison' })
-    if (e.poisonTime <= 0) { e.poisonDps = 0; e.poisonTime = 0; e.poisonSource = null }
-    if (!e.alive) return
-  }
+  // alle Statuseffekte in einem Durchgang (Schaden über Zeit, Ablauf, Betäubungsimmunität)
+  updateStatus(game, e, dt, damageEnemy)
+  if (!e.alive) return
 
   if (e.boss && !e.enraged && e.hp < e.maxHp * BALANCE.enrageThreshold) {
     e.enraged = true
@@ -137,8 +123,7 @@ function updateFrenzy(e, dt, game) {
   e.frenzyTimer -= dt
   if (e.frenzyTimer > 0) return
   e.frenzy = f.duration
-  e.slow = 0
-  e.slowTime = 0
+  clearImpairments(e)
   game.emit('frenzy', { enemy: e })
 }
 

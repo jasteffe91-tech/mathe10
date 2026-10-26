@@ -64,6 +64,10 @@ try {
     await page.waitForTimeout(120)
     let st = await state()
     check(`${P} Vorschau folgt dem Finger (auch bei schnellem Ziehen)`, st.preview?.c === spot.c && st.preview?.r === spot.r, JSON.stringify(st.preview))
+    // Rechtshänder: Lupe links oberhalb des Fingers (sofern dort Platz ist)
+    const lbox = await page.evaluate(() => { const l = document.querySelector('#loupe').getBoundingClientRect(); return { l: l.left, t: l.top, r: l.right, b: l.bottom, w: l.width, side: window.__towerfall.loupe.side, limit: window.__towerfall.loupe.limit } })
+    const fin = [s1[0] + 0, s1[1] + 0]
+    check(`${P} Lupe links oben bzw. ausgewichen, nie unter dem Finger (${lbox.side}, ${Math.round(lbox.w)} px)`, !(fin[0] > lbox.l && fin[0] < lbox.r && fin[1] > lbox.t && fin[1] < lbox.b) && (lbox.side !== 'top-left' || (lbox.r < fin[0] && lbox.b < fin[1])) && lbox.w >= Math.min(160, lbox.limit - 1), JSON.stringify(lbox))
     check(`${P} Lupe sichtbar, Mitte = Punkt unter dem Finger`, st.loupe && Math.abs(st.target.x - spot.x) < 0.75 && Math.abs(st.target.y - spot.y) < 0.75, JSON.stringify(st.target))
     // Pixelvergleich: Lupe zeigt den vergrößerten Ausschnitt des Spielfelds (ohne Hilfslinien)
     const cmp = await page.evaluate(() => new Promise((res) => {

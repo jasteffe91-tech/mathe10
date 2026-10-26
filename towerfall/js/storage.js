@@ -13,6 +13,8 @@ export const DEFAULT_SETTINGS = {
   defaultSpeed: 1,
   showAllRanges: false,
   rotateMap: 'auto',     // Karte im Hochformat um 90° drehen (auto | off)
+  magnifierHand: 'right', // Lupe links oben (Rechtshänder) oder rechts oben (Linkshänder)
+  magnifierSize: 'normal', // normal | large
   confirmSell: true,
   autoPause: true,       // pausiert, wenn der Tab in den Hintergrund geht
   introSeen: false,

@@ -6,6 +6,8 @@
 //  K4  Kein Turmtyp macht in einer gemischten Verteidigung mehr als 45 % des Schadens.
 //  K5  Auf „Entspannt“ gewinnt eine gemischte Verteidigung jede Karte.
 //  K6  Ohne Türme bzw. nur mit Pfeiltürmen ist das Spiel nicht zu gewinnen.
+//  K8  Die Elementtürme (Flamme, Schleim, Tesla) tragen eine gemischte Verteidigung, machen aber die
+//      anderen Türme nicht überflüssig: nur mit ihnen gewinnt man auf Normal keine Karte.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { runBot } from './helpers/bot.js'
@@ -71,4 +73,14 @@ test('Simulationen sind reproduzierbar (gleicher Seed → gleiches Ergebnis)', (
   const a = runStrategy({ strategy: 'control', mapId: 'felsenpass', seed: 7 })
   const b = runStrategy({ strategy: 'control', mapId: 'felsenpass', seed: 7 })
   assert.deepEqual(a, b)
+})
+
+test('K8: Elementtürme tragen eine gemischte Verteidigung, allein reichen sie nicht', () => {
+  const mixed = maps.map((mapId) => runStrategy({ strategy: 'elements', mapId }))
+  assert.ok(mixed.some((r) => r.status === 'won'), 'gemischt mit Elementtürmen gewinnt mindestens eine Karte')
+  assert.ok(!mixed.every(flawless), 'aber nicht überall fehlerfrei')
+  for (const mapId of maps) {
+    const r = runStrategy({ strategy: 'newOnly', mapId })
+    assert.equal(r.status, 'lost', `${mapId}: nur Elementtürme gewinnen`)
+  }
 })

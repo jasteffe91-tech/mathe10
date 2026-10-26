@@ -18,7 +18,10 @@ export const BALANCE = {
   bossHealFactor: 0.25,         // Heiler heilen Bosse nur zu einem Viertel
   bossGrowthShare: 0.5,         // Bosse wachsen nur mit der Hälfte des Lebenspunkte-Zuwachses
   retargetRadius: 70,           // Pfeile suchen sich ein neues Ziel, wenn ihres vorher fällt
-  maxSlow: 0.7,                 // Verlangsamung wirkt höchstens zu 70 % – Gegner bleiben nie ganz stehen
+  maxSlow: 0.7,                 // Verlangsamung wirkt höchstens zu 70 % – nur Betäubungen halten Gegner an
+  // Betäubung (Schock der Tesla-Spule, Einfrieren durch Frost): Bosse stehen nur einen Bruchteil der Zeit;
+  // danach ist jeder Gegner eine Weile immun – so lässt sich niemand dauerhaft festhalten
+  stun: { bossFactor: 0.35, immunity: 2.5, bossImmunity: 6 },
   largeEnemyRadius: 14,         // ab diesem Radius gilt ein Gegner als „groß“ (Tribok-Bonus)
   moveCostRatio: 0.1,           // Versetzen kostet 10 % des investierten Goldes …
   moveCostMin: 5,               // … mindestens 5 Gold

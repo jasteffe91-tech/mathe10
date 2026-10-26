@@ -6,7 +6,8 @@ import { Game } from '../js/game/game.js'
 import { Controller } from '../js/ui/controller.js'
 import { TOWERS } from '../js/config/towers.js'
 import { WORLD } from '../js/config/maps.js'
-import { placeLoupe, LOUPE } from '../js/render/loupe.js'
+import { placeMagnifier } from '../js/render/loupe.js'
+import { MAGNIFIER } from '../js/config/ui.js'
 import { nearestSnap } from '../js/ui/sheet.js'
 
 // Controller mit steuerbarer Uhr (für die Doppeltipp-Sperre)
@@ -266,18 +267,67 @@ test('Ansicht: „Karte nie drehen“ wird beachtet', async () => {
 })
 
 // ---------- Lupe ----------
-test('Lupe liegt immer im Spielfeld und nie über dem Finger – an allen Rändern', () => {
-  const W = 390, H = 650, size = LOUPE.size, finger = 34
-  for (let px = 0; px <= W; px += 13) for (let py = 0; py <= H; py += 13) {
-    const p = placeLoupe(px, py, W, H, { size, finger })
-    assert.ok(p.x >= 0 && p.y >= 0 && p.x + size <= W && p.y + size <= H, `${px},${py}`)
-    // Finger (Kreis mit Radius 20 um den Berührungspunkt) überlappt die Lupe nicht, sofern Platz ist
-    const cx = Math.max(p.x, Math.min(px, p.x + size)), cy = Math.max(p.y, Math.min(py, p.y + size))
-    const free = Math.hypot(cx - px, cy - py)
-    assert.ok(free >= 20, `Lupe verdeckt den Finger bei ${px},${py} (${p.side})`)
+// Abstand eines Punktes zum Rechteck der Lupe
+const distToBox = (px, py, b) => Math.hypot(Math.max(b.x - px, 0, px - (b.x + b.w)), Math.max(b.y - py, 0, py - (b.y + b.h)))
+
+test('Lupe: Rechtshänder – bevorzugt links oben, dann links, dann oben, sonst ausweichen', () => {
+  const W = 390, H = 650
+  assert.equal(placeMagnifier(250, 400, W, H).side, 'top-left')
+  // oben zu wenig Platz für „links oben“, links daneben passt
+  assert.equal(placeMagnifier(250, 140, W, H).side, 'left')
+  // links kein Platz, oberhalb schon
+  assert.equal(placeMagnifier(110, 400, W, H).side, 'top')
+  // linker Rand: nach rechts oben ausweichen
+  assert.equal(placeMagnifier(30, 400, W, H).side, 'top-right')
+  // oberer Rand: nach unten ausweichen (links unten bevorzugt)
+  assert.equal(placeMagnifier(300, 40, W, H).side, 'bottom-left')
+  // Linkshänder: spiegelbildlich rechts oben
+  assert.equal(placeMagnifier(140, 400, W, H, { hand: 'left' }).side, 'top-right')
+})
+
+test('Lupe liegt immer im Spielfeld und verdeckt den Finger nicht – an allen Rändern', () => {
+  for (const [W, H] of [[390, 650], [375, 470], [660, 371], [960, 540]]) {
+    let fitting = 0, total = 0
+    for (let px = 0; px <= W; px += 11) for (let py = 0; py <= H; py += 11) {
+      const p = placeMagnifier(px, py, W, H)
+      total++
+      assert.ok(p.x >= 0 && p.y >= 0 && p.x + p.w <= W && p.y + p.h <= H, `${W}×${H} bei ${px},${py}`)
+      if (!p.fits) continue
+      fitting++
+      assert.ok(distToBox(px, py, p) >= MAGNIFIER.fingerRadius, `Finger verdeckt bei ${px},${py} (${p.side})`)
+    }
+    assert.ok(fitting / total > 0.97, `${W}×${H}: nur ${Math.round((fitting / total) * 100)} % ohne Notlösung`)
   }
-  assert.equal(placeLoupe(200, 400, W, H, { finger }).side, 'above')
-  assert.equal(placeLoupe(200, 30, W, H, { finger }).side, 'below')
+})
+
+test('Lupe springt bei kleinen Bewegungen nicht hin und her (Hysterese)', () => {
+  const W = 390, H = 650
+  // Grenze von „links oben“: oberhalb muss Platz für Lupe + Abstand sein
+  const limit = MAGNIFIER.edgePadding + MAGNIFIER.height + MAGNIFIER.offsetY
+  let side = placeMagnifier(250, limit + 1, W, H).side
+  assert.equal(side, 'top-left')
+  side = placeMagnifier(250, limit - 1, W, H, { previous: side }).side
+  assert.equal(side, 'left', 'kein Platz mehr oben links')
+  // Zitterbewegung um die Grenze: bleibt links
+  let changes = 0
+  for (let i = 0; i < 40; i++) {
+    const next = placeMagnifier(250 + (i % 3), limit + ((i * 7) % 9) - 4, W, H, { previous: side }).side
+    if (next !== side) changes++
+    side = next
+  }
+  assert.equal(changes, 0)
+  // erst mit genug Luft zurück nach links oben
+  side = placeMagnifier(250, limit + MAGNIFIER.hysteresis + 2, W, H, { previous: side }).side
+  assert.equal(side, 'top-left')
+})
+
+test('Lupe: Größe gegenüber vorher (132 px) um 20–30 % gewachsen, Zoom höher', () => {
+  assert.ok(MAGNIFIER.width >= 132 * 1.2 && MAGNIFIER.width <= 132 * 1.3)
+  assert.ok(MAGNIFIER.zoom > 2.2)
+  // Tastatur ohne Finger: Lupe darf näher an den Zielpunkt
+  const t = placeMagnifier(250, 400, 390, 650, { finger: false })
+  assert.equal(t.side, 'top-left')
+  assert.ok(distToBox(250, 400, t) < distToBox(250, 400, placeMagnifier(250, 400, 390, 650)))
 })
 
 test('Sheet: Rastposition nach Höhe und Wischrichtung', () => {
@@ -288,4 +338,85 @@ test('Sheet: Rastposition nach Höhe und Wischrichtung', () => {
   // schneller Wisch nach oben aus der Mitte: nächste Stufe darüber
   assert.equal(nearestSnap(hs, 400, 1.2), 'full')
   assert.equal(nearestSnap(hs, 360, -1.2), 'compact')
+})
+
+// ---------- Pfeiltasten: ausgewählten Turm versetzen ----------
+test('Pfeiltasten ohne Auswahl tun nichts', () => {
+  const { game, ctl } = setup()
+  assert.equal(ctl.arrow(1, 0), false)
+  assert.equal(ctl.placing, false)
+  assert.equal(game.gold, 1000)
+})
+
+test('Pfeiltasten versetzen den ausgewählten Turm über die vorhandene Bestätigung', () => {
+  const { game, ctl, clock } = setup({ gold: 1000 })
+  const s = spotFor(game, 'arrow', 300, 200)
+  ctl.chooseType('arrow')
+  ctl.setCursor(s.x, s.y)
+  ctl.confirm()
+  clock.t += 1000
+  const t = game.towers[0]
+  assert.equal(ctl.sel.tower, t)
+  const gold = game.gold
+  // Pfeil: Versetzmodus mit Vorschau eine Zelle weiter, der Turm selbst bleibt stehen
+  assert.equal(ctl.arrow(1, 0), true)
+  assert.equal(ctl.sel.moving, t)
+  assert.deepEqual(ctl.sel.anchor, { c: t.c + 1, r: t.r })
+  assert.deepEqual([t.c, t.r], [s.c, s.r])
+  // freies Ziel zwei Zellen weiter suchen (rechts, links, unten oder oben) und mit Pfeilen hinfahren
+  const dir = [[1, 0], [-1, 0], [0, 1], [0, -1]].find(([dx, dy]) => game.canMove(t, s.c + 2 * dx, s.r + 2 * dy).ok)
+  assert.ok(dir, 'kein freies Ziel neben dem Turm')
+  ctl.cancel()
+  for (let i = 0; i < 2; i++) ctl.arrow(...dir)
+  const target = { ...ctl.sel.anchor }
+  assert.deepEqual(target, { c: s.c + 2 * dir[0], r: s.r + 2 * dir[1] })
+  const valid = ctl.sel.preview.ok
+  // Enter (vorhandene Bestätigung) versetzt und kostet genau einmal die Versetzgebühr
+  const fee = game.moveCost(t)
+  assert.ok(valid, 'Testposition sollte frei sein')
+  assert.equal(ctl.confirm(), true)
+  assert.deepEqual([t.c, t.r], [target.c, target.r])
+  assert.equal(game.gold, gold - fee)
+  assert.equal(ctl.sel.tower, t, 'Turm bleibt ausgewählt – weitere Pfeile versetzen weiter')
+})
+
+test('Pfeiltasten: ungültige Position wird nie übernommen, Abbrechen ist kostenlos', () => {
+  const { game, ctl, clock } = setup()
+  const s = spotFor(game, 'arrow')
+  ctl.chooseType('arrow')
+  ctl.setCursor(s.x, s.y)
+  ctl.confirm()
+  clock.t += 1000
+  const t = game.towers[0]
+  const gold = game.gold
+  // auf eine Wegzelle schieben (Richtung zum nächsten Wegpunkt)
+  const p = pathPoint(game)
+  ctl.arrow(0, 0)
+  const cell = game.grid.cellAt(p.x, p.y)
+  ctl.sel.anchor = { c: cell.c, r: cell.r }
+  ctl.updatePreview()
+  assert.equal(ctl.sel.preview.ok, false)
+  assert.equal(ctl.confirm(), false)
+  assert.deepEqual([t.c, t.r], [s.c, s.r], 'Turm bleibt auf der letzten gültigen Position')
+  assert.equal(game.gold, gold)
+  ctl.cancel()
+  assert.equal(ctl.placing, false)
+  assert.equal(ctl.sel.tower, t)
+  assert.equal(game.gold, gold)
+  // Rand: beliebig viele Pfeile nach links → Vorschau bleibt im Raster
+  for (let i = 0; i < 80; i++) ctl.arrow(-1, 0)
+  assert.equal(ctl.sel.anchor.c, 0)
+})
+
+test('Pfeiltasten nach Spielende wirkungslos', () => {
+  const { game, ctl } = setup()
+  const s = spotFor(game, 'arrow')
+  ctl.chooseType('arrow')
+  ctl.setCursor(s.x, s.y)
+  ctl.confirm()
+  game.status = 'lost'
+  ctl.cancel()
+  ctl.selectTower(game.towers[0])
+  assert.equal(ctl.arrow(1, 0), false)
+  assert.equal(ctl.placing, false)
 })

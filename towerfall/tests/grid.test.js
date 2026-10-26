@@ -268,13 +268,14 @@ test('Verlangsamung stapelt nicht und ist gedeckelt', async () => {
   const { BALANCE } = await import('../js/config/balance.js')
   const g = new Game()
   const e = createEnemy(ENEMIES.grunt, { id: 1, route: g.route })
+  const { getStatus } = await import('../js/game/status.js')
   applySlow(e, 0.4, 2)
   applySlow(e, 0.6, 1)
   applySlow(e, 0.3, 3)
-  assert.equal(e.slow, 0.6, 'stärkster Effekt zählt, keine Addition')
-  assert.equal(e.slowTime, 3)
-  e.slow = 0.99
-  assert.ok(Math.abs(currentSpeed(e) - ENEMIES.grunt.speed * (1 - BALANCE.maxSlow)) < 1e-9, 'nie ganz bewegungsunfähig')
+  assert.equal(getStatus(e, 'slow').slow, 0.6, 'stärkster Effekt zählt, keine Addition')
+  assert.equal(getStatus(e, 'slow').time, 3)
+  getStatus(e, 'slow').slow = 0.99
+  assert.ok(Math.abs(currentSpeed(e) - ENEMIES.grunt.speed * (1 - BALANCE.maxSlow)) < 1e-9, 'Verlangsamung allein hält nie ganz an')
 })
 
 test('Spielstand v2 speichert Rasterpositionen, Drehung und geräumte Hindernisse; v1 wird übernommen', () => {

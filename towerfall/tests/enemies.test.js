@@ -9,6 +9,7 @@ import { BALANCE } from '../js/config/balance.js'
 import { WAVE_SETS } from '../js/config/waves.js'
 import { damageEnemy, applySlow, currentSpeed, resistFactor, updateEnemy } from '../js/game/enemies.js'
 import { findTarget, updateTower } from '../js/game/towers.js'
+import { slowOf } from '../js/game/status.js'
 
 // Gegner direkt aufs Feld setzen (ohne Welle)
 function spawn(g, type, opts = {}) {
@@ -68,9 +69,9 @@ test('Berserker: Raserei macht schneller und immun gegen Verlangsamung, danach w
   let t = 0
   while (b.frenzy <= 0 && t < 10) { updateEnemy(b, 1 / 60, g); t += 1 / 60 }
   assert.ok(Math.abs(t - f.first) < 0.05, `Raserei nach ${t.toFixed(2)} s`)
-  assert.equal(b.slow, 0, 'Raserei löst bestehende Verlangsamung')
+  assert.equal(slowOf(b), 0, 'Raserei löst bestehende Verlangsamung')
   assert.equal(applySlow(b, 0.5, 2), false, 'während der Raserei immun')
-  assert.equal(b.slow, 0)
+  assert.equal(slowOf(b), 0)
   assert.ok(Math.abs(currentSpeed(b) - ENEMIES.berserker.speed * f.speed) < 1e-9)
   for (let i = 0; i < f.duration * 60 + 2; i++) updateEnemy(b, 1 / 60, g)
   assert.equal(b.frenzy, 0)

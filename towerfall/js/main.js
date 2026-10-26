@@ -16,6 +16,8 @@ import { Loupe } from './render/loupe.js'
 import { Hud } from './ui/hud.js'
 import { openModal, closeModal, modalOpen } from './ui/modal.js'
 import { setupPointer, setupKeyboard } from './ui/input.js'
+import { setupInputGuard } from './ui/guard.js'
+import { refineKeyLabels } from './ui/keys.js'
 import { esc, num } from './ui/format.js'
 import { Storage } from './storage.js'
 import { Sfx } from './audio.js'
@@ -45,6 +47,7 @@ function applySettings() {
   sfx.setVolume(settings.volume)
   renderer.setReducedMotion(reducedMotion())
   renderer.setRotateMode(settings.rotateMap === 'off' ? 'off' : 'auto')
+  loupe.configure({ hand: settings.magnifierHand, size: settings.magnifierSize })
   document.documentElement.classList.toggle('reduced-motion', reducedMotion())
   storage.saveSettings(settings)
 }
@@ -79,6 +82,8 @@ const controller = new Controller({
 })
 const panel = new Panel({ shop: $('#shop'), info: $('#info'), preview: $('#wave-preview'), compact: $('#sheet-compact'), controller, settings: () => settings })
 const sheet = new Sheet({ root: $('#sheet'), stage: $('#stage') })
+// Tastenbeschriftung der Turmauswahl an das echte Tastaturlayout anpassen (falls der Browser es kennt)
+refineKeyLabels().then((changed) => { if (changed) panel.buildShop() })
 const loupe = new Loupe($('#loupe'), renderer)
 controller.screenStep = (dx, dy) => renderer.screenStepToWorld(dx, dy)
 const hud = new Hud({
@@ -271,7 +276,9 @@ $('#pause-banner').addEventListener('click', () => setPaused(false))
 // Mausklicks auf Spielknöpfe sollen den Fokus nicht verschieben – sonst würde die Leertaste
 // danach den zuletzt geklickten Knopf erneut auslösen statt zu pausieren
 $('#screen-game').addEventListener('mousedown', (e) => { if (e.target.closest('button')) e.preventDefault() })
-setupPointer(canvas, renderer, controller, loupe)
+const pointer = setupPointer(canvas, renderer, controller, loupe)
+// Textauswahl, Kontextmenü und natives Ziehen im Spiel verhindern; verlorene Gesten beenden
+setupInputGuard($('#app'), { onReset: () => { pointer.reset(); sheet.cancelDrag() } })
 setupKeyboard({ isActive: () => state.screen === 'game' && !!state.game, controller, actions, loupe })
 // Audio darf erst nach einer Nutzeraktion starten
 addEventListener('pointerdown', () => sfx.unlock(), { capture: true })
@@ -430,7 +437,7 @@ function showIntro(first) {
   $('#pause-banner').hidden = true
   openModal({
     title: 'Willkommen, Kommandant!',
-    body: INTRO + '<p class="muted small">Tasten: 1–9 Turm wählen · Pfeile Vorschau verschieben · R drehen · Enter bauen · Esc abbrechen · M versetzen · C räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>',
+    body: INTRO + '<p class="muted small">Tasten: 1–9, 0, ß, ´ Turm wählen · Pfeile Vorschau bzw. ausgewählten Turm verschieben · R drehen · Enter bauen · Esc abbrechen · M versetzen · C räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>',
     actions: [{ label: 'Los geht’s', primary: true }],
     onClose: () => {
       if (first) { settings.introSeen = true; applySettings() }
@@ -447,10 +454,11 @@ function showHowTo(back) {
     title: 'Anleitung',
     className: 'wide',
     body: `${INTRO}<h3>Türme</h3><ul class="codex">${towers}</ul><h3>Gegner</h3><ul class="codex">${enemies}</ul>
-      <h3>Schadensarten &amp; Konter</h3><p>Jeder Turm macht eine Schadensart: ⚔ physisch (Pfeil, Speer, Scharfschütze), ✹ explosiv (Kanone, Tribok), ✦ Magie (Blitz), ❄ Frost, ☠ Gift. Panzerung zieht von jedem Treffer einen festen Betrag ab – starke Einzeltreffer und Gift kommen besser durch. Geister halten physischem Schaden stand, Harpyien fliegen über Bogengeschosse hinweg, Berserker ignorieren Frost während ihrer Raserei, Runenhexer und Bosse lähmen Türme, die dicht am Weg geballt stehen. ${esc(ELITE_HINT.replace('Neu: ', ''))}</p>
+      <h3>Statuseffekte</h3><p>❄ <b>Verlangsamt</b> (Frost) und ◉ <b>verschleimt</b> (Schleim, hält länger): es wirkt immer nur die stärkere Verlangsamung, höchstens 70 %. Wer oft von Frost getroffen wird, <b>friert</b> kurz <b>ein</b>. ⚡ <b>Schock</b> (Tesla): Gegner bleiben kurz stehen. Nach jeder Betäubung sind Gegner 2,5 s immun, Bosse stehen nur kurz. 🔥 <b>Brand</b> stapelt sich bis 3 Stufen, ☠ <b>Gift</b> – beide ignorieren Panzerung. Berserker in Raserei ignorieren alles, was bremst oder festhält.</p>
+      <h3>Schadensarten &amp; Konter</h3><p>Jeder Turm macht eine Schadensart: ⚔ physisch (Pfeil, Speer, Scharfschütze), ✹ explosiv (Kanone, Tribok), ✦ Magie (Blitz, Tesla), ❄ Frost, ☠ Gift, 🔥 Feuer (Flammenwerfer), ◉ Säure (Schleimwerfer). Panzerung zieht von jedem Treffer einen festen Betrag ab – starke Einzeltreffer und Gift kommen besser durch. Geister halten physischem Schaden stand, Harpyien fliegen über Bogengeschosse hinweg, Berserker ignorieren Frost während ihrer Raserei, Runenhexer und Bosse lähmen Türme, die dicht am Weg geballt stehen. ${esc(ELITE_HINT.replace('Neu: ', ''))}</p>
       <h3>Steuerung</h3><p>Maus: Turm wählen, Vorschau folgt dem Zeiger, Klick baut (mit Umschalt bleibt der Baumodus aktiv). Rechtsklick bricht ab.<br>
-      Finger: Turm in der Leiste wählen, auf der Karte ziehen – die Lupe über dem Finger zeigt Raster und Grundfläche vergrößert. Loslassen baut nicht; gebaut wird erst mit „Bauen“. Mit den Pfeil-Knöpfen (Infobereich nach oben ziehen) lässt sich die Vorschau zellgenau verschieben. Im Hochformat wird die Karte gedreht, damit sie größer ist (abschaltbar in den Einstellungen).<br>
-      Tastatur: 1–9 Turm · Pfeiltasten Vorschau verschieben, die Lupe folgt (sonst Türme durchblättern) · R drehen · Enter bauen · Esc abbrechen · M versetzen · C Hindernis räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>
+      Finger: Turm in der Leiste wählen, auf der Karte ziehen – die Lupe links oberhalb des Fingers (für Linkshänder umstellbar) zeigt Raster und Grundfläche vergrößert. Loslassen baut nicht; gebaut wird erst mit „Bauen“. Mit den Pfeil-Knöpfen (Infobereich nach oben ziehen) lässt sich die Vorschau zellgenau verschieben. Im Hochformat wird die Karte gedreht, damit sie größer ist (abschaltbar in den Einstellungen).<br>
+      Tastatur: 1–9, 0, ß, ´ Turm · Pfeiltasten verschieben die Vorschau – ist ein Turm ausgewählt, versetzen sie ihn (Enter bestätigt, Esc bricht kostenlos ab); die Lupe folgt · Komma/Punkt Türme durchblättern · R drehen · Enter bauen · Esc abbrechen · M versetzen · C Hindernis räumen · U verbessern · V verkaufen · T Zielwahl · Leertaste Pause · N nächste Welle · F Tempo</p>
       <h3>Modi</h3><p><b>Normal:</b> übersichtliches Gelände, wenige Hindernisse. <b>Fortgeschritten:</b> Flüsse, Klippen, Ruinen, dichter Wald und eine Bauzone nahe am Weg – Räumen kostet Gold, dafür gibt es mehr Punkte.</p>
       <h3>Offline spielen &amp; installieren</h3>
       <p>Das Spiel speichert sich beim ersten Öffnen komplett auf deinem Gerät. Danach läuft es ohne Internet. Installieren: im Browsermenü „App installieren“ bzw. „Zum Home-Bildschirm“ (Safari: Teilen → Zum Home-Bildschirm).</p>`,
@@ -485,6 +493,12 @@ function showSettings(back) {
       <label class="row"><span>Karte im Hochformat drehen</span><select name="rotateMap">
         <option value="auto" ${settings.rotateMap !== 'off' ? 'selected' : ''}>Automatisch (größere Karte)</option>
         <option value="off" ${settings.rotateMap === 'off' ? 'selected' : ''}>Nie drehen</option></select></label>
+      <label class="row"><span>Lupe beim Bauen</span><select name="magnifierHand">
+        <option value="right" ${settings.magnifierHand !== 'left' ? 'selected' : ''}>Rechtshänder (links oben)</option>
+        <option value="left" ${settings.magnifierHand === 'left' ? 'selected' : ''}>Linkshänder (rechts oben)</option></select></label>
+      <label class="row"><span>Lupengröße</span><select name="magnifierSize">
+        <option value="normal" ${settings.magnifierSize !== 'large' ? 'selected' : ''}>Normal</option>
+        <option value="large" ${settings.magnifierSize === 'large' ? 'selected' : ''}>Groß</option></select></label>
       <label class="row"><span>Reichweite aller Türme zeigen</span><input type="checkbox" name="showAllRanges" ${settings.showAllRanges ? 'checked' : ''}></label>
       <label class="row"><span>Verkauf bestätigen</span><input type="checkbox" name="confirmSell" ${settings.confirmSell ? 'checked' : ''}></label>
       <label class="row"><span>Pause, wenn das Fenster verdeckt ist</span><input type="checkbox" name="autoPause" ${settings.autoPause ? 'checked' : ''}></label>
@@ -502,6 +516,8 @@ function showSettings(back) {
     settings.defaultSpeed = Number(form.defaultSpeed.value)
     settings.showAllRanges = form.showAllRanges.checked
     settings.rotateMap = form.rotateMap.value
+    settings.magnifierHand = form.magnifierHand.value
+    settings.magnifierSize = form.magnifierSize.value
     settings.confirmSell = form.confirmSell.checked
     settings.autoPause = form.autoPause.checked
     applySettings()

@@ -6,9 +6,10 @@ import { ENEMIES, ELITE_HINT } from '../config/enemies.js'
 import { BALANCE } from '../config/balance.js'
 import { drawTowerIcon, drawEnemyIcon } from '../render/sprites.js'
 import { esc, num, statTable, HINTS } from './format.js'
+import { SHOP_KEYS } from './keys.js'
 import { computeStats } from '../game/towers.js'
 
-const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Schütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner', trebuchet: 'Tribok' }
+const SHORT = { arrow: 'Pfeil', cannon: 'Kanone', frost: 'Frost', lightning: 'Blitz', sniper: 'Schütze', poison: 'Gift', ballista: 'Speer', banner: 'Banner', trebuchet: 'Tribok', flame: 'Flamme', slime: 'Schleim', tesla: 'Tesla' }
 const dpr = () => Math.min(2, window.devicePixelRatio || 1)
 
 function iconCanvas(size, draw) {
@@ -50,13 +51,16 @@ export class Panel {
   buildShop() {
     this.shopEl.innerHTML = ''
     this.shopButtons = {}
+    // zwei Reihen: Spaltenzahl aus der Zahl der Türme
+    this.shopEl.style.setProperty('--shop-cols', Math.ceil(TOWER_ORDER.length / 2))
     TOWER_ORDER.forEach((type, i) => {
       const def = TOWERS[type]
+      const key = SHOP_KEYS[i]?.label
       const b = document.createElement('button')
       b.className = 'shop-btn'
       b.dataset.type = type
-      b.title = `${def.name} (Taste ${i + 1}) – ${def.role} – Grundfläche ${def.footprint.w} × ${def.footprint.h}`
-      b.setAttribute('aria-label', `${def.name}, ${def.levels[0].cost} Gold, Taste ${i + 1}`)
+      b.title = `${def.name}${key ? ` (Taste ${key})` : ''} – ${def.role} – Grundfläche ${def.footprint.w} × ${def.footprint.h}`
+      b.setAttribute('aria-label', `${def.name}, ${def.levels[0].cost} Gold${key ? `, Taste ${key}` : ''}`)
       b.appendChild(iconCanvas(44, (c) => drawTowerIcon(c, type)))
       const label = document.createElement('span')
       label.className = 'shop-name'
@@ -64,13 +68,13 @@ export class Panel {
       const cost = document.createElement('span')
       cost.className = 'shop-cost'
       cost.textContent = def.levels[0].cost
-      const key = document.createElement('kbd')
-      key.textContent = i + 1
+      const kbd = document.createElement('kbd')
+      kbd.textContent = key || ''
       const size = document.createElement('span')
       size.className = 'shop-size'
       size.textContent = `${def.footprint.w}×${def.footprint.h}`
       b.append(size)
-      b.append(label, cost, key)
+      b.append(label, cost, kbd)
       b.addEventListener('click', () => this.ctl.chooseType(type))
       this.shopEl.appendChild(b)
       this.shopButtons[type] = b
@@ -198,7 +202,7 @@ export class Panel {
     else if (sel.obstacle) html = this.obstacleInfo(sel.obstacle)
     else html = `<div class="info-empty"><p><b>Bauen:</b> Wähle oben einen Turm. Auf der Karte erscheint das Raster mit einer Vorschau – grün heißt passt, rot heißt besetzt.</p>
       <p>Jeder Turm belegt seine Grundfläche (1 × 1 bis 3 × 3 Zellen). Bäume, Steine und Ruinen lassen sich antippen und gegen Gold räumen.</p>
-      <p class="muted">Tasten: 1–9 Turm · Pfeile verschieben · R drehen · Enter bauen · Esc abbrechen · M versetzen · Leertaste Pause</p></div>`
+      <p class="muted">Tasten: 1–9, 0, ß, ´ Turm · Pfeile verschieben Vorschau bzw. ausgewählten Turm · R drehen · Enter bestätigen · Esc abbrechen · Leertaste Pause</p></div>`
     this.infoEl.innerHTML = html
     for (const slot of this.infoEl.querySelectorAll('[data-icon]')) {
       slot.replaceWith(iconCanvas(48, (c) => drawTowerIcon(c, slot.dataset.icon, Number(slot.dataset.level || 0))))
@@ -221,6 +225,7 @@ export class Panel {
     const modes = TARGET_MODE_ORDER.map((m) => `<button class="seg ${t.targetMode === m ? 'on' : ''}" data-act="target" data-mode="${m}" title="${esc(TARGET_MODES[m].hint)}" aria-pressed="${t.targetMode === m}">${TARGET_MODES[m].name}</button>`).join('')
     return `${this.head(t.type, t.level, `Stufe ${t.level + 1}/${def.levels.length}`)}
       ${statTable(def, cur, next)}
+      ${def.limits ? `<p class="limits">${esc(def.limits)}</p>` : ''}
       ${t.buff ? `<p class="buff">Verstärkt durch Kriegsbanner: +${Math.round(t.buff.damage * 100)} % Schaden, +${Math.round(t.buff.rate * 100)} % Feuerrate</p>` : ''}
       ${def.attack === 'aura'
         ? `<p class="meta">Verstärkt gerade <b>${game.towers.filter((o) => o.buff?.from === t).length}</b> Türme.</p>`
@@ -234,7 +239,7 @@ export class Panel {
       </div>
       <div class="actions"><button class="btn" data-act="move" title="Taste M">Versetzen <b>${game.moveCost(t)} G</b></button></div>
       <p class="reason" data-live="reason">${next && !up.ok ? esc(up.reason) : ''}</p>
-      <p class="muted small">Grundfläche ${t.w} × ${t.h} · Verkauf erstattet ${Math.round(BALANCE.sellRefund * 100)} % von ${t.invested} G (abgerundet).</p>`
+      <p class="muted small">Grundfläche ${t.w} × ${t.h} · Verkauf erstattet ${Math.round(BALANCE.sellRefund * 100)} % von ${t.invested} G (abgerundet). Tastatur: Pfeiltasten versetzen den Turm, Enter bestätigt.</p>`
   }
 
   // Steuerleiste der Vorschau: drehen, zellweise verschieben, bestätigen, abbrechen
@@ -275,6 +280,7 @@ export class Panel {
       ${this.placeControls(def.footprint.rotatable, `Bauen <b>${s.cost} G</b>`, !!(p && p.ok && p.goldOk))}
       <p class="desc">${esc(def.description)}</p>
       ${statTable(def, s)}
+      ${def.limits ? `<p class="limits">${esc(def.limits)}</p>` : ''}
       <p class="muted small">${esc(def.tip)}</p>`
   }
 

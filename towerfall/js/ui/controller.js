@@ -304,7 +304,21 @@ export class Controller {
     this.setTargetMode(TARGET_MODE_ORDER[(i + 1) % TARGET_MODE_ORDER.length])
   }
 
-  // Pfeiltasten außerhalb des Baumodus: gebaute Türme reihum auswählen
+  // Pfeiltaste (Bildschirmrichtung): im Bau-/Versetzmodus die Vorschau verschieben; ist ein Turm
+  // ausgewählt, startet sie das Versetzen dieses Turms und verschiebt seine Vorschau um eine Zelle.
+  // Der Turm selbst bleibt stehen, bis das Versetzen mit Enter/„Versetzen“ bestätigt wird – ungültige
+  // Zwischenpositionen (rot) sind erlaubt, gebaut wird dort nie. Gibt false zurück, wenn nichts passiert.
+  arrow(dx, dy) {
+    if (!this.game || this.game.status !== 'playing') return false
+    if (!this.placing) {
+      if (!this.sel.tower) return false
+      this.startMove()
+    }
+    this.nudgeScreen(dx, dy)
+    return true
+  }
+
+  // Komma/Punkt: gebaute Türme reihum auswählen
   cycleTower(dir) {
     const list = this.game.towers
     if (!list.length) return

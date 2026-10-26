@@ -218,6 +218,9 @@ export class Effects {
       } else if (kind === 'shard') {
         this.ring(x, y, radius || 18, '#bfeaff', 0.4, 3)
         this.burst(x, y, 10, { color: '#e6f8ff', speed: 110, life: 0.4, size: 2.5 })
+      } else if (kind === 'slime') {
+        this.ring(x, y, radius || 24, '#ff8fd0', 0.45, 3)
+        this.burst(x, y, 12, { color: '#e05aa8', speed: 80, life: 0.55, size: 3, gravity: 90 })
       } else if (kind === 'glob') {
         this.ring(x, y, radius, '#8ee34f', 0.5, 3)
         this.burst(x, y, 14, { color: '#9cf05a', speed: 90, life: 0.6, size: 3, gravity: 60 })
@@ -235,6 +238,36 @@ export class Effects {
       this.burst(enemy.x, enemy.y, 12, { color: '#ff5a4f', speed: 130, life: 0.5, size: 3 })
       this.text(enemy.x, enemy.y, `−${enemy.def.damage} ♥`, '#ff7a6e', 20)
       this.addShake(enemy.boss ? 8 : 3)
+    })
+    // Flammenwerfer: Feuerzungen im Kegel, Lichtschein an der Düse
+    on('flame', ({ tower, angle, range, cone }) => {
+      const up = screenUp(muzzleHeight('flame', tower.level))
+      const mx = tower.x + up.dx + Math.cos(angle) * 18, my = tower.y + up.dy + Math.sin(angle) * 18
+      this.flash(mx, my, 16, 'rgba(255,160,70,A)', 0.1)
+      const n = this.reduced ? 3 : 9
+      const half = (cone * Math.PI) / 360
+      for (let i = 0; i < n; i++) {
+        const a = angle + (Math.random() * 2 - 1) * half
+        const sp = range * (2.2 + Math.random() * 1.2)
+        this.particle(mx, my, { vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 0.28 + Math.random() * 0.12, size: 5 + Math.random() * 4, color: i % 3 ? '#ff9d3a' : '#ffd36b', drag: 4 })
+      }
+    })
+    // Tesla-Spule: Blitzbögen von der Kugel zu jedem getroffenen Gegner, Ring um die Spule
+    on('pulse', ({ tower, points, range }) => {
+      const up = screenUp(muzzleHeight('tesla', tower.level))
+      const top = { x: tower.x + up.dx, y: tower.y + up.dy }
+      for (const p of points) this.bolt([top, p], '#9fe8ff', 0.2, 2)
+      this.ring(tower.x, tower.y, range, 'rgba(159,232,255,.5)', 0.35, 2)
+      this.flash(top.x, top.y, 22, 'rgba(170,235,255,A)', 0.2)
+    })
+    // Betäubung: Schock = Funken, Einfrieren = Eissplitter
+    on('stun', ({ enemy, kind }) => {
+      if (kind === 'freeze') {
+        this.ring(enemy.x, enemy.y, enemy.radius + 12, '#e8f9ff', 0.4, 3)
+        this.burst(enemy.x, enemy.y, 10, { color: '#e6f8ff', speed: 90, life: 0.45, size: 3 })
+      } else {
+        this.burst(enemy.x, enemy.y, 6, { color: '#cff4ff', speed: 110, life: 0.25, size: 2 })
+      }
     })
     on('heal', ({ enemy, radius }) => this.ring(enemy.x, enemy.y, radius, 'rgba(110,255,200,.8)', 0.6, 2))
     on('summon', ({ enemy }) => this.ring(enemy.x, enemy.y, 50, '#c67bff', 0.5, 3))

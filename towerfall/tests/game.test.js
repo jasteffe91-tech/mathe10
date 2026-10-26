@@ -1,5 +1,6 @@
 // Spielmechanik-Tests (Node, ohne Browser): node --test tests/
 import { test } from 'node:test'
+import { slowOf, statusTime } from '../js/game/status.js'
 import assert from 'node:assert/strict'
 import { Game } from '../js/game/game.js'
 import { TOWERS, TOWER_ORDER } from '../js/config/towers.js'
@@ -295,7 +296,7 @@ test('Frost verlangsamt, Gift schadet über Zeit', () => {
   const e = addEnemy(g, 'armored', nearestDist(g, spot), 10)
   const baseSpeed = e.def.speed
   run(g, 2)
-  assert.ok(e.slow > 0, 'Gegner ist verlangsamt')
+  assert.ok(slowOf(e) > 0, 'Gegner ist verlangsamt')
   const before = e.dist
   g.step(DT)
   assert.ok(e.dist - before < baseSpeed * DT)
@@ -305,7 +306,7 @@ test('Frost verlangsamt, Gift schadet über Zeit', () => {
   const p = addEnemy(g2, 'armored', nearestDist(g2, pt), 10)
   p.def = { ...p.def, speed: 0 }
   run(g2, 3)
-  assert.ok(p.poisonTime > 0)
+  assert.ok(statusTime(p, 'poison') > 0)
   const hp = p.hp
   g2.towers[0].cooldown = 999 // kein weiterer Wurf – nur noch Gift wirkt
   run(g2, 1)

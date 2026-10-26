@@ -26,7 +26,7 @@ Aufruf (GitHub Pages): `https://jasteffe91-tech.github.io/mathe10/towerfall/`
 - **2 Geländemodi:** *Normal* (wenige Hindernisse, alles bebaubar) und *Fortgeschritten* (Flüsse mit Brücken,
   Klippen, Ruinen, dichter Wald, Bauzone nur bis 200 px vom Weg, Klippen/Mauern blockieren die Sicht;
   +60 Startgold fürs Räumen, ×1,3 Punkte)
-- **9 Türme** mit je 3 Stufen, umschaltbarer Zielwahl (Vorderster, Hinterster, Stärkster, Nächster),
+- **12 Türme** mit je 3 Stufen, umschaltbarer Zielwahl (Vorderster, Hinterster, Stärkster, Nächster),
   Verkauf zu 70 % und Versetzen gegen eine kleine Gebühr (10 % des investierten Goldes, mind. 5 G)
 
 | Turm | Preis | Grundfläche | Schadensart | Rolle |
@@ -40,6 +40,24 @@ Aufruf (GitHub Pages): `https://jasteffe91-tech.github.io/mathe10/towerfall/`
 | Speerschleuder | 130 | 2 × 1, drehbar | ⚔ physisch | Speer durchbohrt bis zu 5–10 Gegner auf einer Linie |
 | Kriegsbanner | 140 | 2 × 2 | – | greift nicht an; Türme im Radius 140–170 px: +20–40 % Schaden, +10–20 % Feuerrate, längere Verlangsamung, Stufe 3 auch +10 % Reichweite (stapelt nicht) |
 | Tribok | 240 | 3 × 3 | ✹ explosiv | Belagerungsgeschütz, 250–290 px Reichweite, trifft nichts unter 80 px, +50–75 % Schaden gegen große Gegner, trifft keine Flieger |
+| Flammenwerfer | 100 | 1 × 1 | 🔥 Feuer | schneller Feuerkegel (86–104 px, 50–60°), setzt alle Getroffenen in Brand (5–12 Schaden/s je Stufe, bis 3 Stufen, 3–3,5 s) |
+| Schleimwerfer | 80 | 1 × 1 | ◉ Säure | lange Verlangsamung (30–40 % für 5–7 s) plus Säure (2–6/s), neuer Treffer erneuert die Dauer |
+| Tesla-Spule | 150 | 2 × 2 | ✦ Magie | Entladung auf die nächsten 4–6 Gegner im Umkreis: Schaden und Schock (0,5–0,75 s Stillstand) |
+
+Der Frostturm lässt Gegner außerdem nach 5–6 Treffern kurz **einfrieren** (0,6–0,9 s Stillstand).
+
+**Statuseffekte** (ein gemeinsames System, `js/game/status.js`):
+
+| Effekt | Quelle | Regel bei erneutem Treffer | Grenze |
+|---|---|---|---|
+| Verlangsamt | Frost | stärkere Verlangsamung gilt, Dauer = längere | Verlangsamungen addieren sich nie, max. 70 % |
+| Verschleimt | Schleimwerfer | stärkere gilt, Dauer beginnt neu | zählt nicht zusätzlich zu Frost |
+| Vergiftet | Giftschleuderer | stärkere Dosis gilt, Dauer = längere | ignoriert Panzerung |
+| Brennt | Flammenwerfer | +1 Stufe (max. 3), Dauer beginnt neu | ignoriert Panzerung |
+| Geschockt / Eingefroren | Tesla / Frost | wirkt nicht während einer Betäubung | danach 2,5 s immun (Bosse 6 s), Bosse stehen nur ein Drittel der Zeit |
+
+Berserker in Raserei ignorieren alles, was bremst oder festhält; Schaden über Zeit wirkt weiter. Pause und
+Spieltempo gelten für alle Effekte, weil sie im normalen Simulationsschritt laufen.
 
 | Gegner | Besonderheit | ab Welle |
 |---|---|---|
@@ -95,23 +113,28 @@ geladen oder gesendet. Spielstände, Bestleistungen und Einstellungen liegen im 
   gelb = Position passt, aber zu wenig Gold, rot = belegt; nur die betroffenen Zellen sind rot) →
   bestätigen. Erst dann wird bezahlt; Abbrechen kostet nie etwas.
   - *Maus:* Vorschau folgt dem Zeiger, Klick baut, Umschalt+Klick baut und bleibt im Baumodus, Rechtsklick bricht ab.
-  - *Finger:* Die Vorschau folgt dem Finger, eine **Lupe** über dem Finger zeigt Raster, Grundfläche
-    (grün/rot) und ein Fadenkreuz vergrößert. **Loslassen baut nie** – gebaut wird nur mit „Bauen“.
+  - *Finger:* Die Vorschau folgt dem Finger, eine **Lupe** links oberhalb des Fingers (Rechtshänder;
+    Einstellung „Lupe beim Bauen“ für Linkshänder, „Lupengröße“ Normal/Groß) zeigt Raster, Grundfläche
+    (grün/rot) und ein Fadenkreuz vergrößert. Ist links oben kein Platz, weicht sie nach links, oben,
+    rechts und erst zuletzt nach unten aus. **Loslassen baut nie** – gebaut wird nur mit „Bauen“.
     Nach einem Bau sind weitere Aktionen 0,4 s gesperrt, damit ein Doppeltipp nicht doppelt baut oder den
     neuen Turm verbessert. Die Pfeil-Knöpfe (Infobereich hochziehen) verschieben die Vorschau zellgenau.
   - Steht ein räumbares Hindernis im Weg, bietet das Panel „… räumen“ direkt an.
 - **Smartphone-Ansicht:** Im Hochformat wird die Karte um 90° gedreht dargestellt (Türme, Gegner und Texte
-  bleiben aufrecht) – sie ist so etwa dreimal so groß. Abschaltbar unter Einstellungen → „Karte im
-  Hochformat drehen“. Unten liegen die Turmleiste (waagerecht scrollbar) und der Infobereich als
+  bleiben aufrecht) – sie ist so deutlich größer. Abschaltbar unter Einstellungen → „Karte im
+  Hochformat drehen“. Unten liegen die Turmauswahl (zwei Reihen à 6 Türme mit Symbol, Name, Preis) und der Infobereich als
   *Bottom Sheet*: kompakt zeigt er nur das Wichtigste und die Hauptaktion (Bauen, Verbessern, Räumen),
   per Wischen am Griff öffnet er halb oder ganz. Kartentipps öffnen ihn nie. Im Querformat liegt die Karte
-  in voller Höhe links, rechts eine schmale Spalte.
+  in voller Höhe links, rechts eine schmale Spalte (Turmauswahl dort 4 × 3 nur mit Symbol und Preis). Am Desktop
+  steht die Turmauswahl in zwei Reihen unter der Karte.
 - **Turm antippen:** verbessern, Zielwahl ändern, versetzen (der Turm bleibt bis zur Bestätigung stehen
   und schießt weiter), verkaufen.
 - **Hindernis antippen:** Eigenschaften (Fläche, passierbar, sichtblockierend, Aufwand) und „Räumen“.
-- **Tastatur:** `1`–`9` Turm (nochmal = abbrechen) · Pfeiltasten Vorschau verschieben, die Lupe folgt
-  (Richtung wie auf dem Bildschirm, auch bei gedrehter Karte; sonst Türme durchblättern) · `R` drehen ·
-  `Enter` bauen/bestätigen (nur im Baumodus) · `Esc` abbrechen · `M` versetzen · `C` Hindernis räumen · `U` verbessern ·
+- **Tastatur:** `1`–`9`, `0` und die beiden Tasten daneben (deutsch `ß` `´`) wählen die 12 Türme (nochmal = abbrechen) ·
+  Pfeiltasten verschieben die Vorschau; **ist ein Turm ausgewählt, versetzen sie ihn** (Vorschau zellweise,
+  `Enter` bestätigt mit der üblichen Gebühr, `Esc` bricht kostenlos ab, ungültige Stellen werden rot und nie
+  übernommen) – Richtung wie auf dem Bildschirm, auch bei gedrehter Karte, die Lupe folgt · `,`/`.` Türme
+  durchblättern · `R` drehen · `Enter` bauen/bestätigen (nur im Bau- oder Versetzmodus) · `Esc` abbrechen · `M` versetzen · `C` Hindernis räumen · `U` verbessern ·
   `V` verkaufen · `T` Zielwahl · `Leertaste` Pause · `N` nächste Welle · `F` Tempo
 
 ## Speichern
@@ -134,7 +157,8 @@ Welle wieder ein. „Einstellungen → Zurücksetzen“ löscht alles (mit Siche
 ```bash
 npm test               # Spielmechanik, Raster, Gegnerrollen, Platzierung, Ansicht, Balancekriterien (node --test)
 npm run test:browser   # echter Browser via Playwright: Bauen per Maus/Touch/Tastatur, Räumen, Versetzen,
-                       # Pause, Tempo, Offline-Start, Smartphone/Tablet; danach Lupe und Präzisionsplatzierung
+                       # Pause, Tempo, Offline-Start, Smartphone/Tablet; Lupe und Präzisionsplatzierung;
+                       # Robustheit (keine Textauswahl, abgebrochene Gesten, Fokusverlust, Pfeiltasten)
 npm run measure:map    # Kartenfläche auf iPhone-Viewports (Browser-Simulation)
 npm run balance        # Balance-Tabelle aller Strategien (siehe BALANCE.md)
 ```
@@ -145,6 +169,15 @@ Vorschau und Bau nutzen an jeder Zelle dieselbe Prüfung, beim Bestätigen wird 
 Tastatur führen zur selben Vorschau, die Vorschau bleibt an allen Rändern im Raster, die Umrechnung
 Bildschirm ↔ Welt stimmt hin und zurück (gedreht und ungedreht) und die Lupe liegt nie außerhalb des
 Spielfelds oder unter dem Finger.
+
+`tests/status.test.js` prüft die Statuseffekte und neuen Türme: Brand-Stufen und Ablauf, Tod während eines
+Effekts, Schleim-Erneuerung ohne Addition (auch mit Frost), Deckel, Schock mit Immunität und Boss-Regeln,
+Raserei-Immunität, Einfrieren nach Frosttreffern, Pause und Tempo, Feuerkegel (nur im Kegel und in Reichweite),
+Tesla (höchstens n Ziele, jeder einmal), Kettenblitz ohne Doppeltreffer, Bau und Verbesserung aller 12 Türme.
+
+`tests/browser/robustness.mjs` prüft, dass auf der Spieloberfläche nichts markiert werden kann (Doppelklick,
+langes Drücken), eine hängende Markierung sofort verschwindet, abgebrochene Gesten und Fokusverlust Lupe und
+Ziehen zurücksetzen und die Pfeiltasten einen ausgewählten Turm versetzen (nicht aber in Eingabefeldern).
 
 `tests/browser/placement.mjs` simuliert iPhone SE (DPR 2), iPhone 14 (DPR 3, hoch und quer) und ein
 Android-Gerät (DPR 2,625): schnelles Ziehen, Pixelvergleich Lupe ↔ Spielfeld, alle vier Kartenränder und
@@ -176,6 +209,7 @@ towerfall/
 │   ├── config/                   ALLE Spielwerte – getrennt von der Engine
 │   │   ├── balance.js            Startgold, Verkaufsquote, Wellenpause, HP-Wachstum, Schwierigkeitsgrade, Simulationstakt
 │   │   ├── towers.js             Türme mit Werten je Stufe
+│   │   ├── ui.js                 Lupe (Größe, Zoom, Abstände, bevorzugte Lage)
 │   │   ├── enemies.js            Gegnertypen
 │   │   ├── waves.js              Wellenzusammensetzung
 │   │   └── maps.js               Karten: Route, Bauplätze, Deko, Farben
@@ -195,6 +229,7 @@ towerfall/
 │   │   ├── projectiles.js        Geschossflug, Neuausrichtung, Einschlag
 │   │   ├── waves.js              Phasen (Aufbau, Pause, Welle), Spawner
 │   │   ├── telemetry.js          Zähler für Balance-Auswertungen (Schaden je Turm/Gegner, Durchbrüche)
+│   │   ├── status.js             Statuseffekte (Verlangsamung, Schleim, Gift, Brand, Schock, Einfrieren)
 │   │   └── economy.js            Gold, Verkaufswert, Boni
 │   ├── render/                   Canvas 2D: renderer.js (Ansicht inkl. Drehung im Hochformat, Raster-Overlay,
 │   │                             Vorschau), terrain.js (vorgerendert je Thema und Ansicht), sprites.js (Türme in
@@ -202,7 +237,8 @@ towerfall/
 │   │                             effects.js (Partikel, Licht), loupe.js (Lupe für die Platzierung)
 │   ├── ui/                       controller.js (Auswahl, Bau-/Versetzmodus, Vorschau, Doppeltipp-Sperre),
 │   │                             panel.js (Baumenü, Infobereich, Kompaktzeile), sheet.js (Bottom Sheet),
-│   │                             hud.js, input.js (Maus/Touch/Tastatur), modal.js, format.js
+│   │                             hud.js, input.js (Maus/Touch/Tastatur), guard.js (keine Textauswahl,
+│   │                             Gesten-Reset), keys.js (Turmtasten), modal.js, format.js
 │   ├── storage.js                localStorage mit Fallback im Speicher
 │   ├── audio.js                  Soundeffekte per Web Audio API (keine Audiodateien)
 │   └── pwa.js                    Service-Worker-Registrierung, Installationsangebot, Offline-Status
@@ -301,14 +337,27 @@ Fähigkeit mitbringt). Jede Fähigkeit braucht eine sichtbare Kennzeichnung und 
 **Balancing** – alle Zahlen stehen in `js/config/`. Nach Änderungen `npm test` laufen lassen; die
 Balance-Tests melden, wenn das Spiel zu leicht oder unschaffbar wird.
 
+**Neuer Statuseffekt** – in `js/game/status.js` unter `STATUS` mit Stapelregel (`strongest`, `refresh`,
+`intensity`, `stun`, `build`), optional `impairs` (bremst/hält fest → Raserei-Immunität) und `damageType`
+eintragen; Türme lösen ihn über ihre Stufenwerte in `applyHitEffects` (`js/game/towers.js`) aus. Die
+Kennzeichnung auf dem Gegner gehört in `drawStatusMarks` (`js/render/sprites.js`).
+
+**Lupe einstellen** – alle Maße (Größe, Zoom, Abstände, Rahmen, Hysterese, Reihenfolge der Positionen je
+Hand) stehen in `js/config/ui.js` (`MAGNIFIER`).
+
 **Nach jeder Änderung an ausgelieferten Dateien:** `CACHE` in `sw.js` hochzählen (`towerfall-v2` …),
 sonst behalten installierte Geräte die alte Version.
 
 ## Bekannte Einschränkungen
 
 - Der Spielstand wird nur zwischen Wellen gesichert (siehe oben).
-- Auf kleinen Smartphones (iPhone SE) bleibt die Karte trotz Drehung schmal (266 × 472 px); Rasterzellen
-  sind dort etwa 12 px groß. Die Lupe gleicht das beim Bauen aus.
+- Auf kleinen Smartphones (iPhone SE) bleibt die Karte trotz Drehung schmal (245 × 436 px); Rasterzellen
+  sind dort etwa 11 px groß. Die Lupe gleicht das beim Bauen aus. Die zweireihige Turmauswahl kostet im
+  Hochformat etwa 15 % Kartenfläche gegenüber der einreihigen Leiste.
+- Im Querformat auf dem Smartphone zeigt die Turmauswahl nur Symbol und Preis (4 × 3), weil für Namen und
+  zwei Reihen die Höhe fehlt; der Name steht im Infobereich.
+- Die Ursache der blauen Markierungen (Textauswahl unter iOS) ist im Code behoben und in Chromium geprüft;
+  ein Test auf einem echten iPhone steht noch aus.
 - iPhone-Verhalten (Safe Areas, Home-Indikator, Safari-Gesten am Bildschirmrand) ist nur in der
   Chromium-Simulation geprüft, nicht auf echten Geräten.
 - Safari unter iOS zeigt keinen Installieren-Knopf – dort über „Teilen → Zum Home-Bildschirm“.
@@ -338,7 +387,10 @@ Abgeleitet aus den Messungen:
    Welle 4 zu 5 ist dort zu groß (z. B. Oger-Leben auf „Hart“ nicht voll skalieren).
 3. **Bot mit Zielwahl und Räumen:** Die Bots unterschätzen menschliche Spieler; ein Bot, der Hindernisse
    räumt und die Zielwahl nutzt, würde die Balance-Tabellen aussagekräftiger machen.
-4. **Frost aufwerten:** 7 Schaden je Gold und 3 % Schadensanteil – sein Nutzen ist die Verlangsamung, die
-   gegen Berserker zeitweise wegfällt. Eine messbare Kenngröße „gewonnene Zeit je Gold“ fehlt noch.
-5. **Fallenleger / Labyrinth-Modus:** nutzt das Raster direkt; die Passierbarkeitsprüfung (`routes.js`) ist
+4. **Kenngröße „gewonnene Zeit je Gold“** für die Kontrolltürme (Frost, Schleim, Tesla): Ihr Schaden je Gold
+   ist gering (≈ 10), ihr Nutzen ist die Zeit, die andere Türme zusätzlich schießen. Ohne diese Messung
+   lassen sie sich nur indirekt (über Siege der Strategien) ausbalancieren.
+5. **Schallturm mit Rückstoß:** Das Statussystem trägt das bereits (Gegner bekommen dafür einen Effekt, der
+   `dist` kurz verringert); dazu Grenzen gegen Dauerschleifen wie bei den Betäubungen.
+6. **Fallenleger / Labyrinth-Modus:** nutzt das Raster direkt; die Passierbarkeitsprüfung (`routes.js`) ist
    vorbereitet.

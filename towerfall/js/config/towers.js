@@ -8,9 +8,20 @@
 //   instant    – sofortiger Treffer (Scharfschütze)
 //   pierce     – gerades Geschoss, durchbohrt bis zu `pierceCount` Gegner auf seiner Linie
 //   aura       – greift nicht an, verstärkt Türme in Reichweite (auraDamage, auraRate, auraRange)
+//   cone       – Feuerkegel (Öffnungswinkel `cone` in Grad), trifft alle Gegner darin
+//   pulse      – Entladung auf die nächsten `maxTargets` Gegner im Umkreis
 //
-// damageType: physical | explosive | magic | frost | poison – manche Gegner sind dagegen resistent
-//   oder anfällig (siehe enemies.js `resist`), angezeigt im Infobereich und in der Anleitung.
+// Statuseffekte je Stufe (Regeln in game/status.js):
+//   slow/slowDuration          Verlangsamung (stärkste zählt, max. 70 %)
+//   freezeHits/freezeDuration  Frost: nach so vielen Treffern kurz eingefroren
+//   slimeSlow/slimeDuration/slimeDps  Schleim: lange Verlangsamung + Säure, neuer Treffer erneuert
+//   poisonDps/poisonDuration   Gift (stärkste Dosis zählt)
+//   burnDps/burnDuration       Brand je Stufe; jeder Treffer +1 Stufe bis 3, Dauer beginnt neu
+//   stunDuration               Schock: Gegner bleibt stehen, danach eine Weile immun
+//
+// damageType: physical | explosive | magic | frost | poison | fire | acid – manche Gegner sind dagegen
+//   resistent oder anfällig (siehe enemies.js `resist`), angezeigt im Infobereich und in der Anleitung.
+// limits: Grenzen des Spezialeffekts in einem Satz (Infobereich).
 // footprint: belegte Rasterzellen (w × h); rotatable: Grundfläche lässt sich um 90° drehen.
 // spriteScale: Zeichengröße passend zur Grundfläche (rein optisch).
 // Optional je Stufe: minRange (toter Winkel nahe am Turm), largeBonus (Zusatzschaden gegen große Gegner).
@@ -65,8 +76,8 @@ export const TOWERS = {
     footprint: { w: 1, h: 1 },
     spriteScale: 0.8,
     name: 'Frostturm',
-    role: 'Verlangsamung',
-    description: 'Eissplitter verlangsamen Gegner im Trefferbereich. Macht kaum Schaden, aber andere Türme treffen länger.',
+    role: 'Verlangsamung und Einfrieren',
+    description: 'Eissplitter verlangsamen Gegner im Trefferbereich. Wer oft getroffen wird, friert kurz ein und bleibt stehen. Macht kaum Schaden, aber andere Türme treffen länger.',
     tip: 'Bevorzugt Gegner, die noch nicht verlangsamt sind.',
     attack: 'projectile',
     projectile: 'shard',
@@ -75,10 +86,11 @@ export const TOWERS = {
     targetPreference: 'unslowed',
     color: '#78c4e6',
     accent: '#e8f7ff',
+    limits: 'Verlangsamungen addieren sich nicht. Einfrieren: Bosse nur kurz, danach ist jeder Gegner 2,5 s (Bosse 6 s) gegen Betäubung immun.',
     levels: [
-      { cost: 90, damage: 3, range: 120, rate: 1.1, slow: 0.4, slowDuration: 1.6, splash: 38 },
-      { cost: 80, damage: 5, range: 130, rate: 1.2, slow: 0.5, slowDuration: 1.9, splash: 45 },
-      { cost: 140, damage: 8, range: 145, rate: 1.35, slow: 0.6, slowDuration: 2.2, splash: 55 },
+      { cost: 90, damage: 3, range: 120, rate: 1.1, slow: 0.4, slowDuration: 1.6, splash: 38, freezeHits: 6, freezeDuration: 0.6 },
+      { cost: 80, damage: 5, range: 130, rate: 1.2, slow: 0.5, slowDuration: 1.9, splash: 45, freezeHits: 5, freezeDuration: 0.75 },
+      { cost: 140, damage: 8, range: 145, rate: 1.35, slow: 0.6, slowDuration: 2.2, splash: 55, freezeHits: 5, freezeDuration: 0.9 },
     ],
   },
   lightning: {
@@ -203,10 +215,73 @@ export const TOWERS = {
       { cost: 320, damage: 175, range: 290, minRange: 80, rate: 0.33, splash: 50, largeBonus: 0.75 },
     ],
   },
+  flame: {
+    id: 'flame',
+    damageType: 'fire',
+    footprint: { w: 1, h: 1 },
+    spriteScale: 0.82,
+    name: 'Flammenwerfer',
+    role: 'Brand auf kurze Distanz',
+    description: 'Speit schnell hintereinander einen Feuerkegel: trifft alle Gegner darin und setzt sie in Brand. Brand macht Schaden über Zeit und ignoriert Panzerung.',
+    tip: 'Kurze Reichweite – an Kurven und Engstellen, wo Gruppen dicht laufen. Wirkt auch gegen Flieger.',
+    limits: 'Brand stapelt sich bis 3 Stufen; jeder Treffer erneuert die Dauer, mehr als 3 Stufen gibt es nicht.',
+    attack: 'cone',
+    targetMode: 'first',
+    color: '#b5482a',
+    accent: '#ffb347',
+    levels: [
+      { cost: 100, damage: 3, range: 86, rate: 2.4, cone: 50, burnDps: 5, burnDuration: 3 },
+      { cost: 90, damage: 5, range: 94, rate: 2.7, cone: 55, burnDps: 8, burnDuration: 3.2 },
+      { cost: 160, damage: 7, range: 104, rate: 3, cone: 60, burnDps: 12, burnDuration: 3.5 },
+    ],
+  },
+  slime: {
+    id: 'slime',
+    damageType: 'acid',
+    footprint: { w: 1, h: 1 },
+    spriteScale: 0.8,
+    name: 'Schleimwerfer',
+    role: 'Lange Verlangsamung',
+    description: 'Wirft klebrige Schleimklumpen: Getroffene bleiben lange verlangsamt und nehmen etwas Säureschaden. Schwächer als Frost, hält aber viel länger.',
+    tip: 'Unterstützt alle anderen Türme. Bevorzugt Gegner, die noch nicht verschleimt sind.',
+    limits: 'Neuer Treffer erneuert die Dauer, die Stärke addiert sich nicht. Zählt nicht zusätzlich zu Frost – es wirkt die stärkere Verlangsamung.',
+    attack: 'projectile',
+    projectile: 'slime',
+    projectileSpeed: 430,
+    targetMode: 'first',
+    targetPreference: 'unslimed',
+    color: '#a0457e',
+    accent: '#ff8fd0',
+    levels: [
+      { cost: 80, damage: 3, range: 135, rate: 0.9, splash: 30, slimeSlow: 0.3, slimeDuration: 5, slimeDps: 2 },
+      { cost: 75, damage: 5, range: 145, rate: 1, splash: 34, slimeSlow: 0.35, slimeDuration: 6, slimeDps: 3.5 },
+      { cost: 130, damage: 8, range: 155, rate: 1.1, splash: 38, slimeSlow: 0.4, slimeDuration: 7, slimeDps: 6 },
+    ],
+  },
+  tesla: {
+    id: 'tesla',
+    damageType: 'magic',
+    footprint: { w: 2, h: 2 },
+    spriteScale: 1.25,
+    name: 'Tesla-Spule',
+    role: 'Schock: Gegner bleiben stehen',
+    description: 'Entlädt sich auf die nächsten Gegner im Umkreis: Schaden und ein Schock, der sie kurz stehen bleiben lässt. Anders als der Blitzturm springt sie nicht weiter, trifft aber mehrere Gegner gleichzeitig.',
+    tip: 'An Engstellen oder vor der Bastion – die gewonnene Zeit nutzen alle anderen Türme.',
+    limits: 'Nach einem Schock ist ein Gegner 2,5 s immun (Bosse stehen nur ein Drittel der Zeit und sind 6 s immun). Berserker in Raserei ignorieren den Schock.',
+    attack: 'pulse',
+    targetMode: 'close',
+    color: '#3f6f86',
+    accent: '#9fe8ff',
+    levels: [
+      { cost: 150, damage: 12, range: 95, rate: 0.45, maxTargets: 4, stunDuration: 0.5, armorPierce: 0.3 },
+      { cost: 130, damage: 19, range: 105, rate: 0.5, maxTargets: 5, stunDuration: 0.6, armorPierce: 0.3 },
+      { cost: 210, damage: 28, range: 115, rate: 0.55, maxTargets: 6, stunDuration: 0.75, armorPierce: 0.3 },
+    ],
+  },
 }
 
-// Reihenfolge im Baumenü (und Tastenkürzel 1–9)
-export const TOWER_ORDER = ['arrow', 'cannon', 'frost', 'lightning', 'sniper', 'poison', 'ballista', 'banner', 'trebuchet']
+// Reihenfolge im Baumenü (Tastenkürzel 1–9, 0 und die zwei Tasten daneben, siehe ui/keys.js)
+export const TOWER_ORDER = ['arrow', 'cannon', 'frost', 'lightning', 'sniper', 'poison', 'ballista', 'banner', 'trebuchet', 'flame', 'slime', 'tesla']
 
 // Grundfläche unter Berücksichtigung der Drehung (rot 1 = um 90° gedreht)
 export function footprintOf(type, rot = 0) {
@@ -229,4 +304,6 @@ export const DAMAGE_TYPES = {
   magic: { name: 'Magie', icon: '✦', color: '#b98cff' },
   frost: { name: 'Frost', icon: '❄', color: '#9fdcf6' },
   poison: { name: 'Gift', icon: '☠', color: '#8ee34f' },
+  fire: { name: 'Feuer', icon: '🔥', color: '#ff8a3a' },
+  acid: { name: 'Säure', icon: '◉', color: '#ff8fd0' },
 }
