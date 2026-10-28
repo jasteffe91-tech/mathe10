@@ -1,0 +1,111 @@
+{
+	"_info": "KI-Profile. Die KI folgt denselben Regeln wie der Spieler (gleiche Versandmengen 25/50/75/100 %, gleiche Produktion, gleiche Geschwindigkeit). lookahead = Ziele bewerten, die weitere Eroberungen öffnen; consolidate = volle Hinterland-Gebiete an die Front verlegen; evacuate = aussichtslose Gebiete räumen; timing_aware = Ankunftszeiten und Produktion einrechnen.",
+	"easy": {
+		"think_interval": [
+			3.2,
+			5.0
+		],
+		"first_think": [
+			3.0,
+			5.0
+		],
+		"neutral_preference": 0.85,
+		"mistake_chance": 0.25,
+		"defend_chance": 0.25,
+		"margin": [
+			-2,
+			4
+		],
+		"max_sources": 1,
+		"max_attacks": 1,
+		"reserve": 0.2,
+		"react_to_sends": false,
+		"reaction_delay": 0.0,
+		"consolidate": false,
+		"timing_aware": false,
+		"min_success": 0.0,
+		"lookahead": false,
+		"evacuate": false
+	},
+	"medium": {
+		"think_interval": [
+			2.0,
+			3.0
+		],
+		"first_think": [
+			2.0,
+			3.5
+		],
+		"neutral_preference": 0.4,
+		"mistake_chance": 0.08,
+		"defend_chance": 0.7,
+		"margin": [
+			1,
+			5
+		],
+		"max_sources": 2,
+		"max_attacks": 1,
+		"reserve": 0.15,
+		"react_to_sends": false,
+		"reaction_delay": 0.0,
+		"consolidate": false,
+		"timing_aware": false,
+		"min_success": 1.0,
+		"lookahead": false,
+		"evacuate": false
+	},
+	"hard": {
+		"think_interval": [
+			1.2,
+			1.9
+		],
+		"first_think": [
+			1.2,
+			2.2
+		],
+		"neutral_preference": 0.15,
+		"mistake_chance": 0.0,
+		"defend_chance": 1.0,
+		"margin": [
+			2,
+			5
+		],
+		"max_sources": 4,
+		"max_attacks": 2,
+		"reserve": 0.1,
+		"react_to_sends": true,
+		"reaction_delay": 0.7,
+		"consolidate": false,
+		"timing_aware": true,
+		"min_success": 1.05,
+		"lookahead": false,
+		"evacuate": false
+	},
+	"very_hard": {
+		"think_interval": [
+			0.8,
+			1.2
+		],
+		"first_think": [
+			0.8,
+			1.5
+		],
+		"neutral_preference": 0.0,
+		"mistake_chance": 0.0,
+		"defend_chance": 1.0,
+		"margin": [
+			3,
+			5
+		],
+		"max_sources": 5,
+		"max_attacks": 3,
+		"reserve": 0.1,
+		"react_to_sends": true,
+		"reaction_delay": 0.4,
+		"consolidate": true,
+		"timing_aware": true,
+		"min_success": 1.12,
+		"lookahead": true,
+		"evacuate": true
+	}
+}

@@ -1,0 +1,51 @@
+{
+	"_info": "Upgrades: value(level) = value_per_level * level, Kosten(level) = round(cost_base * cost_growth^(level-1) / 5) * 5. 'values' kann eine explizite Liste je Stufe vorgeben.",
+	"upgrades": [
+		{
+			"id": "start_troops",
+			"icon": "troops",
+			"max_level": 25,
+			"value_per_level": 2,
+			"unit": "troops",
+			"cost_base": 40,
+			"cost_growth": 1.17
+		},
+		{
+			"id": "production",
+			"icon": "factory",
+			"max_level": 25,
+			"value_per_level": 0.03,
+			"unit": "percent",
+			"cost_base": 60,
+			"cost_growth": 1.18
+		},
+		{
+			"id": "speed",
+			"icon": "speed",
+			"max_level": 25,
+			"value_per_level": 0.025,
+			"unit": "percent",
+			"cost_base": 50,
+			"cost_growth": 1.17
+		},
+		{
+			"id": "start_territories",
+			"icon": "flag",
+			"max_level": 20,
+			"territories_every": 5,
+			"garrison_per_level": 1,
+			"unit": "territories",
+			"cost_base": 80,
+			"cost_growth": 1.2
+		},
+		{
+			"id": "coin_bonus",
+			"icon": "coin",
+			"max_level": 25,
+			"value_per_level": 0.05,
+			"unit": "percent",
+			"cost_base": 45,
+			"cost_growth": 1.17
+		}
+	]
+}

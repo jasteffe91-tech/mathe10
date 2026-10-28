@@ -1,0 +1,45 @@
+{
+	"_info": "Grundwerte des Spiels. Zeiten in Sekunden, Strecken in Karteneinheiten (Karte ist ca. 1000 x 1400 groß).",
+	"territory": {
+		"base_production": 1.0,
+		"neutral_production": 0.0,
+		"production_size_min": 0.75,
+		"production_size_max": 1.45,
+		"base_capacity": 45,
+		"capacity_per_size": 30,
+		"neutral_troops_size_factor": 0.5
+	},
+	"troops": {
+		"base_speed": 130.0,
+		"emit_interval_max": 0.12,
+		"stream_max_duration": 1.6,
+		"min_travel_time": 0.35
+	},
+	"send_ratios": [
+		0.25,
+		0.5,
+		0.75,
+		1.0
+	],
+	"default_send_ratio": 1,
+	"rewards": {
+		"campaign_base": 30,
+		"campaign_per_level": 3,
+		"per_star": 12,
+		"replay_factor": 0.4,
+		"defeat_per_capture": 2,
+		"endless_base": 25,
+		"endless_per_round": 10,
+		"free_play_base": 20,
+		"free_play_per_region": 2
+	},
+	"stars": {
+		"three_star_par_factor": 1.0,
+		"two_star_par_factor": 1.6
+	},
+	"endless": {
+		"base_regions": 8,
+		"regions_per_round": 2,
+		"max_regions": 36
+	}
+}

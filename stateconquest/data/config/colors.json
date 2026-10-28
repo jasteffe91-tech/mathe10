@@ -1,0 +1,29 @@
+{
+	"_info": "Farben je Palette. fill = Gebietsfläche, dark = Abzeichen und Truppenpunkte.",
+	"palettes": {
+		"standard": {
+			"neutral": {"fill": "#c9ced6", "dark": "#7d8593"},
+			"blue": {"fill": "#5b9cf0", "dark": "#2a66c4"},
+			"red": {"fill": "#ee6b5f", "dark": "#c23a31"},
+			"green": {"fill": "#5cc77d", "dark": "#2c9150"},
+			"yellow": {"fill": "#f5c84c", "dark": "#c99312"}
+		},
+		"contrast": {
+			"neutral": {"fill": "#d0d0d0", "dark": "#707070"},
+			"blue": {"fill": "#3d8bfd", "dark": "#0b4fb8"},
+			"red": {"fill": "#f08a24", "dark": "#b35800"},
+			"green": {"fill": "#b05ad6", "dark": "#7124a0"},
+			"yellow": {"fill": "#f2e04a", "dark": "#9c8a00"}
+		}
+	},
+	"sea": "#d4e9f2",
+	"sea_dark": "#bcd9e6",
+	"decor_land": "#e6e2d8",
+	"border": "#ffffff",
+	"ui_bg": "#eaf3f8",
+	"ui_panel": "#ffffff",
+	"ui_text": "#24324a",
+	"ui_muted": "#6b7a90",
+	"ui_accent": "#3a7de0",
+	"ui_gold": "#f0b429"
+}
