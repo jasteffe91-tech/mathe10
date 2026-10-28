@@ -37,7 +37,7 @@ static func template_region_count(map_id: String) -> int:
 
 
 ## Baut eine Karte aus einer Vorlage. region_count <= 0 bedeutet alle Regionen.
-static func from_template(tpl: Dictionary, region_count: int = 0, seed: int = 1) -> MapData:
+static func from_template(tpl: Dictionary, region_count: int = 0, rng_seed: int = 1) -> MapData:
 	var proj: Dictionary = tpl.get("projection", {})
 	var lands: Array[PackedVector2Array] = []
 	for lm in tpl.get("landmasses", []):
@@ -51,7 +51,7 @@ static func from_template(tpl: Dictionary, region_count: int = 0, seed: int = 1)
 	for r in tpl.get("regions", []):
 		all_seeds.append(_project(Vector2(r.pos[0], r.pos[1]), proj))
 		all_metas.append({"key": str(r.get("id", "")), "name": str(r.get("name", ""))})
-	var chosen := select_regions(all_seeds, region_count, seed)
+	var chosen := select_regions(all_seeds, region_count, rng_seed)
 	var seeds := PackedVector2Array()
 	var metas: Array = []
 	for i in chosen:
@@ -62,7 +62,7 @@ static func from_template(tpl: Dictionary, region_count: int = 0, seed: int = 1)
 		lands[i] = fit.xform * lands[i]
 	for i in seeds.size():
 		seeds[i] = fit.xform * seeds[i]
-	var data := build(lands, seeds, metas, seed, fit.bounds)
+	var data := build(lands, seeds, metas, rng_seed, fit.bounds)
 	data.id = str(tpl.get("id", ""))
 	var nm: Variant = tpl.get("name", {})
 	data.names = nm if nm is Dictionary else {"de": str(nm), "en": str(nm)}
@@ -80,7 +80,7 @@ static func _project(p: Vector2, proj: Dictionary) -> Vector2:
 
 
 ## Wählt per Farthest-Point-Sampling gut verteilte Regionen aus.
-static func select_regions(seeds: PackedVector2Array, count: int, seed: int) -> PackedInt32Array:
+static func select_regions(seeds: PackedVector2Array, count: int, rng_seed: int) -> PackedInt32Array:
 	var n := seeds.size()
 	var out := PackedInt32Array()
 	if count <= 0 or count >= n:
@@ -88,7 +88,7 @@ static func select_regions(seeds: PackedVector2Array, count: int, seed: int) -> 
 			out.append(i)
 		return out
 	var rng := RandomNumberGenerator.new()
-	rng.seed = seed
+	rng.seed = rng_seed
 	var min_d := PackedFloat32Array()
 	min_d.resize(n)
 	min_d.fill(INF)
@@ -136,9 +136,9 @@ static func _fit_transform(lands: Array[PackedVector2Array]) -> Dictionary:
 # ================================================================ Zufallskarten
 
 ## Erzeugt eine Zufallskarte. style: "continent", "twin", "archipelago" oder "" (zufällig).
-static func random_map(region_count: int, seed: int, style: String = "") -> MapData:
+static func random_map(region_count: int, rng_seed: int, style: String = "") -> MapData:
 	var rng := RandomNumberGenerator.new()
-	rng.seed = seed
+	rng.seed = rng_seed
 	region_count = maxi(region_count, 3)
 	if style == "":
 		var styles := ["continent", "continent", "twin"]
@@ -151,6 +151,7 @@ static func random_map(region_count: int, seed: int, style: String = "") -> MapD
 			lands.append(_blob(Vector2(500, 360), Vector2(420, 300), rng))
 			lands.append(_blob(Vector2(500, 1040), Vector2(420, 300), rng))
 		"archipelago":
+			@warning_ignore("integer_division")
 			var k := clampi(region_count / 5, 3, 6)
 			var centers: Array[Vector2] = []
 			var radii: Array[float] = []
@@ -207,7 +208,7 @@ static func random_map(region_count: int, seed: int, style: String = "") -> MapD
 		for p in pts:
 			seeds.append(p)
 			metas.append({"key": "r%d" % metas.size(), "name": ""})
-	var data := build(lands, seeds, metas, seed, fit.bounds)
+	var data := build(lands, seeds, metas, rng_seed, fit.bounds)
 	data.id = "random_" + style
 	data.names = {"de": "Zufallskarte", "en": "Random map"}
 	return data
@@ -259,12 +260,12 @@ static func _poisson_in_polygon(poly: PackedVector2Array, count: int, rng: Rando
 # ================================================================ Aufbau
 
 ## Zerlegt die Landmassen anhand der Startpunkte in Regionen.
-static func build(lands: Array[PackedVector2Array], seeds: PackedVector2Array, metas: Array, seed: int, bounds: Rect2) -> MapData:
+static func build(lands: Array[PackedVector2Array], seeds: PackedVector2Array, metas: Array, rng_seed: int, bounds: Rect2) -> MapData:
 	var data := MapData.new()
 	data.bounds = bounds
 	var rough: Array[PackedVector2Array] = []
 	for i in lands.size():
-		rough.append(_valid_land(lands[i], seed + i * 7919))
+		rough.append(_valid_land(lands[i], rng_seed + i * 7919))
 	data.landmasses = rough
 
 	# Startpunkte den Landmassen zuordnen
@@ -288,7 +289,7 @@ static func build(lands: Array[PackedVector2Array], seeds: PackedVector2Array, m
 	var pieces_of: Array = []
 	for i in seeds.size():
 		var cell := _voronoi_cell(i, seeds, land_of, bbox)
-		var jittered := _jitter_cell(cell[0], cell[1], i, seeds, seed)
+		var jittered := _jitter_cell(cell[0], cell[1], i, seeds, rng_seed)
 		var pieces := _clip(jittered, rough[land_of[i]])
 		if pieces.is_empty():
 			pieces = _clip(cell[0], rough[land_of[i]])
@@ -437,7 +438,7 @@ static func _clip_half_plane(pts: PackedVector2Array, tags: PackedInt32Array, mi
 ## Verwackelt die Kanten einer Zelle. Die Verschiebung hängt nur vom Punktpaar und der
 ## absoluten Position entlang der Mittelsenkrechten ab, daher erzeugen beide Nachbarn
 ## exakt dieselbe Grenzlinie.
-static func _jitter_cell(pts: PackedVector2Array, tags: PackedInt32Array, i: int, seeds: PackedVector2Array, seed: int) -> PackedVector2Array:
+static func _jitter_cell(pts: PackedVector2Array, tags: PackedInt32Array, i: int, seeds: PackedVector2Array, rng_seed: int) -> PackedVector2Array:
 	var out := PackedVector2Array()
 	var n := pts.size()
 	for k in n:
@@ -459,7 +460,7 @@ static func _jitter_cell(pts: PackedVector2Array, tags: PackedInt32Array, i: int
 		if length < JITTER_STEP * 1.5:
 			continue
 		var amp := minf(JITTER_AMP, length * 0.12)
-		var h := _hash3(a, b, seed)
+		var h := _hash3(a, b, rng_seed)
 		var ph1 := float(h & 1023) / 1024.0 * TAU
 		var ph2 := float((h >> 10) & 1023) / 1024.0 * TAU
 		var f1 := 0.035 + float((h >> 20) & 63) / 64.0 * 0.03
@@ -488,8 +489,8 @@ static func _hash3(a: int, b: int, c: int) -> int:
 
 
 ## Aufgeraute Küste, die garantiert triangulierbar ist (sonst Rückfall auf den Originalumriss).
-static func _valid_land(poly: PackedVector2Array, seed: int) -> PackedVector2Array:
-	var r := _roughen(poly, seed)
+static func _valid_land(poly: PackedVector2Array, rng_seed: int) -> PackedVector2Array:
+	var r := _roughen(poly, rng_seed)
 	if not Geometry2D.triangulate_polygon(r).is_empty():
 		return r
 	if not Geometry2D.triangulate_polygon(poly).is_empty():
@@ -510,10 +511,10 @@ static func clean_polygon(poly: PackedVector2Array) -> PackedVector2Array:
 
 
 ## Küstenlinie verfeinern und leicht aufrauen.
-static func _roughen(poly: PackedVector2Array, seed: int) -> PackedVector2Array:
+static func _roughen(poly: PackedVector2Array, rng_seed: int) -> PackedVector2Array:
 	var out := PackedVector2Array()
 	var n := poly.size()
-	var ph := float(seed % 997) * 0.37
+	var ph := float(rng_seed % 997) * 0.37
 	for k in n:
 		var p := poly[k]
 		var q := poly[(k + 1) % n]

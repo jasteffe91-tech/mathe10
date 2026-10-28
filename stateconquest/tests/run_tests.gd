@@ -20,20 +20,20 @@ func _ready() -> void:
 		var inst: TestCase = script.new()
 		print("== ", path.get_file())
 		for m in inst.get_method_list():
-			var name: String = m.name
-			if not name.begins_with("test_"):
+			var test_name: String = m.name
+			if not test_name.begins_with("test_"):
 				continue
 			total_tests += 1
-			inst._current = name
+			inst._current = test_name
 			var before := inst.failures.size()
 			if inst.has_method("before"):
 				inst.before()
 			var tt := Time.get_ticks_msec()
-			inst.call(name)
+			inst.call(test_name)
 			if inst.has_method("after"):
 				inst.after()
 			var ok := inst.failures.size() == before
-			print("  %s %s (%d ms)" % ["OK  " if ok else "FAIL", name, Time.get_ticks_msec() - tt])
+			print("  %s %s (%d ms)" % ["OK  " if ok else "FAIL", test_name, Time.get_ticks_msec() - tt])
 			for i in range(before, inst.failures.size()):
 				print("       - ", inst.failures[i])
 		total_checks += inst.checks

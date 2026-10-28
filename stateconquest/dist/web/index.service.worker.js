@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1793202946|3153064';
+const CACHE_VERSION = '1793203200|3128830';
 /** @type {string} */
 const CACHE_PREFIX = 'State Conquest-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;

@@ -53,14 +53,14 @@ static func get_theme() -> Theme:
 	t.set_stylebox("pressed", "Button", button_box(ACCENT_DARK, true))
 	t.set_stylebox("disabled", "Button", button_box(Color("#a9b4c4")))
 	t.set_stylebox("focus", "Button", StyleBoxEmpty.new())
-	var panel := StyleBoxFlat.new()
-	panel.bg_color = PANEL
-	panel.set_corner_radius_all(28)
-	panel.shadow_color = Color(0.1, 0.2, 0.35, 0.12)
-	panel.shadow_size = 14
-	panel.shadow_offset = Vector2(0, 6)
-	panel.set_content_margin_all(24)
-	t.set_stylebox("panel", "PanelContainer", panel)
+	var panel_box := StyleBoxFlat.new()
+	panel_box.bg_color = PANEL
+	panel_box.set_corner_radius_all(28)
+	panel_box.shadow_color = Color(0.1, 0.2, 0.35, 0.12)
+	panel_box.shadow_size = 14
+	panel_box.shadow_offset = Vector2(0, 6)
+	panel_box.set_content_margin_all(24)
+	t.set_stylebox("panel", "PanelContainer", panel_box)
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.2, 0.3, 0.45, 0.25)
 	sb.set_corner_radius_all(6)
@@ -219,7 +219,9 @@ static func format_int(n: int) -> String:
 static func format_time(seconds: float) -> String:
 	var t := int(seconds)
 	if t >= 3600:
+		@warning_ignore("integer_division")
 		return "%d:%02d:%02d" % [t / 3600, (t / 60) % 60, t % 60]
+	@warning_ignore("integer_division")
 	return "%d:%02d" % [t / 60, t % 60]
 
 
@@ -234,10 +236,10 @@ static func background() -> TextureRect:
 	gt.fill_to = Vector2(0.3, 1)
 	gt.width = 64
 	gt.height = 128
-	var tr := TextureRect.new()
-	tr.texture = gt
-	tr.stretch_mode = TextureRect.STRETCH_SCALE
-	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	tr.set_anchors_preset(Control.PRESET_FULL_RECT)
-	tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return tr
+	var rect := TextureRect.new()
+	rect.texture = gt
+	rect.stretch_mode = TextureRect.STRETCH_SCALE
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return rect

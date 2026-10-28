@@ -40,22 +40,22 @@ func step(dt: float) -> void:
 
 func _make_map() -> MapData:
 	var m: Dictionary = setup.get("map", {})
-	var seed := int(setup.get("seed", 1))
+	var rng_seed := int(setup.get("seed", 1))
 	if bool(m.get("random", false)):
-		return MapGenerator.random_map(int(m.get("regions", 12)), seed, str(m.get("style", "")))
+		return MapGenerator.random_map(int(m.get("regions", 12)), rng_seed, str(m.get("style", "")))
 	var tpl := MapGenerator.load_template(str(m.get("template", "germany")))
-	return MapGenerator.from_template(tpl, int(m.get("regions", 0)), seed)
+	return MapGenerator.from_template(tpl, int(m.get("regions", 0)), rng_seed)
 
 
 func _make_sim(cfg: Dictionary) -> void:
 	sim = Simulation.new()
 	var tc: Dictionary = cfg.get("territory", {})
-	var tr: Dictionary = cfg.get("troops", {})
+	var troop_cfg: Dictionary = cfg.get("troops", {})
 	var mods: Dictionary = setup.get("player_mods", {})
-	sim.base_speed = float(tr.get("base_speed", 95.0)) * float(setup.get("speed_mult", 1.0))
-	sim.emit_interval_max = float(tr.get("emit_interval_max", 0.085))
-	sim.stream_max_duration = float(tr.get("stream_max_duration", 1.1))
-	sim.min_travel_time = float(tr.get("min_travel_time", 0.35))
+	sim.base_speed = float(troop_cfg.get("base_speed", 95.0)) * float(setup.get("speed_mult", 1.0))
+	sim.emit_interval_max = float(troop_cfg.get("emit_interval_max", 0.085))
+	sim.stream_max_duration = float(troop_cfg.get("stream_max_duration", 1.1))
+	sim.min_travel_time = float(troop_cfg.get("min_travel_time", 0.35))
 	sim.restrict_neighbors = bool(setup.get("restrict_neighbors", false))
 	sim.tm.neutral_production = float(tc.get("neutral_production", 0.0))
 	var prod_mult := float(setup.get("production_mult", 1.0))
@@ -233,7 +233,7 @@ func _nearest_free(from_id: int, taken: Dictionary) -> int:
 
 
 func _make_ais(ai_cfg: Dictionary) -> void:
-	var seed := int(setup.get("seed", 1))
+	var rng_seed := int(setup.get("seed", 1))
 	for e in setup.get("enemies", []):
 		var fid := int(e.get("faction", 2))
 		if not sim.factions[fid].alive:
@@ -242,7 +242,7 @@ func _make_ais(ai_cfg: Dictionary) -> void:
 		if not ai_cfg.has(diff):
 			diff = "easy"
 		sim.factions[fid].ai_difficulty = diff
-		ais.append(AIController.new(sim, fid, diff, ai_cfg[diff], seed * 13 + fid))
+		ais.append(AIController.new(sim, fid, diff, ai_cfg[diff], rng_seed * 13 + fid))
 
 
 ## Fraktionen, die in dieser Partie mitspielen (ohne neutral).

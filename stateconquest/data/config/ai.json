@@ -106,6 +106,6 @@
 		"timing_aware": true,
 		"min_success": 1.12,
 		"lookahead": true,
-		"evacuate": false
+		"evacuate": true
 	}
 }

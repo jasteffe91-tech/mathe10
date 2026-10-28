@@ -423,12 +423,12 @@ func _draw_arrow(ci: CanvasItem, a: Vector2, b: Vector2, col: Color, px: float) 
 	var w := 6.0 * px
 	var dash := 16.0 * px
 	var gap := 10.0 * px
-	var start := 20.0 * px
+	var s_begin := 20.0 * px
 	var stop := dist - 18.0 * px
 	var phase := fmod(_time_vis * 50.0 * px, dash + gap)
-	var s := start + phase - (dash + gap)
+	var s := s_begin + phase - (dash + gap)
 	while s < stop:
-		var s0 := maxf(s, start)
+		var s0 := maxf(s, s_begin)
 		var s1 := minf(s + dash, stop)
 		if s1 > s0:
 			ci.draw_line(a + dir * s0, a + dir * s1, Color(col, 0.75), w, true)

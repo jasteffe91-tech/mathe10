@@ -21,12 +21,12 @@ var decisions: int = 0   ## Anzahl ausgeführter Befehle (für Tests/Statistik)
 var _inc_cache: Dictionary = {}
 
 
-func _init(p_sim: Simulation, p_faction: int, p_difficulty: String, profile: Dictionary, seed: int) -> void:
+func _init(p_sim: Simulation, p_faction: int, p_difficulty: String, profile: Dictionary, rng_seed: int) -> void:
 	sim = p_sim
 	faction = p_faction
 	difficulty = p_difficulty
 	p = profile
-	rng.seed = seed
+	rng.seed = rng_seed
 	_next_think = sim.time + _range("first_think", 2.0)
 	_next_consolidate = sim.time + 6.0
 

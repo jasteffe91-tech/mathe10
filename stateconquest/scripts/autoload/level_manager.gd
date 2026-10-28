@@ -43,6 +43,7 @@ func campaign_setup(n: int) -> Dictionary:
 func endless_setup(round_no: int, run_seed: int) -> Dictionary:
 	var ec: Dictionary = Config.game.get("endless", {})
 	var regions := mini(int(ec.get("base_regions", 8)) + int(ec.get("regions_per_round", 2)) * (round_no - 1), int(ec.get("max_regions", 36)))
+	@warning_ignore("integer_division")
 	var n_enemies := clampi(1 + (round_no - 1) / 3, 1, 3)
 	var top := "easy"
 	if round_no >= 10:
@@ -56,13 +57,15 @@ func endless_setup(round_no: int, run_seed: int) -> Dictionary:
 	for i in n_enemies:
 		var di := maxi(0, diffs.find(top) - (i if i < 2 else 1))
 		enemies.append({"faction": FACTION_ORDER[i], "ai": diffs[di], "starts": 1})
-	var seed := run_seed * 101 + round_no * 7
+	var rng_seed := run_seed * 101 + round_no * 7
+	var neutral_min := 4 + int(round_no * 0.5)
+	var bonus := 1 + int(round_no * 0.25)
 	return {
 		"mode": "endless", "round": round_no, "run_seed": run_seed,
 		"map": {"random": true, "regions": regions, "style": ""},
-		"seed": seed, "player_start_mode": ["edge", "random", "center"][round_no % 3],
+		"seed": rng_seed, "player_start_mode": ["edge", "random", "center"][round_no % 3],
 		"enemies": enemies, "start_troops": 20, "enemy_start_troops": 20 + round_no,
-		"neutral_troops": [4 + round_no / 2, 12 + round_no], "bonus_slots": 1 + round_no / 4,
+		"neutral_troops": [neutral_min, 12 + round_no], "bonus_slots": bonus,
 		"production_mult": minf(1.0 + 0.04 * round_no, 1.5), "speed_mult": 1.0,
 		"par_time": int(20 + regions * 5.0), "player_mods": UpgradeManager.player_mods(),
 	}
@@ -88,13 +91,13 @@ func custom_setup(opts: Dictionary, sandbox: bool) -> Dictionary:
 		enemies.append({"faction": FACTION_ORDER[i], "ai": str(opts.get("difficulty", "medium")),
 			"starts": int(opts.get("enemy_starts", 1))})
 	var start := int(opts.get("start_troops", 20))
-	var seed := int(opts.get("seed", 0))
-	if seed == 0:
-		seed = randi() % 1000000 + 1
+	var rng_seed := int(opts.get("seed", 0))
+	if rng_seed == 0:
+		rng_seed = randi() % 1000000 + 1
 	var mods: Dictionary = UpgradeManager.player_mods(opts.get("upgrades", {})) if sandbox else UpgradeManager.player_mods()
 	return {
 		"mode": "sandbox" if sandbox else "free",
-		"map": map, "seed": seed, "player_start_mode": str(opts.get("start_mode", "edge")),
+		"map": map, "seed": rng_seed, "player_start_mode": str(opts.get("start_mode", "edge")),
 		"player_starts": int(opts.get("player_starts", 1)), "enemies": enemies,
 		"start_troops": start, "enemy_start_troops": int(opts.get("enemy_start_troops", start)),
 		"neutral_troops": [int(opts.get("neutral_min", 4)), int(opts.get("neutral_max", 14))],

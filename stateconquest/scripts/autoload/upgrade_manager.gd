@@ -68,6 +68,7 @@ func extra_territories(lvl: int) -> int:
 	if lvl <= 0:
 		return 0
 	var every := int(get_def("start_territories").get("territories_every", 5))
+	@warning_ignore("integer_division")
 	return 1 + (lvl - 1) / maxi(every, 1)
 
 
