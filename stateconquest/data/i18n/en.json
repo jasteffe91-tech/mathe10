@@ -101,7 +101,7 @@
 	"upg_eff_territories": "%d regions, +%d troops",
 	"upg_eff_troops": "+%d troops",
 	"upg_now": "Current: %s",
-	"upg_now_next": "Current: %s  →  Next: %s",
+	"upg_now_next": "Current: %s · Next: %s",
 	"upg_production": "Production",
 	"upg_production_desc": "Your regions produce new troops faster.",
 	"upg_speed": "Speed",

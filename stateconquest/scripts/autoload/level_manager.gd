@@ -64,7 +64,7 @@ func endless_setup(round_no: int, run_seed: int) -> Dictionary:
 		"enemies": enemies, "start_troops": 20, "enemy_start_troops": 20 + round_no,
 		"neutral_troops": [4 + round_no / 2, 12 + round_no], "bonus_slots": 1 + round_no / 4,
 		"production_mult": minf(1.0 + 0.04 * round_no, 1.5), "speed_mult": 1.0,
-		"par_time": int(25 + regions * 6.5), "player_mods": UpgradeManager.player_mods(),
+		"par_time": int(20 + regions * 5.0), "player_mods": UpgradeManager.player_mods(),
 	}
 
 
@@ -102,7 +102,7 @@ func custom_setup(opts: Dictionary, sandbox: bool) -> Dictionary:
 		"production_mult": float(opts.get("production", 1.0)),
 		"speed_mult": float(opts.get("speed", 1.0)),
 		"restrict_neighbors": bool(opts.get("restrict", false)),
-		"par_time": int(25 + regions * 6.5), "player_mods": mods, "options": opts,
+		"par_time": int(20 + regions * 5.0), "player_mods": mods, "options": opts,
 	}
 
 

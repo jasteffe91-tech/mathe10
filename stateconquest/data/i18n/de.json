@@ -101,7 +101,7 @@
 	"upg_eff_territories": "%d Gebiete, +%d Truppen",
 	"upg_eff_troops": "+%d Truppen",
 	"upg_now": "Aktuell: %s",
-	"upg_now_next": "Aktuell: %s  →  Nächste Stufe: %s",
+	"upg_now_next": "Aktuell: %s · Nächste Stufe: %s",
 	"upg_production": "Produktion",
 	"upg_production_desc": "Deine Gebiete produzieren schneller neue Truppen.",
 	"upg_speed": "Tempo",

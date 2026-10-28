@@ -487,7 +487,7 @@ func _draw_labels(ci: CanvasItem) -> void:
 	var s := _base_scale * zoom
 	for t in sim.territories:
 		var p := map_to_screen(t.center)
-		var base_r := clampf(sqrt(t.area) * s * 0.2, 14.0, 23.0)
+		var base_r := clampf(sqrt(t.area) * s * 0.2, 11.5, 23.0)
 		var txt := str(t.troops)
 		var digits := txt.length()
 		var r := base_r + maxf(0, digits - 2) * 3.0

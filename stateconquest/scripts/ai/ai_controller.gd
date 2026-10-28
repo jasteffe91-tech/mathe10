@@ -18,6 +18,7 @@ var _next_think: float = 0.0
 var _next_consolidate: float = 0.0
 var _last_seen_movement: int = 0
 var decisions: int = 0   ## Anzahl ausgeführter Befehle (für Tests/Statistik)
+var _inc_cache: Dictionary = {}
 
 
 func _init(p_sim: Simulation, p_faction: int, p_difficulty: String, profile: Dictionary, seed: int) -> void:
@@ -37,15 +38,18 @@ func _range(key: String, fallback: float) -> float:
 	return float(v)
 
 
-## Wird nach jedem Simulationsschritt aufgerufen.
-func update() -> void:
+## Wird nach jedem Simulationsschritt aufgerufen. allow_think = false verschiebt eine fällige
+## Entscheidung um einen Schritt (verteilt die Rechenlast mehrerer KIs). Gibt true zurück, wenn gedacht wurde.
+func update(allow_think: bool = true) -> bool:
 	if not sim.is_running() or not sim.factions[faction].alive:
-		return
+		return false
 	if bool(p.get("react_to_sends", false)):
 		_watch_movements()
-	if sim.time >= _next_think:
+	if sim.time >= _next_think and allow_think:
 		_next_think = sim.time + _range("think_interval", 2.0)
 		think()
+		return true
+	return false
 
 
 ## Neue gegnerische Ströme lösen bei starken Profilen eine schnellere Reaktion aus.
@@ -69,6 +73,7 @@ func _watch_movements() -> void:
 
 
 func think() -> void:
+	_inc_cache.clear()
 	var mine := sim.tm.owned_by(faction)
 	if mine.is_empty():
 		return
@@ -91,8 +96,10 @@ func think() -> void:
 
 # ---------------------------------------------------------------- Bewertung
 
-## Feindliche und eigene Einheiten auf dem Weg zu einem Gebiet.
+## Feindliche und eigene Einheiten auf dem Weg zu einem Gebiet (pro Denkvorgang zwischengespeichert).
 func _incoming_split(tid: int) -> Dictionary:
+	if _inc_cache.has(tid):
+		return _inc_cache[tid]
 	var hostile := 0
 	var friendly := 0
 	var first_hostile := INF
@@ -104,7 +111,9 @@ func _incoming_split(tid: int) -> Dictionary:
 		else:
 			hostile += m.in_flight()
 			first_hostile = minf(first_hostile, m.arrival_time(m.arrived))
-	return {"hostile": hostile, "friendly": friendly, "first_hostile": first_hostile}
+	var res := {"hostile": hostile, "friendly": friendly, "first_hostile": first_hostile}
+	_inc_cache[tid] = res
+	return res
 
 
 ## Truppen, die ein eigenes Gebiet behalten sollte.
@@ -127,13 +136,15 @@ func _options(t: Territory, reserve: int) -> Array:
 
 
 ## Erwartete Verteidiger von x, wenn unsere Truppen nach eta Sekunden eintreffen.
-func _defense_estimate(x: Territory, eta: float) -> float:
+## movs: bereits auf x gefilterte Ströme (sonst werden alle durchsucht).
+func _defense_estimate(x: Territory, eta: float, movs: Variant = null) -> float:
 	var d := float(x.troops)
 	if x.owner != Faction.NEUTRAL:
 		var rate := x.production_rate * sim.factions[x.owner].production_mult
 		d = minf(d + rate * eta, maxf(float(x.capacity), d))
 	var timing := bool(p.get("timing_aware", false))
-	for m in sim.movements:
+	var list: Array = movs if movs != null else sim.movements
+	for m in list:
 		if m.target != x.id:
 			continue
 		if m.owner == faction:
@@ -146,7 +157,7 @@ func _defense_estimate(x: Territory, eta: float) -> float:
 	return d
 
 
-func _value(x: Territory, mine: Array[Territory]) -> float:
+func _value(x: Territory, near: int) -> float:
 	var v := 10.0 + x.production_rate * 6.0
 	if x.owner == Faction.NEUTRAL:
 		v += 4.0
@@ -154,10 +165,6 @@ func _value(x: Territory, mine: Array[Territory]) -> float:
 		v += 3.0
 		if bool(p.get("timing_aware", false)):
 			# Frontgebiete, die viele eigene Gebiete bedrohen, zuerst ausschalten
-			var near := 0
-			for t in mine:
-				if t.center.distance_to(x.center) < 260.0:
-					near += 1
 			v += 2.0 * near
 	if bool(p.get("lookahead", false)):
 		# Mehrstufig denken: Gebiete, die den Weg zu schwachen Nachbarn öffnen, sind mehr wert
@@ -177,31 +184,60 @@ func _best_attack(mine: Array[Territory], tried: Dictionary) -> Dictionary:
 	var margin_v: Variant = p.get("margin", [1, 3])
 	var min_success := float(p.get("min_success", 1.0))
 	var max_sources := int(p.get("max_sources", 1))
+	# Vorberechnung je Denkvorgang: mögliche Quellen, Gesamttruppen, Ströme je Ziel
+	var sources: Array[Territory] = []
+	var reserve := {}
+	var total_troops := 0
+	for s in mine:
+		if s.troops >= 2:
+			sources.append(s)
+			reserve[s.id] = _reserve(s)
+			total_troops += s.troops
+	if sources.is_empty():
+		return {}
+	var movs_by_target := {}
+	for m in sim.movements:
+		if not movs_by_target.has(m.target):
+			movs_by_target[m.target] = []
+		movs_by_target[m.target].append(m)
+	var near_r2 := 260.0 * 260.0
 	var best := {}
 	var best_score := -INF
 	for x in sim.territories:
-		if x.owner == faction or tried.has(x.id):
+		if x.owner == faction or tried.has(x.id) or x.troops >= total_troops:
 			continue
 		if x.owner != Faction.NEUTRAL and has_neutral and rng.randf() < float(p.get("neutral_preference", 0.0)):
 			continue
-		var srcs: Array = []
-		for s in mine:
-			if s.troops >= 2 and sim.can_send(faction, s.id, x.id):
-				srcs.append(s)
-		if srcs.is_empty():
+		# die max_sources nächsten Quellen (Einfügesortierung, k ist klein)
+		var nearest: Array = []
+		var near := 0
+		for s in sources:
+			if sim.restrict_neighbors and not s.is_neighbor(x.id):
+				continue
+			var d2 := s.center.distance_squared_to(x.center)
+			if d2 < near_r2:
+				near += 1
+			if nearest.size() < max_sources or d2 < nearest[nearest.size() - 1][0]:
+				var pos := nearest.size()
+				while pos > 0 and nearest[pos - 1][0] > d2:
+					pos -= 1
+				nearest.insert(pos, [d2, s])
+				if nearest.size() > max_sources:
+					nearest.pop_back()
+		if nearest.is_empty():
 			continue
-		srcs.sort_custom(func(a, b): return a.center.distance_squared_to(x.center) < b.center.distance_squared_to(x.center))
-		srcs = srcs.slice(0, max_sources)
+		var movs: Array = movs_by_target.get(x.id, [])
 		var margin := rng.randi_range(int(margin_v[0]), int(margin_v[1]))
-		var eta := sim.travel_time(faction, srcs[0].id, x.id)
-		var need := int(floor(_defense_estimate(x, eta))) + 1 + margin
+		var eta := sim.travel_time(faction, nearest[0][1].id, x.id)
+		var need := int(floor(_defense_estimate(x, eta, movs))) + 1 + margin
 		if need <= 0 and margin >= 0:
 			continue
 		need = maxi(need, 1)
 		var chosen: Array = []
 		var total := 0
-		for s in srcs:
-			var opts := _options(s, _reserve(s))
+		for entry in nearest:
+			var s: Territory = entry[1]
+			var opts := _options(s, reserve[s.id])
 			if opts.is_empty():
 				continue
 			var pick: Array = opts[opts.size() - 1]
@@ -217,12 +253,12 @@ func _best_attack(mine: Array[Territory], tried: Dictionary) -> Dictionary:
 		if chosen.is_empty():
 			continue
 		# Mit der längsten Laufzeit neu schätzen
-		var need_final := int(floor(_defense_estimate(x, eta))) + 1
+		var need_final := int(floor(_defense_estimate(x, eta, movs))) + 1
 		if min_success > 0.0 and float(total) < float(need_final) * min_success + 0.5:
 			continue
 		if min_success <= 0.0 and total < need_final + int(margin_v[0]):
 			continue
-		var score := _value(x, mine) / (float(need_final) + 5.0) * 10.0 - eta * 0.6
+		var score := _value(x, near) / (float(need_final) + 5.0) * 10.0 - eta * 0.6
 		score += rng.randf_range(0.0, 1.5)
 		if score > best_score:
 			best_score = score
@@ -243,6 +279,7 @@ func _defend(mine: Array[Territory]) -> void:
 	var timing := bool(p.get("timing_aware", false))
 	var max_helpers := 1 if difficulty == "easy" or difficulty == "medium" else 3
 	for t in mine:
+		_inc_cache.erase(t.id)
 		var inc := _incoming_split(t.id)
 		if inc.hostile == 0:
 			continue

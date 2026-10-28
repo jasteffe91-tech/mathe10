@@ -130,7 +130,7 @@ def level(n, usage):
         enemy_starts = 1
     factions = [2, 3, 4]
     diff = max([DIFF_FACTOR[d] for d in enemies], default=0.9)
-    par = int(round((20 + regions * 6.0) * (1 + 0.12 * len(enemies)) * diff / 5.0)) * 5
+    par = int(round((15 + regions * 4.5) * (1 + 0.1 * len(enemies)) * diff / 5.0)) * 5
     entry = {
         "id": n,
         "map": {"template": tpl, "regions": regions},

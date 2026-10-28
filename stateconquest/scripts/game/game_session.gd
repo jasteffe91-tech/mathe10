@@ -32,8 +32,10 @@ static func create(p_setup: Dictionary, game_cfg: Dictionary, ai_cfg: Dictionary
 ## Ein fester Simulationsschritt inklusive KI.
 func step(dt: float) -> void:
 	sim.step(dt)
+	var thought := false
 	for ai in ais:
-		ai.update()
+		if ai.update(not thought):
+			thought = true
 
 
 func _make_map() -> MapData:

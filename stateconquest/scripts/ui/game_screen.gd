@@ -48,6 +48,27 @@ func _ready() -> void:
 	_build_bottom()
 	_build_tutorial()
 	SettingsManager.changed.connect(_on_setting_changed)
+	# Nur für automatisierte Screenshots: -- --force-end=win|lose
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--force-end="):
+			await get_tree().create_timer(2.0).timeout
+			_on_game_finished(a.ends_with("win"))
+		elif a == "--force-pause":
+			await get_tree().create_timer(1.5).timeout
+			_open_pause()
+
+
+## PC-Bedienung: Esc = Pause, 1–4 = Versandmenge, F = Zoom zurücksetzen.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		on_back()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed and not event.echo:
+		var k: int = event.keycode
+		if k >= KEY_1 and k <= KEY_4 and k - KEY_1 < _ratio_buttons.size():
+			_set_ratio(k - KEY_1)
+		elif k == KEY_F:
+			view.reset_zoom()
 
 
 func on_back() -> void:
@@ -421,7 +442,7 @@ func _on_game_finished(won: bool) -> void:
 	var sim := session.sim
 	var pf := sim.factions[Faction.PLAYER]
 	var result := {
-		"won": won, "time": sim.end_time, "captured": pf.territories_captured,
+		"won": won, "time": sim.end_time if sim.end_time >= 0.0 else sim.time, "captured": pf.territories_captured,
 		"lost": pf.units_lost, "sent": pf.units_sent, "regions": sim.territories.size(),
 	}
 	var reward := GameManager.finish(result)
