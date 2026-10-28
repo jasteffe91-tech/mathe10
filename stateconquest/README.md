@@ -49,7 +49,7 @@ Im Ordner `stateconquest/dist/` liegen fertige Builds, sofern sie mitgeliefert w
 |---|---|---|
 | `StateConquest-Windows.zip` | Windows 10/11 (64 Bit) | entpacken, `StateConquest.exe` starten. SmartScreen-Warnung („unbekannter Herausgeber“) mit *Weitere Informationen → Trotzdem ausführen* bestätigen. |
 | `StateConquest.apk` | Android 7+ (ARM 32/64 Bit) | aufs Handy kopieren, Installation aus unbekannten Quellen erlauben, installieren. Mit Debug-Schlüssel signiert (zum Selbst-Installieren gedacht). |
-| `web/` | Browser (auch iPhone/Safari) | über GitHub Pages: `https://jasteffe91-tech.github.io/mathe10/stateconquest/dist/web/` – nach dem ersten Laden auch offline (PWA, „Zum Home-Bildschirm“). |
+| `web/` | Browser (auch iPhone/Safari) | über GitHub Pages: `https://jasteffe91-tech.github.io/mathe10/stateconquest/` – nach dem ersten Laden auch offline (PWA, „Zum Home-Bildschirm“). |
 
 ## Exportieren
 
