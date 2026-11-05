@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Physik-Labor 10e – Arbeit, Energie und Leistung</title>
+<style>
+:root{--dark:#34434F;--teal:#0E7C7B;--teal-l:#E2F2F1;--or:#E4572E;--or-l:#FCE6DE;--light:#F0F3F5;--line:#D5DCE1;--text:#16202A;--grey:#5E6B75;--ok:#2E7D4F;--ok-l:#E3F1EA;--bad:#B3261E;--bad-l:#FBE4E0;--r:14px}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--text);background:var(--light);line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.kopf{background:var(--dark);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px}
+.kopf-in{max-width:1180px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:.02em;white-space:nowrap}
+.logo span{color:#7FD3CF}
+.nav{display:flex;gap:.35rem;flex-wrap:wrap;flex:1}
+.nav button{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:.25rem .7rem;font-size:.8rem;cursor:pointer}
+.nav button[aria-current="step"]{background:#fff;color:var(--dark);font-weight:700}
+.nav button.fertig::after{content:" ✓";color:#7FD3CF;font-weight:700}
+.nav button[aria-current="step"].fertig::after{color:var(--teal)}
+.formelknopf{background:var(--or);border:0;color:#fff;border-radius:999px;padding:.3rem .9rem;font-weight:700;cursor:pointer;font-size:.85rem}
+.fortschritt{height:6px;background:rgba(255,255,255,.15)}
+.fortschritt div{height:100%;background:linear-gradient(90deg,#7FD3CF,var(--or));width:0;transition:width .4s}
+main{max-width:1180px;margin:0 auto;padding:1.2rem 1rem 4rem}
+.seite{display:none;animation:rein .35s ease}
+.seite.aktiv{display:block}
+@keyframes rein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.karte{background:#fff;border-radius:var(--r);padding:1.2rem 1.4rem;margin:0 0 1rem;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--line)}
+.stationskopf{display:flex;gap:1rem;align-items:center;margin:.2rem 0 1rem}
+.stationskopf .nr{width:3.2rem;height:3.2rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.4rem;flex:none}
+.stationskopf h1{margin:0;font-size:1.65rem;line-height:1.2}
+.stationskopf .zeit{color:var(--grey);font-size:.9rem}
+h2{font-size:1.2rem;margin:0 0 .6rem;color:var(--dark)}
+h3{font-size:1.02rem;margin:1rem 0 .4rem}
+.schritt{display:inline-block;background:var(--dark);color:#fff;border-radius:6px;padding:.05rem .5rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;margin-right:.4rem;vertical-align:2px}
+.schritt.v{background:#7A5AA6}.schritt.e{background:var(--teal)}.schritt.b{background:#2B6CB0}.schritt.r{background:var(--or)}.schritt.m{background:var(--ok)}
+.auftrag{background:var(--or-l);border-left:5px solid var(--or);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0}
+.auftrag b:first-child{color:var(--or)}
+.info{background:var(--teal-l);border-left:5px solid var(--teal);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0}
+.formel{font-family:"Cambria Math","Times New Roman",serif;font-size:1.25rem;background:#fff;border:2px solid var(--teal);border-radius:10px;padding:.3rem .9rem;display:inline-block;margin:.2rem 0}
+.formel i,.gr{font-style:italic;font-family:"Cambria Math","Times New Roman",serif}
+details.hilfe{background:#FFF8E6;border:1px solid #F1D79A;border-radius:10px;margin:.5rem 0;padding:.1rem .9rem}
+details.hilfe summary{cursor:pointer;font-weight:700;color:#8A5A00;padding:.35rem 0}
+details.zusatz{background:#F3EEFA;border:1px solid #D7C9EC;border-radius:10px;margin:.8rem 0;padding:.1rem .9rem}
+details.zusatz summary{cursor:pointer;font-weight:700;color:#5B3E8A;padding:.45rem 0}
+label.feld{display:block;font-weight:600;margin:.8rem 0 .3rem}
+.pflicht::after{content:" *";color:var(--or)}
+textarea{width:100%;min-height:6.5rem;border:2px solid var(--line);border-radius:10px;padding:.6rem .8rem;resize:vertical;background:#FCFDFD;line-height:1.45}
+textarea:focus,input:focus,select:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(14,124,123,.18)}
+input[type=text],input[type=number],select{border:2px solid var(--line);border-radius:10px;padding:.45rem .6rem;background:#FCFDFD}
+input.zahl{width:8.5rem;text-align:right}
+.zeile{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.35rem 0}
+.zeile .gr{min-width:2.2rem;font-size:1.15rem}
+.satzhilfe{color:var(--grey);font-size:.85rem;margin:.2rem 0 0}
+.knopf{border:0;border-radius:10px;padding:.6rem 1.1rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;transition:transform .1s,filter .2s}
+.knopf:hover{filter:brightness(1.08)}.knopf:active{transform:scale(.97)}
+.knopf.or{background:var(--or)}.knopf.grau{background:#E3E8EC;color:var(--text)}.knopf.dunkel{background:var(--dark)}
+.knopf:disabled{opacity:.45;cursor:not-allowed}
+.knopf.gross{font-size:1.15rem;padding:.85rem 1.6rem}
+.weiter{display:flex;justify-content:space-between;gap:1rem;margin:1.4rem 0 0;flex-wrap:wrap}
+.rueck{font-size:.9rem;margin:.3rem 0 0;padding:.4rem .7rem;border-radius:8px;display:none}
+.rueck.ok{display:block;background:var(--ok-l);color:var(--ok)}
+.rueck.no{display:block;background:var(--bad-l);color:var(--bad)}
+.zwei{display:grid;grid-template-columns:1.6fr 1fr;gap:1rem}
+@media (max-width:900px){.zwei{grid-template-columns:1fr}}
+/* Simulationen */
+.labor{background:linear-gradient(#FBFCFD,#EEF3F5);border:2px solid var(--line);border-radius:var(--r);padding:.8rem;position:relative}
+.labor svg{width:100%;height:auto;display:block}
+.regler{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem 1.2rem;margin:.7rem 0}
+.regler label{font-weight:600;display:flex;justify-content:space-between;gap:.5rem}
+.regler output{font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--teal);height:1.6rem}
+.anzeige{display:flex;gap:.6rem;flex-wrap:wrap;margin:.5rem 0}
+.anzeige div{background:var(--dark);color:#fff;border-radius:10px;padding:.35rem .8rem;min-width:9rem}
+.anzeige small{display:block;color:#B8C7D1;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+.anzeige b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+.anzeige div.w{background:var(--teal)}
+.knoepfe{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}
+table.mess{border-collapse:collapse;width:100%;margin:.5rem 0;font-variant-numeric:tabular-nums}
+table.mess th,table.mess td{border:1px solid var(--line);padding:.35rem .55rem;text-align:right}
+table.mess th{background:var(--dark);color:#fff;font-weight:600;text-align:center}
+table.mess td:first-child,table.mess th:first-child{text-align:center}
+table.mess tr:nth-child(even) td{background:#F7F9FA}
+table.mess .leer td{color:var(--grey);text-align:center;font-style:italic}
+.weg{background:none;border:0;color:var(--bad);cursor:pointer;font-size:1rem}
+/* Station 1 */
+.situationen{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:.8rem}
+.sit{border:2px solid var(--line);border-radius:12px;padding:.8rem;background:#fff}
+.sit .ico{font-size:2rem;line-height:1}
+.sit p{margin:.3rem 0 .5rem}
+.sit .wahl{display:flex;gap:.5rem}
+.sit .wahl label{flex:1;border:2px solid var(--line);border-radius:8px;padding:.3rem;text-align:center;cursor:pointer;font-weight:700}
+.sit .wahl input{position:absolute;opacity:0}
+.sit .wahl label:has(input:checked){background:var(--dark);color:#fff;border-color:var(--dark)}
+.sit .wahl label:has(input:focus-visible){outline:3px solid var(--or)}
+.sit.richtig{border-color:var(--ok);background:var(--ok-l)}
+.sit.falsch{border-color:var(--bad);background:var(--bad-l)}
+.sit .erkl{display:none;font-size:.9rem;margin-top:.5rem}
+.sit.richtig .erkl,.sit.falsch .erkl{display:block}
+.auswahl{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0}
+.auswahl label{border:2px solid var(--line);border-radius:8px;padding:.3rem .7rem;cursor:pointer;background:#fff}
+.auswahl input{margin-right:.35rem;accent-color:var(--teal)}
+.auswahl label:has(input:checked){border-color:var(--teal);background:var(--teal-l);font-weight:600}
+/* Start */
+.held{background:var(--dark);color:#fff;border-radius:20px;padding:2rem;position:relative;overflow:hidden;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:26px 26px}
+.held h1{font-size:2.2rem;margin:.2rem 0 .4rem;line-height:1.15}
+.held .ober{color:#FFB59E;font-weight:800;letter-spacing:.08em;font-size:.85rem}
+.held p{color:#DCE4EA;max-width:40rem}
+.held svg{position:absolute;right:1.5rem;bottom:1rem;width:220px;opacity:.95}
+@media (max-width:800px){.held svg{display:none}}
+.ziele{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem;margin:.6rem 0}
+.ziele div{background:var(--light);border-radius:10px;padding:.7rem .9rem;border-left:5px solid var(--teal)}
+.ziele b{display:block}
+.stationsliste{list-style:none;padding:0;margin:.4rem 0;display:grid;gap:.35rem}
+.stationsliste li{display:flex;gap:.7rem;align-items:center}
+.stationsliste .n{width:1.8rem;height:1.8rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
+.stationsliste .min{margin-left:auto;color:var(--grey);font-size:.85rem;white-space:nowrap}
+/* Formel-Schublade */
+.schublade{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:#fff;z-index:50;box-shadow:-6px 0 24px rgba(0,0,0,.2);transform:translateX(105%);transition:transform .3s,visibility .3s;overflow:auto;padding:1.2rem}
+.schublade{visibility:hidden}.schublade.offen{transform:none;visibility:visible}
+html,body{overflow-x:clip}
+@media (max-width:600px){table.mess{display:block;overflow-x:auto}.held{padding:1.3rem}.held h1{font-size:1.7rem}}
+.schublade table{border-collapse:collapse;width:100%;font-size:.92rem}
+.schublade td{border-bottom:1px solid var(--line);padding:.4rem .3rem;vertical-align:top}
+/* Abgabe */
+.uebersicht h3{border-bottom:2px solid var(--teal);padding-bottom:.2rem;margin-top:1.3rem}
+.uebersicht dl{margin:0}
+.uebersicht dt{font-weight:700;font-size:.85rem;color:var(--grey);margin-top:.6rem}
+.uebersicht dd{margin:0;white-space:pre-wrap}
+.uebersicht dd.fehlt{color:var(--bad);font-style:italic}
+.warnung{background:#FFF4D6;border:2px solid #E9B949;border-radius:12px;padding:.8rem 1rem}
+.erfolg{background:var(--ok-l);border:3px solid var(--ok);border-radius:16px;padding:1.2rem 1.4rem;font-size:1.25rem;font-weight:800;color:var(--ok);text-align:center;display:none}
+.erfolg.zeigen{display:block;animation:puls 1.6s ease 2}
+@keyframes puls{50%{transform:scale(1.02)}}
+.erfolg small{display:block;font-size:.9rem;font-weight:400;color:var(--text);margin-top:.4rem}
+.hinweis-js{background:#FFF4D6;padding:1rem;text-align:center;font-weight:700}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.kopf,.weiter,.knopf{display:none}}
+</style>
+</head>
+<body>
+<div class="hinweis-js" id="nojs">Diese Seite braucht JavaScript. Bitte im Browser (Edge, Chrome, Firefox, Safari) öffnen – nicht in einer Dateivorschau.</div>
+
+<header class="kopf">
+  <div class="kopf-in">
+    <div class="logo">⚗️ Physik-Labor <span>10e</span></div>
+    <nav class="nav" id="nav" aria-label="Stationen"></nav>
+    <button class="formelknopf" id="formelAuf" aria-controls="formeln" aria-expanded="false">Σ Formeln</button>
+  </div>
+  <div class="fortschritt" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="100" id="fortBalken"><div id="fort"></div></div>
+</header>
+
+<aside class="schublade" id="formeln" aria-label="Formelsammlung" aria-hidden="true">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Formelsammlung</h2><button class="knopf grau" id="formelZu">Schließen ✕</button></div>
+  <table>
+    <tr><td><b>Arbeit</b></td><td><span class="formel">W = F · s</span><br>Arbeit = Kraft · Weg<br><small>nur wenn die Kraft in Richtung des Weges zeigt</small></td></tr>
+    <tr><td><b>Gewichtskraft</b></td><td><span class="formel">F<sub>G</sub> = m · g</span></td></tr>
+    <tr><td><b>Hubarbeit</b></td><td><span class="formel">W = F<sub>G</sub> · h = m · g · h</span></td></tr>
+    <tr><td><b>Lageenergie</b></td><td><span class="formel">E = m · g · h</span><br><small>so viel Energie steckt im hochgehobenen Körper</small></td></tr>
+    <tr><td><b>Leistung</b></td><td><span class="formel">P = W : t</span><br>Leistung = Arbeit : Zeit</td></tr>
+  </table>
+  <h3>Größen und Einheiten</h3>
+  <table>
+    <tr><td><i>F</i> Kraft</td><td>Newton (N)</td></tr>
+    <tr><td><i>s</i> Weg, <i>h</i> Höhe</td><td>Meter (m)</td></tr>
+    <tr><td><i>m</i> Masse</td><td>Kilogramm (kg)</td></tr>
+    <tr><td><i>g</i> Ortsfaktor</td><td>Erde: g = 10 N/kg (gerundet, genau 9,81 N/kg)<br>Mond: 1,6 N/kg · Mars: 3,7 N/kg</td></tr>
+    <tr><td><i>W</i> Arbeit, <i>E</i> Energie</td><td>Joule (J) · 1 J = 1 N · m<br>1 kJ = 1 000 J</td></tr>
+    <tr><td><i>t</i> Zeit</td><td>Sekunde (s) · 1 min = 60 s</td></tr>
+    <tr><td><i>P</i> Leistung</td><td>Watt (W) · 1 W = 1 J/s<br>1 kW = 1 000 W</td></tr>
+  </table>
+  <p class="satzhilfe">Achtung: <i>W</i> (schräg) ist die Arbeit, W (gerade) ist die Einheit Watt.</p>
+</aside>
+
+<main id="haupt">
+
+<!-- ===================== START ===================== -->
+<section class="seite" id="s0" data-titel="Start">
+  <div class="held">
+    <div class="ober">PHYSIK · KLASSE 10e · FREITAG, 6. NOVEMBER 2026</div>
+    <h1>Arbeit, Energie<br>und Leistung</h1>
+    <p>Willkommen im digitalen Physik-Labor! Heute experimentierst du selbst: Du ziehst Kisten, hebst Lasten mit einem Kran und lässt zwei Bauaufzüge gegeneinander antreten. Dabei findest du die Regeln selbst heraus.</p>
+    <svg viewBox="0 0 220 170" aria-hidden="true"><rect x="20" y="150" width="190" height="4" fill="#7FD3CF"/><rect x="40" y="10" width="8" height="140" fill="#B8C7D1"/><rect x="40" y="10" width="140" height="7" fill="#B8C7D1"/><line x1="150" y1="17" x2="150" y2="70" stroke="#fff" stroke-width="2"/><rect x="125" y="70" width="50" height="40" rx="4" fill="#E9D3AE" stroke="#B08A55" stroke-width="2"/><line x1="195" y1="110" x2="195" y2="40" stroke="#7FD3CF" stroke-width="4" marker-end="url(#pg)"/><defs><marker id="pg" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#7FD3CF"/></marker></defs><text x="88" y="140" fill="#FFB59E" font-size="20" font-weight="700" font-family="Segoe UI,Arial">W = m·g·h</text></svg>
+  </div>
+
+  <div class="karte" style="margin-top:1rem">
+    <h2>Das lernst du heute</h2>
+    <div class="ziele">
+      <div><b>Arbeit erkennen</b>Du entscheidest, wann in der Physik Arbeit verrichtet wird – und begründest es.</div>
+      <div><b>W = F · s entdecken</b>Du findest im Experiment heraus, wie die Arbeit von Kraft und Weg abhängt.</div>
+      <div><b>Hubarbeit und Lageenergie</b>Du berechnest die Hubarbeit und erklärst, wo sie danach steckt.</div>
+      <div><b>Leistung</b>Du unterscheidest Arbeit und Leistung und berechnest die Leistung.</div>
+    </div>
+    <h3>Dein Weg durch das Labor <span class="satzhilfe">(zusammen ca. 70 Minuten)</span></h3>
+    <ul class="stationsliste">
+      <li><span class="n">1</span>Arbeit oder keine Arbeit?<span class="min">ca. 10 min</span></li>
+      <li><span class="n">2</span>Experiment: Kraft und Weg<span class="min">ca. 17 min</span></li>
+      <li><span class="n">3</span>Experiment: Hubarbeit und Lageenergie<span class="min">ca. 20 min</span></li>
+      <li><span class="n">4</span>Leistung: Welcher Aufzug ist stärker?<span class="min">ca. 13 min</span></li>
+      <li><span class="n">5</span>Ergebnissicherung<span class="min">ca. 8 min</span></li>
+      <li><span class="n">✓</span>Abgabe: PDF herunterladen und bei IServ hochladen<span class="min">ca. 5 min</span></li>
+    </ul>
+  </div>
+
+  <div class="karte">
+    <h2>Wer forscht hier?</h2>
+    <div class="zeile">
+      <div><label class="feld pflicht" for="vorname">Vorname</label><input type="text" id="vorname" data-k="vorname" autocomplete="off" size="20"></div>
+      <div><label class="feld pflicht" for="nachname">Nachname</label><input type="text" id="nachname" data-k="nachname" autocomplete="off" size="20"></div>
+      <div><label class="feld" for="klasse">Klasse</label><input type="text" id="klasse" data-k="klasse" size="5" value="10e"></div>
+    </div>
+    <div class="info"><b>So funktioniert die Abgabe:</b> Alles, was du einträgst, sammelt das Labor. Am Ende lädst du dein <b>Versuchsprotokoll als PDF</b> herunter und lädst es in der <b>Physik-Aufgabe bei IServ</b> hoch. Deine Eingaben bleiben auf diesem Computer und werden nirgendwohin gesendet. Nach der Abgabe löschst du sie mit einem Klick.</div>
+    <p class="satzhilfe">Felder mit <span style="color:var(--or)">*</span> gehören zum Pflichtteil. Aufklappbare <b style="color:#8A5A00">Hilfen</b> helfen dir weiter, wenn du festhängst. Wer schnell ist, findet <b style="color:#5B3E8A">Zusatzaufgaben ★★★</b>.</p>
+    <div id="fortsetzenBox" class="warnung" style="display:none;margin:.6rem 0"></div>
+    <div class="weiter"><span></span><button class="knopf or gross" id="starten">Labor starten ▸</button></div>
+  </div>
+</section>
+
+<!-- ===================== STATION 1 ===================== -->
+<section class="seite" id="s1" data-titel="1 Arbeit?">
+  <div class="stationskopf"><div class="nr">1</div><div><h1>Arbeit oder keine Arbeit?</h1><div class="zeit">Wiederholung · ca. 10 Minuten</div></div></div>
+  <div class="karte">
+    <p>Im Alltag ist vieles „Arbeit“, was anstrengend ist. In der Physik hat das Wort eine <b>genaue Bedeutung</b>. Erinnerst du dich an die Stunde vom 9. Oktober?</p>
+    <div class="auftrag"><b>Auftrag 1a:</b> Entscheide für jede Situation: Wird hier im <b>physikalischen Sinn</b> Arbeit verrichtet? Klicke danach auf „Auswerten“.</div>
+    <details class="hilfe"><summary>💡 Hilfe: Woran erkenne ich physikalische Arbeit?</summary><p>Stelle dir zwei Fragen: <b>1.</b> Wirkt eine Kraft auf einen Körper? <b>2.</b> Bewegt sich der Körper dabei <b>in Richtung dieser Kraft</b>? Nur wenn beide Antworten „ja“ sind, wird Arbeit verrichtet.</p></details>
+    <div class="situationen" id="situationen"></div>
+    <div class="knoepfe" style="margin-top:.8rem"><button class="knopf" id="s1auswerten">Auswerten</button><span id="s1info" class="satzhilfe" aria-live="polite"></span></div>
+  </div>
+  <div class="karte">
+    <div class="auftrag"><b>Auftrag 1b:</b> Situation 3: Tim trägt seinen Rucksack über den ebenen Schulhof. Erkläre <b>in ganzen Sätzen</b>, warum dabei am Rucksack im physikalischen Sinn <b>keine</b> Arbeit verrichtet wird, obwohl das Tragen anstrengend ist.</div>
+    <label class="feld pflicht" for="s1begr">Meine Erklärung</label>
+    <textarea id="s1begr" data-k="s1.begr" placeholder="Tim muss den Rucksack mit einer Kraft nach … halten. Der Rucksack bewegt sich aber …"></textarea>
+    <p class="satzhilfe">Wortspeicher: die Haltekraft · nach oben · waagerecht · der Weg · quer zur Kraft · die Höhe bleibt gleich</p>
+    <label class="feld pflicht" for="s1merk">Merksatz: Vervollständige den Satz</label>
+    <textarea id="s1merk" data-k="s1.merk" style="min-height:4.5rem" placeholder="In der Physik wird Arbeit verrichtet, wenn …"></textarea>
+  </div>
+  <div class="weiter"><button class="knopf grau" data-geh="0">◂ Start</button><button class="knopf" data-geh="2">Weiter zu Station 2 ▸</button></div>
+</section>
+
+<!-- ===================== STATION 2 ===================== -->
+<section class="seite" id="s2" data-titel="2 Kraft & Weg">
+  <div class="stationskopf"><div class="nr">2</div><div><h1>Experiment: Kraft und Weg</h1><div class="zeit">ca. 17 Minuten</div></div></div>
+  <div class="karte">
+    <p><b>Forscherfrage:</b> Wie hängt die Arbeit <i class="gr">W</i> von der Kraft <i class="gr">F</i> und vom Weg <i class="gr">s</i> ab?</p>
+    <p>Im Labor wird eine Kiste mit einer <b>gleichbleibenden Zugkraft</b> gleichmäßig über den Boden gezogen. Ein Arbeits-Zähler misst die verrichtete Arbeit.</p>
+    <h3><span class="schritt v">VERMUTUNG</span>Was glaubst du?</h3>
+    <div class="zeile"><span class="pflicht" style="min-width:16rem">Wenn ich die <b>Kraft verdopple</b>, dann …</span>
+      <select data-k="s2.vermF" aria-label="Vermutung Kraft verdoppeln"><option value="">bitte wählen</option><option>bleibt die Arbeit gleich.</option><option>verdoppelt sich die Arbeit.</option><option>vervierfacht sich die Arbeit.</option><option>halbiert sich die Arbeit.</option></select></div>
+    <div class="zeile"><span class="pflicht" style="min-width:16rem">Wenn ich den <b>Weg verdopple</b>, dann …</span>
+      <select data-k="s2.vermS" aria-label="Vermutung Weg verdoppeln"><option value="">bitte wählen</option><option>bleibt die Arbeit gleich.</option><option>verdoppelt sich die Arbeit.</option><option>vervierfacht sich die Arbeit.</option><option>halbiert sich die Arbeit.</option></select></div>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt e">EXPERIMENT</span>Die Zugstrecke</h3>
+    <div class="zwei">
+      <div class="labor"><svg id="sim2" viewBox="0 0 820 260" role="img" aria-label="Simulation: Kiste wird mit der Kraft F über den Weg s gezogen"></svg></div>
+      <div class="labor"><svg id="sim2d" viewBox="0 0 300 250" role="img" aria-label="Kraft-Weg-Diagramm: Die Arbeit ist die Fläche"></svg></div>
+    </div>
+    <div class="regler">
+      <div><label for="r2F">Zugkraft <span><i class="gr">F</i> = <output id="o2F">200 N</output></span></label><input type="range" id="r2F" min="50" max="400" step="50" value="200"></div>
+      <div><label for="r2s">Weg <span><i class="gr">s</i> = <output id="o2s">4 m</output></span></label><input type="range" id="r2s" min="1" max="8" step="0.5" value="4"></div>
+      <div><label for="r2R">Richtung der Kraft</label><select id="r2R"><option value="w">in Richtung des Weges (Kiste wird gezogen)</option><option value="o">senkrecht nach oben (Kiste wird getragen)</option></select></div>
+    </div>
+    <div class="anzeige" aria-live="polite"><div><small>Weg bisher</small><b id="a2x">0 m</b></div><div><small>Kraft in Wegrichtung</small><b id="a2F">200 N</b></div><div class="w"><small>Arbeit bisher</small><b id="a2W">0 J</b></div></div>
+    <div class="knoepfe"><button class="knopf or" id="b2start">▶ Versuch starten</button><button class="knopf grau" id="b2zur">↺ Zurück zum Start</button><button class="knopf" id="b2mess" disabled>＋ Messwert speichern</button></div>
+    <div class="auftrag"><b>Auftrag 2a:</b> Führe zwei Versuchsreihen durch und speichere jeden Versuch in der Tabelle.<br>
+      <b>Reihe A</b> (Weg bleibt gleich): <i class="gr">s</i> = 4 m mit <i class="gr">F</i> = 100 N, 200 N und 400 N.<br>
+      <b>Reihe B</b> (Kraft bleibt gleich): <i class="gr">F</i> = 200 N mit <i class="gr">s</i> = 2 m, 4 m und 8 m.</div>
+    <table class="mess" id="t2"><thead><tr><th>Nr.</th><th>Richtung</th><th>Kraft <i>F</i> in N</th><th>Weg <i>s</i> in m</th><th>Arbeit <i>W</i> in J</th><th></th></tr></thead><tbody></tbody></table>
+    <p class="satzhilfe"><span class="pflicht">mindestens 4 Messungen</span></p>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt b">BEOBACHTUNG</span>Was zeigt deine Tabelle?</h3>
+    <label class="feld pflicht" for="s2beob">Beschreibe in ganzen Sätzen: Was passiert mit der Arbeit bei doppelter Kraft? Was bei doppeltem Weg? Stimmt deine Vermutung?</label>
+    <textarea id="s2beob" data-k="s2.beob" placeholder="Wenn ich die Kraft verdopple, dann …"></textarea>
+    <label class="feld pflicht" for="s2senk">Auftrag 2b: Stelle die Richtung auf „senkrecht nach oben“ und starte den Versuch. Was zeigt der Arbeits-Zähler? Erkläre.</label>
+    <textarea id="s2senk" data-k="s2.senk" style="min-height:4.5rem" placeholder="Der Zähler zeigt …, weil …"></textarea>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt r">BERECHNUNG</span>Jetzt ohne Simulation</h3>
+    <p>Lena zieht ihren Bruder auf dem Schlitten. Sie zieht mit <b><i class="gr">F</i> = 250 N</b> in Bewegungsrichtung über einen Weg von <b><i class="gr">s</i> = 12 m</b>. Wie viel Arbeit verrichtet sie?</p>
+    <details class="hilfe"><summary>💡 Hilfe 1: Welche Formel?</summary><p>Deine Tabelle zeigt: Die Arbeit ist das Produkt aus Kraft und Weg: <span class="formel">W = F · s</span></p></details>
+    <details class="hilfe"><summary>💡 Hilfe 2: Ein Beispiel</summary><p>Ein Hund zieht einen Wagen mit 80 N über 5 m:<br><i>W</i> = <i>F</i> · <i>s</i> = 80 N · 5 m = 400 N·m = <b>400 J</b></p></details>
+    <label class="feld pflicht" for="s2rechweg">Rechnung (mit Einheiten)</label>
+    <input type="text" id="s2rechweg" data-k="s2.rechweg" style="width:100%" placeholder="W = F · s = …">
+    <div class="zeile"><span class="gr pflicht">W =</span><input class="zahl" type="text" inputmode="decimal" data-k="s2.rechW" aria-label="Ergebnis Arbeit"><select data-k="s2.rechWE" aria-label="Einheit"><option value="">Einheit</option><option>J</option><option>kJ</option><option>N</option><option>W</option></select><button class="knopf grau" data-pruefe="s2.rechW">Prüfen</button></div>
+    <div class="rueck" data-rueck="s2.rechW" aria-live="polite"></div>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt m">MERKSATZ</span>Das habe ich herausgefunden</h3>
+    <label class="feld pflicht" for="s2merk">Formuliere einen Merksatz mit „Je größer …, desto …“ und der Formel.</label>
+    <textarea id="s2merk" data-k="s2.merk" placeholder="Je größer die Kraft …, desto … . Je länger … . Die Arbeit berechnet man mit …"></textarea>
+    <details class="hilfe"><summary>💡 Hilfe: Wann gilt W = F · s?</summary><p>Die Formel gilt nur, wenn die Kraft <b>gleich groß bleibt</b> und <b>genau in Richtung des Weges</b> zeigt. Schau dir dazu noch einmal Auftrag 2b an.</p></details>
+  </div>
+  <div class="weiter"><button class="knopf grau" data-geh="1">◂ Station 1</button><button class="knopf" data-geh="3">Weiter zu Station 3 ▸</button></div>
+</section>
+
+<!-- ===================== STATION 3 ===================== -->
+<section class="seite" id="s3" data-titel="3 Hubarbeit">
+  <div class="stationskopf"><div class="nr">3</div><div><h1>Experiment: Hubarbeit und Lageenergie</h1><div class="zeit">ca. 20 Minuten</div></div></div>
+  <div class="karte">
+    <p>Ein Kran hebt eine Kiste gleichmäßig nach oben. Er muss dabei genau die <b>Gewichtskraft</b> der Kiste aufbringen: <span class="formel">F<sub>G</sub> = m · g</span> &nbsp;Der Weg ist die <b>Hubhöhe <i class="gr">h</i></b>.</p>
+    <p class="satzhilfe">Der Ortsfaktor <i>g</i> sagt, wie stark ein Himmelskörper zieht: Auf der Erde wiegt 1 kg etwa 10 N (g = 10 N/kg), auf dem Mond nur 1,6 N.</p>
+    <h3><span class="schritt v">VERMUTUNG</span>Was glaubst du?</h3>
+    <div class="zeile"><span class="pflicht" style="min-width:17rem">Bei <b>doppelter Masse</b> wird die Hubarbeit …</span><select data-k="s3.vermM" aria-label="Vermutung Masse"><option value="">bitte wählen</option><option>gleich groß.</option><option>doppelt so groß.</option><option>viermal so groß.</option><option>halb so groß.</option></select></div>
+    <div class="zeile"><span class="pflicht" style="min-width:17rem">Bei <b>doppelter Höhe</b> wird die Hubarbeit …</span><select data-k="s3.vermH" aria-label="Vermutung Höhe"><option value="">bitte wählen</option><option>gleich groß.</option><option>doppelt so groß.</option><option>viermal so groß.</option><option>halb so groß.</option></select></div>
+    <div class="zeile"><span class="pflicht" style="min-width:17rem">Auf dem <b>Mond</b> ist die Hubarbeit …</span><select data-k="s3.vermG" aria-label="Vermutung Mond"><option value="">bitte wählen</option><option>kleiner als auf der Erde.</option><option>gleich groß wie auf der Erde.</option><option>größer als auf der Erde.</option></select></div>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt e">EXPERIMENT</span>Der Baukran</h3>
+    <div class="labor"><svg id="sim3" viewBox="0 0 820 390" role="img" aria-label="Simulation: Ein Kran hebt eine Kiste auf die Höhe h"></svg></div>
+    <div class="regler">
+      <div><label for="r3m">Masse <span><i class="gr">m</i> = <output id="o3m">10 kg</output></span></label><input type="range" id="r3m" min="1" max="40" step="1" value="10"></div>
+      <div><label for="r3h">Hubhöhe <span><i class="gr">h</i> = <output id="o3h">4 m</output></span></label><input type="range" id="r3h" min="0.5" max="10" step="0.5" value="4"></div>
+      <div><label for="r3g"><span>Ort (Ortsfaktor <i class="gr">g</i>)</span></label><select id="r3g"><option value="10">Erde – 10 N/kg</option><option value="1.6">Mond – 1,6 N/kg</option><option value="3.7">Mars – 3,7 N/kg</option></select></div>
+    </div>
+    <div class="anzeige" aria-live="polite"><div><small>Gewichtskraft</small><b id="a3F">100 N</b></div><div><small>Höhe bisher</small><b id="a3h">0 m</b></div><div class="w"><small>Hubarbeit bisher</small><b id="a3W">0 J</b></div></div>
+    <div class="knoepfe"><button class="knopf or" id="b3heb">▲ Hochheben</button><button class="knopf dunkel" id="b3fall" disabled>▼ Kiste fallen lassen</button><button class="knopf grau" id="b3zur">↺ Zurück auf den Boden</button><button class="knopf" id="b3mess" disabled>＋ Messwert speichern</button></div>
+    <div class="auftrag"><b>Auftrag 3a:</b> Speichere jeden Versuch in der Tabelle.<br>
+      <b>Reihe A</b> (Erde, <i class="gr">h</i> = 4 m): <i class="gr">m</i> = 5 kg, 10 kg, 20 kg<br>
+      <b>Reihe B</b> (Erde, <i class="gr">m</i> = 10 kg): <i class="gr">h</i> = 2 m, 4 m, 8 m<br>
+      <b>Reihe C</b> (<i class="gr">m</i> = 10 kg, <i class="gr">h</i> = 4 m): auf dem Mond und auf dem Mars</div>
+    <table class="mess" id="t3"><thead><tr><th>Nr.</th><th>Ort</th><th>Masse <i>m</i> in kg</th><th><i>g</i> in N/kg</th><th>Höhe <i>h</i> in m</th><th><i>F</i><sub>G</sub> in N</th><th>Hubarbeit <i>W</i> in J</th><th></th></tr></thead><tbody></tbody></table>
+    <p class="satzhilfe"><span class="pflicht">mindestens 5 Messungen</span></p>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt b">BEOBACHTUNG</span>Was zeigt deine Tabelle?</h3>
+    <label class="feld pflicht" for="s3beob">Beschreibe in ganzen Sätzen, wie die Hubarbeit von der Masse, der Höhe und dem Ort abhängt.</label>
+    <textarea id="s3beob" data-k="s3.beob" placeholder="Bei doppelter Masse … . Bei doppelter Höhe … . Auf dem Mond …, weil …"></textarea>
+    <h3><span class="schritt b">ERKLÄRUNG</span>Wo bleibt die Arbeit?</h3>
+    <div class="auftrag"><b>Auftrag 3b:</b> Hebe eine Kiste hoch und klicke dann auf „Kiste fallen lassen“. Beobachte die beiden Energie-Balken.</div>
+    <label class="feld pflicht" for="s3wo">Erkläre: Wo steckt die Hubarbeit, solange die Kiste oben hängt? Was passiert mit dieser Energie beim Fallen?</label>
+    <textarea id="s3wo" data-k="s3.wo" placeholder="Solange die Kiste oben ist, steckt die Hubarbeit als … in der Kiste. Beim Fallen wird sie in … umgewandelt."></textarea>
+    <details class="hilfe"><summary>💡 Hilfe: Energie</summary><p>Energie ist die Fähigkeit, Arbeit zu verrichten. Wer Arbeit verrichtet, überträgt Energie. Eine hochgehobene Kiste hat <b>Lageenergie</b>: Sie könnte beim Herunterfallen etwas zerdrücken. Eine fallende Kiste hat <b>Bewegungsenergie</b>.</p></details>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt r">BERECHNUNG</span>Auf der Baustelle</h3>
+    <p>Ein Baukran hebt eine Palette Ziegel mit der Masse <b><i class="gr">m</i> = 300 kg</b> auf ein <b><i class="gr">h</i> = 12 m</b> hohes Dach (<i class="gr">g</i> = 10 N/kg).</p>
+    <details class="hilfe"><summary>💡 Hilfe 1: Reihenfolge</summary><p>Erst die Gewichtskraft: <i>F</i><sub>G</sub> = <i>m</i> · <i>g</i>. Dann die Hubarbeit: <i>W</i> = <i>F</i><sub>G</sub> · <i>h</i>.</p></details>
+    <details class="hilfe"><summary>💡 Hilfe 2: Ein Beispiel</summary><p>Ein Sack Zement (25 kg) wird 2 m hoch gehoben:<br><i>F</i><sub>G</sub> = 25 kg · 10 N/kg = 250 N<br><i>W</i> = 250 N · 2 m = <b>500 J</b></p></details>
+    <div class="zeile"><span class="gr pflicht">F<sub>G</sub> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s3.rechF" aria-label="Gewichtskraft"><select data-k="s3.rechFE" aria-label="Einheit"><option value="">Einheit</option><option>N</option><option>kg</option><option>J</option></select><button class="knopf grau" data-pruefe="s3.rechF">Prüfen</button></div>
+    <div class="rueck" data-rueck="s3.rechF" aria-live="polite"></div>
+    <div class="zeile"><span class="gr pflicht">W =</span><input class="zahl" type="text" inputmode="decimal" data-k="s3.rechW" aria-label="Hubarbeit"><select data-k="s3.rechWE" aria-label="Einheit"><option value="">Einheit</option><option>J</option><option>kJ</option><option>N</option><option>W</option></select><button class="knopf grau" data-pruefe="s3.rechW">Prüfen</button></div>
+    <div class="rueck" data-rueck="s3.rechW" aria-live="polite"></div>
+  </div>
+
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt m">MERKSATZ</span>Das habe ich herausgefunden</h3>
+    <label class="feld pflicht" for="s3merk">Formuliere einen Merksatz zur Hubarbeit und zur Lageenergie (mit Formel).</label>
+    <textarea id="s3merk" data-k="s3.merk" placeholder="Die Hubarbeit hängt ab von … . Man berechnet sie mit … . Die Hubarbeit steckt danach als …"></textarea>
+    <details class="zusatz"><summary>★★★ Zusatzaufgabe für Schnelle: Rampe statt Kran</summary>
+      <p>Eine Kiste (<i>m</i> = 20 kg) soll 1 m hoch auf eine Ladefläche. Mara hebt sie senkrecht hoch. Jonas schiebt sie über eine 5 m lange Rampe nach oben (ohne Reibung).</p>
+      <p>a) Wie groß ist die Hubarbeit bei Mara? b) Ist die Arbeit bei Jonas größer, kleiner oder gleich? c) Mit welcher Kraft muss Jonas entlang der Rampe schieben? Denke an die Goldene Regel der Mechanik.</p>
+      <textarea data-k="z1" aria-label="Zusatzaufgabe Rampe" placeholder="a) … b) … c) …"></textarea>
+    </details>
+  </div>
+  <div class="weiter"><button class="knopf grau" data-geh="2">◂ Station 2</button><button class="knopf" data-geh="4">Weiter zu Station 4 ▸</button></div>
+</section>
+
+<!-- ===================== STATION 4 ===================== -->
+<section class="seite" id="s4" data-titel="4 Leistung">
+  <div class="stationskopf"><div class="nr">4</div><div><h1>Leistung: Welcher Aufzug ist stärker?</h1><div class="zeit">ca. 13 Minuten</div></div></div>
+  <div class="karte">
+    <p>Auf einer Baustelle heben zwei Bauaufzüge je eine Palette Ziegel mit <b><i class="gr">m</i> = 120 kg</b> auf das Gerüst in <b><i class="gr">h</i> = 9 m</b> Höhe.</p>
+    <h3><span class="schritt v">VERMUTUNG</span>Was glaubst du?</h3>
+    <div class="zeile"><span class="pflicht" style="min-width:12rem">Die beiden Aufzüge …</span><select data-k="s4.verm" aria-label="Vermutung Arbeit"><option value="">bitte wählen</option><option>verrichten gleich viel Arbeit.</option><option>verrichten unterschiedlich viel Arbeit – der schnellere mehr.</option><option>verrichten unterschiedlich viel Arbeit – der langsamere mehr.</option></select></div>
+  </div>
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt e">EXPERIMENT</span>Das Aufzug-Rennen</h3>
+    <div class="labor"><svg id="sim4" viewBox="0 0 820 330" role="img" aria-label="Simulation: Zwei Bauaufzüge heben gleiche Lasten unterschiedlich schnell"></svg></div>
+    <div class="knoepfe"><button class="knopf or" id="b4start">▶ Rennen starten</button><button class="knopf grau" id="b4zur">↺ Zurücksetzen</button></div>
+    <div class="auftrag"><b>Auftrag 4a:</b> Starte das Rennen. Lies die Zeiten der beiden Aufzüge an den Stoppuhren ab und trage sie ein.</div>
+    <div class="zeile"><span class="pflicht" style="min-width:8rem">Aufzug A: <i class="gr">t</i> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s4.tA" aria-label="Zeit Aufzug A"> s <button class="knopf grau" data-pruefe="s4.tA">Prüfen</button></div>
+    <div class="rueck" data-rueck="s4.tA"></div>
+    <div class="zeile"><span class="pflicht" style="min-width:8rem">Aufzug B: <i class="gr">t</i> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s4.tB" aria-label="Zeit Aufzug B"> s <button class="knopf grau" data-pruefe="s4.tB">Prüfen</button></div>
+    <div class="rueck" data-rueck="s4.tB"></div>
+  </div>
+  <div class="karte">
+    <h3 style="margin-top:0"><span class="schritt b">NEU</span>Die Leistung</h3>
+    <p>Beide Aufzüge verrichten dieselbe Arbeit – aber einer schafft sie in kürzerer Zeit. Er hat die <b>größere Leistung</b>.</p>
+    <p><span class="formel">Leistung = Arbeit : Zeit &nbsp;&nbsp; P = W : t</span></p>
+    <p>Die Einheit der Leistung ist das <b>Watt</b> (W): <b>1 W = 1 J : 1 s</b>. Ein Gerät mit 1 W verrichtet in jeder Sekunde 1 J Arbeit.</p>
+    <div class="info"><b>Beispiel:</b> Ein Motor hebt eine Last und verrichtet dabei 600 J Arbeit in 3 s.<br><i>P</i> = <i>W</i> : <i>t</i> = 600 J : 3 s = <b>200 W</b></div>
+    <h3><span class="schritt r">BERECHNUNG</span>Rechne für beide Aufzüge</h3>
+    <details class="hilfe"><summary>💡 Hilfe 1: Arbeit</summary><p>Es ist Hubarbeit: <i>W</i> = <i>m</i> · <i>g</i> · <i>h</i> mit <i>g</i> = 10 N/kg. Sie ist für beide Aufzüge gleich.</p></details>
+    <details class="hilfe"><summary>💡 Hilfe 2: Leistung</summary><p>Teile die Arbeit (in J) durch die Zeit (in s), die du in Auftrag 4a abgelesen hast. Das Ergebnis hat die Einheit W (Watt).</p></details>
+    <div class="zeile"><span class="pflicht" style="min-width:8rem">Arbeit A: <i class="gr">W</i> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s4.WA" aria-label="Arbeit Aufzug A"><select data-k="s4.WAE" aria-label="Einheit"><option value="">Einheit</option><option>J</option><option>kJ</option><option>N</option><option>W</option></select><button class="knopf grau" data-pruefe="s4.WA">Prüfen</button></div>
+    <div class="rueck" data-rueck="s4.WA"></div>
+    <div class="zeile"><span class="pflicht" style="min-width:8rem">Arbeit B: <i class="gr">W</i> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s4.WB" aria-label="Arbeit Aufzug B"><select data-k="s4.WBE" aria-label="Einheit"><option value="">Einheit</option><option>J</option><option>kJ</option><option>N</option><option>W</option></select><button class="knopf grau" data-pruefe="s4.WB">Prüfen</button></div>
+    <div class="rueck" data-rueck="s4.WB"></div>
+    <div class="zeile"><span class="pflicht" style="min-width:8rem">Leistung A: <i class="gr">P</i> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s4.PA" aria-label="Leistung Aufzug A"><select data-k="s4.PAE" aria-label="Einheit"><option value="">Einheit</option><option>W</option><option>kW</option><option>J</option><option>s</option></select><button class="knopf grau" data-pruefe="s4.PA">Prüfen</button></div>
+    <div class="rueck" data-rueck="s4.PA"></div>
+    <div class="zeile"><span class="pflicht" style="min-width:8rem">Leistung B: <i class="gr">P</i> =</span><input class="zahl" type="text" inputmode="decimal" data-k="s4.PB" aria-label="Leistung Aufzug B"><select data-k="s4.PBE" aria-label="Einheit"><option value="">Einheit</option><option>W</option><option>kW</option><option>J</option><option>s</option></select><button class="knopf grau" data-pruefe="s4.PB">Prüfen</button></div>
+    <div class="rueck" data-rueck="s4.PB"></div>
+    <label class="feld pflicht" for="s4antw">Antwortsatz: Welcher Aufzug erbringt die größere Leistung? Begründe mit deinen Ergebnissen.</label>
+    <textarea id="s4antw" data-k="s4.antw" placeholder="Aufzug … erbringt die größere Leistung, weil …"></textarea>
+    <details class="zusatz"><summary>★★★ Zusatzaufgabe für Schnelle: Wie viel Watt hast du?</summary>
+      <p>Eine Person mit <i>m</i> = 60 kg geht zügig die Treppe in den 1. Stock hinauf (<i>h</i> = 3,5 m). Schätze, wie lange du dafür brauchst. Berechne die Hubarbeit und die Leistung. Vergleiche mit einem Föhn (2 000 W) und einer LED-Lampe (8 W).</p>
+      <textarea data-k="z2" aria-label="Zusatzaufgabe Treppe" placeholder="Meine Zeit: t = … s. W = … P = … Vergleich: …"></textarea>
+    </details>
+  </div>
+  <div class="weiter"><button class="knopf grau" data-geh="3">◂ Station 3</button><button class="knopf" data-geh="5">Weiter zu Station 5 ▸</button></div>
+</section>
+
+<!-- ===================== STATION 5 ===================== -->
+<section class="seite" id="s5" data-titel="5 Sicherung">
+  <div class="stationskopf"><div class="nr">5</div><div><h1>Ergebnissicherung</h1><div class="zeit">ca. 8 Minuten</div></div></div>
+  <div class="karte">
+    <p>Fasse die wichtigsten Erkenntnisse der Doppelstunde zusammen – in <b>vollständigen Sätzen</b> und möglichst mit Fachwörtern. Du darfst deine Merksätze aus den Stationen benutzen.</p>
+    <label class="feld pflicht" for="q1">1. Was bedeutet mechanische Arbeit in der Physik? Nenne ein Beispiel mit Arbeit und eines ohne Arbeit.</label>
+    <textarea id="q1" data-k="s5.q1"></textarea>
+    <label class="feld pflicht" for="q2">2. Wovon hängt die Hubarbeit ab – und wo steckt sie, wenn der Körper oben ist?</label>
+    <textarea id="q2" data-k="s5.q2"></textarea>
+    <label class="feld pflicht" for="q3">3. Was unterscheidet Arbeit und Leistung? Erkläre am Beispiel der Bauaufzüge.</label>
+    <textarea id="q3" data-k="s5.q3"></textarea>
+  </div>
+  <div class="karte">
+    <h2>Selbsteinschätzung</h2>
+    <div id="ichkann"></div>
+    <label class="feld" for="unklar">Was ist für dich noch unklar? (freiwillig)</label>
+    <textarea id="unklar" data-k="s5.unklar" style="min-height:4rem"></textarea>
+  </div>
+  <div class="weiter"><button class="knopf grau" data-geh="4">◂ Station 4</button><button class="knopf or" data-geh="6">Zur Abgabe ▸</button></div>
+</section>
+
+<!-- ===================== ABGABE ===================== -->
+<section class="seite" id="s6" data-titel="✓ Abgabe">
+  <div class="stationskopf"><div class="nr">✓</div><div><h1>Dein Versuchsprotokoll</h1><div class="zeit">Kontrollieren · herunterladen · bei IServ hochladen</div></div></div>
+  <div id="fehlBox"></div>
+  <div class="karte" style="text-align:center">
+    <button class="knopf or gross" id="pdfKnopf">📄 Mein Versuchsprotokoll als PDF herunterladen</button>
+    <p class="satzhilfe" id="dateiname"></p>
+    <p class="satzhilfe" id="pdfAlt" style="display:none"></p>
+  </div>
+  <div class="erfolg" id="erfolg" role="status">⬆️ Lade deine PDF jetzt in der Physik-Aufgabe bei IServ hoch.
+    <small>Die Datei liegt in deinem Ordner „Downloads“. Prüfe nach dem Hochladen, ob die Datei bei IServ angekommen ist. Danach kannst du unten deine Eingaben von diesem Computer löschen.</small></div>
+  <div class="karte uebersicht" id="uebersicht"></div>
+  <div class="karte">
+    <h2>Zum Schluss: Daten löschen</h2>
+    <p>Deine Eingaben sind nur auf diesem Computer gespeichert (höchstens 3 Stunden). Wenn deine PDF bei IServ hochgeladen ist, lösche sie hier – dann kann niemand nach dir sie sehen.</p>
+    <button class="knopf dunkel" id="loeschen">🗑 Meine Eingaben von diesem Computer löschen</button>
+  </div>
+  <div class="weiter"><button class="knopf grau" data-geh="5">◂ Station 5</button><span></span></div>
+</section>
+</main>
+
+<script>
+"use strict";
+document.getElementById('nojs').remove();
+/* ================= Zustand (nur auf diesem Gerät, max. 3 Stunden) ================= */
+var KEY = 'ph10e-labor-arbeit-v1', MAXALTER = 3 * 3600 * 1000;
+function neuerZustand() { return { t: Date.now(), d: { klasse: '10e' }, rows2: [], rows3: [], seite: 0, exportiert: false }; }
+function laden() {
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.d && Date.now() - s.t < MAXALTER) return s;
+    localStorage.removeItem(KEY);
+  } catch (e) {}
+  return null;
+}
+var S = laden() || neuerZustand(), warAlt = !!(S.d.vorname || S.d.nachname);
+var speicherTimer = null;
+function speichern() {
+  S.t = Date.now();
+  clearTimeout(speicherTimer);
+  speicherTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  aktualisiereFortschritt();
+}
+function $(id) { return document.getElementById(id); }
+function fmt(x, st) { if (x === '' || x == null || isNaN(x)) return '–'; return Number(x).toLocaleString('de-DE', { maximumFractionDigits: st == null ? 2 : st }).replace(/\./g, '\u202f'); }
+function zahl(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s| /g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.'); return s === '' ? NaN : Number(s); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+/* ================= Station 1: Situationen ================= */
+var SIT = [
+  { ico: '🏋️', t: 'Ein Gewichtheber stemmt die Hantel vom Boden bis über seinen Kopf.', ja: true, e: 'Kraft nach oben, die Hantel bewegt sich nach oben: Hubarbeit.' },
+  { ico: '⏱️', t: 'Danach hält er die Hantel 3 Sekunden lang still über dem Kopf.', ja: false, e: 'Kraft ja, aber kein Weg (s = 0). Die Muskeln ermüden trotzdem.' },
+  { ico: '🎒', t: 'Tim trägt seinen Rucksack 50 m weit über den ebenen Schulhof.', ja: false, e: 'Die Haltekraft zeigt nach oben, der Weg ist waagerecht – quer zur Kraft. Der Rucksack wird nicht höher.' },
+  { ico: '🛒', t: 'Aylin schiebt einen vollen Einkaufswagen über den Parkplatz.', ja: true, e: 'Die Kraft zeigt in Bewegungsrichtung (gegen die Reibung): Arbeit.' },
+  { ico: '🛗', t: 'Ein Aufzug bringt drei Personen vom Erdgeschoss in den 5. Stock.', ja: true, e: 'Der Motor zieht die Kabine nach oben, sie bewegt sich nach oben: Hubarbeit.' },
+  { ico: '🏹', t: 'Eine Bogenschützin zieht die Sehne ihres Bogens nach hinten.', ja: true, e: 'Die Sehne bewegt sich in Richtung der Zugkraft: Spannarbeit.' }
+];
+function baueSituationen() {
+  var h = '';
+  SIT.forEach(function (s, i) {
+    var n = i + 1;
+    h += '<div class="sit" id="sit' + n + '"><div class="ico" aria-hidden="true">' + s.ico + '</div><p><b>' + n + '.</b> ' + s.t + '</p>' +
+      '<div class="wahl" role="radiogroup" aria-label="Situation ' + n + '"><label><input type="radio" name="sit' + n + '" value="ja" data-k="s1.' + n + '">Arbeit</label>' +
+      '<label><input type="radio" name="sit' + n + '" value="nein" data-k="s1.' + n + '">keine Arbeit</label></div>' +
+      '<div class="erkl"><b class="urteil"></b> ' + s.e + '</div></div>';
+  });
+  $('situationen').innerHTML = h;
+}
+function s1Auswerten(still) {
+  var fehlt = SIT.filter(function (s, i) { return !S.d['s1.' + (i + 1)]; }).length;
+  if (fehlt && !still) { $('s1info').textContent = 'Entscheide zuerst alle Situationen (es fehlen noch ' + fehlt + ').'; return; }
+  if (fehlt) return;
+  var r = 0;
+  SIT.forEach(function (s, i) {
+    var n = i + 1, ok = (S.d['s1.' + n] === 'ja') === s.ja, el = $('sit' + n);
+    el.classList.remove('richtig', 'falsch'); el.classList.add(ok ? 'richtig' : 'falsch');
+    el.querySelector('.urteil').textContent = (ok ? '✓ Richtig: ' : '✗ Nicht ganz: ') + (s.ja ? 'Arbeit.' : 'keine Arbeit.');
+    el.querySelectorAll('input').forEach(function (x) { x.disabled = true; });
+    if (ok) r++;
+  });
+  S.d['s1.ausgewertet'] = '1'; S.d['s1.punkte'] = String(r);
+  $('s1info').textContent = r + ' von 6 richtig. Lies die Erklärungen – besonders bei den roten Karten.';
+  $('s1auswerten').disabled = true;
+  speichern();
+}
+
+/* ================= Prüfen von Rechenergebnissen ================= */
+var EINH = { J: 1, kJ: 1000, W: 1, kW: 1000, N: 1 };
+var PRUEF = {
+  's2.rechW': { soll: 3000, einheit: 'J', ek: 's2.rechWE', tipp: 'Multipliziere Kraft und Weg: 250 N · 12 m.' },
+  's3.rechF': { soll: 3000, einheit: 'N', ek: 's3.rechFE', tipp: 'F(G) = m · g = 300 kg · 10 N/kg. Die Einheit einer Kraft ist Newton.' },
+  's3.rechW': { soll: 36000, einheit: 'J', ek: 's3.rechWE', tipp: 'W = F(G) · h – nimm deine Gewichtskraft mal 12 m.' },
+  's4.tA': { soll: 36, einheit: 's', tipp: 'Starte das Rennen und lies die Stoppuhr von Aufzug A ab, wenn er oben ist.' },
+  's4.tB': { soll: 12, einheit: 's', tipp: 'Lies die Stoppuhr von Aufzug B ab, wenn er oben ist.' },
+  's4.WA': { soll: 10800, einheit: 'J', ek: 's4.WAE', tipp: 'W = m · g · h = 120 kg · 10 N/kg · 9 m.' },
+  's4.WB': { soll: 10800, einheit: 'J', ek: 's4.WBE', tipp: 'Gleiche Last, gleiche Höhe – gleiche Arbeit wie bei A?' },
+  's4.PA': { soll: 300, einheit: 'W', ek: 's4.PAE', tipp: 'P = W : t – teile die Arbeit von A durch die Zeit von A.' },
+  's4.PB': { soll: 900, einheit: 'W', ek: 's4.PBE', tipp: 'P = W : t – teile die Arbeit von B durch die Zeit von B.' }
+};
+function bewerte(k) {
+  var p = PRUEF[k], v = zahl(S.d[k]);
+  if (isNaN(v)) return { ok: false, msg: 'Trage zuerst eine Zahl ein.' };
+  var e = p.ek ? (S.d[p.ek] || '') : p.einheit;
+  if (p.ek && !e) return { ok: false, msg: 'Wähle noch die passende Einheit.' };
+  var basis = (p.einheit === 's') ? 's' : p.einheit;
+  var passend = (basis === 'J' && (e === 'J' || e === 'kJ')) || (basis === 'W' && (e === 'W' || e === 'kW')) || (basis === 'N' && e === 'N') || basis === 's';
+  if (!passend) return { ok: false, msg: 'Die Zahl ist vielleicht richtig, aber die Einheit passt nicht zu dieser Größe. ' + (basis === 'J' ? 'Arbeit misst man in Joule.' : basis === 'W' ? 'Leistung misst man in Watt.' : 'Kraft misst man in Newton.') };
+  var wert = v * (EINH[e] || 1);
+  if (Math.abs(wert - p.soll) <= Math.max(0.01 * p.soll, 0.05)) return { ok: true, msg: 'Richtig! ✓' };
+  return { ok: false, msg: 'Noch nicht richtig. Tipp: ' + p.tipp };
+}
+function zeigePruefung(k) {
+  var r = bewerte(k), box = document.querySelector('[data-rueck="' + k + '"]');
+  S.d[k + '.ok'] = r.ok ? 'richtig' : 'falsch';
+  if (box) { box.className = 'rueck ' + (r.ok ? 'ok' : 'no'); box.textContent = r.msg; }
+  speichern();
+}
+
+/* ================= Bindung aller Eingabefelder ================= */
+function binde() {
+  document.querySelectorAll('[data-k]').forEach(function (el) {
+    var k = el.dataset.k;
+    if (el.type === 'radio') {
+      el.checked = S.d[k] === el.value;
+      el.addEventListener('change', function () { if (el.checked) { S.d[k] = el.value; speichern(); } });
+    } else {
+      if (S.d[k] != null) el.value = S.d[k]; else if (el.value) S.d[k] = el.value;
+      var f = function () {
+        S.d[k] = el.value;
+        if (PRUEF[k] || /E$/.test(k)) { var base = PRUEF[k] ? k : k.slice(0, -1); delete S.d[base + '.ok']; var b = document.querySelector('[data-rueck="' + base + '"]'); if (b) b.className = 'rueck'; }
+        speichern();
+      };
+      el.addEventListener('input', f); el.addEventListener('change', f);
+    }
+  });
+  document.querySelectorAll('[data-pruefe]').forEach(function (b) { b.addEventListener('click', function () { zeigePruefung(b.dataset.pruefe); }); });
+  Object.keys(PRUEF).forEach(function (k) { if (S.d[k + '.ok']) { var r = bewerte(k), box = document.querySelector('[data-rueck="' + k + '"]'); if (box) { box.className = 'rueck ' + (r.ok ? 'ok' : 'no'); box.textContent = r.msg; } } });
+}
+
+/* ================= Ich kann … ================= */
+var ICH = ['Ich kann entscheiden, ob in der Physik Arbeit verrichtet wird.', 'Ich kann die Arbeit mit W = F · s berechnen.', 'Ich kann die Hubarbeit mit W = m · g · h berechnen.', 'Ich kann Arbeit und Leistung unterscheiden und P = W : t berechnen.'];
+var STUFEN = ['sicher', 'fast sicher', 'noch nicht'];
+function baueIchKann() {
+  var h = '';
+  ICH.forEach(function (t, i) {
+    h += '<div style="margin:.5rem 0"><div>' + t + '</div><div class="auswahl" role="radiogroup" aria-label="' + t + '">';
+    STUFEN.forEach(function (s, j) { h += '<label><input type="radio" name="ich' + i + '" value="' + s + '" data-k="s5.ich' + i + '">' + ['😀', '🙂', '🤔'][j] + ' ' + s + '</label>'; });
+    h += '</div></div>';
+  });
+  $('ichkann').innerHTML = h;
+}
+
+/* ================= Navigation und Fortschritt ================= */
+var SEITEN = Array.prototype.slice.call(document.querySelectorAll('.seite'));
+var PFLICHT = [
+  [0, 'vorname', 'Vorname'], [0, 'nachname', 'Nachname'],
+  [1, 's1.1', 'Situation 1'], [1, 's1.2', 'Situation 2'], [1, 's1.3', 'Situation 3'], [1, 's1.4', 'Situation 4'], [1, 's1.5', 'Situation 5'], [1, 's1.6', 'Situation 6'],
+  [1, 's1.begr', 'Erklärung zu Situation 3'], [1, 's1.merk', 'Merksatz Arbeit'],
+  [2, 's2.vermF', 'Vermutung (Kraft)'], [2, 's2.vermS', 'Vermutung (Weg)'], [2, '#rows2', 'Messtabelle (mind. 4 Messungen)'], [2, 's2.beob', 'Beobachtung'], [2, 's2.senk', 'Auftrag 2b (Kraft senkrecht)'],
+  [2, 's2.rechweg', 'Rechnung Schlitten'], [2, 's2.rechW', 'Ergebnis Schlitten'], [2, 's2.merk', 'Merksatz W = F · s'],
+  [3, 's3.vermM', 'Vermutung (Masse)'], [3, 's3.vermH', 'Vermutung (Höhe)'], [3, 's3.vermG', 'Vermutung (Mond)'], [3, '#rows3', 'Messtabelle (mind. 5 Messungen)'],
+  [3, 's3.beob', 'Beobachtung'], [3, 's3.wo', 'Erklärung: Wo bleibt die Arbeit?'], [3, 's3.rechF', 'Gewichtskraft Palette'], [3, 's3.rechW', 'Hubarbeit Palette'], [3, 's3.merk', 'Merksatz Hubarbeit'],
+  [4, 's4.verm', 'Vermutung'], [4, 's4.tA', 'Zeit Aufzug A'], [4, 's4.tB', 'Zeit Aufzug B'], [4, 's4.WA', 'Arbeit A'], [4, 's4.WB', 'Arbeit B'], [4, 's4.PA', 'Leistung A'], [4, 's4.PB', 'Leistung B'], [4, 's4.antw', 'Antwortsatz Leistung'],
+  [5, 's5.q1', 'Frage 1'], [5, 's5.q2', 'Frage 2'], [5, 's5.q3', 'Frage 3']
+];
+function erledigt(k) {
+  if (k === '#rows2') return S.rows2.length >= 4;
+  if (k === '#rows3') return S.rows3.length >= 5;
+  return !!(S.d[k] && String(S.d[k]).trim());
+}
+function fehlend(st) { return PFLICHT.filter(function (p) { return (st == null || p[0] === st) && !erledigt(p[1]); }); }
+function baueNav() {
+  $('nav').innerHTML = SEITEN.map(function (s, i) { return '<button data-geh="' + i + '" id="nav' + i + '">' + s.dataset.titel + '</button>'; }).join('');
+}
+function aktualisiereFortschritt() {
+  var fertig = PFLICHT.filter(function (p) { return erledigt(p[1]); }).length, proz = Math.round(100 * fertig / PFLICHT.length);
+  $('fort').style.width = proz + '%'; $('fortBalken').setAttribute('aria-valuenow', proz);
+  for (var i = 0; i <= 5; i++) { var b = $('nav' + i); if (b) b.classList.toggle('fertig', fehlend(i).length === 0); }
+}
+function geh(i) {
+  i = Math.max(0, Math.min(SEITEN.length - 1, i));
+  if (i > 0 && !(S.d.vorname || '').trim() && !(S.d.nachname || '').trim()) { i = 0; alert('Bitte trage zuerst deinen Vor- und Nachnamen ein.'); $('vorname').focus(); return; }
+  SEITEN.forEach(function (s, j) { s.classList.toggle('aktiv', j === i); var b = $('nav' + j); if (b) { if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); } });
+  S.seite = i; speichern();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (i === 6) baueUebersicht();
+  if (i === 2) zeichne2(); if (i === 3) zeichne3(); if (i === 4) zeichne4();
+}
+document.addEventListener('click', function (e) { var b = e.target.closest('[data-geh]'); if (b) geh(Number(b.dataset.geh)); });
+
+/* ================= SVG-Hilfen ================= */
+var NS = 'http://www.w3.org/2000/svg';
+function el(tag, at, txt) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; return e; }
+function pfeilDefs(svg) {
+  var d = el('defs', {});
+  [['pR', '#E4572E'], ['pG', '#0E7C7B'], ['pD', '#34434F'], ['pB', '#2B6CB0']].forEach(function (p) {
+    var m = el('marker', { id: svg.id + p[0], markerWidth: 10, markerHeight: 10, refX: 7, refY: 5, orient: 'auto', markerUnits: 'userSpaceOnUse' });
+    m.appendChild(el('path', { d: 'M0,0 L10,5 L0,10 z', fill: p[1] })); d.appendChild(m);
+  });
+  svg.appendChild(d);
+}
+var TXT = { 'font-family': 'Segoe UI, Arial, sans-serif' };
+function t(x, y, s, gr, farbe, extra) { var a = Object.assign({ x: x, y: y, 'font-size': gr || 16, fill: farbe || '#16202A' }, TXT, extra || {}); return el('text', a, s); }
+var reduziert = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* Animationstakt: requestAnimationFrame, mit Zeitgeber als Ersatz (falls der Browser Frames aussetzt) */
+function takt(sim, fn) {
+  var gen = sim.gen, fertig = false;
+  function los() { if (fertig) return; fertig = true; if (gen === sim.gen) fn(performance.now()); }
+  requestAnimationFrame(los); setTimeout(los, 40);
+}
+
+/* ================= Simulation 2: Kraft und Weg ================= */
+var sim2 = { x: 0, laeuft: false, fertig: false, F: 200, s: 4, R: 'w', raf: 0, gen: 0 };
+var X0 = 110, PXM = 80;
+function lies2() { sim2.F = Number($('r2F').value); sim2.s = Number($('r2s').value); sim2.R = $('r2R').value; $('o2F').textContent = sim2.F + ' N'; $('o2s').textContent = fmt(sim2.s) + ' m'; }
+function W2() { return sim2.R === 'w' ? sim2.F * sim2.x : 0; }
+function zeichne2() {
+  var svg = $('sim2'); svg.innerHTML = ''; pfeilDefs(svg);
+  // Boden
+  svg.appendChild(el('rect', { x: 0, y: 190, width: 820, height: 70, fill: '#DCE3E8' }));
+  for (var i = 0; i < 41; i++) svg.appendChild(el('line', { x1: i * 21, y1: 192, x2: i * 21 - 12, y2: 204, stroke: '#B9C5CD', 'stroke-width': 2 }));
+  // Skala
+  for (var m = 0; m <= 8; m++) { var xx = X0 + m * PXM; svg.appendChild(el('line', { x1: xx, y1: 206, x2: xx, y2: 218, stroke: '#34434F', 'stroke-width': 2 })); svg.appendChild(t(xx - 10, 236, m + ' m', 13, '#34434F')); }
+  // Ziel
+  var xz = X0 + sim2.s * PXM;
+  svg.appendChild(el('line', { x1: xz, y1: 40, x2: xz, y2: 190, stroke: '#0E7C7B', 'stroke-width': 2, 'stroke-dasharray': '6 5' }));
+  svg.appendChild(t(xz - 18, 34, 'Ziel', 14, '#0E7C7B', { 'font-weight': 700 }));
+  svg.appendChild(el('line', { x1: X0, y1: 40, x2: X0, y2: 190, stroke: '#76838D', 'stroke-width': 2, 'stroke-dasharray': '4 6' }));
+  svg.appendChild(t(X0 - 20, 34, 'Start', 14, '#76838D'));
+  // Weg-Pfeil (zurückgelegt)
+  if (sim2.x > 0.05) {
+    svg.appendChild(el('line', { x1: X0, y1: 250, x2: X0 + sim2.x * PXM - 4, y2: 250, stroke: '#0E7C7B', 'stroke-width': 4, 'marker-end': 'url(#sim2pG)' }));
+    svg.appendChild(t(X0 + sim2.x * PXM / 2 - 22, 247, 's = ' + fmt(sim2.x, 1) + ' m', 13, '#0E7C7B', { 'font-weight': 700 }));
+  }
+  // Kiste
+  var hoch = sim2.R === 'o' ? 34 : 0, kx = X0 + sim2.x * PXM - 70, ky = 130 - hoch;
+  if (hoch) svg.appendChild(el('ellipse', { cx: kx + 35, cy: 192, rx: 34, ry: 5, fill: 'rgba(0,0,0,.12)' }));
+  svg.appendChild(el('rect', { x: kx, y: ky, width: 70, height: 60, rx: 4, fill: '#E9D3AE', stroke: '#B08A55', 'stroke-width': 3 }));
+  svg.appendChild(el('line', { x1: kx, y1: ky, x2: kx + 70, y2: ky + 60, stroke: '#B08A55', 'stroke-width': 2 }));
+  svg.appendChild(el('line', { x1: kx + 70, y1: ky, x2: kx, y2: ky + 60, stroke: '#B08A55', 'stroke-width': 2 }));
+  var L = 30 + sim2.F / 400 * 120;
+  if (sim2.R === 'w') {
+    svg.appendChild(el('line', { x1: kx + 70, y1: ky + 30, x2: kx + 70 + L, y2: ky + 30, stroke: '#E4572E', 'stroke-width': 6, 'marker-end': 'url(#sim2pR)' }));
+    svg.appendChild(t(kx + 76, ky + 18, 'F = ' + sim2.F + ' N', 15, '#E4572E', { 'font-weight': 700 }));
+  } else {
+    var Lo = Math.min(L, 100);
+    svg.appendChild(el('line', { x1: kx + 35, y1: ky, x2: kx + 35, y2: ky - Lo * 0.8, stroke: '#E4572E', 'stroke-width': 6, 'marker-end': 'url(#sim2pR)' }));
+    svg.appendChild(t(kx + 44, ky - 12, 'Haltekraft ' + sim2.F + ' N', 14, '#E4572E', { 'font-weight': 700 }));
+    svg.appendChild(t(330, 74, 'Die Kiste wird waagerecht getragen – sie wird nicht höher.', 15, '#34434F'));
+  }
+  $('a2x').textContent = fmt(sim2.x, 2) + ' m';
+  $('a2F').textContent = (sim2.R === 'w' ? sim2.F : 0) + ' N';
+  $('a2W').textContent = fmt(W2(), 0) + ' J';
+  zeichne2d();
+}
+function zeichne2d() {
+  var svg = $('sim2d'); svg.innerHTML = ''; pfeilDefs(svg);
+  var ox = 55, oy = 205, bx = 28, by = 0.42; // 1 m = 28 px, 1 N = 0.42 px
+  svg.appendChild(t(10, 18, 'Kraft-Weg-Diagramm', 14, '#34434F', { 'font-weight': 700 }));
+  var Fw = sim2.R === 'w' ? sim2.F : 0;
+  if (sim2.x > 0 && Fw > 0) {
+    svg.appendChild(el('rect', { x: ox, y: oy - Fw * by, width: sim2.x * bx, height: Fw * by, fill: 'rgba(14,124,123,.28)', stroke: '#0E7C7B', 'stroke-width': 2 }));
+    svg.appendChild(t(ox + 6, oy - Fw * by / 2 + 5, 'W = ' + fmt(W2(), 0) + ' J', 13, '#0B5E5D', { 'font-weight': 700 }));
+  }
+  if (Fw > 0) svg.appendChild(el('line', { x1: ox, y1: oy - Fw * by, x2: ox + sim2.s * bx, y2: oy - Fw * by, stroke: '#E4572E', 'stroke-width': 3, 'stroke-dasharray': sim2.x < sim2.s ? '5 4' : '0' }));
+  svg.appendChild(el('line', { x1: ox, y1: oy, x2: ox + 8.6 * bx, y2: oy, stroke: '#34434F', 'stroke-width': 2, 'marker-end': 'url(#sim2dpD)' }));
+  svg.appendChild(el('line', { x1: ox, y1: oy, x2: ox, y2: oy - 410 * by, stroke: '#34434F', 'stroke-width': 2, 'marker-end': 'url(#sim2dpD)' }));
+  for (var m = 0; m <= 8; m += 2) svg.appendChild(t(ox + m * bx - 4, oy + 18, String(m), 12, '#34434F'));
+  for (var f = 0; f <= 400; f += 100) svg.appendChild(t(ox - 34, oy - f * by + 4, String(f), 12, '#34434F'));
+  svg.appendChild(t(ox + 8.6 * bx - 30, oy + 36, 's in m', 12, '#34434F'));
+  svg.appendChild(t(ox + 6, oy - 405 * by + 6, 'F in N', 12, '#34434F'));
+  svg.appendChild(t(150, 40, 'Fläche = F · s = W', 12, '#0B5E5D'));
+}
+function start2() {
+  if (sim2.laeuft) return;
+  sim2.gen++; lies2(); sim2.x = 0; sim2.fertig = false; sim2.laeuft = true; $('b2mess').disabled = true; $('b2start').disabled = true;
+  var dauer = reduziert ? 1 : 600 * sim2.s, t0 = performance.now();
+  (function schritt(jetzt) {
+    var p = Math.min(1, (jetzt - t0) / dauer); sim2.x = sim2.s * p; zeichne2();
+    if (p < 1) takt(sim2, schritt);
+    else { sim2.laeuft = false; sim2.fertig = true; $('b2mess').disabled = false; $('b2start').disabled = false; }
+  })(t0);
+}
+function zurueck2() { sim2.gen++; sim2.laeuft = false; sim2.fertig = false; sim2.x = 0; $('b2mess').disabled = true; $('b2start').disabled = false; lies2(); zeichne2(); }
+function mess2() {
+  if (!sim2.fertig) return;
+  if (S.rows2.length >= 12) { alert('Die Tabelle ist voll (12 Zeilen). Lösche zuerst eine Zeile.'); return; }
+  S.rows2.push({ R: sim2.R, F: sim2.F, s: sim2.s, W: sim2.R === 'w' ? sim2.F * sim2.s : 0 });
+  $('b2mess').disabled = true; tabelle2(); speichern();
+}
+function tabelle2() {
+  var tb = $('t2').querySelector('tbody');
+  if (!S.rows2.length) { tb.innerHTML = '<tr class="leer"><td colspan="6">Noch keine Messwerte – starte einen Versuch und klicke auf „Messwert speichern“.</td></tr>'; return; }
+  tb.innerHTML = S.rows2.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td style="text-align:left">' + (r.R === 'w' ? 'in Wegrichtung' : 'senkrecht') + '</td><td>' + fmt(r.F) + '</td><td>' + fmt(r.s) + '</td><td><b>' + fmt(r.W) + '</b></td><td><button class="weg" data-weg2="' + i + '" aria-label="Zeile ' + (i + 1) + ' löschen">✕</button></td></tr>'; }).join('');
+}
+
+/* ================= Simulation 3: Hubarbeit ================= */
+var sim3 = { m: 10, h: 4, g: 10, y: 0, v: 0, zustand: 'unten', raf: 0, gen: 0, ort: 'Erde' };
+var BODEN = 350, PXH = 28, MAXE = 4000;
+function lies3() {
+  sim3.m = Number($('r3m').value); sim3.h = Number($('r3h').value); sim3.g = Number($('r3g').value);
+  sim3.ort = { '10': 'Erde', '1.6': 'Mond', '3.7': 'Mars' }[$('r3g').value];
+  $('o3m').textContent = sim3.m + ' kg'; $('o3h').textContent = fmt(sim3.h) + ' m';
+}
+function FG3() { return sim3.m * sim3.g; }
+function zeichne3() {
+  var svg = $('sim3'); svg.innerHTML = ''; pfeilDefs(svg);
+  var himmel = { Erde: '#EAF3F8', Mond: '#2B3440', Mars: '#F3D9C8' }[sim3.ort];
+  svg.appendChild(el('rect', { x: 0, y: 0, width: 545, height: BODEN, fill: himmel }));
+  if (sim3.ort === 'Mond') for (var i = 0; i < 30; i++) svg.appendChild(el('circle', { cx: (i * 97) % 540, cy: (i * 53) % 300, r: 1.4, fill: '#fff' }));
+  svg.appendChild(el('rect', { x: 0, y: BODEN, width: 545, height: 40, fill: { Erde: '#9BB07A', Mond: '#8E949B', Mars: '#C1693C' }[sim3.ort] }));
+  var dunkel = sim3.ort === 'Mond', tf = dunkel ? '#E8EEF2' : '#34434F';
+  svg.appendChild(t(14, 24, sim3.ort + ': g = ' + fmt(sim3.g) + ' N/kg', 15, tf, { 'font-weight': 700 }));
+  // Höhenskala
+  for (var m = 0; m <= 10; m++) { var yy = BODEN - m * PXH; svg.appendChild(el('line', { x1: 60, y1: yy, x2: 72, y2: yy, stroke: tf, 'stroke-width': 2 })); svg.appendChild(t(22, yy + 5, m + ' m', 12, tf)); }
+  svg.appendChild(el('line', { x1: 72, y1: BODEN, x2: 72, y2: BODEN - 10 * PXH, stroke: tf, 'stroke-width': 2 }));
+  // Kran
+  svg.appendChild(el('rect', { x: 150, y: 46, width: 16, height: BODEN - 46, fill: '#F2B33D', stroke: '#B07A12' }));
+  for (var k = 0; k < 11; k++) svg.appendChild(el('line', { x1: 150, y1: 46 + k * 28, x2: 166, y2: 74 + k * 28, stroke: '#B07A12', 'stroke-width': 1.5 }));
+  svg.appendChild(el('rect', { x: 110, y: 34, width: 380, height: 12, fill: '#F2B33D', stroke: '#B07A12' }));
+  svg.appendChild(el('rect', { x: 100, y: 46, width: 46, height: 22, fill: '#76838D' }));
+  // Ziel-Höhe
+  var yz = BODEN - sim3.h * PXH;
+  svg.appendChild(el('line', { x1: 72, y1: yz, x2: 540, y2: yz, stroke: '#0E7C7B', 'stroke-width': 2, 'stroke-dasharray': '7 5' }));
+  svg.appendChild(t(470, yz - 6, 'h = ' + fmt(sim3.h) + ' m', 14, dunkel ? '#7FD3CF' : '#0E7C7B', { 'font-weight': 700 }));
+  // Kiste
+  var KX = 350, b = 46 + sim3.m * 0.9, hk = 40 + sim3.m * 0.5, kx = KX - b / 2, ky = BODEN - sim3.y * PXH - hk;
+  var frei = sim3.zustand === 'faellt' || sim3.zustand === 'gelandet', hakenY = frei ? BODEN - (sim3.hStart || 0) * PXH - hk : ky;
+  svg.appendChild(el('line', { x1: KX, y1: 46, x2: KX, y2: hakenY, stroke: dunkel ? '#ddd' : '#34434F', 'stroke-width': 2.5 }));
+  svg.appendChild(el('path', { d: 'M' + (KX - 8) + ',' + (hakenY - 10) + ' q8,12 16,0', stroke: dunkel ? '#ddd' : '#34434F', fill: 'none', 'stroke-width': 3 }));
+  svg.appendChild(el('rect', { x: kx, y: ky, width: b, height: hk, rx: 4, fill: '#E9D3AE', stroke: '#B08A55', 'stroke-width': 3 }));
+  svg.appendChild(t(kx + b / 2 - 18, ky + hk / 2 + 6, sim3.m + ' kg', 14, '#6B4E23', { 'font-weight': 700 }));
+  // Gewichtskraft-Pfeil
+  var lf = 14 + FG3() / 400 * 80;
+  svg.appendChild(el('line', { x1: kx + b + 18, y1: ky + hk / 2, x2: kx + b + 18, y2: ky + hk / 2 + lf, stroke: '#E4572E', 'stroke-width': 5, 'marker-end': 'url(#sim3pR)' }));
+  svg.appendChild(t(kx + b + 28, ky + hk / 2 + lf / 2 + 6, 'F(G) = ' + fmt(FG3()) + ' N', 14, '#E4572E', { 'font-weight': 700 }));
+  if (sim3.zustand === 'gelandet') svg.appendChild(t(200, BODEN - 120, '💥 Aufprall! Die Energie wird zu Wärme, Verformung und Schall.', 14, tf, { 'font-weight': 700 }));
+  // Energie-Balken
+  var EL = FG3() * sim3.y, EB = sim3.zustand === 'faellt' ? FG3() * (sim3.hStart - sim3.y) : 0;
+  svg.appendChild(el('rect', { x: 545, y: 0, width: 275, height: 390, fill: '#fff' }));
+  svg.appendChild(t(560, 26, 'Energie der Kiste', 15, '#34434F', { 'font-weight': 700 }));
+  var bh = 260, by0 = 320;
+  [[575, 'Lage-', 'energie', EL, '#0E7C7B'], [690, 'Bewegungs-', 'energie', EB, '#E4572E']].forEach(function (q) {
+    svg.appendChild(el('rect', { x: q[0], y: by0 - bh, width: 70, height: bh, fill: '#F0F3F5', stroke: '#D5DCE1' }));
+    var hh = Math.min(bh, q[3] / MAXE * bh);
+    svg.appendChild(el('rect', { x: q[0], y: by0 - hh, width: 70, height: hh, fill: q[4] }));
+    svg.appendChild(t(q[0] - 6, by0 + 20, q[1], 13, '#34434F', { 'font-weight': 700 }));
+    svg.appendChild(t(q[0] - 6, by0 + 36, q[2], 13, '#34434F', { 'font-weight': 700 }));
+    svg.appendChild(t(q[0] + 4, by0 - hh - 8, fmt(q[3], 0) + ' J', 13, q[4], { 'font-weight': 700 }));
+  });
+  $('a3F').textContent = fmt(FG3()) + ' N';
+  $('a3h').textContent = fmt(sim3.y, 2) + ' m';
+  $('a3W').textContent = fmt(sim3.zustand === 'faellt' || sim3.zustand === 'gelandet' ? FG3() * (sim3.hStart || 0) : FG3() * sim3.y, 0) + ' J';
+}
+function knoepfe3() {
+  var z = sim3.zustand;
+  $('b3heb').disabled = z === 'hebt' || z === 'faellt' || z === 'oben';
+  $('b3fall').disabled = z !== 'oben';
+  $('b3mess').disabled = !(z === 'oben' && !sim3.gespeichert);
+  ['r3m', 'r3h', 'r3g'].forEach(function (id) { $(id).disabled = z === 'hebt' || z === 'faellt'; });
+}
+function heben3() {
+  sim3.gen++; lies3(); sim3.y = 0; sim3.zustand = 'hebt'; sim3.gespeichert = false; knoepfe3();
+  var dauer = reduziert ? 1 : 450 * sim3.h + 300, t0 = performance.now();
+  (function schritt(jetzt) {
+    var p = Math.min(1, (jetzt - t0) / dauer); sim3.y = sim3.h * p; zeichne3();
+    if (p < 1) takt(sim3, schritt); else { sim3.zustand = 'oben'; sim3.hStart = sim3.h; knoepfe3(); zeichne3(); }
+  })(t0);
+}
+function fallen3() {
+  if (sim3.zustand !== 'oben') return;
+  sim3.gen++; sim3.zustand = 'faellt'; sim3.hStart = sim3.h; knoepfe3();
+  var t0 = performance.now(), tFall = Math.sqrt(2 * sim3.h / sim3.g), zeitlupe = 1.6;
+  (function schritt(jetzt) {
+    var tt = Math.min(tFall, (jetzt - t0) / 1000 / zeitlupe);
+    sim3.y = Math.max(0, sim3.hStart - 0.5 * sim3.g * tt * tt); zeichne3();
+    if (tt < tFall && !reduziert) takt(sim3, schritt); else { sim3.y = 0; sim3.zustand = 'gelandet'; knoepfe3(); zeichne3(); }
+  })(t0);
+}
+function zurueck3() { sim3.gen++; sim3.y = 0; sim3.zustand = 'unten'; sim3.hStart = 0; lies3(); knoepfe3(); zeichne3(); }
+function mess3() {
+  if (sim3.zustand !== 'oben' || sim3.gespeichert) return;
+  if (S.rows3.length >= 12) { alert('Die Tabelle ist voll (12 Zeilen). Lösche zuerst eine Zeile.'); return; }
+  S.rows3.push({ ort: sim3.ort, m: sim3.m, g: sim3.g, h: sim3.h, F: Math.round(FG3() * 100) / 100, W: Math.round(FG3() * sim3.h * 100) / 100 });
+  sim3.gespeichert = true; knoepfe3(); tabelle3(); speichern();
+}
+function tabelle3() {
+  var tb = $('t3').querySelector('tbody');
+  if (!S.rows3.length) { tb.innerHTML = '<tr class="leer"><td colspan="8">Noch keine Messwerte – hebe die Kiste hoch und klicke auf „Messwert speichern“.</td></tr>'; return; }
+  tb.innerHTML = S.rows3.map(function (r, i) { return '<tr><td>' + (i + 1) + '</td><td style="text-align:left">' + r.ort + '</td><td>' + fmt(r.m) + '</td><td>' + fmt(r.g) + '</td><td>' + fmt(r.h) + '</td><td>' + fmt(r.F) + '</td><td><b>' + fmt(r.W) + '</b></td><td><button class="weg" data-weg3="' + i + '" aria-label="Zeile ' + (i + 1) + ' löschen">✕</button></td></tr>'; }).join('');
+}
+
+/* ================= Simulation 4: Aufzug-Rennen ================= */
+var sim4 = { zeit: 0, laeuft: false, raf: 0, gen: 0 }, TA = 36, TB = 12, HOEHE = 9, ZEITRAFFER = 4;
+function zeichne4() {
+  var svg = $('sim4'); svg.innerHTML = ''; pfeilDefs(svg);
+  var BO = 300, PX = 25;
+  svg.appendChild(el('rect', { x: 0, y: 0, width: 820, height: 330, fill: '#EAF3F8' }));
+  svg.appendChild(el('rect', { x: 0, y: BO, width: 820, height: 30, fill: '#9BB07A' }));
+  // Gerüst
+  svg.appendChild(el('rect', { x: 330, y: BO - HOEHE * PX - 8, width: 160, height: 8, fill: '#8A6D3B' }));
+  for (var e = 0; e < 3; e++) svg.appendChild(el('rect', { x: 330, y: BO - (e + 1) * 3 * PX, width: 160, height: 4, fill: '#B9C5CD' }));
+  svg.appendChild(el('rect', { x: 340, y: BO - HOEHE * PX, width: 6, height: HOEHE * PX, fill: '#76838D' }));
+  svg.appendChild(el('rect', { x: 474, y: BO - HOEHE * PX, width: 6, height: HOEHE * PX, fill: '#76838D' }));
+  svg.appendChild(t(358, BO - HOEHE * PX - 16, 'Gerüst: h = 9 m', 14, '#34434F', { 'font-weight': 700 }));
+  [['A', 150, TA, '#2B6CB0'], ['B', 600, TB, '#E4572E']].forEach(function (a) {
+    var x = a[1], tt = Math.min(sim4.zeit, a[2]), hNow = HOEHE * tt / a[2], y = BO - hNow * PX;
+    svg.appendChild(el('rect', { x: x - 48, y: BO - HOEHE * PX - 20, width: 8, height: HOEHE * PX + 20, fill: '#B9C5CD' }));
+    svg.appendChild(el('rect', { x: x + 40, y: BO - HOEHE * PX - 20, width: 8, height: HOEHE * PX + 20, fill: '#B9C5CD' }));
+    svg.appendChild(el('rect', { x: x - 52, y: BO - HOEHE * PX - 34, width: 104, height: 18, rx: 3, fill: a[3] }));
+    svg.appendChild(t(x - 34, BO - HOEHE * PX - 20, 'Aufzug ' + a[0], 13, '#fff', { 'font-weight': 700 }));
+    svg.appendChild(el('line', { x1: x, y1: BO - HOEHE * PX - 16, x2: x, y2: y - 40, stroke: '#34434F', 'stroke-width': 2 }));
+    svg.appendChild(el('rect', { x: x - 40, y: y - 6, width: 80, height: 6, fill: '#34434F' }));
+    for (var r = 0; r < 3; r++) for (var c = 0; c < 4; c++) svg.appendChild(el('rect', { x: x - 34 + c * 17, y: y - 38 + r * 11, width: 16, height: 10, fill: '#C8553D', stroke: '#8E3A28', 'stroke-width': 1 }));
+    // Stoppuhr
+    var fertig = sim4.zeit >= a[2];
+    var ux = a[0] === 'A' ? x - 140 : x + 70;
+    svg.appendChild(el('rect', { x: ux, y: 120, width: 70, height: 50, rx: 10, fill: fertig ? '#2E7D4F' : '#16202A' }));
+    svg.appendChild(t(ux + 8, 140, '⏱ ' + a[0], 12, '#B8C7D1'));
+    svg.appendChild(t(ux + 8, 162, fmt(tt, 1) + ' s', 16, '#fff', { 'font-weight': 700, 'font-family': 'Consolas, monospace' }));
+  });
+  svg.appendChild(t(14, 22, 'Last je Aufzug: m = 120 kg', 14, '#34434F', { 'font-weight': 700 }));
+  svg.appendChild(t(560, 22, 'Zeitraffer: 4-fach', 13, '#76838D'));
+}
+function start4() {
+  if (sim4.laeuft) return;
+  sim4.gen++; sim4.laeuft = true; sim4.zeit = 0; $('b4start').disabled = true;
+  var t0 = performance.now();
+  (function schritt(jetzt) {
+    sim4.zeit = reduziert ? TA : Math.min(TA, (jetzt - t0) / 1000 * ZEITRAFFER); zeichne4();
+    if (sim4.zeit < TA) takt(sim4, schritt); else { sim4.laeuft = false; $('b4start').disabled = false; }
+  })(t0);
+}
+function zurueck4() { sim4.gen++; sim4.laeuft = false; sim4.zeit = 0; $('b4start').disabled = false; zeichne4(); }
+
+/* ================= Übersicht vor der Abgabe ================= */
+function antwortText(k) { var v = S.d[k]; return v && String(v).trim() ? String(v).trim() : ''; }
+function mitEinheit(k) { var v = antwortText(k); if (!v) return ''; var e = S.d[k + 'E'] || (PRUEF[k] && PRUEF[k].einheit === 's' ? 's' : ''); var ok = S.d[k + '.ok']; return v + (e ? ' ' + e : ' (ohne Einheit)') + (ok === 'richtig' ? '   (mit „Prüfen“ als richtig bestätigt)' : ''); }
+function inhalt() {
+  // gemeinsame Datenquelle für Übersicht und PDF
+  var I = [];
+  I.push({ h: 'Station 1 · Arbeit oder keine Arbeit?', teile: [
+    { art: 'situationen' },
+    { l: 'Erklärung zu Situation 3 (Rucksack über den Schulhof tragen)', v: antwortText('s1.begr') },
+    { l: 'Merksatz: In der Physik wird Arbeit verrichtet, wenn …', v: antwortText('s1.merk') }] });
+  I.push({ h: 'Station 2 · Experiment: Kraft und Weg', teile: [
+    { l: 'Forscherfrage', v: 'Wie hängt die Arbeit W von der Kraft F und vom Weg s ab?', fest: true },
+    { l: 'Vermutung: Wenn ich die Kraft verdopple, dann …', v: antwortText('s2.vermF') },
+    { l: 'Vermutung: Wenn ich den Weg verdopple, dann …', v: antwortText('s2.vermS') },
+    { art: 'tab2' },
+    { l: 'Beobachtung', v: antwortText('s2.beob') },
+    { l: 'Auftrag 2b: Kraft senkrecht nach oben (Kiste wird getragen)', v: antwortText('s2.senk') },
+    { l: 'Berechnung Schlitten (F = 250 N, s = 12 m): Rechnung', v: antwortText('s2.rechweg') },
+    { l: 'Ergebnis', v: mitEinheit('s2.rechW') ? 'W = ' + mitEinheit('s2.rechW') : '' },
+    { l: 'Merksatz', v: antwortText('s2.merk') }] });
+  I.push({ h: 'Station 3 · Experiment: Hubarbeit und Lageenergie', teile: [
+    { l: 'Vermutung: Bei doppelter Masse wird die Hubarbeit …', v: antwortText('s3.vermM') },
+    { l: 'Vermutung: Bei doppelter Höhe wird die Hubarbeit …', v: antwortText('s3.vermH') },
+    { l: 'Vermutung: Auf dem Mond ist die Hubarbeit …', v: antwortText('s3.vermG') },
+    { art: 'tab3' },
+    { l: 'Beobachtung', v: antwortText('s3.beob') },
+    { l: 'Erklärung: Wo steckt die Hubarbeit? Was passiert beim Fallen?', v: antwortText('s3.wo') },
+    { l: 'Berechnung Baukran (m = 300 kg, h = 12 m, g = 10 N/kg): Gewichtskraft', v: mitEinheit('s3.rechF') ? 'F(G) = ' + mitEinheit('s3.rechF') : '' },
+    { l: 'Berechnung Baukran: Hubarbeit', v: mitEinheit('s3.rechW') ? 'W = ' + mitEinheit('s3.rechW') : '' },
+    { l: 'Merksatz', v: antwortText('s3.merk') },
+    { l: 'Zusatzaufgabe ★★★: Rampe statt Kran', v: antwortText('z1'), frei: true }] });
+  I.push({ h: 'Station 4 · Leistung: Welcher Aufzug ist stärker?', teile: [
+    { l: 'Aufgabe', v: 'Zwei Bauaufzüge heben je 120 kg auf 9 m Höhe.', fest: true },
+    { l: 'Vermutung: Die beiden Aufzüge …', v: antwortText('s4.verm') },
+    { l: 'Gemessene Zeiten', v: (antwortText('s4.tA') || antwortText('s4.tB')) ? 'Aufzug A: t = ' + (mitEinheit('s4.tA') || '–') + '\nAufzug B: t = ' + (mitEinheit('s4.tB') || '–') : '' },
+    { l: 'Arbeit', v: (antwortText('s4.WA') || antwortText('s4.WB')) ? 'Aufzug A: W = ' + (mitEinheit('s4.WA') || '–') + '\nAufzug B: W = ' + (mitEinheit('s4.WB') || '–') : '' },
+    { l: 'Leistung (P = W : t)', v: (antwortText('s4.PA') || antwortText('s4.PB')) ? 'Aufzug A: P = ' + (mitEinheit('s4.PA') || '–') + '\nAufzug B: P = ' + (mitEinheit('s4.PB') || '–') : '' },
+    { l: 'Antwortsatz', v: antwortText('s4.antw') },
+    { l: 'Zusatzaufgabe ★★★: Wie viel Watt hast du?', v: antwortText('z2'), frei: true }] });
+  var ich = ICH.map(function (t, i) { return t + ' – ' + (S.d['s5.ich' + i] || 'nicht angekreuzt'); }).join('\n');
+  I.push({ h: 'Station 5 · Ergebnissicherung', teile: [
+    { l: '1. Was bedeutet mechanische Arbeit in der Physik?', v: antwortText('s5.q1') },
+    { l: '2. Wovon hängt die Hubarbeit ab – und wo steckt sie, wenn der Körper oben ist?', v: antwortText('s5.q2') },
+    { l: '3. Was unterscheidet Arbeit und Leistung?', v: antwortText('s5.q3') },
+    { l: 'Selbsteinschätzung', v: ich, fest: true },
+    { l: 'Das ist für mich noch unklar', v: antwortText('s5.unklar'), frei: true }] });
+  return I;
+}
+function situationenText() {
+  return SIT.map(function (s, i) {
+    var w = S.d['s1.' + (i + 1)], txt = (i + 1) + '. ' + s.t + ' → ' + (w === 'ja' ? 'Arbeit' : w === 'nein' ? 'keine Arbeit' : '–');
+    if (S.d['s1.ausgewertet'] && w) txt += ((w === 'ja') === s.ja ? '  (richtig)' : '  (falsch)');
+    return txt;
+  }).join('\n') + (S.d['s1.ausgewertet'] ? '\nErgebnis der Auswertung: ' + S.d['s1.punkte'] + ' von 6 richtig' : '\nNoch nicht ausgewertet.');
+}
+function baueUebersicht() {
+  var f = fehlend(), box = $('fehlBox');
+  if (f.length) {
+    var gruppen = {};
+    f.forEach(function (p) { (gruppen[p[0]] = gruppen[p[0]] || []).push(p[2]); });
+    box.innerHTML = '<div class="warnung karte"><b>Fast geschafft!</b> Es fehlen noch ' + f.length + ' Pflicht-Einträge. Du kannst sie jetzt ergänzen – oder deinen bisherigen Stand trotzdem herunterladen.<ul>' +
+      Object.keys(gruppen).map(function (g) { return '<li><a href="#" data-geh="' + g + '">' + (g === '0' ? 'Start' : 'Station ' + g) + '</a>: ' + gruppen[g].join(', ') + '</li>'; }).join('') + '</ul></div>';
+  } else box.innerHTML = '<div class="info karte"><b>Super – alle Pflichtaufgaben sind bearbeitet!</b> Lies deine Antworten unten noch einmal durch.</div>';
+  var h = '<h2>Vorschau: Das steht in deinem Protokoll</h2><p><b>' + esc(nameText()) + '</b> · Klasse ' + esc(S.d.klasse || '10e') + ' · ' + datumText() + '</p>';
+  inhalt().forEach(function (st) {
+    h += '<h3>' + esc(st.h) + '</h3><dl>';
+    st.teile.forEach(function (p) {
+      if (p.art === 'situationen') { h += '<dt>Entscheidungen</dt><dd>' + esc(situationenText()) + '</dd>'; return; }
+      if (p.art === 'tab2') { h += '<dt>Messtabelle Kraft und Weg</dt><dd>' + (S.rows2.length ? $('t2').outerHTML.replace(/<button[^>]*>.*?<\/button>/g, '') : '<span class="fehlt">keine Messwerte</span>') + '</dd>'; return; }
+      if (p.art === 'tab3') { h += '<dt>Messtabelle Hubarbeit</dt><dd>' + (S.rows3.length ? $('t3').outerHTML.replace(/<button[^>]*>.*?<\/button>/g, '') : '<span class="fehlt">keine Messwerte</span>') + '</dd>'; return; }
+      if (p.frei && !p.v) return;
+      h += '<dt>' + esc(p.l) + '</dt>' + (p.v ? '<dd>' + esc(p.v) + '</dd>' : '<dd class="fehlt">noch nicht bearbeitet</dd>');
+    });
+    h += '</dl>';
+  });
+  $('uebersicht').innerHTML = h.replace(/id="t[23]"/g, '');
+  $('dateiname').textContent = 'Dateiname: ' + dateiname();
+}
+function nameText() { return ((S.d.vorname || '').trim() + ' ' + (S.d.nachname || '').trim()).trim() || 'ohne Namen'; }
+function heute() { var d = new Date(); return { iso: d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2), de: d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) }; }
+function datumText() { return heute().de; }
+function sauber(s) { return (s || '').trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9-]+/g, '-').replace(/^-+|-+$/g, ''); }
+function dateiname() { return 'Physik_' + (sauber(S.d.klasse) || '10e') + '_' + (sauber(S.d.nachname) || 'Nachname') + '_' + (sauber(S.d.vorname) || 'Vorname') + '_' + heute().iso + '.pdf'; }
+
+/* ================= PDF-Bauer (A4, Helvetica, WinAnsi – läuft komplett im Browser) ================= */
+/* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
+var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
+var BR_B=[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556];
+var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, '™': 153 };
+var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': ' ', '\u00a0': ' ', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta' };
+function normPdf(s) {
+  s = String(s).replace(/\r\n?/g, '\n').normalize('NFC');
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s[i], c = ch.charCodeAt(0);
+    if (ERSATZ[ch] != null) { o += ERSATZ[ch]; continue; }
+    if (c >= 0xD800 && c <= 0xDBFF) { i++; continue; }          // Emoji u. Ä. weglassen
+    if (c > 255 && !WIN[ch]) { if (c >= 0xFE00 && c <= 0xFE0F) continue; o += '?'; continue; }
+    o += ch;
+  }
+  return o;
+}
+function code(ch) { var c = ch.charCodeAt(0); return WIN[ch] || (c < 256 ? c : 63); }
+function bTxt(s, gr, fett) { var w = 0, tab = fett ? BR_B : BR_N; for (var i = 0; i < s.length; i++) { var c = code(s[i]); w += (c >= 32 ? (tab[c - 32] || 556) : 0); } return w * gr / 1000; }
+function pdfStr(s) {
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = code(s[i]);
+    if (c === 40 || c === 41 || c === 92) o += '\\' + String.fromCharCode(c);
+    else if (c < 32 || c > 126) o += '\\' + ('00' + c.toString(8)).slice(-3);
+    else o += String.fromCharCode(c);
+  }
+  return '(' + o + ')';
+}
+function umbruch(s, gr, fett, max) {
+  var zeilen = [];
+  normPdf(s).split('\n').forEach(function (abs) {
+    if (!abs.trim()) { zeilen.push(''); return; }
+    var akt = '';
+    abs.split(/ +/).forEach(function (wort) {
+      // überlange Wörter (z. B. ohne Leerzeichen) hart trennen
+      while (bTxt(wort, gr, fett) > max) {
+        var n = wort.length; while (n > 1 && bTxt(wort.slice(0, n) + '-', gr, fett) > max) n--;
+        if (akt) { zeilen.push(akt); akt = ''; }
+        zeilen.push(wort.slice(0, n) + '-'); wort = wort.slice(n);
+      }
+      var test = akt ? akt + ' ' + wort : wort;
+      if (bTxt(test, gr, fett) > max && akt) { zeilen.push(akt); akt = wort; } else akt = test;
+    });
+    zeilen.push(akt);
+  });
+  return zeilen;
+}
+function hex(h) { return [parseInt(h.substr(1, 2), 16) / 255, parseInt(h.substr(3, 2), 16) / 255, parseInt(h.substr(5, 2), 16) / 255].map(function (v) { return v.toFixed(3); }).join(' '); }
+
+function bauePdf() {
+  var A4W = 595.28, A4H = 841.89, RL = 56, RR = 56, OBEN = 60, UNTEN = 64, BREIT = A4W - RL - RR;
+  var seiten = [], cmd = null, y = 0, name = normPdf(nameText()), klasse = normPdf(S.d.klasse || '10e'), dat = heute().de;
+  function neueSeite() {
+    cmd = []; seiten.push(cmd); y = A4H - OBEN;
+    if (seiten.length > 1) {
+      text(RL, A4H - 34, 'Versuchsprotokoll Physik ' + klasse + ' · ' + name, 8.5, false, '#76838D');
+      cmd.push(hex('#D5DCE1') + ' RG 0.6 w ' + RL + ' ' + (A4H - 42) + ' m ' + (A4W - RR) + ' ' + (A4H - 42) + ' l S');
+    }
+  }
+  function text(x, yy, s, gr, fett, farbe, schraeg) { cmd.push('BT ' + hex(farbe || '#16202A') + ' rg /' + (schraeg ? 'F3' : fett ? 'F2' : 'F1') + ' ' + gr + ' Tf ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' Td ' + pdfStr(normPdf(s)) + ' Tj ET'); }
+  function rechteck(x, yy, w, h, farbe) { cmd.push(hex(farbe) + ' rg ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f'); }
+  function rahmen(x, yy, w, h, farbe, lw) { cmd.push(hex(farbe) + ' RG ' + (lw || 0.6) + ' w ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re S'); }
+  function platz(h) { if (y - h < UNTEN) neueSeite(); }
+  function absatz(s, gr, fett, farbe, einzug, schraeg, abstand) {
+    var lh = gr * 1.38, zeilen = umbruch(s, gr, fett, BREIT - (einzug || 0));
+    zeilen.forEach(function (z) { platz(lh); y -= lh; if (z) text(RL + (einzug || 0), y + gr * 0.28, z, gr, fett, farbe, schraeg); });
+    y -= (abstand == null ? 4 : abstand);
+  }
+  function tabelle(kopf, zeilen, breiten) {
+    var gr = 9, lh = 16, summe = breiten.reduce(function (a, b) { return a + b; }, 0), fakt = BREIT / summe;
+    var ws = breiten.map(function (b) { return b * fakt; });
+    function zeile(werte, istKopf, nr) {
+      platz(lh); y -= lh;
+      if (istKopf) rechteck(RL, y, BREIT, lh, '#34434F'); else if (nr % 2) rechteck(RL, y, BREIT, lh, '#F3F6F8');
+      var x = RL;
+      werte.forEach(function (w, i) {
+        var s = normPdf(String(w)), b = bTxt(s, gr, istKopf);
+        text(i === 0 ? x + (ws[i] - b) / 2 : x + ws[i] - b - 6, y + 5, s, gr, istKopf, istKopf ? '#FFFFFF' : '#16202A');
+        x += ws[i];
+      });
+      rahmen(RL, y, BREIT, lh, '#D5DCE1', 0.5);
+    }
+    zeile(kopf, true, 0);
+    zeilen.forEach(function (z, i) { if (y - lh < UNTEN) { neueSeite(); zeile(kopf, true, 0); } zeile(z, false, i); });
+    y -= 6;
+  }
+
+  neueSeite();
+  // Kopf
+  rechteck(0, A4H - 118, A4W, 118, '#34434F');
+  rechteck(0, A4H - 122, A4W, 4, '#E4572E');
+  text(RL, A4H - 44, 'VERSUCHSPROTOKOLL · PHYSIK-LABOR', 10, true, '#FFB59E');
+  text(RL, A4H - 74, 'Arbeit, Energie und Leistung', 24, true, '#FFFFFF');
+  text(RL, A4H - 98, 'Digitale Doppelstunde im Computerraum', 11, false, '#DCE4EA');
+  y = A4H - 150;
+  var info = [['Name', name], ['Klasse', klasse], ['Datum', dat], ['Thema', 'Mechanische Arbeit, Hubarbeit und Lageenergie, Leistung']];
+  info.forEach(function (p, i) {
+    var yy = y - i * 20;
+    text(RL, yy, p[0] + ':', 10.5, true, '#5E6B75');
+    text(RL + 70, yy, p[1], 10.5, i === 0, '#16202A');
+  });
+  y -= info.length * 20 + 4;
+  var f = fehlend();
+  if (f.length) { rechteck(RL, y - 26, BREIT, 24, '#FFF4D6'); text(RL + 8, y - 18, 'Hinweis: Beim Herunterladen fehlten noch ' + f.length + ' Pflicht-Einträge (Zwischenstand).', 9.5, false, '#7A5A00'); y -= 36; }
+  else y -= 8;
+
+  inhalt().forEach(function (st) {
+    platz(70);
+    y -= 10; rechteck(RL, y - 24, BREIT, 24, '#0E7C7B'); text(RL + 10, y - 16.5, st.h, 12.5, true, '#FFFFFF'); y -= 34;
+    st.teile.forEach(function (p) {
+      if (p.art === 'situationen') { absatz('Entscheidungen', 9.5, true, '#5E6B75', 0, false, 1); absatz(situationenText(), 10.5, false, '#16202A', 0, false, 8); return; }
+      if (p.art === 'tab2') {
+        absatz('Messtabelle Kraft und Weg', 9.5, true, '#5E6B75', 0, false, 2);
+        if (!S.rows2.length) { absatz('keine Messwerte gespeichert', 10.5, false, '#B3261E', 0, true, 8); return; }
+        platz(60);
+        tabelle(['Nr.', 'Richtung der Kraft', 'Kraft F in N', 'Weg s in m', 'Arbeit W in J'], S.rows2.map(function (r, i) { return [i + 1, r.R === 'w' ? 'in Wegrichtung' : 'senkrecht (getragen)', fmt(r.F), fmt(r.s), fmt(r.W)]; }), [0.6, 2.2, 1.4, 1.4, 1.5]);
+        return;
+      }
+      if (p.art === 'tab3') {
+        absatz('Messtabelle Hubarbeit', 9.5, true, '#5E6B75', 0, false, 2);
+        if (!S.rows3.length) { absatz('keine Messwerte gespeichert', 10.5, false, '#B3261E', 0, true, 8); return; }
+        platz(60);
+        tabelle(['Nr.', 'Ort', 'm in kg', 'g in N/kg', 'h in m', 'F(G) in N', 'W in J'], S.rows3.map(function (r, i) { return [i + 1, r.ort, fmt(r.m), fmt(r.g), fmt(r.h), fmt(r.F), fmt(r.W)]; }), [0.6, 1.1, 1, 1.1, 1, 1.2, 1.3]);
+        return;
+      }
+      if (p.frei && !p.v) return;
+      platz(34);
+      absatz(p.l, 9.5, true, '#5E6B75', 0, false, 1);
+      if (p.v) absatz(p.v, 10.5, false, '#16202A', 0, false, 8);
+      else absatz('noch nicht bearbeitet', 10.5, false, '#B3261E', 0, true, 8);
+    });
+  });
+  platz(40); y -= 14;
+  text(RL, y, 'Erstellt im Physik-Labor 10e (digitale Lernumgebung) am ' + dat + '.', 8.5, false, '#76838D', true);
+
+  // Fußzeilen mit „Seite x von y“
+  seiten.forEach(function (c, i) {
+    cmd = c;
+    cmd.push(hex('#D5DCE1') + ' RG 0.6 w ' + RL + ' 44 m ' + (A4W - RR) + ' 44 l S');
+    text(RL, 30, 'Physik ' + klasse + ' · ' + name + ' · ' + dat, 8.5, false, '#76838D');
+    var sx = 'Seite ' + (i + 1) + ' von ' + seiten.length; text(A4W - RR - bTxt(sx, 8.5, false), 30, sx, 8.5, false, '#76838D');
+  });
+
+  // Datei zusammensetzen
+  var objekte = [], teile = [], pos = 0, offs = [];
+  function obj(s) { objekte.push(s); return objekte.length; }
+  obj('<< /Type /Catalog /Pages 2 0 R >>'); obj('PAGES');
+  var f1 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var f2 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  var f3 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+  var kids = [];
+  seiten.forEach(function (c) {
+    var strom = c.join('\n');
+    var inh = obj({ dict: '<< /Length ' + strom.length + ' >>', stream: strom });
+    kids.push(obj('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + A4W + ' ' + A4H + '] /Resources << /Font << /F1 ' + f1 + ' 0 R /F2 ' + f2 + ' 0 R /F3 ' + f3 + ' 0 R >> >> /Contents ' + inh + ' 0 R >>'));
+  });
+  objekte[1] = '<< /Type /Pages /Kids [' + kids.map(function (k) { return k + ' 0 R'; }).join(' ') + '] /Count ' + kids.length + ' >>';
+  var info2 = obj('<< /Title ' + pdfStr('Versuchsprotokoll Physik ' + klasse + ' - ' + name) + ' /Producer (Physik-Labor 10e) >>');
+  function add(s) { var b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255; teile.push(b); pos += b.length; }
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  objekte.forEach(function (o, i) {
+    offs.push(pos); add((i + 1) + ' 0 obj\n');
+    if (o.stream != null) add(o.dict + '\nstream\n' + o.stream + '\nendstream'); else add(o);
+    add('\nendobj\n');
+  });
+  var xref = pos, n = objekte.length + 1, x = 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+  offs.forEach(function (o) { x += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+  add(x + 'trailer\n<< /Size ' + n + ' /Root 1 0 R /Info ' + info2 + ' 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return { blob: new Blob(teile, { type: 'application/pdf' }), seiten: seiten.length };
+}
+var letzteUrl = null;
+function pdfLaden() {
+  var f = fehlend();
+  if (f.length && !confirm('Es fehlen noch ' + f.length + ' Pflicht-Einträge.\n\nTrotzdem den bisherigen Stand als PDF herunterladen?')) return;
+  try {
+    var r = bauePdf(), name = dateiname();
+    if (letzteUrl) URL.revokeObjectURL(letzteUrl);
+    letzteUrl = URL.createObjectURL(r.blob);
+    var a = document.createElement('a'); a.href = letzteUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    S.exportiert = true; speichern();
+    $('erfolg').classList.remove('zeigen'); void $('erfolg').offsetWidth; $('erfolg').classList.add('zeigen');
+    $('pdfAlt').style.display = 'block';
+    $('pdfAlt').innerHTML = 'Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a> und dort speichern. (' + r.seiten + ' Seiten)';
+    $('erfolg').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch (e) { alert('Die PDF konnte nicht erstellt werden: ' + e.message + '\nBitte melde dich bei deiner Lehrkraft.'); }
+}
+
+/* ================= Start ================= */
+function init() {
+  baueSituationen(); baueIchKann(); baueNav(); binde();
+  ['r2F', 'r2s', 'r2R'].forEach(function (id) { $(id).addEventListener('input', function () { if (!sim2.laeuft) { lies2(); sim2.x = 0; sim2.fertig = false; $('b2mess').disabled = true; zeichne2(); } }); });
+  $('b2start').addEventListener('click', start2); $('b2zur').addEventListener('click', zurueck2); $('b2mess').addEventListener('click', mess2);
+  ['r3m', 'r3h', 'r3g'].forEach(function (id) { $(id).addEventListener('input', function () { lies3(); if (sim3.zustand !== 'hebt' && sim3.zustand !== 'faellt') { sim3.y = 0; sim3.zustand = 'unten'; knoepfe3(); } zeichne3(); }); });
+  $('b3heb').addEventListener('click', heben3); $('b3fall').addEventListener('click', fallen3); $('b3zur').addEventListener('click', zurueck3); $('b3mess').addEventListener('click', mess3);
+  $('b4start').addEventListener('click', start4); $('b4zur').addEventListener('click', zurueck4);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-weg2]'); if (a) { S.rows2.splice(Number(a.dataset.weg2), 1); tabelle2(); speichern(); }
+    var b = e.target.closest('[data-weg3]'); if (b) { S.rows3.splice(Number(b.dataset.weg3), 1); tabelle3(); speichern(); }
+    if (e.target.closest('a[data-geh]')) e.preventDefault();
+  });
+  $('s1auswerten').addEventListener('click', function () { s1Auswerten(false); });
+  if (S.d['s1.ausgewertet']) s1Auswerten(true);
+  $('starten').addEventListener('click', function () {
+    if (!(S.d.vorname || '').trim() || !(S.d.nachname || '').trim()) { alert('Bitte trage deinen Vor- und Nachnamen ein – er steht später auf deinem Protokoll.'); (S.d.vorname ? $('nachname') : $('vorname')).focus(); return; }
+    geh(1);
+  });
+  $('pdfKnopf').addEventListener('click', pdfLaden);
+  $('loeschen').addEventListener('click', function () {
+    if (!confirm('Hast du deine PDF bei IServ hochgeladen?\n\nAlle Eingaben werden von diesem Computer gelöscht.')) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    clearTimeout(speicherTimer); S = neuerZustand(); location.reload();
+  });
+  var schub = $('formeln');
+  function schublade(auf) { schub.classList.toggle('offen', auf); schub.setAttribute('aria-hidden', !auf); $('formelAuf').setAttribute('aria-expanded', auf); if (auf) $('formelZu').focus(); }
+  $('formelAuf').addEventListener('click', function () { schublade(!schub.classList.contains('offen')); });
+  $('formelZu').addEventListener('click', function () { schublade(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') schublade(false); });
+  window.addEventListener('beforeunload', function (e) { if ((S.d.vorname || S.rows2.length) && !S.exportiert) { e.preventDefault(); e.returnValue = ''; } });
+  lies2(); lies3(); tabelle2(); tabelle3(); knoepfe3(); zeichne2(); zeichne3(); zeichne4();
+  if (warAlt) {
+    $('fortsetzenBox').style.display = 'block';
+    $('fortsetzenBox').innerHTML = 'Auf diesem Computer ist noch ein Arbeitsstand von <b>' + esc(nameText()) + '</b> gespeichert. Bist du das? Dann klicke auf „Labor starten“. Sonst: <button class="knopf dunkel" id="neuBeginnen">Neu beginnen (alten Stand löschen)</button>';
+    $('neuBeginnen').addEventListener('click', function () { clearTimeout(speicherTimer); try { localStorage.removeItem(KEY); } catch (e) {} S = neuerZustand(); location.reload(); });
+  }
+  aktualisiereFortschritt();
+  geh(0);
+}
+init();
+</script>
+</body>
+</html>
