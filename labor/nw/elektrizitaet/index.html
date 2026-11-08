@@ -1,0 +1,2140 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NW-Labor 6a – Elektrizität</title>
+<style>
+:root{--dark:#34434F;--teal:#0E7C7B;--teal-l:#E2F2F1;--or:#E4572E;--or-l:#FCE6DE;--light:#F0F3F5;--line:#D5DCE1;--text:#16202A;--grey:#5E6B75;--ok:#2E7D4F;--ok-l:#E3F1EA;--bad:#B3261E;--bad-l:#FBE4E0;--r:14px}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--text);background:var(--light);line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.kopf{background:var(--dark);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px}
+.kopf-in{max-width:1180px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:.02em;white-space:nowrap}
+.logo span{color:#7FD3CF}
+.nav{display:flex;gap:.35rem;flex-wrap:wrap;flex:1}
+.nav button{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:.25rem .7rem;font-size:.8rem;cursor:pointer}
+.nav button[aria-current="step"]{background:#fff;color:var(--dark);font-weight:700}
+.nav button.fertig::after{content:" ✓";color:#7FD3CF;font-weight:700}
+.nav button[aria-current="step"].fertig::after{color:var(--teal)}
+.formelknopf{background:var(--or);border:0;color:#fff;border-radius:999px;padding:.3rem .9rem;font-weight:700;cursor:pointer;font-size:.85rem}
+.fortschritt{height:6px;background:rgba(255,255,255,.15)}
+.fortschritt div{height:100%;background:linear-gradient(90deg,#7FD3CF,var(--or));width:0;transition:width .4s}
+main{max-width:1180px;margin:0 auto;padding:1.2rem 1rem 4rem}
+.seite{display:none;animation:rein .35s ease}
+.seite.aktiv{display:block}
+@keyframes rein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.karte{background:#fff;border-radius:var(--r);padding:1.2rem 1.4rem;margin:0 0 1rem;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--line)}
+.stationskopf{display:flex;gap:1rem;align-items:center;margin:.2rem 0 1rem}
+.stationskopf .nr{width:3.2rem;height:3.2rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.4rem;flex:none}
+.stationskopf h1{margin:0;font-size:1.65rem;line-height:1.2}
+.stationskopf .zeit{color:var(--grey);font-size:.9rem}
+h2{font-size:1.2rem;margin:0 0 .6rem;color:var(--dark)}
+h3{font-size:1.02rem;margin:1rem 0 .4rem}
+.schritt{display:inline-block;background:var(--dark);color:#fff;border-radius:6px;padding:.05rem .5rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;margin-right:.4rem;vertical-align:2px}
+.schritt.v{background:#7A5AA6}.schritt.e{background:var(--teal)}.schritt.b{background:#2B6CB0}.schritt.r{background:var(--or)}.schritt.m{background:var(--ok)}
+.auftrag{background:var(--or-l);border-left:5px solid var(--or);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0}
+.auftrag b:first-child{color:var(--or)}
+.info{background:var(--teal-l);border-left:5px solid var(--teal);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0}
+.formel{font-family:"Cambria Math","Times New Roman",serif;font-size:1.25rem;background:#fff;border:2px solid var(--teal);border-radius:10px;padding:.3rem .9rem;display:inline-block;margin:.2rem 0}
+.formel i,.gr{font-style:italic;font-family:"Cambria Math","Times New Roman",serif}
+details.hilfe{background:#FFF8E6;border:1px solid #F1D79A;border-radius:10px;margin:.5rem 0;padding:.1rem .9rem}
+details.hilfe summary{cursor:pointer;font-weight:700;color:#8A5A00;padding:.35rem 0}
+details.zusatz{background:#F3EEFA;border:1px solid #D7C9EC;border-radius:10px;margin:.8rem 0;padding:.1rem .9rem}
+details.zusatz summary{cursor:pointer;font-weight:700;color:#5B3E8A;padding:.45rem 0}
+label.feld{display:block;font-weight:600;margin:.8rem 0 .3rem}
+.pflicht::after{content:" *";color:var(--or)}
+textarea{width:100%;min-height:6.5rem;border:2px solid var(--line);border-radius:10px;padding:.6rem .8rem;resize:vertical;background:#FCFDFD;line-height:1.45}
+textarea:focus,input:focus,select:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(14,124,123,.18)}
+input[type=text],input[type=number],select{border:2px solid var(--line);border-radius:10px;padding:.45rem .6rem;background:#FCFDFD}
+input.zahl{width:8.5rem;text-align:right}
+.zeile{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.35rem 0}
+.zeile .gr{min-width:2.2rem;font-size:1.15rem}
+.satzhilfe{color:var(--grey);font-size:.85rem;margin:.2rem 0 0}
+.knopf{border:0;border-radius:10px;padding:.6rem 1.1rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;transition:transform .1s,filter .2s}
+.knopf:hover{filter:brightness(1.08)}.knopf:active{transform:scale(.97)}
+.knopf.or{background:var(--or)}.knopf.grau{background:#E3E8EC;color:var(--text)}.knopf.dunkel{background:var(--dark)}
+.knopf:disabled{opacity:.45;cursor:not-allowed}
+.knopf.gross{font-size:1.15rem;padding:.85rem 1.6rem}
+.weiter{display:flex;justify-content:space-between;gap:1rem;margin:1.4rem 0 0;flex-wrap:wrap}
+.rueck{font-size:.9rem;margin:.3rem 0 0;padding:.4rem .7rem;border-radius:8px;display:none}
+.rueck.ok{display:block;background:var(--ok-l);color:var(--ok)}
+.rueck.no{display:block;background:var(--bad-l);color:var(--bad)}
+.zwei{display:grid;grid-template-columns:1.6fr 1fr;gap:1rem}
+@media (max-width:900px){.zwei{grid-template-columns:1fr}}
+/* Simulationen */
+.labor{background:linear-gradient(#FBFCFD,#EEF3F5);border:2px solid var(--line);border-radius:var(--r);padding:.8rem;position:relative}
+.labor svg{width:100%;height:auto;display:block}
+.regler{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem 1.2rem;margin:.7rem 0}
+.regler label{font-weight:600;display:flex;justify-content:space-between;gap:.5rem}
+.regler output{font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--teal);height:1.6rem}
+.anzeige{display:flex;gap:.6rem;flex-wrap:wrap;margin:.5rem 0}
+.anzeige div{background:var(--dark);color:#fff;border-radius:10px;padding:.35rem .8rem;min-width:9rem}
+.anzeige small{display:block;color:#B8C7D1;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+.anzeige b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+.anzeige div.w{background:var(--teal)}
+.knoepfe{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}
+table.mess{border-collapse:collapse;width:100%;margin:.5rem 0;font-variant-numeric:tabular-nums}
+table.mess th,table.mess td{border:1px solid var(--line);padding:.35rem .55rem;text-align:right}
+table.mess th{background:var(--dark);color:#fff;font-weight:600;text-align:center}
+table.mess td:first-child,table.mess th:first-child{text-align:center}
+table.mess tr:nth-child(even) td{background:#F7F9FA}
+table.mess .leer td{color:var(--grey);text-align:center;font-style:italic}
+.weg{background:none;border:0;color:var(--bad);cursor:pointer;font-size:1rem}
+/* Station 1 */
+.situationen{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:.8rem}
+.sit{border:2px solid var(--line);border-radius:12px;padding:.8rem;background:#fff}
+.sit .ico{font-size:2rem;line-height:1}
+.sit p{margin:.3rem 0 .5rem}
+.sit .wahl{display:flex;gap:.5rem}
+.sit .wahl label{flex:1;border:2px solid var(--line);border-radius:8px;padding:.3rem;text-align:center;cursor:pointer;font-weight:700}
+.sit .wahl input{position:absolute;opacity:0}
+.sit .wahl label:has(input:checked){background:var(--dark);color:#fff;border-color:var(--dark)}
+.sit .wahl label:has(input:focus-visible){outline:3px solid var(--or)}
+.sit.richtig{border-color:var(--ok);background:var(--ok-l)}
+.sit.falsch{border-color:var(--bad);background:var(--bad-l)}
+.sit .erkl{display:none;font-size:.9rem;margin-top:.5rem}
+.sit.richtig .erkl,.sit.falsch .erkl{display:block}
+.auswahl{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0}
+.auswahl label{border:2px solid var(--line);border-radius:8px;padding:.3rem .7rem;cursor:pointer;background:#fff}
+.auswahl input{margin-right:.35rem;accent-color:var(--teal)}
+.auswahl label:has(input:checked){border-color:var(--teal);background:var(--teal-l);font-weight:600}
+/* Start */
+.held{background:var(--dark);color:#fff;border-radius:20px;padding:2rem;position:relative;overflow:hidden;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:26px 26px}
+.held h1{font-size:2.2rem;margin:.2rem 0 .4rem;line-height:1.15}
+.held .ober{color:#FFB59E;font-weight:800;letter-spacing:.08em;font-size:.85rem}
+.held p{color:#DCE4EA;max-width:40rem}
+.held svg{position:absolute;right:1.5rem;bottom:1rem;width:220px;opacity:.95}
+@media (max-width:800px){.held svg{display:none}}
+.ziele{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem;margin:.6rem 0}
+.ziele div{background:var(--light);border-radius:10px;padding:.7rem .9rem;border-left:5px solid var(--teal)}
+.ziele b{display:block}
+.stationsliste{list-style:none;padding:0;margin:.4rem 0;display:grid;gap:.35rem}
+.stationsliste li{display:flex;gap:.7rem;align-items:center}
+.stationsliste .n{width:1.8rem;height:1.8rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
+.stationsliste .min{margin-left:auto;color:var(--grey);font-size:.85rem;white-space:nowrap}
+/* Formel-Schublade */
+.schublade{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:#fff;z-index:50;box-shadow:-6px 0 24px rgba(0,0,0,.2);transform:translateX(105%);transition:transform .3s,visibility .3s;overflow:auto;padding:1.2rem}
+.schublade{visibility:hidden}.schublade.offen{transform:none;visibility:visible}
+html,body{overflow-x:clip}
+@media (max-width:600px){table.mess{display:block;overflow-x:auto}.held{padding:1.3rem}.held h1{font-size:1.7rem}}
+.schublade table{border-collapse:collapse;width:100%;font-size:.92rem}
+.schublade td{border-bottom:1px solid var(--line);padding:.4rem .3rem;vertical-align:top}
+/* Abgabe */
+.uebersicht h3{border-bottom:2px solid var(--teal);padding-bottom:.2rem;margin-top:1.3rem}
+.uebersicht dl{margin:0}
+.uebersicht dt{font-weight:700;font-size:.85rem;color:var(--grey);margin-top:.6rem}
+.uebersicht dd{margin:0;white-space:pre-wrap}
+.uebersicht dd.fehlt{color:var(--bad);font-style:italic}
+.warnung{background:#FFF4D6;border:2px solid #E9B949;border-radius:12px;padding:.8rem 1rem}
+.erfolg{background:var(--ok-l);border:3px solid var(--ok);border-radius:16px;padding:1.2rem 1.4rem;font-size:1.25rem;font-weight:800;color:var(--ok);text-align:center;display:none}
+.erfolg.zeigen{display:block;animation:puls 1.6s ease 2}
+@keyframes puls{50%{transform:scale(1.02)}}
+.erfolg small{display:block;font-size:.9rem;font-weight:400;color:var(--text);margin-top:.4rem}
+.hinweis-js{background:#FFF4D6;padding:1rem;text-align:center;font-weight:700}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.kopf,.weiter,.knopf{display:none}}
+
+/* ===== Ergänzungen v2 (Lernabschnitte, Aufgabenkarten, neue Simulationen) ===== */
+.kopf-in{gap:.7rem}
+.nav{align-items:center;gap:.45rem}
+.nav>button{padding:.3rem .75rem}
+.abgr{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:.2rem .45rem .3rem;min-width:9.5rem}
+.abkopf{display:flex;justify-content:space-between;gap:.5rem;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:#B8C7D1;font-weight:700}
+.abproz{color:#7FD3CF}
+.abbtns{display:flex;gap:.25rem;margin:.15rem 0}
+.abbtns button{width:1.9rem;height:1.9rem;padding:0;border-radius:50%;font-weight:700;font-size:.85rem}
+.nav button.teil{border-color:#FFB59E}
+.nav .abbtns button.fertig::after{content:""}
+.nav .abbtns button.fertig{background:#7FD3CF;color:var(--dark);border-color:#7FD3CF}
+.nav .abbtns button[aria-current="step"]{background:#fff;color:var(--dark);box-shadow:0 0 0 3px var(--or)}
+.abbar{height:4px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.abbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7FD3CF,var(--or));transition:width .4s}
+.kopfknoepfe{display:flex;gap:.4rem}
+.zwknopf{background:#fff;color:var(--dark);border:0;border-radius:999px;padding:.3rem .8rem;font-weight:700;cursor:pointer;font-size:.85rem}
+.abschnittmarke{color:var(--teal);font-weight:800;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+/* Problem-Einstieg */
+.problem{display:flex;gap:1rem;background:linear-gradient(135deg,#FFF7EC,#FDEFE8);border:1px solid #F3D3BF;border-left:6px solid var(--or);border-radius:var(--r);padding:1rem 1.2rem;margin:0 0 1rem}
+.problemico{font-size:2.6rem;line-height:1;flex:none}
+.problemmarke{color:var(--or);font-weight:800;font-size:.75rem;letter-spacing:.08em}
+.problem p{margin:.35rem 0}
+.modell{background:#EEF1FB;border-left:5px solid #5B6CC2;border-radius:8px;padding:.7rem 1rem;margin:.6rem 0;font-size:.95rem}
+/* Aufgabenkarten */
+.aufgabe{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem;margin:0 0 1rem;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:6px solid var(--line)}
+.aufgabe.lvrand1{border-left-color:#7FB8B7}.aufgabe.lvrand2{border-left-color:#2B6CB0}.aufgabe.lvrand3{border-left-color:#7A5AA6}
+.akopf{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin:0 0 .5rem}
+.anr{background:var(--dark);color:#fff;border-radius:6px;padding:.05rem .5rem;font-weight:800;font-size:.85rem}
+.phase{font-weight:800;color:var(--dark);font-size:.9rem}
+.lv{border-radius:999px;padding:.05rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.lv1{background:#E2F2F1;color:#0B5E5D}.lv2{background:#E1ECF8;color:#1F4F86}.lv3{background:#EFE8F7;color:#5B3E8A}.lvS{background:#FCE6DE;color:#9E3417}
+.astatus{margin-left:auto;font-size:.8rem;font-weight:700}
+.astatus.fertig{color:var(--ok)}.astatus.halb{color:#B36B00}
+details.zusatz .astatus{margin-left:.6rem}
+.afrage{margin:.2rem 0 .6rem}
+.fremd{font-family:"Comic Sans MS","Segoe Print",cursive;background:#FFFBE6;border:1px dashed #D9B44A;border-radius:8px;padding:.4rem .8rem;margin:.4rem 0;display:inline-block;color:#5A4200}
+.mczeile{justify-content:space-between;background:var(--light);border-radius:8px;padding:.35rem .6rem}
+.mczeile>span{flex:1 1 16rem}
+.einheit{font-weight:700;min-width:2.5rem}
+.knopf.klein{padding:.4rem .8rem;font-size:.9rem}
+.zumark{font-weight:800;min-width:1.2rem}.zumark.gut{color:var(--ok)}.zumark.schlecht{color:var(--bad)}
+.ichzeile{margin:.5rem 0}
+details.zusatz.aufgabe{padding:.2rem 1rem;border-left:6px solid #E4572E;background:#FFF8F4}
+details.zusatz.aufgabe summary{color:#9E3417}
+details.zusatz.aufgabe[open]{padding-bottom:1rem}
+/* Simulationen */
+.simblock{margin:0 0 1rem;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.simtitel{font-weight:800;color:var(--teal);margin:0 0 .5rem;letter-spacing:.02em}
+.zwei.gleich{grid-template-columns:1fr 1fr}
+@media (max-width:900px){.zwei.gleich{grid-template-columns:1fr}}
+.regler.einspaltig{grid-template-columns:1fr;background:var(--light);border-radius:10px;padding:.5rem .8rem;margin:.5rem 0}
+.umschalter{display:flex;gap:.3rem;margin:0 0 .3rem}
+.umschalter button{border:2px solid var(--line);background:#fff;border-radius:8px;padding:.2rem .6rem;font-size:.8rem;cursor:pointer;font-weight:600}
+.umschalter button.aktiv{background:var(--teal);color:#fff;border-color:var(--teal)}
+.vorhersage{background:#F3EEFA;border-radius:10px;padding:.4rem .7rem}
+.anzeige div.o{background:var(--or)}
+.anzeige div.vgl{background:#7A5AA6}
+/* Start */
+.abkarten{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:.8rem;margin:.6rem 0}
+.abkarte{display:flex;gap:.8rem;background:var(--light);border-radius:12px;padding:.8rem 1rem;border-top:5px solid var(--teal)}
+.abkarte ul{margin:.4rem 0 0;padding-left:1.1rem;font-size:.92rem}
+.abkarte.klein{border-top-color:var(--or)}
+.abnr{width:2.4rem;height:2.4rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+.legende{display:flex;flex-wrap:wrap;gap:.4rem .8rem;align-items:center;font-size:.85rem;color:var(--grey);margin:.4rem 0}
+.weiterarbeiten{background:#F3EEFA;border:1px solid #D7C9EC;border-radius:10px;padding:.7rem 1rem;margin:.7rem 0;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.dateiknopf{display:inline-block}
+.pdfknoepfe{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.standtab td,.standtab th{text-align:center}
+.fehlt{color:var(--bad);font-style:italic}
+.uebersicht dd i{color:var(--grey)}
+/* Hinweis nach dem Download */
+.toast{position:fixed;left:50%;bottom:1.2rem;transform:translate(-50%,160%);background:var(--ok);color:#fff;border-radius:14px;padding:.9rem 3rem .9rem 1.2rem;z-index:60;box-shadow:0 8px 30px rgba(0,0,0,.25);max-width:min(640px,94vw);transition:transform .35s;font-size:1.05rem}
+.toast.zeigen{transform:translate(-50%,0)}
+.toast a{color:#fff}
+.toast small{font-size:.85rem}
+.toastzu{position:absolute;right:.6rem;top:.5rem;background:none;border:0;color:#fff;font-size:1.2rem;cursor:pointer}
+@media print{.toast,.kopfknoepfe{display:none}}
+
+.abgr{min-width:0}
+.nav .abbtns button.abgabeknopf{width:auto;border-radius:999px;padding:0 .7rem}
+
+.kopf-in{max-width:1400px}
+.nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}
+@media (max-width:1100px){.logo{display:none}}
+
+/* ===== NW-Labor 6a: zusätzliche Hilfen für Sprachanfänger ===== */
+html{font-size:19px}
+.afrage{font-size:1.04rem;line-height:1.6}
+.problem p{font-size:1.06rem;line-height:1.6}
+.ptext{min-width:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* Vorlesen */
+.lies{border:0;background:#E1ECF8;border-radius:999px;width:2.1rem;height:2.1rem;cursor:pointer;font-size:1.05rem;flex:none;margin-left:auto}
+.lies:hover{background:#C9DCF2}
+.problemmarke .lies{margin-left:.5rem;vertical-align:middle}
+.ohnesprache .lies{display:none}
+.akopf{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+/* Fachwörter antippen */
+.wort{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:help;text-decoration:underline dotted #2B6CB0 2px;text-underline-offset:4px}
+.wort:hover,.wort:focus-visible{background:#E1ECF8;border-radius:4px}
+.wortpop{position:fixed;z-index:70;background:#fff;border:2px solid #2B6CB0;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:.8rem 1rem}
+.wortpop #wortzu{margin-top:.5rem}
+.wkopf{display:flex;align-items:center;gap:.6rem}
+.wkopf .wico{font-size:1.8rem;line-height:1}
+.wkopf b{font-size:1.1rem}
+.werkl{margin:.4rem 0 .2rem;font-size:.95rem}
+.ueb{background:#FFF8E6;border-radius:8px;padding:.3rem .6rem;margin-top:.3rem;font-size:1.05rem}
+.ueb small{color:var(--grey)}
+.wbeintrag{border-bottom:1px solid var(--line);padding:.6rem 0}
+/* Schreibhilfen */
+.schreibhilfe{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin:.35rem 0 .2rem}
+.wsp{font-size:.82rem;color:var(--grey);margin-left:.2rem}
+.chip{border:2px solid #C9DCF2;background:#F4F8FD;border-radius:999px;padding:.15rem .7rem;font-size:.9rem;cursor:pointer}
+.chip:hover{background:#E1ECF8}
+.chip.satz{border-color:#F1D79A;background:#FFF8E6;font-weight:700;color:#8A5A00}
+/* Lückentext */
+.lueckentext{font-size:1.08rem;line-height:2.3;background:#FCFDFD;border:2px dashed var(--line);border-radius:12px;padding:.5rem .9rem;margin:.4rem 0}
+.lueck{white-space:nowrap}
+.lueck select{padding:.15rem .4rem;margin:0 .15rem;font-weight:600;background:#fff;border-color:#9CC3E6}
+.zumark{font-weight:800;margin-left:.15rem}.zumark.gut{color:var(--ok)}.zumark.schlecht{color:var(--bad)}
+/* Startseite */
+.hilfeliste{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:.6rem;margin-bottom:.6rem}
+.hilfeliste>div{background:var(--light);border-radius:12px;padding:.6rem .8rem;font-size:.9rem}
+.hilfeliste span{font-size:1.4rem;margin-right:.4rem}
+/* Simulationen */
+.simmeldung{background:#F3F6F8;border-radius:10px;padding:.55rem .9rem;margin:.5rem 0 0;font-size:1rem;min-height:2.6rem}
+.simmeldung.gut{background:var(--ok-l);color:var(--ok)}
+.simmeldung.warn{background:#FFF3D6;color:#7A5A00}
+.dingwahl{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.dingwahl button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:.35rem .6rem;cursor:pointer;display:flex;align-items:center;gap:.35rem;font-size:.9rem}
+.dingwahl button span{font-size:1.3rem}
+.dingwahl button.aktiv{border-color:var(--teal);background:var(--teal-l);font-weight:700}
+.vorhersage{background:#F3EEFA;border-radius:10px;padding:.5rem .8rem;gap:.4rem 1rem}
+.vorhersage label{cursor:pointer;display:inline-flex;align-items:center;gap:.3rem}
+.vorhersage input[type=radio],.vorhersage input[type=checkbox]{width:1.2rem;height:1.2rem}
+.umschalter{margin:.3rem .4rem .3rem 0;display:inline-flex}
+.klickbar{cursor:pointer}
+.fluss{stroke:#FFD23F;stroke-width:3;stroke-dasharray:3 15;animation:fl .7s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-18}}
+@media (prefers-reduced-motion:reduce){.fluss{animation:none}}
+/* Schaltzeichen und Pläne */
+.szbild{width:84px;height:42px;vertical-align:middle}
+.sit .ico .plan{width:100%;max-width:190px;height:auto;display:block;margin:0 auto}
+.sit .ico{font-size:2rem}
+.mczeile .szbild{width:100px;height:50px}
+.sztab{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;text-align:center;font-weight:600}
+.sztab small{font-weight:400;color:var(--grey)}
+.info .szbild{width:70px;height:35px}
+.kette{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:.6rem 0;font-size:1.05rem}
+.kette span{background:#fff;border:2px solid var(--teal);border-radius:12px;padding:.4rem .8rem;text-align:center}
+.kette b{font-size:1.6rem;color:var(--or)}
+@media (max-width:600px){html{font-size:17px}.lueckentext{line-height:2.1}.lueck{white-space:normal}}
+
+</style>
+</head>
+<body>
+<div class="hinweis-js" id="nojs">Diese Seite braucht JavaScript. Bitte im Browser (Safari, Chrome, Edge, Firefox) öffnen – nicht in einer Dateivorschau.</div>
+
+<header class="kopf">
+  <div class="kopf-in">
+    <div class="logo">⚡ NW-Labor <span>6a</span></div>
+    <nav class="nav" id="nav" aria-label="Lernabschnitte und Stationen"></nav>
+    <div class="kopfknoepfe">
+      <button class="zwknopf" data-zwischen="1" title="Zwischenstand als PDF speichern">📄 Zwischenstand</button>
+      <button class="formelknopf" id="formelAuf" aria-controls="formeln" aria-expanded="false">📖 Wörterbuch</button>
+    </div>
+  </div>
+  <div class="fortschritt" role="progressbar" aria-label="Gesamtfortschritt" aria-valuemin="0" aria-valuemax="100" id="fortBalken"><div id="fort"></div></div>
+</header>
+
+<aside class="schublade" id="formeln" aria-label="Wörterbuch" aria-hidden="true">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem"><h2 style="margin:0">📖 Wörterbuch</h2><button class="knopf grau" id="formelZu">Schließen ✕</button></div>
+  <div class="zeile"><label for="sprache"><b>🌍 Meine Sprache:</b></label><select id="sprache"></select></div>
+  <div class="zeile"><label for="wbSuche" class="sr">Wort suchen</label><input type="text" id="wbSuche" placeholder="🔍 Wort suchen …" autocomplete="off" style="width:100%"></div>
+  <p class="satzhilfe">Tipp: Wörter mit <span class="wort" style="pointer-events:none">gepunkteter Linie</span> kannst du in den Aufgaben antippen. Mit 🔊 hörst du das Wort. Die Übersetzungen helfen beim Verstehen – frag nach, wenn etwas komisch klingt.</p>
+  <div id="wbListe"></div>
+</aside>
+
+<div class="wortpop" id="wortpop" hidden role="dialog" aria-label="Wort erklärt"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<main id="haupt">
+<section class="seite" id="start" data-titel="Start">
+  <div class="held">
+    <div class="ober">NATURWISSENSCHAFTEN · KLASSE 6a · DIGITALES NW-LABOR</div>
+    <h1>Elektrizität –<br>Strom im Alltag</h1>
+    <p>Willkommen im NW-Labor! 👋 Hier forschst du selbst: Du baust Stromkreise, suchst Fehler, testest Leiter, schaltest Lampen und baust einen Elektromagneten.</p>
+    <svg viewBox="0 0 220 170" aria-hidden="true"><rect x="60" y="120" width="100" height="34" rx="6" fill="#2F3B45"/><rect x="128" y="120" width="32" height="34" fill="#E4A72E"/><text x="70" y="143" fill="#fff" font-size="16" font-weight="700" font-family="Segoe UI,Arial">−</text><text x="137" y="144" fill="#2F3B45" font-size="18" font-weight="800" font-family="Segoe UI,Arial">+</text><polyline points="60,137 25,137 25,40 95,40" fill="none" stroke="#7FD3CF" stroke-width="5"/><polyline points="125,40 195,40 195,137 160,137" fill="none" stroke="#7FD3CF" stroke-width="5"/><circle cx="110" cy="40" r="26" fill="#FFE066" opacity=".35"/><circle cx="110" cy="40" r="15" fill="#FFF3A0" stroke="#B8C7D1" stroke-width="3"/></svg>
+  </div>
+
+  <div class="karte hilfekarte">
+    <h2>🧰 Diese Hilfen hast du</h2>
+    <div class="hilfeliste">
+      <div><span>🔊</span><b>Vorlesen</b><br>Tippe auf 🔊 – der Text wird vorgelesen.</div>
+      <div><span class="wort" style="pointer-events:none">Wort</span><b>Wörter erklärt</b><br>Tippe auf ein Wort mit Punkten darunter.</div>
+      <div><span>📖</span><b>Wörterbuch</b><br>Oben rechts. Mit Übersetzung in deine Sprache.</div>
+      <div><span>✍️</span><b>Satzanfang</b><br>Ein Knopf schreibt den Anfang für dich.</div>
+      <div><span>🧱</span><b>Wörter-Knöpfe</b><br>Tippe ein Wort an – es kommt in dein Feld.</div>
+      <div><span>💡</span><b>Hilfe 1, Hilfe 2</b><br>Öffne die gelben Kästen, wenn du nicht weiterkommst.</div>
+    </div>
+    <div class="zeile"><label for="spracheStart"><b>🌍 Meine Sprache für das Wörterbuch:</b></label><select id="spracheStart"></select></div>
+  </div>
+
+  <div class="karte">
+    <h2>Drei Lernabschnitte – du arbeitest in deinem Tempo</h2>
+    <div class="abkarten" id="abkarten"></div>
+    <div class="legende"><span class="lv lv1">● Basis</span> das schaffen alle <span class="lv lv2">●● Plus</span> erklären, mehr schreiben <span class="lv lv3">●●● Profi</span> knifflig, forschen <span class="lv lvS">★ Extra</span> freiwillig</div>
+    <p class="satzhilfe">Du musst nicht alles in einer Stunde schaffen. Am Ende jeder Stunde speicherst du deinen <b>Zwischenstand als PDF</b> und lädst ihn bei IServ hoch. In der nächsten Stunde machst du weiter.</p>
+  </div>
+
+  <div class="karte">
+    <h2>Wer forscht hier?</h2>
+    <div class="zeile">
+      <div><label class="feld" for="vorname">Vorname</label><input type="text" id="vorname" data-k="vorname" autocomplete="off" size="20"></div>
+      <div><label class="feld" for="nachname">Nachname</label><input type="text" id="nachname" data-k="nachname" autocomplete="off" size="20"></div>
+      <div><label class="feld" for="klasse">Klasse</label><input type="text" id="klasse" data-k="klasse" size="5"></div>
+    </div>
+    <div class="info"><b>So funktioniert die Abgabe:</b> Das Labor merkt sich alles, was du einträgst. Mit „📄 Zwischenstand“ (oben rechts) speicherst du dein <b>Protokoll als PDF</b>. Diese PDF lädst du in der <b>NW-Aufgabe bei IServ</b> hoch. Deine Eingaben bleiben nur auf diesem Gerät (höchstens 3 Stunden). Sie werden nirgendwohin gesendet.</div>
+    <div class="weiterarbeiten">
+      <b>Weiterarbeiten an einem anderen Tag?</b> Nimm die PDF, die du zuletzt gespeichert hast. Das Labor liest deinen Arbeitsstand daraus wieder ein.
+      <label class="knopf grau dateiknopf">📂 Mit meiner PDF weiterarbeiten<input type="file" id="pdfImport" accept="application/pdf,.pdf" hidden></label>
+    </div>
+    <div id="fortsetzenBox" class="warnung" style="display:none;margin:.6rem 0"></div>
+    <div class="weiter"><span></span><button class="knopf or gross" id="starten">Labor starten ▸</button></div>
+  </div>
+</section>
+
+
+
+<section class="seite" id="abgabe" data-titel="Abgabe">
+  <div class="stationskopf"><div class="nr">✓</div><div><h1>Dein Forscherprotokoll</h1><div class="zeit">Kontrollieren · herunterladen · bei IServ hochladen</div></div></div>
+  <div id="fehlBox"></div>
+  <div class="karte" style="text-align:center">
+    <div class="pdfknoepfe">
+      <button class="knopf dunkel gross" data-zwischen="1">📄 Zwischenstand als PDF speichern</button>
+      <button class="knopf or gross" id="pdfVoll">📘 Mein ganzes Forscherprotokoll herunterladen</button>
+    </div>
+    <p class="satzhilfe" id="dateiname"></p>
+    <p class="satzhilfe" id="pdfAlt" style="display:none"></p>
+  </div>
+  <div class="erfolg" id="erfolg" role="status">⬆️ Lade deine PDF jetzt in der NW-Aufgabe bei IServ hoch.
+    <small>Die Datei liegt im Ordner „Downloads“. Prüfe nach dem Hochladen, ob sie bei IServ angekommen ist. Mit derselben PDF kannst du nächstes Mal weiterarbeiten.</small></div>
+  <div class="karte uebersicht" id="uebersicht"></div>
+  <div class="karte">
+    <h2>Zum Schluss: Daten löschen</h2>
+    <p>Deine Eingaben sind nur auf diesem Gerät gespeichert (höchstens 3 Stunden). Wenn deine PDF bei IServ ist, lösche sie hier.</p>
+    <button class="knopf dunkel" id="loeschen">🗑 Meine Eingaben von diesem Gerät löschen</button>
+  </div>
+  <div class="weiter"><button class="knopf grau" id="zurueckLetzte">◂ zurück</button><span></span></div>
+</section>
+</main>
+<div id="simlager" hidden></div>
+
+<script>
+/* =====================================================================
+   INHALT des NW-Labors 6a „Elektrizität“ (v1, 08.11.2026)
+   Hier stehen alle Texte und Aufgaben. Schlüssel (k) nie umbenennen –
+   sonst gehen gespeicherte Antworten verloren.
+   lv: 1 = ● Basis, 2 = ●● Plus, 3 = ●●● Profi, 'S' = ★ Extra (freiwillig)
+   Lückentext: [[*richtig|falsch|falsch]] – der Stern markiert die Lösung.
+   ===================================================================== */
+
+/* ---------- Schaltzeichen als kleine Bilder ---------- */
+var SZ = { strich: '#16202A' };
+function szElement(typ) {
+  var s = 'stroke="' + SZ.strich + '" stroke-width="2.6" fill="none" stroke-linecap="round"';
+  switch (typ) {
+    case 'L': return { g: 11, h: '<circle cx="0" cy="0" r="11" fill="#fff" ' + s + '/><path d="M-7.8,-7.8 L7.8,7.8 M-7.8,7.8 L7.8,-7.8" ' + s + '/>' };
+    case 'B': return { g: 4, h: '<path d="M-4,-14 L-4,14" ' + s + '/><path d="M4,-7 L4,7" stroke="' + SZ.strich + '" stroke-width="6"/>' };
+    case 'S0': return { g: 15, h: '<circle cx="-15" cy="0" r="3" fill="' + SZ.strich + '"/><circle cx="15" cy="0" r="3" fill="' + SZ.strich + '"/><path d="M-15,0 L12,-12" ' + s + '/>' };
+    case 'S1': return { g: 15, h: '<circle cx="-15" cy="0" r="3" fill="' + SZ.strich + '"/><circle cx="15" cy="0" r="3" fill="' + SZ.strich + '"/><path d="M-15,0 L15,0" ' + s + '/>' };
+    case 'G': return { g: 13, h: '' };
+  }
+  return { g: 0, h: '' };
+}
+function plan(o) {
+  // Rechteck-Stromkreis 170 × 120: o = { oben, unten, links, rechts } mit 'L', 'B', 'S0', 'S1', 'G' oder '-'
+  var h = '<svg class="plan" viewBox="0 0 170 120" role="img" aria-label="Schaltplan">', s = 'stroke="' + SZ.strich + '" stroke-width="2.6" fill="none" stroke-linecap="round"';
+  [['oben', 20, 20, 150, 20], ['rechts', 150, 20, 150, 100], ['unten', 150, 100, 20, 100], ['links', 20, 100, 20, 20]].forEach(function (q) {
+    var typ = o[q[0]] || '-', x1 = q[1], y1 = q[2], x2 = q[3], y2 = q[4];
+    if (typ === '-') { h += '<path d="M' + x1 + ',' + y1 + ' L' + x2 + ',' + y2 + '" ' + s + '/>'; return; }
+    var e = szElement(typ), mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = Math.sign(x2 - x1), dy = Math.sign(y2 - y1);
+    h += '<path d="M' + x1 + ',' + y1 + ' L' + (mx - dx * e.g) + ',' + (my - dy * e.g) + ' M' + (mx + dx * e.g) + ',' + (my + dy * e.g) + ' L' + x2 + ',' + y2 + '" ' + s + '/>';
+    var dreh = q[0] === 'rechts' ? 90 : q[0] === 'links' ? 90 : 0, spiegel = q[0] === 'unten' ? ' scale(-1,1)' : '';
+    h += '<g transform="translate(' + mx + ',' + my + ') rotate(' + dreh + ')' + spiegel + '">' + e.h + '</g>';
+  });
+  return h + '</svg>';
+}
+function zeichen(typ) {
+  var s = 'stroke="' + SZ.strich + '" stroke-width="2.6" fill="none" stroke-linecap="round"';
+  if (typ === '-') return '<svg class="szbild" viewBox="0 0 80 40"><path d="M8,20 L72,20" ' + s + '/></svg>';
+  if (typ === 'V') return '<svg class="szbild" viewBox="0 0 80 40"><path d="M8,20 L72,20 M40,20 L40,38" ' + s + '/><circle cx="40" cy="20" r="4.5" fill="' + SZ.strich + '"/></svg>';
+  if (typ === 'U') return '<svg class="szbild" viewBox="0 0 80 40"><path d="M6,22 L22,22 M58,8 L74,8 M58,34 L74,34" ' + s + '/><circle cx="22" cy="22" r="3" fill="' + SZ.strich + '"/><circle cx="58" cy="8" r="3" fill="' + SZ.strich + '"/><circle cx="58" cy="34" r="3" fill="' + SZ.strich + '"/><path d="M22,22 L56,10" ' + s + '/></svg>';
+  var e = szElement(typ);
+  return '<svg class="szbild" viewBox="0 0 80 40"><path d="M6,20 L' + (40 - e.g) + ',20 M' + (40 + e.g) + ',20 L74,20" ' + s + '/><g transform="translate(40,20)">' + e.h + '</g></svg>';
+}
+
+var ABSCHNITTE = [
+  { nr: 1, titel: 'Wiederholung: Der Stromkreis', kurz: 'Wiederholen', zeit: 90, text: 'Stromkreis, Fehler finden, Leiter, Schaltpläne' },
+  { nr: 2, titel: 'Schaltungen bauen', kurz: 'Schaltungen', zeit: 75, text: 'Reihe und parallel, UND und ODER, Wechselschaltung' },
+  { nr: 3, titel: 'Strom im Alltag', kurz: 'Alltag', zeit: 90, text: 'Wirkungen, Elektromagnet, Energie, Sicherheit' }
+];
+var STAERKER = ['stärker.', 'schwächer.', 'gleich stark.'];
+var WEGE = ['hintereinander (in Reihe).', 'nebeneinander (parallel).'];
+
+var STATIONEN = [
+/* ---------------------------------------------------------------- 1 */
+{ id: 'st1', nr: 1, ab: 1, titel: 'Der Stromkreis', zeit: 25, ico: '🔋',
+  problem: '<p>Lina hat eine <b>Batterie</b>, eine <b>Lampe</b> und zwei <b>Kabel</b>.</p><p>Sie verbindet alles. Aber die Lampe leuchtet nicht! 😟</p><p><b>Was braucht eine Lampe, damit sie leuchtet?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '1.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle eine Antwort. Es gibt hier noch kein Richtig oder Falsch.',
+      items: [{ k: 's1.verm', t: 'Eine Lampe leuchtet, wenn …', opt: ['ein Kabel sie mit der Batterie verbindet.', 'zwei Kabel sie mit beiden Polen der Batterie verbinden.', 'sie nur neben der Batterie liegt.'] }] },
+    { b: 'info', html: '<b>So geht es:</b> ① Stelle die Kabel ein. ② Kreuze deine <b>Vermutung</b> an. ③ Klicke auf <b>Testen</b>. ④ Klicke auf <b>Speichern</b>. Die Zeile kommt in deine Tabelle.' },
+    { b: 'sim', sim: 'A' },
+    { b: 'a', nr: '1.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mA', min: 4,
+      frage: 'Probiere <b>mindestens 4</b> Einstellungen aus und speichere jede.<br>Probiere auch: ① beide Kabel zum <b>gleichen</b> Pol · ② ein Kabel <b>nicht verbunden</b> · ③ Schalter <b>offen</b>.' },
+    { b: 'a', nr: '1.3', lv: 1, ph: '📝 Auswertung', art: 'luecke', k: 's1.l',
+      frage: 'Schau in deine Tabelle. Wähle das passende Wort. Klicke dann auf „Prüfen“.',
+      text: 'Die Lampe leuchtet nur, wenn die Kabel an [[gleichen|*verschiedenen]] Polen der Batterie sind. Ein Kabel geht zum Pluspol (+), das andere Kabel geht zum [[*Minuspol (−)|Pluspol (+)]]. Der Schalter muss [[offen|*zu]] sein.',
+      hilfen: [['Hilfe 1', 'Suche in deiner Tabelle die Zeilen, in denen die Lampe <b>leuchtet</b>. Wohin gehen dort Kabel 1 und Kabel 2?']] },
+    { b: 'a', nr: '1.4', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's1.m',
+      frage: 'Vervollständige den Merksatz.',
+      text: 'Der Strom braucht einen [[*geschlossenen|offenen]] Weg. Er fließt vom Pluspol durch die Lampe zurück zum [[Pluspol|*Minuspol]]. Diesen Weg nennt man [[Schaltplan|*Stromkreis|Batterie]].' },
+    { b: 'a', nr: '1.5', lv: 2, ph: '📝 Erklären', art: 'text', k: 's1.erkl',
+      frage: 'Lina hat <b>beide</b> Kabel an den <b>Pluspol</b> angeschlossen. Erkläre ihr in 1–2 Sätzen, was sie ändern muss.',
+      platz: 'Lina, du musst ein Kabel …', wort: 'den Minuspol · den Pluspol · das Kabel · anschließen · der Stromkreis · geschlossen',
+      hilfen: [['Hilfe 1', 'Wohin muss das zweite Kabel? Schau in deinen Merksatz 1.4.'], ['Hilfe 2', 'Benutze den Satzanfang. Du kannst die Wörter unten antippen – sie kommen dann in dein Feld.']] },
+    { b: 'a', nr: '1.6', lv: 3, ph: '🌍 Alltag', art: 'text', k: 's1.tl',
+      frage: 'In einer Taschenlampe siehst du <b>keine Kabel</b>. Wie ist der Stromkreis trotzdem geschlossen? Vermute.',
+      platz: 'Ich vermute, in der Taschenlampe …', wort: 'Metall · Streifen · Feder · leitet · Schalter · geschlossen',
+      hilfen: [['Hilfe', 'Öffne in Gedanken eine Taschenlampe: Innen gibt es eine Feder und Streifen aus <b>Metall</b>. Metall leitet den Strom – wie ein Kabel.']] },
+    { b: 'a', nr: '1.7', lv: 'S', ph: '★ Extra', titel: 'Kurzschluss', art: 'text', k: 's1.sp',
+      frage: 'Ein Kabel geht direkt vom Pluspol zum Minuspol – <b>ohne</b> Lampe. Das nennt man <b>Kurzschluss</b>. Die Batterie wird dabei heiß. Warum ist ein Kurzschluss gefährlich?',
+      platz: 'Ein Kurzschluss ist gefährlich, weil …' }
+  ] },
+
+/* ---------------------------------------------------------------- 2 */
+{ id: 'st2', nr: 2, ab: 1, titel: 'Fehlerdetektive', zeit: 20, ico: '🔎',
+  problem: '<p>In der NW-Sammlung liegen <b>5 Stromkreise</b>. Bei jedem leuchtet die Lampe nicht.</p><p>Jeder Kreis hat <b>genau einen Fehler</b>.</p><p><b>Du bist Detektivin oder Detektiv: Finde die Fehler!</b> 🕵️</p>',
+  bloecke: [
+    { b: 'a', nr: '2.1', lv: 1, ph: '🤔 Vermutung', art: 'urteile', k: 's2u', labels: ['möglicher Fehler', 'kein Fehler'],
+      frage: 'Was kann der Grund sein, wenn eine Lampe nicht leuchtet? Entscheide bei jeder Karte. Klicke dann auf „Auswerten“.',
+      items: [
+        { ico: '🔘', t: 'Der Schalter ist offen.', ja: true, e: 'Ein offener Schalter unterbricht den Stromkreis.' },
+        { ico: '🔴', t: 'Das Kabel ist rot und nicht blau.', ja: false, e: 'Die Farbe ist egal. Die Farben helfen nur beim Ordnen.' },
+        { ico: '🪫', t: 'Die Batterie ist leer.', ja: true, e: 'Eine leere Batterie gibt keine Energie mehr.' },
+        { ico: '💡', t: 'Die Lampe ist nicht fest eingeschraubt.', ja: true, e: 'Dann berührt die Lampe die Fassung nicht. Der Stromkreis ist offen.' },
+        { ico: '📏', t: 'Das Kabel ist sehr lang.', ja: false, e: 'Auch mit einem langen Kabel leuchtet die Lampe.' },
+        { ico: '✂️', t: 'Ein Kabel ist kaputt (es hat eine Lücke).', ja: true, e: 'Durch eine Lücke kann der Strom nicht fließen.' } ] },
+    { b: 'info', html: '<b>Detektiv-Trick:</b> Lege deinen Finger auf den Pluspol. Fahre den ganzen Weg des Stroms nach: Kabel → Schalter → Lampe → Kabel → Minuspol. Wo kommst du nicht weiter? Dort ist der Fehler!' },
+    { b: 'sim', sim: 'B' },
+    { b: 'a', nr: '2.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mB', min: 5,
+      frage: 'Löse <b>alle 5 Fälle</b>. Wähle deinen Verdacht, klicke auf „Reparieren“ und dann auf „Speichern“.' },
+    { b: 'a', nr: '2.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's2.l',
+      frage: 'Tom ist Elektriker. So sucht er Fehler. Wähle die passenden Wörter.',
+      text: 'Tom prüft der Reihe nach: Ist der [[Tisch|*Schalter]] zu? Ist die Lampe fest [[*eingeschraubt|angemalt]]? Sind alle [[*Kabel|Fenster]] ganz und richtig angeschlossen? Ist die [[*Batterie|Lampe]] voll?' },
+    { b: 'a', nr: '2.4', lv: 2, ph: '📝 Auswertung', art: 'text', k: 's2.schwer',
+      frage: 'Welcher Fall war für dich am schwersten? Warum?',
+      platz: 'Am schwersten war Fall …, weil …', wort: 'der Schalter · das Kabel · die Lücke · die Lampe · die Batterie · der Pol · genau hinschauen' },
+    { b: 'a', nr: '2.5', lv: 'S', ph: '★ Extra', titel: 'Erfinde einen Fall', art: 'text', k: 's2.sp',
+      frage: 'Erfinde einen eigenen Fehler-Fall für deine Nachbarin oder deinen Nachbarn. Beschreibe ihn in 1–2 Sätzen. Kann sie oder er den Fehler finden?',
+      platz: 'Mein Fall: …' }
+  ] },
+
+/* ---------------------------------------------------------------- 3 */
+{ id: 'st3', nr: 3, ab: 1, titel: 'Leiter und Nichtleiter', zeit: 25, ico: '🔩',
+  problem: '<p>Max hat sein Kabel verloren. 😮 Er will die Lücke im Stromkreis mit etwas anderem schließen.</p><p>Mit einem Löffel? Mit einem Holzstab? Mit einem Lineal?</p><p><b>Welche Dinge lassen den Strom durch?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '3.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle eine Antwort.',
+      items: [{ k: 's3.verm', t: 'Den Strom leiten vor allem Dinge aus …', opt: ['Metall.', 'Holz.', 'Kunststoff (Plastik).', 'Papier.'] }] },
+    { b: 'info', html: '<b>Der Prüfstromkreis:</b> Er hat eine Lücke mit zwei Klemmen. Du legst einen Gegenstand in die Lücke.<br>💡 Die Lampe <b>leuchtet</b> → der Gegenstand <b>leitet</b> den Strom → er ist ein <b>Leiter</b>.<br>⚫ Die Lampe <b>leuchtet nicht</b> → er ist ein <b>Nichtleiter</b>.' },
+    { b: 'sim', sim: 'C' },
+    { b: 'a', nr: '3.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mC', min: 8,
+      frage: 'Teste <b>mindestens 8</b> Gegenstände. Kreuze <b>vor</b> jedem Test deine Vermutung an.' },
+    { b: 'a', nr: '3.3', lv: 1, ph: '📝 Auswertung', art: 'zuordnung', k: 's3z', opt: ['Leiter', 'Nichtleiter'], tipp: 'schau in deine Tabelle: Wann hat die Lampe geleuchtet?',
+      frage: 'Ordne zu: Leiter oder Nichtleiter? Klicke dann auf „Prüfen“.',
+      items: [{ k: 's3z.1', t: '📎 Büroklammer', soll: 'Leiter' }, { k: 's3z.2', t: '🪵 Holz', soll: 'Nichtleiter' }, { k: 's3z.3', t: '🥄 Löffel aus Metall', soll: 'Leiter' }, { k: 's3z.4', t: '📏 Lineal aus Kunststoff', soll: 'Nichtleiter' },
+              { k: 's3z.5', t: '🪙 Münze', soll: 'Leiter' }, { k: 's3z.6', t: '📄 Papier', soll: 'Nichtleiter' }, { k: 's3z.7', t: '✏️ Bleistiftmine', soll: 'Leiter' }, { k: 's3z.8', t: '🎈 Gummi', soll: 'Nichtleiter' }] },
+    { b: 'a', nr: '3.4', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's3.m',
+      frage: 'Vervollständige den Merksatz.',
+      text: 'Stoffe, die den Strom leiten, heißen [[*Leiter|Nichtleiter]]. Alle [[Kunststoffe|*Metalle]] sind Leiter. Holz, Glas, Gummi und Kunststoff sind [[Leiter|*Nichtleiter]]. Man nennt sie auch Isolatoren.' },
+    { b: 'a', nr: '3.5', lv: 2, ph: '📝 Erklären', art: 'text', k: 's3.kabel',
+      frage: 'Ein Kabel ist <b>innen</b> aus Kupfer (ein Metall) und <b>außen</b> aus Kunststoff. Erkläre, warum.',
+      platz: 'Innen ist Kupfer, weil … Außen ist Kunststoff, weil …', wort: 'ein Leiter · ein Nichtleiter · den Strom · leitet · schützt · anfassen',
+      hilfen: [['Hilfe 1', 'Was soll <b>durch</b> das Kabel fließen? Dafür braucht man einen Leiter.'], ['Hilfe 2', 'Was passiert, wenn man das Kabel anfasst? Der Kunststoff schützt die Hand.']] },
+    { b: 'a', nr: '3.6', lv: 3, ph: '🔎 Forschen', art: 'text', k: 's3.mine',
+      frage: 'Überraschung: Die Bleistiftmine ist <b>kein Metall</b> – sie ist aus Graphit. Trotzdem leitet sie den Strom. Was lernst du daraus?',
+      platz: 'Nicht nur Metalle …' },
+    { b: 'a', nr: '3.7', lv: 'S', ph: '★ Extra', titel: 'Leitet Wasser?', art: 'text', k: 's3.sp',
+      frage: '⚠️ Nur nachdenken, nicht ausprobieren! Leitungswasser leitet den Strom ein wenig. Unser Körper besteht zu einem großen Teil aus Wasser. Was bedeutet das für uns?',
+      platz: 'Das bedeutet, dass …' }
+  ] },
+
+/* ---------------------------------------------------------------- 4 */
+{ id: 'st4', nr: 4, ab: 1, titel: 'Schaltzeichen und Schaltpläne', zeit: 20, ico: '✏️',
+  problem: '<p>Ein Bild von einem Stromkreis zu malen dauert lange. 🖍️</p><p>Darum benutzen Fachleute auf der ganzen Welt einfache Zeichen: <b>Schaltzeichen</b>. Eine Zeichnung mit Schaltzeichen heißt <b>Schaltplan</b>.</p><p><b>Kannst du Schaltpläne lesen?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '4.1', lv: 1, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's4z', opt: ['Batterie', 'Lampe', 'Schalter offen', 'Schalter geschlossen', 'Leitung (Kabel)'], tipp: 'öffne den Spickzettel unten.',
+      frage: 'Welches Bauteil ist das? Ordne zu. Klicke dann auf „Prüfen“.',
+      items: [{ k: 's4z.1', t: zeichen('L'), alt: 'Zeichen 1 (Kreis mit Kreuz)', soll: 'Lampe' }, { k: 's4z.2', t: zeichen('S0'), alt: 'Zeichen 2 (schräger Strich)', soll: 'Schalter offen' },
+              { k: 's4z.3', t: zeichen('B'), alt: 'Zeichen 3 (langer und kurzer Strich)', soll: 'Batterie' }, { k: 's4z.4', t: zeichen('-'), alt: 'Zeichen 4 (Linie)', soll: 'Leitung (Kabel)' },
+              { k: 's4z.5', t: zeichen('S1'), alt: 'Zeichen 5 (gerader Strich zwischen zwei Punkten)', soll: 'Schalter geschlossen' }],
+      hilfen: [['📋 Spickzettel: Schaltzeichen', '<div class="sztab"><div>' + zeichen('B') + 'Batterie<br><small>langer Strich = Pluspol</small></div><div>' + zeichen('L') + 'Lampe</div><div>' + zeichen('S0') + 'Schalter offen</div><div>' + zeichen('S1') + 'Schalter geschlossen</div><div>' + zeichen('-') + 'Leitung (Kabel)</div><div>' + zeichen('V') + 'Verzweigung<br><small>(hier teilt sich der Weg)</small></div><div>' + zeichen('U') + 'Umschalter</div></div>']] },
+    { b: 'a', nr: '4.2', lv: 1, ph: '🔎 Lesen', art: 'urteile', k: 's4u', labels: ['💡 leuchtet', '⚫ leuchtet nicht'],
+      frage: 'Schau dir jeden Schaltplan an: Leuchtet die Lampe? Benutze den Finger-Trick! Klicke dann auf „Auswerten“.',
+      items: [
+        { ico: plan({ oben: 'L', unten: 'B', links: 'S1' }), t: 'Plan 1: Batterie, Lampe, Schalter geschlossen', ja: true, e: 'Der Stromkreis ist geschlossen.' },
+        { ico: plan({ oben: 'L', unten: 'B', links: 'S0' }), t: 'Plan 2: Batterie, Lampe, Schalter offen', ja: false, e: 'Der Schalter ist offen. Der Stromkreis ist unterbrochen.' },
+        { ico: plan({ oben: 'L', unten: '-', links: 'S1' }), t: 'Plan 3: Lampe und Schalter, aber keine Batterie', ja: false, e: 'Ohne Batterie gibt es keinen Strom.' },
+        { ico: plan({ oben: 'L', unten: 'B', rechts: 'G' }), t: 'Plan 4: Batterie und Lampe, eine Leitung hat eine Lücke', ja: false, e: 'Durch die Lücke kann der Strom nicht fließen.' },
+        { ico: plan({ links: 'L', unten: 'B', rechts: 'S1' }), t: 'Plan 5: Lampe links, Schalter geschlossen rechts', ja: true, e: 'Wo die Lampe im Kreis ist, ist egal. Der Kreis ist geschlossen.' },
+        { ico: plan({ oben: 'L', unten: 'B' }), t: 'Plan 6: Batterie und Lampe ohne Schalter', ja: true, e: 'Auch ohne Schalter ist der Stromkreis geschlossen.' } ] },
+    { b: 'a', nr: '4.3', lv: 2, ph: '💡 Merksatz', art: 'luecke', k: 's4.m',
+      frage: 'Vervollständige den Merksatz.',
+      text: 'Im Schaltplan zeichnet man die Leitungen als [[*gerade Linien|Kurven]] mit dem Lineal. Die Lampe ist ein Kreis mit einem [[*Kreuz|Punkt]]. Bei der Batterie ist der lange Strich der [[*Pluspol|Minuspol]].' },
+    { b: 'a', nr: '4.4', lv: 2, ph: '📝 Beschreiben', art: 'text', k: 's4.besch',
+      frage: 'Beschreibe den Schaltplan 5 in Worten: Wo ist welches Bauteil?',
+      platz: 'Unten ist … Links ist … Rechts ist …', wort: 'oben · unten · links · rechts · die Batterie · die Lampe · der Schalter · geschlossen' },
+    { b: 'a', nr: '4.5', lv: 'S', ph: '★ Extra', titel: 'Eine Sprache für alle', art: 'text', k: 's4.sp',
+      frage: 'Warum benutzen Fachleute auf der ganzen Welt die <b>gleichen</b> Schaltzeichen?',
+      platz: 'Die gleichen Zeichen sind wichtig, weil …' }
+  ] },
+
+/* ---------------------------------------------------------------- 5 */
+{ id: 'st5', nr: 5, ab: 2, titel: 'Reihenschaltung und Parallelschaltung', zeit: 30, ico: '🎄',
+  problem: '<p>🎄 Am Weihnachtsbaum hängt eine alte Lichterkette. Eine Lampe geht kaputt – und plötzlich ist die <b>ganze Kette dunkel</b>!</p><p>🏠 Im Wohnzimmer geht eine Lampe kaputt – die <b>anderen Lampen leuchten weiter</b>.</p><p><b>Warum ist das so?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '5.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle aus.',
+      items: [{ k: 's5.v1', t: 'Lampen <b>hintereinander</b> in <b>einem</b> Kreis: Eine Lampe wird herausgedreht. Dann …', opt: ['gehen alle Lampen aus.', 'leuchten die anderen Lampen weiter.'] },
+              { k: 's5.v2', t: 'Lampen <b>nebeneinander</b>, jede auf <b>eigenem</b> Weg: Eine Lampe wird herausgedreht. Dann …', opt: ['gehen alle Lampen aus.', 'leuchten die anderen Lampen weiter.'] }] },
+    { b: 'info', html: '<b>Reihenschaltung:</b> Die Lampen sind <b>hintereinander</b>. Es gibt <b>einen</b> Weg für den Strom.<br><b>Parallelschaltung:</b> Die Lampen sind <b>nebeneinander</b>. Jede Lampe hat ihren <b>eigenen</b> Weg.' },
+    { b: 'sim', sim: 'D' },
+    { b: 'a', nr: '5.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mD', min: 6,
+      frage: 'Untersuche und speichere jedes Mal:<br>① Reihenschaltung, 2 Lampen, alle drin · ② Reihe: Lampe L1 herausdrehen · ③ Reihe mit 3 Lampen<br>④ Parallelschaltung, 2 Lampen, alle drin · ⑤ Parallel: Lampe L1 herausdrehen · ⑥ Parallel mit 3 Lampen' },
+    { b: 'a', nr: '5.3', lv: 1, ph: '📝 Auswertung', art: 'zuordnung', k: 's5z', opt: ['Reihenschaltung', 'Parallelschaltung'], tipp: 'schau in deine Tabelle bei 5.2.',
+      frage: 'Was passt zu welcher Schaltung? Ordne zu. Klicke dann auf „Prüfen“.',
+      items: [{ k: 's5z.1', t: 'Die Lampen leuchten nur schwach.', soll: 'Reihenschaltung' }, { k: 's5z.2', t: 'Jede Lampe leuchtet hell.', soll: 'Parallelschaltung' },
+              { k: 's5z.3', t: 'Dreht man eine Lampe heraus, gehen alle aus.', soll: 'Reihenschaltung' }, { k: 's5z.4', t: 'Dreht man eine Lampe heraus, leuchten die anderen weiter.', soll: 'Parallelschaltung' },
+              { k: 's5z.5', t: 'Es gibt nur einen Weg für den Strom.', soll: 'Reihenschaltung' }, { k: 's5z.6', t: 'So sind die Lampen in unserer Wohnung geschaltet.', soll: 'Parallelschaltung' }] },
+    { b: 'a', nr: '5.4', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's5.m',
+      frage: 'Vervollständige den Merksatz.',
+      text: 'In der Reihenschaltung sind die Lampen [[*hintereinander|nebeneinander]]. Ist eine Lampe kaputt, ist der Stromkreis [[*unterbrochen|geschlossen]]. In der Parallelschaltung hat jede Lampe einen [[gemeinsamen|*eigenen]] Weg. Die anderen Lampen leuchten [[*weiter|nicht mehr]].' },
+    { b: 'a', nr: '5.5', lv: 2, ph: '📝 Erklären', art: 'text', k: 's5.kette',
+      frage: 'Zurück zur Frage: Warum war die ganze Lichterkette dunkel?',
+      platz: 'Die Lampen der Lichterkette sind in … geschaltet. Wenn eine Lampe kaputt ist, …', wort: 'Reihe · hintereinander · ein Weg · unterbrochen · alle Lampen · aus',
+      hilfen: [['Hilfe', 'Eine kaputte Lampe ist wie ein offener Schalter. Was passiert dann in der Reihenschaltung?']] },
+    { b: 'a', nr: '5.6', lv: 3, ph: '🔎 Forschen', art: 'text', k: 's5.mehr',
+      frage: 'Vergleiche in deiner Tabelle: Reihe mit <b>2</b> Lampen und Reihe mit <b>3</b> Lampen. Was passiert mit der Helligkeit, wenn mehr Lampen hintereinander sind?',
+      platz: 'Je mehr Lampen hintereinander sind, desto …' },
+    { b: 'a', nr: '5.7', lv: 'S', ph: '★ Extra', titel: 'Die Mehrfachsteckdose', art: 'text', k: 's5.sp',
+      frage: 'An einer Mehrfachsteckdose hängen ein Radio und eine Lampe. Du schaltest das Radio aus – die Lampe bleibt an. Sind die Geräte in Reihe oder parallel geschaltet? Begründe.',
+      platz: 'Die Geräte sind … geschaltet, weil …' }
+  ] },
+
+/* ---------------------------------------------------------------- 6 */
+{ id: 'st6', nr: 6, ab: 2, titel: 'UND-Schaltung und ODER-Schaltung', zeit: 25, ico: '🔐',
+  problem: '<p>🔐 Eine Bank hat einen Tresor. Er geht nur auf, wenn <b>zwei</b> Personen ihren Schlüssel drehen.</p><p>🔔 Bei dir zu Hause klingelt es, wenn jemand an der Haustür <b>oder</b> an der Gartentür drückt.</p><p><b>Wie baut man solche Schaltungen?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '6.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle aus.',
+      items: [{ k: 's6.v1', t: '🔐 Beim Tresor sind die zwei Schalter …', opt: WEGE }, { k: 's6.v2', t: '🔔 Bei der Klingel sind die zwei Schalter …', opt: WEGE }] },
+    { b: 'sim', sim: 'E' },
+    { b: 'a', nr: '6.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mE', min: 8,
+      frage: 'UND-Schaltung: Probiere <b>alle 4</b> Möglichkeiten: beide offen · nur Schalter 1 zu · nur Schalter 2 zu · beide zu. Speichere jede.<br>Mache das Gleiche bei der ODER-Schaltung. Das sind zusammen <b>8 Zeilen</b>.' },
+    { b: 'a', nr: '6.3', lv: 1, ph: '📝 Auswertung', art: 'luecke', k: 's6.l',
+      frage: 'Schau in deine Tabelle. Wähle die passenden Wörter. Klicke dann auf „Prüfen“.',
+      text: 'Bei der UND-Schaltung leuchtet die Lampe nur, wenn Schalter 1 [[*und|oder]] Schalter 2 zu sind. Die Schalter sind [[*in Reihe|parallel]] geschaltet. Bei der ODER-Schaltung leuchtet die Lampe, wenn Schalter 1 [[und|*oder]] Schalter 2 zu ist. Die Schalter sind [[in Reihe|*parallel]] geschaltet.' },
+    { b: 'a', nr: '6.4', lv: 2, ph: '🌍 Alltag', art: 'zuordnung', k: 's6z', opt: ['UND', 'ODER'], tipp: 'frage dich: Müssen BEIDE Schalter gedrückt sein (UND) oder reicht EINER (ODER)?',
+      frage: 'UND oder ODER? Ordne zu.',
+      items: [{ k: 's6z.1', t: '🔐 Tresor mit zwei Schlüsseln', soll: 'UND' }, { k: 's6z.2', t: '🔔 Klingel an Haustür und Gartentür', soll: 'ODER' },
+              { k: 's6z.3', t: '✋✋ Eine Maschine startet nur, wenn beide Hände auf zwei Knöpfen liegen.', soll: 'UND' }, { k: 's6z.4', t: '🚗 Das Licht im Auto geht an, wenn die Fahrertür oder die Beifahrertür offen ist.', soll: 'ODER' },
+              { k: 's6z.5', t: '🧺 Die Waschmaschine startet nur, wenn die Tür zu ist und man auf Start drückt.', soll: 'UND' }] },
+    { b: 'a', nr: '6.5', lv: 2, ph: '📝 Erklären', art: 'text', k: 's6.eigen',
+      frage: 'Finde ein <b>eigenes</b> Beispiel aus dem Alltag für eine UND-Schaltung oder eine ODER-Schaltung.',
+      platz: 'Ein Beispiel für eine …-Schaltung ist …, weil …', wort: 'UND · ODER · beide · einer · zwei Schalter · in Reihe · parallel' },
+    { b: 'a', nr: '6.6', lv: 'S', ph: '★ Extra', titel: 'Drei Schalter', art: 'text', k: 's6.sp',
+      frage: 'Die Lampe soll leuchten, wenn (Schalter 1 <b>und</b> Schalter 2) zu sind – <b>oder</b> wenn Schalter 3 zu ist. Wie schaltest du die drei Schalter? Beschreibe.',
+      platz: 'Schalter 1 und 2 sind … Schalter 3 ist …' }
+  ] },
+
+/* ---------------------------------------------------------------- 7 */
+{ id: 'st7', nr: 7, ab: 2, titel: 'Die Wechselschaltung', zeit: 20, ico: '🪜',
+  problem: '<p>Im Treppenhaus: Du gehst <b>unten</b> hinein und machst das Licht an. 💡</p><p><b>Oben</b> machst du das Licht mit einem <b>anderen</b> Schalter wieder aus.</p><p>Am nächsten Morgen geht es umgekehrt: oben an, unten aus. <b>Wie geht das?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '7.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle aus.',
+      items: [{ k: 's7.verm', t: 'Für das Treppenhaus braucht man …', opt: ['nur einen Schalter.', 'zwei normale Schalter.', 'zwei Umschalter.'] }] },
+    { b: 'info', html: '<b>Der Umschalter</b> ' + zeichen('U') + ' hat <b>drei</b> Anschlüsse. Er verbindet die Mitte entweder mit dem <b>oberen</b> oder mit dem <b>unteren</b> Anschluss. Zwischen den zwei Umschaltern gibt es <b>zwei</b> Leitungen.' },
+    { b: 'sim', sim: 'F' },
+    { b: 'a', nr: '7.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mF', min: 4,
+      frage: 'Probiere <b>alle 4</b> Möglichkeiten aus und speichere jede: unten oben/oben oben · unten oben/oben unten · unten unten/oben oben · unten unten/oben unten.' },
+    { b: 'a', nr: '7.3', lv: 1, ph: '📝 Auswertung', art: 'luecke', k: 's7.l',
+      frage: 'Schau in deine Tabelle. Wähle die passenden Wörter.',
+      text: 'Die Lampe leuchtet, wenn beide Umschalter auf die [[*gleiche|andere]] Leitung zeigen. Dann ist der Stromkreis [[*geschlossen|offen]]. Legt man [[keinen|*einen]] Umschalter um, geht die Lampe aus. Legt man ihn noch einmal um, geht sie wieder [[*an|kaputt]].' },
+    { b: 'a', nr: '7.4', lv: 2, ph: '📝 Erklären', art: 'text', k: 's7.erkl',
+      frage: 'Erkläre deiner Familie, wie das Licht im Treppenhaus funktioniert.',
+      platz: 'Im Treppenhaus gibt es zwei … Wenn beide …, dann …', wort: 'Umschalter · unten · oben · die gleiche Leitung · geschlossen · umlegen · an · aus' },
+    { b: 'a', nr: '7.5', lv: 'S', ph: '★ Extra', titel: 'Zwei Leitungen', art: 'text', k: 's7.sp',
+      frage: 'Warum braucht man zwischen den beiden Umschaltern <b>zwei</b> Leitungen? Was wäre mit nur einer Leitung?',
+      platz: 'Mit nur einer Leitung …' }
+  ] },
+
+/* ---------------------------------------------------------------- 8 */
+{ id: 'st8', nr: 8, ab: 3, titel: 'Was macht der Strom? – Die Wirkungen', zeit: 25, ico: '⚡',
+  problem: '<p>Den Strom selbst kann man <b>nicht sehen</b>. 👀</p><p>Aber man kann sehen und fühlen, was er macht.</p><p><b>Woran merken wir, dass Strom fließt?</b> Untersuche fünf Geräte.</p>',
+  bloecke: [
+    { b: 'a', nr: '8.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle aus.',
+      items: [{ k: 's8.v1', t: '💡 Eine Glühlampe macht …', opt: ['nur Licht.', 'Licht und Wärme.', 'nur Wärme.'] }, { k: 's8.v2', t: '♨️ Ein Wasserkocher macht vor allem …', opt: ['Licht.', 'Wärme.', 'Magnetismus.'] }] },
+    { b: 'info', html: 'Achte bei jedem Gerät auf drei Dinge: 💡 Leuchtet etwas? · 🌡️ Steigt das <b>Thermometer</b>? · 🧭 Dreht sich die <b>Kompassnadel</b>? (Dann ist etwas magnetisch.)' },
+    { b: 'sim', sim: 'G' },
+    { b: 'a', nr: '8.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mG', min: 5,
+      frage: 'Untersuche <b>alle 5 Geräte</b>. Schalte den Strom ein, warte kurz und beobachte. Kreuze an, was du beobachtest, und speichere.' },
+    { b: 'a', nr: '8.3', lv: 1, ph: '📝 Auswertung', art: 'zuordnung', k: 's8z', opt: ['Wärme', 'Licht', 'Magnetismus'], tipp: 'frage dich: Wird es heiß? Leuchtet es? Zieht es Eisen an?',
+      frage: 'Welche Wirkung nutzt man bei diesem Gerät vor allem? Ordne zu.',
+      items: [{ k: 's8z.1', t: '🍞 Toaster', soll: 'Wärme' }, { k: 's8z.2', t: '🔦 Taschenlampe', soll: 'Licht' }, { k: 's8z.3', t: '🏗️ Kran mit Elektromagnet auf dem Schrottplatz', soll: 'Magnetismus' },
+              { k: 's8z.4', t: '👕 Bügeleisen', soll: 'Wärme' }, { k: 's8z.5', t: '📺 Bildschirm', soll: 'Licht' }, { k: 's8z.6', t: '🍳 Herdplatte', soll: 'Wärme' }] },
+    { b: 'a', nr: '8.4', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's8.m',
+      frage: 'Vervollständige den Merksatz.',
+      text: 'Der elektrische Strom hat drei Wirkungen: Er macht [[Kälte|*Wärme]], er macht [[*Licht|Wasser]] und er macht [[Lärm|*Magnetismus]]. An diesen Wirkungen erkennen wir, dass Strom fließt.' },
+    { b: 'a', nr: '8.5', lv: 2, ph: '🌍 Alltag', art: 'text', k: 's8.led',
+      frage: 'In der Simulation wird die LED kaum warm, die Glühlampe aber sehr warm. Warum ist die LED besser?',
+      platz: 'Die Glühlampe macht viel … Diese Wärme brauchen wir nicht. Die LED …', wort: 'Wärme · Licht · Energie · sparen · weniger · heiß' },
+    { b: 'a', nr: '8.6', lv: 'S', ph: '★ Extra', titel: 'Heiße Kabel', art: 'text', k: 's8.sp',
+      frage: 'An einer Mehrfachsteckdose hängen ein Wasserkocher, ein Föhn und eine Heizung. Das Kabel wird heiß. Warum ist das gefährlich?',
+      platz: 'Das ist gefährlich, weil …' }
+  ] },
+
+/* ---------------------------------------------------------------- 9 */
+{ id: 'st9', nr: 9, ab: 3, titel: 'Der Elektromagnet', zeit: 25, ico: '🧲',
+  problem: '<p>🏗️ Auf dem Schrottplatz hebt ein Kran schwere Autos hoch – mit einem <b>Magneten</b>!</p><p>Über dem Container lässt er sie einfach fallen.</p><p>Ein normaler Magnet kann das nicht. <b>Wie funktioniert ein Elektromagnet – und wie macht man ihn stärker?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '9.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle aus.',
+      items: [{ k: 's9.v1', t: '🌀 Mehr Windungen: Der Elektromagnet wird …', opt: STAERKER }, { k: 's9.v2', t: '🔋 Mehr Batterien: Der Elektromagnet wird …', opt: STAERKER }, { k: 's9.v3', t: '⚙️ Ohne Eisenkern: Der Elektromagnet wird …', opt: STAERKER }] },
+    { b: 'info', html: '<b>Eine Spule</b> ist ein langes Kabel, das viele Male um etwas herum gewickelt ist. Eine Runde heißt <b>Windung</b>. In der Spule steckt ein <b>Eisenkern</b> (ein dicker Nagel).<br>⚠️ <b>Forscher-Regel:</b> Ändere immer nur <b>eine</b> Sache!' },
+    { b: 'sim', sim: 'H' },
+    { b: 'a', nr: '9.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mH', min: 6,
+      frage: 'Schalte den Strom ein und speichere:<br><b>Reihe 1:</b> 1 Batterie, mit Eisenkern: 25, 50, 100 und 150 Windungen.<br><b>Reihe 2:</b> 100 Windungen, mit Eisenkern: 1, 2 und 3 Batterien.<br><b>Reihe 3:</b> 100 Windungen, 1 Batterie, <b>ohne</b> Eisenkern.<br>Probiere auch: Strom <b>aus</b>. Was passiert mit den Nägeln?' },
+    { b: 'a', nr: '9.3', lv: 1, ph: '📝 Auswertung', art: 'luecke', k: 's9.l',
+      frage: 'Schau in deine Tabelle. Wähle die passenden Wörter.',
+      text: 'Ein Elektromagnet ist nur ein Magnet, wenn [[*Strom fließt|er kalt ist]]. Er wird stärker, wenn die Spule [[*mehr|weniger]] Windungen hat. Er wird auch stärker mit [[weniger|*mehr]] Batterien. Ein Eisenkern macht ihn viel [[*stärker|schwächer]].' },
+    { b: 'a', nr: '9.4', lv: 2, ph: '📝 Erklären', art: 'text', k: 's9.kran',
+      frage: 'Erkläre: Warum benutzt man auf dem Schrottplatz einen <b>Elektromagneten</b> und keinen normalen Magneten?',
+      platz: 'Mit einem Elektromagneten kann man … Wenn man den Strom ausschaltet, …', wort: 'einschalten · ausschalten · der Strom · fallen lassen · stark · Eisen',
+      hilfen: [['Hilfe', 'Was passiert in der Simulation mit den Nägeln, wenn du den Strom <b>ausschaltest</b>? Kann ein normaler Magnet das auch?']] },
+    { b: 'a', nr: '9.5', lv: 3, ph: '🔎 Forschen', art: 'text', k: 's9.reihe',
+      frage: 'Schau dir Reihe 1 in deiner Tabelle an: 50 Windungen und 100 Windungen. Was fällt dir bei der Zahl der Nägel auf?',
+      platz: 'Bei doppelt so vielen Windungen …' },
+    { b: 'a', nr: '9.6', lv: 'S', ph: '★ Extra', titel: 'Elektromagnete im Alltag', art: 'text', k: 's9.sp',
+      frage: 'Wo gibt es noch Elektromagnete? Nenne zwei Geräte. (Tipp: Es klingelt, es macht Musik, es dreht sich …)',
+      platz: 'Elektromagnete gibt es in …' }
+  ] },
+
+/* ---------------------------------------------------------------- 10 */
+{ id: 'st10', nr: 10, ab: 3, titel: 'Energie wird umgewandelt', zeit: 20, ico: '🔄',
+  problem: '<p>📱 „Mein Handy-Akku ist leer – die Energie ist <b>verbraucht</b>!“, sagt Elif.</p><p>Ihr Bruder sagt: „Energie kann man gar nicht verbrauchen.“</p><p><b>Wer hat recht?</b></p>',
+  bloecke: [
+    { b: 'modell', html: '<b>Die Energie-Kette:</b><div class="kette"><span>🔋 Batterie<br><small>elektrische Energie</small></span><b>→</b><span>💡 Lampe<br><small>Energiewandler</small></span><b>→</b><span>☀️ Licht<br>🌡️ Wärme</span></div>Die Energie geht <b>nicht verloren</b>. Sie wird nur in eine andere Form <b>umgewandelt</b>. Die Wärme verteilt sich im Raum – wir können sie aber nicht mehr nutzen.' },
+    { b: 'a', nr: '10.1', lv: 1, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's10z', opt: ['Licht', 'Wärme', 'Bewegung', 'Schall (Töne)'], tipp: 'frage dich: Wofür kaufe ich das Gerät?',
+      frage: 'Was macht das Gerät vor allem aus der elektrischen Energie? Ordne zu.',
+      items: [{ k: 's10z.1', t: '💡 Lampe', soll: 'Licht' }, { k: 's10z.2', t: '♨️ Wasserkocher', soll: 'Wärme' }, { k: 's10z.3', t: '🌀 Ventilator', soll: 'Bewegung' }, { k: 's10z.4', t: '🔊 Lautsprecher', soll: 'Schall (Töne)' },
+              { k: 's10z.5', t: '🚆 Elektro-Zug', soll: 'Bewegung' }, { k: 's10z.6', t: '🔔 Klingel', soll: 'Schall (Töne)' }, { k: 's10z.7', t: '📺 Bildschirm', soll: 'Licht' }, { k: 's10z.8', t: '👕 Bügeleisen', soll: 'Wärme' }] },
+    { b: 'a', nr: '10.2', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's10.m',
+      frage: 'Vervollständige den Merksatz.',
+      text: 'Energie kann man nicht [[*verbrauchen|umwandeln]]. Man kann sie nur [[wegwerfen|*umwandeln]]. Eine Lampe wandelt elektrische Energie in [[*Licht|Wasser]] und [[Kälte|*Wärme]] um.' },
+    { b: 'a', nr: '10.3', lv: 2, ph: '📝 Erklären', art: 'mcs',
+      frage: 'Zurück zur Frage: Wer hat recht?',
+      items: [{ k: 's10.wer', t: 'Recht hat …', opt: ['Elif.', 'der Bruder.'] }],
+      begr: { k: 's10.begr', frage: 'Begründe in einem Satz.', platz: 'Recht hat …, weil die Energie …', wort: 'nicht verbraucht · umgewandelt · Licht · Wärme · Schall · Akku' } },
+    { b: 'a', nr: '10.4', lv: 2, ph: '🌍 Alltag', art: 'text', k: 's10.foehn',
+      frage: 'Ein Föhn macht mehrere Dinge gleichzeitig. Schreibe die Energie-Kette für den Föhn.',
+      platz: 'Beim Föhn wird elektrische Energie umgewandelt in …', wort: 'Wärme · Bewegung · Schall · warme Luft · der Motor · laut',
+      hilfen: [['Hilfe', 'Was spürst du an der Hand? Was hörst du? Was bewegt sich im Föhn?']] },
+    { b: 'a', nr: '10.5', lv: 2, ph: '🌍 Energie sparen', art: 'text', k: 's10.spar',
+      frage: 'Nenne zwei Tipps: Wie kann deine Familie elektrische Energie sparen?',
+      platz: 'Tipp 1: … Tipp 2: …', wort: 'ausschalten · LED-Lampen · Stand-by · Licht aus · kürzer · Deckel auf den Topf' },
+    { b: 'a', nr: '10.6', lv: 'S', ph: '★ Extra', titel: 'Woher kommt der Strom?', art: 'text', k: 's10.sp',
+      frage: 'Woher kommt die elektrische Energie aus der Steckdose? Nenne zwei Möglichkeiten.',
+      platz: 'Die elektrische Energie kommt zum Beispiel aus …' }
+  ] },
+
+/* ---------------------------------------------------------------- 11 */
+{ id: 'st11', nr: 11, ab: 3, titel: 'Vorsicht, Strom!', zeit: 20, ico: '⚠️',
+  problem: '<p>Mit der kleinen Batterie im NW-Raum kannst du <b>sicher</b> experimentieren. 👍</p><p>Der Strom aus der <b>Steckdose</b> und aus <b>Oberleitungen</b> ist aber <b>lebensgefährlich</b>! ⛔</p><p><b>Kennst du die Strom-Regeln?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '11.1', lv: 1, ph: '🔎 Entscheiden', art: 'urteile', k: 's11u', labels: ['✅ sicher', '⛔ gefährlich'],
+      frage: 'Sicher oder gefährlich? Entscheide bei jeder Karte. Klicke dann auf „Auswerten“.',
+      items: [
+        { ico: '🔋', t: 'Mit einer 4,5-Volt-Batterie experimentieren.', ja: true, e: 'Die kleine Batterie ist für Experimente sicher.' },
+        { ico: '🍴', t: 'Mit einer Gabel in die Steckdose fassen.', ja: false, e: 'Lebensgefahr! Die Gabel ist ein Leiter.' },
+        { ico: '🛁', t: 'Den Föhn in der Badewanne benutzen.', ja: false, e: 'Lebensgefahr! Wasser und unser Körper leiten den Strom.' },
+        { ico: '🩹', t: 'Ein kaputtes Kabel mit Klebeband flicken und weiter benutzen.', ja: false, e: 'Kaputte Kabel immer einem Erwachsenen zeigen und nicht mehr benutzen.' },
+        { ico: '🔌', t: 'Den Stecker am Stecker (nicht am Kabel) aus der Steckdose ziehen.', ja: true, e: 'Richtig so – sonst geht das Kabel kaputt.' },
+        { ico: '🪁', t: 'Einen Drachen neben einer Stromleitung steigen lassen.', ja: false, e: 'Der Strom kann über die Schnur zu dir kommen.' },
+        { ico: '🚃', t: 'Auf einen abgestellten Zug-Waggon klettern.', ja: false, e: 'Lebensgefahr durch die Oberleitung – auch ohne sie zu berühren!' },
+        { ico: '🏠', t: 'Bei Gewitter in ein Haus oder ein Auto gehen.', ja: true, e: 'Im Haus oder im Auto bist du bei Gewitter geschützt.' } ] },
+    { b: 'a', nr: '11.2', lv: 1, ph: '💡 Strom-Regeln', art: 'luecke', k: 's11.r',
+      frage: 'Vervollständige die Strom-Regeln.',
+      text: '① Ich experimentiere nur mit [[*Batterien|der Steckdose]]. ② Ich fasse Geräte nie mit [[trockenen|*nassen]] Händen an. ③ Kaputte Kabel zeige ich [[*sofort einem Erwachsenen|niemandem]]. ④ Ich stecke nie etwas in die [[*Steckdose|Batterie]]. ⑤ Ich halte Abstand von [[Bäumen|*Oberleitungen und Strommasten]]. ⑥ Ich ziehe den Stecker am [[Kabel|*Stecker]] heraus.' },
+    { b: 'a', nr: '11.3', lv: 2, ph: '📝 Erklären', art: 'text', k: 's11.wasser',
+      frage: 'Warum ist Wasser in der Nähe von Strom so gefährlich? Denke an Station 3 (Leiter).',
+      platz: 'Wasser … Unser Körper … Deshalb …', wort: 'leitet · ein Leiter · der Körper · der Strom · nass · gefährlich',
+      hilfen: [['Hilfe', 'Leitet Wasser den Strom? Woraus besteht unser Körper zu einem großen Teil?']] },
+    { b: 'a', nr: '11.4', lv: 2, ph: '🌍 Warnschild', art: 'text', k: 's11.schild', hoch: 2,
+      frage: 'Mache ein Warnschild ⚠️ für deine Familie oder für jüngere Kinder. Schreibe die wichtigste Strom-Regel in einem kurzen Satz.',
+      platz: '⚠️ Achtung: …' },
+    { b: 'a', nr: '11.5', lv: 'S', ph: '★ Extra', titel: 'Der Vogel auf der Leitung', art: 'text', k: 's11.sp',
+      frage: 'Ein Vogel sitzt auf einer Stromleitung und ihm passiert nichts. Ein Mensch auf einer Leiter berührt die Leitung – das ist tödlich. Warum? Tipp: Der Vogel berührt nur <b>eine</b> Leitung und sonst nichts.',
+      platz: 'Der Vogel … Der Mensch auf der Leiter …' }
+  ] },
+
+/* ---------------------------------------------------------------- 12 */
+{ id: 'st12', nr: 12, ab: 0, titel: 'Das kann ich jetzt', zeit: 15, ico: '🏆',
+  problem: '<p>Du hast die ganze <b>Elektrizitätslehre</b> erforscht! 🎉</p><p>Jetzt schaust du: Was kannst du schon gut? Was übst du noch?</p>',
+  bloecke: [
+    { b: 'a', nr: '12.1', lv: 1, ph: '🧩 Fachwörter', art: 'zuordnung', k: 's12z', opt: ['Stromkreis', 'Leiter', 'Nichtleiter', 'Reihenschaltung', 'Parallelschaltung', 'Elektromagnet', 'Umschalter'], tipp: 'öffne das 📖 Wörterbuch oben rechts.',
+      frage: 'Welches Fachwort passt? Ordne zu.',
+      items: [{ k: 's12z.1', t: 'ein geschlossener Weg für den Strom', soll: 'Stromkreis' }, { k: 's12z.2', t: 'ein Stoff, der den Strom leitet (zum Beispiel Metall)', soll: 'Leiter' },
+              { k: 's12z.3', t: 'ein Stoff, der den Strom nicht leitet (zum Beispiel Holz)', soll: 'Nichtleiter' }, { k: 's12z.4', t: 'Lampen hintereinander – es gibt nur einen Weg', soll: 'Reihenschaltung' },
+              { k: 's12z.5', t: 'Lampen nebeneinander – jede hat einen eigenen Weg', soll: 'Parallelschaltung' }, { k: 's12z.6', t: 'eine Spule mit Eisenkern – magnetisch, wenn Strom fließt', soll: 'Elektromagnet' },
+              { k: 's12z.7', t: 'ein Schalter mit drei Anschlüssen (für das Treppenhaus)', soll: 'Umschalter' }] },
+    { b: 'a', nr: '12.2', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'ich',
+      frage: 'Wie sicher bist du? Kreuze bei jedem Satz ehrlich an.' },
+    { b: 'a', nr: '12.3', lv: 1, ph: '💬 Rückblick', art: 'text', k: 's12.rueck',
+      frage: 'Was war für dich am interessantesten? Was war schwer?',
+      platz: 'Am interessantesten war … Schwer war …', wort: 'die Simulation · der Elektromagnet · die Schaltungen · die Fehlerdetektive · die Wörter · spannend' }
+  ] }
+];
+
+var ICH = ['Ich kann sagen, was ein Stromkreis braucht.', 'Ich kann Fehler in einem Stromkreis finden.', 'Ich kann Leiter und Nichtleiter unterscheiden.',
+  'Ich kann Schaltzeichen lesen und einen Schaltplan verstehen.', 'Ich kann Reihenschaltung und Parallelschaltung unterscheiden.', 'Ich kann die UND-Schaltung und die ODER-Schaltung erklären.',
+  'Ich kann erklären, wie die Wechselschaltung im Treppenhaus funktioniert.', 'Ich kann die drei Wirkungen des Stroms nennen.', 'Ich kann sagen, wie man einen Elektromagneten stärker macht.',
+  'Ich kann erklären: Energie wird nicht verbraucht, sondern umgewandelt.', 'Ich kenne die Strom-Regeln und halte mich daran.'];
+var STUFEN = ['sicher', 'fast sicher', 'noch nicht'];
+
+/* ---------- Messtabellen ---------- */
+function jn(x) { return x ? 'ja' : 'nein'; }
+var MESSTAB = {
+  mA: { kopf: ['Nr.', 'Kabel 1', 'Kabel 2', 'Schalter', 'Meine Vermutung', 'Lampe'], br: [0.5, 1.4, 1.4, 0.9, 1.5, 1.2],
+    zeilen: function () { return S.mA.map(function (r, i) { return [i + 1, POLTEXT[r.k1], POLTEXT[r.k2], r.zu ? 'zu' : 'offen', r.vor || '–', r.an ? 'leuchtet' : 'leuchtet nicht']; }); } },
+  mB: { kopf: ['Fall', 'Mein erster Verdacht', 'Der Fehler war', 'Versuche'], br: [0.5, 2, 2, 0.8],
+    zeilen: function () { return S.mB.map(function (r) { return [r.fall, r.erster, r.fehler, r.v]; }); } },
+  mC: { kopf: ['Nr.', 'Gegenstand', 'Stoff', 'Meine Vermutung', 'Lampe', 'Ergebnis'], br: [0.5, 1.2, 1.5, 1.3, 1.2, 1.1],
+    zeilen: function () { return S.mC.map(function (r, i) { return [i + 1, r.n, r.stoff, r.vor || '–', r.l ? 'leuchtet' : 'leuchtet nicht', r.l ? 'Leiter' : 'Nichtleiter']; }); } },
+  mD: { kopf: ['Nr.', 'Schaltung', 'Lampen', 'herausgedreht', 'Schalter', 'Beobachtung'], br: [0.5, 1.1, 0.7, 1.1, 0.8, 2.6],
+    zeilen: function () { return S.mD.map(function (r, i) { return [i + 1, r.art === 'reihe' ? 'Reihe' : 'parallel', r.n, r.raus, r.zu ? 'zu' : 'offen', r.beob]; }); } },
+  mE: { kopf: ['Nr.', 'Schaltung', 'Schalter 1', 'Schalter 2', 'Lampe'], br: [0.5, 1.2, 1, 1, 1],
+    zeilen: function () { return S.mE.map(function (r, i) { return [i + 1, r.art === 'und' ? 'UND' : 'ODER', r.s1 ? 'zu' : 'offen', r.s2 ? 'zu' : 'offen', r.an ? 'an' : 'aus']; }); } },
+  mF: { kopf: ['Nr.', 'Umschalter unten', 'Umschalter oben', 'Lampe'], br: [0.5, 1.3, 1.3, 1],
+    zeilen: function () { return S.mF.map(function (r, i) { return [i + 1, r.u1, r.u2, r.an ? 'an' : 'aus']; }); } },
+  mG: { kopf: ['Nr.', 'Gerät', 'Meine Beobachtung', 'Stimmt?'], br: [0.5, 2.2, 1.8, 1],
+    zeilen: function () { return S.mG.map(function (r, i) { return [i + 1, r.n, r.beob, r.ok ? 'ja' : 'noch einmal prüfen']; }); } },
+  mH: { kopf: ['Nr.', 'Windungen', 'Batterien', 'Eisenkern', 'Nägel'], br: [0.5, 1, 1, 1, 0.8],
+    zeilen: function () { return S.mH.map(function (r, i) { return [i + 1, r.w, r.b, jn(r.k), r.n]; }); } }
+};
+
+/* ---------- Wörterbuch (Übersetzungen: en, tr, ar, uk, ru) ---------- */
+var GLOSSAR = [
+  { w: 'Strom', art: 'der', ico: '⚡', formen: ['Strom', 'Stroms'], erkl: 'Der elektrische Strom fließt durch Kabel. Man kann ihn nicht sehen. Man sieht nur, was er macht (Licht, Wärme, Magnetismus).', en: 'electric current', tr: 'elektrik akımı', ar: 'التيار الكهربائي', uk: 'електричний струм', ru: 'электрический ток' },
+  { w: 'Stromkreis', art: 'der', pl: 'die Stromkreise', ico: '🔁', formen: ['Stromkreis', 'Stromkreise', 'Stromkreisen'], erkl: 'ein geschlossener Weg für den Strom: von der Batterie durch die Lampe und zurück zur Batterie.', en: 'electric circuit', tr: 'elektrik devresi', ar: 'الدائرة الكهربائية', uk: 'електричне коло', ru: 'электрическая цепь' },
+  { w: 'Batterie', art: 'die', pl: 'die Batterien', ico: '🔋', formen: ['Batterie', 'Batterien'], erkl: 'gibt die Energie für den Stromkreis. Sie hat einen Pluspol (+) und einen Minuspol (−).', en: 'battery', tr: 'pil', ar: 'بطارية', uk: 'батарейка', ru: 'батарейка' },
+  { w: 'Pluspol', art: 'der', ico: '➕', formen: ['Pluspol'], erkl: 'der Anschluss der Batterie mit dem Zeichen +.', en: 'positive terminal (+)', tr: 'artı kutup (+)', ar: 'القطب الموجب (+)', uk: 'плюс, позитивний полюс (+)', ru: 'плюс, положительный полюс (+)' },
+  { w: 'Minuspol', art: 'der', ico: '➖', formen: ['Minuspol'], erkl: 'der Anschluss der Batterie mit dem Zeichen −.', en: 'negative terminal (−)', tr: 'eksi kutup (−)', ar: 'القطب السالب (−)', uk: 'мінус, негативний полюс (−)', ru: 'минус, отрицательный полюс (−)' },
+  { w: 'Pol', art: 'der', pl: 'die Pole', ico: '±', formen: ['Pol', 'Pole', 'Polen'], erkl: 'ein Anschluss der Batterie. Jede Batterie hat zwei Pole: Plus (+) und Minus (−).', en: 'terminal, pole', tr: 'kutup', ar: 'قطب', uk: 'полюс', ru: 'полюс' },
+  { w: 'Lampe', art: 'die', pl: 'die Lampen', ico: '💡', formen: ['Lampe', 'Lampen'], erkl: 'leuchtet, wenn Strom durch sie fließt.', en: 'lamp, light bulb', tr: 'ampul, lamba', ar: 'مصباح', uk: 'лампа, лампочка', ru: 'лампа, лампочка' },
+  { w: 'Kabel', art: 'das', pl: 'die Kabel', ico: '〰️', formen: ['Kabel', 'Kabeln'], erkl: 'eine Leitung: innen Metall (leitet den Strom), außen Kunststoff (schützt).', en: 'cable, wire', tr: 'kablo', ar: 'سلك، كابل', uk: 'кабель, провід', ru: 'кабель, провод' },
+  { w: 'Leitung', art: 'die', pl: 'die Leitungen', ico: '〰️', formen: ['Leitung', 'Leitungen'], erkl: 'ein Kabel oder Draht, durch den der Strom fließt.', en: 'wire, line', tr: 'hat, iletken tel', ar: 'خط، سلك', uk: 'провід, лінія', ru: 'провод, линия' },
+  { w: 'Schalter', art: 'der', pl: 'die Schalter', ico: '🔘', formen: ['Schalter'], erkl: 'öffnet oder schließt den Stromkreis. Schalter zu → Strom fließt. Schalter offen → kein Strom.', en: 'switch', tr: 'anahtar, şalter', ar: 'مفتاح كهربائي', uk: 'вимикач', ru: 'выключатель' },
+  { w: 'Umschalter', art: 'der', pl: 'die Umschalter', ico: '🔀', formen: ['Umschalter', 'Umschaltern'], erkl: 'ein Schalter mit drei Anschlüssen. Er verbindet die Mitte mit oben oder mit unten.', en: 'changeover switch', tr: 'değiştirme anahtarı', ar: 'مفتاح تحويل', uk: 'перемикач', ru: 'переключатель' },
+  { w: 'Leiter', art: 'der', pl: 'die Leiter', ico: '✅', formen: ['Leiter'], erkl: 'ein Stoff, der den Strom gut leitet. Beispiel: alle Metalle, Graphit.', en: 'conductor', tr: 'iletken', ar: 'موصل', uk: 'провідник', ru: 'проводник' },
+  { w: 'Nichtleiter', art: 'der', pl: 'die Nichtleiter', ico: '❌', formen: ['Nichtleiter', 'Isolator', 'Isolatoren'], erkl: 'ein Stoff, der den Strom nicht leitet. Beispiel: Holz, Kunststoff, Glas, Gummi. Anderes Wort: Isolator.', en: 'insulator, non-conductor', tr: 'yalıtkan', ar: 'عازل', uk: 'ізолятор, непровідник', ru: 'изолятор, непроводник' },
+  { w: 'leiten', ico: '➡️', formen: ['leiten', 'leitet', 'leiten'], erkl: 'Ein Stoff leitet den Strom = der Strom kann durch ihn fließen.', en: 'to conduct', tr: 'iletmek', ar: 'يوصّل', uk: 'проводити (струм)', ru: 'проводить (ток)' },
+  { w: 'Metall', art: 'das', pl: 'die Metalle', ico: '🔩', formen: ['Metall', 'Metalle', 'Metallen'], erkl: 'zum Beispiel Eisen, Kupfer, Aluminium. Alle Metalle leiten den Strom.', en: 'metal', tr: 'metal', ar: 'معدن', uk: 'метал', ru: 'металл' },
+  { w: 'Kunststoff', art: 'der', pl: 'die Kunststoffe', ico: '🧴', formen: ['Kunststoff', 'Kunststoffe'], erkl: 'anderes Wort: Plastik. Kunststoff leitet den Strom nicht.', en: 'plastic', tr: 'plastik', ar: 'بلاستيك', uk: 'пластмаса', ru: 'пластмасса' },
+  { w: 'Schaltplan', art: 'der', pl: 'die Schaltpläne', ico: '📐', formen: ['Schaltplan', 'Schaltpläne', 'Schaltplänen'], erkl: 'eine Zeichnung von einem Stromkreis mit Schaltzeichen.', en: 'circuit diagram', tr: 'devre şeması', ar: 'مخطط الدائرة الكهربائية', uk: 'електрична схема', ru: 'электрическая схема' },
+  { w: 'Schaltzeichen', art: 'das', pl: 'die Schaltzeichen', ico: '✏️', formen: ['Schaltzeichen'], erkl: 'ein einfaches Zeichen für ein Bauteil, zum Beispiel ein Kreis mit Kreuz für die Lampe.', en: 'circuit symbol', tr: 'devre sembolü', ar: 'رمز كهربائي', uk: 'умовне позначення', ru: 'условное обозначение' },
+  { w: 'Reihenschaltung', art: 'die', ico: '🚃', formen: ['Reihenschaltung', 'in Reihe'], erkl: 'Die Bauteile sind hintereinander. Es gibt nur einen Weg für den Strom.', en: 'series circuit', tr: 'seri bağlantı', ar: 'توصيل على التوالي', uk: 'послідовне з’єднання', ru: 'последовательное соединение' },
+  { w: 'Parallelschaltung', art: 'die', ico: '🛤️', formen: ['Parallelschaltung', 'parallel'], erkl: 'Die Bauteile sind nebeneinander. Jedes hat einen eigenen Weg.', en: 'parallel circuit', tr: 'paralel bağlantı', ar: 'توصيل على التوازي', uk: 'паралельне з’єднання', ru: 'параллельное соединение' },
+  { w: 'Elektromagnet', art: 'der', pl: 'die Elektromagnete', ico: '🧲', formen: ['Elektromagnet', 'Elektromagneten', 'Elektromagnete'], erkl: 'eine Spule mit Eisenkern. Sie ist nur magnetisch, wenn Strom fließt.', en: 'electromagnet', tr: 'elektromıknatıs', ar: 'مغناطيس كهربائي', uk: 'електромагніт', ru: 'электромагнит' },
+  { w: 'Magnet', art: 'der', pl: 'die Magnete', ico: '🧲', formen: ['Magnet', 'Magneten', 'Magnete'], erkl: 'zieht Dinge aus Eisen an.', en: 'magnet', tr: 'mıknatıs', ar: 'مغناطيس', uk: 'магніт', ru: 'магнит' },
+  { w: 'Spule', art: 'die', pl: 'die Spulen', ico: '🌀', formen: ['Spule', 'Spulen'], erkl: 'ein langes Kabel, das viele Male herum gewickelt ist.', en: 'coil', tr: 'bobin', ar: 'ملف', uk: 'котушка', ru: 'катушка' },
+  { w: 'Windung', art: 'die', pl: 'die Windungen', ico: '➰', formen: ['Windung', 'Windungen'], erkl: 'eine Runde des Kabels in der Spule.', en: 'turn (of a coil)', tr: 'sarım', ar: 'لفة', uk: 'виток', ru: 'виток' },
+  { w: 'Eisenkern', art: 'der', ico: '⚙️', formen: ['Eisenkern'], erkl: 'ein Stück Eisen (zum Beispiel ein dicker Nagel) in der Spule. Er macht den Elektromagneten viel stärker.', en: 'iron core', tr: 'demir çekirdek', ar: 'قلب حديدي', uk: 'залізне осердя', ru: 'железный сердечник' },
+  { w: 'Kompass', art: 'der', ico: '🧭', formen: ['Kompass', 'Kompassnadel'], erkl: 'Seine Nadel ist ein kleiner Magnet. Sie dreht sich, wenn ein Magnet in der Nähe ist.', en: 'compass', tr: 'pusula', ar: 'بوصلة', uk: 'компас', ru: 'компас' },
+  { w: 'Wärme', art: 'die', ico: '🌡️', formen: ['Wärme', 'warm'], erkl: 'Etwas wird warm oder heiß.', en: 'heat', tr: 'ısı', ar: 'حرارة', uk: 'тепло', ru: 'тепло' },
+  { w: 'Licht', art: 'das', ico: '☀️', formen: ['Licht'], erkl: 'Etwas leuchtet. Wir können es sehen.', en: 'light', tr: 'ışık', ar: 'ضوء', uk: 'світло', ru: 'свет' },
+  { w: 'Magnetismus', art: 'der', ico: '🧲', formen: ['Magnetismus', 'magnetisch'], erkl: 'Etwas zieht Eisen an oder dreht eine Kompassnadel.', en: 'magnetism', tr: 'manyetizma', ar: 'المغناطيسية', uk: 'магнетизм', ru: 'магнетизм' },
+  { w: 'Wirkung', art: 'die', pl: 'die Wirkungen', ico: '✨', formen: ['Wirkung', 'Wirkungen'], erkl: 'Das, was der Strom macht: Wärme, Licht oder Magnetismus.', en: 'effect', tr: 'etki', ar: 'تأثير', uk: 'дія', ru: 'действие' },
+  { w: 'Energie', art: 'die', ico: '🔋', formen: ['Energie'], erkl: 'Man braucht sie, damit etwas leuchtet, warm wird oder sich bewegt. Energie wird nicht verbraucht, sondern umgewandelt.', en: 'energy', tr: 'enerji', ar: 'طاقة', uk: 'енергія', ru: 'энергия' },
+  { w: 'umwandeln', ico: '🔄', formen: ['umwandeln', 'umgewandelt', 'wandelt'], erkl: 'etwas in etwas anderes verändern. Die Lampe wandelt elektrische Energie in Licht und Wärme um.', en: 'to convert', tr: 'dönüştürmek', ar: 'يحوّل', uk: 'перетворювати', ru: 'преобразовывать' },
+  { w: 'Steckdose', art: 'die', pl: 'die Steckdosen', ico: '🔌', formen: ['Steckdose', 'Steckdosen'], erkl: 'Hier steckt man Geräte ein. Der Strom aus der Steckdose ist lebensgefährlich!', en: 'socket, power outlet', tr: 'priz', ar: 'مقبس كهربائي', uk: 'розетка', ru: 'розетка' },
+  { w: 'Oberleitung', art: 'die', pl: 'die Oberleitungen', ico: '🚆', formen: ['Oberleitung', 'Oberleitungen'], erkl: 'die Stromleitung über den Gleisen der Eisenbahn. Lebensgefahr!', en: 'overhead line', tr: 'katener (tren elektrik hattı)', ar: 'الخط الكهربائي العلوي', uk: 'контактна мережа', ru: 'контактный провод' },
+  { w: 'Kurzschluss', art: 'der', ico: '💥', formen: ['Kurzschluss'], erkl: 'Plus und Minus sind direkt verbunden, ohne Lampe. Das Kabel und die Batterie werden heiß. Gefährlich!', en: 'short circuit', tr: 'kısa devre', ar: 'دائرة قصيرة', uk: 'коротке замикання', ru: 'короткое замыкание' },
+  { w: 'Vermutung', art: 'die', pl: 'die Vermutungen', ico: '🤔', formen: ['Vermutung', 'Vermutungen', 'vermute', 'Vermute'], erkl: 'Was du glaubst, bevor du es ausprobierst. Eine Vermutung darf falsch sein!', en: 'guess, hypothesis', tr: 'tahmin', ar: 'توقع، فرضية', uk: 'припущення', ru: 'предположение' },
+  { w: 'Versuch', art: 'der', pl: 'die Versuche', ico: '🔬', formen: ['Versuch', 'Versuche', 'Experiment', 'experimentieren'], erkl: 'ein Experiment: Man probiert etwas aus und beobachtet genau.', en: 'experiment', tr: 'deney', ar: 'تجربة', uk: 'дослід', ru: 'опыт' },
+  { w: 'beobachten', ico: '👀', formen: ['beobachten', 'beobachte', 'Beobachtung', 'beobachtest'], erkl: 'genau hinschauen und sagen, was passiert.', en: 'to observe', tr: 'gözlemlemek', ar: 'يلاحظ', uk: 'спостерігати', ru: 'наблюдать' },
+  { w: 'geschlossen', ico: '🔒', formen: ['geschlossen', 'geschlossenen'], erkl: 'zu. Ein geschlossener Stromkreis hat keine Lücke – der Strom fließt.', en: 'closed', tr: 'kapalı', ar: 'مغلق', uk: 'замкнений', ru: 'замкнутый' },
+  { w: 'offen', ico: '🔓', formen: ['offen', 'offenen'], erkl: 'Ein offener Stromkreis hat eine Lücke – kein Strom fließt.', en: 'open', tr: 'açık', ar: 'مفتوح', uk: 'розімкнений', ru: 'разомкнутый' },
+  { w: 'unterbrochen', ico: '✂️', formen: ['unterbrochen', 'unterbricht'], erkl: 'Der Weg hat eine Lücke. Der Strom kann nicht weiter.', en: 'interrupted, broken', tr: 'kesilmiş', ar: 'مقطوع', uk: 'перерваний', ru: 'прерванный' },
+  { w: 'leuchten', ico: '✨', formen: ['leuchtet', 'leuchten', 'leuchtet'], erkl: 'Licht geben. Die Lampe leuchtet = sie ist an.', en: 'to shine, to light up', tr: 'yanmak, ışık vermek', ar: 'يضيء', uk: 'світитися', ru: 'светиться' },
+  { w: 'Lücke', art: 'die', pl: 'die Lücken', ico: '↔️', formen: ['Lücke', 'Lücken'], erkl: 'eine Stelle, an der etwas fehlt. Im Kabel: eine Unterbrechung.', en: 'gap', tr: 'boşluk', ar: 'فجوة', uk: 'проміжок, розрив', ru: 'разрыв, промежуток' },
+  { w: 'gefährlich', ico: '⛔', formen: ['gefährlich', 'lebensgefährlich'], erkl: 'Etwas kann dich verletzen oder sogar töten.', en: 'dangerous', tr: 'tehlikeli', ar: 'خطير', uk: 'небезпечний', ru: 'опасный' }
+];
+
+/* =====================================================================
+   APP: Zustand, Darstellung der Aufgaben, Prüfen, Navigation
+   ===================================================================== */
+"use strict";
+var KEY = 'nw6a-labor-elehre-v1', MAXALTER = 3 * 3600 * 1000;
+var TABN = ['mA', 'mB', 'mC', 'mD', 'mE', 'mF', 'mG', 'mH'];
+var NNBSP = String.fromCharCode(0x202f);
+function neuerZustand() { var s = { v: 2, t: Date.now(), d: { klasse: '6a' }, seite: 0, exportiert: false }; TABN.forEach(function (n) { s[n] = []; }); return s; }
+function ergaenze(s) { if (!s.d || typeof s.d !== 'object') s.d = {}; TABN.forEach(function (n) { if (!Array.isArray(s[n])) s[n] = []; }); return s; }
+function laden() {
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.d && Date.now() - s.t < MAXALTER) return ergaenze(s);
+    localStorage.removeItem(KEY);
+  } catch (e) {}
+  return null;
+}
+var S = laden() || neuerZustand(), warAlt = !!(S.d.vorname || S.d.nachname);
+var speicherTimer = null;
+function speichern() {
+  S.t = Date.now();
+  clearTimeout(speicherTimer);
+  speicherTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  aktualisiereStatus();
+}
+function $(id) { return document.getElementById(id); }
+function fmt(x, st) { if (x === '' || x == null || isNaN(x)) return '–'; return Number(x).toLocaleString('de-DE', { maximumFractionDigits: st == null ? 2 : st }).replace(/\./g, NNBSP); }
+function zahl(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, '').split(NNBSP).join('').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.'); return s === '' ? NaN : Number(s); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+var _dek = document.createElement('textarea');
+function plain(html) {
+  var s = String(html || '').replace(/<sub>(.*?)<\/sub>/g, '_$1').replace(/<br\s*\/?>/g, '\n').replace(/<div class="fremd">/g, '\n').replace(/<\/div>/g, '\n').replace(/<[^>]+>/g, '');
+  _dek.innerHTML = s; return _dek.value.replace(/[ \t]+/g, ' ').replace(/\n\s*/g, '\n').trim();
+}
+function wert(k) { var v = S.d[k]; return v != null && String(v).trim() ? String(v).trim() : ''; }
+
+/* ---------- Aufgabenliste ---------- */
+var AUFG = [], PRUEF = {};
+STATIONEN.forEach(function (st) {
+  st.bloecke.forEach(function (b) {
+    if (b.b !== 'a') return;
+    b.st = st; b.id = 'a' + b.nr.replace('.', '-'); AUFG.push(b);
+    (b.felder || []).forEach(function (f) { PRUEF[f.k] = f; });
+  });
+});
+var LV = { 1: '● Basis', 2: '●● Plus', 3: '●●● Profi', S: '★ Extra' };
+function zaehlt(a) { return a.lv !== 'S'; }               // Sprinter sind freiwillig
+function basis(a) { return a.lv === 1 || a.lv === 2; }     // Basisaufgaben (Warnung, wenn offen)
+
+/* ---------- Einheiten und Prüfen ---------- */
+var EINH = { J: 1, kJ: 1e3, MJ: 1e6, W: 1, kW: 1e3, N: 1, kN: 1e3, m: 1, cm: 0.01, km: 1000, s: 1, min: 60, kg: 1 };
+var GRUPPE = { J: 'J', kJ: 'J', MJ: 'J', W: 'W', kW: 'W', N: 'N', kN: 'N', m: 'm', cm: 'm', km: 'm', s: 's', min: 's', kg: 'kg' };
+var EINHTEXT = { J: 'Arbeit und Energie misst man in Joule (J, kJ, MJ).', W: 'Leistung misst man in Watt (W, kW).', N: 'Kraft misst man in Newton (N).', m: 'Wege und Höhen misst man in Metern.', s: 'Zeiten misst man in Sekunden oder Minuten.' };
+function bewerte(k) {
+  var p = PRUEF[k], v = zahl(S.d[k]);
+  if (isNaN(v)) return { ok: false, msg: 'Trage zuerst eine Zahl ein.' };
+  var e = p.fest || S.d[k + 'E'] || '';
+  if (!e) return { ok: false, msg: 'Wähle noch die passende Einheit.' };
+  if (GRUPPE[e] !== p.basis) return { ok: false, msg: 'Die Einheit passt nicht zu dieser Größe. ' + (EINHTEXT[p.basis] || '') };
+  var w = v * EINH[e];
+  if (Math.abs(w - p.soll) <= Math.max(0.01 * Math.abs(p.soll), 0.05)) return { ok: true, msg: 'Richtig! ✓' };
+  return { ok: false, msg: 'Noch nicht richtig. Tipp: ' + p.tipp };
+}
+function zeigePruefung(k, still) {
+  var r = bewerte(k), box = document.querySelector('[data-rueck="' + k + '"]');
+  if (!still) S.d[k + '.ok'] = r.ok ? 'richtig' : 'falsch';
+  if (box) { box.className = 'rueck ' + (r.ok ? 'ok' : 'no'); box.textContent = r.msg; }
+  if (!still) speichern();
+}
+function mitEinheit(f) {
+  var v = wert(f.k); if (!v) return '';
+  var e = f.fest || S.d[f.k + 'E'] || '', ok = S.d[f.k + '.ok'];
+  return plain(f.gr) + ' = ' + v + (e ? ' ' + e : ' (ohne Einheit)') + (ok === 'richtig' ? '   (mit „Prüfen“ als richtig bestätigt)' : ok === 'falsch' ? '   (Prüfen: noch nicht richtig)' : '');
+}
+
+/* ---------- Darstellung der Aufgaben ---------- */
+function hilfenHtml(h) { return (h || []).map(function (x) { return '<details class="hilfe"><summary>💡 ' + x[0] + '</summary><div>' + x[1] + '</div></details>'; }).join(''); }
+function feldHtml(f) {
+  var h = '<div class="zeile"><span class="gr">' + f.gr + ' =</span><input class="zahl" type="text" inputmode="decimal" data-k="' + f.k + '" aria-label="Ergebnis ' + esc(plain(f.gr)) + '">';
+  if (f.fest) h += '<span class="einheit">' + f.fest + '</span>';
+  else h += '<select data-k="' + f.k + 'E" aria-label="Einheit"><option value="">Einheit</option>' + f.einh.map(function (e) { return '<option>' + e + '</option>'; }).join('') + '</select>';
+  return h + '<button class="knopf grau klein" data-pruefe="' + f.k + '">Prüfen</button></div><div class="rueck" data-rueck="' + f.k + '" aria-live="polite"></div>';
+}
+function textHtml(k, platz, hoch, label) {
+  return (label ? '<label class="feld" for="t-' + k + '">' + label + '</label>' : '') +
+    '<textarea id="t-' + k + '" data-k="' + k + '" rows="' + (hoch || 4) + '" placeholder="' + esc(platz || '') + '" aria-label="' + esc(label || 'Antwort') + '"></textarea>';
+}
+function aufgabeHtml(a) {
+  var h = '<div class="akopf"><span class="anr">' + a.nr + '</span><span class="phase">' + a.ph + '</span><span class="lv lv' + a.lv + '">' + LV[a.lv] + '</span><span class="astatus" id="st-' + a.id + '"></span><button class="lies" data-lies="1" title="Aufgabe vorlesen" aria-label="Aufgabe vorlesen">🔊</button></div>';
+  if (a.frage && a.art !== 'messung') h += '<div class="afrage">' + a.frage + '</div>';
+  switch (a.art) {
+    case 'text':
+      h += textHtml(a.k, a.platz, a.hoch, null) + schreibhilfe(a.k, a.platz, a.wort);
+      break;
+    case 'mcs':
+      a.items.forEach(function (it) {
+        h += '<div class="zeile mczeile"><span>' + it.t + '</span><select data-k="' + it.k + '" aria-label="' + esc(plain(it.t)) + '"><option value="">bitte wählen</option>' + it.opt.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select></div>';
+      });
+      if (a.begr) h += textHtml(a.begr.k, a.begr.platz, 3, a.begr.frage) + schreibhilfe(a.begr.k, a.begr.platz, a.begr.wort);
+      break;
+    case 'rechnung':
+      if (a.weg) h += textHtml(a.weg.k, a.weg.platz, 2, a.weg.label || 'Rechnung (mit Einheiten)');
+      a.felder.forEach(function (f) { h += feldHtml(f); });
+      if (a.satz) h += textHtml(a.satz.k, a.satz.platz, 2, a.satz.label || 'Antwortsatz');
+      break;
+    case 'urteile':
+      h += '<div class="situationen">' + a.items.map(function (s, i) {
+        var n = i + 1, k = a.k + '.' + n;
+        return '<div class="sit" id="u-' + a.k + '-' + n + '"><div class="ico" aria-hidden="true">' + s.ico + '</div><p><b>' + n + '.</b> ' + s.t + '</p>' +
+          '<div class="wahl" role="radiogroup" aria-label="Aussage ' + n + '"><label><input type="radio" name="r-' + k + '" value="ja" data-k="' + k + '">' + a.labels[0] + '</label>' +
+          '<label><input type="radio" name="r-' + k + '" value="nein" data-k="' + k + '">' + a.labels[1] + '</label></div><div class="erkl"><b class="urteil"></b> ' + s.e + '</div></div>';
+      }).join('') + '</div><div class="knoepfe"><button class="knopf" data-urteil="' + a.k + '">Auswerten</button><span class="satzhilfe" id="ui-' + a.k + '" aria-live="polite"></span></div>';
+      break;
+    case 'zuordnung':
+      h += a.items.map(function (it) {
+        return '<div class="zeile mczeile"><span>' + it.t + '</span><select data-k="' + it.k + '" aria-label="' + esc(it.alt || plain(it.t)) + '"><option value="">wählen</option>' + a.opt.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select><span class="zumark" id="zm-' + it.k + '"></span></div>';
+      }).join('') + '<div class="knoepfe"><button class="knopf grau klein" data-zuord="' + a.k + '">Prüfen</button><span class="satzhilfe" id="zi-' + a.k + '" aria-live="polite"></span></div>';
+      break;
+    case 'luecke':
+      h += lueckeHtml(a);
+      break;
+    case 'messung':
+      h += '<div class="auftrag">' + a.frage + '</div><div class="tabplatz" data-tab="' + a.tab + '"></div><p class="satzhilfe">mindestens ' + a.min + ' Messungen</p>';
+      break;
+    case 'ichkann':
+      h += ICH.map(function (t, i) {
+        return '<div class="ichzeile"><div>' + t + '</div><div class="auswahl" role="radiogroup" aria-label="' + esc(t) + '">' + STUFEN.map(function (s, j) {
+          return '<label><input type="radio" name="ich' + i + '" value="' + s + '" data-k="' + a.k + i + '">' + ['😀', '🙂', '🤔'][j] + ' ' + s + '</label>';
+        }).join('') + '</div></div>';
+      }).join('');
+      break;
+  }
+  h += hilfenHtml(a.hilfen);
+  if (a.lv === 'S') return '<details class="zusatz aufgabe" id="' + a.id + '"><summary>★ Sprinter ' + a.nr + ': ' + (a.titel || '') + ' <span class="astatus" id="sts-' + a.id + '"></span></summary>' + h + '</details>';
+  return '<div class="aufgabe lvrand' + a.lv + '" id="' + a.id + '">' + h + '</div>';
+}
+function stationHtml(st, idx) {
+  var ab = ABSCHNITTE.filter(function (x) { return x.nr === st.ab; })[0];
+  var h = '<section class="seite" id="' + st.id + '" data-titel="' + st.nr + '">';
+  h += '<div class="stationskopf"><div class="nr">' + st.nr + '</div><div><div class="abschnittmarke">' + (ab ? 'Lernabschnitt ' + ab.nr + ' · ' + ab.titel : 'Abschluss') + '</div><h1>' + st.titel + '</h1><div class="zeit">ca. ' + st.zeit + ' Minuten · ' + st.bloecke.filter(function (b) { return b.b === 'a' && b.lv !== 'S'; }).length + ' Aufgaben + Extra</div></div></div>';
+  h += '<div class="problem"><div class="problemico" aria-hidden="true">' + st.ico + '</div><div><div class="problemmarke">' + (st.ab === 0 ? 'ZUM ABSCHLUSS' : 'DIE FRAGE') + ' <button class="lies" data-lies="1" title="Vorlesen" aria-label="Text vorlesen">🔊</button></div><div class="ptext">' + st.problem + '</div></div></div>';
+  st.bloecke.forEach(function (b) {
+    if (b.b === 'a') h += aufgabeHtml(b);
+    else if (b.b === 'info') h += '<div class="info">' + b.html + '</div>';
+    else if (b.b === 'modell') h += '<div class="modell">🧩 ' + b.html + '</div>';
+    else if (b.b === 'sim') h += '<div class="simplatz" data-simplatz="' + b.sim + '"></div>';
+  });
+  var vor = idx > 0 ? '<button class="knopf grau" data-geh="' + idx + '">◂ ' + (idx === 1 ? 'Start' : 'Station ' + STATIONEN[idx - 2].nr) + '</button>' : '<span></span>';
+  var nach = idx < STATIONEN.length ? '<button class="knopf" data-geh="' + (idx + 2) + '">Weiter zu Station ' + STATIONEN[idx].nr + ' ▸</button>' : '<button class="knopf or" data-geh="' + (idx + 2) + '">Zur Abgabe ▸</button>';
+  var zw = '<button class="knopf dunkel" data-zwischen="1">📄 Zwischenstand als PDF</button>';
+  return h + '<div class="weiter">' + vor + zw + nach + '</div></section>';
+}
+
+/* ---------- Fertig? ---------- */
+function istFertig(a) {
+  switch (a.art) {
+    case 'text': return !!wert(a.k);
+    case 'mcs': return a.items.every(function (it) { return wert(it.k); }) && (!a.begr || !!wert(a.begr.k));
+    case 'rechnung': return a.felder.every(function (f) { return wert(f.k) && (f.fest || wert(f.k + 'E')); }) && (!a.weg || !!wert(a.weg.k)) && (!a.satz || !!wert(a.satz.k));
+    case 'urteile': return a.items.every(function (s, i) { return wert(a.k + '.' + (i + 1)); });
+    case 'zuordnung': return a.items.every(function (it) { return wert(it.k); });
+    case 'messung': return S[a.tab].length >= a.min;
+    case 'luecke': return LUECKEN[a.k].every(function (g, i) { return wert(a.k + '.' + i); });
+    case 'ichkann': return ICH.every(function (t, i) { return wert(a.k + i); });
+  }
+  return false;
+}
+function begonnen(a) {
+  if (istFertig(a)) return true;
+  switch (a.art) {
+    case 'text': return false;
+    case 'mcs': return a.items.some(function (it) { return wert(it.k); }) || (a.begr && !!wert(a.begr.k));
+    case 'rechnung': return a.felder.some(function (f) { return wert(f.k); }) || (a.weg && !!wert(a.weg.k)) || (a.satz && !!wert(a.satz.k));
+    case 'urteile': return a.items.some(function (s, i) { return wert(a.k + '.' + (i + 1)); });
+    case 'zuordnung': return a.items.some(function (it) { return wert(it.k); });
+    case 'messung': return S[a.tab].length > 0;
+    case 'luecke': return LUECKEN[a.k].some(function (g, i) { return wert(a.k + '.' + i); });
+    case 'ichkann': return ICH.some(function (t, i) { return wert(a.k + i); });
+  }
+  return false;
+}
+function stand(filter) {
+  var liste = AUFG.filter(filter), f = liste.filter(istFertig).length;
+  return { fertig: f, gesamt: liste.length, proz: liste.length ? Math.round(100 * f / liste.length) : 0 };
+}
+
+/* ---------- Bindung aller Eingabefelder ---------- */
+function binde(wurzel) {
+  wurzel.querySelectorAll('[data-k]').forEach(function (el) {
+    var k = el.dataset.k;
+    if (el.type === 'radio') {
+      el.checked = S.d[k] === el.value;
+      el.addEventListener('change', function () { if (el.checked) { S.d[k] = el.value; speichern(); } });
+    } else {
+      if (S.d[k] != null) el.value = S.d[k];
+      var f = function () {
+        S.d[k] = el.value;
+        var b = PRUEF[k] ? k : (/E$/.test(k) && PRUEF[k.slice(0, -1)] ? k.slice(0, -1) : null);
+        if (b) { delete S.d[b + '.ok']; var box = document.querySelector('[data-rueck="' + b + '"]'); if (box) box.className = 'rueck'; }
+        speichern();
+      };
+      el.addEventListener('input', f); el.addEventListener('change', f);
+    }
+  });
+}
+function urteilAuswerten(k, still) {
+  var a = AUFG.filter(function (x) { return x.art === 'urteile' && x.k === k; })[0];
+  var fehlt = a.items.filter(function (s, i) { return !S.d[k + '.' + (i + 1)]; }).length;
+  if (fehlt) { if (!still) $('ui-' + k).textContent = 'Entscheide zuerst alle Aussagen (es fehlen noch ' + fehlt + ').'; return; }
+  var r = 0;
+  a.items.forEach(function (s, i) {
+    var n = i + 1, ok = (S.d[k + '.' + n] === 'ja') === s.ja, el = $('u-' + k + '-' + n);
+    el.classList.remove('richtig', 'falsch'); el.classList.add(ok ? 'richtig' : 'falsch');
+    el.querySelector('.urteil').textContent = (ok ? '✓ Richtig: ' : '✗ Nicht ganz: ') + (s.ja ? a.labels[0] : a.labels[1]) + '.';
+    el.querySelectorAll('input').forEach(function (x) { x.disabled = true; });
+    if (ok) r++;
+  });
+  S.d[k + '.ausgewertet'] = '1'; S.d[k + '.punkte'] = String(r);
+  $('ui-' + k).textContent = r + ' von ' + a.items.length + ' richtig. Lies die Erklärungen – besonders bei den roten Karten.';
+  document.querySelector('[data-urteil="' + k + '"]').disabled = true;
+  if (!still) speichern();
+}
+function urteilText(a) {
+  return a.items.map(function (s, i) {
+    var w = S.d[a.k + '.' + (i + 1)], t = (i + 1) + '. ' + s.t + ' -> ' + (w === 'ja' ? a.labels[0] : w === 'nein' ? a.labels[1] : '–');
+    if (S.d[a.k + '.ausgewertet'] && w) t += ((w === 'ja') === s.ja ? '  (richtig)' : '  (falsch)');
+    return t;
+  }).join('\n') + (S.d[a.k + '.ausgewertet'] ? '\nAuswertung: ' + S.d[a.k + '.punkte'] + ' von ' + a.items.length + ' richtig' : '\nnoch nicht ausgewertet');
+}
+function zuordPruefen(k, still) {
+  var a = AUFG.filter(function (x) { return x.art === 'zuordnung' && x.k === k; })[0], r = 0;
+  a.items.forEach(function (it) { var ok = S.d[it.k] === it.soll; if (ok) r++; var m = $('zm-' + it.k); if (m) { m.textContent = S.d[it.k] ? (ok ? '✓' : '✗') : ''; m.className = 'zumark ' + (ok ? 'gut' : 'schlecht'); } });
+  if (!still) { S.d[k + '.ok'] = r + ' von ' + a.items.length; speichern(); }
+  $('zi-' + k).textContent = r + ' von ' + a.items.length + ' richtig' + (r < a.items.length ? ' – ' + (a.tipp || 'schau dir die roten ✗ noch einmal an.') : '. Super! 🎉');
+}
+
+/* ---------- Teile einer Aufgabe als Text (für Vorschau und PDF) ---------- */
+function teile(a) {
+  var T = [];
+  switch (a.art) {
+    case 'text': T.push({ l: 'Antwort', v: wert(a.k) }); break;
+    case 'mcs': a.items.forEach(function (it) { T.push({ l: plain(it.t), v: wert(it.k) }); }); if (a.begr) T.push({ l: a.begr.frage, v: wert(a.begr.k) }); break;
+    case 'rechnung':
+      if (a.weg) T.push({ l: a.weg.label || 'Rechnung', v: wert(a.weg.k) });
+      a.felder.forEach(function (f) { T.push({ l: 'Ergebnis', v: mitEinheit(f) }); });
+      if (a.satz) T.push({ l: a.satz.label || 'Antwortsatz', v: wert(a.satz.k) });
+      break;
+    case 'urteile': T.push({ l: 'Entscheidungen', v: urteilText(a) }); break;
+    case 'zuordnung': T.push({ l: 'Zuordnung', v: a.items.map(function (it) { return (it.alt || plain(it.t)) + ': ' + (S.d[it.k] || '–') + (S.d[it.k] ? (S.d[it.k] === it.soll ? ' (richtig)' : ' (falsch)') : ''); }).join('\n') }); break;
+    case 'messung': T.push({ tab: a.tab }); break;
+    case 'luecke': T.push({ l: 'Lückentext', v: lueckeText(a) }); break;
+    case 'ichkann': T.push({ l: 'Selbsteinschätzung', v: ICH.map(function (t, i) { return t + ' – ' + (S.d[a.k + i] || 'nicht angekreuzt'); }).join('\n') }); break;
+  }
+  return T;
+}
+
+/* ---------- Messtabellen ---------- */
+/* Messtabellen: Spalten stehen in inhalt.js (MESSTAB) */
+var TABS = MESSTAB;
+function tabelleHtml(name, mitLoeschen) {
+  var t = TABS[name], z = t.zeilen();
+  var h = '<table class="mess"><thead><tr>' + t.kopf.map(function (k) { return '<th>' + k + '</th>'; }).join('') + (mitLoeschen ? '<th></th>' : '') + '</tr></thead><tbody>';
+  if (!z.length) h += '<tr class="leer"><td colspan="' + (t.kopf.length + 1) + '">Noch keine Messwerte – führe einen Versuch durch und speichere ihn.</td></tr>';
+  z.forEach(function (r, i) { h += '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + (mitLoeschen ? '<td><button class="weg" data-weg="' + name + ':' + i + '" aria-label="Zeile ' + (i + 1) + ' löschen">✕</button></td>' : '') + '</tr>'; });
+  return h + '</tbody></table>';
+}
+function zeigeTabellen(name) {
+  document.querySelectorAll('.tabplatz' + (name ? '[data-tab="' + name + '"]' : '')).forEach(function (p) { p.innerHTML = tabelleHtml(p.dataset.tab, true); });
+}
+function messwertDazu(name, zeile) {
+  if (S[name].length >= 15) { alert('Die Tabelle ist voll (15 Zeilen). Lösche zuerst eine Zeile.'); return false; }
+  S[name].push(zeile); zeigeTabellen(name); speichern(); return true;
+}
+
+/* ---------- Navigation und Fortschritt ---------- */
+var SEITEN_IDS = ['start'].concat(STATIONEN.map(function (s) { return s.id; })).concat(['abgabe']);
+function baueNav() {
+  var h = '<button data-geh="0" id="nav0" class="navstart">Start</button>';
+  ABSCHNITTE.forEach(function (ab) {
+    h += '<div class="abgr" title="' + ab.titel + ' (ca. ' + ab.zeit + ' min)"><div class="abkopf"><span>' + ab.nr + ' · ' + ab.kurz + '</span><span class="abproz" id="abp' + ab.nr + '"></span></div><div class="abbtns">';
+    STATIONEN.forEach(function (st, i) { if (st.ab === ab.nr) h += '<button data-geh="' + (i + 1) + '" id="nav' + (i + 1) + '" aria-label="Station ' + st.nr + ': ' + esc(st.titel) + '">' + st.nr + '</button>'; });
+    h += '</div><div class="abbar"><i id="abb' + ab.nr + '"></i></div></div>';
+  });
+  var i9 = STATIONEN.length, letzte = STATIONEN[i9 - 1];
+  h += '<div class="abgr"><div class="abkopf"><span>Abschluss</span></div><div class="abbtns"><button data-geh="' + i9 + '" id="nav' + i9 + '" aria-label="Station ' + letzte.nr + ': ' + esc(letzte.titel) + '">' + letzte.nr + '</button><button class="abgabeknopf" data-geh="' + (i9 + 1) + '" id="nav' + (i9 + 1) + '">✓ Abgabe</button></div></div>';
+  $('nav').innerHTML = h;
+}
+function aktualisiereStatus() {
+  AUFG.forEach(function (a) {
+    var f = istFertig(a), b = !f && begonnen(a), el = $('st-' + a.id), el2 = $('sts-' + a.id);
+    var t = f ? '✓ erledigt' : b ? '◐ begonnen' : '', c = 'astatus ' + (f ? 'fertig' : b ? 'halb' : '');
+    if (el) { el.textContent = t; el.className = c; }
+    if (el2) { el2.textContent = t; el2.className = c; }
+  });
+  ABSCHNITTE.forEach(function (ab) {
+    var s = stand(function (a) { return a.st.ab === ab.nr && zaehlt(a); });
+    var b = $('abb' + ab.nr), p = $('abp' + ab.nr); if (b) b.style.width = s.proz + '%'; if (p) p.textContent = s.proz + ' %';
+  });
+  STATIONEN.forEach(function (st, i) {
+    var s = stand(function (a) { return a.st === st && zaehlt(a); }), b = $('nav' + (i + 1));
+    if (b) { b.classList.toggle('fertig', s.fertig === s.gesamt); b.classList.toggle('teil', s.fertig > 0 && s.fertig < s.gesamt); }
+  });
+  var g = stand(zaehlt); $('fort').style.width = g.proz + '%'; $('fortBalken').setAttribute('aria-valuenow', g.proz);
+  var fz = $('fortZahl'); if (fz) fz.textContent = g.fertig + ' von ' + g.gesamt + ' Aufgaben';
+}
+function geh(i) {
+  i = Math.max(0, Math.min(SEITEN_IDS.length - 1, i));
+  if (i > 0 && !(S.d.vorname || '').trim() && !(S.d.nachname || '').trim()) { i = 0; alert('Bitte trage zuerst deinen Vor- und Nachnamen ein.'); $('vorname').focus(); return; }
+  SEITEN_IDS.forEach(function (id, j) {
+    var sec = $(id); if (sec) sec.classList.toggle('aktiv', j === i);
+    var b = $('nav' + j); if (b) { if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); }
+  });
+  S.seite = i; speichern();
+  // Simulationen in die aktuelle Station holen
+  var sec = $(SEITEN_IDS[i]);
+  if (sec) sec.querySelectorAll('[data-simplatz]').forEach(function (p) { var el = SIMEL[p.dataset.simplatz]; if (el && el.parentNode !== p) p.appendChild(el); SIMZEICHNE[p.dataset.simplatz](); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (SEITEN_IDS[i] === 'abgabe') baueUebersicht();
+}
+function aktuelleStation() { return SEITEN_IDS[S.seite] || ''; }
+
+/* ---------- Übersicht vor der Abgabe ---------- */
+function nameText() { return ((S.d.vorname || '').trim() + ' ' + (S.d.nachname || '').trim()).trim() || 'ohne Namen'; }
+function heute() { var d = new Date(); return { iso: d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2), de: d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) }; }
+var KOMB = new RegExp('[' + String.fromCharCode(0x300) + '-' + String.fromCharCode(0x36f) + ']', 'g');
+function sauber(s) { return (s || '').trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss').normalize('NFD').replace(KOMB, '').replace(/[^A-Za-z0-9-]+/g, '-').replace(/^-+|-+$/g, ''); }
+function dateiname(modus) { return 'NW_' + (sauber(S.d.klasse) || '6a') + '_' + (sauber(S.d.nachname) || 'Nachname') + '_' + (sauber(S.d.vorname) || 'Vorname') + '_' + heute().iso + (modus === 'zwischen' ? '_Zwischenstand' : '') + '.pdf'; }
+function fehlendeBasis() { return AUFG.filter(function (a) { return basis(a) && !istFertig(a); }); }
+function baueUebersicht() {
+  var tab = '<table class="mess standtab"><thead><tr><th>Station</th><th style="text-align:left">Thema</th><th>Abschnitt</th><th>erledigt</th><th>Messwerte</th></tr></thead><tbody>';
+  STATIONEN.forEach(function (st, i) {
+    var s = stand(function (a) { return a.st === st && zaehlt(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (x, y) { return x + y; }, 0);
+    tab += '<tr><td><a href="#" data-geh="' + (i + 1) + '">' + st.nr + '</a></td><td style="text-align:left">' + st.titel + '</td><td>' + (st.ab || '–') + '</td><td>' + s.fertig + ' / ' + s.gesamt + (s.fertig === s.gesamt ? ' ✓' : '') + '</td><td>' + (mess || '–') + '</td></tr>';
+  });
+  tab += '</tbody></table>';
+  var f = fehlendeBasis(), g = stand(zaehlt);
+  $('fehlBox').innerHTML = '<div class="karte"><h2>Dein Arbeitsstand: ' + g.fertig + ' von ' + g.gesamt + ' Aufgaben (' + g.proz + ' %)</h2>' + tab +
+    (f.length ? '<p class="satzhilfe">Noch offene Basis- und Plus-Aufgaben: ' + f.length + '. Das ist in Ordnung! Du musst nicht alles an einem Tag schaffen. Speichere deinen <b>Zwischenstand</b>.</p>' : '<p><b>Super – alle Basis- und Plus-Aufgaben sind bearbeitet! 🎉</b></p>') + '</div>';
+  var h = '<h2>Vorschau: Das steht in deinem Protokoll</h2><p><b>' + esc(nameText()) + '</b> · Klasse ' + esc(S.d.klasse || '6a') + ' · ' + heute().de + '</p>';
+  STATIONEN.forEach(function (st) {
+    var liste = AUFG.filter(function (a) { return a.st === st; });
+    if (!liste.some(begonnen)) { h += '<h3>Station ' + st.nr + ' · ' + esc(st.titel) + '</h3><p class="fehlt">noch nicht begonnen</p>'; return; }
+    h += '<h3>Station ' + st.nr + ' · ' + esc(st.titel) + '</h3><dl>';
+    liste.forEach(function (a) {
+      if (!begonnen(a)) { if (a.lv !== 'S') h += '<dt>' + a.nr + ' · ' + LV[a.lv] + ' · ' + a.ph + '</dt><dd class="fehlt">noch nicht bearbeitet</dd>'; return; }
+      h += '<dt>' + a.nr + ' · ' + LV[a.lv] + ' · ' + a.ph + (istFertig(a) ? ' ✓' : ' (begonnen)') + '</dt>';
+      teile(a).forEach(function (p) {
+        if (p.tab) { h += '<dd>' + (S[p.tab].length ? tabelleHtml(p.tab, false) : '<span class="fehlt">keine Messwerte</span>') + '</dd>'; return; }
+        h += '<dd><i>' + esc(p.l) + ':</i> ' + (p.v ? esc(p.v) : '<span class="fehlt">–</span>') + '</dd>';
+      });
+    });
+    h += '</dl>';
+  });
+  $('uebersicht').innerHTML = h;
+  $('dateiname').textContent = 'Dateiname: ' + dateiname('voll');
+}
+
+/* =====================================================================
+   HILFEN für Sprachanfänger: Vorlesen, Wörterbuch mit Übersetzung,
+   Wortspeicher-Knöpfe, Satzanfänge, Lückentexte mit Prüfen
+   ===================================================================== */
+var SPRACHEN = { '': 'nur Deutsch', en: 'English', tr: 'Türkçe', ar: 'العربية', uk: 'Українська', ru: 'Русский' };
+
+/* ---------- Schreibhilfe unter Textfeldern ---------- */
+function schreibhilfe(k, platz, wort) {
+  var h = '<div class="schreibhilfe">';
+  if (platz && /…|\.\.\./.test(platz)) h += '<button type="button" class="chip satz" data-satz="' + k + '" title="Satzanfang in das Feld schreiben">✍️ Satzanfang benutzen</button>';
+  if (wort) h += '<span class="wsp">Wörter:</span>' + wort.split(' · ').map(function (w) { return '<button type="button" class="chip" data-chip="' + k + '">' + w + '</button>'; }).join('');
+  return h + '</div>';
+}
+function einfuegen(k, txt, ersetzen) {
+  var ta = $('t-' + k); if (!ta) return;
+  if (ersetzen) { if (ta.value.trim() && !confirm('Im Feld steht schon Text. Satzanfang trotzdem einfügen (dein Text bleibt dahinter stehen)?')) return; ta.value = txt + (ta.value.trim() ? '\n' + ta.value : ''); }
+  else {
+    var a = ta.selectionStart != null ? ta.selectionStart : ta.value.length, b = ta.selectionEnd != null ? ta.selectionEnd : a;
+    if (document.activeElement !== ta && ta.dataset.cur != null) a = b = Number(ta.dataset.cur);
+    var vor = ta.value.slice(0, a), nach = ta.value.slice(b), luecke = vor && !/\s$/.test(vor) ? ' ' : '';
+    ta.value = vor + luecke + txt + ' ' + nach; var pos = (vor + luecke + txt + ' ').length; ta.dataset.cur = pos;
+  }
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+  ta.focus(); var e = ersetzen ? ta.value.indexOf('…') : Number(ta.dataset.cur);
+  if (e >= 0) try { ta.setSelectionRange(e, ersetzen ? e + 1 : e); } catch (x) {}
+}
+
+/* ---------- Lückentexte ---------- */
+var LUECKEN = {};
+AUFG.forEach(function (a) {
+  if (a.art !== 'luecke') return;
+  var g = []; a.text.replace(/\[\[(.*?)\]\]/g, function (m, inn) { var o = inn.split('|'), soll = ''; o = o.map(function (x) { if (x[0] === '*') { soll = x.slice(1); return soll; } return x; }); g.push({ opt: o, soll: soll }); return m; });
+  LUECKEN[a.k] = g;
+});
+function lueckeHtml(a) {
+  var i = -1;
+  var t = a.text.replace(/\[\[(.*?)\]\]/g, function () {
+    i++; var g = LUECKEN[a.k][i], k = a.k + '.' + i;
+    return '<span class="lueck"><select data-k="' + k + '" aria-label="Lücke ' + (i + 1) + '"><option value="">…?</option>' + g.opt.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select><span class="zumark" id="lm-' + a.k + '-' + i + '"></span></span>';
+  });
+  return '<div class="lueckentext">' + t + '</div><div class="knoepfe"><button class="knopf grau klein" data-luecke="' + a.k + '">✔ Prüfen</button><span class="satzhilfe" id="li-' + a.k + '" aria-live="polite"></span></div>';
+}
+function lueckePruefen(k, still) {
+  var g = LUECKEN[k], r = 0, leer = 0;
+  g.forEach(function (x, i) {
+    var w = S.d[k + '.' + i], m = $('lm-' + k + '-' + i), ok = w === x.soll; if (!w) leer++; if (ok) r++;
+    if (m) { m.textContent = w ? (ok ? '✓' : '✗') : ''; m.className = 'zumark ' + (ok ? 'gut' : 'schlecht'); }
+  });
+  if (!still) { S.d[k + '.ok'] = r + ' von ' + g.length; speichern(); }
+  var info = $('li-' + k); if (info) info.textContent = r + ' von ' + g.length + ' richtig' + (leer ? ' · ' + leer + ' Lücken sind noch leer.' : r < g.length ? ' – ändere die roten ✗ und prüfe noch einmal.' : '. Super! 🎉');
+}
+function lueckeText(a) {
+  var i = -1;
+  var t = plain(a.text.replace(/\[\[(.*?)\]\]/g, function () { i++; var w = S.d[a.k + '.' + i]; return w ? '[' + w + ']' : '[ ___ ]'; }));
+  return t + (S.d[a.k + '.ok'] ? '\nGeprüft: ' + S.d[a.k + '.ok'] + ' richtig' : '');
+}
+
+/* ---------- Vorlesen (Sprachausgabe des Browsers) ---------- */
+var KANN_SPRECHEN = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance === 'function';
+function sprich(text, sprache) {
+  if (!KANN_SPRECHEN) { alert('Dieser Browser kann leider nicht vorlesen.'); return; }
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text.replace(/[←-⇿☀-➿]|[\ud800-\udfff]/g, ' ').replace(/·/g, ',').replace(/→/g, ' zu ').replace(/\s+/g, ' '));
+  u.lang = sprache || 'de-DE'; u.rate = 0.85;
+  var st = speechSynthesis.getVoices().filter(function (v) { return v.lang && v.lang.replace('_', '-').indexOf(u.lang.slice(0, 2)) === 0; })[0]; if (st) u.voice = st;
+  speechSynthesis.speak(u);
+}
+function vorlesen(knopf) {
+  var box = knopf.closest('.aufgabe, .problem, .sit, .wortpop');
+  if (!box) return;
+  var teil = box.classList.contains('problem') ? box.querySelector('.ptext') : box.querySelector('.afrage, .auftrag, .lueckentext');
+  var txt = '';
+  if (teil) { var kl = teil.cloneNode(true); kl.querySelectorAll('select').forEach(function (s) { s.replaceWith(document.createTextNode(s.value || ' Lücke ')); }); kl.querySelectorAll('svg, .zumark').forEach(function (s) { s.remove(); }); txt = kl.textContent; }
+  if (box.classList.contains('aufgabe')) {
+    var lt = box.querySelector('.lueckentext'); if (lt && teil !== lt) { var kl2 = lt.cloneNode(true); kl2.querySelectorAll('select').forEach(function (s) { s.replaceWith(document.createTextNode(s.value || ' Lücke ')); }); txt += '. ' + kl2.textContent; }
+    box.querySelectorAll('.mczeile > span:first-child, .sit p').forEach(function (s) { txt += '. ' + s.textContent; });
+  }
+  sprich(txt);
+}
+
+/* ---------- Wörterbuch: Fachwörter antippen ---------- */
+var WFORM = [];
+GLOSSAR.forEach(function (g, i) { (g.formen || [g.w]).forEach(function (f) { WFORM.push({ f: f, i: i }); }); });
+WFORM.sort(function (a, b) { return b.f.length - a.f.length; });
+var WRE = new RegExp('(^|[^A-Za-zÄÖÜäöüß-])(' + WFORM.map(function (x) { return x.f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')(?![A-Za-zÄÖÜäöüß])', 'g');
+var WINDEX = {}; WFORM.forEach(function (x) { WINDEX[x.f] = x.i; });
+function markiereWoerter(wurzel) {
+  wurzel.querySelectorAll('.ptext, .afrage, .info, .sit p, .mczeile > span:first-child, .lueckentext').forEach(function (block) {
+    var schon = {}, gehe = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, { acceptNode: function (n) { return n.parentNode.closest('select, button, svg, .wort, option') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; } }), knoten = [];
+    while (gehe.nextNode()) knoten.push(gehe.currentNode);
+    knoten.forEach(function (n) {
+      var s = n.nodeValue, teile = [], letzte = 0, m; WRE.lastIndex = 0;
+      while ((m = WRE.exec(s))) {
+        var i = WINDEX[m[2]]; if (schon[i]) continue; schon[i] = 1;
+        var anf = m.index + m[1].length; teile.push(document.createTextNode(s.slice(letzte, anf)));
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'wort'; b.dataset.wort = i; b.textContent = m[2]; teile.push(b); letzte = anf + m[2].length;
+      }
+      if (!teile.length) return;
+      teile.push(document.createTextNode(s.slice(letzte)));
+      var frag = document.createDocumentFragment(); teile.forEach(function (x) { frag.appendChild(x); }); n.parentNode.replaceChild(frag, n);
+    });
+  });
+}
+function uebers(g) { var sp = S.d.sprache || ''; return sp && g[sp] ? '<div class="ueb" dir="auto"><small>' + SPRACHEN[sp] + ':</small> <b>' + g[sp] + '</b></div>' : ''; }
+function wortKarte(g) {
+  return '<div class="wkopf"><span class="wico">' + g.ico + '</span><div><b>' + (g.art ? g.art + ' ' : '') + g.w + '</b>' + (g.pl ? '<small> · Mehrzahl: ' + g.pl + '</small>' : '') + '</div><button class="lies" data-sprich="' + esc((g.art ? g.art + ' ' : '') + g.w + '. ' + plain(g.erkl)) + '" aria-label="Wort vorlesen">🔊</button></div><div class="werkl">' + g.erkl + '</div>' + uebers(g);
+}
+function zeigeWort(knopf) {
+  var g = GLOSSAR[Number(knopf.dataset.wort)], p = $('wortpop');
+  p.innerHTML = wortKarte(g) + '<button class="knopf grau klein" id="wortzu">OK ✕</button>';
+  p.hidden = false;
+  var r = knopf.getBoundingClientRect(), w = Math.min(340, window.innerWidth - 24);
+  p.style.width = w + 'px';
+  p.style.left = Math.max(12, Math.min(window.innerWidth - w - 12, r.left)) + 'px';
+  var unten = r.bottom + 8; p.style.top = (unten + p.offsetHeight > window.innerHeight - 10 ? Math.max(10, r.top - p.offsetHeight - 8) : unten) + 'px';
+  $('wortzu').focus();
+}
+function baueWoerterbuch() {
+  var sel = $('sprache');
+  sel.innerHTML = Object.keys(SPRACHEN).map(function (k) { return '<option value="' + k + '">' + SPRACHEN[k] + '</option>'; }).join('');
+  sel.value = S.d.sprache || '';
+  sel.addEventListener('change', function () { S.d.sprache = sel.value; speichern(); fuelleWB(); var ss = $('spracheStart'); if (ss) ss.value = sel.value; });
+  var ss = $('spracheStart');
+  if (ss) { ss.innerHTML = sel.innerHTML; ss.value = sel.value; ss.addEventListener('change', function () { sel.value = ss.value; sel.dispatchEvent(new Event('change')); }); }
+  $('wbSuche').addEventListener('input', fuelleWB);
+  fuelleWB();
+}
+function fuelleWB() {
+  var q = ($('wbSuche').value || '').toLowerCase().trim();
+  $('wbListe').innerHTML = GLOSSAR.map(function (g, i) { return { g: g, i: i }; }).filter(function (x) { return !q || (x.g.w + ' ' + (x.g.formen || []).join(' ') + ' ' + plain(x.g.erkl)).toLowerCase().indexOf(q) >= 0; })
+    .sort(function (a, b) { return a.g.w.localeCompare(b.g.w, 'de'); })
+    .map(function (x) { return '<div class="wbeintrag">' + wortKarte(x.g) + '</div>'; }).join('') || '<p class="satzhilfe">Kein Wort gefunden.</p>';
+}
+
+/* ---------- Ereignisse ---------- */
+function bindeHilfen() {
+  if (!KANN_SPRECHEN) document.body.classList.add('ohnesprache');
+  document.querySelectorAll('textarea[data-k]').forEach(function (ta) { ['keyup', 'click', 'blur'].forEach(function (ev) { ta.addEventListener(ev, function () { ta.dataset.cur = ta.selectionStart; }); }); });
+  document.addEventListener('click', function (e) {
+    var w = e.target.closest('.wort'); if (w) { e.preventDefault(); zeigeWort(w); return; }
+    if (e.target.closest('#wortzu') || (!e.target.closest('#wortpop') && !$('wortpop').hidden)) { $('wortpop').hidden = true; }
+    var sp = e.target.closest('[data-sprich]'); if (sp) { sprich(sp.dataset.sprich); return; }
+    var l = e.target.closest('[data-lies]'); if (l) { vorlesen(l); return; }
+    var c = e.target.closest('[data-chip]'); if (c) { einfuegen(c.dataset.chip, c.textContent, false); return; }
+    var s = e.target.closest('[data-satz]'); if (s) { var ta = $('t-' + s.dataset.satz); einfuegen(s.dataset.satz, ta.placeholder, true); return; }
+    var lu = e.target.closest('[data-luecke]'); if (lu) { lueckePruefen(lu.dataset.luecke); return; }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { $('wortpop').hidden = true; if (KANN_SPRECHEN) speechSynthesis.cancel(); } });
+  window.addEventListener('scroll', function () { $('wortpop').hidden = true; }, { passive: true });
+  Object.keys(LUECKEN).forEach(function (k) { if (S.d[k + '.ok']) lueckePruefen(k, true); });
+}
+
+/* =====================================================================
+   SIMULATIONEN A–H für das NW-Labor 6a (selbst programmiert, SVG)
+   Jede Simulation lebt in einem eigenen Element (SIMEL) und wird beim
+   Öffnen einer Station in deren Platzhalter verschoben.
+   ===================================================================== */
+var NS = 'http://www.w3.org/2000/svg';
+function el(tag, at, txt) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; return e; }
+var TXT = { 'font-family': 'Segoe UI, Arial, sans-serif' };
+function t(x, y, s, gr, farbe, extra) { var a = Object.assign({ x: x, y: y, 'font-size': gr || 16, fill: farbe || '#16202A' }, TXT, extra || {}); return el('text', a, s); }
+var reduziert = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var SIMEL = {}, SIMZEICHNE = {};
+function $q(d, s) { return d.querySelector(s); }
+function regler(id, label, min, max, step, wert, einheit) {
+  return '<div><label for="' + id + '">' + label + ': <b><output id="' + id + 'o"></output></b></label><input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + wert + '" data-einheit="' + einheit + '"></div>';
+}
+function lesR(id) { var r = $(id), v = Number(r.value); $(id + 'o').textContent = fmt(v) + (r.dataset.einheit ? ' ' + r.dataset.einheit : ''); return v; }
+function simBlock(id, titel, aria, h, inhalt) {
+  var d = document.createElement('div'); d.className = 'simblock';
+  d.innerHTML = '<div class="simtitel">🧪 ' + titel + '</div><div class="labor"><svg id="' + id + '_svg" viewBox="0 0 700 ' + h + '" role="img" aria-label="' + aria + '"></svg></div>' + inhalt;
+  return d;
+}
+function meldung(id, txt, art) { var m = $(id); m.className = 'simmeldung ' + (art || ''); m.innerHTML = txt; }
+
+/* ---------- Bauteile ---------- */
+var DUNKEL = '#34434F';
+function draht(svg, pts, an, farbe, rueck) {
+  var s = pts.map(function (p) { return p[0] + ',' + p[1]; }).join(' ');
+  svg.appendChild(el('polyline', { points: s, fill: 'none', stroke: farbe || DUNKEL, 'stroke-width': 5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+  if (an) {
+    var q = rueck ? pts.slice().reverse() : pts;
+    svg.appendChild(el('polyline', { points: q.map(function (p) { return p[0] + ',' + p[1]; }).join(' '), fill: 'none', 'class': 'fluss', 'stroke-linecap': 'round' }));
+  }
+}
+function punkt(svg, x, y) { svg.appendChild(el('circle', { cx: x, cy: y, r: 6, fill: DUNKEL })); }
+function batterie(svg, x, y, leer, anzahl) {
+  // waagerecht, Minuspol links (x), Pluspol rechts (x + 160)
+  var g = el('g', {});
+  g.appendChild(el('rect', { x: x, y: y, width: 150, height: 44, rx: 8, fill: leer ? '#C9CED3' : '#2F3B45' }));
+  g.appendChild(el('rect', { x: x + 105, y: y, width: 45, height: 44, rx: 0, fill: leer ? '#B0B6BC' : '#E4A72E' }));
+  g.appendChild(el('rect', { x: x + 150, y: y + 13, width: 9, height: 18, rx: 2, fill: '#8C969E' }));
+  g.appendChild(t(x + 12, y + 30, '−', 26, '#fff', { 'font-weight': 700 }));
+  g.appendChild(t(x + 118, y + 31, '+', 26, leer ? '#fff' : '#2F3B45', { 'font-weight': 800 }));
+  g.appendChild(t(x + 40, y + 28, anzahl ? anzahl + ' × 1,5 V' : '4,5 V', 13, '#fff', { 'font-weight': 600 }));
+  if (leer) g.appendChild(t(x + 22, y + 64, '🪫 Ladung: leer', 14, '#B3261E', { 'font-weight': 700 }));
+  g.appendChild(t(x - 26, y + 27, '−', 18, '#2B6CB0', { 'font-weight': 800 }));
+  g.appendChild(t(x + 166, y + 28, '+', 18, '#D64545', { 'font-weight': 800 }));
+  svg.appendChild(g);
+  return { minus: [x - 4, y + 22], plus: [x + 163, y + 22] };
+}
+function lampe(svg, cx, cy, hell, locker, frage, klick) {
+  // Kontakte unten bei (cx-12, cy+42) und (cx+12, cy+42)
+  var g = el('g', klick ? { 'class': 'klickbar', 'data-klick': klick } : {}), dy = locker ? -14 : 0;
+  if (hell > 0) {
+    g.appendChild(el('circle', { cx: cx, cy: cy + dy, r: 30 + 32 * hell, fill: '#FFE066', opacity: 0.25 + 0.35 * hell }));
+    if (hell > 0.6) for (var i = 0; i < 8; i++) { var w = i * Math.PI / 4; g.appendChild(el('line', { x1: cx + Math.cos(w) * 34, y1: cy + dy + Math.sin(w) * 34, x2: cx + Math.cos(w) * 46, y2: cy + dy + Math.sin(w) * 46, stroke: '#F2B705', 'stroke-width': 3, 'stroke-linecap': 'round' })); }
+  }
+  g.appendChild(el('circle', { cx: cx, cy: cy + dy, r: 24, fill: hell > 0 ? (hell > 0.6 ? '#FFF3A0' : hell > 0.35 ? '#FFE9A8' : '#F6E7C6') : '#EEF2F5', stroke: '#8C969E', 'stroke-width': 2.5 }));
+  g.appendChild(el('path', { d: 'M' + (cx - 8) + ',' + (cy + 20 + dy) + ' L' + (cx - 6) + ',' + (cy + dy) + ' Q' + cx + ',' + (cy - 10 + dy) + ' ' + (cx + 6) + ',' + (cy + dy) + ' L' + (cx + 8) + ',' + (cy + 20 + dy), fill: 'none', stroke: hell > 0 ? '#E07A00' : '#76838D', 'stroke-width': 2 }));
+  g.appendChild(el('rect', { x: cx - 13, y: cy + 22 + dy, width: 26, height: 12, rx: 2, fill: '#B8C2C9', stroke: '#76838D' }));
+  g.appendChild(el('rect', { x: cx - 18, y: cy + 34, width: 36, height: 9, rx: 2, fill: '#5E6B75' }));
+  if (frage) g.appendChild(t(cx - 7, cy + 8, '?', 24, '#5E6B75', { 'font-weight': 800 }));
+  svg.appendChild(g);
+}
+function schalter(svg, x1, y, x2, zu, klick, name) {
+  var g = el('g', klick ? { 'class': 'klickbar', 'data-klick': klick } : {});
+  g.appendChild(el('rect', { x: x1 - 8, y: y - 42, width: x2 - x1 + 16, height: 60, fill: 'transparent' }));
+  g.appendChild(el('circle', { cx: x1, cy: y, r: 6, fill: DUNKEL })); g.appendChild(el('circle', { cx: x2, cy: y, r: 6, fill: DUNKEL }));
+  var ex = zu ? x2 : x1 + (x2 - x1) * 0.82, ey = zu ? y : y - 30;
+  g.appendChild(el('line', { x1: x1, y1: y, x2: ex, y2: ey, stroke: zu ? '#0E7C7B' : '#B3261E', 'stroke-width': 6, 'stroke-linecap': 'round' }));
+  if (name) g.appendChild(t((x1 + x2) / 2 - name.length * 3.6, y + 26, name, 13, '#5E6B75', { 'font-weight': 700 }));
+  g.appendChild(t((x1 + x2) / 2 - 12, y - 34, zu ? 'zu' : 'offen', 12, zu ? '#0E7C7B' : '#B3261E', { 'font-weight': 700 }));
+  svg.appendChild(g);
+}
+function klickSvg(svg, fn) { svg.addEventListener('click', function (e) { var k = e.target.closest('[data-klick]'); if (k) fn(k.dataset.klick); }); }
+
+/* ======== Gemeinsames Bild: einfacher Stromkreis (A und B) ======== */
+function kreisBild(svg, c) {
+  svg.innerHTML = '';
+  var p = batterie(svg, 270, 230, c.leer);
+  var y1 = { minus: p.minus[1] - 5, plus: p.plus[1] - 5 }, y2 = { minus: p.minus[1] + 7, plus: p.plus[1] + 7 };
+  var k1 = [[338, 112], [338, 130], [262, 130]], k1b = [[198, 130], [150, 130]];
+  if (c.k1 === 'minus') k1b = k1b.concat([[150, y1.minus], [p.minus[0], y1.minus]]);
+  else if (c.k1 === 'plus') k1b = k1b.concat([[150, 305], [470, 305], [470, y1.plus], [p.plus[0], y1.plus]]);
+  else k1b = k1b.concat([[150, 200]]);
+  var k2 = [[362, 112], [362, 130], [550, 130]];
+  if (c.luecke) k2 = k2.concat([[550, 170]]);
+  var k2b = c.luecke ? [[550, 198]] : [];
+  if (c.k2 === 'plus') k2b = k2b.concat([[550, y2.plus], [p.plus[0], y2.plus]]);
+  else if (c.k2 === 'minus') k2b = k2b.concat([[550, 320], [115, 320], [115, y2.minus], [p.minus[0], y2.minus]]);
+  else k2b = k2b.concat([[550, 200]]);
+  var an = !!c.an, r1 = c.k1 === 'plus', r2 = c.k2 === 'plus';
+  draht(svg, k1, an, '#C0392B', r1); draht(svg, k1b, an, '#C0392B', r1);
+  if (c.luecke) { draht(svg, k2, false, '#2B6CB0'); draht(svg, k2b, false, '#2B6CB0'); }
+  else draht(svg, k2.concat(k2b), an, '#2B6CB0', r2);
+  if (c.k1 === 'nichts') { svg.appendChild(el('circle', { cx: 150, cy: 204, r: 8, fill: '#C0392B' })); svg.appendChild(t(70, 228, 'nicht verbunden', 12, '#C0392B')); }
+  if (c.k2 === 'nichts') { svg.appendChild(el('circle', { cx: 550, cy: 204, r: 8, fill: '#2B6CB0' })); svg.appendChild(t(500, 228, 'nicht verbunden', 12, '#2B6CB0')); }
+  schalter(svg, 198, 130, 262, c.zu, c.klick ? 'schalter' : null, 'Schalter');
+  lampe(svg, 350, 70, an ? 1 : 0, c.locker, c.frage);
+  svg.appendChild(t(84, 122, 'Kabel 1', 13, '#C0392B', { 'font-weight': 700 }));
+  svg.appendChild(t(574, 122, 'Kabel 2', 13, '#2B6CB0', { 'font-weight': 700 }));
+  svg.appendChild(t(296, 300, 'Batterie', 13, '#5E6B75', { 'font-weight': 700 }));
+  if (an) svg.appendChild(t(20, 24, 'Strom fließt ✓', 15, '#0E7C7B', { 'font-weight': 700 }));
+}
+var POLTEXT = { plus: 'Pluspol (+)', minus: 'Minuspol (−)', nichts: 'nicht verbunden' };
+
+/* ================= A: Stromkreis ================= */
+var simA = { k1: 'minus', k2: 'nichts', zu: true, getestet: false };
+function leuchtetA() { return simA.zu && ((simA.k1 === 'plus' && simA.k2 === 'minus') || (simA.k1 === 'minus' && simA.k2 === 'plus')); }
+function baueA() {
+  var opt = '<option value="plus">zum Pluspol (+)</option><option value="minus">zum Minuspol (−)</option><option value="nichts">nicht verbunden</option>';
+  var d = simBlock('a', 'Simulation A · Leuchtet die Lampe?', 'Stromkreis mit Batterie, Lampe, Schalter und zwei Kabeln', 340,
+    '<div class="regler"><div><label for="a_k1">🔴 Kabel 1 geht …</label><select id="a_k1">' + opt + '</select></div><div><label for="a_k2">🔵 Kabel 2 geht …</label><select id="a_k2">' + opt + '</select></div>' +
+    '<div><label>Schalter <small>(oder im Bild antippen)</small></label><button class="knopf grau" id="a_sch">Schalter umlegen</button></div></div>' +
+    '<div class="zeile vorhersage"><b>1. Vermutung:</b><label><input type="radio" name="a_vor" value="leuchtet"> 💡 Die Lampe leuchtet.</label><label><input type="radio" name="a_vor" value="leuchtet nicht"> ⚫ Die Lampe leuchtet nicht.</label></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="a_test">▶ 2. Testen</button><button class="knopf" id="a_mess" disabled>＋ 3. Speichern</button></div><div class="simmeldung" id="a_msg" aria-live="polite">Stelle die Kabel ein. Kreuze deine Vermutung an. Klicke dann auf „Testen“.</div>');
+  SIMEL.A = d;
+  $q(d, '#a_k1').value = simA.k1; $q(d, '#a_k2').value = simA.k2;
+  function neu() { simA.getestet = false; $('a_mess').disabled = true; meldung('a_msg', 'Kreuze deine Vermutung an. Klicke dann auf „Testen“.'); zeichneA(); }
+  $q(d, '#a_k1').addEventListener('change', function () { simA.k1 = this.value; neu(); });
+  $q(d, '#a_k2').addEventListener('change', function () { simA.k2 = this.value; neu(); });
+  $q(d, '#a_sch').addEventListener('click', function () { simA.zu = !simA.zu; neu(); });
+  klickSvg($q(d, 'svg'), function () { simA.zu = !simA.zu; neu(); });
+  $q(d, '#a_test').addEventListener('click', function () {
+    var v = d.querySelector('input[name=a_vor]:checked');
+    if (!v) { meldung('a_msg', '☝️ Kreuze zuerst deine <b>Vermutung</b> an.', 'warn'); return; }
+    simA.getestet = true; zeichneA(); $('a_mess').disabled = false;
+    var an = leuchtetA(), stimmt = (v.value === 'leuchtet') === an;
+    meldung('a_msg', (an ? '💡 Die Lampe <b>leuchtet</b>.' : '⚫ Die Lampe <b>leuchtet nicht</b>.') + ' ' + (stimmt ? 'Deine Vermutung war richtig! ✓' : 'Deine Vermutung war anders. Das ist nicht schlimm – jetzt weißt du es!') + ' Klicke auf „Speichern“.', stimmt ? 'gut' : '');
+  });
+  $q(d, '#a_mess').addEventListener('click', function () {
+    var v = d.querySelector('input[name=a_vor]:checked');
+    if (messwertDazu('mA', { k1: simA.k1, k2: simA.k2, zu: simA.zu, vor: v ? v.value : '', an: leuchtetA() })) { $('a_mess').disabled = true; meldung('a_msg', '✓ Gespeichert. Ändere jetzt etwas (Kabel oder Schalter) und teste noch einmal.', 'gut'); }
+  });
+}
+function zeichneA() { kreisBild($('a_svg'), { k1: simA.k1, k2: simA.k2, zu: simA.zu, an: simA.getestet && leuchtetA(), frage: !simA.getestet, klick: true }); }
+SIMZEICHNE.A = zeichneA;
+
+/* ================= B: Fehlerdetektive ================= */
+var FAELLE = [
+  { f: 'locker', tipp: 'Schau dir die Lampe genau an. Sitzt sie richtig in der Fassung?' },
+  { f: 'schalter', tipp: 'Schau dir den Schalter an. Ist er offen oder zu?' },
+  { f: 'pol', tipp: 'Folge den Kabeln mit dem Finger. Wohin gehen Kabel 1 und Kabel 2?' },
+  { f: 'luecke', tipp: 'Folge Kabel 2 mit dem Finger. Ist das Kabel überall ganz?' },
+  { f: 'leer', tipp: 'Lies, was unter der Batterie steht.' }
+];
+var FEHLER = { locker: 'Die Lampe ist locker.', schalter: 'Der Schalter ist offen.', pol: 'Beide Kabel sind am gleichen Pol.', luecke: 'Ein Kabel hat eine Lücke.', leer: 'Die Batterie ist leer.' };
+var simB = { fall: 0, versuche: 0, erster: '', repariert: false };
+function baueB() {
+  var d = simBlock('b', 'Simulation B · Fehlerdetektive', 'Stromkreis mit einem versteckten Fehler', 340,
+    '<div class="umschalter" role="group" aria-label="Fall wählen">' + FAELLE.map(function (f, i) { return '<button data-bfall="' + i + '"' + (i ? '' : ' class="aktiv"') + '>Fall ' + (i + 1) + '</button>'; }).join('') + '</div>' +
+    '<div class="zeile vorhersage"><label for="b_ver"><b>🔎 Mein Verdacht:</b> Was ist kaputt?</label><select id="b_ver"><option value="">bitte wählen</option>' + Object.keys(FEHLER).map(function (k) { return '<option value="' + k + '">' + FEHLER[k] + '</option>'; }).join('') + '</select></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="b_rep">🔧 Reparieren</button><button class="knopf" id="b_mess" disabled>＋ Speichern</button></div><div class="simmeldung" id="b_msg" aria-live="polite">Die Lampe leuchtet nicht. Finde den Fehler!</div>');
+  SIMEL.B = d;
+  d.querySelectorAll('[data-bfall]').forEach(function (b) { b.addEventListener('click', function () { simB.fall = Number(b.dataset.bfall); d.querySelectorAll('[data-bfall]').forEach(function (x) { x.classList.toggle('aktiv', x === b); }); resetB(); }); });
+  $q(d, '#b_rep').addEventListener('click', function () {
+    var v = $('b_ver').value; if (!v) { meldung('b_msg', '☝️ Wähle zuerst deinen Verdacht.', 'warn'); return; }
+    if (simB.repariert) return;
+    simB.versuche++; if (!simB.erster) simB.erster = v;
+    if (v === FAELLE[simB.fall].f) { simB.repariert = true; zeichneB(); $('b_mess').disabled = false; meldung('b_msg', '💡 Super! Du hast den Fehler gefunden. Die Lampe leuchtet. Klicke auf „Speichern“.', 'gut'); }
+    else meldung('b_msg', '⚫ Das war es nicht – die Lampe leuchtet immer noch nicht. ' + (simB.versuche >= 2 ? '💡 Tipp: ' + FAELLE[simB.fall].tipp : 'Schau noch einmal genau hin!'), 'warn');
+  });
+  $q(d, '#b_mess').addEventListener('click', function () {
+    if (messwertDazu('mB', { fall: simB.fall + 1, erster: FEHLER[simB.erster], fehler: FEHLER[FAELLE[simB.fall].f], v: simB.versuche })) { $('b_mess').disabled = true; meldung('b_msg', '✓ Gespeichert. Wähle jetzt den nächsten Fall.', 'gut'); }
+  });
+}
+function resetB() { simB.versuche = 0; simB.erster = ''; simB.repariert = false; $('b_ver').value = ''; $('b_mess').disabled = true; meldung('b_msg', 'Fall ' + (simB.fall + 1) + ': Die Lampe leuchtet nicht. Finde den Fehler!'); zeichneB(); }
+function zeichneB() {
+  var f = simB.repariert ? '' : FAELLE[simB.fall].f;
+  kreisBild($('b_svg'), { k1: 'minus', k2: f === 'pol' ? 'minus' : 'plus', zu: f !== 'schalter', luecke: f === 'luecke', locker: f === 'locker', leer: f === 'leer', an: simB.repariert });
+}
+SIMZEICHNE.B = zeichneB;
+
+/* ================= C: Leiter oder Nichtleiter ================= */
+var DINGE = [
+  { n: 'Büroklammer', ico: '📎', stoff: 'Eisen (Metall)', l: true }, { n: 'Holzstab', ico: '🪵', stoff: 'Holz', l: false },
+  { n: 'Schlüssel', ico: '🔑', stoff: 'Messing (Metall)', l: true }, { n: 'Lineal', ico: '📏', stoff: 'Kunststoff', l: false },
+  { n: 'Münze', ico: '🪙', stoff: 'Metall', l: true }, { n: 'Papier', ico: '📄', stoff: 'Papier', l: false },
+  { n: 'Löffel', ico: '🥄', stoff: 'Stahl (Metall)', l: true }, { n: 'Wollfaden', ico: '🧶', stoff: 'Wolle', l: false },
+  { n: 'Schraube', ico: '🔩', stoff: 'Eisen (Metall)', l: true }, { n: 'Glas', ico: '🥛', stoff: 'Glas', l: false },
+  { n: 'Bleistiftmine', ico: '✏️', stoff: 'Graphit (kein Metall!)', l: true }, { n: 'Luftballon', ico: '🎈', stoff: 'Gummi', l: false }
+];
+var simC = { i: 0, getestet: false };
+function baueC() {
+  var d = simBlock('c', 'Simulation C · Der Prüfstromkreis', 'Prüfstromkreis: ein Gegenstand liegt zwischen zwei Klemmen', 310,
+    '<div class="dingwahl" role="group" aria-label="Gegenstand wählen">' + DINGE.map(function (g, i) { return '<button data-cding="' + i + '"' + (i ? '' : ' class="aktiv"') + '><span>' + g.ico + '</span>' + g.n + '</button>'; }).join('') + '</div>' +
+    '<div class="zeile vorhersage"><b>1. Vermutung:</b><label><input type="radio" name="c_vor" value="leitet"> ✅ leitet den Strom</label><label><input type="radio" name="c_vor" value="leitet nicht"> ❌ leitet nicht</label></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="c_test">▶ 2. Testen</button><button class="knopf" id="c_mess" disabled>＋ 3. Speichern</button></div><div class="simmeldung" id="c_msg" aria-live="polite">Wähle einen Gegenstand. Kreuze deine Vermutung an. Klicke dann auf „Testen“.</div>');
+  SIMEL.C = d;
+  d.querySelectorAll('[data-cding]').forEach(function (b) { b.addEventListener('click', function () { simC.i = Number(b.dataset.cding); simC.getestet = false; d.querySelectorAll('[data-cding]').forEach(function (x) { x.classList.toggle('aktiv', x === b); }); d.querySelectorAll('input[name=c_vor]').forEach(function (x) { x.checked = false; }); $('c_mess').disabled = true; meldung('c_msg', DINGE[simC.i].ico + ' ' + DINGE[simC.i].n + ': Kreuze deine Vermutung an.'); zeichneC(); }); });
+  $q(d, '#c_test').addEventListener('click', function () {
+    var v = d.querySelector('input[name=c_vor]:checked'); if (!v) { meldung('c_msg', '☝️ Kreuze zuerst deine <b>Vermutung</b> an.', 'warn'); return; }
+    simC.getestet = true; zeichneC(); $('c_mess').disabled = false;
+    var g = DINGE[simC.i], ok = (v.value === 'leitet') === g.l;
+    meldung('c_msg', (g.l ? '💡 Die Lampe leuchtet: ' + g.n + ' ist ein <b>Leiter</b>.' : '⚫ Die Lampe bleibt aus: ' + g.n + ' ist ein <b>Nichtleiter</b>.') + ' ' + (ok ? 'Vermutung richtig ✓' : 'Das hattest du anders vermutet.') + ' → „Speichern“', ok ? 'gut' : '');
+  });
+  $q(d, '#c_mess').addEventListener('click', function () {
+    var v = d.querySelector('input[name=c_vor]:checked'), g = DINGE[simC.i];
+    if (S.mC.some(function (r) { return r.n === g.n; })) { meldung('c_msg', 'Diesen Gegenstand hast du schon gespeichert. Wähle einen anderen.', 'warn'); return; }
+    if (messwertDazu('mC', { n: g.n, stoff: g.stoff, vor: v ? v.value : '', l: g.l })) { $('c_mess').disabled = true; meldung('c_msg', '✓ Gespeichert. Teste jetzt einen anderen Gegenstand.', 'gut'); }
+  });
+}
+function zeichneC() {
+  var svg = $('c_svg'); svg.innerHTML = '';
+  var g = DINGE[simC.i], an = simC.getestet && g.l, p = batterie(svg, 270, 230, false);
+  draht(svg, [[188, 112], [188, 140], [110, 140], [110, p.minus[1]], p.minus], an, null, false);
+  draht(svg, [[212, 112], [212, 140], [300, 140], [300, 100], [455, 100]], an, null, true);
+  draht(svg, [[605, 100], [640, 100], [640, p.plus[1]], p.plus], an, null, true);
+  [[455, 1], [605, -1]].forEach(function (k) { svg.appendChild(el('path', { d: 'M' + k[0] + ',92 l' + (18 * k[1]) + ',-8 l0,16 l' + (-18 * k[1]) + ',-8 z M' + k[0] + ',108 l' + (18 * k[1]) + ',8 l0,-16 z', fill: '#C0392B', stroke: '#8E2A20' })); });
+  svg.appendChild(el('rect', { x: 478, y: 58, width: 104, height: 84, rx: 12, fill: '#F7F9FA', stroke: '#D5DCE1', 'stroke-dasharray': '5 4' }));
+  svg.appendChild(t(507, 120, g.ico, 50, '#000'));
+  svg.appendChild(t(530 - g.n.length * 4, 168, g.n, 15, '#16202A', { 'font-weight': 700 }));
+  svg.appendChild(t(455, 40, 'Prüfstrecke', 13, '#5E6B75', { 'font-weight': 700 }));
+  lampe(svg, 200, 70, an ? 1 : 0, false, !simC.getestet);
+  svg.appendChild(t(296, 300, 'Batterie', 13, '#5E6B75', { 'font-weight': 700 }));
+}
+SIMZEICHNE.C = zeichneC;
+
+/* ================= D: Reihe und parallel ================= */
+var simD = { art: 'reihe', n: 2, drin: [true, true, true], zu: true };
+function hellD() {
+  var h = [];
+  for (var i = 0; i < simD.n; i++) {
+    if (!simD.zu || !simD.drin[i]) { h.push(0); continue; }
+    if (simD.art === 'parallel') h.push(1);
+    else { var alle = true; for (var j = 0; j < simD.n; j++) if (!simD.drin[j]) alle = false; h.push(alle ? (simD.n === 2 ? 0.45 : 0.28) : 0); }
+  }
+  return h;
+}
+function hellText(x) { return x === 0 ? 'aus' : x > 0.9 ? 'hell' : x > 0.4 ? 'schwach' : 'sehr schwach'; }
+function baueD() {
+  var d = simBlock('d', 'Simulation D · Reihenschaltung und Parallelschaltung', 'Zwei oder drei Lampen in Reihe oder parallel', 330,
+    '<div class="umschalter" role="group" aria-label="Schaltung wählen"><button data-dart="reihe" class="aktiv">Reihenschaltung</button><button data-dart="parallel">Parallelschaltung</button></div>' +
+    '<div class="umschalter" role="group" aria-label="Anzahl der Lampen"><button data-dn="2" class="aktiv">2 Lampen</button><button data-dn="3">3 Lampen</button></div>' +
+    '<p class="satzhilfe">👆 Tippe auf eine Lampe: Du drehst sie heraus (oder wieder hinein). Tippe auf den Schalter: an/aus.</p>' +
+    '<div class="knoepfe"><button class="knopf" id="d_mess">＋ Beobachtung speichern</button></div><div class="simmeldung" id="d_msg" aria-live="polite"></div>');
+  SIMEL.D = d;
+  d.querySelectorAll('[data-dart]').forEach(function (b) { b.addEventListener('click', function () { simD.art = b.dataset.dart; simD.drin = [true, true, true]; d.querySelectorAll('[data-dart]').forEach(function (x) { x.classList.toggle('aktiv', x === b); }); zeichneD(); }); });
+  d.querySelectorAll('[data-dn]').forEach(function (b) { b.addEventListener('click', function () { simD.n = Number(b.dataset.dn); simD.drin = [true, true, true]; d.querySelectorAll('[data-dn]').forEach(function (x) { x.classList.toggle('aktiv', x === b); }); zeichneD(); }); });
+  klickSvg($q(d, 'svg'), function (k) { if (k === 'schalter') simD.zu = !simD.zu; else simD.drin[Number(k)] = !simD.drin[Number(k)]; zeichneD(); });
+  $q(d, '#d_mess').addEventListener('click', function () {
+    var h = hellD(), raus = []; for (var i = 0; i < simD.n; i++) if (!simD.drin[i]) raus.push('L' + (i + 1));
+    if (messwertDazu('mD', { art: simD.art, n: simD.n, zu: simD.zu, raus: raus.join(', ') || 'keine', beob: h.map(function (x, i) { return 'L' + (i + 1) + ': ' + hellText(x); }).join(' · ') })) meldung('d_msg', '✓ Gespeichert.', 'gut');
+  });
+}
+function zeichneD() {
+  var svg = $('d_svg'); svg.innerHTML = '';
+  var h = hellD(), p = batterie(svg, 270, 250, false), an = h.some(function (x) { return x > 0; }), xs = simD.n === 2 ? [260, 440] : [200, 350, 500];
+  var yl = simD.art === 'reihe' ? 100 : 205;
+  draht(svg, [[100, yl], [100, p.minus[1]], [150, p.minus[1]]], an);
+  draht(svg, [[210, p.minus[1]], p.minus], an);
+  schalter(svg, 150, p.minus[1], 210, simD.zu, 'schalter', 'Schalter');
+  if (simD.art === 'reihe') {
+    var pts = [[600, 100]]; for (var i = simD.n - 1; i >= 0; i--) { pts.push([xs[i] + 12, 100]); draht(svg, pts, an, null, false); pts = [[xs[i] - 12, 100]]; }
+    pts.push([100, 100]); draht(svg, pts, an);
+    draht(svg, [p.plus, [600, p.plus[1]], [600, 100]], an);
+    xs.slice(0, simD.n).forEach(function (x, i) { lampe(svg, x, 58, h[i], !simD.drin[i], false, String(i)); svg.appendChild(t(x - 9, 140, 'L' + (i + 1), 14, '#5E6B75', { 'font-weight': 700 })); });
+  } else {
+    var lo = xs[0] - 34, hi = xs[simD.n - 1] + 34;
+    draht(svg, [p.plus, [620, p.plus[1]], [620, 40], [lo, 40]], an);
+    draht(svg, [[hi, 205], [100, 205]], an);
+    xs.slice(0, simD.n).forEach(function (x, i) {
+      var a = h[i] > 0;
+      draht(svg, [[x - 34, 40], [x - 34, 142], [x - 12, 142]], a); draht(svg, [[x + 12, 142], [x + 34, 142], [x + 34, 205]], a);
+      punkt(svg, x - 34, 40); punkt(svg, x + 34, 205);
+      lampe(svg, x, 100, h[i], !simD.drin[i], false, String(i)); svg.appendChild(t(x - 9, 230, 'L' + (i + 1), 14, '#5E6B75', { 'font-weight': 700 }));
+    });
+  }
+  svg.appendChild(t(20, 322, simD.art === 'reihe' ? 'Reihenschaltung: alle Lampen in einem Kreis hintereinander' : 'Parallelschaltung: jede Lampe hat einen eigenen Weg', 15, '#0E7C7B', { 'font-weight': 700 }));
+  meldung('d_msg', 'Beobachtung: ' + h.map(function (x, i) { return 'L' + (i + 1) + ' ' + (x ? '💡 ' : '⚫ ') + hellText(x); }).join(' · '));
+}
+SIMZEICHNE.D = zeichneD;
+
+/* ================= E: UND und ODER ================= */
+var simE = { art: 'und', s1: false, s2: false };
+function anE() { return simE.art === 'und' ? simE.s1 && simE.s2 : simE.s1 || simE.s2; }
+function baueE() {
+  var d = simBlock('e', 'Simulation E · UND-Schaltung und ODER-Schaltung', 'Zwei Schalter und eine Lampe', 310,
+    '<div class="umschalter" role="group" aria-label="Schaltung wählen"><button data-eart="und" class="aktiv">🔐 UND-Schaltung</button><button data-eart="oder">🔔 ODER-Schaltung</button></div>' +
+    '<p class="satzhilfe" id="e_bsp"></p>' +
+    '<div class="knoepfe"><button class="knopf grau" id="e_s1">Schalter 1 umlegen</button><button class="knopf grau" id="e_s2">Schalter 2 umlegen</button><button class="knopf" id="e_mess">＋ Speichern</button></div><div class="simmeldung" id="e_msg" aria-live="polite"></div>');
+  SIMEL.E = d;
+  d.querySelectorAll('[data-eart]').forEach(function (b) { b.addEventListener('click', function () { simE.art = b.dataset.eart; simE.s1 = simE.s2 = false; d.querySelectorAll('[data-eart]').forEach(function (x) { x.classList.toggle('aktiv', x === b); }); zeichneE(); }); });
+  $q(d, '#e_s1').addEventListener('click', function () { simE.s1 = !simE.s1; zeichneE(); });
+  $q(d, '#e_s2').addEventListener('click', function () { simE.s2 = !simE.s2; zeichneE(); });
+  klickSvg($q(d, 'svg'), function (k) { simE[k] = !simE[k]; zeichneE(); });
+  $q(d, '#e_mess').addEventListener('click', function () {
+    if (S.mE.some(function (r) { return r.art === simE.art && r.s1 === simE.s1 && r.s2 === simE.s2; })) { meldung('e_msg', 'Diese Einstellung hast du schon gespeichert. Lege einen Schalter um.', 'warn'); return; }
+    if (messwertDazu('mE', { art: simE.art, s1: simE.s1, s2: simE.s2, an: anE() })) meldung('e_msg', '✓ Gespeichert. Probiere eine andere Einstellung.', 'gut');
+  });
+}
+function zeichneE() {
+  var svg = $('e_svg'); svg.innerHTML = '';
+  var an = anE(), p = batterie(svg, 270, 230, false);
+  draht(svg, [[60, 90], [60, p.minus[1]], p.minus], an);
+  draht(svg, [p.plus, [600, p.plus[1]], [600, 90], [482, 90]], an);
+  if (simE.art === 'und') {
+    draht(svg, [[130, 90], [60, 90]], an); draht(svg, [[230, 90], [190, 90]], an); draht(svg, [[458, 90], [290, 90]], an);
+    schalter(svg, 130, 90, 190, simE.s1, 's1', 'Schalter 1'); schalter(svg, 230, 90, 290, simE.s2, 's2', 'Schalter 2');
+  } else {
+    draht(svg, [[120, 90], [60, 90]], an); draht(svg, [[458, 90], [330, 90]], an);
+    draht(svg, [[330, 90], [330, 55], [270, 55]], simE.s1, null, false); draht(svg, [[210, 55], [120, 55], [120, 90]], simE.s1);
+    draht(svg, [[330, 90], [330, 145], [270, 145]], simE.s2); draht(svg, [[210, 145], [120, 145], [120, 90]], simE.s2);
+    punkt(svg, 120, 90); punkt(svg, 330, 90);
+    schalter(svg, 210, 55, 270, simE.s1, 's1', ''); schalter(svg, 210, 145, 270, simE.s2, 's2', '');
+    svg.appendChild(t(140, 50, 'Schalter 1', 13, '#5E6B75', { 'font-weight': 700 })); svg.appendChild(t(140, 172, 'Schalter 2', 13, '#5E6B75', { 'font-weight': 700 }));
+  }
+  lampe(svg, 470, 48, an ? 1 : 0);
+  svg.appendChild(t(20, 302, simE.art === 'und' ? 'UND: zwei Schalter hintereinander' : 'ODER: zwei Schalter nebeneinander (parallel)', 15, '#0E7C7B', { 'font-weight': 700 }));
+  $('e_bsp').innerHTML = simE.art === 'und' ? '🔐 Beispiel <b>Tresor</b>: Er geht nur auf, wenn Schlüssel 1 <b>und</b> Schlüssel 2 gedreht sind.' : '🔔 Beispiel <b>Klingel</b>: Sie klingelt, wenn jemand an der Haustür <b>oder</b> an der Gartentür drückt.';
+  meldung('e_msg', 'Schalter 1: <b>' + (simE.s1 ? 'zu' : 'offen') + '</b> · Schalter 2: <b>' + (simE.s2 ? 'zu' : 'offen') + '</b> → Lampe: <b>' + (an ? '💡 an' : '⚫ aus') + '</b>');
+}
+SIMZEICHNE.E = zeichneE;
+
+/* ================= F: Wechselschaltung (Treppenhaus) ================= */
+var simF = { u1: 'oben', u2: 'unten' };
+function anF() { return simF.u1 === simF.u2; }
+function umschalter(svg, px, py, kx, stellung, klick, name) {
+  var g = el('g', { 'class': 'klickbar', 'data-klick': klick });
+  g.appendChild(el('rect', { x: Math.min(px, kx) - 14, y: py - 50, width: Math.abs(kx - px) + 28, height: 100, fill: 'transparent' }));
+  g.appendChild(el('circle', { cx: px, cy: py, r: 7, fill: DUNKEL })); g.appendChild(el('circle', { cx: kx, cy: py - 30, r: 6, fill: DUNKEL })); g.appendChild(el('circle', { cx: kx, cy: py + 30, r: 6, fill: DUNKEL }));
+  g.appendChild(el('line', { x1: px, y1: py, x2: kx, y2: stellung === 'oben' ? py - 30 : py + 30, stroke: '#7A5AA6', 'stroke-width': 6, 'stroke-linecap': 'round' }));
+  g.appendChild(t(Math.min(px, kx) - 10, py + 66, name, 13, '#5E6B75', { 'font-weight': 700 }));
+  svg.appendChild(g);
+}
+function baueF() {
+  var d = simBlock('f', 'Simulation F · Die Wechselschaltung im Treppenhaus', 'Zwei Umschalter und eine Lampe', 320,
+    '<p class="satzhilfe">👆 Tippe auf einen Umschalter (lila) – oder benutze die Knöpfe.</p>' +
+    '<div class="knoepfe"><button class="knopf grau" id="f_u1">🧍 Unten umschalten</button><button class="knopf grau" id="f_u2">🧍 Oben umschalten</button><button class="knopf" id="f_mess">＋ Speichern</button></div><div class="simmeldung" id="f_msg" aria-live="polite"></div>');
+  SIMEL.F = d;
+  function um(k) { simF[k] = simF[k] === 'oben' ? 'unten' : 'oben'; zeichneF(); }
+  $q(d, '#f_u1').addEventListener('click', function () { um('u1'); }); $q(d, '#f_u2').addEventListener('click', function () { um('u2'); });
+  klickSvg($q(d, 'svg'), um);
+  $q(d, '#f_mess').addEventListener('click', function () {
+    if (S.mF.some(function (r) { return r.u1 === simF.u1 && r.u2 === simF.u2; })) { meldung('f_msg', 'Diese Einstellung hast du schon gespeichert. Schalte um.', 'warn'); return; }
+    if (messwertDazu('mF', { u1: simF.u1, u2: simF.u2, an: anF() })) meldung('f_msg', '✓ Gespeichert.', 'gut');
+  });
+}
+function zeichneF() {
+  var svg = $('f_svg'); svg.innerHTML = '';
+  var an = anF(), p = batterie(svg, 270, 240, false);
+  // Treppe im Hintergrund
+  var tp = 'M150,215'; for (var i = 0; i < 8; i++) tp += ' h30 v-18'; svg.appendChild(el('path', { d: tp, fill: 'none', stroke: '#E3E8EC', 'stroke-width': 8 }));
+  draht(svg, [[120, 90], [60, 90], [60, p.minus[1]], p.minus], an);
+  draht(svg, [[170, 60], [380, 60]], an && simF.u1 === 'oben', null, true); draht(svg, [[170, 120], [380, 120]], an && simF.u1 === 'unten', null, true);
+  draht(svg, [[430, 90], [508, 90]], an, null, true); draht(svg, [[532, 90], [640, 90], [640, p.plus[1]], p.plus], an, null, true);
+  umschalter(svg, 120, 90, 170, simF.u1, 'u1', 'unten (EG)'); umschalter(svg, 430, 90, 380, simF.u2, 'u2', 'oben (1. OG)');
+  lampe(svg, 520, 48, an ? 1 : 0);
+  svg.appendChild(t(20, 312, 'Wechselschaltung: zwei Umschalter, zwei Leitungen dazwischen', 15, '#7A5AA6', { 'font-weight': 700 }));
+  meldung('f_msg', 'Unten: <b>' + simF.u1 + '</b> · Oben: <b>' + simF.u2 + '</b> → Lampe: <b>' + (an ? '💡 an' : '⚫ aus') + '</b>');
+}
+SIMZEICHNE.F = zeichneF;
+
+/* ================= G: Wirkungen des Stroms ================= */
+var GERAETE = [
+  { n: 'Glühlampe', ico: '💡', licht: 1, temp: 70, mag: 0, w: ['Licht', 'Wärme'] },
+  { n: 'LED', ico: '🔆', licht: 1, temp: 23, mag: 0, w: ['Licht'] },
+  { n: 'Tauchsieder (Heizdraht im Wasser)', ico: '♨️', licht: 0, temp: 80, mag: 0, w: ['Wärme'] },
+  { n: 'Kabel über einem Kompass', ico: '🧭', licht: 0, temp: 21, mag: 1, w: ['Magnetismus'] },
+  { n: 'Elektromagnet (Spule mit Eisenkern)', ico: '🧲', licht: 0, temp: 22, mag: 1, w: ['Magnetismus'] }
+];
+var simG = { i: 0, zu: false, T: 20, gen: 0 };
+function baueG() {
+  var d = simBlock('g', 'Simulation G · Was macht der Strom?', 'Ein Gerät im Stromkreis mit Thermometer und Kompass', 320,
+    '<div class="dingwahl" role="group" aria-label="Gerät wählen">' + GERAETE.map(function (g, i) { return '<button data-gger="' + i + '"' + (i ? '' : ' class="aktiv"') + '><span>' + g.ico + '</span>' + g.n + '</button>'; }).join('') + '</div>' +
+    '<div class="knoepfe"><button class="knopf or" id="g_sch">⚡ Strom einschalten</button></div>' +
+    '<div class="zeile vorhersage"><b>👀 Ich beobachte:</b><label><input type="checkbox" id="g_l"> 💡 Licht</label><label><input type="checkbox" id="g_w"> 🌡️ Wärme</label><label><input type="checkbox" id="g_m"> 🧭 Magnetismus</label></div>' +
+    '<div class="knoepfe"><button class="knopf" id="g_mess">＋ Speichern</button></div><div class="simmeldung" id="g_msg" aria-live="polite">Wähle ein Gerät. Schalte den Strom ein. Beobachte: Licht? Thermometer? Kompassnadel?</div>');
+  SIMEL.G = d;
+  d.querySelectorAll('[data-gger]').forEach(function (b) { b.addEventListener('click', function () { simG.i = Number(b.dataset.gger); simG.zu = false; simG.T = 20; simG.gen++; ['g_l', 'g_w', 'g_m'].forEach(function (x) { $(x).checked = false; }); d.querySelectorAll('[data-gger]').forEach(function (x) { x.classList.toggle('aktiv', x === b); }); meldung('g_msg', 'Schalte den Strom ein und beobachte genau.'); zeichneG(); }); });
+  $q(d, '#g_sch').addEventListener('click', function () { simG.zu = !simG.zu; laufG(); });
+  $q(d, '#g_mess').addEventListener('click', function () {
+    var g = GERAETE[simG.i], b = [];
+    if ($('g_l').checked) b.push('Licht'); if ($('g_w').checked) b.push('Wärme'); if ($('g_m').checked) b.push('Magnetismus');
+    if (!b.length) { meldung('g_msg', '☝️ Kreuze an, was du beobachtest.', 'warn'); return; }
+    var ok = b.join() === g.w.join();
+    if (messwertDazu('mG', { n: g.n, beob: b.join(' + '), ok: ok })) meldung('g_msg', ok ? '✓ Richtig beobachtet und gespeichert! Nimm jetzt ein anderes Gerät.' : '✓ Gespeichert. Aber schau noch einmal genau hin: Leuchtet etwas? Steigt das Thermometer? Dreht sich die Nadel? (Du kannst die Zeile mit ✕ löschen und neu speichern.)', ok ? 'gut' : 'warn');
+  });
+}
+function laufG() {
+  simG.gen++; var gen = simG.gen, g = GERAETE[simG.i], ziel = simG.zu ? g.temp : 20, t0 = performance.now(), T0 = simG.T;
+  $('g_sch').textContent = simG.zu ? '⏹ Strom ausschalten' : '⚡ Strom einschalten';
+  (function schritt(jetzt) {
+    if (gen !== simG.gen) return;
+    var q = reduziert ? 1 : Math.min(1, (jetzt - t0) / 3500); simG.T = T0 + (ziel - T0) * q; zeichneG();
+    if (q < 1) { requestAnimationFrame(schritt); }
+  })(t0);
+}
+function zeichneG() {
+  var svg = $('g_svg'); svg.innerHTML = '';
+  var g = GERAETE[simG.i], an = simG.zu, p = batterie(svg, 270, 240, false);
+  $('g_sch').textContent = simG.zu ? '⏹ Strom ausschalten' : '⚡ Strom einschalten';
+  draht(svg, [[80, 110], [80, p.minus[1]], p.minus], an);
+  draht(svg, [p.plus, [620, p.plus[1]], [620, 110], [400, 110]], an);
+  draht(svg, [[80, 110], [260, 110]], an, null, true);
+  // Gerät zwischen x 260 und 400
+  if (g.n === 'Glühlampe' || g.n === 'LED') {
+    draht(svg, [[260, 110], [318, 110], [318, 102]], an, null, true); draht(svg, [[342, 102], [342, 110], [400, 110]], an, null, true);
+    lampe(svg, 330, 60, an ? 1 : 0);
+    if (g.n === 'LED') svg.appendChild(t(316, 66, 'LED', 11, '#5E6B75', { 'font-weight': 700 }));
+  } else if (g.n.indexOf('Tauchsieder') === 0) {
+    svg.appendChild(el('rect', { x: 270, y: 120, width: 120, height: 90, rx: 8, fill: '#D6ECFA', stroke: '#8CB8D6', 'stroke-width': 3 }));
+    var z = 'M280,110 L280,170'; for (var i = 0; i < 5; i++) z += ' l10,15 l10,-15'; z += ' L380,170 L380,110';
+    svg.appendChild(el('path', { d: z, fill: 'none', stroke: an && simG.T > 30 ? '#E4572E' : '#5E6B75', 'stroke-width': 4 }));
+    draht(svg, [[260, 110], [280, 110]], an, null, true); draht(svg, [[380, 110], [400, 110]], an, null, true);
+    if (an && simG.T > 50) for (var j = 0; j < 4; j++) svg.appendChild(el('circle', { cx: 290 + j * 25, cy: 140 - (simG.T % 10) * 2 - j * 3, r: 4, fill: '#fff', stroke: '#8CB8D6' }));
+    svg.appendChild(t(296, 232, 'Wasser', 13, '#2B6CB0', { 'font-weight': 700 }));
+  } else if (g.n.indexOf('Kabel') === 0) {
+    draht(svg, [[260, 110], [400, 110]], an, null, true);
+  } else {
+    draht(svg, [[260, 110], [270, 110], [270, 80]], an, null, true); draht(svg, [[390, 80], [390, 110], [400, 110]], an, null, true);
+    svg.appendChild(el('rect', { x: 262, y: 68, width: 136, height: 24, rx: 4, fill: '#9AA5AE' }));
+    for (var w = 0; w < 9; w++) svg.appendChild(el('ellipse', { cx: 276 + w * 14, cy: 80, rx: 6, ry: 18, fill: 'none', stroke: '#C87533', 'stroke-width': 3.5 }));
+    var ang = an ? 1 : 0;
+    for (var k = 0; k < 4; k++) svg.appendChild(el('rect', { x: 290 + k * 22, y: ang ? 100 : 196, width: 5, height: 26, fill: '#76838D', transform: ang ? '' : 'rotate(80 ' + (292 + k * 22) + ' 205)' }));
+    svg.appendChild(t(270, 60, 'Spule mit Eisenkern', 12, '#5E6B75', { 'font-weight': 700 }));
+  }
+  // Kompass unter dem Draht
+  var cx = 330, cy = g.n.indexOf('Tauchsieder') === 0 ? 0 : 168, aus = g.mag && an ? 70 : 0;
+  if (cy) {
+    svg.appendChild(el('circle', { cx: cx, cy: cy, r: 30, fill: '#fff', stroke: '#5E6B75', 'stroke-width': 3 }));
+    svg.appendChild(t(cx - 5, cy - 34, 'N', 12, '#B3261E', { 'font-weight': 800 }));
+    var gn = el('g', { transform: 'rotate(' + aus + ' ' + cx + ' ' + cy + ')' });
+    gn.appendChild(el('path', { d: 'M' + cx + ',' + (cy - 24) + ' l7,24 l-14,0 z', fill: '#C0392B' })); gn.appendChild(el('path', { d: 'M' + cx + ',' + (cy + 24) + ' l7,-24 l-14,0 z', fill: '#B8C2C9' }));
+    svg.appendChild(gn); svg.appendChild(t(cx + 36, cy + 5, 'Kompass', 12, '#5E6B75'));
+  }
+  // Thermometer
+  var hT = Math.max(0, Math.min(1, (simG.T - 15) / 75)), tx = 500;
+  svg.appendChild(el('rect', { x: tx, y: 122, width: 18, height: 112, rx: 9, fill: '#fff', stroke: '#5E6B75', 'stroke-width': 2 }));
+  svg.appendChild(el('rect', { x: tx + 5, y: 226 - 98 * hT, width: 8, height: 98 * hT + 6, fill: '#E4572E' }));
+  svg.appendChild(el('circle', { cx: tx + 9, cy: 240, r: 13, fill: '#E4572E', stroke: '#5E6B75', 'stroke-width': 2 }));
+  svg.appendChild(t(tx + 26, 232 - 98 * hT, Math.round(simG.T) + ' °C', 16, '#E4572E', { 'font-weight': 800 }));
+  svg.appendChild(t(tx - 16, 288, 'Thermometer', 12, '#5E6B75'));
+  svg.appendChild(t(20, 312, g.ico + ' ' + g.n + (an ? ' · Strom fließt' : ' · Strom aus'), 15, an ? '#0E7C7B' : '#5E6B75', { 'font-weight': 700 }));
+}
+SIMZEICHNE.G = zeichneG;
+
+/* ================= H: Elektromagnet ================= */
+var simH = { w: 50, b: 1, k: true, zu: false };
+function naegelH() { if (!simH.zu) return 0; return Math.min(20, Math.floor(simH.w / 25 * simH.b * (simH.k ? 1 : 0.15))); }
+function baueH() {
+  var d = simBlock('h', 'Simulation H · Wie stark ist mein Elektromagnet?', 'Elektromagnet hebt kleine Nägel an', 320,
+    '<div class="regler">' + regler('h_w', '🌀 Windungen der Spule', 25, 150, 25, 50, '') + regler('h_b', '🔋 Batterien', 1, 3, 1, 1, '') +
+    '<div><label for="h_k">⚙️ Eisenkern in der Spule</label><select id="h_k"><option value="1">ja, mit Eisenkern</option><option value="0">nein, ohne Eisenkern</option></select></div></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="h_sch">⚡ Strom einschalten</button><button class="knopf" id="h_mess">＋ Messwert speichern</button></div><div class="simmeldung" id="h_msg" aria-live="polite"></div>');
+  SIMEL.H = d;
+  d.querySelectorAll('input, select').forEach(function (r) { r.addEventListener('input', zeichneH); });
+  $q(d, '#h_sch').addEventListener('click', function () { simH.zu = !simH.zu; zeichneH(); });
+  $q(d, '#h_mess').addEventListener('click', function () {
+    if (!simH.zu) { meldung('h_msg', '☝️ Schalte zuerst den Strom ein.', 'warn'); return; }
+    if (messwertDazu('mH', { w: simH.w, b: simH.b, k: simH.k, n: naegelH() })) meldung('h_msg', '✓ Gespeichert. Ändere jetzt <b>nur eine</b> Sache und miss noch einmal.', 'gut');
+  });
+}
+function zeichneH() {
+  simH.w = lesR('h_w'); simH.b = lesR('h_b'); simH.k = $('h_k').value === '1';
+  var svg = $('h_svg'); svg.innerHTML = '';
+  var n = naegelH(), an = simH.zu;
+  $('h_sch').textContent = an ? '⏹ Strom ausschalten' : '⚡ Strom einschalten';
+  // Batterien links
+  svg.appendChild(el('rect', { x: 20, y: 50, width: 110, height: simH.b * 50 + 4, rx: 10, fill: 'none', stroke: '#B8C2C9', 'stroke-dasharray': '5 4' }));
+  svg.appendChild(t(24, 42, 'Batteriefach', 12, '#5E6B75'));
+  for (var b = 0; b < simH.b; b++) { svg.appendChild(el('rect', { x: 30, y: 60 + b * 50, width: 90, height: 36, rx: 6, fill: '#2F3B45' })); svg.appendChild(el('rect', { x: 92, y: 60 + b * 50, width: 28, height: 36, fill: '#E4A72E' })); svg.appendChild(t(44, 84 + b * 50, '1,5 V', 13, '#fff', { 'font-weight': 700 })); }
+  draht(svg, [[120, 78], [200, 78], [200, 90]], an); draht(svg, [[120, 60 + simH.b * 50 - 32], [150, 60 + simH.b * 50 - 32], [150, 250], [560, 250], [560, 90], [520, 90]], an, null, true);
+  // Spule
+  if (simH.k) svg.appendChild(el('rect', { x: 190, y: 98, width: 340, height: 30, rx: 5, fill: '#9AA5AE' }));
+  var anz = Math.round(simH.w / 25) * 4, br = 310 / anz;
+  for (var i = 0; i < anz; i++) svg.appendChild(el('ellipse', { cx: 210 + i * br, cy: 113, rx: Math.max(2.5, br * 0.45), ry: 24, fill: 'none', stroke: '#C87533', 'stroke-width': 3 }));
+  svg.appendChild(t(220, 80, simH.w + ' Windungen' + (simH.k ? ' · mit Eisenkern' : ' · ohne Eisenkern'), 13, '#5E6B75', { 'font-weight': 700 }));
+  // Nägel: unten liegen, angezogene hängen an der Spule
+  for (var j = 0; j < 20; j++) {
+    var haengt = j < n, x = 200 + (j % 10) * 33 + (j >= 10 ? 14 : 0);
+    if (haengt) svg.appendChild(el('rect', { x: x, y: 140 + (j >= 10 ? 28 : 0), width: 5, height: 26, rx: 1, fill: '#5E6B75' }));
+    else svg.appendChild(el('rect', { x: x - 10, y: 228 - (j >= 10 ? 6 : 0), width: 26, height: 5, rx: 1, fill: '#8C969E', transform: 'rotate(' + ((j * 37) % 20 - 10) + ' ' + x + ' 230)' }));
+  }
+  svg.appendChild(t(590, 140, n + '', 40, '#E4572E', { 'font-weight': 800 }));
+  svg.appendChild(t(580, 165, n === 1 ? 'Nagel' : 'Nägel', 15, '#E4572E', { 'font-weight': 700 }));
+  svg.appendChild(t(20, 312, an ? '⚡ Strom fließt – die Spule ist ein Magnet' : 'Strom aus – die Spule ist kein Magnet', 15, an ? '#0E7C7B' : '#5E6B75', { 'font-weight': 700 }));
+  meldung('h_msg', an ? 'Der Elektromagnet hält <b>' + n + '</b> ' + (n === 1 ? 'Nagel' : 'Nägel') + '.' : 'Schalte den Strom ein.');
+}
+SIMZEICHNE.H = zeichneH;
+
+function baueSims() { baueA(); baueB(); baueC(); baueD(); baueE(); baueF(); baueG(); baueH(); var lager = $('simlager'); 'ABCDEFGH'.split('').forEach(function (k) { lager.appendChild(SIMEL[k]); }); }
+
+/* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
+var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
+var BR_B=[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556];
+var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, '™': 153 };
+var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': '\u00a0', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta' };
+function normPdf(s) {
+  s = String(s).replace(/\r\n?/g, '\n').normalize('NFC');
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s[i], c = ch.charCodeAt(0);
+    if (ERSATZ[ch] != null) { o += ERSATZ[ch]; continue; }
+    if (c >= 0xD800 && c <= 0xDBFF) { i++; continue; }          // Emoji u. Ä. weglassen
+    if (c > 255 && !WIN[ch]) {
+      if (c >= 0xFE00 && c <= 0xFE0F) continue;
+      if (c >= 0x2460 && c <= 0x2473) { o += (c - 0x245F) + ')'; continue; }               // ① → 1)
+      if ((c >= 0x2190 && c <= 0x2BFF) || c === 0x200D) continue;                           // Symbole, Pfeile, ● weglassen
+      var bas = ch.normalize('NFD')[0], sond = { 'ı': 'i', 'ł': 'l', 'Ł': 'L', 'đ': 'd', 'ə': 'e' }[ch];  // ş → s, ğ → g …
+      if (sond) { o += sond; continue; }
+      if (bas && bas.charCodeAt(0) < 256) { o += bas; continue; }
+      o += '?'; continue;
+    }
+    o += ch;
+  }
+  return o;
+}
+function code(ch) { var c = ch.charCodeAt(0); return WIN[ch] || (c < 256 ? c : 63); }
+function bTxt(s, gr, fett) { var w = 0, tab = fett ? BR_B : BR_N; for (var i = 0; i < s.length; i++) { var c = code(s[i]); w += (c >= 32 ? (tab[c - 32] || 556) : 0); } return w * gr / 1000; }
+function pdfStr(s) {
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = code(s[i]);
+    if (c === 40 || c === 41 || c === 92) o += '\\' + String.fromCharCode(c);
+    else if (c < 32 || c > 126) o += '\\' + ('00' + c.toString(8)).slice(-3);
+    else o += String.fromCharCode(c);
+  }
+  return '(' + o + ')';
+}
+function umbruch(s, gr, fett, max) {
+  var zeilen = [];
+  normPdf(s).split('\n').forEach(function (abs) {
+    if (!abs.trim()) { zeilen.push(''); return; }
+    var akt = '';
+    abs.split(/ +/).forEach(function (wort) {
+      // überlange Wörter (z. B. ohne Leerzeichen) hart trennen
+      while (bTxt(wort, gr, fett) > max) {
+        var n = wort.length; while (n > 1 && bTxt(wort.slice(0, n) + '-', gr, fett) > max) n--;
+        if (akt) { zeilen.push(akt); akt = ''; }
+        zeilen.push(wort.slice(0, n) + '-'); wort = wort.slice(n);
+      }
+      var test = akt ? akt + ' ' + wort : wort;
+      if (bTxt(test, gr, fett) > max && akt) { zeilen.push(akt); akt = wort; } else akt = test;
+    });
+    zeilen.push(akt);
+  });
+  return zeilen;
+}
+function hex(h) { return [parseInt(h.substr(1, 2), 16) / 255, parseInt(h.substr(3, 2), 16) / 255, parseInt(h.substr(5, 2), 16) / 255].map(function (v) { return v.toFixed(3); }).join(' '); }
+
+/* =====================================================================
+   PDF-PROTOKOLL (A4, Helvetica, WinAnsi) – läuft komplett im Browser.
+   In die PDF wird der Arbeitsstand als Kommentar eingebettet, damit man
+   später mit derselben PDF weiterarbeiten kann (nichts geht ins Internet).
+   ===================================================================== */
+function b64Utf8(str) { var b = new TextEncoder().encode(str), s = ''; for (var i = 0; i < b.length; i += 8192) s += String.fromCharCode.apply(null, b.subarray(i, i + 8192)); return btoa(s); }
+function utf8B64(b64) { var s = atob(b64), b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i); return new TextDecoder().decode(b); }
+
+function bauePdf(modus) {
+  var A4W = 595.28, A4H = 841.89, RL = 56, RR = 56, OBEN = 60, UNTEN = 64, BREIT = A4W - RL - RR;
+  var seiten = [], cmd = null, y = 0, name = normPdf(nameText()), klasse = normPdf(S.d.klasse || '6a'), dat = heute().de;
+  var titel = modus === 'zwischen' ? 'Zwischenstand' : 'Forscherprotokoll';
+  function neueSeite() {
+    cmd = []; seiten.push(cmd); y = A4H - OBEN;
+    if (seiten.length > 1) { text(RL, A4H - 34, titel + ' NW ' + klasse + ' · ' + name, 8.5, false, '#76838D'); cmd.push(hex('#D5DCE1') + ' RG 0.6 w ' + RL + ' ' + (A4H - 42) + ' m ' + (A4W - RR) + ' ' + (A4H - 42) + ' l S'); }
+  }
+  function text(x, yy, s, gr, fett, farbe, schraeg) { cmd.push('BT ' + hex(farbe || '#16202A') + ' rg /' + (schraeg ? 'F3' : fett ? 'F2' : 'F1') + ' ' + gr + ' Tf ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' Td ' + pdfStr(normPdf(s)) + ' Tj ET'); }
+  function rechteck(x, yy, w, h, farbe) { cmd.push(hex(farbe) + ' rg ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f'); }
+  function rahmen(x, yy, w, h, farbe, lw) { cmd.push(hex(farbe) + ' RG ' + (lw || 0.6) + ' w ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re S'); }
+  function platz(h) { if (y - h < UNTEN) neueSeite(); }
+  function absatz(s, gr, fett, farbe, einzug, schraeg, abstand) {
+    var lh = gr * 1.36, zeilen = umbruch(s, gr, fett, BREIT - (einzug || 0));
+    zeilen.forEach(function (z) { platz(lh); y -= lh; if (z) text(RL + (einzug || 0), y + gr * 0.28, z, gr, fett, farbe, schraeg); });
+    y -= (abstand == null ? 4 : abstand);
+  }
+  function tabelle(kopf, zeilen, breiten) {
+    var gr = 8.5, lh = 15, summe = breiten.reduce(function (a, b) { return a + b; }, 0), ws = breiten.map(function (b) { return b * BREIT / summe; });
+    function zeile(werte, istKopf, nr) {
+      platz(lh); y -= lh;
+      if (istKopf) rechteck(RL, y, BREIT, lh, '#34434F'); else if (nr % 2) rechteck(RL, y, BREIT, lh, '#F3F6F8');
+      var x = RL;
+      werte.forEach(function (w, i) {
+        var s = normPdf(String(w)), b = bTxt(s, gr, istKopf);
+        while (b > ws[i] - 6 && s.length > 2) { s = s.slice(0, -2) + '.'; b = bTxt(s, gr, istKopf); }
+        var links = i > 0 && !/^[-–0-9]/.test(s); text(i === 0 ? x + (ws[i] - b) / 2 : links ? x + 5 : x + ws[i] - b - 5, y + 4.6, s, gr, istKopf, istKopf ? '#FFFFFF' : '#16202A');
+        x += ws[i];
+      });
+      rahmen(RL, y, BREIT, lh, '#D5DCE1', 0.5);
+    }
+    platz(lh * 3); zeile(kopf, true, 0);
+    zeilen.forEach(function (z, i) { if (y - lh < UNTEN) { neueSeite(); zeile(kopf, true, 0); } zeile(z, false, i); });
+    y -= 6;
+  }
+
+  neueSeite();
+  rechteck(0, A4H - 118, A4W, 118, '#34434F');
+  rechteck(0, A4H - 122, A4W, 4, '#E4572E');
+  text(RL, A4H - 44, (titel.toUpperCase()) + ' · NW-LABOR 6a', 10, true, '#FFB59E');
+  text(RL, A4H - 74, 'Elektrizität – Strom im Alltag', 24, true, '#FFFFFF');
+  text(RL, A4H - 98, 'Digitales NW-Labor · Lernabschnitte 1 bis 3 · Stationen 1 bis 12', 11, false, '#DCE4EA');
+  y = A4H - 150;
+  [['Name', name], ['Klasse', klasse], ['Datum', dat], ['Thema', 'Stromkreis, Leiter, Schaltungen, Wirkungen, Elektromagnet, Energie, Sicherheit']].forEach(function (p, i) {
+    text(RL, y - i * 19, p[0] + ':', 10.5, true, '#5E6B75'); text(RL + 70, y - i * 19, p[1], 10.5, i === 0, '#16202A');
+  });
+  y -= 4 * 19 + 8;
+  // Arbeitsstand
+  var g = stand(zaehlt);
+  absatz('Arbeitsstand: ' + g.fertig + ' von ' + g.gesamt + ' Aufgaben erledigt (' + g.proz + ' %, ohne Extra-Aufgaben)', 11, true, '#0E7C7B', 0, false, 4);
+  tabelle(['Station', 'Thema', 'Abschnitt', 'erledigt', 'Messwerte'], STATIONEN.map(function (st) {
+    var s = stand(function (a) { return a.st === st && zaehlt(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (a, b) { return a + b; }, 0);
+    var sp = AUFG.filter(function (a) { return a.st === st && a.lv === 'S' && begonnen(a); }).length;
+    return [st.nr, st.titel, st.ab || '–', s.fertig + ' / ' + s.gesamt + (sp ? ' + Extra' : ''), mess || '–'];
+  }), [0.7, 3.6, 0.9, 1.4, 1]);
+  if (modus === 'zwischen') absatz('Dies ist ein Zwischenstand. Noch offene Aufgaben sind mit [offen] markiert.', 9, false, '#7A5A00', 0, true, 6);
+
+  STATIONEN.forEach(function (st) {
+    var liste = AUFG.filter(function (a) { return a.st === st; }), los = liste.some(begonnen);
+    platz(los ? 80 : 30);
+    y -= 8; rechteck(RL, y - 22, BREIT, 22, los ? '#0E7C7B' : '#9AA5AE');
+    text(RL + 10, y - 15.5, 'Station ' + st.nr + ' · ' + st.titel + (los ? '' : '  –  noch nicht begonnen'), 12, true, '#FFFFFF'); y -= 30;
+    if (!los) return;
+    liste.forEach(function (a) {
+      var fertig = istFertig(a), an = begonnen(a);
+      if (!an && (a.lv === 'S' || a.offen)) return;
+      var kopf = a.nr + ' · ' + { 1: 'Basis', 2: 'Plus', 3: 'Profi', S: 'Extra' }[a.lv] + (a.lv === 'S' ? '' : ' · ' + a.ph) + (a.titel ? ' · ' + a.titel : '');
+      if (!an) { platz(16); absatz(kopf + '   [offen]', 9, true, '#B3261E', 0, false, 3); return; }
+      platz(40);
+      absatz(kopf + (fertig ? '' : '   [teilweise]'), 9.5, true, fertig ? '#0E7C7B' : '#B36B00', 0, false, 1);
+      if (a.frage) absatz(plain(a.frage), 8.5, false, '#5E6B75', 0, true, 2);
+      teile(a).forEach(function (p) {
+        if (p.tab) {
+          if (!S[p.tab].length) { absatz('keine Messwerte gespeichert', 10, false, '#B3261E', 0, true, 6); return; }
+          var td = TABS[p.tab]; tabelle(td.kopf, td.zeilen(), td.br); return;
+        }
+        absatz(/[?:]$/.test(p.l) ? p.l : p.l + ':', 9, true, '#34434F', 8, false, 0);
+        absatz(p.v || '–', 10.5, false, p.v ? '#16202A' : '#B3261E', 8, !p.v, 4);
+      });
+      y -= 4;
+    });
+  });
+  platz(40); y -= 14;
+  text(RL, y, 'Erstellt im NW-Labor 6a am ' + dat + '. Mit dieser PDF kannst du im Labor weiterarbeiten (Startseite: „Mit meiner PDF weiterarbeiten“).', 8, false, '#76838D', true);
+
+  seiten.forEach(function (c, i) {
+    cmd = c;
+    cmd.push(hex('#D5DCE1') + ' RG 0.6 w ' + RL + ' 44 m ' + (A4W - RR) + ' 44 l S');
+    text(RL, 30, 'NW ' + klasse + ' · ' + name + ' · ' + dat, 8.5, false, '#76838D');
+    var sx = 'Seite ' + (i + 1) + ' von ' + seiten.length; text(A4W - RR - bTxt(sx, 8.5, false), 30, sx, 8.5, false, '#76838D');
+  });
+
+  var objekte = [], teileB = [], pos = 0, offs = [];
+  function obj(s) { objekte.push(s); return objekte.length; }
+  obj('<< /Type /Catalog /Pages 2 0 R >>'); obj('PAGES');
+  var f1 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var f2 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  var f3 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+  var kids = [];
+  seiten.forEach(function (c) {
+    var strom = c.join('\n'), inh = obj({ dict: '<< /Length ' + strom.length + ' >>', stream: strom });
+    kids.push(obj('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + A4W + ' ' + A4H + '] /Resources << /Font << /F1 ' + f1 + ' 0 R /F2 ' + f2 + ' 0 R /F3 ' + f3 + ' 0 R >> >> /Contents ' + inh + ' 0 R >>'));
+  });
+  objekte[1] = '<< /Type /Pages /Kids [' + kids.map(function (k) { return k + ' 0 R'; }).join(' ') + '] /Count ' + kids.length + ' >>';
+  var info = obj('<< /Title ' + pdfStr(titel + ' NW ' + klasse + ' - ' + name) + ' /Producer (NW-Labor 6a) >>');
+  function add(s) { var b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255; teileB.push(b); pos += b.length; }
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  // eingebetteter Arbeitsstand (nur Kommentarzeilen – PDF-Leser zeigen sie nicht an)
+  var daten = { v: 2, labor: 'nw6a-elehre', gespeichert: Date.now(), d: S.d }; TABN.forEach(function (n) { daten[n] = S[n]; });
+  var b64 = b64Utf8(JSON.stringify(daten)), zeilen = '%PHYSIKLABOR-DATEN-BEGIN\n';
+  for (var i = 0; i < b64.length; i += 76) zeilen += '%' + b64.slice(i, i + 76) + '\n';
+  add(zeilen + '%PHYSIKLABOR-DATEN-END\n');
+  objekte.forEach(function (o, i) {
+    offs.push(pos); add((i + 1) + ' 0 obj\n');
+    if (o.stream != null) add(o.dict + '\nstream\n' + o.stream + '\nendstream'); else add(o);
+    add('\nendobj\n');
+  });
+  var xref = pos, n = objekte.length + 1, x = 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+  offs.forEach(function (o) { x += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+  add(x + 'trailer\n<< /Size ' + n + ' /Root 1 0 R /Info ' + info + ' 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return { blob: new Blob(teileB, { type: 'application/pdf' }), seiten: seiten.length };
+}
+
+var letzteUrl = null;
+function pdfLaden(modus) {
+  if (!(S.d.vorname || '').trim()) { alert('Bitte trage zuerst auf der Startseite deinen Namen ein.'); geh(0); return; }
+  if (modus === 'voll') {
+    var f = fehlendeBasis();
+    if (f.length && !confirm('Es sind noch ' + f.length + ' Basis- und Plus-Aufgaben offen.\n\nTrotzdem dein ganzes Forscherprotokoll herunterladen?\n(Am Ende einer Stunde reicht der Zwischenstand.)')) return;
+  }
+  try {
+    var r = bauePdf(modus), name = dateiname(modus);
+    if (letzteUrl) URL.revokeObjectURL(letzteUrl);
+    letzteUrl = URL.createObjectURL(r.blob);
+    var a = document.createElement('a'); a.href = letzteUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    S.exportiert = true; speichern();
+    var e = $('erfolg'); e.classList.remove('zeigen'); void e.offsetWidth; e.classList.add('zeigen');
+    $('toast').innerHTML = '⬆️ <b>Lade deine PDF jetzt in der NW-Aufgabe bei IServ hoch.</b><br><small>' + esc(name) + ' (' + r.seiten + ' Seiten) liegt in „Downloads“. Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a></small><button class="toastzu" aria-label="Hinweis schließen">✕</button>';
+    $('toast').classList.add('zeigen');
+    $('pdfAlt').style.display = 'block';
+    $('pdfAlt').innerHTML = 'Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a> und dort speichern. (' + r.seiten + ' Seiten)';
+  } catch (err) { alert('Die PDF konnte nicht erstellt werden: ' + err.message + '\nBitte melde dich bei deiner Lehrkraft.'); }
+}
+
+/* ---------- Mit einer früheren PDF weiterarbeiten ---------- */
+function ladeAusPdf(datei) {
+  var r = new FileReader();
+  r.onload = function () {
+    var b = new Uint8Array(r.result), s = '';
+    for (var i = 0; i < b.length; i += 8192) s += String.fromCharCode.apply(null, b.subarray(i, i + 8192));
+    var m = s.match(/%PHYSIKLABOR-DATEN-BEGIN\r?\n([\s\S]*?)%PHYSIKLABOR-DATEN-END/);
+    if (!m) { alert('In dieser Datei wurde kein Arbeitsstand gefunden. Nimm die PDF, die du im NW-Labor heruntergeladen hast.'); return; }
+    try {
+      var daten = JSON.parse(utf8B64(m[1].replace(/[%\s]/g, '')));
+      if (!daten.d) throw new Error('leer');
+      if (daten.labor !== 'nw6a-elehre') { alert('Diese PDF ist aus einem anderen Labor. Nimm die PDF aus dem NW-Labor 6a.'); return; }
+      var wer = ((daten.d.vorname || '') + ' ' + (daten.d.nachname || '')).trim() || 'ohne Namen';
+      var wann = daten.gespeichert ? new Date(daten.gespeichert).toLocaleString('de-DE') : 'unbekannt';
+      if (!confirm('Arbeitsstand von ' + wer + ' (gespeichert ' + wann + ') laden?\n\nDie Eingaben, die gerade auf diesem PC stehen, werden ersetzt.')) return;
+      var neu = neuerZustand(); neu.d = daten.d; TABN.forEach(function (n) { if (Array.isArray(daten[n])) neu[n] = daten[n]; });
+      clearTimeout(speicherTimer); localStorage.setItem(KEY, JSON.stringify(neu)); S = neu; S.exportiert = true;
+      location.reload();
+    } catch (e) { alert('Der Arbeitsstand in der PDF ist beschädigt und kann nicht geladen werden.'); }
+  };
+  r.readAsArrayBuffer(datei);
+}
+
+/* =====================================================================
+   START: Seite aufbauen, Ereignisse verbinden
+   ===================================================================== */
+function init() {
+  $('nojs').remove();
+  $('abgabe').insertAdjacentHTML('beforebegin', STATIONEN.map(stationHtml).join(''));
+  $('abkarten').innerHTML = ABSCHNITTE.map(function (ab) {
+    var st = STATIONEN.filter(function (s) { return s.ab === ab.nr; });
+    return '<div class="abkarte"><div class="abnr">' + ab.nr + '</div><div><b>' + ab.titel + '</b><div class="satzhilfe">' + ab.text + ' · ca. ' + ab.zeit + ' Minuten</div><ul>' +
+      st.map(function (s) { return '<li>' + s.ico + ' Station ' + s.nr + ': ' + s.titel + ' <span class="satzhilfe">(' + s.zeit + ' min)</span></li>'; }).join('') + '</ul></div></div>';
+  }).join('') + '<div class="abkarte klein"><div class="abnr">🏆</div><div><b>Abschluss</b><div class="satzhilfe">Station ' + STATIONEN[STATIONEN.length - 1].nr + ': ' + STATIONEN[STATIONEN.length - 1].titel + ' · ca. ' + STATIONEN[STATIONEN.length - 1].zeit + ' Minuten</div></div></div>';
+  baueNav(); baueSims(); binde(document); markiereWoerter(document); baueWoerterbuch(); bindeHilfen();
+  $('zurueckLetzte').addEventListener('click', function () { geh(STATIONEN.length); });
+  zeigeTabellen();
+  AUFG.forEach(function (a) {
+    if (a.art === 'urteile' && S.d[a.k + '.ausgewertet']) urteilAuswerten(a.k, true);
+    if (a.art === 'zuordnung' && S.d[a.k + '.ok']) zuordPruefen(a.k, true);
+  });
+  Object.keys(PRUEF).forEach(function (k) { if (S.d[k + '.ok']) zeigePruefung(k, true); });
+
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-geh]'); if (g) { if (g.tagName === 'A') e.preventDefault(); geh(Number(g.dataset.geh)); return; }
+    var p = e.target.closest('[data-pruefe]'); if (p) { zeigePruefung(p.dataset.pruefe); return; }
+    var u = e.target.closest('[data-urteil]'); if (u) { urteilAuswerten(u.dataset.urteil); return; }
+    var z = e.target.closest('[data-zuord]'); if (z) { zuordPruefen(z.dataset.zuord); return; }
+    var w = e.target.closest('[data-weg]'); if (w) { var q = w.dataset.weg.split(':'); S[q[0]].splice(Number(q[1]), 1); zeigeTabellen(q[0]); speichern(); return; }
+    var zw = e.target.closest('[data-zwischen]'); if (zw) { pdfLaden('zwischen'); return; }
+    if (e.target.closest('.toastzu')) { $('toast').classList.remove('zeigen'); return; }
+  });
+  $('starten').addEventListener('click', function () {
+    if (!(S.d.vorname || '').trim() || !(S.d.nachname || '').trim()) { alert('Bitte trage deinen Vor- und Nachnamen ein – er steht später auf deinem Protokoll.'); (S.d.vorname ? $('nachname') : $('vorname')).focus(); return; }
+    var erste = 1; for (var i = 0; i < STATIONEN.length; i++) { var st = STATIONEN[i]; if (AUFG.some(function (a) { return a.st === st && zaehlt(a) && !istFertig(a); })) { erste = i + 1; break; } }
+    geh(erste);
+  });
+  $('pdfVoll').addEventListener('click', function () { pdfLaden('voll'); });
+  $('pdfImport').addEventListener('change', function () { if (this.files[0]) ladeAusPdf(this.files[0]); this.value = ''; });
+  $('loeschen').addEventListener('click', function () {
+    if (!confirm('Hast du deine PDF bei IServ hochgeladen?\n\nAlle Eingaben werden von diesem Computer gelöscht.')) return;
+    clearTimeout(speicherTimer); try { localStorage.removeItem(KEY); } catch (e) {}
+    S = neuerZustand(); location.reload();
+  });
+  var schub = $('formeln');
+  function schublade(auf) { schub.classList.toggle('offen', auf); schub.setAttribute('aria-hidden', !auf); $('formelAuf').setAttribute('aria-expanded', auf); if (auf) $('formelZu').focus(); }
+  $('formelAuf').addEventListener('click', function () { schublade(!schub.classList.contains('offen')); });
+  $('formelZu').addEventListener('click', function () { schublade(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { schublade(false); $('toast').classList.remove('zeigen'); } });
+  window.addEventListener('beforeunload', function (e) { if ((S.d.vorname || S.mA.length) && !S.exportiert) { e.preventDefault(); e.returnValue = ''; } });
+  document.addEventListener('input', function () { S.exportiert = false; }, true);
+  if (warAlt) {
+    $('fortsetzenBox').style.display = 'block';
+    var g = stand(zaehlt);
+    $('fortsetzenBox').innerHTML = 'Auf diesem Computer ist noch ein Arbeitsstand von <b>' + esc(nameText()) + '</b> gespeichert (' + g.fertig + ' von ' + g.gesamt + ' Aufgaben). Bist du das? Dann klicke auf „Labor starten“. Sonst: <button class="knopf dunkel" id="neuBeginnen">Neu beginnen (alten Stand löschen)</button>';
+    $('neuBeginnen').addEventListener('click', function () { clearTimeout(speicherTimer); try { localStorage.removeItem(KEY); } catch (e) {} S = neuerZustand(); location.reload(); });
+  }
+  aktualisiereStatus();
+  geh(0);
+}
+init();
+
+</script>
+</body>
+</html>
