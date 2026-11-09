@@ -300,6 +300,13 @@ html{font-size:19px}
 .termin{display:inline-block;margin:.3rem 0;padding:.2rem .6rem;border-radius:8px;background:#FFF3D6;color:#7A5A00;font-weight:600;font-size:.95rem}
 .ortwahl{background:#F3EEFA;border-radius:10px;padding:.5rem .8rem;margin:.6rem 0;align-items:center;gap:.6rem;flex-wrap:wrap}
 .mczeile .szbild{vertical-align:middle}
+/* 5 Abschnitte: Kopfleiste nicht umbrechen, sondern seitlich scrollen */
+.kopf-in{flex-wrap:nowrap}
+.nav{flex-wrap:nowrap;overflow-x:auto;min-width:0;scrollbar-width:thin;padding-bottom:2px}
+.abgr{flex-shrink:0;min-width:0}
+.abkopf{white-space:nowrap;gap:.35rem}
+.kopfknoepfe{flex-shrink:0}
+@media (max-width:700px){.kopf-in{flex-wrap:wrap}.nav{order:3;flex-basis:100%}}
 
 </style>
 </head>
@@ -334,7 +341,7 @@ html{font-size:19px}
   <div class="held">
     <div class="ober">MATHEMATIK · G-KURS 10 · DIGITALES MATHE-LABOR</div>
     <h1>Funktionen &amp;<br>Parabeln</h1>
-    <p>Willkommen im Mathe-Labor! 👋 Hier probierst du selbst aus: Du fängst Geraden, zeichnest Graphen aus Wertetabellen und vergleichst Tarife. Später kommen die Parabeln dazu.</p>
+    <p>Willkommen im Mathe-Labor! 👋 Hier probierst du selbst aus – die ganze Reihe lang: Du fängst Geraden und Parabeln, zeichnest Graphen, findest Nullstellen, löst Gleichungen und forschst in der Parabel-Werkstatt. Nach jeder Stunde speicherst du dein Fazit als PDF.</p>
     <svg viewBox="0 0 220 170" aria-hidden="true"><g stroke="#DCE4EA" stroke-width="1"><line x1="20" y1="10" x2="20" y2="160"/><line x1="45" y1="10" x2="45" y2="160"/><line x1="70" y1="10" x2="70" y2="160"/><line x1="95" y1="10" x2="95" y2="160"/><line x1="120" y1="10" x2="120" y2="160"/><line x1="145" y1="10" x2="145" y2="160"/><line x1="170" y1="10" x2="170" y2="160"/><line x1="195" y1="10" x2="195" y2="160"/><line x1="220" y1="10" x2="220" y2="160"/><line x1="10" y1="10" x2="210" y2="10"/><line x1="10" y1="35" x2="210" y2="35"/><line x1="10" y1="60" x2="210" y2="60"/><line x1="10" y1="85" x2="210" y2="85"/><line x1="10" y1="110" x2="210" y2="110"/><line x1="10" y1="135" x2="210" y2="135"/><line x1="10" y1="160" x2="210" y2="160"/></g><path d="M10,135 L210,135 M110,160 L110,8" stroke="#16202A" stroke-width="2.5"/><path d="M30,10 Q110,260 190,10" fill="none" stroke="#E4572E" stroke-width="5" stroke-linecap="round"/><path d="M20,160 L200,40" stroke="#1565C0" stroke-width="5" stroke-linecap="round"/><circle cx="110" cy="100" r="7" fill="#2E8B3E"/></svg>
   </div>
 
@@ -416,10 +423,21 @@ html{font-size:19px}
 /* ---------- Für die PDF: Abgabetermin der Hausaufgabe (bei jeder neuen HA hier ändern) ---------- */
 var LABOR = {
   titel: 'Funktionen & Parabeln',
-  untertitel: 'Digitales Mathe-Labor · UV 10.3 · Abschnitt 1: Lineare Funktionen',
-  thema: 'Wiederholung lineare Funktionen: Wertetabelle, Graph, y = mx + b, Steigung, Sachaufgaben',
-  hausaufgabe: 'Di 17.11.2026, 8:00 Uhr (Abschnitt 1: alle Basis- und Plus-Aufgaben)'
+  untertitel: 'Digitales Mathe-Labor · UV 10.3 Quadratische Funktionen und Gleichungen · 5 Abschnitte',
+  thema: 'Lineare und quadratische Funktionen, Nullstellen, Gleichungen'
 };
+/* Hausaufgaben mit Abgabe (die nächste noch offene wird automatisch auf die PDF geschrieben) */
+var HAS = [
+  { bis: '2026-11-17T08:00', text: 'Di 17.11.2026, 8:00 Uhr', was: 'Abschnitt 1 (Stationen 1–4): alle Basis- und Plus-Aufgaben' },
+  { bis: '2026-11-20T08:00', text: 'Fr 20.11.2026, 8:00 Uhr', was: 'Station 5 Normalparabel: alle Basis- und Plus-Aufgaben' },
+  { bis: '2026-12-04T08:00', text: 'Fr 04.12.2026, 8:00 Uhr', was: 'Station 10 Fünf-Punkte-Verfahren: alle Basis- und Plus-Aufgaben' },
+  { bis: '2026-12-18T08:00', text: 'Fr 18.12.2026, 8:00 Uhr', was: 'Stationen 14 und 15: alle Basis-Aufgaben' }
+];
+function haText() {
+  var jetzt = Date.now();
+  for (var i = 0; i < HAS.length; i++) if (new Date(HAS[i].bis).getTime() > jetzt) return HAS[i].text + ' (' + HAS[i].was + ')';
+  return 'nach Absprache mit der Lehrkraft';
+}
 var ORTE = ['Unterricht am PC', 'Unterricht am iPad', 'Hausaufgabe'];
 
 /* ---------- Farben wie im Buch: m lila, b grün, x rot ---------- */
@@ -452,10 +470,30 @@ function miniGraph(m, b) {
   h += '<path clip-path="url(#' + id + ')" d="M' + f(-5) + ',' + g(m * -5 + b) + ' L' + f(5) + ',' + g(m * 5 + b) + '" stroke="#1565C0" stroke-width="3"/>';
   return h + '</svg>';
 }
+function miniParabel(a, e) {   // kleine Parabel (x und y von −4 bis 4)
+  var P = 14, M = 60, f = function (x) { return M + x * P; }, g = function (y) { return M - y * P; };
+  var h = '<svg class="szbild" style="width:120px;height:120px" viewBox="0 0 120 120" role="img" aria-label="Graph einer Parabel">';
+  for (var i = -4; i <= 4; i++) h += '<path d="M' + f(i) + ',4 L' + f(i) + ',116 M4,' + g(i) + ' L116,' + g(i) + '" stroke="#E4E9F2" stroke-width="1"/>';
+  h += '<path d="M2,60 L118,60 M60,118 L60,2" stroke="#34434F" stroke-width="1.6"/>';
+  h += '<text x="112" y="72" font-size="10" font-style="italic">x</text><text x="64" y="10" font-size="10" font-style="italic">y</text>';
+  h += '<text x="' + (f(1) - 3) + '" y="72" font-size="9" fill="#5E6B75">1</text><text x="50" y="' + (g(1) + 3) + '" font-size="9" fill="#5E6B75">1</text>';
+  var id = 'pc' + String(a + '_' + e).replace(/[^0-9a-z_]/gi, 'x'), d = '';
+  for (var x = -4.5; x <= 4.51; x += 0.1) d += (d ? 'L' : 'M') + f(x).toFixed(1) + ',' + g(a * x * x + e).toFixed(1);
+  h += '<clipPath id="' + id + '"><rect x="4" y="4" width="112" height="112"/></clipPath><path clip-path="url(#' + id + ')" d="' + d + '" fill="none" stroke="#1565C0" stroke-width="3"/>';
+  return h + '</svg>';
+}
 
 var ABSCHNITTE = [
-  { nr: 1, titel: 'Wiederholung: Lineare Funktionen', kurz: 'Lineare Fkt.', zeit: 85, text: 'Wertetabelle, Graph, Steigung, y-Achsenabschnitt, Tarife vergleichen',
-    termin: '🖥️ Fr 13.11. im PC-Raum · Rest als Hausaufgabe bis Di 17.11., 8:00 Uhr' }
+  { nr: 1, titel: 'Wiederholung: Lineare Funktionen', kurz: 'Geraden', zeit: 95, text: 'Wertetabelle, Graph, Steigung, y-Achsenabschnitt, Tarife vergleichen',
+    termin: '🖥️ Fr 13.11. PC-Raum · Rest Hausaufgabe bis Di 17.11., 8:00' },
+  { nr: 2, titel: 'Normalparabel und Faktor a', kurz: 'a', zeit: 115, text: 'Normalparabel, gestreckt, gestaucht, Öffnung, a ablesen und berechnen',
+    termin: 'Di 17.11. · Fr 20.11. (Station 5 Hausaufgabe bis Fr 20.11., 8:00) · Di 24.11. Lernbüro: Station 7' },
+  { nr: 3, titel: 'Verschiebung, Fünf-Punkte-Verfahren, Nullstellen', kurz: 'e · Null', zeit: 110, text: 'Summand e, Scheitelpunkt, Parabeln schnell zeichnen, Nullstellen ablesen',
+    termin: 'Fr 27.11. · Di 01.12. (Station 10 Hausaufgabe bis Fr 04.12., 8:00) · Fr 04.12. · Di 08.12. Lernbüro' },
+  { nr: 4, titel: 'Gleichungen und Anwendungen', kurz: 'Gleich.', zeit: 125, text: 'Rein quadratische Gleichungen, Nullstellen berechnen, Parabel-Werkstatt, Alltag',
+    termin: 'Fr 11.12. · 🖥️ Di 15.12. PC/iPad: Station 14 · Rest Hausaufgabe bis Fr 18.12., 8:00' },
+  { nr: 5, titel: 'Fit für die Klassenarbeit', kurz: 'KA-Fit', zeit: 45, text: 'Selbsttest mit Hinweisen, welche Station du noch üben solltest',
+    termin: 'Fr 08.01. · Di 12.01. Lernbüro · KA 2 am Fr 15.01.' }
 ];
 
 var STATIONEN = [
@@ -585,7 +623,7 @@ var STATIONEN = [
   ] },
 
 /* ---------------------------------------------------------------- Fazit */
-{ id: 'fazit1', nr: 4, ab: 0, titel: 'Fazit: Das kann ich schon', zeit: 10, ico: '🏁',
+{ id: 'fazit1', nr: 4, ab: 1, titel: 'Fazit 1: Lineare Funktionen', zeit: 10, ico: '🏁',
   problem: '<p>Geschafft! 🎉 Zum Schluss schaust du zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
   bloecke: [
     { b: 'a', nr: '4.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz1.ich', frage: 'Kreuze ehrlich an. Das hilft dir und deiner Lehrkraft.' },
@@ -595,6 +633,303 @@ var STATIONEN = [
     { b: 'a', nr: '4.3', lv: 1, ph: '❓ Rückmeldung', art: 'text', k: 'fz1.frage',
       frage: 'Was war heute schwer? Was möchtest du noch einmal üben?',
       platz: 'Schwer war für mich … Ich möchte noch üben …' }
+  ] },
+
+/* ================================================================ Abschnitt 2: Normalparabel und Streckfaktor a */
+{ id: 'st5', nr: 5, ab: 2, titel: 'Die Normalparabel', zeit: 35, ico: '🌈',
+  problem: '<p>Beim Seilspringen, beim Wasserstrahl eines Brunnens, beim Basketballwurf: Überall siehst du diese Kurve. 🏀</p><p>Sie heißt <b>Parabel</b>. Die einfachste Parabel gehört zur Funktion <b>f(x) = x²</b>.</p><p><b>Wie sieht sie genau aus?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '5.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du? Es gibt hier noch kein Richtig oder Falsch.',
+      items: [{ k: 's5.verm', t: 'Der Graph von f(x) = x² ist …', opt: ['eine Gerade.', 'eine Kurve, die aussieht wie ein U.', 'ein Kreis.'] }] },
+    { b: 'info', html: '<b>Quadratische Funktion:</b> In der Gleichung kommt <b>x²</b> vor. Ihr Graph heißt <b>Parabel</b>.<br><b>Achtung beim Einsetzen:</b> Negative Zahlen in Klammern! f(<b style="color:' + FX + '">−3</b>) = (<b style="color:' + FX + '">−3</b>)² = (−3) · (−3) = 9. Minus mal minus gibt plus.' },
+    { b: 'a', nr: '5.2', lv: 1, ph: '🧮 Wertetabelle', art: 'rechnung', frage: 'Berechne die Werte für f(x) = x². Klicke bei jedem Ergebnis auf „Prüfen“.',
+      felder: [{ k: 's5.fm3', gr: 'f(−3)', soll: 9, ohne: true, tipp: '(−3) · (−3) – minus mal minus gibt plus.' }, { k: 's5.fm1', gr: 'f(−1)', soll: 1, ohne: true, tipp: '(−1) · (−1)' },
+               { k: 's5.f0', gr: 'f(0)', soll: 0, ohne: true, tipp: '0 · 0' }, { k: 's5.f15', gr: 'f(1,5)', soll: 2.25, ohne: true, tipp: '1,5 · 1,5 = 2,25' }] },
+    { b: 'sim', sim: 'D' },
+    { b: 'a', nr: '5.3', lv: 1, ph: '🔬 Labor', art: 'messung', tab: 'mC', min: 2,
+      frage: 'Wähle zuerst <b>f(x) = x²</b>. Fülle die Tabelle aus, trage die Punkte ein und speichere. Mache danach noch <b>mindestens eine</b> weitere Funktion.' },
+    { b: 'a', nr: '5.4', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's5.m', frage: 'Vervollständige den Merksatz. Klicke dann auf „Prüfen“.',
+      text: 'Der Graph von f(x) = x² heißt [[*Normalparabel|Gerade]]. Ihr tiefster Punkt ist der [[*Scheitelpunkt|Schnittpunkt]] S(0 | 0). Die Parabel ist [[*achsensymmetrisch zur y-Achse|schief]]: f(−2) und f(2) sind [[*gleich|verschieden]]. Die y-Werte sind nie [[*negativ|positiv]].' },
+    { b: 'a', nr: '5.5', lv: 1, ph: '🧩 Entscheiden', art: 'urteile', k: 's5u', labels: ['quadratisch', 'nicht quadratisch'],
+      frage: 'Ist das eine quadratische Funktion? Entscheide bei jeder Karte. Klicke dann auf „Auswerten“.',
+      items: [{ ico: '🌈', t: 'y = x² + 4', ja: true, e: 'x kommt als x² vor.' }, { ico: '📏', t: 'y = 3x + 2', ja: false, e: 'Das ist eine lineare Funktion – ihr Graph ist eine Gerade.' },
+              { ico: '🌈', t: 'y = −x²', ja: true, e: 'Auch mit Minus davor: x² kommt vor.' }, { ico: '📏', t: 'y = 5x', ja: false, e: 'Hier steht nur x, nicht x². Das ist linear.' },
+              { ico: '🌈', t: 'y = 0,5x² − 3', ja: true, e: 'x² kommt vor – es ist eine quadratische Funktion.' }] },
+    { b: 'a', nr: '5.6', lv: 2, ph: '🔍 Punktprobe', art: 'zuordnung', k: 's5z', opt: ['auf der Parabel', 'oberhalb', 'unterhalb'],
+      tipp: 'setze x ein, rechne x² aus und vergleiche mit dem y-Wert des Punktes.',
+      frage: 'Wo liegt der Punkt – auf der Normalparabel, oberhalb oder unterhalb? Ordne zu und klicke auf „Prüfen“.',
+      items: [{ k: 's5z.1', t: 'P(4 | 16)', soll: 'auf der Parabel' }, { k: 's5z.2', t: 'Q(−3 | −9)', soll: 'unterhalb' }, { k: 's5z.3', t: 'R(0,5 | 0,25)', soll: 'auf der Parabel' }, { k: 's5z.4', t: 'T(−2 | 5)', soll: 'oberhalb' }],
+      hilfen: [['Hilfe', 'Beispiel Q(−3 | −9): (−3)² = 9. Der Punkt hat aber y = −9. −9 ist kleiner als 9, also liegt Q <b>unterhalb</b> der Parabel.']] },
+    { b: 'a', nr: '5.7', lv: 2, ph: '📝 Erklären', art: 'text', k: 's5.erkl', frage: 'Erkläre, warum die Normalparabel <b>nie unterhalb</b> der x-Achse liegt.',
+      platz: 'Wenn man eine Zahl quadriert, …', wort: 'positiv · negativ · minus mal minus · null · das Quadrat' },
+    { b: 'a', nr: '5.8', lv: 3, ph: '🔎 Rückwärts', art: 'rechnung', frage: 'Für welche x-Werte ist x² = 49? Es gibt <b>zwei</b> Lösungen.',
+      felder: [{ k: 's5.r1', gr: 'negative Lösung x₁', soll: -7, ohne: true, tipp: 'Welche negative Zahl mal sich selbst ergibt 49?' }, { k: 's5.r2', gr: 'positive Lösung x₂', soll: 7, ohne: true, tipp: '7 · 7 = 49' }] },
+    { b: 'a', nr: '5.9', lv: 'S', ph: '★ Extra', titel: 'Kleiner als 1', art: 'text', k: 's5.ex', frage: 'Für welche x-Werte ist x² kleiner als 1? Probiere mit Zahlen wie 0,5 oder −0,9.', platz: 'x² ist kleiner als 1, wenn …' }
+  ] },
+
+{ id: 'st6', nr: 6, ab: 2, titel: 'Gestreckt und gestaucht: der Faktor a', zeit: 35, ico: '↕️',
+  problem: '<p>Der Wasserstrahl eines Brunnens ist mal schmal und hoch, mal breit und flach. 💦</p><p>Mathematisch steckt dahinter eine Zahl vor dem x²: <b>f(x) = <span style="color:#1565C0">a</span> · x²</b>.</p><p><b>Was macht a mit der Parabel?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '6.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du? Wähle jeweils eine Antwort.',
+      items: [{ k: 's6.v1', t: 'Wenn a = 3 ist, wird die Parabel …', opt: ['schmaler als die Normalparabel.', 'breiter als die Normalparabel.', 'nach unten geöffnet.'] },
+              { k: 's6.v2', t: 'Wenn a = −1 ist, …', opt: ['ist die Parabel nach unten offen.', 'verschiebt sich die Parabel nach links.', 'verschwindet die Parabel.'] }] },
+    { b: 'info', html: '<b>So geht es:</b> ① Schau dir die <b style="color:#E4572E">orange</b> Parabel an. ② Stelle <b style="color:#1565C0">a</b> mit dem Regler ein. ③ <b>Prüfen</b>. ④ Gefangen? <b>Speichern</b> und <b>Nächste Parabel</b>.<br><b>a ablesen:</b> Starte im Scheitelpunkt. Gehe <b style="color:' + FX + '">1 nach rechts</b>. Gehe senkrecht bis zur Parabel: So weit nach oben (oder unten) – das ist <b style="color:#1565C0">a</b>.' },
+    { b: 'sim', sim: 'E' },
+    { b: 'a', nr: '6.2', lv: 1, ph: '🎯 Labor', art: 'messung', tab: 'mD', min: 4, frage: 'Fange <b>mindestens 4</b> Parabeln und speichere jede. Darunter mindestens eine, die nach unten offen ist.' },
+    { b: 'a', nr: '6.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's6.m', frage: 'Vervollständige den Merksatz.',
+      text: 'Ist a größer als 1, ist die Parabel [[*gestreckt (schmaler)|gestaucht (breiter)]]. Liegt a zwischen 0 und 1, ist die Parabel [[gestreckt (schmaler)|*gestaucht (breiter)]]. Ist a negativ, ist die Parabel nach [[oben|*unten]] offen. Der Scheitelpunkt bleibt bei S(0 | [[*0|a]]).' },
+    { b: 'a', nr: '6.4', lv: 1, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's6z', opt: ['f(x) = 2x²', 'f(x) = −x²', 'f(x) = 0,5x²', 'f(x) = −2x²'],
+      tipp: 'oben oder unten offen? Und: schmaler oder breiter als die Normalparabel?', frage: 'Welche Gleichung gehört zu welchem Graphen? Ordne zu.',
+      items: [{ k: 's6z.1', t: miniParabel(0.5, 0), alt: 'Graph 1', soll: 'f(x) = 0,5x²' }, { k: 's6z.2', t: miniParabel(-2, 0), alt: 'Graph 2', soll: 'f(x) = −2x²' },
+              { k: 's6z.3', t: miniParabel(2, 0), alt: 'Graph 3', soll: 'f(x) = 2x²' }, { k: 's6z.4', t: miniParabel(-1, 0), alt: 'Graph 4', soll: 'f(x) = −x²' }] },
+    { b: 'a', nr: '6.5', lv: 1, ph: '🧮 Rechnen', art: 'rechnung', frage: 'Berechne für f(x) = 3x²: Zuerst quadrieren, dann mal 3.',
+      felder: [{ k: 's6.f2', gr: 'f(2)', soll: 12, ohne: true, tipp: '2² = 4, dann 3 · 4.' }, { k: 's6.fm1', gr: 'f(−1)', soll: 3, ohne: true, tipp: '(−1)² = 1, dann 3 · 1.' }] },
+    { b: 'a', nr: '6.6', lv: 2, ph: '🔎 a berechnen', art: 'rechnung', frage: 'Die Parabel f(x) = a · x² geht durch den Punkt <b>P(2 | 12)</b>. Berechne a.',
+      weg: { k: 's6.a.w', platz: '12 = a · 2²\n12 = a · 4   | : 4\n…', label: 'Rechnung' },
+      felder: [{ k: 's6.a', gr: 'a', soll: 3, ohne: true, tipp: 'Setze x = 2 und y = 12 ein: 12 = a · 4. Teile durch 4.' }] },
+    { b: 'a', nr: '6.7', lv: 2, ph: '📝 Begründen', art: 'text', k: 's6.begr', frage: 'Beschreibe die Parabel zu <b>f(x) = −0,5x²</b> und begründe wie im Buch.',
+      platz: 'Die Parabel zu f(x) = −0,5x² ist …, weil …', wort: 'gestreckt · gestaucht · nach oben offen · nach unten offen · a = −0,5 · kleiner als 0 · zwischen −1 und 1' },
+    { b: 'a', nr: '6.8', lv: 3, ph: '🌉 Brückenbogen', art: 'rechnung', frage: 'Ein Brückenbogen hat die Form f(x) = a · x². Der Scheitelpunkt ist oben in der Mitte. Der Punkt <b>P(−4 | −8)</b> liegt auf dem Bogen. Berechne a.',
+      weg: { k: 's6.br.w', platz: '−8 = a · (−4)²\n…', label: 'Rechnung' },
+      felder: [{ k: 's6.br', gr: 'a', soll: -0.5, ohne: true, tipp: '(−4)² = 16. Also −8 = a · 16. Teile durch 16.' }] },
+    { b: 'a', nr: '6.9', lv: 'S', ph: '★ Extra', titel: 'a = 0?', art: 'text', k: 's6.ex', frage: 'Stelle im Simulator a = 0 ein. Was passiert? Warum ist das keine Parabel mehr?', platz: 'Bei a = 0 …' }
+  ] },
+
+{ id: 'st7', nr: 7, ab: 2, titel: 'Training: Parabeln mit a', zeit: 35, ico: '🏋️',
+  problem: '<p>Training im Lernbüro! 💪</p><p>Hier übst du alles zur Normalparabel und zum Faktor a. Beginne mit den ● Basis-Aufgaben. Wenn du sicher bist, nimm die ●● und ●●● Aufgaben.</p>',
+  bloecke: [
+    { b: 'a', nr: '7.1', lv: 1, ph: '🧮 Wertetabelle', art: 'rechnung', frage: 'Berechne für <b>f(x) = 0,5x²</b>.',
+      felder: [{ k: 's7.f2', gr: 'f(−2)', soll: 2, ohne: true, tipp: '(−2)² = 4, dann 0,5 · 4.' }, { k: 's7.f4', gr: 'f(4)', soll: 8, ohne: true, tipp: '4² = 16, dann 0,5 · 16.' }, { k: 's7.f3', gr: 'f(3)', soll: 4.5, ohne: true, tipp: '3² = 9, dann die Hälfte von 9.' }] },
+    { b: 'a', nr: '7.2', lv: 1, ph: '🧩 Stimmt das?', art: 'urteile', k: 's7u', labels: ['stimmt', 'stimmt nicht'], frage: 'Entscheide bei jeder Aussage. Klicke dann auf „Auswerten“.',
+      items: [{ ico: '↕️', t: 'Die Parabel zu f(x) = 4x² ist gestreckt.', ja: true, e: 'a = 4 ist größer als 1 – also gestreckt (schmaler).' },
+              { ico: '↔️', t: 'Die Parabel zu f(x) = 0,2x² ist gestreckt.', ja: false, e: 'a = 0,2 liegt zwischen 0 und 1 – die Parabel ist gestaucht (breiter).' },
+              { ico: '⬇️', t: 'Die Parabel zu f(x) = −3x² ist nach unten offen.', ja: true, e: 'a ist negativ – also nach unten offen.' },
+              { ico: '⬆️', t: 'Die Parabel zu f(x) = −0,5x² ist nach oben offen.', ja: false, e: 'a = −0,5 ist negativ – nach unten offen.' },
+              { ico: '📍', t: 'Alle Parabeln f(x) = a · x² haben den Scheitelpunkt S(0 | 0).', ja: true, e: 'a ändert nur die Form, nicht die Lage des Scheitelpunkts.' },
+              { ico: '🪞', t: 'Bei a = −2 ist die Parabel genauso schmal wie bei a = 2.', ja: true, e: 'Sie ist nur an der x-Achse gespiegelt.' }] },
+    { b: 'a', nr: '7.3', lv: 2, ph: '🔎 a berechnen', art: 'rechnung', frage: 'Berechne a. Die Parabel f(x) = a · x² geht durch den Punkt …',
+      felder: [{ k: 's7.a1', gr: 'P(3 | 18): a', soll: 2, ohne: true, tipp: '18 = a · 9' }, { k: 's7.a2', gr: 'Q(−2 | −2): a', soll: -0.5, ohne: true, tipp: '−2 = a · 4' }] },
+    { b: 'a', nr: '7.4', lv: 2, ph: '🔍 Punktprobe', art: 'zuordnung', k: 's7z', opt: ['auf der Parabel', 'oberhalb', 'unterhalb'], tipp: 'rechne 2 · x² und vergleiche mit y.',
+      frage: 'Wo liegt der Punkt bezüglich der Parabel <b>f(x) = 2x²</b>?',
+      items: [{ k: 's7z.1', t: 'P(2 | 8)', soll: 'auf der Parabel' }, { k: 's7z.2', t: 'Q(−1 | 3)', soll: 'oberhalb' }, { k: 's7z.3', t: 'R(3 | 10)', soll: 'unterhalb' }, { k: 's7z.4', t: 'T(−0,5 | 0,5)', soll: 'auf der Parabel' }] },
+    { b: 'a', nr: '7.5', lv: 3, ph: '🕵️ Fehler finden', art: 'text', k: 's7.fehler',
+      frage: 'Tim rechnet für f(x) = 2x²: <b>f(−3) = 2 · −3² = −18</b>. Finde den Fehler und rechne richtig.',
+      platz: 'Tim hat vergessen, … Richtig ist: f(−3) = 2 · (−3)² = …', wort: 'Klammern · quadrieren · minus mal minus · 18' },
+    { b: 'a', nr: '7.6', lv: 'S', ph: '★ Extra', titel: 'Gleiche Parabel?', art: 'text', k: 's7.ex', frage: 'Gibt es zwei verschiedene Werte für a, die dieselbe Parabel ergeben? Begründe.', platz: 'Ich glaube, …' }
+  ] },
+
+{ id: 'fazit2', nr: 8, ab: 2, titel: 'Fazit 2: Normalparabel und a', zeit: 10, ico: '🏁',
+  problem: '<p>Abschnitt 2 geschafft! 🎉 Schau zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
+  bloecke: [
+    { b: 'a', nr: '8.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz2.ich', frage: 'Kreuze ehrlich an.',
+      ich: ['Ich kann eine Wertetabelle zu f(x) = x² anlegen – auch mit negativen x-Werten.', 'Ich kann die Normalparabel zeichnen und den Scheitelpunkt nennen.', 'Ich kann erkennen, ob eine Funktion quadratisch ist.',
+            'Ich kann sagen, ob eine Parabel gestreckt oder gestaucht ist.', 'Ich kann sagen, ob eine Parabel nach oben oder unten offen ist.', 'Ich kann a am Graphen ablesen.', 'Ich kann a aus einem Punkt berechnen.'] },
+    { b: 'a', nr: '8.2', lv: 1, ph: '💡 Mein Merksatz', art: 'text', k: 'fz2.merk', frage: 'Schreibe in eigenen Worten: Was bewirkt a in f(x) = a · x²?',
+      platz: 'Wenn a größer als 1 ist, … Wenn a zwischen 0 und 1 liegt, … Wenn a negativ ist, …', wort: 'gestreckt · gestaucht · schmaler · breiter · nach unten offen' },
+    { b: 'a', nr: '8.3', lv: 1, ph: '❓ Rückmeldung', art: 'text', k: 'fz2.frage', frage: 'Was war schwer? Was möchtest du noch üben?', platz: 'Schwer war für mich … Ich möchte noch üben …' }
+  ] },
+
+/* ================================================================ Abschnitt 3: e, Fünf-Punkte-Verfahren, Nullstellen */
+{ id: 'st9', nr: 9, ab: 3, titel: 'Verschobene Parabeln: der Summand e', zeit: 35, ico: '⬆️',
+  problem: '<p>Ein Springbrunnen spritzt Wasser aus einer Düse, die 2 m hoch ist. ⛲</p><p>Die Parabel beginnt also nicht im Ursprung – sie ist <b>nach oben verschoben</b>.</p><p><b>f(x) = <span style="color:#1565C0">a</span>x² + <span style="color:' + FB + '">e</span></b> – was bewirkt e?</p>',
+  bloecke: [
+    { b: 'a', nr: '9.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du?',
+      items: [{ k: 's9.verm', t: 'Bei f(x) = x² + 3 liegt der Scheitelpunkt …', opt: ['bei S(0 | 0).', 'bei S(0 | 3).', 'bei S(3 | 0).'] }] },
+    { b: 'info', html: '<b>So geht es:</b> Bringe deine Parabel auf die orange Parabel. Stelle zuerst <b style="color:' + FB + '">e</b> ein: Wo liegt der Scheitelpunkt? Dann <b style="color:#1565C0">a</b>: 1 nach rechts – wie weit nach oben oder unten?' },
+    { b: 'sim', sim: 'F' },
+    { b: 'a', nr: '9.2', lv: 1, ph: '🎯 Labor', art: 'messung', tab: 'mE', min: 4, frage: 'Fange <b>mindestens 4</b> Parabeln und speichere jede.' },
+    { b: 'a', nr: '9.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's9.m', frage: 'Vervollständige den Merksatz.',
+      text: 'Bei f(x) = ax² + e wird die Parabel um e nach [[*oben|links]] verschoben, wenn e positiv ist, und nach [[*unten|rechts]], wenn e negativ ist. Der Scheitelpunkt ist S(0 | [[*e|a]]). Ob die Parabel schmal oder breit ist, bestimmt [[*a|e]].' },
+    { b: 'a', nr: '9.4', lv: 1, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's9z', opt: ['f(x) = x² + 2', 'f(x) = −x² + 3', 'f(x) = 0,5x² − 2', 'f(x) = 2x² − 3'],
+      tipp: 'lies zuerst den Scheitelpunkt ab (e), dann die Öffnung und Form (a).', frage: 'Welche Gleichung gehört zu welchem Graphen?',
+      items: [{ k: 's9z.1', t: miniParabel(-1, 3), alt: 'Graph 1', soll: 'f(x) = −x² + 3' }, { k: 's9z.2', t: miniParabel(2, -3), alt: 'Graph 2', soll: 'f(x) = 2x² − 3' },
+              { k: 's9z.3', t: miniParabel(1, 2), alt: 'Graph 3', soll: 'f(x) = x² + 2' }, { k: 's9z.4', t: miniParabel(0.5, -2), alt: 'Graph 4', soll: 'f(x) = 0,5x² − 2' }] },
+    { b: 'a', nr: '9.5', lv: 1, ph: '📍 Scheitelpunkt', art: 'rechnung', frage: 'Gib den y-Wert des Scheitelpunkts S(0 | ?) an.',
+      felder: [{ k: 's9.s1', gr: 'f(x) = 2x² − 5: S(0 | ?)', soll: -5, ohne: true, tipp: 'Der y-Wert von S ist e.' }, { k: 's9.s2', gr: 'f(x) = −x² + 3,5: S(0 | ?)', soll: 3.5, ohne: true, tipp: 'Der y-Wert von S ist e.' }] },
+    { b: 'a', nr: '9.6', lv: 2, ph: '📝 Beschreiben', art: 'text', k: 's9.beschr', frage: 'Beschreibe die Parabel zu <b>f(x) = −3x² + 4</b> vollständig wie im Buch (Form, Öffnung, Verschiebung, Scheitelpunkt).',
+      platz: 'Die Parabel ist mit a = −3 …', wort: 'gestreckt · gestaucht · nach unten offen · um 4 nach oben verschoben · Der Scheitelpunkt ist S(0 | 4).' },
+    { b: 'a', nr: '9.7', lv: 3, ph: '🔎 Gleichung finden', art: 'rechnung', frage: 'Eine Parabel ist <b>nach unten offen</b>, genauso breit wie die Normalparabel und hat den Scheitelpunkt <b>S(0 | 6)</b>. Bestimme a und e.',
+      felder: [{ k: 's9.ga', gr: 'a', soll: -1, ohne: true, tipp: 'Wie die Normalparabel, aber nach unten offen.' }, { k: 's9.ge', gr: 'e', soll: 6, ohne: true, tipp: 'e ist der y-Wert des Scheitelpunkts.' }] },
+    { b: 'a', nr: '9.8', lv: 'S', ph: '★ Extra', titel: 'Der Springbrunnen', art: 'text', k: 's9.ex', frage: 'Der Wasserstrahl hat die Form f(x) = −0,5x² + 2 (in Metern). Was bedeutet e = 2 beim Springbrunnen? Was bedeutet das Minus vor 0,5?', platz: 'e = 2 bedeutet …' }
+  ] },
+
+{ id: 'st10', nr: 10, ab: 3, titel: 'Das Fünf-Punkte-Verfahren', zeit: 30, ico: '✋',
+  problem: '<p>Eine Parabel mit einer langen Wertetabelle zu zeichnen dauert. ⏳</p><p>Mit dem <b>Fünf-Punkte-Verfahren</b> geht es schnell: Du brauchst nur den Scheitelpunkt, den Faktor a und die Symmetrie.</p><p><b>Fünf Punkte – fertig!</b> ✋</p>',
+  bloecke: [
+    { b: 'info', html: '<b>Das Fünf-Punkte-Verfahren für f(x) = ax² + e</b><br>① Scheitelpunkt <b>S(0 | e)</b> eintragen.<br>② Von S: <b style="color:' + FX + '">1 nach rechts</b>, <b style="color:#1565C0">a nach oben</b> (bei negativem a nach unten) → Punkt <b>A</b>.<br>③ Von S: <b style="color:' + FX + '">2 nach rechts</b>, <b style="color:#7B3FA0">4 · a nach oben</b> → Punkt <b>B</b>.<br>④ A und B an der y-Achse spiegeln → <b>A′</b> und <b>B′</b>.<br>⑤ Die fünf Punkte zu einer Parabel verbinden.' },
+    { b: 'sim', sim: 'G' },
+    { b: 'a', nr: '10.1', lv: 1, ph: '✋ Labor', art: 'messung', tab: 'mG', min: 3, frage: 'Bearbeite <b>mindestens 3</b> Funktionen: y-Werte von S, A und B eintragen, prüfen, speichern.' },
+    { b: 'a', nr: '10.2', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's10.m', frage: 'Vervollständige die Anleitung.',
+      text: 'Gehe von S aus 1 nach rechts und [[*a|2a|4a]] nach oben. So erhältst du A. Gehe von S aus 2 nach rechts und [[a|2a|*4a]] nach oben. So erhältst du B. Spiegle A und B an der [[x-Achse|*y-Achse]]. Verbinde die fünf Punkte zu einer [[Geraden|*Parabel]].' },
+    { b: 'a', nr: '10.3', lv: 1, ph: '🧮 Punkte', art: 'rechnung', frage: 'Fünf-Punkte-Verfahren für <b>f(x) = 2x² − 3</b>: Gib die y-Werte an.',
+      felder: [{ k: 's10.s', gr: 'S(0 | ?)', soll: -3, ohne: true, tipp: 'S hat den y-Wert e.' }, { k: 's10.a', gr: 'A(1 | ?)', soll: -1, ohne: true, tipp: 'e + a = −3 + 2' }, { k: 's10.b', gr: 'B(2 | ?)', soll: 5, ohne: true, tipp: 'e + 4a = −3 + 8' }] },
+    { b: 'a', nr: '10.4', lv: 2, ph: '🧮 Punkte', art: 'rechnung', frage: 'Und jetzt für <b>f(x) = −0,5x² + 4</b>:',
+      felder: [{ k: 's10.a2', gr: 'A(1 | ?)', soll: 3.5, ohne: true, tipp: '4 + (−0,5)' }, { k: 's10.b2', gr: 'B(2 | ?)', soll: 2, ohne: true, tipp: '4 + 4 · (−0,5)' }, { k: 's10.bs', gr: 'B′(−2 | ?)', soll: 2, ohne: true, tipp: 'B′ ist das Spiegelbild von B – gleicher y-Wert.' }] },
+    { b: 'a', nr: '10.5', lv: 2, ph: '📝 Erklären', art: 'text', k: 's10.erkl', frage: 'Warum geht man für B <b>4 · a</b> nach oben und nicht 2 · a?',
+      platz: 'Weil man x = 2 einsetzt und 2² = …', wort: 'quadrieren · 2² = 4 · nicht doppelt · viermal' },
+    { b: 'a', nr: '10.6', lv: 3, ph: '✏️ Zeichnen', art: 'rechnung', frage: 'Zeichne <b>f(x) = 0,5x² − 2</b> mit dem Fünf-Punkte-Verfahren in dein Heft. Notiere alle fünf Punkte und gib die y-Werte von A und B ein.',
+      weg: { k: 's10.z.w', platz: 'S(0 | −2), A(1 | …), B(2 | …), A′(−1 | …), B′(−2 | …)', label: 'Meine fünf Punkte' },
+      felder: [{ k: 's10.za', gr: 'A(1 | ?)', soll: -1.5, ohne: true, tipp: '−2 + 0,5' }, { k: 's10.zb', gr: 'B(2 | ?)', soll: 0, ohne: true, tipp: '−2 + 4 · 0,5' }] },
+    { b: 'a', nr: '10.7', lv: 'S', ph: '★ Extra', titel: 'Ein sechster Punkt', art: 'text', k: 's10.ex', frage: 'Wie weit geht es von S aus nach oben, wenn du 3 nach rechts gehst? Finde eine Regel.', platz: 'Bei 3 nach rechts geht es … nach oben, weil …' }
+  ] },
+
+{ id: 'st11', nr: 11, ab: 3, titel: 'Nullstellen ablesen', zeit: 35, ico: '🎯',
+  problem: '<p>Zwei Kinder werfen sich einen Ball zu. 🏐 Wo würde der Ball auf den Boden treffen?</p><p>Am Boden ist die Höhe 0. Gesucht sind also die Stellen, an denen die Parabel die x-Achse schneidet: die <b>Nullstellen</b>.</p>',
+  bloecke: [
+    { b: 'a', nr: '11.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du?',
+      items: [{ k: 's11.verm', t: 'Eine Parabel hat …', opt: ['immer genau 2 Nullstellen.', '2, 1 oder 0 Nullstellen.', 'beliebig viele Nullstellen.'] }] },
+    { b: 'info', html: '<b>Nullstellen</b> sind die x-Werte, bei denen <b>f(x) = 0</b> ist. Am Graphen sind es die Schnittpunkte mit der x-Achse: P₁(<b style="color:' + FX + '">x₁</b> | 0) und P₂(<b style="color:' + FX + '">x₂</b> | 0).<br>In der Wertetabelle findest du sie dort, wo f(x) = 0 steht.' },
+    { b: 'sim', sim: 'H' },
+    { b: 'a', nr: '11.2', lv: 1, ph: '🎯 Labor', art: 'messung', tab: 'mH', min: 4, frage: 'Untersuche <b>mindestens 4</b> Parabeln – darunter eine mit 1 Nullstelle und eine ohne Nullstelle.' },
+    { b: 'a', nr: '11.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's11.m', frage: 'Vervollständige den Merksatz für eine nach oben offene Parabel.',
+      text: 'Liegt der Scheitelpunkt unterhalb der x-Achse, hat die Parabel [[*2|1|0]] Nullstellen. Liegt der Scheitelpunkt genau auf der x-Achse, hat sie [[2|*1|0]] Nullstelle. Liegt der Scheitelpunkt oberhalb der x-Achse, hat sie [[2|1|*0]] Nullstellen.' },
+    { b: 'a', nr: '11.4', lv: 2, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's11z', opt: ['2 Nullstellen', '1 Nullstelle', 'keine Nullstelle'], tipp: 'wo liegt der Scheitelpunkt (e) – und ist die Parabel oben oder unten offen (a)?',
+      frage: 'Wie viele Nullstellen hat die Parabel? Denke an Scheitelpunkt und Öffnung.',
+      items: [{ k: 's11z.1', t: 'f(x) = x² − 9', soll: '2 Nullstellen' }, { k: 's11z.2', t: 'f(x) = −x² − 1', soll: 'keine Nullstelle' }, { k: 's11z.3', t: 'f(x) = 3x²', soll: '1 Nullstelle' },
+              { k: 's11z.4', t: 'f(x) = −2x² + 5', soll: '2 Nullstellen' }, { k: 's11z.5', t: 'f(x) = 0,5x² + 2', soll: 'keine Nullstelle' }] },
+    { b: 'a', nr: '11.5', lv: 2, ph: '📋 Wertetabelle', art: 'rechnung', frage: 'Lege für <b>f(x) = x² − 4</b> eine Wertetabelle von −3 bis 3 an. Bei welchen x-Werten steht f(x) = 0?',
+      felder: [{ k: 's11.x1', gr: 'x₁ (kleinere)', soll: -2, ohne: true, tipp: 'Rechne f(−2) = (−2)² − 4.' }, { k: 's11.x2', gr: 'x₂ (größere)', soll: 2, ohne: true, tipp: 'Rechne f(2) = 2² − 4.' }] },
+    { b: 'a', nr: '11.6', lv: 3, ph: '🏐 Ballwurf', art: 'rechnung', frage: 'Die Flugbahn des Balls ist f(x) = −0,25x² + 4 (in Metern, x = 0 ist die Mitte zwischen den Kindern). Die Kinder stehen dort, wo der Ball auf den Boden treffen würde. Wie weit stehen sie auseinander?',
+      weg: { k: 's11.b.w', platz: 'Nullstellen: …', label: 'Rechnung oder Ablesen' },
+      felder: [{ k: 's11.b', gr: 'Abstand (in m)', soll: 8, ohne: true, tipp: 'Die Nullstellen sind −4 und 4. Der Abstand ist von −4 bis 4.' }] },
+    { b: 'a', nr: '11.7', lv: 'S', ph: '★ Extra', titel: 'Nach unten offen', art: 'text', k: 's11.ex', frage: 'Schreibe den Merksatz aus 11.3 für eine nach unten offene Parabel.', platz: 'Liegt der Scheitelpunkt oberhalb der x-Achse, …' }
+  ] },
+
+{ id: 'fazit3', nr: 12, ab: 3, titel: 'Fazit 3: e, Fünf Punkte, Nullstellen', zeit: 10, ico: '🏁',
+  problem: '<p>Abschnitt 3 geschafft! 🎉 Schau zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
+  bloecke: [
+    { b: 'a', nr: '12.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz3.ich', frage: 'Kreuze ehrlich an.',
+      ich: ['Ich kann sagen, wohin e die Parabel verschiebt.', 'Ich kann den Scheitelpunkt S(0 | e) angeben.', 'Ich kann eine Parabel vollständig beschreiben (Form, Öffnung, Verschiebung, Scheitelpunkt).',
+            'Ich kann aus einem Graphen die Gleichung f(x) = ax² + e bestimmen.', 'Ich kann eine Parabel mit dem Fünf-Punkte-Verfahren zeichnen.', 'Ich kann Nullstellen am Graphen ablesen.', 'Ich kann sagen, ob eine Parabel 2, 1 oder 0 Nullstellen hat.'] },
+    { b: 'a', nr: '12.2', lv: 1, ph: '💡 Mein Merksatz', art: 'text', k: 'fz3.merk', frage: 'Schreibe in eigenen Worten: Was bedeuten a und e in f(x) = ax² + e?',
+      platz: 'a bestimmt … e bestimmt …', wort: 'die Form · die Öffnung · den Scheitelpunkt · die Verschiebung nach oben oder unten' },
+    { b: 'a', nr: '12.3', lv: 1, ph: '❓ Rückmeldung', art: 'text', k: 'fz3.frage', frage: 'Was war schwer? Was möchtest du noch üben?', platz: 'Schwer war für mich … Ich möchte noch üben …' }
+  ] },
+
+/* ================================================================ Abschnitt 4: Gleichungen und Anwendungen */
+{ id: 'st13', nr: 13, ab: 4, titel: 'Rein quadratische Gleichungen lösen', zeit: 40, ico: '⚖️',
+  problem: '<p>Ein quadratisches Beet soll <b>49 m²</b> groß sein. 🌷 Wie lang ist eine Seite?</p><p>Gesucht ist x mit <b>x² = 49</b>. In solchen Gleichungen kommt x nur als x² vor. Sie heißen <b>rein quadratische Gleichungen</b>.</p>',
+  bloecke: [
+    { b: 'a', nr: '13.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du?',
+      items: [{ k: 's13.verm', t: 'Die Gleichung x² = 49 hat …', opt: ['eine Lösung: 7.', 'zwei Lösungen: 7 und −7.', 'keine Lösung.'] }] },
+    { b: 'info', html: '<b>So löst du eine rein quadratische Gleichung</b> (wie im Buch):<br>2x² − 2 = 0 &nbsp;&nbsp;| + 2<br>2x² = 2 &nbsp;&nbsp;| : 2<br>x² = 1 &nbsp;&nbsp;| √<br>x₁ = 1 &nbsp;&nbsp; x₂ = −1 &nbsp;&nbsp;→ <b>L = {−1; 1}</b><br>Steht rechts eine <b>negative</b> Zahl, z. B. x² = −4, gibt es <b>keine Lösung</b>: L = { }. Bei x² = 0 gibt es genau eine Lösung: x = 0.' },
+    { b: 'a', nr: '13.2', lv: 1, ph: '💡 Schritt für Schritt', art: 'luecke', k: 's13.l', frage: 'Löse 3x² − 12 = 0. Wähle jeweils den richtigen Schritt.',
+      text: 'Zuerst rechnet man auf beiden Seiten [[*+ 12|− 12|: 3]]. Man erhält 3x² = 12. Dann teilt man durch [[*3|12]]: x² = [[*4|36|9]]. Jetzt zieht man die [[*Wurzel|Quadratzahl]]. Die Lösungen sind x₁ = 2 und x₂ = [[*−2|2|0]].' },
+    { b: 'a', nr: '13.3', lv: 1, ph: '🧮 Lösen', art: 'rechnung', frage: 'Löse die Gleichungen. Gib beide Lösungen an.',
+      felder: [{ k: 's13.a1', gr: 'x² = 81: x₁', soll: -9, ohne: true, tipp: 'Welche negative Zahl ergibt quadriert 81?' }, { k: 's13.a2', gr: 'x² = 81: x₂', soll: 9, ohne: true, tipp: '9 · 9 = 81' },
+               { k: 's13.b1', gr: '4x² = 100: x₁', soll: -5, ohne: true, tipp: 'Erst : 4, dann √.' }, { k: 's13.b2', gr: '4x² = 100: x₂', soll: 5, ohne: true, tipp: 'x² = 25' }] },
+    { b: 'a', nr: '13.4', lv: 1, ph: '🧩 Wie viele Lösungen?', art: 'zuordnung', k: 's13z', opt: ['2 Lösungen', '1 Lösung', 'keine Lösung'], tipp: 'forme bis x² = … um. Ist die Zahl positiv, 0 oder negativ?',
+      frage: 'Wie viele Lösungen hat die Gleichung?',
+      items: [{ k: 's13z.1', t: 'x² = 16', soll: '2 Lösungen' }, { k: 's13z.2', t: 'x² = 0', soll: '1 Lösung' }, { k: 's13z.3', t: 'x² = −9', soll: 'keine Lösung' },
+              { k: 's13z.4', t: '5x² = 20', soll: '2 Lösungen' }, { k: 's13z.5', t: 'x² + 3 = 0', soll: 'keine Lösung' }, { k: 's13z.6', t: '2x² = 0', soll: '1 Lösung' }] },
+    { b: 'a', nr: '13.5', lv: 2, ph: '🧮 Mit Rechenweg', art: 'rechnung', frage: 'Löse <b>2x² − 50 = 0</b>. Schreibe den Rechenweg wie im Buch.',
+      weg: { k: 's13.c.w', platz: '2x² − 50 = 0   | + 50\n…', label: 'Rechenweg' },
+      felder: [{ k: 's13.c1', gr: 'x₁', soll: -5, ohne: true, tipp: '2x² = 50, x² = 25' }, { k: 's13.c2', gr: 'x₂', soll: 5, ohne: true, tipp: '√25 = 5' }] },
+    { b: 'a', nr: '13.6', lv: 2, ph: '≈ Runden', art: 'rechnung', frage: 'Löse <b>x² = 10</b>. Runde auf zwei Nachkommastellen (Taschenrechner).',
+      felder: [{ k: 's13.d1', gr: 'x₁ (gerundet)', soll: -3.16, ohne: true, tipp: '√10 ≈ 3,1623 … gerundet 3,16. Die zweite Lösung ist negativ.' }, { k: 's13.d2', gr: 'x₂ (gerundet)', soll: 3.16, ohne: true, tipp: '√10 ≈ 3,16' }] },
+    { b: 'a', nr: '13.7', lv: 2, ph: '✔️ Probe', art: 'text', k: 's13.probe', frage: 'Mache die Probe für x₁ = 5 in der Gleichung 2x² − 50 = 0 (Zeile für Zeile bis zur wahren Aussage).',
+      platz: '2 · 5² − 50 = 0\n2 · 25 − 50 = 0\n…' },
+    { b: 'a', nr: '13.8', lv: 3, ph: '🌷 Das Beet', art: 'rechnung', frage: 'Das quadratische Beet hat 49 m². Wie lang ist eine Seite? Die Gleichung x² = 49 hat zwei Lösungen. Erkläre, warum nur eine davon passt.',
+      weg: { k: 's13.e.w', platz: 'Nur … passt, weil eine Seitenlänge …', label: 'Begründung' },
+      felder: [{ k: 's13.e', gr: 'Seitenlänge (in m)', soll: 7, ohne: true, tipp: 'Eine Länge kann nicht negativ sein.' }] },
+    { b: 'a', nr: '13.9', lv: 'S', ph: '★ Extra', titel: 'Zahlenrätsel', art: 'rechnung', frage: 'Ich denke mir eine Zahl, quadriere sie und ziehe 7 ab. Ich erhalte 57. Welche Zahlen können es sein?',
+      felder: [{ k: 's13.f1', gr: 'x₁', soll: -8, ohne: true, tipp: 'x² − 7 = 57' }, { k: 's13.f2', gr: 'x₂', soll: 8, ohne: true, tipp: 'x² = 64' }] }
+  ] },
+
+{ id: 'st14', nr: 14, ab: 4, titel: 'Parabel-Werkstatt am Computer', zeit: 40, ico: '🛠️',
+  problem: '<p>Mathematikerinnen und Mathematiker erforschen Funktionen mit dem Computer. 💻</p><p>Mit zwei Schiebereglern veränderst du a und e und siehst sofort, was passiert.</p><p><b>Heute forschst du selbst!</b> 🔬</p>',
+  bloecke: [
+    { b: 'sim', sim: 'W' },
+    { b: 'a', nr: '14.1', lv: 1, ph: '🔬 Forschen', art: 'messung', tab: 'mF', min: 5,
+      frage: 'Untersuche <b>mindestens 5</b> verschiedene Parabeln und speichere jede Beobachtung. Probiere: a positiv und negativ, a größer und kleiner als 1, e positiv, negativ und 0.' },
+    { b: 'a', nr: '14.2', lv: 1, ph: '💡 Entdeckungen', art: 'luecke', k: 's14.m', frage: 'Was hast du herausgefunden? Wähle aus.',
+      text: 'Wenn ich nur a verändere, [[*bleibt der Scheitelpunkt gleich|wandert der Scheitelpunkt]]. Wenn ich nur e verändere, [[*bleibt die Form gleich|ändert sich die Form]]. Die Parabel hat zwei Nullstellen, wenn a und e [[gleiche|*verschiedene]] Vorzeichen haben.' },
+    { b: 'info', html: '<b>Nullstellen berechnen:</b> Setze f(x) = 0 und löse die rein quadratische Gleichung.<br>Beispiel f(x) = x² − 9: &nbsp; 0 = x² − 9 &nbsp;| + 9 &nbsp;→ x² = 9 &nbsp;| √ &nbsp;→ x₁ = −3, x₂ = 3. Prüfe mit der Werkstatt (🎯 Nullstellen)!' },
+    { b: 'a', nr: '14.3', lv: 1, ph: '🧮 Nullstellen berechnen', art: 'rechnung', frage: 'Berechne die Nullstellen von <b>f(x) = x² − 16</b>. Kontrolliere in der Werkstatt.',
+      felder: [{ k: 's14.a1', gr: 'x₁', soll: -4, ohne: true, tipp: '0 = x² − 16, also x² = 16.' }, { k: 's14.a2', gr: 'x₂', soll: 4, ohne: true, tipp: '√16 = 4' }] },
+    { b: 'a', nr: '14.4', lv: 2, ph: '🧮 Nullstellen berechnen', art: 'rechnung', frage: 'Berechne die Nullstellen.',
+      felder: [{ k: 's14.b1', gr: 'f(x) = 2x² − 8: x₁', soll: -2, ohne: true, tipp: '2x² = 8, x² = 4' }, { k: 's14.b2', gr: 'f(x) = 2x² − 8: x₂', soll: 2, ohne: true, tipp: '√4 = 2' },
+               { k: 's14.c1', gr: 'f(x) = −0,5x² + 8: x₁', soll: -4, ohne: true, tipp: '0,5x² = 8, x² = 16' }, { k: 's14.c2', gr: 'f(x) = −0,5x² + 8: x₂', soll: 4, ohne: true, tipp: '√16 = 4' }] },
+    { b: 'a', nr: '14.5', lv: 2, ph: '🤔 Begründen', art: 'mcs', frage: 'Hat <b>f(x) = 3x² + 6</b> Nullstellen?',
+      items: [{ k: 's14.d', t: 'Die Funktion hat …', opt: ['zwei Nullstellen.', 'eine Nullstelle.', 'keine Nullstelle.'] }],
+      begr: { k: 's14.db', frage: 'Begründe mit einer Rechnung oder mit Scheitelpunkt und Öffnung:', platz: '0 = 3x² + 6 … Also …', wort: 'nach oben offen · S(0 | 6) · oberhalb der x-Achse · x² = −2 · keine Lösung' } },
+    { b: 'a', nr: '14.6', lv: 3, ph: '🔎 Parabel bauen', art: 'text', k: 's14.bau',
+      frage: 'Stelle in der Werkstatt eine Parabel ein, die <b>nach unten offen</b> ist und die Nullstellen <b>−3 und 3</b> hat. Gib die Gleichung an. Gibt es mehrere solche Parabeln?',
+      platz: 'Meine Parabel: f(x) = … Weitere: …' },
+    { b: 'a', nr: '14.7', lv: 'S', ph: '★ Extra', titel: 'Durch zwei Punkte', art: 'rechnung', frage: 'Finde die Parabel f(x) = ax² + e durch die Punkte (0 | −2) und (2 | 6).',
+      felder: [{ k: 's14.ea', gr: 'a', soll: 2, ohne: true, tipp: 'e liest du am ersten Punkt ab. Dann 6 = a · 4 + e.' }, { k: 's14.ee', gr: 'e', soll: -2, ohne: true, tipp: 'Der Punkt (0 | −2) ist der Scheitelpunkt.' }] }
+  ] },
+
+{ id: 'st15', nr: 15, ab: 4, titel: 'Parabeln im Alltag', zeit: 35, ico: '🌉',
+  problem: '<p>Parabeln sind überall: beim Springbrunnen, beim Sprung vom Turm, beim Brückenbogen und wenn ein Stein fällt. 🌉</p><p><b>Jetzt rechnest du mit echten Situationen – und prüfst, ob deine Ergebnisse passen.</b></p>',
+  bloecke: [
+    { b: 'info', html: '<b>Springbrunnen:</b> Der Wasserstrahl hat die Form <b>f(x) = −0,5x² + 2</b> (x und y in Metern, x = 0 ist die Mitte, der Boden ist y = 0).' + miniParabel(-0.5, 2) },
+    { b: 'a', nr: '15.1', lv: 1, ph: '⛲ Brunnen', art: 'rechnung', frage: 'Wie hoch ist der Wasserstrahl …',
+      felder: [{ k: 's15.a1', gr: 'in der Mitte (x = 0), in m', soll: 2, ohne: true, tipp: 'f(0) = e' }, { k: 's15.a2', gr: '1 m neben der Mitte, in m', soll: 1.5, ohne: true, tipp: 'f(1) = −0,5 · 1 + 2' }] },
+    { b: 'a', nr: '15.2', lv: 1, ph: '⛲ Brunnen', art: 'rechnung', frage: 'Wo trifft der Strahl auf den Boden? Wie weit liegen die beiden Auftreffpunkte auseinander?',
+      weg: { k: 's15.b.w', platz: '0 = −0,5x² + 2 …', label: 'Rechnung' },
+      felder: [{ k: 's15.b', gr: 'Abstand (in m)', soll: 4, ohne: true, tipp: 'Die Nullstellen sind −2 und 2.' }] },
+    { b: 'a', nr: '15.3', lv: 2, ph: '🪨 Fallender Stein', art: 'rechnung', frage: 'Ein Stein fällt von einer Brücke. Sein Fallweg ist <b>s = 4,9 · t²</b> (s in m, t in Sekunden).',
+      weg: { k: 's15.c.w', platz: '44,1 = 4,9 · t²   | : 4,9\n…', label: 'Rechnung' },
+      felder: [{ k: 's15.c1', gr: 'Fallweg nach 2 s (in m)', soll: 19.6, ohne: true, tipp: '4,9 · 2² = 4,9 · 4' }, { k: 's15.c2', gr: 'Zeit für 44,1 m (in s)', soll: 3, ohne: true, tipp: '44,1 : 4,9 = 9, dann √9.' }] },
+    { b: 'a', nr: '15.4', lv: 2, ph: '🤔 Passt das?', art: 'text', k: 's15.plaus', frage: 'Die Gleichung 4,9 · t² = 44,1 hat auch die Lösung t = −3. Warum passt sie nicht zur Situation?',
+      platz: 'Die Lösung t = −3 passt nicht, weil …', wort: 'die Zeit · negativ · vor dem Loslassen · keinen Sinn' },
+    { b: 'a', nr: '15.5', lv: 2, ph: '🏊 Turmsprung', art: 'rechnung', frage: 'Ein Springer springt vom 5-m-Turm. Seine Höhe über dem Wasser ist <b>h(x) = −1,25x² + 5</b> (x = Abstand vom Turm in m).',
+      felder: [{ k: 's15.d1', gr: 'Höhe bei x = 1 (in m)', soll: 3.75, ohne: true, tipp: '−1,25 · 1 + 5' }, { k: 's15.d2', gr: 'Abstand vom Turm beim Eintauchen (in m)', soll: 2, ohne: true, tipp: '0 = −1,25x² + 5 → x² = 4. Nur die positive Lösung passt.' }] },
+    { b: 'a', nr: '15.6', lv: 3, ph: '🌉 Brückenbogen', art: 'rechnung', frage: 'Ein Brückenbogen hat die Form <b>f(x) = −0,02x²</b> (in m). Der Scheitelpunkt ist der höchste Punkt. Die Enden des Bogens liegen 18 m tiefer als der Scheitelpunkt. Wie weit sind die Enden voneinander entfernt (Spannweite)?',
+      weg: { k: 's15.e.w', platz: '−18 = −0,02x² …', label: 'Rechnung' },
+      felder: [{ k: 's15.e', gr: 'Spannweite (in m)', soll: 60, ohne: true, tipp: 'x² = 900, also x = −30 und 30.' }] },
+    { b: 'a', nr: '15.7', lv: 'S', ph: '★ Extra', titel: 'Eigene Aufgabe', art: 'text', k: 's15.ex', frage: 'Erfinde selbst eine Alltagsaufgabe mit einer Parabel. Schreibe die Lösung dazu.', platz: 'Meine Aufgabe: … Lösung: …' }
+  ] },
+
+{ id: 'fazit4', nr: 16, ab: 4, titel: 'Fazit 4: Gleichungen und Anwendungen', zeit: 10, ico: '🏁',
+  problem: '<p>Abschnitt 4 geschafft! 🎉 Schau zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
+  bloecke: [
+    { b: 'a', nr: '16.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz4.ich', frage: 'Kreuze ehrlich an.',
+      ich: ['Ich kann rein quadratische Gleichungen mit Rechenweg lösen.', 'Ich weiß, wann eine Gleichung 2, 1 oder keine Lösung hat.', 'Ich kann die Probe machen.',
+            'Ich kann Nullstellen berechnen.', 'Ich kann mit Schiebereglern erklären, was a und e bewirken.', 'Ich kann Parabeln in Sachaufgaben anwenden.', 'Ich kann prüfen, ob eine Lösung zur Situation passt.'] },
+    { b: 'a', nr: '16.2', lv: 1, ph: '💡 Mein Merksatz', art: 'text', k: 'fz4.merk', frage: 'Schreibe in eigenen Worten: Wie löst man eine rein quadratische Gleichung?',
+      platz: 'Zuerst … Dann … Zum Schluss …', wort: 'umformen · x² allein · Wurzel ziehen · zwei Lösungen · keine Lösung, wenn …' },
+    { b: 'a', nr: '16.3', lv: 1, ph: '❓ Rückmeldung', art: 'text', k: 'fz4.frage', frage: 'Was war schwer? Was möchtest du noch üben?', platz: 'Schwer war für mich … Ich möchte noch üben …' }
+  ] },
+
+/* ================================================================ Abschnitt 5: Fit für die KA 2 */
+{ id: 'st17', nr: 17, ab: 5, titel: 'Selbsttest: Fit für die Klassenarbeit', zeit: 45, ico: '📝',
+  problem: '<p>Bald ist die Klassenarbeit. 📝 Teste dich selbst!</p><p>Bei jeder Aufgabe steht im Tipp, in welcher <b>Station</b> du üben kannst, wenn es noch nicht klappt.</p>',
+  bloecke: [
+    { b: 'a', nr: '17.1', lv: 1, ph: '📏 Geraden', art: 'rechnung', frage: 'Gerade <b>y = −2x + 5</b>: Gib m und b an.',
+      felder: [{ k: 's17.m', gr: 'm', soll: -2, ohne: true, tipp: 'm steht vor dem x. Üben: Station 2.' }, { k: 's17.b', gr: 'b', soll: 5, ohne: true, tipp: 'b ist die Zahl ohne x. Üben: Station 2.' }] },
+    { b: 'a', nr: '17.2', lv: 1, ph: '🧮 Einsetzen', art: 'rechnung', frage: 'Berechne für <b>f(x) = 0,5x² − 3</b>.',
+      felder: [{ k: 's17.f4', gr: 'f(4)', soll: 5, ohne: true, tipp: '4² = 16, 0,5 · 16 = 8, 8 − 3. Üben: Station 7.' }, { k: 's17.fm2', gr: 'f(−2)', soll: -1, ohne: true, tipp: '(−2)² = 4. Üben: Station 5.' }] },
+    { b: 'a', nr: '17.3', lv: 1, ph: '🧩 Beschreiben', art: 'zuordnung', k: 's17z', opt: ['gestreckt, nach oben offen', 'gestaucht, nach unten offen', 'gestreckt, nach unten offen', 'gestaucht, nach oben offen'],
+      tipp: 'Vorzeichen von a → Öffnung. Zahl ohne Minus größer oder kleiner als 1 → gestreckt oder gestaucht. Üben: Station 6.', frage: 'Ordne die passende Beschreibung zu.',
+      items: [{ k: 's17z.1', t: 'f(x) = 3x²', soll: 'gestreckt, nach oben offen' }, { k: 's17z.2', t: 'f(x) = −0,5x²', soll: 'gestaucht, nach unten offen' },
+              { k: 's17z.3', t: 'f(x) = −2x² + 1', soll: 'gestreckt, nach unten offen' }, { k: 's17z.4', t: 'f(x) = 0,25x² − 4', soll: 'gestaucht, nach oben offen' }] },
+    { b: 'a', nr: '17.4', lv: 1, ph: '📍 Scheitelpunkt', art: 'rechnung', frage: 'Scheitelpunkt von <b>f(x) = −x² + 7</b>: S(0 | ?)',
+      felder: [{ k: 's17.s', gr: 'y-Wert von S', soll: 7, ohne: true, tipp: 'S(0 | e). Üben: Station 9.' }] },
+    { b: 'a', nr: '17.5', lv: 2, ph: '🔎 a berechnen', art: 'rechnung', frage: 'Die Parabel f(x) = a · x² geht durch <b>P(3 | −18)</b>. Berechne a.',
+      felder: [{ k: 's17.a', gr: 'a', soll: -2, ohne: true, tipp: '−18 = a · 9. Üben: Station 6.' }] },
+    { b: 'a', nr: '17.6', lv: 2, ph: '🎯 Nullstellen', art: 'rechnung', frage: 'Berechne die Nullstellen von <b>f(x) = x² − 16</b>.',
+      felder: [{ k: 's17.n1', gr: 'x₁', soll: -4, ohne: true, tipp: 'x² = 16. Üben: Station 14.' }, { k: 's17.n2', gr: 'x₂', soll: 4, ohne: true, tipp: '√16. Üben: Station 14.' }] },
+    { b: 'a', nr: '17.7', lv: 2, ph: '⚖️ Gleichung', art: 'rechnung', frage: 'Löse <b>5x² − 45 = 0</b>.',
+      felder: [{ k: 's17.g1', gr: 'x₁', soll: -3, ohne: true, tipp: '5x² = 45, x² = 9. Üben: Station 13.' }, { k: 's17.g2', gr: 'x₂', soll: 3, ohne: true, tipp: '√9 = 3. Üben: Station 13.' }] },
+    { b: 'a', nr: '17.8', lv: 2, ph: '🤔 Lösungen', art: 'zuordnung', k: 's17y', opt: ['2 Lösungen', '1 Lösung', 'keine Lösung'], tipp: 'forme bis x² = … um. Üben: Station 13.',
+      frage: 'Wie viele Lösungen hat die Gleichung?',
+      items: [{ k: 's17y.1', t: 'x² + 8 = 0', soll: 'keine Lösung' }, { k: 's17y.2', t: '3x² = 27', soll: '2 Lösungen' }, { k: 's17y.3', t: '4x² = 0', soll: '1 Lösung' }] },
+    { b: 'a', nr: '17.9', lv: 3, ph: '🪨 Sachaufgabe', art: 'rechnung', frage: 'Ein Stein fällt 78,4 m tief. Fallweg s = 4,9 · t². Wie lange fällt er?',
+      felder: [{ k: 's17.t', gr: 't (in s)', soll: 4, ohne: true, tipp: '78,4 : 4,9 = 16, dann √16. Üben: Station 15.' }] },
+    { b: 'a', nr: '17.10', lv: 1, ph: '🗺️ Mein Lernplan', art: 'text', k: 's17.plan', frage: 'Schau auf deine Ergebnisse: Welche Stationen übst du vor der Klassenarbeit noch einmal?',
+      platz: 'Ich übe noch Station … weil …' }
+  ] },
+
+{ id: 'fazitG', nr: 18, ab: 0, titel: 'Gesamtfazit der Reihe', zeit: 10, ico: '🏆',
+  problem: '<p>Du hast die ganze Reihe „Funktionen & Parabeln“ geschafft! 🏆</p><p>Zum Schluss: Was nimmst du mit?</p>',
+  bloecke: [
+    { b: 'a', nr: '18.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fzG.ich', frage: 'Kreuze ehrlich an.',
+      ich: ['Lineare Funktionen: m und b ablesen und deuten.', 'Normalparabel zeichnen, Scheitelpunkt und Symmetrie erklären.', 'Den Faktor a deuten (gestreckt, gestaucht, Öffnung).',
+            'Den Summanden e deuten (Verschiebung, Scheitelpunkt).', 'Parabeln mit dem Fünf-Punkte-Verfahren zeichnen.', 'Nullstellen ablesen und berechnen.', 'Rein quadratische Gleichungen lösen.', 'Parabeln in Sachaufgaben anwenden.'] },
+    { b: 'a', nr: '18.2', lv: 1, ph: '💡 Das Wichtigste', art: 'text', k: 'fzG.merk', frage: 'Schreibe das Wichtigste der Reihe in drei Sätzen auf.', platz: '1. … 2. … 3. …' },
+    { b: 'a', nr: '18.3', lv: 1, ph: '💬 Rückmeldung zum Labor', art: 'text', k: 'fzG.labor', frage: 'Wie hat dir das Mathe-Labor beim Lernen geholfen? Was sollte besser werden?', platz: 'Geholfen hat mir … Besser wäre …' }
   ] }
 ];
 
@@ -609,7 +944,19 @@ var MESSTAB = {
   mA: { kopf: ['Nr.', 'Gesuchte Gerade', 'mein m', 'mein b', 'Versuche'], br: [0.5, 2, 1, 1, 1],
     zeilen: function () { return S.mA.map(function (r, i) { return [i + 1, r.ziel, zk(r.m), zk(r.b), r.v]; }); } },
   mB: { kopf: ['Nr.', 'Funktion', 'richtige y-Werte', 'Versuche'], br: [0.5, 2, 1.4, 1],
-    zeilen: function () { return S.mB.map(function (r, i) { return [i + 1, r.f, r.r + ' von 5', r.v]; }); } }
+    zeilen: function () { return S.mB.map(function (r, i) { return [i + 1, r.f, r.r + ' von 5', r.v]; }); } },
+  mC: { kopf: ['Nr.', 'Funktion', 'richtige y-Werte', 'Versuche'], br: [0.5, 2, 1.4, 1],
+    zeilen: function () { return S.mC.map(function (r, i) { return [i + 1, r.f, r.r + ' von 7', r.v]; }); } },
+  mD: { kopf: ['Nr.', 'Gesuchte Parabel', 'mein a', 'mein e', 'Versuche'], br: [0.5, 2, 1, 1, 1],
+    zeilen: function () { return S.mD.map(function (r, i) { return [i + 1, r.ziel, zk(r.a), zk(r.e), r.v]; }); } },
+  mE: { kopf: ['Nr.', 'Gesuchte Parabel', 'mein a', 'mein e', 'Versuche'], br: [0.5, 2, 1, 1, 1],
+    zeilen: function () { return S.mE.map(function (r, i) { return [i + 1, r.ziel, zk(r.a), zk(r.e), r.v]; }); } },
+  mF: { kopf: ['Nr.', 'Funktion', 'offen nach', 'Form', 'Scheitelpunkt', 'Nullstellen'], br: [0.5, 1.8, 1, 1.5, 1.3, 1.1],
+    zeilen: function () { return S.mF.map(function (r, i) { return [i + 1, r.f, r.offen, r.form, r.s, r.ns]; }); } },
+  mG: { kopf: ['Nr.', 'Funktion', 'richtige Punkte', 'Versuche'], br: [0.5, 2, 1.4, 1],
+    zeilen: function () { return S.mG.map(function (r, i) { return [i + 1, r.f, r.r + ' von 3', r.v]; }); } },
+  mH: { kopf: ['Nr.', 'Funktion', 'Anzahl', 'Nullstellen', 'Ergebnis', 'Versuche'], br: [0.5, 1.8, 0.8, 1.6, 1, 0.8],
+    zeilen: function () { return S.mH.map(function (r, i) { return [i + 1, r.f, r.anz, r.xs, r.ok, r.v]; }); } }
 };
 
 /* ---------- Wörterbuch (Übersetzungen EN/TR/AR/UK/RU/ES: nicht von Muttersprachlern geprüft) ---------- */
@@ -630,7 +977,24 @@ var GLOSSAR = [
   { w: 'Schnittpunkt', art: 'der', pl: 'die Schnittpunkte', ico: '✂️', formen: ['Schnittpunkt', 'schneiden', 'schneidet'], erkl: 'der Punkt, an dem sich zwei Linien treffen.', en: 'intersection point', tr: 'kesişim noktası', ar: 'نقطة التقاطع', uk: 'точка перетину', ru: 'точка пересечения', es: 'punto de intersección' },
   { w: 'Grundgebühr', art: 'die', ico: '💶', formen: ['Grundgebühr'], erkl: 'ein fester Betrag, den man immer zahlt – auch bei 0 Stunden.', en: 'basic fee', tr: 'temel ücret', ar: 'الرسوم الأساسية', uk: 'базова плата', ru: 'базовая плата', es: 'tarifa básica' },
   { w: 'waagerecht', ico: '↔️', formen: ['waagerecht'], erkl: 'flach wie der Horizont, von links nach rechts.', en: 'horizontal', tr: 'yatay', ar: 'أفقي', uk: 'горизонтально', ru: 'горизонтально', es: 'horizontal' },
-  { w: 'Parabel', art: 'die', ico: '🌈', formen: ['Parabel'], erkl: 'der Graph einer quadratischen Funktion, zum Beispiel y = x². Sie sieht aus wie ein U.', en: 'parabola', tr: 'parabol', ar: 'قطع مكافئ', uk: 'парабола', ru: 'парабола', es: 'parábola' }
+  { w: 'Parabel', art: 'die', ico: '🌈', formen: ['Parabel'], erkl: 'der Graph einer quadratischen Funktion, zum Beispiel y = x². Sie sieht aus wie ein U.', en: 'parabola', tr: 'parabol', ar: 'قطع مكافئ', uk: 'парабола', ru: 'парабола', es: 'parábola' },
+  { w: 'quadratische Funktion', art: 'die', ico: '🌈', formen: ['quadratische Funktion', 'quadratische Funktionen', 'quadratisch'], erkl: 'eine Funktion, in der x² vorkommt, z. B. f(x) = 2x² − 3. Ihr Graph ist eine Parabel.', en: 'quadratic function', tr: 'ikinci dereceden fonksiyon', ar: 'دالة تربيعية', uk: 'квадратична функція', ru: 'квадратичная функция', es: 'función cuadrática' },
+  { w: 'Normalparabel', art: 'die', ico: '∪', formen: ['Normalparabel'], erkl: 'der Graph von f(x) = x². Scheitelpunkt S(0 | 0).', en: 'standard parabola (y = x²)', tr: 'normal parabol (y = x²)', ar: 'القطع المكافئ الأساسي (y = x²)', uk: 'нормальна парабола (y = x²)', ru: 'нормальная парабола (y = x²)', es: 'parábola normal (y = x²)' },
+  { w: 'Scheitelpunkt', art: 'der', ico: '📍', formen: ['Scheitelpunkt'], erkl: 'der tiefste (oder höchste) Punkt einer Parabel. Bei f(x) = ax² + e ist er S(0 | e).', en: 'vertex', tr: 'tepe noktası', ar: 'رأس القطع المكافئ', uk: 'вершина параболи', ru: 'вершина параболы', es: 'vértice' },
+  { w: 'achsensymmetrisch', ico: '🪞', formen: ['achsensymmetrisch', 'Symmetrie'], erkl: 'beide Seiten sind gleich, wie im Spiegel. Die Spiegelachse ist hier die y-Achse.', en: 'symmetric about an axis', tr: 'eksene göre simetrik', ar: 'متماثل حول محور', uk: 'симетрична відносно осі', ru: 'симметричная относительно оси', es: 'simétrica respecto a un eje' },
+  { w: 'Streckfaktor', art: 'der', ico: '↕️', formen: ['Streckfaktor', 'Faktor a'], erkl: 'die Zahl a vor dem x². Sie bestimmt, wie schmal oder breit die Parabel ist und wohin sie geöffnet ist.', en: 'stretch factor', tr: 'genişleme katsayısı', ar: 'معامل التمدد', uk: 'коефіцієнт розтягу', ru: 'коэффициент растяжения', es: 'factor de estiramiento' },
+  { w: 'gestreckt', ico: '↕️', formen: ['gestreckt', 'gestreckte'], erkl: 'schmaler als die Normalparabel (a ist größer als 1 oder kleiner als −1).', en: 'stretched (narrower)', tr: 'daraltılmış (dar)', ar: 'ممدود (أضيق)', uk: 'розтягнута (вужча)', ru: 'растянутая (уже)', es: 'estirada (más estrecha)' },
+  { w: 'gestaucht', ico: '↔️', formen: ['gestaucht', 'gestauchte'], erkl: 'breiter als die Normalparabel (a liegt zwischen −1 und 1).', en: 'compressed (wider)', tr: 'basık (geniş)', ar: 'مضغوط (أعرض)', uk: 'стиснута (ширша)', ru: 'сжатая (шире)', es: 'comprimida (más ancha)' },
+  { w: 'nach oben offen', ico: '⬆️', formen: ['nach oben offen', 'nach unten offen'], erkl: 'Die Parabel ist wie ein U (a positiv) oder wie ein umgedrehtes U (a negativ).', en: 'opens upward / downward', tr: 'yukarı / aşağı açık', ar: 'مفتوح للأعلى / للأسفل', uk: 'вітки вгору / вниз', ru: 'ветви вверх / вниз', es: 'abierta hacia arriba / abajo' },
+  { w: 'verschoben', ico: '⬆️', formen: ['verschoben', 'verschobene', 'Verschiebung'], erkl: 'nach oben oder unten bewegt. e gibt an, wie weit.', en: 'shifted', tr: 'kaydırılmış', ar: 'مُزاح', uk: 'зсунута', ru: 'сдвинутая', es: 'desplazada' },
+  { w: 'Fünf-Punkte-Verfahren', art: 'das', ico: '✋', formen: ['Fünf-Punkte-Verfahren'], erkl: 'schnelles Zeichnen einer Parabel mit S, A, B und den Spiegelpunkten A′, B′.', en: 'five-point method', tr: 'beş nokta yöntemi', ar: 'طريقة النقاط الخمس', uk: 'метод п’яти точок', ru: 'метод пяти точек', es: 'método de los cinco puntos' },
+  { w: 'Nullstelle', art: 'die', ico: '🎯', formen: ['Nullstelle', 'Nullstellen'], erkl: 'ein x-Wert mit f(x) = 0. Dort schneidet der Graph die x-Achse.', en: 'zero (root)', tr: 'sıfır noktası (kök)', ar: 'صفر الدالة (الجذر)', uk: 'нуль функції', ru: 'нуль функции', es: 'cero (raíz)' },
+  { w: 'x-Achse', art: 'die', ico: '➡️', formen: ['x-Achse'], erkl: 'die waagerechte Achse im Koordinatensystem.', en: 'x-axis', tr: 'x ekseni', ar: 'المحور السيني', uk: 'вісь x', ru: 'ось x', es: 'eje x' },
+  { w: 'rein quadratische Gleichung', art: 'die', ico: '⚖️', formen: ['rein quadratische Gleichung', 'rein quadratische Gleichungen', 'rein quadratischen Gleichung'], erkl: 'eine Gleichung, in der x nur als x² vorkommt, z. B. 2x² − 8 = 0.', en: 'pure quadratic equation', tr: 'saf ikinci dereceden denklem', ar: 'معادلة تربيعية بحتة', uk: 'неповне квадратне рівняння', ru: 'неполное квадратное уравнение', es: 'ecuación cuadrática pura' },
+  { w: 'Lösung', art: 'die', ico: '✅', formen: ['Lösung', 'Lösungen'], erkl: 'eine Zahl, die die Gleichung wahr macht.', en: 'solution', tr: 'çözüm', ar: 'حل', uk: 'розв’язок', ru: 'решение', es: 'solución' },
+  { w: 'Probe', art: 'die', ico: '✔️', formen: ['Probe'], erkl: 'Man setzt die Lösung ein und prüft, ob eine wahre Aussage herauskommt.', en: 'check', tr: 'sağlama', ar: 'التحقق', uk: 'перевірка', ru: 'проверка', es: 'comprobación' },
+  { w: 'Wurzel', art: 'die', ico: '√', formen: ['Wurzel'], erkl: '√9 = 3, weil 3 · 3 = 9. Beim Lösen von x² = 9 gibt es auch −3.', en: 'square root', tr: 'karekök', ar: 'الجذر التربيعي', uk: 'квадратний корінь', ru: 'квадратный корень', es: 'raíz cuadrada' },
+  { w: 'quadrieren', ico: '²', formen: ['quadrieren', 'quadriert'], erkl: 'eine Zahl mit sich selbst malnehmen: 4² = 4 · 4 = 16.', en: 'to square', tr: 'karesini almak', ar: 'يربّع', uk: 'піднести до квадрата', ru: 'возвести в квадрат', es: 'elevar al cuadrado' }
 ];
 
 /* =====================================================================
@@ -638,7 +1002,7 @@ var GLOSSAR = [
    ===================================================================== */
 "use strict";
 var KEY = 'mathe10g-labor-funktionen-v1', MAXALTER = 3 * 3600 * 1000;
-var TABN = ['mA', 'mB'];
+var TABN = ['mA', 'mB', 'mC', 'mD', 'mE', 'mF', 'mG', 'mH'];
 var NNBSP = String.fromCharCode(0x202f);
 function neuerZustand() { var s = { v: 2, t: Date.now(), d: { klasse: '10 G' }, seite: 0, exportiert: false }; TABN.forEach(function (n) { s[n] = []; }); return s; }
 function ergaenze(s) { if (!s.d || typeof s.d !== 'object') s.d = {}; TABN.forEach(function (n) { if (!Array.isArray(s[n])) s[n] = []; }); return s; }
@@ -759,9 +1123,9 @@ function aufgabeHtml(a) {
       h += '<div class="auftrag">' + a.frage + '</div><div class="tabplatz" data-tab="' + a.tab + '"></div><p class="satzhilfe">mindestens ' + a.min + ' Messungen</p>';
       break;
     case 'ichkann':
-      h += ICH.map(function (t, i) {
+      h += (a.ich || ICH).map(function (t, i) {
         return '<div class="ichzeile"><div>' + t + '</div><div class="auswahl" role="radiogroup" aria-label="' + esc(t) + '">' + STUFEN.map(function (s, j) {
-          return '<label><input type="radio" name="ich' + i + '" value="' + s + '" data-k="' + a.k + i + '">' + ['😀', '🙂', '🤔'][j] + ' ' + s + '</label>';
+          return '<label><input type="radio" name="ich' + a.k.replace(/\W/g, '') + i + '" value="' + s + '" data-k="' + a.k + i + '">' + ['😀', '🙂', '🤔'][j] + ' ' + s + '</label>';
         }).join('') + '</div></div>';
       }).join('');
       break;
@@ -797,7 +1161,7 @@ function istFertig(a) {
     case 'zuordnung': return a.items.every(function (it) { return wert(it.k); });
     case 'messung': return S[a.tab].length >= a.min;
     case 'luecke': return LUECKEN[a.k].every(function (g, i) { return wert(a.k + '.' + i); });
-    case 'ichkann': return ICH.every(function (t, i) { return wert(a.k + i); });
+    case 'ichkann': return (a.ich || ICH).every(function (t, i) { return wert(a.k + i); });
   }
   return false;
 }
@@ -811,7 +1175,7 @@ function begonnen(a) {
     case 'zuordnung': return a.items.some(function (it) { return wert(it.k); });
     case 'messung': return S[a.tab].length > 0;
     case 'luecke': return LUECKEN[a.k].some(function (g, i) { return wert(a.k + '.' + i); });
-    case 'ichkann': return ICH.some(function (t, i) { return wert(a.k + i); });
+    case 'ichkann': return (a.ich || ICH).some(function (t, i) { return wert(a.k + i); });
   }
   return false;
 }
@@ -885,7 +1249,7 @@ function teile(a) {
     case 'zuordnung': T.push({ l: 'Zuordnung', v: a.items.map(function (it) { return (it.alt || plain(it.t)) + ': ' + (S.d[it.k] || '–') + (S.d[it.k] ? (S.d[it.k] === it.soll ? ' (richtig)' : ' (falsch)') : ''); }).join('\n') }); break;
     case 'messung': T.push({ tab: a.tab }); break;
     case 'luecke': T.push({ l: 'Lückentext', v: lueckeText(a) }); break;
-    case 'ichkann': T.push({ l: 'Selbsteinschätzung', v: ICH.map(function (t, i) { return t + ' – ' + (S.d[a.k + i] || 'nicht angekreuzt'); }).join('\n') }); break;
+    case 'ichkann': T.push({ l: 'Selbsteinschätzung', v: (a.ich || ICH).map(function (t, i) { return t + ' – ' + (S.d[a.k + i] || 'nicht angekreuzt'); }).join('\n') }); break;
   }
   return T;
 }
@@ -1325,13 +1689,228 @@ function zeichneC() {
 }
 SIMZEICHNE.C = zeichneC;
 
-function baueSims() { baueA(); baueB(); baueC(); var lager = $('simlager'); 'ABC'.split('').forEach(function (k) { lager.appendChild(SIMEL[k]); }); }
+/* ================= Parabel-Bausteine ================= */
+var FA = '#1565C0';   // a blau wie im Buch
+function pTerm(a, e, html) {
+  var A = a === 1 ? '' : a === -1 ? '−' : zk(a), t = 'f(x) = ' + (html ? '<b style="color:' + FA + '">' + A + '</b>' : A) + 'x²';
+  if (e) { var E = zk(Math.abs(e)); t += (e > 0 ? ' + ' : ' − ') + (html ? '<b style="color:' + FB + '">' + E + '</b>' : E); }
+  return t;
+}
+function pPfad(k, a, e, x0, x1) { var d = ''; for (var x = x0; x <= x1 + 1e-9; x += 0.05) d += (d ? 'L' : 'M') + k.X(x).toFixed(1) + ',' + k.Y(a * x * x + e).toFixed(1); return d; }
+function parabel(g, k, a, e, at) { g.appendChild(el('path', Object.assign({ d: pPfad(k, a, e, -7, 7), fill: 'none', stroke: FA, 'stroke-width': 3.5, 'stroke-linecap': 'round' }, at || {}))); }
+function zt(x) { return fmt(x).replace('-', '−'); }
+function gl(x) { return Math.abs(x * 100 - Math.round(x * 100)) < 1e-9 ? ' = ' : ' ≈ '; }
+function nullstellen(a, e) { if (a === 0) return null; var q = -e / a; if (q < 0) return []; if (q === 0) return [0]; var r = Math.sqrt(q); return [-r, r]; }
+function beschreibung(a, e) {
+  if (a === 0) return 'a = 0: Das ist keine Parabel mehr, sondern eine waagerechte Gerade.';
+  var b = Math.abs(a), form = b > 1 ? 'gestreckt' : b < 1 ? 'gestaucht' : 'so breit wie die Normalparabel';
+  var t = 'Die Parabel ist ' + (b === 1 ? form + ',' : 'mit a = ' + zk(a) + ' ' + form + ',') + ' nach ' + (a > 0 ? 'oben' : 'unten') + ' offen und ' +
+    (e > 0 ? 'um ' + zk(e) + ' nach oben verschoben' : e < 0 ? 'um ' + zk(-e) + ' nach unten verschoben' : 'nicht verschoben') + '. Der Scheitelpunkt ist S(0 | ' + zk(e) + ').';
+  var n = nullstellen(a, e);
+  t += n.length === 0 ? ' Sie hat keine Nullstelle.' : n.length === 1 ? ' Sie hat eine Nullstelle: x = 0.' : ' Nullstellen: x₁' + gl(n[0]) + zt(n[0]) + ' und x₂' + gl(n[1]) + zt(n[1]) + '.';
+  return t;
+}
+var KSP = { x0: -6, x1: 6, y0: -8, y1: 8, L: 194, T: 22, px: 26, py: 26, sy: 2 };
+
+/* ================= E, F, W: Parabel-Labor (fangen oder frei forschen) ================= */
+var PSIM = {};
+function parabelSim(key, o) {
+  var id = key.toLowerCase(), st = PSIM[key] = { i: 0, v: 0, gef: false, o: o };
+  var h = '<div class="zeile" style="justify-content:center;font-size:1.25rem"><span>Deine Parabel:&nbsp;</span><b id="' + id + '_gl"></b></div><div class="regler">' +
+    regler(id + '_a', '<span style="color:' + FA + '">Streckfaktor a</span>', -3, 3, 0.25, 1, '') + (o.mitE ? regler(id + '_e', '<span style="color:' + FB + '">Verschiebung e</span>', -6, 6, 0.5, 0, '') : '') + '</div>' +
+    '<div class="zeile vorhersage"><label><input type="checkbox" id="' + id + '_np" checked> Normalparabel zum Vergleich</label><label><input type="checkbox" id="' + id + '_hi"' + (o.frei ? '' : ' checked') + '> 📐 1 nach rechts, a nach oben</label>' +
+    (o.frei ? '<label><input type="checkbox" id="' + id + '_ns" checked> 🎯 Nullstellen</label>' : '') + '<span class="satzhilfe" id="' + id + '_ziel"></span></div>';
+  if (o.frei) h += '<div class="info" id="' + id + '_info" aria-live="polite"></div><div class="knoepfe"><button class="knopf" id="' + id + '_mess">📸 Beobachtung speichern</button></div>' +
+    '<div class="simmeldung" id="' + id + '_msg" aria-live="polite">Verändere a' + (o.mitE ? ' und e' : '') + '. Beobachte genau – und speichere, was du entdeckst.</div>';
+  else h += '<div class="knoepfe"><button class="knopf or" id="' + id + '_pr">🎯 Prüfen</button><button class="knopf" id="' + id + '_mess" disabled>＋ Speichern</button><button class="knopf grau" id="' + id + '_neu">Nächste Parabel ▸</button></div>' +
+    '<div class="simmeldung" id="' + id + '_msg" aria-live="polite">Bringe deine <b style="color:' + FA + '">blaue</b> Parabel genau auf die <b style="color:#E4572E">orange</b> Parabel. Klicke dann auf „Prüfen“.</div>';
+  var d = simBlock(id, o.titel, 'Koordinatensystem mit Parabeln', 470, h);
+  SIMEL[key] = d; SIMZEICHNE[key] = function () { zeichneP(key); };
+  function neu() { st.gef = false; if (!o.frei) $q(d, '#' + id + '_mess').disabled = true; zeichneP(key); }
+  $q(d, '#' + id + '_a').addEventListener('input', neu); if (o.mitE) $q(d, '#' + id + '_e').addEventListener('input', neu);
+  ['np', 'hi', 'ns'].forEach(function (n) { var c = $q(d, '#' + id + '_' + n); if (c) c.addEventListener('change', function () { zeichneP(key); }); });
+  if (o.frei) {
+    $q(d, '#' + id + '_mess').addEventListener('click', function () {
+      var a = st.a, e = st.e, n = nullstellen(a, e);
+      if (a === 0) { meldung(id + '_msg', 'Bei a = 0 gibt es keine Parabel. Stelle ein a ≠ 0 ein.', 'warn'); return; }
+      if (messwertDazu(o.tab, { f: pTerm(a, e), offen: a > 0 ? 'oben' : 'unten', form: Math.abs(a) > 1 ? 'gestreckt' : Math.abs(a) < 1 ? 'gestaucht' : 'wie Normalparabel', s: 'S(0 | ' + zk(e) + ')', ns: n.length === 0 ? 'keine' : n.length === 1 ? 'x = 0' : '±' + fmt(n[1]) }))
+        meldung(id + '_msg', '✓ Gespeichert: ' + pTerm(a, e) + '. Verändere jetzt etwas anderes.', 'gut');
+    });
+    return;
+  }
+  $q(d, '#' + id + '_pr').addEventListener('click', function () {
+    var z = o.ziele[st.i], aOk = Math.abs(st.a - z[0]) < 1e-9, eOk = Math.abs(st.e - z[1]) < 1e-9, t = []; st.v++;
+    if (aOk && eOk) { st.gef = true; $(id + '_mess').disabled = false; meldung(id + '_msg', '🎯 <b>Gefangen!</b> ' + pTerm(z[0], z[1], true) + ' – ' + st.v + ' Versuch' + (st.v === 1 ? '' : 'e') + '. Klicke auf „Speichern“.', 'gut'); zeichneP(key); return; }
+    if (aOk) t.push('✓ <b style="color:' + FA + '">a</b> stimmt – die Form passt.');
+    else if (st.a === 0 || (st.a > 0) !== (z[0] > 0)) t.push('Deine Parabel ist nach ' + (st.a > 0 ? 'oben' : st.a < 0 ? 'unten' : 'nirgends') + ' offen, die gesuchte nach ' + (z[0] > 0 ? 'oben' : 'unten') + '. Achte auf das Vorzeichen von a.');
+    else t.push('Deine Parabel ist zu ' + (Math.abs(st.a) < Math.abs(z[0]) ? 'breit' : 'schmal') + '. Tipp: Geh vom Scheitelpunkt 1 nach rechts – wie weit geht die orange Parabel nach oben oder unten?');
+    if (o.mitE) t.push(eOk ? '✓ <b style="color:' + FB + '">e</b> stimmt – der Scheitelpunkt passt.' : 'Der Scheitelpunkt liegt noch falsch: Schiebe die Parabel nach ' + (st.e < z[1] ? 'oben' : 'unten') + ' (e).');
+    meldung(id + '_msg', t.join(' '), 'warn'); zeichneP(key);
+  });
+  $q(d, '#' + id + '_mess').addEventListener('click', function () {
+    var z = o.ziele[st.i];
+    if (messwertDazu(o.tab, { ziel: pTerm(z[0], z[1]), a: st.a, e: st.e, v: st.v })) { $(id + '_mess').disabled = true; meldung(id + '_msg', '✓ Gespeichert. Klicke auf „Nächste Parabel“.', 'gut'); }
+  });
+  $q(d, '#' + id + '_neu').addEventListener('click', function () { st.i = (st.i + 1) % o.ziele.length; st.v = 0; st.gef = false; $(id + '_mess').disabled = true; meldung(id + '_msg', 'Neue Parabel! Bringe deine blaue Parabel auf die orange.'); zeichneP(key); });
+}
+function zeichneP(key) {
+  var st = PSIM[key], o = st.o, id = key.toLowerCase(), svg = $(id + '_svg'); if (!svg) return; leer(svg);
+  var a = st.a = lesR(id + '_a'), e = st.e = o.mitE ? lesR(id + '_e') : 0;
+  var k = KS(svg, Object.assign({ clip: 'clip' + key }, KSP)), g = el('g', { 'clip-path': 'url(#clip' + key + ')' }); svg.appendChild(g);
+  if ($(id + '_np').checked) { parabel(g, k, 1, 0, { stroke: '#16202A', 'stroke-width': 1.6 }); g.appendChild(t(k.X(2.75) + 6, k.Y(7.5), 'x²', 14, '#16202A', HALO)); }
+  if (!o.frei) { var z = o.ziele[st.i]; parabel(g, k, z[0], z[1], { stroke: '#E4572E', 'stroke-dasharray': '12 8', 'stroke-width': 4 }); }
+  if (a === 0) g.appendChild(el('line', { x1: k.X(-7), y1: k.Y(e), x2: k.X(7), y2: k.Y(e), stroke: FA, 'stroke-width': 3.5 }));
+  else parabel(g, k, a, e, { stroke: st.gef ? '#0E7C7B' : FA });
+  if ($(id + '_hi').checked && a !== 0 && Math.abs(e + a) <= 8) {
+    g.appendChild(el('line', { x1: k.X(0), y1: k.Y(e), x2: k.X(1), y2: k.Y(e), stroke: FX, 'stroke-width': 3 }));
+    g.appendChild(el('line', { x1: k.X(1), y1: k.Y(e), x2: k.X(1), y2: k.Y(e + a), stroke: FA, 'stroke-width': 3 }));
+    g.appendChild(t(k.X(0.5), k.Y(e) + (a > 0 ? 18 : -8), '1', 14, FX, Object.assign({ 'text-anchor': 'middle', 'font-weight': 700 }, HALO)));
+    g.appendChild(t(k.X(1) + 7, k.Y(e + a / 2) + 5, 'a = ' + zk(a), 14, FA, Object.assign({ 'font-weight': 700 }, HALO)));
+  }
+  if (Math.abs(e) <= 8) { svg.appendChild(el('circle', { cx: k.X(0), cy: k.Y(e), r: 6, fill: FB })); svg.appendChild(t(k.X(0) - 12, k.Y(e) + (a >= 0 ? 20 : -10), 'S(0|' + zk(e) + ')', 14, FB, Object.assign({ 'text-anchor': 'end', 'font-weight': 700 }, HALO))); }
+  var ns = $(id + '_ns');
+  if (ns && ns.checked && a !== 0) nullstellen(a, e).forEach(function (x) { if (Math.abs(x) <= 6) { svg.appendChild(el('circle', { cx: k.X(x), cy: k.Y(0), r: 6, fill: FX })); svg.appendChild(t(k.X(x), k.Y(0) - 12, zt(x), 13, FX, Object.assign({ 'text-anchor': 'middle', 'font-weight': 700 }, HALO))); } });
+  if (!o.frei) {
+    svg.appendChild(t(14, 40, 'gesucht:', 15, '#E4572E', { 'font-weight': 700 })); svg.appendChild(t(14, 62, 'Parabel ' + (st.i + 1), 15, '#E4572E'));
+    if (st.gef) svg.appendChild(t(14, 100, '🎯 gefangen!', 17, '#0E7C7B', { 'font-weight': 700 }));
+    $(id + '_ziel').textContent = 'Parabel ' + (st.i + 1) + ' von ' + o.ziele.length + ' · gespeichert: ' + S[o.tab].length;
+  } else $(id + '_info').textContent = beschreibung(a, e);
+  $(id + '_gl').innerHTML = a === 0 ? 'f(x) = ' + zk(e) : pTerm(a, e, true);
+}
+
+/* ================= D: Wertetabelle → Parabel ================= */
+var PFUNKS = [[1, 0], [-1, 0], [0.5, 0], [1, -4], [-1, 3], [0.5, -2], [-0.5, 4]];
+var XD = [-3, -2, -1, 0, 1, 2, 3], simD = { i: 0, v: 0, gezeigt: false, r: 0 };
+function baueD() {
+  var opt = PFUNKS.map(function (f, i) { return '<option value="' + i + '">' + pTerm(f[0], f[1]) + '</option>'; }).join('');
+  var d = simBlock('d', 'Simulation D · Von der Wertetabelle zur Parabel', 'Koordinatensystem mit den Punkten aus der Wertetabelle', 480,
+    '<div class="zeile"><label for="d_f"><b>Funktion:</b></label><select id="d_f">' + opt + '</select></div>' +
+    '<div style="overflow-x:auto"><table class="mess"><thead><tr><th>x</th>' + XD.map(function (x) { return '<th style="color:' + FX + '">' + zk(x) + '</th>'; }).join('') + '</tr></thead><tbody><tr><th>f(x)</th>' +
+    XD.map(function (x, j) { return '<td><input class="zahl" style="width:3.6em" type="text" inputmode="decimal" id="d_y' + j + '" aria-label="f von ' + zk(x) + '"></td>'; }).join('') + '</tr></tbody></table></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="d_ein">📍 Punkte eintragen</button><button class="knopf" id="d_mess" disabled>＋ Speichern</button></div>' +
+    '<div class="simmeldung" id="d_msg" aria-live="polite">Setze jeden x-Wert ein. Achtung: Negative Zahlen beim Quadrieren in Klammern: (−3)² = 9.</div>');
+  SIMEL.D = d;
+  $q(d, '#d_f').addEventListener('change', function () { simD.i = Number(this.value); simD.v = 0; simD.gezeigt = false; XD.forEach(function (x, j) { $q(d, '#d_y' + j).value = ''; }); $q(d, '#d_mess').disabled = true; meldung('d_msg', 'Neue Funktion: ' + pTerm(PFUNKS[simD.i][0], PFUNKS[simD.i][1]) + '. Fülle die Tabelle aus.'); zeichneD(); });
+  XD.forEach(function (x, j) { $q(d, '#d_y' + j).addEventListener('input', function () { simD.gezeigt = false; zeichneD(); }); });
+  $q(d, '#d_ein').addEventListener('click', function () {
+    var f = PFUNKS[simD.i], r = 0, leerN = 0;
+    XD.forEach(function (x, j) { var v = zahl($('d_y' + j).value); if (isNaN(v)) leerN++; else if (Math.abs(v - (f[0] * x * x + f[1])) < 1e-9) r++; });
+    if (leerN) { meldung('d_msg', '☝️ Es fehlen noch ' + leerN + ' Werte in der Tabelle.', 'warn'); return; }
+    simD.v++; simD.gezeigt = true; simD.r = r; $('d_mess').disabled = false; zeichneD();
+    if (r === 7) meldung('d_msg', '✓ Alle 7 Werte richtig! Die Punkte liegen auf einer <b>Parabel</b>. Siehst du die Symmetrie? Klicke auf „Speichern“.', 'gut');
+    else meldung('d_msg', r + ' von 7 Werten sind richtig. Prüfe die <b style="color:' + FX + '">roten</b> Kreuze. Erst quadrieren, dann mal a, dann + e.', 'warn');
+  });
+  $q(d, '#d_mess').addEventListener('click', function () {
+    if (messwertDazu('mC', { f: pTerm(PFUNKS[simD.i][0], PFUNKS[simD.i][1]), r: simD.r, v: simD.v })) { $('d_mess').disabled = true; meldung('d_msg', '✓ Gespeichert. ' + (simD.r === 7 ? 'Wähle oben die nächste Funktion.' : 'Verbessere die roten Werte.'), 'gut'); }
+  });
+}
+function zeichneD() {
+  var svg = $('d_svg'); if (!svg) return; leer(svg);
+  var f = PFUNKS[simD.i], k = KS(svg, { x0: -4, x1: 4, y0: -10, y1: 10, L: 262, T: 20, px: 22, py: 22, sy: 2, clip: 'clipD' }), g = el('g', { 'clip-path': 'url(#clipD)' }); svg.appendChild(g);
+  var alle = simD.gezeigt && simD.r === 7;
+  if (alle) parabel(g, k, f[0], f[1]);
+  if (simD.gezeigt) XD.forEach(function (x, j) { var v = zahl($('d_y' + j).value); if (isNaN(v) || Math.abs(v) > 10) return; kreuz(g, k.X(x), k.Y(v), Math.abs(v - (f[0] * x * x + f[1])) < 1e-9 ? '#0E7C7B' : FX); });
+  svg.appendChild(t(14, 40, pTerm(f[0], f[1]), 17, FA, { 'font-weight': 700 }));
+  if (alle) svg.appendChild(t(14, 66, 'eine Parabel ✓', 15, '#0E7C7B'));
+}
+SIMZEICHNE.D = zeichneD;
+
+/* ================= G: Fünf-Punkte-Verfahren ================= */
+var FUENF = [[1, -2], [2, -5], [-1, 3], [0.5, -3], [-2, 4], [-0.5, 2]], simG = { i: 0, v: 0, ok: false, r: 0 };
+function baueG() {
+  var opt = FUENF.map(function (f, i) { return '<option value="' + i + '">' + pTerm(f[0], f[1]) + '</option>'; }).join('');
+  var feld = function (n, x) { return '<div><label for="g_' + n + '"><b>' + n.toUpperCase() + '</b>(' + x + ' | ?)</label><input class="zahl" style="width:4.5em" type="text" inputmode="decimal" id="g_' + n + '"></div>'; };
+  var d = simBlock('g', 'Simulation G · Fünf-Punkte-Verfahren', 'Koordinatensystem für das Fünf-Punkte-Verfahren', 470,
+    '<div class="zeile"><label for="g_f"><b>Funktion:</b></label><select id="g_f">' + opt + '</select><label><input type="checkbox" id="g_hi"> 📐 Wege zeigen</label></div>' +
+    '<div class="regler">' + feld('s', 0) + feld('a', 1) + feld('b', 2) + '</div>' +
+    '<div class="knoepfe"><button class="knopf or" id="g_pr">✋ Prüfen und spiegeln</button><button class="knopf" id="g_mess" disabled>＋ Speichern</button></div>' +
+    '<div class="simmeldung" id="g_msg" aria-live="polite">① S(0 | e) ablesen. ② A: 1 nach rechts, a nach oben. ③ B: 2 nach rechts, 4 · a nach oben. Trage die y-Werte ein.</div>');
+  SIMEL.G = d;
+  function reset() { simG.v = 0; simG.ok = false; ['s', 'a', 'b'].forEach(function (n) { $q(d, '#g_' + n).value = ''; }); $q(d, '#g_mess').disabled = true; zeichneG(); }
+  $q(d, '#g_f').addEventListener('change', function () { simG.i = Number(this.value); reset(); meldung('g_msg', 'Neue Funktion: ' + pTerm(FUENF[simG.i][0], FUENF[simG.i][1]) + '. Wo liegen S, A und B?'); });
+  $q(d, '#g_hi').addEventListener('change', zeichneG);
+  ['s', 'a', 'b'].forEach(function (n) { $q(d, '#g_' + n).addEventListener('input', function () { simG.ok = false; zeichneG(); }); });
+  $q(d, '#g_pr').addEventListener('click', function () {
+    var f = FUENF[simG.i], soll = { s: f[1], a: f[1] + f[0], b: f[1] + 4 * f[0] }, r = 0, fehl = [];
+    for (var n in soll) { var v = zahl($('g_' + n).value); if (isNaN(v)) { meldung('g_msg', '☝️ Trage alle drei y-Werte ein.', 'warn'); return; } if (Math.abs(v - soll[n]) < 1e-9) r++; else fehl.push(n.toUpperCase()); }
+    simG.v++; simG.r = r; simG.ok = r === 3; $('g_mess').disabled = false; zeichneG();
+    if (simG.ok) meldung('g_msg', '✓ Richtig! A und B wurden an der y-Achse gespiegelt: A′(−1 | ' + zk(soll.a) + ') und B′(−2 | ' + zk(soll.b) + '). Fünf Punkte – fertig ist die Parabel! Klicke auf „Speichern“.', 'gut');
+    else meldung('g_msg', r + ' von 3 richtig. Noch falsch: ' + fehl.join(', ') + '. Tipp: S hat den y-Wert e. Für A rechnest du e + a, für B rechnest du e + 4 · a.', 'warn');
+  });
+  $q(d, '#g_mess').addEventListener('click', function () { if (messwertDazu('mG', { f: pTerm(FUENF[simG.i][0], FUENF[simG.i][1]), r: simG.r, v: simG.v })) { $('g_mess').disabled = true; meldung('g_msg', '✓ Gespeichert. Wähle die nächste Funktion.', 'gut'); } });
+}
+function zeichneG() {
+  var svg = $('g_svg'); if (!svg) return; leer(svg);
+  var f = FUENF[simG.i], a = f[0], e = f[1], k = KS(svg, Object.assign({ clip: 'clipG' }, KSP)), g = el('g', { 'clip-path': 'url(#clipG)' }); svg.appendChild(g);
+  if ($('g_hi').checked) {
+    [[1, a, FX], [2, 4 * a, '#7B3FA0']].forEach(function (w) {
+      g.appendChild(el('line', { x1: k.X(0), y1: k.Y(e), x2: k.X(w[0]), y2: k.Y(e), stroke: w[2], 'stroke-width': 2.5, 'stroke-dasharray': '6 4' }));
+      g.appendChild(el('line', { x1: k.X(w[0]), y1: k.Y(e), x2: k.X(w[0]), y2: k.Y(e + w[1]), stroke: w[2], 'stroke-width': 2.5, 'stroke-dasharray': '6 4' }));
+      g.appendChild(t(k.X(w[0]) + 6, k.Y(e + w[1] / 2), (w[0] === 1 ? 'a = ' : '4a = ') + zk(w[1]), 13, w[2], Object.assign({ 'font-weight': 700 }, HALO)));
+    });
+  }
+  if (simG.ok) parabel(g, k, a, e);
+  var punkte = [['S', 0, 's'], ['A', 1, 'a'], ['B', 2, 'b']];
+  punkte.forEach(function (p) {
+    var v = zahl($('g_' + p[2]).value); if (isNaN(v)) return;
+    var soll = p[2] === 's' ? e : p[2] === 'a' ? e + a : e + 4 * a, ok = Math.abs(v - soll) < 1e-9;
+    kreuz(g, k.X(p[1]), k.Y(v), ok ? '#0E7C7B' : FX); g.appendChild(t(k.X(p[1]) + 9, k.Y(v) - 8, p[0], 14, ok ? '#0E7C7B' : FX, Object.assign({ 'font-weight': 700 }, HALO)));
+    if (simG.ok && p[1]) { kreuz(g, k.X(-p[1]), k.Y(v), '#E4572E'); g.appendChild(t(k.X(-p[1]) - 9, k.Y(v) - 8, p[0] + '′', 14, '#E4572E', Object.assign({ 'font-weight': 700, 'text-anchor': 'end' }, HALO))); }
+  });
+  svg.appendChild(t(14, 40, pTerm(a, e), 17, FA, { 'font-weight': 700 }));
+}
+SIMZEICHNE.G = zeichneG;
+
+/* ================= H: Nullstellen-Detektor ================= */
+var NULLF = [[1, -4], [-1, 1], [0.5, -2], [1, 0], [1, 1], [-2, 8], [1, -6.25], [-0.5, 4.5]], simH = { i: 0, v: 0, ok: false };
+function baueH() {
+  var opt = NULLF.map(function (f, i) { return '<option value="' + i + '">' + pTerm(f[0], f[1]) + '</option>'; }).join('');
+  var d = simBlock('h', 'Simulation H · Nullstellen-Detektor', 'Parabel im Koordinatensystem – gesucht sind die Schnittpunkte mit der x-Achse', 470,
+    '<div class="zeile"><label for="h_f"><b>Funktion:</b></label><select id="h_f">' + opt + '</select></div>' +
+    '<div class="regler"><div><label for="h_n"><b>Anzahl der Nullstellen</b></label><select id="h_n"><option value="">wählen</option><option value="2">2 Nullstellen</option><option value="1">1 Nullstelle</option><option value="0">keine Nullstelle</option></select></div>' +
+    '<div><label for="h_x1"><b>x₁</b> (kleinere)</label><input class="zahl" style="width:4.5em" type="text" inputmode="decimal" id="h_x1"></div><div><label for="h_x2"><b>x₂</b> (größere)</label><input class="zahl" style="width:4.5em" type="text" inputmode="decimal" id="h_x2"></div></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="h_pr">🎯 Prüfen</button><button class="knopf" id="h_mess" disabled>＋ Speichern</button></div>' +
+    '<div class="simmeldung" id="h_msg" aria-live="polite">Wo schneidet die Parabel die x-Achse? Lies die x-Werte ab. Bei nur einer Nullstelle trägst du sie bei x₁ ein.</div>');
+  SIMEL.H = d;
+  $q(d, '#h_f').addEventListener('change', function () { simH.i = Number(this.value); simH.v = 0; simH.ok = false; ['h_x1', 'h_x2'].forEach(function (n) { $q(d, '#' + n).value = ''; }); $q(d, '#h_n').value = ''; $q(d, '#h_mess').disabled = true; meldung('h_msg', 'Neue Parabel. Wie viele Nullstellen hat sie – und wo?'); zeichneH(); });
+  $q(d, '#h_pr').addEventListener('click', function () {
+    var f = NULLF[simH.i], soll = nullstellen(f[0], f[1]), n = $('h_n').value;
+    if (n === '') { meldung('h_msg', '☝️ Wähle zuerst die Anzahl der Nullstellen.', 'warn'); return; }
+    var xs = ['h_x1', 'h_x2'].map(function (q) { return zahl($(q).value); }).filter(function (x) { return !isNaN(x); }).sort(function (p, q) { return p - q; });
+    simH.v++; simH.n = Number(n); simH.xs = xs;
+    var anzOk = Number(n) === soll.length, wOk = anzOk && xs.length === soll.length && soll.every(function (x, i) { return Math.abs(x - xs[i]) < 0.011; });
+    simH.ok = wOk; $('h_mess').disabled = false; zeichneH();
+    if (wOk) meldung('h_msg', '✓ Richtig! ' + (soll.length === 0 ? 'Die Parabel schneidet die x-Achse nicht.' : soll.length === 1 ? 'Der Scheitelpunkt liegt auf der x-Achse: x = 0.' : 'x₁ = ' + zk(soll[0]) + ' und x₂ = ' + zk(soll[1]) + '. Schnittpunkte P₁(' + zk(soll[0]) + ' | 0) und P₂(' + zk(soll[1]) + ' | 0).') + ' Klicke auf „Speichern“.', 'gut');
+    else if (!anzOk) meldung('h_msg', 'Die Anzahl stimmt noch nicht. Zähle, wie oft die Parabel die x-Achse schneidet oder berührt.', 'warn');
+    else meldung('h_msg', 'Die Anzahl stimmt ✓, die x-Werte noch nicht. Tipp: Die Nullstellen liegen symmetrisch zur y-Achse (z. B. −2 und 2).', 'warn');
+  });
+  $q(d, '#h_mess').addEventListener('click', function () {
+    var f = NULLF[simH.i];
+    if (messwertDazu('mH', { f: pTerm(f[0], f[1]), anz: simH.n, xs: simH.xs.map(zk).join(' und ') || '–', ok: simH.ok ? 'richtig' : 'falsch', v: simH.v })) { $('h_mess').disabled = true; meldung('h_msg', '✓ Gespeichert. Wähle die nächste Funktion.', 'gut'); }
+  });
+}
+function zeichneH() {
+  var svg = $('h_svg'); if (!svg) return; leer(svg);
+  var f = NULLF[simH.i], k = KS(svg, Object.assign({ clip: 'clipH' }, KSP)), g = el('g', { 'clip-path': 'url(#clipH)' }); svg.appendChild(g);
+  parabel(g, k, f[0], f[1]);
+  if (simH.ok) nullstellen(f[0], f[1]).forEach(function (x) { svg.appendChild(el('circle', { cx: k.X(x), cy: k.Y(0), r: 7, fill: FX })); svg.appendChild(t(k.X(x), k.Y(0) - 12, 'P(' + zk(x) + '|0)', 13, FX, Object.assign({ 'text-anchor': 'middle', 'font-weight': 700 }, HALO))); });
+  svg.appendChild(t(14, 40, pTerm(f[0], f[1]), 17, FA, { 'font-weight': 700 }));
+}
+SIMZEICHNE.H = zeichneH;
+
+function baueSims() {
+  baueA(); baueB(); baueC(); baueD(); baueG(); baueH();
+  parabelSim('E', { titel: 'Simulation E · Parabeln fangen: der Streckfaktor a', tab: 'mD', ziele: [[2, 0], [0.5, 0], [-1, 0], [3, 0], [-0.5, 0], [-2, 0], [0.25, 0], [1.5, 0]] });
+  parabelSim('F', { titel: 'Simulation F · Parabeln fangen: a und e', tab: 'mE', mitE: true, ziele: [[1, 2], [1, -3], [-1, 4], [2, -5], [0.5, 1], [-0.5, 3], [-2, 6], [0.25, -4]] });
+  parabelSim('W', { titel: 'Parabel-Werkstatt · frei forschen mit a und e', tab: 'mF', mitE: true, frei: true });
+  var lager = $('simlager'); Object.keys(SIMEL).forEach(function (k) { lager.appendChild(SIMEL[k]); });
+}
 
 /* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
 var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
 var BR_B=[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556];
 var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, '™': 153 };
-var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': '\u00a0', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta' };
+var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': '\u00a0', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta', '√': 'Wurzel ', '′': "'", '∪': 'U' };
 function normPdf(s) {
   s = String(s).replace(/\r\n?/g, '\n').normalize('NFC');
   var o = '';
@@ -1436,7 +2015,7 @@ function bauePdf(modus) {
   text(RL, A4H - 74, LABOR.titel, 24, true, '#FFFFFF');
   text(RL, A4H - 98, LABOR.untertitel, 11, false, '#DCE4EA');
   y = A4H - 150;
-  var kopfz = [['Name', name], ['Kurs', klasse], ['Datum', dat], ['Arbeitsort', normPdf(S.d.ort || 'nicht angegeben')]]; if (S.d.ort === 'Hausaufgabe') kopfz.push(['Abgabe bis', normPdf(LABOR.hausaufgabe)]); kopfz.push(['Thema', normPdf(LABOR.thema)]); kopfz.forEach(function (p, i) {
+  var kopfz = [['Name', name], ['Kurs', klasse], ['Datum', dat], ['Arbeitsort', normPdf(S.d.ort || 'nicht angegeben')]]; if (S.d.ort === 'Hausaufgabe') kopfz.push(['Abgabe bis', normPdf(haText())]); kopfz.push(['Thema', normPdf(LABOR.thema)]); kopfz.forEach(function (p, i) {
     text(RL, y - i * 19, p[0] + ':', 10.5, true, '#5E6B75'); text(RL + 70, y - i * 19, p[1], 10.5, i === 0, '#16202A');
   });
   y -= kopfz.length * 19 + 8;
@@ -1592,10 +2171,10 @@ function init() {
   $('starten').addEventListener('click', function () {
     if (!(S.d.vorname || '').trim() || !(S.d.nachname || '').trim()) { alert('Bitte trage deinen Vor- und Nachnamen ein – er steht später auf deinem Protokoll.'); (S.d.vorname ? $('nachname') : $('vorname')).focus(); return; }
     if (!S.d.ort) { alert('Bitte wähle noch aus: Wo arbeitest du gerade? (Unterricht am PC, am iPad oder Hausaufgabe) – das steht später auf deiner PDF.'); $('ort').focus(); return; }
-    var erste = 1; for (var i = 0; i < STATIONEN.length; i++) { var st = STATIONEN[i]; if (AUFG.some(function (a) { return a.st === st && zaehlt(a) && !istFertig(a); })) { erste = i + 1; break; } }
+    var erste = 1; for (var i = 0; i < STATIONEN.length; i++) { var st = STATIONEN[i]; if (AUFG.some(function (a) { return a.st === st && a.lv === 1 && !istFertig(a); })) { erste = i + 1; break; } }
     geh(erste);
   });
-  function haHinweis() { $('haHinweis').textContent = S.d.ort === 'Hausaufgabe' ? '📅 Abgabe bis ' + LABOR.hausaufgabe + ' – als PDF bei IServ.' : ''; }
+  function haHinweis() { $('haHinweis').textContent = S.d.ort === 'Hausaufgabe' ? '📅 Abgabe bis ' + haText() + ' – als PDF bei IServ.' : ''; }
   $('ort').addEventListener('change', haHinweis); haHinweis();
   $('pdfVoll').addEventListener('click', function () { pdfLaden('voll'); });
   $('pdfImport').addEventListener('change', function () { if (this.files[0]) ladeAusPdf(this.files[0]); this.value = ''; });
