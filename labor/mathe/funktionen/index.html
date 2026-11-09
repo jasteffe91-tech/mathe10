@@ -1,0 +1,1627 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mathe-Labor 10 G – Funktionen &amp; Parabeln</title>
+<style>
+:root{--dark:#34434F;--teal:#0E7C7B;--teal-l:#E2F2F1;--or:#E4572E;--or-l:#FCE6DE;--light:#F0F3F5;--line:#D5DCE1;--text:#16202A;--grey:#5E6B75;--ok:#2E7D4F;--ok-l:#E3F1EA;--bad:#B3261E;--bad-l:#FBE4E0;--r:14px}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--text);background:var(--light);line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.kopf{background:var(--dark);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px}
+.kopf-in{max-width:1180px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:.02em;white-space:nowrap}
+.logo span{color:#7FD3CF}
+.nav{display:flex;gap:.35rem;flex-wrap:wrap;flex:1}
+.nav button{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:.25rem .7rem;font-size:.8rem;cursor:pointer}
+.nav button[aria-current="step"]{background:#fff;color:var(--dark);font-weight:700}
+.nav button.fertig::after{content:" ✓";color:#7FD3CF;font-weight:700}
+.nav button[aria-current="step"].fertig::after{color:var(--teal)}
+.formelknopf{background:var(--or);border:0;color:#fff;border-radius:999px;padding:.3rem .9rem;font-weight:700;cursor:pointer;font-size:.85rem}
+.fortschritt{height:6px;background:rgba(255,255,255,.15)}
+.fortschritt div{height:100%;background:linear-gradient(90deg,#7FD3CF,var(--or));width:0;transition:width .4s}
+main{max-width:1180px;margin:0 auto;padding:1.2rem 1rem 4rem}
+.seite{display:none;animation:rein .35s ease}
+.seite.aktiv{display:block}
+@keyframes rein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.karte{background:#fff;border-radius:var(--r);padding:1.2rem 1.4rem;margin:0 0 1rem;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid var(--line)}
+.stationskopf{display:flex;gap:1rem;align-items:center;margin:.2rem 0 1rem}
+.stationskopf .nr{width:3.2rem;height:3.2rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.4rem;flex:none}
+.stationskopf h1{margin:0;font-size:1.65rem;line-height:1.2}
+.stationskopf .zeit{color:var(--grey);font-size:.9rem}
+h2{font-size:1.2rem;margin:0 0 .6rem;color:var(--dark)}
+h3{font-size:1.02rem;margin:1rem 0 .4rem}
+.schritt{display:inline-block;background:var(--dark);color:#fff;border-radius:6px;padding:.05rem .5rem;font-size:.78rem;font-weight:700;letter-spacing:.04em;margin-right:.4rem;vertical-align:2px}
+.schritt.v{background:#7A5AA6}.schritt.e{background:var(--teal)}.schritt.b{background:#2B6CB0}.schritt.r{background:var(--or)}.schritt.m{background:var(--ok)}
+.auftrag{background:var(--or-l);border-left:5px solid var(--or);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0}
+.auftrag b:first-child{color:var(--or)}
+.info{background:var(--teal-l);border-left:5px solid var(--teal);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0}
+.formel{font-family:"Cambria Math","Times New Roman",serif;font-size:1.25rem;background:#fff;border:2px solid var(--teal);border-radius:10px;padding:.3rem .9rem;display:inline-block;margin:.2rem 0}
+.formel i,.gr{font-style:italic;font-family:"Cambria Math","Times New Roman",serif}
+details.hilfe{background:#FFF8E6;border:1px solid #F1D79A;border-radius:10px;margin:.5rem 0;padding:.1rem .9rem}
+details.hilfe summary{cursor:pointer;font-weight:700;color:#8A5A00;padding:.35rem 0}
+details.zusatz{background:#F3EEFA;border:1px solid #D7C9EC;border-radius:10px;margin:.8rem 0;padding:.1rem .9rem}
+details.zusatz summary{cursor:pointer;font-weight:700;color:#5B3E8A;padding:.45rem 0}
+label.feld{display:block;font-weight:600;margin:.8rem 0 .3rem}
+.pflicht::after{content:" *";color:var(--or)}
+textarea{width:100%;min-height:6.5rem;border:2px solid var(--line);border-radius:10px;padding:.6rem .8rem;resize:vertical;background:#FCFDFD;line-height:1.45}
+textarea:focus,input:focus,select:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(14,124,123,.18)}
+input[type=text],input[type=number],select{border:2px solid var(--line);border-radius:10px;padding:.45rem .6rem;background:#FCFDFD}
+input.zahl{width:8.5rem;text-align:right}
+.zeile{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.35rem 0}
+.zeile .gr{min-width:2.2rem;font-size:1.15rem}
+.satzhilfe{color:var(--grey);font-size:.85rem;margin:.2rem 0 0}
+.knopf{border:0;border-radius:10px;padding:.6rem 1.1rem;font-weight:700;cursor:pointer;background:var(--teal);color:#fff;transition:transform .1s,filter .2s}
+.knopf:hover{filter:brightness(1.08)}.knopf:active{transform:scale(.97)}
+.knopf.or{background:var(--or)}.knopf.grau{background:#E3E8EC;color:var(--text)}.knopf.dunkel{background:var(--dark)}
+.knopf:disabled{opacity:.45;cursor:not-allowed}
+.knopf.gross{font-size:1.15rem;padding:.85rem 1.6rem}
+.weiter{display:flex;justify-content:space-between;gap:1rem;margin:1.4rem 0 0;flex-wrap:wrap}
+.rueck{font-size:.9rem;margin:.3rem 0 0;padding:.4rem .7rem;border-radius:8px;display:none}
+.rueck.ok{display:block;background:var(--ok-l);color:var(--ok)}
+.rueck.no{display:block;background:var(--bad-l);color:var(--bad)}
+.zwei{display:grid;grid-template-columns:1.6fr 1fr;gap:1rem}
+@media (max-width:900px){.zwei{grid-template-columns:1fr}}
+/* Simulationen */
+.labor{background:linear-gradient(#FBFCFD,#EEF3F5);border:2px solid var(--line);border-radius:var(--r);padding:.8rem;position:relative}
+.labor svg{width:100%;height:auto;display:block}
+.regler{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem 1.2rem;margin:.7rem 0}
+.regler label{font-weight:600;display:flex;justify-content:space-between;gap:.5rem}
+.regler output{font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--teal);height:1.6rem}
+.anzeige{display:flex;gap:.6rem;flex-wrap:wrap;margin:.5rem 0}
+.anzeige div{background:var(--dark);color:#fff;border-radius:10px;padding:.35rem .8rem;min-width:9rem}
+.anzeige small{display:block;color:#B8C7D1;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+.anzeige b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+.anzeige div.w{background:var(--teal)}
+.knoepfe{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}
+table.mess{border-collapse:collapse;width:100%;margin:.5rem 0;font-variant-numeric:tabular-nums}
+table.mess th,table.mess td{border:1px solid var(--line);padding:.35rem .55rem;text-align:right}
+table.mess th{background:var(--dark);color:#fff;font-weight:600;text-align:center}
+table.mess td:first-child,table.mess th:first-child{text-align:center}
+table.mess tr:nth-child(even) td{background:#F7F9FA}
+table.mess .leer td{color:var(--grey);text-align:center;font-style:italic}
+.weg{background:none;border:0;color:var(--bad);cursor:pointer;font-size:1rem}
+/* Station 1 */
+.situationen{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:.8rem}
+.sit{border:2px solid var(--line);border-radius:12px;padding:.8rem;background:#fff}
+.sit .ico{font-size:2rem;line-height:1}
+.sit p{margin:.3rem 0 .5rem}
+.sit .wahl{display:flex;gap:.5rem}
+.sit .wahl label{flex:1;border:2px solid var(--line);border-radius:8px;padding:.3rem;text-align:center;cursor:pointer;font-weight:700}
+.sit .wahl input{position:absolute;opacity:0}
+.sit .wahl label:has(input:checked){background:var(--dark);color:#fff;border-color:var(--dark)}
+.sit .wahl label:has(input:focus-visible){outline:3px solid var(--or)}
+.sit.richtig{border-color:var(--ok);background:var(--ok-l)}
+.sit.falsch{border-color:var(--bad);background:var(--bad-l)}
+.sit .erkl{display:none;font-size:.9rem;margin-top:.5rem}
+.sit.richtig .erkl,.sit.falsch .erkl{display:block}
+.auswahl{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0}
+.auswahl label{border:2px solid var(--line);border-radius:8px;padding:.3rem .7rem;cursor:pointer;background:#fff}
+.auswahl input{margin-right:.35rem;accent-color:var(--teal)}
+.auswahl label:has(input:checked){border-color:var(--teal);background:var(--teal-l);font-weight:600}
+/* Start */
+.held{background:var(--dark);color:#fff;border-radius:20px;padding:2rem;position:relative;overflow:hidden;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:26px 26px}
+.held h1{font-size:2.2rem;margin:.2rem 0 .4rem;line-height:1.15}
+.held .ober{color:#FFB59E;font-weight:800;letter-spacing:.08em;font-size:.85rem}
+.held p{color:#DCE4EA;max-width:40rem}
+.held svg{position:absolute;right:1.5rem;bottom:1rem;width:220px;opacity:.95}
+@media (max-width:800px){.held svg{display:none}}
+.ziele{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem;margin:.6rem 0}
+.ziele div{background:var(--light);border-radius:10px;padding:.7rem .9rem;border-left:5px solid var(--teal)}
+.ziele b{display:block}
+.stationsliste{list-style:none;padding:0;margin:.4rem 0;display:grid;gap:.35rem}
+.stationsliste li{display:flex;gap:.7rem;align-items:center}
+.stationsliste .n{width:1.8rem;height:1.8rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem;flex:none}
+.stationsliste .min{margin-left:auto;color:var(--grey);font-size:.85rem;white-space:nowrap}
+/* Formel-Schublade */
+.schublade{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:#fff;z-index:50;box-shadow:-6px 0 24px rgba(0,0,0,.2);transform:translateX(105%);transition:transform .3s,visibility .3s;overflow:auto;padding:1.2rem}
+.schublade{visibility:hidden}.schublade.offen{transform:none;visibility:visible}
+html,body{overflow-x:clip}
+@media (max-width:600px){table.mess{display:block;overflow-x:auto}.held{padding:1.3rem}.held h1{font-size:1.7rem}}
+.schublade table{border-collapse:collapse;width:100%;font-size:.92rem}
+.schublade td{border-bottom:1px solid var(--line);padding:.4rem .3rem;vertical-align:top}
+/* Abgabe */
+.uebersicht h3{border-bottom:2px solid var(--teal);padding-bottom:.2rem;margin-top:1.3rem}
+.uebersicht dl{margin:0}
+.uebersicht dt{font-weight:700;font-size:.85rem;color:var(--grey);margin-top:.6rem}
+.uebersicht dd{margin:0;white-space:pre-wrap}
+.uebersicht dd.fehlt{color:var(--bad);font-style:italic}
+.warnung{background:#FFF4D6;border:2px solid #E9B949;border-radius:12px;padding:.8rem 1rem}
+.erfolg{background:var(--ok-l);border:3px solid var(--ok);border-radius:16px;padding:1.2rem 1.4rem;font-size:1.25rem;font-weight:800;color:var(--ok);text-align:center;display:none}
+.erfolg.zeigen{display:block;animation:puls 1.6s ease 2}
+@keyframes puls{50%{transform:scale(1.02)}}
+.erfolg small{display:block;font-size:.9rem;font-weight:400;color:var(--text);margin-top:.4rem}
+.hinweis-js{background:#FFF4D6;padding:1rem;text-align:center;font-weight:700}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.kopf,.weiter,.knopf{display:none}}
+
+/* ===== Ergänzungen v2 (Lernabschnitte, Aufgabenkarten, neue Simulationen) ===== */
+.kopf-in{gap:.7rem}
+.nav{align-items:center;gap:.45rem}
+.nav>button{padding:.3rem .75rem}
+.abgr{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:.2rem .45rem .3rem;min-width:9.5rem}
+.abkopf{display:flex;justify-content:space-between;gap:.5rem;font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;color:#B8C7D1;font-weight:700}
+.abproz{color:#7FD3CF}
+.abbtns{display:flex;gap:.25rem;margin:.15rem 0}
+.abbtns button{width:1.9rem;height:1.9rem;padding:0;border-radius:50%;font-weight:700;font-size:.85rem}
+.nav button.teil{border-color:#FFB59E}
+.nav .abbtns button.fertig::after{content:""}
+.nav .abbtns button.fertig{background:#7FD3CF;color:var(--dark);border-color:#7FD3CF}
+.nav .abbtns button[aria-current="step"]{background:#fff;color:var(--dark);box-shadow:0 0 0 3px var(--or)}
+.abbar{height:4px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.abbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7FD3CF,var(--or));transition:width .4s}
+.kopfknoepfe{display:flex;gap:.4rem}
+.zwknopf{background:#fff;color:var(--dark);border:0;border-radius:999px;padding:.3rem .8rem;font-weight:700;cursor:pointer;font-size:.85rem}
+.abschnittmarke{color:var(--teal);font-weight:800;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase}
+/* Problem-Einstieg */
+.problem{display:flex;gap:1rem;background:linear-gradient(135deg,#FFF7EC,#FDEFE8);border:1px solid #F3D3BF;border-left:6px solid var(--or);border-radius:var(--r);padding:1rem 1.2rem;margin:0 0 1rem}
+.problemico{font-size:2.6rem;line-height:1;flex:none}
+.problemmarke{color:var(--or);font-weight:800;font-size:.75rem;letter-spacing:.08em}
+.problem p{margin:.35rem 0}
+.modell{background:#EEF1FB;border-left:5px solid #5B6CC2;border-radius:8px;padding:.7rem 1rem;margin:.6rem 0;font-size:.95rem}
+/* Aufgabenkarten */
+.aufgabe{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem;margin:0 0 1rem;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:6px solid var(--line)}
+.aufgabe.lvrand1{border-left-color:#7FB8B7}.aufgabe.lvrand2{border-left-color:#2B6CB0}.aufgabe.lvrand3{border-left-color:#7A5AA6}
+.akopf{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin:0 0 .5rem}
+.anr{background:var(--dark);color:#fff;border-radius:6px;padding:.05rem .5rem;font-weight:800;font-size:.85rem}
+.phase{font-weight:800;color:var(--dark);font-size:.9rem}
+.lv{border-radius:999px;padding:.05rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.lv1{background:#E2F2F1;color:#0B5E5D}.lv2{background:#E1ECF8;color:#1F4F86}.lv3{background:#EFE8F7;color:#5B3E8A}.lvS{background:#FCE6DE;color:#9E3417}
+.astatus{margin-left:auto;font-size:.8rem;font-weight:700}
+.astatus.fertig{color:var(--ok)}.astatus.halb{color:#B36B00}
+details.zusatz .astatus{margin-left:.6rem}
+.afrage{margin:.2rem 0 .6rem}
+.fremd{font-family:"Comic Sans MS","Segoe Print",cursive;background:#FFFBE6;border:1px dashed #D9B44A;border-radius:8px;padding:.4rem .8rem;margin:.4rem 0;display:inline-block;color:#5A4200}
+.mczeile{justify-content:space-between;background:var(--light);border-radius:8px;padding:.35rem .6rem}
+.mczeile>span{flex:1 1 16rem}
+.einheit{font-weight:700;min-width:2.5rem}
+.knopf.klein{padding:.4rem .8rem;font-size:.9rem}
+.zumark{font-weight:800;min-width:1.2rem}.zumark.gut{color:var(--ok)}.zumark.schlecht{color:var(--bad)}
+.ichzeile{margin:.5rem 0}
+details.zusatz.aufgabe{padding:.2rem 1rem;border-left:6px solid #E4572E;background:#FFF8F4}
+details.zusatz.aufgabe summary{color:#9E3417}
+details.zusatz.aufgabe[open]{padding-bottom:1rem}
+/* Simulationen */
+.simblock{margin:0 0 1rem;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.simtitel{font-weight:800;color:var(--teal);margin:0 0 .5rem;letter-spacing:.02em}
+.zwei.gleich{grid-template-columns:1fr 1fr}
+@media (max-width:900px){.zwei.gleich{grid-template-columns:1fr}}
+.regler.einspaltig{grid-template-columns:1fr;background:var(--light);border-radius:10px;padding:.5rem .8rem;margin:.5rem 0}
+.umschalter{display:flex;gap:.3rem;margin:0 0 .3rem}
+.umschalter button{border:2px solid var(--line);background:#fff;border-radius:8px;padding:.2rem .6rem;font-size:.8rem;cursor:pointer;font-weight:600}
+.umschalter button.aktiv{background:var(--teal);color:#fff;border-color:var(--teal)}
+.vorhersage{background:#F3EEFA;border-radius:10px;padding:.4rem .7rem}
+.anzeige div.o{background:var(--or)}
+.anzeige div.vgl{background:#7A5AA6}
+/* Start */
+.abkarten{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:.8rem;margin:.6rem 0}
+.abkarte{display:flex;gap:.8rem;background:var(--light);border-radius:12px;padding:.8rem 1rem;border-top:5px solid var(--teal)}
+.abkarte ul{margin:.4rem 0 0;padding-left:1.1rem;font-size:.92rem}
+.abkarte.klein{border-top-color:var(--or)}
+.abnr{width:2.4rem;height:2.4rem;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+.legende{display:flex;flex-wrap:wrap;gap:.4rem .8rem;align-items:center;font-size:.85rem;color:var(--grey);margin:.4rem 0}
+.weiterarbeiten{background:#F3EEFA;border:1px solid #D7C9EC;border-radius:10px;padding:.7rem 1rem;margin:.7rem 0;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.dateiknopf{display:inline-block}
+.pdfknoepfe{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.standtab td,.standtab th{text-align:center}
+.fehlt{color:var(--bad);font-style:italic}
+.uebersicht dd i{color:var(--grey)}
+/* Hinweis nach dem Download */
+.toast{position:fixed;left:50%;bottom:1.2rem;transform:translate(-50%,160%);background:var(--ok);color:#fff;border-radius:14px;padding:.9rem 3rem .9rem 1.2rem;z-index:60;box-shadow:0 8px 30px rgba(0,0,0,.25);max-width:min(640px,94vw);transition:transform .35s;font-size:1.05rem}
+.toast.zeigen{transform:translate(-50%,0)}
+.toast a{color:#fff}
+.toast small{font-size:.85rem}
+.toastzu{position:absolute;right:.6rem;top:.5rem;background:none;border:0;color:#fff;font-size:1.2rem;cursor:pointer}
+@media print{.toast,.kopfknoepfe{display:none}}
+
+.abgr{min-width:0}
+.nav .abbtns button.abgabeknopf{width:auto;border-radius:999px;padding:0 .7rem}
+
+.kopf-in{max-width:1400px}
+.nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}
+@media (max-width:1100px){.logo{display:none}}
+
+/* ===== NW-Labor 6a: zusätzliche Hilfen für Sprachanfänger ===== */
+html{font-size:19px}
+.afrage{font-size:1.04rem;line-height:1.6}
+.problem p{font-size:1.06rem;line-height:1.6}
+.ptext{min-width:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* Vorlesen */
+.lies{border:0;background:#E1ECF8;border-radius:999px;width:2.1rem;height:2.1rem;cursor:pointer;font-size:1.05rem;flex:none;margin-left:auto}
+.lies:hover{background:#C9DCF2}
+.problemmarke .lies{margin-left:.5rem;vertical-align:middle}
+.ohnesprache .lies{display:none}
+.akopf{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+/* Fachwörter antippen */
+.wort{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:help;text-decoration:underline dotted #2B6CB0 2px;text-underline-offset:4px}
+.wort:hover,.wort:focus-visible{background:#E1ECF8;border-radius:4px}
+.wortpop{position:fixed;z-index:70;background:#fff;border:2px solid #2B6CB0;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:.8rem 1rem}
+.wortpop #wortzu{margin-top:.5rem}
+.wkopf{display:flex;align-items:center;gap:.6rem}
+.wkopf .wico{font-size:1.8rem;line-height:1}
+.wkopf b{font-size:1.1rem}
+.werkl{margin:.4rem 0 .2rem;font-size:.95rem}
+.ueb{background:#FFF8E6;border-radius:8px;padding:.3rem .6rem;margin-top:.3rem;font-size:1.05rem}
+.ueb small{color:var(--grey)}
+.wbeintrag{border-bottom:1px solid var(--line);padding:.6rem 0}
+/* Schreibhilfen */
+.schreibhilfe{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin:.35rem 0 .2rem}
+.wsp{font-size:.82rem;color:var(--grey);margin-left:.2rem}
+.chip{border:2px solid #C9DCF2;background:#F4F8FD;border-radius:999px;padding:.15rem .7rem;font-size:.9rem;cursor:pointer}
+.chip:hover{background:#E1ECF8}
+.chip.satz{border-color:#F1D79A;background:#FFF8E6;font-weight:700;color:#8A5A00}
+/* Lückentext */
+.lueckentext{font-size:1.08rem;line-height:2.3;background:#FCFDFD;border:2px dashed var(--line);border-radius:12px;padding:.5rem .9rem;margin:.4rem 0}
+.lueck{white-space:nowrap}
+.lueck select{padding:.15rem .4rem;margin:0 .15rem;font-weight:600;background:#fff;border-color:#9CC3E6}
+.zumark{font-weight:800;margin-left:.15rem}.zumark.gut{color:var(--ok)}.zumark.schlecht{color:var(--bad)}
+/* Startseite */
+.hilfeliste{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:.6rem;margin-bottom:.6rem}
+.hilfeliste>div{background:var(--light);border-radius:12px;padding:.6rem .8rem;font-size:.9rem}
+.hilfeliste span{font-size:1.4rem;margin-right:.4rem}
+/* Simulationen */
+.simmeldung{background:#F3F6F8;border-radius:10px;padding:.55rem .9rem;margin:.5rem 0 0;font-size:1rem;min-height:2.6rem}
+.simmeldung.gut{background:var(--ok-l);color:var(--ok)}
+.simmeldung.warn{background:#FFF3D6;color:#7A5A00}
+.dingwahl{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}
+.dingwahl button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:.35rem .6rem;cursor:pointer;display:flex;align-items:center;gap:.35rem;font-size:.9rem}
+.dingwahl button span{font-size:1.3rem}
+.dingwahl button.aktiv{border-color:var(--teal);background:var(--teal-l);font-weight:700}
+.vorhersage{background:#F3EEFA;border-radius:10px;padding:.5rem .8rem;gap:.4rem 1rem}
+.vorhersage label{cursor:pointer;display:inline-flex;align-items:center;gap:.3rem}
+.vorhersage input[type=radio],.vorhersage input[type=checkbox]{width:1.2rem;height:1.2rem}
+.umschalter{margin:.3rem .4rem .3rem 0;display:inline-flex}
+.klickbar{cursor:pointer}
+.fluss{stroke:#FFD23F;stroke-width:3;stroke-dasharray:3 15;animation:fl .7s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-18}}
+@media (prefers-reduced-motion:reduce){.fluss{animation:none}}
+/* Schaltzeichen und Pläne */
+.szbild{width:84px;height:42px;vertical-align:middle}
+.sit .ico .plan{width:100%;max-width:190px;height:auto;display:block;margin:0 auto}
+.sit .ico{font-size:2rem}
+.mczeile .szbild{width:100px;height:50px}
+.sztab{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;text-align:center;font-weight:600}
+.sztab small{font-weight:400;color:var(--grey)}
+.info .szbild{width:70px;height:35px}
+.kette{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:.6rem 0;font-size:1.05rem}
+.kette span{background:#fff;border:2px solid var(--teal);border-radius:12px;padding:.4rem .8rem;text-align:center}
+.kette b{font-size:1.6rem;color:var(--or)}
+@media (max-width:600px){html{font-size:17px}.lueckentext{line-height:2.1}.lueck{white-space:normal}}
+
+.termin{display:inline-block;margin:.3rem 0;padding:.2rem .6rem;border-radius:8px;background:#FFF3D6;color:#7A5A00;font-weight:600;font-size:.95rem}
+.ortwahl{background:#F3EEFA;border-radius:10px;padding:.5rem .8rem;margin:.6rem 0;align-items:center;gap:.6rem;flex-wrap:wrap}
+.mczeile .szbild{vertical-align:middle}
+
+</style>
+</head>
+<body>
+<div class="hinweis-js" id="nojs">Diese Seite braucht JavaScript. Bitte im Browser (Safari, Chrome, Edge, Firefox) öffnen – nicht in einer Dateivorschau.</div>
+
+<header class="kopf">
+  <div class="kopf-in">
+    <div class="logo">📈 Mathe-Labor <span>10 G</span></div>
+    <nav class="nav" id="nav" aria-label="Lernabschnitte und Stationen"></nav>
+    <div class="kopfknoepfe">
+      <button class="zwknopf" data-zwischen="1" title="Zwischenstand als PDF speichern">📄 Zwischenstand</button>
+      <button class="formelknopf" id="formelAuf" aria-controls="formeln" aria-expanded="false">📖 Wörterbuch</button>
+    </div>
+  </div>
+  <div class="fortschritt" role="progressbar" aria-label="Gesamtfortschritt" aria-valuemin="0" aria-valuemax="100" id="fortBalken"><div id="fort"></div></div>
+</header>
+
+<aside class="schublade" id="formeln" aria-label="Wörterbuch" aria-hidden="true">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem"><h2 style="margin:0">📖 Wörterbuch</h2><button class="knopf grau" id="formelZu">Schließen ✕</button></div>
+  <div class="zeile"><label for="sprache"><b>🌍 Meine Sprache:</b></label><select id="sprache"></select></div>
+  <div class="zeile"><label for="wbSuche" class="sr">Wort suchen</label><input type="text" id="wbSuche" placeholder="🔍 Wort suchen …" autocomplete="off" style="width:100%"></div>
+  <p class="satzhilfe">Tipp: Wörter mit <span class="wort" style="pointer-events:none">gepunkteter Linie</span> kannst du in den Aufgaben antippen. Mit 🔊 hörst du das Wort. Die Übersetzungen helfen beim Verstehen – frag nach, wenn etwas komisch klingt.</p>
+  <div id="wbListe"></div>
+</aside>
+
+<div class="wortpop" id="wortpop" hidden role="dialog" aria-label="Wort erklärt"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<main id="haupt">
+<section class="seite" id="start" data-titel="Start">
+  <div class="held">
+    <div class="ober">MATHEMATIK · G-KURS 10 · DIGITALES MATHE-LABOR</div>
+    <h1>Funktionen &amp;<br>Parabeln</h1>
+    <p>Willkommen im Mathe-Labor! 👋 Hier probierst du selbst aus: Du fängst Geraden, zeichnest Graphen aus Wertetabellen und vergleichst Tarife. Später kommen die Parabeln dazu.</p>
+    <svg viewBox="0 0 220 170" aria-hidden="true"><g stroke="#DCE4EA" stroke-width="1"><line x1="20" y1="10" x2="20" y2="160"/><line x1="45" y1="10" x2="45" y2="160"/><line x1="70" y1="10" x2="70" y2="160"/><line x1="95" y1="10" x2="95" y2="160"/><line x1="120" y1="10" x2="120" y2="160"/><line x1="145" y1="10" x2="145" y2="160"/><line x1="170" y1="10" x2="170" y2="160"/><line x1="195" y1="10" x2="195" y2="160"/><line x1="220" y1="10" x2="220" y2="160"/><line x1="10" y1="10" x2="210" y2="10"/><line x1="10" y1="35" x2="210" y2="35"/><line x1="10" y1="60" x2="210" y2="60"/><line x1="10" y1="85" x2="210" y2="85"/><line x1="10" y1="110" x2="210" y2="110"/><line x1="10" y1="135" x2="210" y2="135"/><line x1="10" y1="160" x2="210" y2="160"/></g><path d="M10,135 L210,135 M110,160 L110,8" stroke="#16202A" stroke-width="2.5"/><path d="M30,10 Q110,260 190,10" fill="none" stroke="#E4572E" stroke-width="5" stroke-linecap="round"/><path d="M20,160 L200,40" stroke="#1565C0" stroke-width="5" stroke-linecap="round"/><circle cx="110" cy="100" r="7" fill="#2E8B3E"/></svg>
+  </div>
+
+  <div class="karte hilfekarte">
+    <h2>🧰 Diese Hilfen hast du</h2>
+    <div class="hilfeliste">
+      <div><span>🔊</span><b>Vorlesen</b><br>Tippe auf 🔊 – der Text wird vorgelesen.</div>
+      <div><span class="wort" style="pointer-events:none">Wort</span><b>Wörter erklärt</b><br>Tippe auf ein Wort mit Punkten darunter.</div>
+      <div><span>📖</span><b>Wörterbuch</b><br>Oben rechts. Mit Übersetzung in deine Sprache.</div>
+      <div><span>✍️</span><b>Satzanfang</b><br>Ein Knopf schreibt den Anfang für dich.</div>
+      <div><span>🧱</span><b>Wörter-Knöpfe</b><br>Tippe ein Wort an – es kommt in dein Feld.</div>
+      <div><span>💡</span><b>Hilfe 1, Hilfe 2</b><br>Öffne die gelben Kästen, wenn du nicht weiterkommst.</div>
+    </div>
+    <div class="zeile"><label for="spracheStart"><b>🌍 Meine Sprache für das Wörterbuch:</b></label><select id="spracheStart"></select></div>
+  </div>
+
+  <div class="karte">
+    <h2>Lernabschnitte – du arbeitest in deinem Tempo</h2>
+    <div class="abkarten" id="abkarten"></div>
+    <div class="legende"><span class="lv lv1">● Basis</span> das schaffen alle <span class="lv lv2">●● Plus</span> erklären, mehr schreiben <span class="lv lv3">●●● Profi</span> knifflig, knobeln <span class="lv lvS">★ Extra</span> freiwillig</div>
+    <p class="satzhilfe">Du musst nicht alles in einer Stunde schaffen. Am Ende jeder Stunde speicherst du deinen <b>Zwischenstand als PDF</b> und lädst ihn bei IServ hoch. In der nächsten Stunde machst du weiter.</p>
+  </div>
+
+  <div class="karte">
+    <h2>Wer arbeitet hier?</h2>
+    <div class="zeile">
+      <div><label class="feld" for="vorname">Vorname</label><input type="text" id="vorname" data-k="vorname" autocomplete="off" size="20"></div>
+      <div><label class="feld" for="nachname">Nachname</label><input type="text" id="nachname" data-k="nachname" autocomplete="off" size="20"></div>
+      <div><label class="feld" for="klasse">Kurs</label><input type="text" id="klasse" data-k="klasse" size="5"></div>
+    </div>
+    <div class="zeile ortwahl"><label class="feld" for="ort"><b>Wo arbeitest du gerade?</b></label><select id="ort" data-k="ort"><option value="">bitte wählen</option><option>Unterricht am PC</option><option>Unterricht am iPad</option><option>Hausaufgabe</option></select><span class="satzhilfe" id="haHinweis"></span></div>
+    <div class="info"><b>So funktioniert die Abgabe:</b> Das Labor merkt sich alles, was du einträgst. Mit „📄 Zwischenstand“ (oben rechts) speicherst du dein <b>Protokoll als PDF</b>. Diese PDF lädst du in der <b>Mathe-Aufgabe bei IServ</b> hoch. Deine Eingaben bleiben nur auf diesem Gerät (höchstens 3 Stunden). Sie werden nirgendwohin gesendet.</div>
+    <div class="weiterarbeiten">
+      <b>Weiterarbeiten an einem anderen Tag?</b> Nimm die PDF, die du zuletzt gespeichert hast. Das Labor liest deinen Arbeitsstand daraus wieder ein.
+      <label class="knopf grau dateiknopf">📂 Mit meiner PDF weiterarbeiten<input type="file" id="pdfImport" accept="application/pdf,.pdf" hidden></label>
+    </div>
+    <div id="fortsetzenBox" class="warnung" style="display:none;margin:.6rem 0"></div>
+    <div class="weiter"><span></span><button class="knopf or gross" id="starten">Labor starten ▸</button></div>
+  </div>
+</section>
+
+
+
+<section class="seite" id="abgabe" data-titel="Abgabe">
+  <div class="stationskopf"><div class="nr">✓</div><div><h1>Dein Laborprotokoll</h1><div class="zeit">Kontrollieren · herunterladen · bei IServ hochladen</div></div></div>
+  <div id="fehlBox"></div>
+  <div class="karte" style="text-align:center">
+    <div class="pdfknoepfe">
+      <button class="knopf dunkel gross" data-zwischen="1">📄 Zwischenstand als PDF speichern</button>
+      <button class="knopf or gross" id="pdfVoll">📘 Mein ganzes Laborprotokoll herunterladen</button>
+    </div>
+    <p class="satzhilfe" id="dateiname"></p>
+    <p class="satzhilfe" id="pdfAlt" style="display:none"></p>
+  </div>
+  <div class="erfolg" id="erfolg" role="status">⬆️ Lade deine PDF jetzt in der Mathe-Aufgabe bei IServ hoch.
+    <small>Die Datei liegt im Ordner „Downloads“. Prüfe nach dem Hochladen, ob sie bei IServ angekommen ist. Mit derselben PDF kannst du nächstes Mal weiterarbeiten.</small></div>
+  <div class="karte uebersicht" id="uebersicht"></div>
+  <div class="karte">
+    <h2>Zum Schluss: Daten löschen</h2>
+    <p>Deine Eingaben sind nur auf diesem Gerät gespeichert (höchstens 3 Stunden). Wenn deine PDF bei IServ ist, lösche sie hier.</p>
+    <button class="knopf dunkel" id="loeschen">🗑 Meine Eingaben von diesem Gerät löschen</button>
+  </div>
+  <div class="weiter"><button class="knopf grau" id="zurueckLetzte">◂ zurück</button><span></span></div>
+</section>
+</main>
+<div id="simlager" hidden></div>
+
+<script>
+/* =====================================================================
+   INHALT des Mathe-Labors 10 G „Funktionen & Parabeln“ (v1, 09.11.2026)
+   UV 10.3 Quadratische Funktionen und Gleichungen – Abschnitt 1: Wdh. lineare Funktionen
+   Hier stehen alle Texte und Aufgaben. Schlüssel (k) nie umbenennen –
+   sonst gehen gespeicherte Antworten (auch in alten PDFs) verloren.
+   lv: 1 = ● Basis, 2 = ●● Plus, 3 = ●●● Profi, 'S' = ★ Extra (freiwillig)
+   Lückentext: [[*richtig|falsch|falsch]] – der Stern markiert die Lösung.
+   Zahlenfelder ohne Einheit: { k, gr, soll, ohne: true, tipp }
+   ===================================================================== */
+
+/* ---------- Für die PDF: Abgabetermin der Hausaufgabe (bei jeder neuen HA hier ändern) ---------- */
+var LABOR = {
+  titel: 'Funktionen & Parabeln',
+  untertitel: 'Digitales Mathe-Labor · UV 10.3 · Abschnitt 1: Lineare Funktionen',
+  thema: 'Wiederholung lineare Funktionen: Wertetabelle, Graph, y = mx + b, Steigung, Sachaufgaben',
+  hausaufgabe: 'Di 17.11.2026, 8:00 Uhr (Abschnitt 1: alle Basis- und Plus-Aufgaben)'
+};
+var ORTE = ['Unterricht am PC', 'Unterricht am iPad', 'Hausaufgabe'];
+
+/* ---------- Farben wie im Buch: m lila, b grün, x rot ---------- */
+var FM = '#7B3FA0', FB = '#2E8B3E', FX = '#C62828';
+function zk(x) { return String(x).replace('-', '−').replace('.', ','); }
+function glText(m, b) {   // y = mx + b als Text
+  var s = 'y = ';
+  if (m === 0) return s + zk(b);
+  s += m === 1 ? 'x' : m === -1 ? '−x' : zk(m) + 'x';
+  if (b) s += (b > 0 ? ' + ' : ' − ') + zk(Math.abs(b));
+  return s;
+}
+function glHtml(m, b) {   // farbig wie im Buch
+  var s = 'y = ';
+  if (m === 0) return s + '<b style="color:' + FB + '">' + zk(b) + '</b>';
+  s += '<b style="color:' + FM + '">' + (m === 1 ? '' : m === -1 ? '−' : zk(m)) + '</b>x';
+  if (b) s += (b > 0 ? ' + ' : ' − ') + '<b style="color:' + FB + '">' + zk(Math.abs(b)) + '</b>';
+  return s;
+}
+/* kleiner Graph für Zuordnungen (x und y von −4 bis 4) */
+function miniGraph(m, b) {
+  var P = 14, M = 60, f = function (x) { return M + x * P; }, g = function (y) { return M - y * P; };
+  var h = '<svg class="szbild" style="width:120px;height:120px" viewBox="0 0 120 120" role="img" aria-label="Graph einer Geraden">';
+  for (var i = -4; i <= 4; i++) h += '<path d="M' + f(i) + ',4 L' + f(i) + ',116 M4,' + g(i) + ' L116,' + g(i) + '" stroke="#E4E9F2" stroke-width="1"/>';
+  h += '<path d="M2,60 L118,60 M60,118 L60,2" stroke="#34434F" stroke-width="1.6"/>';
+  h += '<text x="112" y="72" font-size="10" font-style="italic">x</text><text x="64" y="10" font-size="10" font-style="italic">y</text>';
+  h += '<text x="' + (f(1) - 3) + '" y="72" font-size="9" fill="#5E6B75">1</text><text x="50" y="' + (g(1) + 3) + '" font-size="9" fill="#5E6B75">1</text>';
+  var id = 'cl' + String(m + '_' + b).replace(/[^0-9a-z_]/gi, 'x');
+  h += '<clipPath id="' + id + '"><rect x="4" y="4" width="112" height="112"/></clipPath>';
+  h += '<path clip-path="url(#' + id + ')" d="M' + f(-5) + ',' + g(m * -5 + b) + ' L' + f(5) + ',' + g(m * 5 + b) + '" stroke="#1565C0" stroke-width="3"/>';
+  return h + '</svg>';
+}
+
+var ABSCHNITTE = [
+  { nr: 1, titel: 'Wiederholung: Lineare Funktionen', kurz: 'Lineare Fkt.', zeit: 85, text: 'Wertetabelle, Graph, Steigung, y-Achsenabschnitt, Tarife vergleichen',
+    termin: '🖥️ Fr 13.11. im PC-Raum · Rest als Hausaufgabe bis Di 17.11., 8:00 Uhr' }
+];
+
+var STATIONEN = [
+/* ---------------------------------------------------------------- 1 */
+{ id: 'st1', nr: 1, ab: 1, titel: 'Wertetabelle und Graph', zeit: 25, ico: '📋',
+  problem: '<p>Ein Fahrradverleih am Rhein verlangt <b>3 € Grundgebühr</b> und <b>2 € pro Stunde</b>. 🚲</p><p><b>Wie viel kostet eine Fahrradtour – und wie sieht das als Graph aus?</b></p>',
+  bloecke: [
+    { b: 'a', nr: '1.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle eine Antwort. Es gibt hier noch kein Richtig oder Falsch.',
+      items: [{ k: 's1.verm', t: 'Eine Tour von 4 Stunden kostet …', opt: ['8 €.', '11 €.', '20 €.'] }] },
+    { b: 'info', html: '<b>Die Funktionsgleichung:</b> x ist die Zeit in Stunden, y sind die Kosten in €.<br><b>y = 2x + 3</b> &nbsp;oder&nbsp; <b>f(x) = 2x + 3</b> (sprich: „f von x“).<br>So rechnest du: <b>x einsetzen</b> und ausrechnen. Beispiel: f(<b style="color:' + FX + '">4</b>) = 2 · <b style="color:' + FX + '">4</b> + 3 = 8 + 3 = 11. Eine Tour von 4 Stunden kostet also 11 €.' },
+    { b: 'a', nr: '1.2', lv: 1, ph: '🧮 Wertetabelle', art: 'rechnung',
+      frage: 'Berechne die Kosten für f(x) = 2x + 3. Klicke bei jedem Ergebnis auf „Prüfen“.',
+      felder: [
+        { k: 's1.f0', gr: 'f(0)', soll: 3, ohne: true, tipp: 'Rechne 2 · 0 + 3. Erst mal, dann plus.' },
+        { k: 's1.f1', gr: 'f(1)', soll: 5, ohne: true, tipp: 'Rechne 2 · 1 + 3.' },
+        { k: 's1.f2', gr: 'f(2)', soll: 7, ohne: true, tipp: 'Rechne 2 · 2 + 3.' },
+        { k: 's1.f5', gr: 'f(5)', soll: 13, ohne: true, tipp: 'Rechne 2 · 5 + 3.' } ] },
+    { b: 'a', nr: '1.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's1.m',
+      frage: 'Schau dir deine Werte an. Wähle das passende Wort. Klicke dann auf „Prüfen“.',
+      text: 'Mit jeder Stunde mehr steigen die Kosten immer um [[*2 €|3 €|5 €]]. Bei 0 Stunden zahlt man nur die Grundgebühr von [[2 €|*3 €]]. Wächst y immer gleichmäßig, dann ist es eine [[*lineare|quadratische]] Funktion. Ihr Graph ist eine [[Parabel|*Gerade|Kurve]].' },
+    { b: 'sim', sim: 'B' },
+    { b: 'a', nr: '1.4', lv: 1, ph: '🔬 Labor', art: 'messung', tab: 'mB', min: 3,
+      frage: 'Wähle oben eine Funktion. Fülle die Wertetabelle aus und klicke auf <b>„Punkte eintragen“</b>. Stimmt alles? Dann <b>„Speichern“</b>. Schaffe <b>mindestens 3</b> Funktionen.' },
+    { b: 'a', nr: '1.5', lv: 2, ph: '🧩 Entscheiden', art: 'urteile', k: 's1u', labels: ['linear', 'nicht linear'],
+      frage: 'Ist das eine lineare Funktion? Entscheide bei jeder Karte. Klicke dann auf „Auswerten“.',
+      items: [
+        { ico: '📏', t: 'y = 3x − 1', ja: true, e: 'Sie hat die Form y = mx + b mit m = 3 und b = −1.' },
+        { ico: '🌈', t: 'y = x²', ja: false, e: 'Hier kommt x im Quadrat vor. Der Graph ist eine Parabel – das lernst du bald!' },
+        { ico: '📉', t: 'y = −0,5x + 4', ja: true, e: 'm = −0,5 und b = 4. Die Gerade fällt.' },
+        { ico: '📍', t: 'y = 4x', ja: true, e: 'Hier ist b = 0. Die Gerade geht durch den Punkt (0|0).' },
+        { ico: '📋', t: 'Tabelle: x = 0, 1, 2, 3 und y = 1, 2, 4, 8', ja: false, e: 'y wächst nicht gleichmäßig: +1, +2, +4. Das ist keine Gerade.' },
+        { ico: '📋', t: 'Tabelle: x = 0, 1, 2, 3 und y = 10, 7, 4, 1', ja: true, e: 'y wird immer um 3 kleiner. Das ist gleichmäßig – also linear (m = −3).' } ] },
+    { b: 'a', nr: '1.6', lv: 2, ph: '📝 Erklären', art: 'text', k: 's1.erkl',
+      frage: 'Mia sagt: „An einer Wertetabelle sehe ich sofort, ob die Funktion linear ist.“ Erkläre, woran man das erkennt.',
+      platz: 'Man erkennt es daran, dass …', wort: 'x wird um 1 größer · y ändert sich immer gleich · gleichmäßig · die Gerade',
+      hilfen: [['Hilfe 1', 'Schau in deine Tabelle aus 1.2: Was passiert mit y, wenn x um 1 größer wird?']] },
+    { b: 'a', nr: '1.7', lv: 3, ph: '🔎 Rückwärts', art: 'rechnung',
+      frage: 'Lena hat beim Verleih <b>21 €</b> bezahlt. Wie lange war sie unterwegs?',
+      weg: { k: 's1.lena.w', platz: '21 = 2x + 3   | − 3\n…', label: 'Gleichung und Rechnung' },
+      felder: [{ k: 's1.lena', gr: 'x (in Stunden)', soll: 9, ohne: true, tipp: 'Löse 21 = 2x + 3: zuerst − 3 rechnen, dann : 2.' }],
+      hilfen: [['Hilfe', 'Setze y = 21 in die Gleichung ein: 21 = 2x + 3. Löse dann nach x auf.']] },
+    { b: 'a', nr: '1.8', lv: 'S', ph: '★ Extra', titel: 'Ein anderer Verleih', art: 'rechnung',
+      frage: 'Ein anderer Verleih verlangt 5 € Grundgebühr und 1,50 € pro Stunde. Stelle die Funktionsgleichung auf. Wie viel kostet eine Tour von 4 Stunden?',
+      weg: { k: 's1.ex.w', platz: 'y = …', label: 'Funktionsgleichung und Rechnung' },
+      felder: [{ k: 's1.ex', gr: 'Kosten (in €)', soll: 11, ohne: true, tipp: 'y = 1,5x + 5. Setze x = 4 ein.' }] }
+  ] },
+
+/* ---------------------------------------------------------------- 2 */
+{ id: 'st2', nr: 2, ab: 1, titel: 'Steigung und y-Achsenabschnitt', zeit: 30, ico: '📈',
+  problem: '<p>Jede Gerade hat eine Gleichung <b>y = <span style="color:' + FM + '">m</span>x + <span style="color:' + FB + '">b</span></b>.</p><p>Aber was bedeuten <b style="color:' + FM + '">m</b> und <b style="color:' + FB + '">b</b>? Was passiert mit der Geraden, wenn du sie veränderst?</p><p><b>Werde Geraden-Fängerin oder Geraden-Fänger!</b> 🎯</p>',
+  bloecke: [
+    { b: 'a', nr: '2.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle jeweils eine Antwort.',
+      items: [{ k: 's2.v1', t: 'Wenn m größer wird, dann wird die Gerade …', opt: ['steiler.', 'flacher.', 'nach oben verschoben.'] },
+              { k: 's2.v2', t: 'Wenn b größer wird, dann wird die Gerade …', opt: ['steiler.', 'nach oben verschoben.', 'nach unten verschoben.'] }] },
+    { b: 'info', html: '<b>So geht es:</b> ① Schau dir die <b style="color:#E4572E">orange gestrichelte</b> Gerade an. ② Stelle <b style="color:' + FM + '">m</b> und <b style="color:' + FB + '">b</b> mit den Reglern ein. ③ Klicke auf <b>Prüfen</b>. ④ Gefangen? Dann <b>Speichern</b> und auf <b>Nächste Gerade</b> klicken.' },
+    { b: 'sim', sim: 'A' },
+    { b: 'a', nr: '2.2', lv: 1, ph: '🎯 Labor', art: 'messung', tab: 'mA', min: 4,
+      frage: 'Fange <b>mindestens 4</b> Geraden und speichere jede.<br>Tipp: Stelle zuerst <b style="color:' + FB + '">b</b> ein (Wo schneidet die Gerade die y-Achse?). Dann <b style="color:' + FM + '">m</b> (Steigungsdreieck: 1 nach rechts, m nach oben oder unten).' },
+    { b: 'a', nr: '2.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's2.m',
+      frage: 'Vervollständige den Merksatz. Klicke dann auf „Prüfen“.',
+      text: 'In y = mx + b heißt m die [[*Steigung|Verschiebung]]. Ist m positiv, [[*steigt|fällt]] die Gerade. Ist m negativ, [[steigt|*fällt]] die Gerade. Ist m = 0, verläuft die Gerade [[senkrecht|*waagerecht]]. b heißt [[*y-Achsenabschnitt|Steigung]]. Die Gerade schneidet die [[x-Achse|*y-Achse]] im Punkt P(0 | b).' },
+    { b: 'a', nr: '2.4', lv: 1, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's2z', opt: ['y = 2x + 1', 'y = −x + 3', 'y = 0,5x − 2', 'y = −2x − 1'],
+      tipp: 'schau zuerst, wo die Gerade die y-Achse schneidet (b). Steigt oder fällt sie (m)?',
+      frage: 'Welche Gleichung gehört zu welchem Graphen? Ordne zu. Klicke dann auf „Prüfen“.',
+      items: [{ k: 's2z.1', t: miniGraph(-1, 3), alt: 'Graph 1', soll: 'y = −x + 3' }, { k: 's2z.2', t: miniGraph(0.5, -2), alt: 'Graph 2', soll: 'y = 0,5x − 2' },
+              { k: 's2z.3', t: miniGraph(2, 1), alt: 'Graph 3', soll: 'y = 2x + 1' }, { k: 's2z.4', t: miniGraph(-2, -1), alt: 'Graph 4', soll: 'y = −2x − 1' }] },
+    { b: 'info', html: '<b>Steigung aus zwei Punkten:</b> m = <span style="color:#1565C0">Höhenunterschied</span> : <span style="color:' + FX + '">Breitenunterschied</span> = (y₂ − y₁) : (x₂ − x₁).<br>Beispiel: P(1|2) und Q(3|8): m = (8 − 2) : (3 − 1) = 6 : 2 = 3.' },
+    { b: 'a', nr: '2.5', lv: 1, ph: '🧮 Rechnen', art: 'rechnung',
+      frage: 'Eine Gerade geht durch die Punkte <b>P(1|3)</b> und <b>Q(3|7)</b>. Bestimme die Steigung m.',
+      weg: { k: 's2.mw.w', platz: 'm = (7 − 3) : (3 − 1) = …', label: 'Rechnung' },
+      felder: [{ k: 's2.mw', gr: 'm', soll: 2, ohne: true, tipp: 'Höhenunterschied 7 − 3 = 4, Breitenunterschied 3 − 1 = 2. Teile 4 : 2.' }] },
+    { b: 'a', nr: '2.6', lv: 2, ph: '🧮 Rechnen', art: 'rechnung',
+      frage: 'Dieselbe Gerade (durch P(1|3) mit m = 2): Bestimme auch b. Setze dazu P in y = 2x + b ein.',
+      weg: { k: 's2.b.w', platz: '3 = 2 · 1 + b   | …', label: 'Rechnung' },
+      felder: [{ k: 's2.b', gr: 'b', soll: 1, ohne: true, tipp: '3 = 2 · 1 + b, also 3 = 2 + b. Rechne − 2.' }],
+      hilfen: [['Hilfe', 'Der Punkt P(1|3) bedeutet: x = 1 und y = 3. Setze beides in y = 2x + b ein.']] },
+    { b: 'a', nr: '2.7', lv: 2, ph: '📝 Erklären', art: 'text', k: 's2.erkl',
+      frage: 'Erkläre deiner Nachbarin oder deinem Nachbarn, wie man das Steigungsdreieck zeichnet, wenn <b>m = −2</b> ist.',
+      platz: 'Ich starte auf der Geraden. Dann gehe ich …', wort: '1 nach rechts · 2 nach unten · die Steigung · fällt · das Steigungsdreieck',
+      hilfen: [['Hilfe 1', 'Probiere im Simulator oben m = −2 aus und schalte das Steigungsdreieck ein.']] },
+    { b: 'a', nr: '2.8', lv: 3, ph: '🔎 Knobeln', art: 'rechnung',
+      frage: 'Eine Gerade geht durch <b>A(−2|5)</b> und <b>B(2|−3)</b>. Bestimme m und b.',
+      weg: { k: 's2.p.w', platz: 'm = (−3 − 5) : (2 − (−2)) = …', label: 'Rechnung' },
+      felder: [{ k: 's2.pm', gr: 'm', soll: -2, ohne: true, tipp: 'Höhenunterschied −3 − 5 = −8, Breitenunterschied 2 − (−2) = 4.' },
+               { k: 's2.pb', gr: 'b', soll: 1, ohne: true, tipp: 'Setze B(2|−3) in y = −2x + b ein: −3 = −4 + b.' }] },
+    { b: 'a', nr: '2.9', lv: 'S', ph: '★ Extra', titel: 'Gleiche Steigung', art: 'text', k: 's2.ex',
+      frage: 'Stelle im Simulator nacheinander y = 2x − 3 und y = 2x + 1 ein. Was haben die beiden Geraden gemeinsam? Wie liegen sie zueinander?',
+      platz: 'Mir fällt auf, dass …', wort: 'parallel · gleiche Steigung · verschoben · schneiden sich nie' }
+  ] },
+
+/* ---------------------------------------------------------------- 3 */
+{ id: 'st3', nr: 3, ab: 1, titel: 'Geraden im Alltag: Tarife vergleichen', zeit: 30, ico: '🚲',
+  problem: '<p>Zwei Fahrradverleihe machen Werbung:</p><p>🟦 <b>Radstation:</b> 3 € Grundgebühr + 2 € pro Stunde<br>🟧 <b>Rheinrad:</b> keine Grundgebühr, 3 € pro Stunde</p><p><b>Welcher Verleih ist günstiger?</b> 🤔</p>',
+  bloecke: [
+    { b: 'a', nr: '3.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Wähle eine Antwort.',
+      items: [{ k: 's3.verm', t: 'Günstiger ist …', opt: ['immer die Radstation.', 'immer Rheinrad.', 'mal der eine, mal der andere – es kommt auf die Zeit an.'] }] },
+    { b: 'a', nr: '3.2', lv: 1, ph: '🧮 Aufstellen', art: 'rechnung',
+      frage: 'Die Radstation hat die Gleichung y = 2x + 3. Stelle die Gleichung für <b>Rheinrad</b> auf: y = mx + b. Wie groß sind m und b?',
+      felder: [{ k: 's3.m', gr: 'm', soll: 3, ohne: true, tipp: 'm ist der Preis pro Stunde.' },
+               { k: 's3.b', gr: 'b', soll: 0, ohne: true, tipp: 'b ist die Grundgebühr. Rheinrad hat keine.' }] },
+    { b: 'sim', sim: 'C' },
+    { b: 'a', nr: '3.3', lv: 1, ph: '📊 Ablesen', art: 'rechnung',
+      frage: 'Stelle im Simulator die Zeit ein oder rechne. Wie viel kostet es?',
+      felder: [{ k: 's3.a2', gr: 'Radstation, 2 Stunden (in €)', soll: 7, ohne: true, tipp: '2 · 2 + 3' },
+               { k: 's3.r2', gr: 'Rheinrad, 2 Stunden (in €)', soll: 6, ohne: true, tipp: '3 · 2' },
+               { k: 's3.a5', gr: 'Radstation, 5 Stunden (in €)', soll: 13, ohne: true, tipp: '2 · 5 + 3' },
+               { k: 's3.r5', gr: 'Rheinrad, 5 Stunden (in €)', soll: 15, ohne: true, tipp: '3 · 5' }] },
+    { b: 'a', nr: '3.4', lv: 2, ph: '✂️ Schnittpunkt', art: 'rechnung',
+      frage: 'Nach wie vielen Stunden kosten beide Verleihe <b>gleich viel</b>? Wie viel kostet es dann?',
+      felder: [{ k: 's3.st', gr: 'Zeit (in Stunden)', soll: 3, ohne: true, tipp: 'Suche im Simulator die Stelle, an der sich die beiden Geraden schneiden.' },
+               { k: 's3.sk', gr: 'Kosten (in €)', soll: 9, ohne: true, tipp: 'Setze die Zeit in eine der beiden Gleichungen ein.' }] },
+    { b: 'a', nr: '3.5', lv: 2, ph: '📝 Empfehlen', art: 'text', k: 's3.empf',
+      frage: '<b>Tom</b> will 5 Stunden fahren, <b>Aylin</b> nur 1 Stunde. Schreibe beiden eine Empfehlung mit Begründung.',
+      platz: 'Tom sollte … nehmen, weil … Aylin sollte …', wort: 'günstiger · teurer · der Schnittpunkt · nach 3 Stunden · die Grundgebühr',
+      hilfen: [['Hilfe 1', 'Vor dem Schnittpunkt (weniger als 3 Stunden) liegt eine Gerade unten – dieser Verleih ist günstiger. Danach ist es umgekehrt.']] },
+    { b: 'a', nr: '3.6', lv: 3, ph: '🔍 Punktprobe', art: 'mcs',
+      frage: 'Liegt der Punkt <b>P(6|15)</b> auf der Geraden der Radstation y = 2x + 3?',
+      items: [{ k: 's3.pp', t: 'Der Punkt P(6|15) …', opt: ['liegt auf der Geraden.', 'liegt nicht auf der Geraden.'] }],
+      begr: { k: 's3.ppb', frage: 'Zeige es mit einer Rechnung (Punktprobe):', platz: 'y = 2 · 6 + 3 = … Also …', wort: 'liegt auf · liegt nicht auf · ist gleich · ist ungleich' },
+      hilfen: [['Hilfe', 'Punktprobe: ① x-Wert einsetzen ② y ausrechnen ③ mit dem y-Wert des Punktes vergleichen.']] },
+    { b: 'a', nr: '3.7', lv: 'S', ph: '★ Extra', titel: 'Ein dritter Verleih', art: 'text', k: 's3.ex',
+      frage: 'Erfinde einen dritten Verleih, der für <b>3 Stunden genauso viel</b> kostet wie die beiden anderen. Gib seine Funktionsgleichung an und prüfe sie.',
+      platz: 'Mein Verleih: y = … Probe: …' }
+  ] },
+
+/* ---------------------------------------------------------------- Fazit */
+{ id: 'fazit1', nr: 4, ab: 0, titel: 'Fazit: Das kann ich schon', zeit: 10, ico: '🏁',
+  problem: '<p>Geschafft! 🎉 Zum Schluss schaust du zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
+  bloecke: [
+    { b: 'a', nr: '4.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz1.ich', frage: 'Kreuze ehrlich an. Das hilft dir und deiner Lehrkraft.' },
+    { b: 'a', nr: '4.2', lv: 1, ph: '💡 Mein Merksatz', art: 'text', k: 'fz1.merk',
+      frage: 'Schreibe in eigenen Worten: Was bedeuten m und b in y = mx + b?',
+      platz: 'm ist … Man sieht es am Graphen daran, dass … b ist …', wort: 'die Steigung · der y-Achsenabschnitt · steiler · steigt · fällt · schneidet die y-Achse' },
+    { b: 'a', nr: '4.3', lv: 1, ph: '❓ Rückmeldung', art: 'text', k: 'fz1.frage',
+      frage: 'Was war heute schwer? Was möchtest du noch einmal üben?',
+      platz: 'Schwer war für mich … Ich möchte noch üben …' }
+  ] }
+];
+
+var ICH = ['Ich kann zu einer linearen Funktion eine Wertetabelle anlegen.', 'Ich kann aus einer Wertetabelle den Graphen zeichnen.',
+  'Ich kann in y = mx + b die Steigung m und den y-Achsenabschnitt b ablesen.', 'Ich kann mit einem Steigungsdreieck die Steigung bestimmen.',
+  'Ich kann die Steigung aus zwei Punkten berechnen.', 'Ich kann mit einer Punktprobe prüfen, ob ein Punkt auf einer Geraden liegt.',
+  'Ich kann zwei Tarife mit Geraden vergleichen.'];
+var STUFEN = ['sicher', 'fast sicher', 'noch nicht'];
+
+/* ---------- Messtabellen ---------- */
+var MESSTAB = {
+  mA: { kopf: ['Nr.', 'Gesuchte Gerade', 'mein m', 'mein b', 'Versuche'], br: [0.5, 2, 1, 1, 1],
+    zeilen: function () { return S.mA.map(function (r, i) { return [i + 1, r.ziel, zk(r.m), zk(r.b), r.v]; }); } },
+  mB: { kopf: ['Nr.', 'Funktion', 'richtige y-Werte', 'Versuche'], br: [0.5, 2, 1.4, 1],
+    zeilen: function () { return S.mB.map(function (r, i) { return [i + 1, r.f, r.r + ' von 5', r.v]; }); } }
+};
+
+/* ---------- Wörterbuch (Übersetzungen: nicht von Muttersprachlern geprüft) ---------- */
+var GLOSSAR = [
+  { w: 'Funktion', art: 'die', pl: 'die Funktionen', ico: '🔁', formen: ['Funktion', 'Funktionen'], erkl: 'eine Zuordnung: Zu jedem x gehört genau ein y.', en: 'function', tr: 'fonksiyon', ar: 'دالة', uk: 'функція', ru: 'функция' },
+  { w: 'lineare Funktion', art: 'die', ico: '📏', formen: ['lineare Funktion', 'linear', 'lineare'], erkl: 'eine Funktion mit der Gleichung y = mx + b. Ihr Graph ist eine Gerade.', en: 'linear function', tr: 'doğrusal fonksiyon', ar: 'دالة خطية', uk: 'лінійна функція', ru: 'линейная функция' },
+  { w: 'Funktionsgleichung', art: 'die', ico: '✏️', formen: ['Funktionsgleichung', 'Gleichung'], erkl: 'die Rechenvorschrift einer Funktion, zum Beispiel y = 2x + 3.', en: 'equation of the function', tr: 'fonksiyon denklemi', ar: 'معادلة الدالة', uk: 'рівняння функції', ru: 'уравнение функции' },
+  { w: 'Wertetabelle', art: 'die', ico: '📋', formen: ['Wertetabelle', 'Wertetabellen'], erkl: 'eine Tabelle: oben die x-Werte, unten die passenden y-Werte.', en: 'table of values', tr: 'değer tablosu', ar: 'جدول القيم', uk: 'таблиця значень', ru: 'таблица значений' },
+  { w: 'Graph', art: 'der', pl: 'die Graphen', ico: '📈', formen: ['Graph', 'Graphen'], erkl: 'das Bild einer Funktion im Koordinatensystem.', en: 'graph', tr: 'grafik', ar: 'التمثيل البياني', uk: 'графік', ru: 'график' },
+  { w: 'Gerade', art: 'die', pl: 'die Geraden', ico: '➖', formen: ['Gerade', 'Geraden'], erkl: 'eine gerade Linie ohne Anfang und Ende. Der Graph einer linearen Funktion.', en: 'straight line', tr: 'doğru', ar: 'خط مستقيم', uk: 'пряма', ru: 'прямая' },
+  { w: 'Steigung', art: 'die', ico: '⛰️', formen: ['Steigung'], erkl: 'm in y = mx + b. Sie sagt, wie steil die Gerade ist: Geht man 1 nach rechts, geht es m nach oben (oder unten).', en: 'slope', tr: 'eğim', ar: 'الميل', uk: 'кутовий коефіцієнт (нахил)', ru: 'угловой коэффициент (наклон)' },
+  { w: 'y-Achsenabschnitt', art: 'der', ico: '📍', formen: ['y-Achsenabschnitt'], erkl: 'b in y = mx + b. Dort schneidet die Gerade die y-Achse: im Punkt P(0|b).', en: 'y-intercept', tr: 'y eksenini kestiği nokta', ar: 'المقطع الصادي', uk: 'точка перетину з віссю y', ru: 'точка пересечения с осью y' },
+  { w: 'Steigungsdreieck', art: 'das', ico: '📐', formen: ['Steigungsdreieck'], erkl: 'ein Dreieck an der Geraden: 1 nach rechts, m nach oben (oder unten).', en: 'slope triangle', tr: 'eğim üçgeni', ar: 'مثلث الميل', uk: 'трикутник нахилу', ru: 'треугольник наклона' },
+  { w: 'Koordinatensystem', art: 'das', ico: '➕', formen: ['Koordinatensystem'], erkl: 'zwei Zahlengeraden: die x-Achse (waagerecht) und die y-Achse (senkrecht).', en: 'coordinate system', tr: 'koordinat sistemi', ar: 'نظام الإحداثيات', uk: 'система координат', ru: 'система координат' },
+  { w: 'y-Achse', art: 'die', ico: '⬆️', formen: ['y-Achse'], erkl: 'die senkrechte Achse im Koordinatensystem.', en: 'y-axis', tr: 'y ekseni', ar: 'المحور الصادي', uk: 'вісь y', ru: 'ось y' },
+  { w: 'Punktprobe', art: 'die', ico: '🔍', formen: ['Punktprobe'], erkl: 'Man prüft, ob ein Punkt auf dem Graphen liegt: x einsetzen, y ausrechnen, vergleichen.', en: 'point test (does the point lie on the graph?)', tr: 'nokta kontrolü', ar: 'التحقق من النقطة', uk: 'перевірка точки', ru: 'проверка точки' },
+  { w: 'einsetzen', ico: '➡️', formen: ['einsetzen', 'Setze', 'setze'], erkl: 'eine Zahl für x in die Gleichung schreiben und ausrechnen.', en: 'to substitute', tr: 'yerine koymak', ar: 'يعوّض', uk: 'підставити', ru: 'подставить' },
+  { w: 'Schnittpunkt', art: 'der', pl: 'die Schnittpunkte', ico: '✂️', formen: ['Schnittpunkt', 'schneiden', 'schneidet'], erkl: 'der Punkt, an dem sich zwei Linien treffen.', en: 'intersection point', tr: 'kesişim noktası', ar: 'نقطة التقاطع', uk: 'точка перетину', ru: 'точка пересечения' },
+  { w: 'Grundgebühr', art: 'die', ico: '💶', formen: ['Grundgebühr'], erkl: 'ein fester Betrag, den man immer zahlt – auch bei 0 Stunden.', en: 'basic fee', tr: 'temel ücret', ar: 'الرسوم الأساسية', uk: 'базова плата', ru: 'базовая плата' },
+  { w: 'waagerecht', ico: '↔️', formen: ['waagerecht'], erkl: 'flach wie der Horizont, von links nach rechts.', en: 'horizontal', tr: 'yatay', ar: 'أفقي', uk: 'горизонтально', ru: 'горизонтально' },
+  { w: 'Parabel', art: 'die', ico: '🌈', formen: ['Parabel'], erkl: 'der Graph einer quadratischen Funktion, zum Beispiel y = x². Sie sieht aus wie ein U.', en: 'parabola', tr: 'parabol', ar: 'قطع مكافئ', uk: 'парабола', ru: 'парабола' }
+];
+
+/* =====================================================================
+   APP: Zustand, Darstellung der Aufgaben, Prüfen, Navigation
+   ===================================================================== */
+"use strict";
+var KEY = 'mathe10g-labor-funktionen-v1', MAXALTER = 3 * 3600 * 1000;
+var TABN = ['mA', 'mB'];
+var NNBSP = String.fromCharCode(0x202f);
+function neuerZustand() { var s = { v: 2, t: Date.now(), d: { klasse: '10 G' }, seite: 0, exportiert: false }; TABN.forEach(function (n) { s[n] = []; }); return s; }
+function ergaenze(s) { if (!s.d || typeof s.d !== 'object') s.d = {}; TABN.forEach(function (n) { if (!Array.isArray(s[n])) s[n] = []; }); return s; }
+function laden() {
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.d && Date.now() - s.t < MAXALTER) return ergaenze(s);
+    localStorage.removeItem(KEY);
+  } catch (e) {}
+  return null;
+}
+var S = laden() || neuerZustand(), warAlt = !!(S.d.vorname || S.d.nachname);
+var speicherTimer = null;
+function speichern() {
+  S.t = Date.now();
+  clearTimeout(speicherTimer);
+  speicherTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  aktualisiereStatus();
+}
+function $(id) { return document.getElementById(id); }
+function fmt(x, st) { if (x === '' || x == null || isNaN(x)) return '–'; return Number(x).toLocaleString('de-DE', { maximumFractionDigits: st == null ? 2 : st }).replace(/\./g, NNBSP); }
+function zahl(s) { if (s == null) return NaN; s = String(s).trim().replace(/[\u2212\u2013]/g, '-').replace(/\s/g, '').split(NNBSP).join('').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.'); return s === '' ? NaN : Number(s); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+var _dek = document.createElement('textarea');
+function plain(html) {
+  var s = String(html || '').replace(/<sub>(.*?)<\/sub>/g, '_$1').replace(/<br\s*\/?>/g, '\n').replace(/<div class="fremd">/g, '\n').replace(/<\/div>/g, '\n').replace(/<[^>]+>/g, '');
+  _dek.innerHTML = s; return _dek.value.replace(/[ \t]+/g, ' ').replace(/\n\s*/g, '\n').trim();
+}
+function wert(k) { var v = S.d[k]; return v != null && String(v).trim() ? String(v).trim() : ''; }
+
+/* ---------- Aufgabenliste ---------- */
+var AUFG = [], PRUEF = {};
+STATIONEN.forEach(function (st) {
+  st.bloecke.forEach(function (b) {
+    if (b.b !== 'a') return;
+    b.st = st; b.id = 'a' + b.nr.replace('.', '-'); AUFG.push(b);
+    (b.felder || []).forEach(function (f) { PRUEF[f.k] = f; });
+  });
+});
+var LV = { 1: '● Basis', 2: '●● Plus', 3: '●●● Profi', S: '★ Extra' };
+function zaehlt(a) { return a.lv !== 'S'; }               // Sprinter sind freiwillig
+function basis(a) { return a.lv === 1 || a.lv === 2; }     // Basisaufgaben (Warnung, wenn offen)
+
+/* ---------- Einheiten und Prüfen ---------- */
+var EINH = { J: 1, kJ: 1e3, MJ: 1e6, W: 1, kW: 1e3, N: 1, kN: 1e3, m: 1, cm: 0.01, km: 1000, s: 1, min: 60, kg: 1 };
+var GRUPPE = { J: 'J', kJ: 'J', MJ: 'J', W: 'W', kW: 'W', N: 'N', kN: 'N', m: 'm', cm: 'm', km: 'm', s: 's', min: 's', kg: 'kg' };
+var EINHTEXT = { J: 'Arbeit und Energie misst man in Joule (J, kJ, MJ).', W: 'Leistung misst man in Watt (W, kW).', N: 'Kraft misst man in Newton (N).', m: 'Wege und Höhen misst man in Metern.', s: 'Zeiten misst man in Sekunden oder Minuten.' };
+function bewerte(k) {
+  var p = PRUEF[k], v = zahl(S.d[k]);
+  if (isNaN(v)) return { ok: false, msg: 'Trage zuerst eine Zahl ein.' };
+  if (p.ohne) return Math.abs(v - p.soll) <= 1e-6 ? { ok: true, msg: 'Richtig! ✓' } : { ok: false, msg: 'Noch nicht richtig. Tipp: ' + p.tipp };
+  var e = p.fest || S.d[k + 'E'] || '';
+  if (!e) return { ok: false, msg: 'Wähle noch die passende Einheit.' };
+  if (GRUPPE[e] !== p.basis) return { ok: false, msg: 'Die Einheit passt nicht zu dieser Größe. ' + (EINHTEXT[p.basis] || '') };
+  var w = v * EINH[e];
+  if (Math.abs(w - p.soll) <= Math.max(0.01 * Math.abs(p.soll), 0.05)) return { ok: true, msg: 'Richtig! ✓' };
+  return { ok: false, msg: 'Noch nicht richtig. Tipp: ' + p.tipp };
+}
+function zeigePruefung(k, still) {
+  var r = bewerte(k), box = document.querySelector('[data-rueck="' + k + '"]');
+  if (!still) S.d[k + '.ok'] = r.ok ? 'richtig' : 'falsch';
+  if (box) { box.className = 'rueck ' + (r.ok ? 'ok' : 'no'); box.textContent = r.msg; }
+  if (!still) speichern();
+}
+function mitEinheit(f) {
+  var v = wert(f.k); if (!v) return '';
+  var e = f.fest || S.d[f.k + 'E'] || '', ok = S.d[f.k + '.ok'];
+  return plain(f.gr) + ' = ' + v + (f.ohne ? '' : e ? ' ' + e : ' (ohne Einheit)') + (ok === 'richtig' ? '   (mit „Prüfen“ als richtig bestätigt)' : ok === 'falsch' ? '   (Prüfen: noch nicht richtig)' : '');
+}
+
+/* ---------- Darstellung der Aufgaben ---------- */
+function hilfenHtml(h) { return (h || []).map(function (x) { return '<details class="hilfe"><summary>💡 ' + x[0] + '</summary><div>' + x[1] + '</div></details>'; }).join(''); }
+function feldHtml(f) {
+  var h = '<div class="zeile"><span class="gr">' + f.gr + ' =</span><input class="zahl" type="text" inputmode="decimal" data-k="' + f.k + '" aria-label="Ergebnis ' + esc(plain(f.gr)) + '">';
+  if (f.fest) h += '<span class="einheit">' + f.fest + '</span>';
+  else if (!f.ohne) h += '<select data-k="' + f.k + 'E" aria-label="Einheit"><option value="">Einheit</option>' + f.einh.map(function (e) { return '<option>' + e + '</option>'; }).join('') + '</select>';
+  return h + '<button class="knopf grau klein" data-pruefe="' + f.k + '">Prüfen</button></div><div class="rueck" data-rueck="' + f.k + '" aria-live="polite"></div>';
+}
+function textHtml(k, platz, hoch, label) {
+  return (label ? '<label class="feld" for="t-' + k + '">' + label + '</label>' : '') +
+    '<textarea id="t-' + k + '" data-k="' + k + '" rows="' + (hoch || 4) + '" placeholder="' + esc(platz || '') + '" aria-label="' + esc(label || 'Antwort') + '"></textarea>';
+}
+function aufgabeHtml(a) {
+  var h = '<div class="akopf"><span class="anr">' + a.nr + '</span><span class="phase">' + a.ph + '</span><span class="lv lv' + a.lv + '">' + LV[a.lv] + '</span><span class="astatus" id="st-' + a.id + '"></span><button class="lies" data-lies="1" title="Aufgabe vorlesen" aria-label="Aufgabe vorlesen">🔊</button></div>';
+  if (a.frage && a.art !== 'messung') h += '<div class="afrage">' + a.frage + '</div>';
+  switch (a.art) {
+    case 'text':
+      h += textHtml(a.k, a.platz, a.hoch, null) + schreibhilfe(a.k, a.platz, a.wort);
+      break;
+    case 'mcs':
+      a.items.forEach(function (it) {
+        h += '<div class="zeile mczeile"><span>' + it.t + '</span><select data-k="' + it.k + '" aria-label="' + esc(plain(it.t)) + '"><option value="">bitte wählen</option>' + it.opt.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select></div>';
+      });
+      if (a.begr) h += textHtml(a.begr.k, a.begr.platz, 3, a.begr.frage) + schreibhilfe(a.begr.k, a.begr.platz, a.begr.wort);
+      break;
+    case 'rechnung':
+      if (a.weg) h += textHtml(a.weg.k, a.weg.platz, 2, a.weg.label || 'Rechnung (mit Einheiten)');
+      a.felder.forEach(function (f) { h += feldHtml(f); });
+      if (a.satz) h += textHtml(a.satz.k, a.satz.platz, 2, a.satz.label || 'Antwortsatz');
+      break;
+    case 'urteile':
+      h += '<div class="situationen">' + a.items.map(function (s, i) {
+        var n = i + 1, k = a.k + '.' + n;
+        return '<div class="sit" id="u-' + a.k + '-' + n + '"><div class="ico" aria-hidden="true">' + s.ico + '</div><p><b>' + n + '.</b> ' + s.t + '</p>' +
+          '<div class="wahl" role="radiogroup" aria-label="Aussage ' + n + '"><label><input type="radio" name="r-' + k + '" value="ja" data-k="' + k + '">' + a.labels[0] + '</label>' +
+          '<label><input type="radio" name="r-' + k + '" value="nein" data-k="' + k + '">' + a.labels[1] + '</label></div><div class="erkl"><b class="urteil"></b> ' + s.e + '</div></div>';
+      }).join('') + '</div><div class="knoepfe"><button class="knopf" data-urteil="' + a.k + '">Auswerten</button><span class="satzhilfe" id="ui-' + a.k + '" aria-live="polite"></span></div>';
+      break;
+    case 'zuordnung':
+      h += a.items.map(function (it) {
+        return '<div class="zeile mczeile"><span>' + it.t + '</span><select data-k="' + it.k + '" aria-label="' + esc(it.alt || plain(it.t)) + '"><option value="">wählen</option>' + a.opt.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select><span class="zumark" id="zm-' + it.k + '"></span></div>';
+      }).join('') + '<div class="knoepfe"><button class="knopf grau klein" data-zuord="' + a.k + '">Prüfen</button><span class="satzhilfe" id="zi-' + a.k + '" aria-live="polite"></span></div>';
+      break;
+    case 'luecke':
+      h += lueckeHtml(a);
+      break;
+    case 'messung':
+      h += '<div class="auftrag">' + a.frage + '</div><div class="tabplatz" data-tab="' + a.tab + '"></div><p class="satzhilfe">mindestens ' + a.min + ' Messungen</p>';
+      break;
+    case 'ichkann':
+      h += ICH.map(function (t, i) {
+        return '<div class="ichzeile"><div>' + t + '</div><div class="auswahl" role="radiogroup" aria-label="' + esc(t) + '">' + STUFEN.map(function (s, j) {
+          return '<label><input type="radio" name="ich' + i + '" value="' + s + '" data-k="' + a.k + i + '">' + ['😀', '🙂', '🤔'][j] + ' ' + s + '</label>';
+        }).join('') + '</div></div>';
+      }).join('');
+      break;
+  }
+  h += hilfenHtml(a.hilfen);
+  if (a.lv === 'S') return '<details class="zusatz aufgabe" id="' + a.id + '"><summary>★ Sprinter ' + a.nr + ': ' + (a.titel || '') + ' <span class="astatus" id="sts-' + a.id + '"></span></summary>' + h + '</details>';
+  return '<div class="aufgabe lvrand' + a.lv + '" id="' + a.id + '">' + h + '</div>';
+}
+function stationHtml(st, idx) {
+  var ab = ABSCHNITTE.filter(function (x) { return x.nr === st.ab; })[0];
+  var h = '<section class="seite" id="' + st.id + '" data-titel="' + st.nr + '">';
+  h += '<div class="stationskopf"><div class="nr">' + st.nr + '</div><div><div class="abschnittmarke">' + (ab ? 'Lernabschnitt ' + ab.nr + ' · ' + ab.titel : 'Abschluss') + '</div><h1>' + st.titel + '</h1><div class="zeit">ca. ' + st.zeit + ' Minuten · ' + st.bloecke.filter(function (b) { return b.b === 'a' && b.lv !== 'S'; }).length + ' Aufgaben + Extra</div></div></div>';
+  h += '<div class="problem"><div class="problemico" aria-hidden="true">' + st.ico + '</div><div><div class="problemmarke">' + (st.ab === 0 ? 'ZUM ABSCHLUSS' : 'DIE FRAGE') + ' <button class="lies" data-lies="1" title="Vorlesen" aria-label="Text vorlesen">🔊</button></div><div class="ptext">' + st.problem + '</div></div></div>';
+  st.bloecke.forEach(function (b) {
+    if (b.b === 'a') h += aufgabeHtml(b);
+    else if (b.b === 'info') h += '<div class="info">' + b.html + '</div>';
+    else if (b.b === 'modell') h += '<div class="modell">🧩 ' + b.html + '</div>';
+    else if (b.b === 'sim') h += '<div class="simplatz" data-simplatz="' + b.sim + '"></div>';
+  });
+  var vor = idx > 0 ? '<button class="knopf grau" data-geh="' + idx + '">◂ ' + (idx === 1 ? 'Start' : 'Station ' + STATIONEN[idx - 2].nr) + '</button>' : '<span></span>';
+  var nach = idx < STATIONEN.length ? '<button class="knopf" data-geh="' + (idx + 2) + '">Weiter zu Station ' + STATIONEN[idx].nr + ' ▸</button>' : '<button class="knopf or" data-geh="' + (idx + 2) + '">Zur Abgabe ▸</button>';
+  var zw = '<button class="knopf dunkel" data-zwischen="1">📄 Zwischenstand als PDF</button>';
+  return h + '<div class="weiter">' + vor + zw + nach + '</div></section>';
+}
+
+/* ---------- Fertig? ---------- */
+function istFertig(a) {
+  switch (a.art) {
+    case 'text': return !!wert(a.k);
+    case 'mcs': return a.items.every(function (it) { return wert(it.k); }) && (!a.begr || !!wert(a.begr.k));
+    case 'rechnung': return a.felder.every(function (f) { return wert(f.k) && (f.fest || f.ohne || wert(f.k + 'E')); }) && (!a.weg || !!wert(a.weg.k)) && (!a.satz || !!wert(a.satz.k));
+    case 'urteile': return a.items.every(function (s, i) { return wert(a.k + '.' + (i + 1)); });
+    case 'zuordnung': return a.items.every(function (it) { return wert(it.k); });
+    case 'messung': return S[a.tab].length >= a.min;
+    case 'luecke': return LUECKEN[a.k].every(function (g, i) { return wert(a.k + '.' + i); });
+    case 'ichkann': return ICH.every(function (t, i) { return wert(a.k + i); });
+  }
+  return false;
+}
+function begonnen(a) {
+  if (istFertig(a)) return true;
+  switch (a.art) {
+    case 'text': return false;
+    case 'mcs': return a.items.some(function (it) { return wert(it.k); }) || (a.begr && !!wert(a.begr.k));
+    case 'rechnung': return a.felder.some(function (f) { return wert(f.k); }) || (a.weg && !!wert(a.weg.k)) || (a.satz && !!wert(a.satz.k));
+    case 'urteile': return a.items.some(function (s, i) { return wert(a.k + '.' + (i + 1)); });
+    case 'zuordnung': return a.items.some(function (it) { return wert(it.k); });
+    case 'messung': return S[a.tab].length > 0;
+    case 'luecke': return LUECKEN[a.k].some(function (g, i) { return wert(a.k + '.' + i); });
+    case 'ichkann': return ICH.some(function (t, i) { return wert(a.k + i); });
+  }
+  return false;
+}
+function stand(filter) {
+  var liste = AUFG.filter(filter), f = liste.filter(istFertig).length;
+  return { fertig: f, gesamt: liste.length, proz: liste.length ? Math.round(100 * f / liste.length) : 0 };
+}
+
+/* ---------- Bindung aller Eingabefelder ---------- */
+function binde(wurzel) {
+  wurzel.querySelectorAll('[data-k]').forEach(function (el) {
+    var k = el.dataset.k;
+    if (el.type === 'radio') {
+      el.checked = S.d[k] === el.value;
+      el.addEventListener('change', function () { if (el.checked) { S.d[k] = el.value; speichern(); } });
+    } else {
+      if (S.d[k] != null) el.value = S.d[k];
+      var f = function () {
+        S.d[k] = el.value;
+        var b = PRUEF[k] ? k : (/E$/.test(k) && PRUEF[k.slice(0, -1)] ? k.slice(0, -1) : null);
+        if (b) { delete S.d[b + '.ok']; var box = document.querySelector('[data-rueck="' + b + '"]'); if (box) box.className = 'rueck'; }
+        speichern();
+      };
+      el.addEventListener('input', f); el.addEventListener('change', f);
+    }
+  });
+}
+function urteilAuswerten(k, still) {
+  var a = AUFG.filter(function (x) { return x.art === 'urteile' && x.k === k; })[0];
+  var fehlt = a.items.filter(function (s, i) { return !S.d[k + '.' + (i + 1)]; }).length;
+  if (fehlt) { if (!still) $('ui-' + k).textContent = 'Entscheide zuerst alle Aussagen (es fehlen noch ' + fehlt + ').'; return; }
+  var r = 0;
+  a.items.forEach(function (s, i) {
+    var n = i + 1, ok = (S.d[k + '.' + n] === 'ja') === s.ja, el = $('u-' + k + '-' + n);
+    el.classList.remove('richtig', 'falsch'); el.classList.add(ok ? 'richtig' : 'falsch');
+    el.querySelector('.urteil').textContent = (ok ? '✓ Richtig: ' : '✗ Nicht ganz: ') + (s.ja ? a.labels[0] : a.labels[1]) + '.';
+    el.querySelectorAll('input').forEach(function (x) { x.disabled = true; });
+    if (ok) r++;
+  });
+  S.d[k + '.ausgewertet'] = '1'; S.d[k + '.punkte'] = String(r);
+  $('ui-' + k).textContent = r + ' von ' + a.items.length + ' richtig. Lies die Erklärungen – besonders bei den roten Karten.';
+  document.querySelector('[data-urteil="' + k + '"]').disabled = true;
+  if (!still) speichern();
+}
+function urteilText(a) {
+  return a.items.map(function (s, i) {
+    var w = S.d[a.k + '.' + (i + 1)], t = (i + 1) + '. ' + s.t + ' -> ' + (w === 'ja' ? a.labels[0] : w === 'nein' ? a.labels[1] : '–');
+    if (S.d[a.k + '.ausgewertet'] && w) t += ((w === 'ja') === s.ja ? '  (richtig)' : '  (falsch)');
+    return t;
+  }).join('\n') + (S.d[a.k + '.ausgewertet'] ? '\nAuswertung: ' + S.d[a.k + '.punkte'] + ' von ' + a.items.length + ' richtig' : '\nnoch nicht ausgewertet');
+}
+function zuordPruefen(k, still) {
+  var a = AUFG.filter(function (x) { return x.art === 'zuordnung' && x.k === k; })[0], r = 0;
+  a.items.forEach(function (it) { var ok = S.d[it.k] === it.soll; if (ok) r++; var m = $('zm-' + it.k); if (m) { m.textContent = S.d[it.k] ? (ok ? '✓' : '✗') : ''; m.className = 'zumark ' + (ok ? 'gut' : 'schlecht'); } });
+  if (!still) { S.d[k + '.ok'] = r + ' von ' + a.items.length; speichern(); }
+  $('zi-' + k).textContent = r + ' von ' + a.items.length + ' richtig' + (r < a.items.length ? ' – ' + (a.tipp || 'schau dir die roten ✗ noch einmal an.') : '. Super! 🎉');
+}
+
+/* ---------- Teile einer Aufgabe als Text (für Vorschau und PDF) ---------- */
+function teile(a) {
+  var T = [];
+  switch (a.art) {
+    case 'text': T.push({ l: 'Antwort', v: wert(a.k) }); break;
+    case 'mcs': a.items.forEach(function (it) { T.push({ l: plain(it.t), v: wert(it.k) }); }); if (a.begr) T.push({ l: a.begr.frage, v: wert(a.begr.k) }); break;
+    case 'rechnung':
+      if (a.weg) T.push({ l: a.weg.label || 'Rechnung', v: wert(a.weg.k) });
+      a.felder.forEach(function (f) { T.push({ l: 'Ergebnis', v: mitEinheit(f) }); });
+      if (a.satz) T.push({ l: a.satz.label || 'Antwortsatz', v: wert(a.satz.k) });
+      break;
+    case 'urteile': T.push({ l: 'Entscheidungen', v: urteilText(a) }); break;
+    case 'zuordnung': T.push({ l: 'Zuordnung', v: a.items.map(function (it) { return (it.alt || plain(it.t)) + ': ' + (S.d[it.k] || '–') + (S.d[it.k] ? (S.d[it.k] === it.soll ? ' (richtig)' : ' (falsch)') : ''); }).join('\n') }); break;
+    case 'messung': T.push({ tab: a.tab }); break;
+    case 'luecke': T.push({ l: 'Lückentext', v: lueckeText(a) }); break;
+    case 'ichkann': T.push({ l: 'Selbsteinschätzung', v: ICH.map(function (t, i) { return t + ' – ' + (S.d[a.k + i] || 'nicht angekreuzt'); }).join('\n') }); break;
+  }
+  return T;
+}
+
+/* ---------- Messtabellen ---------- */
+/* Messtabellen: Spalten stehen in inhalt.js (MESSTAB) */
+var TABS = MESSTAB;
+function tabelleHtml(name, mitLoeschen) {
+  var t = TABS[name], z = t.zeilen();
+  var h = '<table class="mess"><thead><tr>' + t.kopf.map(function (k) { return '<th>' + k + '</th>'; }).join('') + (mitLoeschen ? '<th></th>' : '') + '</tr></thead><tbody>';
+  if (!z.length) h += '<tr class="leer"><td colspan="' + (t.kopf.length + 1) + '">Noch keine Messwerte – führe einen Versuch durch und speichere ihn.</td></tr>';
+  z.forEach(function (r, i) { h += '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + (mitLoeschen ? '<td><button class="weg" data-weg="' + name + ':' + i + '" aria-label="Zeile ' + (i + 1) + ' löschen">✕</button></td>' : '') + '</tr>'; });
+  return h + '</tbody></table>';
+}
+function zeigeTabellen(name) {
+  document.querySelectorAll('.tabplatz' + (name ? '[data-tab="' + name + '"]' : '')).forEach(function (p) { p.innerHTML = tabelleHtml(p.dataset.tab, true); });
+}
+function messwertDazu(name, zeile) {
+  if (S[name].length >= 15) { alert('Die Tabelle ist voll (15 Zeilen). Lösche zuerst eine Zeile.'); return false; }
+  S[name].push(zeile); zeigeTabellen(name); speichern(); return true;
+}
+
+/* ---------- Navigation und Fortschritt ---------- */
+var SEITEN_IDS = ['start'].concat(STATIONEN.map(function (s) { return s.id; })).concat(['abgabe']);
+function baueNav() {
+  var h = '<button data-geh="0" id="nav0" class="navstart">Start</button>';
+  ABSCHNITTE.forEach(function (ab) {
+    h += '<div class="abgr" title="' + ab.titel + ' (ca. ' + ab.zeit + ' min)"><div class="abkopf"><span>' + ab.nr + ' · ' + ab.kurz + '</span><span class="abproz" id="abp' + ab.nr + '"></span></div><div class="abbtns">';
+    STATIONEN.forEach(function (st, i) { if (st.ab === ab.nr) h += '<button data-geh="' + (i + 1) + '" id="nav' + (i + 1) + '" aria-label="Station ' + st.nr + ': ' + esc(st.titel) + '">' + st.nr + '</button>'; });
+    h += '</div><div class="abbar"><i id="abb' + ab.nr + '"></i></div></div>';
+  });
+  var i9 = STATIONEN.length, letzte = STATIONEN[i9 - 1];
+  h += '<div class="abgr"><div class="abkopf"><span>Abschluss</span></div><div class="abbtns"><button data-geh="' + i9 + '" id="nav' + i9 + '" aria-label="Station ' + letzte.nr + ': ' + esc(letzte.titel) + '">' + letzte.nr + '</button><button class="abgabeknopf" data-geh="' + (i9 + 1) + '" id="nav' + (i9 + 1) + '">✓ Abgabe</button></div></div>';
+  $('nav').innerHTML = h;
+}
+function aktualisiereStatus() {
+  AUFG.forEach(function (a) {
+    var f = istFertig(a), b = !f && begonnen(a), el = $('st-' + a.id), el2 = $('sts-' + a.id);
+    var t = f ? '✓ erledigt' : b ? '◐ begonnen' : '', c = 'astatus ' + (f ? 'fertig' : b ? 'halb' : '');
+    if (el) { el.textContent = t; el.className = c; }
+    if (el2) { el2.textContent = t; el2.className = c; }
+  });
+  ABSCHNITTE.forEach(function (ab) {
+    var s = stand(function (a) { return a.st.ab === ab.nr && zaehlt(a); });
+    var b = $('abb' + ab.nr), p = $('abp' + ab.nr); if (b) b.style.width = s.proz + '%'; if (p) p.textContent = s.proz + ' %';
+  });
+  STATIONEN.forEach(function (st, i) {
+    var s = stand(function (a) { return a.st === st && zaehlt(a); }), b = $('nav' + (i + 1));
+    if (b) { b.classList.toggle('fertig', s.fertig === s.gesamt); b.classList.toggle('teil', s.fertig > 0 && s.fertig < s.gesamt); }
+  });
+  var g = stand(zaehlt); $('fort').style.width = g.proz + '%'; $('fortBalken').setAttribute('aria-valuenow', g.proz);
+  var fz = $('fortZahl'); if (fz) fz.textContent = g.fertig + ' von ' + g.gesamt + ' Aufgaben';
+}
+function geh(i) {
+  i = Math.max(0, Math.min(SEITEN_IDS.length - 1, i));
+  if (i > 0 && !(S.d.vorname || '').trim() && !(S.d.nachname || '').trim()) { i = 0; alert('Bitte trage zuerst deinen Vor- und Nachnamen ein.'); $('vorname').focus(); return; }
+  SEITEN_IDS.forEach(function (id, j) {
+    var sec = $(id); if (sec) sec.classList.toggle('aktiv', j === i);
+    var b = $('nav' + j); if (b) { if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); }
+  });
+  S.seite = i; speichern();
+  // Simulationen in die aktuelle Station holen
+  var sec = $(SEITEN_IDS[i]);
+  if (sec) sec.querySelectorAll('[data-simplatz]').forEach(function (p) { var el = SIMEL[p.dataset.simplatz]; if (el && el.parentNode !== p) p.appendChild(el); SIMZEICHNE[p.dataset.simplatz](); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (SEITEN_IDS[i] === 'abgabe') baueUebersicht();
+}
+function aktuelleStation() { return SEITEN_IDS[S.seite] || ''; }
+
+/* ---------- Übersicht vor der Abgabe ---------- */
+function nameText() { return ((S.d.vorname || '').trim() + ' ' + (S.d.nachname || '').trim()).trim() || 'ohne Namen'; }
+function heute() { var d = new Date(); return { iso: d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2), de: d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) }; }
+var KOMB = new RegExp('[' + String.fromCharCode(0x300) + '-' + String.fromCharCode(0x36f) + ']', 'g');
+function sauber(s) { return (s || '').trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss').normalize('NFD').replace(KOMB, '').replace(/[^A-Za-z0-9-]+/g, '-').replace(/^-+|-+$/g, ''); }
+function dateiname(modus) { return 'Mathe_' + (sauber(S.d.klasse) || '10G') + '_' + (sauber(S.d.nachname) || 'Nachname') + '_' + (sauber(S.d.vorname) || 'Vorname') + '_' + heute().iso + (S.d.ort === 'Hausaufgabe' ? '_HA' : '') + (modus === 'zwischen' ? '_Zwischenstand' : '') + '.pdf'; }
+function fehlendeBasis() { return AUFG.filter(function (a) { return basis(a) && !istFertig(a); }); }
+function baueUebersicht() {
+  var tab = '<table class="mess standtab"><thead><tr><th>Station</th><th style="text-align:left">Thema</th><th>Abschnitt</th><th>erledigt</th><th>Messwerte</th></tr></thead><tbody>';
+  STATIONEN.forEach(function (st, i) {
+    var s = stand(function (a) { return a.st === st && zaehlt(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (x, y) { return x + y; }, 0);
+    tab += '<tr><td><a href="#" data-geh="' + (i + 1) + '">' + st.nr + '</a></td><td style="text-align:left">' + st.titel + '</td><td>' + (st.ab || '–') + '</td><td>' + s.fertig + ' / ' + s.gesamt + (s.fertig === s.gesamt ? ' ✓' : '') + '</td><td>' + (mess || '–') + '</td></tr>';
+  });
+  tab += '</tbody></table>';
+  var f = fehlendeBasis(), g = stand(zaehlt);
+  $('fehlBox').innerHTML = '<div class="karte"><h2>Dein Arbeitsstand: ' + g.fertig + ' von ' + g.gesamt + ' Aufgaben (' + g.proz + ' %)</h2>' + tab +
+    (f.length ? '<p class="satzhilfe">Noch offene Basis- und Plus-Aufgaben: ' + f.length + '. Das ist in Ordnung! Du musst nicht alles an einem Tag schaffen. Speichere deinen <b>Zwischenstand</b>.</p>' : '<p><b>Super – alle Basis- und Plus-Aufgaben sind bearbeitet! 🎉</b></p>') + '</div>';
+  var h = '<h2>Vorschau: Das steht in deinem Protokoll</h2><p><b>' + esc(nameText()) + '</b> · Kurs ' + esc(S.d.klasse || '10 G') + ' · ' + heute().de + (S.d.ort ? ' · ' + esc(S.d.ort) : '') + '</p>';
+  STATIONEN.forEach(function (st) {
+    var liste = AUFG.filter(function (a) { return a.st === st; });
+    if (!liste.some(begonnen)) { h += '<h3>Station ' + st.nr + ' · ' + esc(st.titel) + '</h3><p class="fehlt">noch nicht begonnen</p>'; return; }
+    h += '<h3>Station ' + st.nr + ' · ' + esc(st.titel) + '</h3><dl>';
+    liste.forEach(function (a) {
+      if (!begonnen(a)) { if (a.lv !== 'S') h += '<dt>' + a.nr + ' · ' + LV[a.lv] + ' · ' + a.ph + '</dt><dd class="fehlt">noch nicht bearbeitet</dd>'; return; }
+      h += '<dt>' + a.nr + ' · ' + LV[a.lv] + ' · ' + a.ph + (istFertig(a) ? ' ✓' : ' (begonnen)') + '</dt>';
+      teile(a).forEach(function (p) {
+        if (p.tab) { h += '<dd>' + (S[p.tab].length ? tabelleHtml(p.tab, false) : '<span class="fehlt">keine Messwerte</span>') + '</dd>'; return; }
+        h += '<dd><i>' + esc(p.l) + ':</i> ' + (p.v ? esc(p.v) : '<span class="fehlt">–</span>') + '</dd>';
+      });
+    });
+    h += '</dl>';
+  });
+  $('uebersicht').innerHTML = h;
+  $('dateiname').textContent = 'Dateiname: ' + dateiname('voll');
+}
+
+/* =====================================================================
+   HILFEN für Sprachanfänger: Vorlesen, Wörterbuch mit Übersetzung,
+   Wortspeicher-Knöpfe, Satzanfänge, Lückentexte mit Prüfen
+   ===================================================================== */
+var SPRACHEN = { '': 'nur Deutsch', en: 'English', tr: 'Türkçe', ar: 'العربية', uk: 'Українська', ru: 'Русский' };
+
+/* ---------- Schreibhilfe unter Textfeldern ---------- */
+function schreibhilfe(k, platz, wort) {
+  var h = '<div class="schreibhilfe">';
+  if (platz && /…|\.\.\./.test(platz)) h += '<button type="button" class="chip satz" data-satz="' + k + '" title="Satzanfang in das Feld schreiben">✍️ Satzanfang benutzen</button>';
+  if (wort) h += '<span class="wsp">Wörter:</span>' + wort.split(' · ').map(function (w) { return '<button type="button" class="chip" data-chip="' + k + '">' + w + '</button>'; }).join('');
+  return h + '</div>';
+}
+function einfuegen(k, txt, ersetzen) {
+  var ta = $('t-' + k); if (!ta) return;
+  if (ersetzen) { if (ta.value.trim() && !confirm('Im Feld steht schon Text. Satzanfang trotzdem einfügen (dein Text bleibt dahinter stehen)?')) return; ta.value = txt + (ta.value.trim() ? '\n' + ta.value : ''); }
+  else {
+    var a = ta.selectionStart != null ? ta.selectionStart : ta.value.length, b = ta.selectionEnd != null ? ta.selectionEnd : a;
+    if (document.activeElement !== ta && ta.dataset.cur != null) a = b = Number(ta.dataset.cur);
+    var vor = ta.value.slice(0, a), nach = ta.value.slice(b), luecke = vor && !/\s$/.test(vor) ? ' ' : '';
+    ta.value = vor + luecke + txt + ' ' + nach; var pos = (vor + luecke + txt + ' ').length; ta.dataset.cur = pos;
+  }
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+  ta.focus(); var e = ersetzen ? ta.value.indexOf('…') : Number(ta.dataset.cur);
+  if (e >= 0) try { ta.setSelectionRange(e, ersetzen ? e + 1 : e); } catch (x) {}
+}
+
+/* ---------- Lückentexte ---------- */
+var LUECKEN = {};
+AUFG.forEach(function (a) {
+  if (a.art !== 'luecke') return;
+  var g = []; a.text.replace(/\[\[(.*?)\]\]/g, function (m, inn) { var o = inn.split('|'), soll = ''; o = o.map(function (x) { if (x[0] === '*') { soll = x.slice(1); return soll; } return x; }); g.push({ opt: o, soll: soll }); return m; });
+  LUECKEN[a.k] = g;
+});
+function lueckeHtml(a) {
+  var i = -1;
+  var t = a.text.replace(/\[\[(.*?)\]\]/g, function () {
+    i++; var g = LUECKEN[a.k][i], k = a.k + '.' + i;
+    return '<span class="lueck"><select data-k="' + k + '" aria-label="Lücke ' + (i + 1) + '"><option value="">…?</option>' + g.opt.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select><span class="zumark" id="lm-' + a.k + '-' + i + '"></span></span>';
+  });
+  return '<div class="lueckentext">' + t + '</div><div class="knoepfe"><button class="knopf grau klein" data-luecke="' + a.k + '">✔ Prüfen</button><span class="satzhilfe" id="li-' + a.k + '" aria-live="polite"></span></div>';
+}
+function lueckePruefen(k, still) {
+  var g = LUECKEN[k], r = 0, leer = 0;
+  g.forEach(function (x, i) {
+    var w = S.d[k + '.' + i], m = $('lm-' + k + '-' + i), ok = w === x.soll; if (!w) leer++; if (ok) r++;
+    if (m) { m.textContent = w ? (ok ? '✓' : '✗') : ''; m.className = 'zumark ' + (ok ? 'gut' : 'schlecht'); }
+  });
+  if (!still) { S.d[k + '.ok'] = r + ' von ' + g.length; speichern(); }
+  var info = $('li-' + k); if (info) info.textContent = r + ' von ' + g.length + ' richtig' + (leer ? ' · ' + leer + ' Lücken sind noch leer.' : r < g.length ? ' – ändere die roten ✗ und prüfe noch einmal.' : '. Super! 🎉');
+}
+function lueckeText(a) {
+  var i = -1;
+  var t = plain(a.text.replace(/\[\[(.*?)\]\]/g, function () { i++; var w = S.d[a.k + '.' + i]; return w ? '[' + w + ']' : '[ ___ ]'; }));
+  return t + (S.d[a.k + '.ok'] ? '\nGeprüft: ' + S.d[a.k + '.ok'] + ' richtig' : '');
+}
+
+/* ---------- Vorlesen (Sprachausgabe des Browsers) ---------- */
+var KANN_SPRECHEN = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance === 'function';
+function sprich(text, sprache) {
+  if (!KANN_SPRECHEN) { alert('Dieser Browser kann leider nicht vorlesen.'); return; }
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text.replace(/[←-⇿☀-➿]|[\ud800-\udfff]/g, ' ').replace(/·/g, ',').replace(/→/g, ' zu ').replace(/\s+/g, ' '));
+  u.lang = sprache || 'de-DE'; u.rate = 0.85;
+  var st = speechSynthesis.getVoices().filter(function (v) { return v.lang && v.lang.replace('_', '-').indexOf(u.lang.slice(0, 2)) === 0; })[0]; if (st) u.voice = st;
+  speechSynthesis.speak(u);
+}
+function vorlesen(knopf) {
+  var box = knopf.closest('.aufgabe, .problem, .sit, .wortpop');
+  if (!box) return;
+  var teil = box.classList.contains('problem') ? box.querySelector('.ptext') : box.querySelector('.afrage, .auftrag, .lueckentext');
+  var txt = '';
+  if (teil) { var kl = teil.cloneNode(true); kl.querySelectorAll('select').forEach(function (s) { s.replaceWith(document.createTextNode(s.value || ' Lücke ')); }); kl.querySelectorAll('svg, .zumark').forEach(function (s) { s.remove(); }); txt = kl.textContent; }
+  if (box.classList.contains('aufgabe')) {
+    var lt = box.querySelector('.lueckentext'); if (lt && teil !== lt) { var kl2 = lt.cloneNode(true); kl2.querySelectorAll('select').forEach(function (s) { s.replaceWith(document.createTextNode(s.value || ' Lücke ')); }); txt += '. ' + kl2.textContent; }
+    box.querySelectorAll('.mczeile > span:first-child, .sit p').forEach(function (s) { txt += '. ' + s.textContent; });
+  }
+  sprich(txt);
+}
+
+/* ---------- Wörterbuch: Fachwörter antippen ---------- */
+var WFORM = [];
+GLOSSAR.forEach(function (g, i) { (g.formen || [g.w]).forEach(function (f) { WFORM.push({ f: f, i: i }); }); });
+WFORM.sort(function (a, b) { return b.f.length - a.f.length; });
+var WRE = new RegExp('(^|[^A-Za-zÄÖÜäöüß-])(' + WFORM.map(function (x) { return x.f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')(?![A-Za-zÄÖÜäöüß])', 'g');
+var WINDEX = {}; WFORM.forEach(function (x) { WINDEX[x.f] = x.i; });
+function markiereWoerter(wurzel) {
+  wurzel.querySelectorAll('.ptext, .afrage, .info, .sit p, .mczeile > span:first-child, .lueckentext').forEach(function (block) {
+    var schon = {}, gehe = document.createTreeWalker(block, NodeFilter.SHOW_TEXT, { acceptNode: function (n) { return n.parentNode.closest('select, button, svg, .wort, option') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; } }), knoten = [];
+    while (gehe.nextNode()) knoten.push(gehe.currentNode);
+    knoten.forEach(function (n) {
+      var s = n.nodeValue, teile = [], letzte = 0, m; WRE.lastIndex = 0;
+      while ((m = WRE.exec(s))) {
+        var i = WINDEX[m[2]]; if (schon[i]) continue; schon[i] = 1;
+        var anf = m.index + m[1].length; teile.push(document.createTextNode(s.slice(letzte, anf)));
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'wort'; b.dataset.wort = i; b.textContent = m[2]; teile.push(b); letzte = anf + m[2].length;
+      }
+      if (!teile.length) return;
+      teile.push(document.createTextNode(s.slice(letzte)));
+      var frag = document.createDocumentFragment(); teile.forEach(function (x) { frag.appendChild(x); }); n.parentNode.replaceChild(frag, n);
+    });
+  });
+}
+function uebers(g) { var sp = S.d.sprache || ''; return sp && g[sp] ? '<div class="ueb" dir="auto"><small>' + SPRACHEN[sp] + ':</small> <b>' + g[sp] + '</b></div>' : ''; }
+function wortKarte(g) {
+  return '<div class="wkopf"><span class="wico">' + g.ico + '</span><div><b>' + (g.art ? g.art + ' ' : '') + g.w + '</b>' + (g.pl ? '<small> · Mehrzahl: ' + g.pl + '</small>' : '') + '</div><button class="lies" data-sprich="' + esc((g.art ? g.art + ' ' : '') + g.w + '. ' + plain(g.erkl)) + '" aria-label="Wort vorlesen">🔊</button></div><div class="werkl">' + g.erkl + '</div>' + uebers(g);
+}
+function zeigeWort(knopf) {
+  var g = GLOSSAR[Number(knopf.dataset.wort)], p = $('wortpop');
+  p.innerHTML = wortKarte(g) + '<button class="knopf grau klein" id="wortzu">OK ✕</button>';
+  p.hidden = false;
+  var r = knopf.getBoundingClientRect(), w = Math.min(340, window.innerWidth - 24);
+  p.style.width = w + 'px';
+  p.style.left = Math.max(12, Math.min(window.innerWidth - w - 12, r.left)) + 'px';
+  var unten = r.bottom + 8; p.style.top = (unten + p.offsetHeight > window.innerHeight - 10 ? Math.max(10, r.top - p.offsetHeight - 8) : unten) + 'px';
+  $('wortzu').focus();
+}
+function baueWoerterbuch() {
+  var sel = $('sprache');
+  sel.innerHTML = Object.keys(SPRACHEN).map(function (k) { return '<option value="' + k + '">' + SPRACHEN[k] + '</option>'; }).join('');
+  sel.value = S.d.sprache || '';
+  sel.addEventListener('change', function () { S.d.sprache = sel.value; speichern(); fuelleWB(); var ss = $('spracheStart'); if (ss) ss.value = sel.value; });
+  var ss = $('spracheStart');
+  if (ss) { ss.innerHTML = sel.innerHTML; ss.value = sel.value; ss.addEventListener('change', function () { sel.value = ss.value; sel.dispatchEvent(new Event('change')); }); }
+  $('wbSuche').addEventListener('input', fuelleWB);
+  fuelleWB();
+}
+function fuelleWB() {
+  var q = ($('wbSuche').value || '').toLowerCase().trim();
+  $('wbListe').innerHTML = GLOSSAR.map(function (g, i) { return { g: g, i: i }; }).filter(function (x) { return !q || (x.g.w + ' ' + (x.g.formen || []).join(' ') + ' ' + plain(x.g.erkl)).toLowerCase().indexOf(q) >= 0; })
+    .sort(function (a, b) { return a.g.w.localeCompare(b.g.w, 'de'); })
+    .map(function (x) { return '<div class="wbeintrag">' + wortKarte(x.g) + '</div>'; }).join('') || '<p class="satzhilfe">Kein Wort gefunden.</p>';
+}
+
+/* ---------- Ereignisse ---------- */
+function bindeHilfen() {
+  if (!KANN_SPRECHEN) document.body.classList.add('ohnesprache');
+  document.querySelectorAll('textarea[data-k]').forEach(function (ta) { ['keyup', 'click', 'blur'].forEach(function (ev) { ta.addEventListener(ev, function () { ta.dataset.cur = ta.selectionStart; }); }); });
+  document.addEventListener('click', function (e) {
+    var w = e.target.closest('.wort'); if (w) { e.preventDefault(); zeigeWort(w); return; }
+    if (e.target.closest('#wortzu') || (!e.target.closest('#wortpop') && !$('wortpop').hidden)) { $('wortpop').hidden = true; }
+    var sp = e.target.closest('[data-sprich]'); if (sp) { sprich(sp.dataset.sprich); return; }
+    var l = e.target.closest('[data-lies]'); if (l) { vorlesen(l); return; }
+    var c = e.target.closest('[data-chip]'); if (c) { einfuegen(c.dataset.chip, c.textContent, false); return; }
+    var s = e.target.closest('[data-satz]'); if (s) { var ta = $('t-' + s.dataset.satz); einfuegen(s.dataset.satz, ta.placeholder, true); return; }
+    var lu = e.target.closest('[data-luecke]'); if (lu) { lueckePruefen(lu.dataset.luecke); return; }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { $('wortpop').hidden = true; if (KANN_SPRECHEN) speechSynthesis.cancel(); } });
+  window.addEventListener('scroll', function () { $('wortpop').hidden = true; }, { passive: true });
+  Object.keys(LUECKEN).forEach(function (k) { if (S.d[k + '.ok']) lueckePruefen(k, true); });
+}
+
+/* =====================================================================
+   SIMULATIONEN für das Mathe-Labor 10 G (selbst programmiert, SVG)
+   A Geraden fangen (m, b, Steigungsdreieck) · B Wertetabelle → Graph · C Tarifvergleich
+   Jede Simulation lebt in einem eigenen Element (SIMEL) und wird beim
+   Öffnen einer Station in deren Platzhalter verschoben.
+   ===================================================================== */
+var NS = 'http://www.w3.org/2000/svg';
+function el(tag, at, txt) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; return e; }
+var TXT = { 'font-family': 'Segoe UI, Arial, sans-serif' };
+function t(x, y, s, gr, farbe, extra) { var a = Object.assign({ x: x, y: y, 'font-size': gr || 16, fill: farbe || '#16202A' }, TXT, extra || {}); return el('text', a, s); }
+var SIMEL = {}, SIMZEICHNE = {};
+function $q(d, s) { return d.querySelector(s); }
+function regler(id, label, min, max, step, wert, einheit) {
+  return '<div><label for="' + id + '">' + label + ': <b><output id="' + id + 'o"></output></b></label><input type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + wert + '" data-einheit="' + einheit + '"></div>';
+}
+function lesR(id) { var r = $(id), v = Number(r.value); $(id + 'o').textContent = fmt(v) + (r.dataset.einheit ? ' ' + r.dataset.einheit : ''); return v; }
+function simBlock(id, titel, aria, h, inhalt) {
+  var d = document.createElement('div'); d.className = 'simblock';
+  d.innerHTML = '<div class="simtitel">🧪 ' + titel + '</div><div class="labor"><svg id="' + id + '_svg" viewBox="0 0 700 ' + h + '" role="img" aria-label="' + aria + '"></svg></div>' + inhalt;
+  return d;
+}
+function meldung(id, txt, art) { var m = $(id); m.className = 'simmeldung ' + (art || ''); m.innerHTML = txt; }
+var HALO = { stroke: '#fff', 'stroke-width': 4, 'paint-order': 'stroke', 'stroke-linejoin': 'round' };
+function leer(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+/* ---------- Koordinatensystem ----------
+   o = { x0, x1, y0, y1, L, T, px, py, sx, sy, xl, yl, clip } → liefert X(x), Y(y) */
+function KS(svg, o) {
+  var X = function (x) { return o.L + (x - o.x0) * o.px; }, Y = function (y) { return o.T + (o.y1 - y) * o.py; }, i;
+  var g = el('g', {});
+  for (i = Math.ceil(o.x0); i <= o.x1; i++) g.appendChild(el('line', { x1: X(i), y1: Y(o.y0), x2: X(i), y2: Y(o.y1), stroke: '#E4E9F2', 'stroke-width': 1 }));
+  for (i = Math.ceil(o.y0); i <= o.y1; i += (o.gy || 1)) g.appendChild(el('line', { x1: X(o.x0), y1: Y(i), x2: X(o.x1), y2: Y(i), stroke: '#E4E9F2', 'stroke-width': 1 }));
+  var ax = Math.max(o.y0, Math.min(o.y1, 0)), ay = Math.max(o.x0, Math.min(o.x1, 0));
+  g.appendChild(el('line', { x1: X(o.x0) - 6, y1: Y(ax), x2: X(o.x1) + 12, y2: Y(ax), stroke: '#34434F', 'stroke-width': 2 }));
+  g.appendChild(el('line', { x1: X(ay), y1: Y(o.y0) + 6, x2: X(ay), y2: Y(o.y1) - 12, stroke: '#34434F', 'stroke-width': 2 }));
+  g.appendChild(el('path', { d: 'M' + (X(o.x1) + 14) + ',' + Y(ax) + ' l-9,-5 v10 z', fill: '#34434F' }));
+  g.appendChild(el('path', { d: 'M' + X(ay) + ',' + (Y(o.y1) - 14) + ' l-5,9 h10 z', fill: '#34434F' }));
+  g.appendChild(t(X(o.x1) + 8, Y(ax) + 22, o.xl || 'x', 15, '#34434F', { 'font-style': 'italic' }));
+  g.appendChild(t(X(ay) + 10, Y(o.y1) - 4, o.yl || 'y', 15, '#34434F', { 'font-style': 'italic' }));
+  for (i = Math.ceil(o.x0); i <= o.x1; i += (o.sx || 1)) if (i !== ay) g.appendChild(t(X(i), Y(ax) + 17, zk(i), 12, '#5E6B75', { 'text-anchor': 'middle' }));
+  for (i = Math.ceil(o.y0); i <= o.y1; i += (o.sy || 1)) if (i !== ax) g.appendChild(t(X(ay) - 7, Y(i) + 4, zk(i), 12, '#5E6B75', { 'text-anchor': 'end' }));
+  svg.appendChild(g);
+  if (o.clip) {
+    var cp = el('clipPath', { id: o.clip }); cp.appendChild(el('rect', { x: X(o.x0), y: Y(o.y1), width: (o.x1 - o.x0) * o.px, height: (o.y1 - o.y0) * o.py })); svg.appendChild(cp);
+  }
+  return { X: X, Y: Y };
+}
+function gerade(svg, k, m, b, x0, x1, at) {
+  var a = Object.assign({ x1: k.X(x0), y1: k.Y(m * x0 + b), x2: k.X(x1), y2: k.Y(m * x1 + b), stroke: '#1565C0', 'stroke-width': 3.5, 'stroke-linecap': 'round' }, at || {});
+  svg.appendChild(el('line', a));
+}
+function kreuz(svg, x, y, farbe) { svg.appendChild(el('path', { d: 'M' + (x - 6) + ',' + (y - 6) + ' L' + (x + 6) + ',' + (y + 6) + ' M' + (x - 6) + ',' + (y + 6) + ' L' + (x + 6) + ',' + (y - 6), stroke: farbe, 'stroke-width': 3, 'stroke-linecap': 'round' })); }
+
+/* ================= A: Geraden fangen ================= */
+var ZIELE = [[2, 1], [-1, 3], [0.5, -2], [-2, -1], [1, -3], [3, -4], [-0.5, 2], [0, -2], [-3, 4], [1.5, 0]];
+var simA = { m: 1, b: 0, i: 0, v: 0, gef: false };
+function baueA() {
+  var d = simBlock('a', 'Simulation A · Geraden fangen', 'Koordinatensystem mit einer gesuchten und einer eigenen Geraden', 460,
+    '<div class="zeile" style="justify-content:center;font-size:1.25rem"><span>Deine Gerade:&nbsp;</span><b id="a_gl"></b></div>' +
+    '<div class="regler">' + regler('a_m', '<span style="color:' + FM + '">Steigung m</span>', -3, 3, 0.5, 1, '') + regler('a_b', '<span style="color:' + FB + '">y-Achsenabschnitt b</span>', -5, 5, 0.5, 0, '') + '</div>' +
+    '<div class="zeile vorhersage"><label><input type="checkbox" id="a_dr" checked> 📐 Steigungsdreieck zeigen</label><span class="satzhilfe" id="a_ziel"></span></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="a_pr">🎯 Prüfen</button><button class="knopf" id="a_mess" disabled>＋ Speichern</button><button class="knopf grau" id="a_neu">Nächste Gerade ▸</button></div>' +
+    '<div class="simmeldung" id="a_msg" aria-live="polite">Bringe deine <b style="color:#1565C0">blaue</b> Gerade genau auf die <b style="color:#E4572E">orange</b> Gerade. Klicke dann auf „Prüfen“.</div>');
+  SIMEL.A = d;
+  function neu() { simA.m = Number($q(d, '#a_m').value); simA.b = Number($q(d, '#a_b').value); simA.gef = false; $q(d, '#a_mess').disabled = true; zeichneA(); }
+  $q(d, '#a_m').addEventListener('input', neu); $q(d, '#a_b').addEventListener('input', neu);
+  $q(d, '#a_dr').addEventListener('change', zeichneA);
+  $q(d, '#a_pr').addEventListener('click', function () {
+    var z = ZIELE[simA.i], mOk = simA.m === z[0], bOk = simA.b === z[1]; simA.v++;
+    if (mOk && bOk) { simA.gef = true; $('a_mess').disabled = false; meldung('a_msg', '🎯 <b>Gefangen!</b> Die Gerade heißt ' + glHtml(z[0], z[1]) + '. Du hast ' + simA.v + ' Versuch' + (simA.v === 1 ? '' : 'e') + ' gebraucht. Klicke auf „Speichern“.', 'gut'); }
+    else if (bOk) meldung('a_msg', '✓ <b style="color:' + FB + '">b</b> stimmt schon. Die Steigung <b style="color:' + FM + '">m</b> noch nicht: Deine Gerade ' + (simA.m * z[0] < 0 || (z[0] === 0) !== (simA.m === 0) ? (z[0] > 0 ? 'muss steigen.' : z[0] < 0 ? 'muss fallen.' : 'muss waagerecht sein (m = 0).') : Math.abs(simA.m) > Math.abs(z[0]) ? 'ist zu steil.' : 'ist zu flach.') + ' Tipp: Steigungsdreieck – 1 nach rechts, wie weit nach oben oder unten?', 'warn');
+    else if (mOk) meldung('a_msg', '✓ Die Steigung <b style="color:' + FM + '">m</b> stimmt (die Geraden sind parallel). Verschiebe deine Gerade nach ' + (simA.b < z[1] ? 'oben' : 'unten') + ' – mit <b style="color:' + FB + '">b</b>.', 'warn');
+    else meldung('a_msg', 'Noch nicht. Tipp: Wo schneidet die orange Gerade die <b>y-Achse</b>? Das ist <b style="color:' + FB + '">b</b>. Stelle das zuerst ein.', 'warn');
+    zeichneA();
+  });
+  $q(d, '#a_mess').addEventListener('click', function () {
+    var z = ZIELE[simA.i];
+    if (messwertDazu('mA', { ziel: glText(z[0], z[1]), m: simA.m, b: simA.b, v: simA.v })) { $('a_mess').disabled = true; meldung('a_msg', '✓ Gespeichert. Klicke auf „Nächste Gerade“.', 'gut'); }
+  });
+  $q(d, '#a_neu').addEventListener('click', function () {
+    simA.i = (simA.i + 1) % ZIELE.length; simA.v = 0; simA.gef = false; $('a_mess').disabled = true;
+    meldung('a_msg', 'Neue Gerade! Bringe deine blaue Gerade auf die orange Gerade.'); zeichneA();
+  });
+}
+function zeichneA() {
+  var svg = $('a_svg'); if (!svg) return; leer(svg);
+  var m = lesR('a_m'), b = lesR('a_b'), z = ZIELE[simA.i];
+  var k = KS(svg, { x0: -6, x1: 6, y0: -6, y1: 6, L: 140, T: 20, px: 35, py: 35, clip: 'clipA' });
+  var g = el('g', { 'clip-path': 'url(#clipA)' }); svg.appendChild(g);
+  gerade(g, k, z[0], z[1], -7, 7, { stroke: '#E4572E', 'stroke-dasharray': '12 8', 'stroke-width': 4 });
+  gerade(g, k, m, b, -7, 7, { stroke: simA.gef ? '#0E7C7B' : '#1565C0' });
+  if ($('a_dr').checked && m !== 0 && Math.abs(b) <= 6 && Math.abs(b + m) <= 6) {
+    g.appendChild(el('line', { x1: k.X(0), y1: k.Y(b), x2: k.X(1), y2: k.Y(b), stroke: FX, 'stroke-width': 3 }));
+    g.appendChild(el('line', { x1: k.X(1), y1: k.Y(b), x2: k.X(1), y2: k.Y(b + m), stroke: '#1565C0', 'stroke-width': 3, 'stroke-dasharray': '' }));
+    g.appendChild(t(k.X(0.5), k.Y(b) + (m > 0 ? 18 : -8), '1', 15, FX, Object.assign({ 'text-anchor': 'middle', 'font-weight': 700 }, HALO)));
+    g.appendChild(t(k.X(1) + 8, k.Y(b + m / 2) + 5, 'm = ' + zk(m), 15, FM, Object.assign({ 'font-weight': 700 }, HALO)));
+  }
+  if (Math.abs(b) <= 6) { svg.appendChild(el('circle', { cx: k.X(0), cy: k.Y(b), r: 6, fill: FB })); svg.appendChild(t(k.X(0) - 14, k.Y(b) - 14, 'P(0|' + zk(b) + ')', 14, FB, Object.assign({ 'text-anchor': 'end', 'font-weight': 700 }, HALO))); }
+  svg.appendChild(t(14, 40, 'gesucht:', 15, '#E4572E', { 'font-weight': 700 }));
+  svg.appendChild(t(14, 62, 'Gerade ' + (simA.i + 1), 15, '#E4572E'));
+  if (simA.gef) svg.appendChild(t(14, 100, '🎯 gefangen!', 17, '#0E7C7B', { 'font-weight': 700 }));
+  $('a_gl').innerHTML = glHtml(m, b);
+  $('a_ziel').textContent = 'Gerade ' + (simA.i + 1) + ' von ' + ZIELE.length + ' · gespeichert: ' + S.mA.length;
+}
+SIMZEICHNE.A = zeichneA;
+
+/* ================= B: Wertetabelle → Graph ================= */
+var FUNKS = [[2, 3], [-1, 4], [0.5, -1], [-2, 0], [3, -2], [-0.5, 1]];
+var XB = [-2, -1, 0, 1, 2];
+var simB = { i: 0, v: 0, gezeigt: false };
+function fName(f) { return 'f(x) = ' + glText(f[0], f[1]).slice(4); }
+function baueB() {
+  var opt = FUNKS.map(function (f, i) { return '<option value="' + i + '">' + fName(f) + '</option>'; }).join('');
+  var d = simBlock('b', 'Simulation B · Von der Wertetabelle zum Graphen', 'Koordinatensystem mit den Punkten aus der Wertetabelle', 440,
+    '<div class="zeile"><label for="b_f"><b>Funktion:</b></label><select id="b_f">' + opt + '</select></div>' +
+    '<div style="overflow-x:auto"><table class="mess"><thead><tr><th>x</th>' + XB.map(function (x) { return '<th style="color:' + FX + '">' + zk(x) + '</th>'; }).join('') + '</tr></thead><tbody><tr><th>f(x)</th>' +
+    XB.map(function (x, j) { return '<td><input class="zahl" style="width:4.2em" type="text" inputmode="decimal" id="b_y' + j + '" aria-label="f von ' + zk(x) + '"></td>'; }).join('') + '</tr></tbody></table></div>' +
+    '<div class="knoepfe"><button class="knopf or" id="b_ein">📍 Punkte eintragen</button><button class="knopf" id="b_mess" disabled>＋ Speichern</button></div>' +
+    '<div class="simmeldung" id="b_msg" aria-live="polite">Setze jeden x-Wert in die Funktion ein. Trage die y-Werte ein. Tipp: Negative Zahlen mit Minus, Kommazahlen mit Komma (z. B. −0,5).</div>');
+  SIMEL.B = d;
+  function zuruecksetzen() { simB.v = 0; simB.gezeigt = false; XB.forEach(function (x, j) { $q(d, '#b_y' + j).value = ''; }); $q(d, '#b_mess').disabled = true; meldung('b_msg', 'Neue Funktion: ' + fName(FUNKS[simB.i]) + '. Fülle die Tabelle aus.'); zeichneB(); }
+  $q(d, '#b_f').addEventListener('change', function () { simB.i = Number(this.value); zuruecksetzen(); });
+  XB.forEach(function (x, j) { $q(d, '#b_y' + j).addEventListener('input', function () { simB.gezeigt = false; zeichneB(); }); });
+  $q(d, '#b_ein').addEventListener('click', function () {
+    var f = FUNKS[simB.i], r = 0, leerN = 0;
+    XB.forEach(function (x, j) { var v = zahl($('b_y' + j).value); if (isNaN(v)) leerN++; else if (Math.abs(v - (f[0] * x + f[1])) < 1e-9) r++; });
+    if (leerN) { meldung('b_msg', '☝️ Es fehlen noch ' + leerN + ' Werte in der Tabelle.', 'warn'); return; }
+    simB.v++; simB.gezeigt = true; simB.r = r; $('b_mess').disabled = false; zeichneB();
+    if (r === 5) meldung('b_msg', '✓ Alle 5 Werte richtig! Die Punkte liegen auf einer <b>Geraden</b>. Klicke auf „Speichern“.', 'gut');
+    else meldung('b_msg', r + ' von 5 Werten sind richtig. Die <b style="color:' + FX + '">roten</b> Kreuze liegen nicht auf der Geraden. Rechne dort noch einmal: f(x) = ' + glText(f[0], f[1]).slice(4) + ' – setze x in Klammern ein, z. B. ' + zk(f[0]) + ' · (−2).', 'warn');
+  });
+  $q(d, '#b_mess').addEventListener('click', function () {
+    if (messwertDazu('mB', { f: fName(FUNKS[simB.i]), r: simB.r, v: simB.v })) {
+      $('b_mess').disabled = true;
+      meldung('b_msg', '✓ Gespeichert. ' + (simB.r === 5 ? 'Wähle oben die nächste Funktion.' : 'Verbessere die roten Werte und trage die Punkte noch einmal ein.'), 'gut');
+    }
+  });
+}
+function zeichneB() {
+  var svg = $('b_svg'); if (!svg) return; leer(svg);
+  var f = FUNKS[simB.i], k = KS(svg, { x0: -5, x1: 5, y0: -8, y1: 8, L: 225, T: 20, px: 25, py: 25, sy: 2, clip: 'clipB' });
+  var g = el('g', { 'clip-path': 'url(#clipB)' }); svg.appendChild(g);
+  var alle = simB.gezeigt && simB.r === 5;
+  if (alle) gerade(g, k, f[0], f[1], -6, 6);
+  if (simB.gezeigt) XB.forEach(function (x, j) {
+    var v = zahl($('b_y' + j).value); if (isNaN(v) || Math.abs(v) > 8) return;
+    var ok = Math.abs(v - (f[0] * x + f[1])) < 1e-9; kreuz(g, k.X(x), k.Y(v), ok ? '#0E7C7B' : FX);
+  });
+  svg.appendChild(t(14, 40, fName(f), 17, '#1565C0', { 'font-weight': 700 }));
+  if (alle) svg.appendChild(t(14, 66, 'eine Gerade ✓', 15, '#0E7C7B'));
+}
+SIMZEICHNE.B = zeichneB;
+
+/* ================= C: Tarifvergleich ================= */
+var simC = { t: 1 };
+function baueC() {
+  var d = simBlock('c', 'Simulation C · Zwei Fahrradverleihe im Vergleich', 'Zwei Geraden: Kosten der Radstation und von Rheinrad in Abhängigkeit von der Zeit', 430,
+    '<div class="regler">' + regler('c_t', '⏱️ Zeit', 0, 8, 0.5, 1, 'h') + '</div>' +
+    '<div class="simmeldung" id="c_msg" aria-live="polite"></div>');
+  SIMEL.C = d;
+  $q(d, '#c_t').addEventListener('input', zeichneC);
+}
+function zeichneC() {
+  var svg = $('c_svg'); if (!svg) return; leer(svg);
+  var tt = lesR('c_t'), k = KS(svg, { x0: 0, x1: 8, y0: 0, y1: 26, L: 70, T: 30, px: 62, py: 13.5, gy: 2, sy: 2, xl: 'Zeit in h', yl: 'Kosten in €' });
+  gerade(svg, k, 2, 3, 0, 8, { stroke: '#1565C0' });
+  gerade(svg, k, 3, 0, 0, 8, { stroke: '#E4A72E' });
+  svg.appendChild(t(k.X(8) - 4, k.Y(19) + 22, 'Radstation', 15, '#1565C0', { 'text-anchor': 'end', 'font-weight': 700 }));
+  svg.appendChild(t(k.X(7.4) - 8, k.Y(24) + 4, 'Rheinrad', 15, '#B07A10', { 'text-anchor': 'end', 'font-weight': 700 }));
+  var a = 2 * tt + 3, r = 3 * tt;
+  svg.appendChild(el('line', { x1: k.X(tt), y1: k.Y(0), x2: k.X(tt), y2: k.Y(26), stroke: '#5E6B75', 'stroke-width': 1.5, 'stroke-dasharray': '6 5' }));
+  svg.appendChild(el('circle', { cx: k.X(tt), cy: k.Y(a), r: 7, fill: '#1565C0' }));
+  svg.appendChild(el('circle', { cx: k.X(tt), cy: k.Y(r), r: 7, fill: '#E4A72E' }));
+  var links = tt > 6.5;
+  if (r !== a) svg.appendChild(t(k.X(tt) + (links ? -12 : 12), k.Y(a) + (a >= r ? -8 : 18), fmt(a) + ' €', 15, '#1565C0', Object.assign({ 'font-weight': 700, 'text-anchor': links ? 'end' : 'start' }, HALO)));
+  if (r !== a) svg.appendChild(t(k.X(tt) + (links ? -12 : 12), k.Y(r) + (r > a ? -8 : 18), fmt(r) + ' €', 15, '#B07A10', Object.assign({ 'font-weight': 700, 'text-anchor': links ? 'end' : 'start' }, HALO)));
+  else svg.appendChild(t(k.X(tt) + 12, k.Y(a) + 22, 'beide ' + fmt(a) + ' €', 15, '#0E7C7B', Object.assign({ 'font-weight': 700 }, HALO)));
+  var vgl = a < r ? 'Die <b style="color:#1565C0">Radstation</b> ist günstiger.' : r < a ? '<b style="color:#B07A10">Rheinrad</b> ist günstiger.' : '<b>Beide kosten gleich viel!</b> Hier schneiden sich die Geraden.';
+  meldung('c_msg', '⏱️ ' + fmt(tt) + ' h: &nbsp;Radstation 2 · ' + fmt(tt) + ' + 3 = <b>' + fmt(a) + ' €</b> &nbsp;·&nbsp; Rheinrad 3 · ' + fmt(tt) + ' = <b>' + fmt(r) + ' €</b><br>' + vgl, a === r ? 'gut' : '');
+}
+SIMZEICHNE.C = zeichneC;
+
+function baueSims() { baueA(); baueB(); baueC(); var lager = $('simlager'); 'ABC'.split('').forEach(function (k) { lager.appendChild(SIMEL[k]); }); }
+
+/* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
+var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
+var BR_B=[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556];
+var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, '™': 153 };
+var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': '\u00a0', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta' };
+function normPdf(s) {
+  s = String(s).replace(/\r\n?/g, '\n').normalize('NFC');
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s[i], c = ch.charCodeAt(0);
+    if (ERSATZ[ch] != null) { o += ERSATZ[ch]; continue; }
+    if (c >= 0xD800 && c <= 0xDBFF) { i++; continue; }          // Emoji u. Ä. weglassen
+    if (c > 255 && !WIN[ch]) {
+      if (c >= 0xFE00 && c <= 0xFE0F) continue;
+      if (c >= 0x2460 && c <= 0x2473) { o += (c - 0x245F) + ')'; continue; }               // ① → 1)
+      if ((c >= 0x2190 && c <= 0x2BFF) || c === 0x200D) continue;                           // Symbole, Pfeile, ● weglassen
+      var bas = ch.normalize('NFD')[0], sond = { 'ı': 'i', 'ł': 'l', 'Ł': 'L', 'đ': 'd', 'ə': 'e' }[ch];  // ş → s, ğ → g …
+      if (sond) { o += sond; continue; }
+      if (bas && bas.charCodeAt(0) < 256) { o += bas; continue; }
+      o += '?'; continue;
+    }
+    o += ch;
+  }
+  return o;
+}
+function code(ch) { var c = ch.charCodeAt(0); return WIN[ch] || (c < 256 ? c : 63); }
+function bTxt(s, gr, fett) { var w = 0, tab = fett ? BR_B : BR_N; for (var i = 0; i < s.length; i++) { var c = code(s[i]); w += (c >= 32 ? (tab[c - 32] || 556) : 0); } return w * gr / 1000; }
+function pdfStr(s) {
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = code(s[i]);
+    if (c === 40 || c === 41 || c === 92) o += '\\' + String.fromCharCode(c);
+    else if (c < 32 || c > 126) o += '\\' + ('00' + c.toString(8)).slice(-3);
+    else o += String.fromCharCode(c);
+  }
+  return '(' + o + ')';
+}
+function umbruch(s, gr, fett, max) {
+  var zeilen = [];
+  normPdf(s).split('\n').forEach(function (abs) {
+    if (!abs.trim()) { zeilen.push(''); return; }
+    var akt = '';
+    abs.split(/ +/).forEach(function (wort) {
+      // überlange Wörter (z. B. ohne Leerzeichen) hart trennen
+      while (bTxt(wort, gr, fett) > max) {
+        var n = wort.length; while (n > 1 && bTxt(wort.slice(0, n) + '-', gr, fett) > max) n--;
+        if (akt) { zeilen.push(akt); akt = ''; }
+        zeilen.push(wort.slice(0, n) + '-'); wort = wort.slice(n);
+      }
+      var test = akt ? akt + ' ' + wort : wort;
+      if (bTxt(test, gr, fett) > max && akt) { zeilen.push(akt); akt = wort; } else akt = test;
+    });
+    zeilen.push(akt);
+  });
+  return zeilen;
+}
+function hex(h) { return [parseInt(h.substr(1, 2), 16) / 255, parseInt(h.substr(3, 2), 16) / 255, parseInt(h.substr(5, 2), 16) / 255].map(function (v) { return v.toFixed(3); }).join(' '); }
+
+/* =====================================================================
+   PDF-PROTOKOLL (A4, Helvetica, WinAnsi) – läuft komplett im Browser.
+   In die PDF wird der Arbeitsstand als Kommentar eingebettet, damit man
+   später mit derselben PDF weiterarbeiten kann (nichts geht ins Internet).
+   ===================================================================== */
+function b64Utf8(str) { var b = new TextEncoder().encode(str), s = ''; for (var i = 0; i < b.length; i += 8192) s += String.fromCharCode.apply(null, b.subarray(i, i + 8192)); return btoa(s); }
+function utf8B64(b64) { var s = atob(b64), b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i); return new TextDecoder().decode(b); }
+
+function bauePdf(modus) {
+  var A4W = 595.28, A4H = 841.89, RL = 56, RR = 56, OBEN = 60, UNTEN = 64, BREIT = A4W - RL - RR;
+  var seiten = [], cmd = null, y = 0, name = normPdf(nameText()), klasse = normPdf(S.d.klasse || '10 G'), dat = heute().de;
+  var titel = modus === 'zwischen' ? 'Zwischenstand' : 'Laborprotokoll';
+  function neueSeite() {
+    cmd = []; seiten.push(cmd); y = A4H - OBEN;
+    if (seiten.length > 1) { text(RL, A4H - 34, titel + ' Mathe ' + klasse + ' · ' + name, 8.5, false, '#76838D'); cmd.push(hex('#D5DCE1') + ' RG 0.6 w ' + RL + ' ' + (A4H - 42) + ' m ' + (A4W - RR) + ' ' + (A4H - 42) + ' l S'); }
+  }
+  function text(x, yy, s, gr, fett, farbe, schraeg) { cmd.push('BT ' + hex(farbe || '#16202A') + ' rg /' + (schraeg ? 'F3' : fett ? 'F2' : 'F1') + ' ' + gr + ' Tf ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' Td ' + pdfStr(normPdf(s)) + ' Tj ET'); }
+  function rechteck(x, yy, w, h, farbe) { cmd.push(hex(farbe) + ' rg ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f'); }
+  function rahmen(x, yy, w, h, farbe, lw) { cmd.push(hex(farbe) + ' RG ' + (lw || 0.6) + ' w ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re S'); }
+  function platz(h) { if (y - h < UNTEN) neueSeite(); }
+  function absatz(s, gr, fett, farbe, einzug, schraeg, abstand) {
+    var lh = gr * 1.36, zeilen = umbruch(s, gr, fett, BREIT - (einzug || 0));
+    zeilen.forEach(function (z) { platz(lh); y -= lh; if (z) text(RL + (einzug || 0), y + gr * 0.28, z, gr, fett, farbe, schraeg); });
+    y -= (abstand == null ? 4 : abstand);
+  }
+  function tabelle(kopf, zeilen, breiten) {
+    var gr = 8.5, lh = 15, summe = breiten.reduce(function (a, b) { return a + b; }, 0), ws = breiten.map(function (b) { return b * BREIT / summe; });
+    function zeile(werte, istKopf, nr) {
+      platz(lh); y -= lh;
+      if (istKopf) rechteck(RL, y, BREIT, lh, '#34434F'); else if (nr % 2) rechteck(RL, y, BREIT, lh, '#F3F6F8');
+      var x = RL;
+      werte.forEach(function (w, i) {
+        var s = normPdf(String(w)), b = bTxt(s, gr, istKopf);
+        while (b > ws[i] - 6 && s.length > 2) { s = s.slice(0, -2) + '.'; b = bTxt(s, gr, istKopf); }
+        var links = i > 0 && !/^[-–0-9]/.test(s); text(i === 0 ? x + (ws[i] - b) / 2 : links ? x + 5 : x + ws[i] - b - 5, y + 4.6, s, gr, istKopf, istKopf ? '#FFFFFF' : '#16202A');
+        x += ws[i];
+      });
+      rahmen(RL, y, BREIT, lh, '#D5DCE1', 0.5);
+    }
+    platz(lh * 3); zeile(kopf, true, 0);
+    zeilen.forEach(function (z, i) { if (y - lh < UNTEN) { neueSeite(); zeile(kopf, true, 0); } zeile(z, false, i); });
+    y -= 6;
+  }
+
+  neueSeite();
+  rechteck(0, A4H - 118, A4W, 118, '#34434F');
+  rechteck(0, A4H - 122, A4W, 4, '#E4572E');
+  text(RL, A4H - 44, (titel.toUpperCase()) + ' · MATHE-LABOR 10 G', 10, true, '#FFB59E');
+  text(RL, A4H - 74, LABOR.titel, 24, true, '#FFFFFF');
+  text(RL, A4H - 98, LABOR.untertitel, 11, false, '#DCE4EA');
+  y = A4H - 150;
+  var kopfz = [['Name', name], ['Kurs', klasse], ['Datum', dat], ['Arbeitsort', normPdf(S.d.ort || 'nicht angegeben')]]; if (S.d.ort === 'Hausaufgabe') kopfz.push(['Abgabe bis', normPdf(LABOR.hausaufgabe)]); kopfz.push(['Thema', normPdf(LABOR.thema)]); kopfz.forEach(function (p, i) {
+    text(RL, y - i * 19, p[0] + ':', 10.5, true, '#5E6B75'); text(RL + 70, y - i * 19, p[1], 10.5, i === 0, '#16202A');
+  });
+  y -= kopfz.length * 19 + 8;
+  // Arbeitsstand
+  var g = stand(zaehlt);
+  absatz('Arbeitsstand: ' + g.fertig + ' von ' + g.gesamt + ' Aufgaben erledigt (' + g.proz + ' %, ohne Extra-Aufgaben)', 11, true, '#0E7C7B', 0, false, 4);
+  tabelle(['Station', 'Thema', 'Abschnitt', 'erledigt', 'Messwerte'], STATIONEN.map(function (st) {
+    var s = stand(function (a) { return a.st === st && zaehlt(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (a, b) { return a + b; }, 0);
+    var sp = AUFG.filter(function (a) { return a.st === st && a.lv === 'S' && begonnen(a); }).length;
+    return [st.nr, st.titel, st.ab || '–', s.fertig + ' / ' + s.gesamt + (sp ? ' + Extra' : ''), mess || '–'];
+  }), [0.7, 3.6, 0.9, 1.4, 1]);
+  if (modus === 'zwischen') absatz('Dies ist ein Zwischenstand. Noch offene Aufgaben sind mit [offen] markiert.', 9, false, '#7A5A00', 0, true, 6);
+
+  STATIONEN.forEach(function (st) {
+    var liste = AUFG.filter(function (a) { return a.st === st; }), los = liste.some(begonnen);
+    platz(los ? 80 : 30);
+    y -= 8; rechteck(RL, y - 22, BREIT, 22, los ? '#0E7C7B' : '#9AA5AE');
+    text(RL + 10, y - 15.5, 'Station ' + st.nr + ' · ' + st.titel + (los ? '' : '  –  noch nicht begonnen'), 12, true, '#FFFFFF'); y -= 30;
+    if (!los) return;
+    liste.forEach(function (a) {
+      var fertig = istFertig(a), an = begonnen(a);
+      if (!an && (a.lv === 'S' || a.offen)) return;
+      var kopf = a.nr + ' · ' + { 1: 'Basis', 2: 'Plus', 3: 'Profi', S: 'Extra' }[a.lv] + (a.lv === 'S' ? '' : ' · ' + a.ph) + (a.titel ? ' · ' + a.titel : '');
+      if (!an) { platz(16); absatz(kopf + '   [offen]', 9, true, '#B3261E', 0, false, 3); return; }
+      platz(40);
+      absatz(kopf + (fertig ? '' : '   [teilweise]'), 9.5, true, fertig ? '#0E7C7B' : '#B36B00', 0, false, 1);
+      if (a.frage) absatz(plain(a.frage), 8.5, false, '#5E6B75', 0, true, 2);
+      teile(a).forEach(function (p) {
+        if (p.tab) {
+          if (!S[p.tab].length) { absatz('keine Messwerte gespeichert', 10, false, '#B3261E', 0, true, 6); return; }
+          var td = TABS[p.tab]; tabelle(td.kopf, td.zeilen(), td.br); return;
+        }
+        absatz(/[?:]$/.test(p.l) ? p.l : p.l + ':', 9, true, '#34434F', 8, false, 0);
+        absatz(p.v || '–', 10.5, false, p.v ? '#16202A' : '#B3261E', 8, !p.v, 4);
+      });
+      y -= 4;
+    });
+  });
+  platz(40); y -= 14;
+  text(RL, y, 'Erstellt im Mathe-Labor 10 G am ' + dat + '. Mit dieser PDF kannst du im Labor weiterarbeiten (Startseite: „Mit meiner PDF weiterarbeiten“).', 8, false, '#76838D', true);
+
+  seiten.forEach(function (c, i) {
+    cmd = c;
+    cmd.push(hex('#D5DCE1') + ' RG 0.6 w ' + RL + ' 44 m ' + (A4W - RR) + ' 44 l S');
+    text(RL, 30, 'Mathe ' + klasse + ' · ' + name + ' · ' + dat, 8.5, false, '#76838D');
+    var sx = 'Seite ' + (i + 1) + ' von ' + seiten.length; text(A4W - RR - bTxt(sx, 8.5, false), 30, sx, 8.5, false, '#76838D');
+  });
+
+  var objekte = [], teileB = [], pos = 0, offs = [];
+  function obj(s) { objekte.push(s); return objekte.length; }
+  obj('<< /Type /Catalog /Pages 2 0 R >>'); obj('PAGES');
+  var f1 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var f2 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  var f3 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+  var kids = [];
+  seiten.forEach(function (c) {
+    var strom = c.join('\n'), inh = obj({ dict: '<< /Length ' + strom.length + ' >>', stream: strom });
+    kids.push(obj('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + A4W + ' ' + A4H + '] /Resources << /Font << /F1 ' + f1 + ' 0 R /F2 ' + f2 + ' 0 R /F3 ' + f3 + ' 0 R >> >> /Contents ' + inh + ' 0 R >>'));
+  });
+  objekte[1] = '<< /Type /Pages /Kids [' + kids.map(function (k) { return k + ' 0 R'; }).join(' ') + '] /Count ' + kids.length + ' >>';
+  var info = obj('<< /Title ' + pdfStr(titel + ' Mathe ' + klasse + ' - ' + name) + ' /Producer (Mathe-Labor 10 G) >>');
+  function add(s) { var b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255; teileB.push(b); pos += b.length; }
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  // eingebetteter Arbeitsstand (nur Kommentarzeilen – PDF-Leser zeigen sie nicht an)
+  var daten = { v: 2, labor: 'mathe10g-funktionen', gespeichert: Date.now(), d: S.d }; TABN.forEach(function (n) { daten[n] = S[n]; });
+  var b64 = b64Utf8(JSON.stringify(daten)), zeilen = '%PHYSIKLABOR-DATEN-BEGIN\n';
+  for (var i = 0; i < b64.length; i += 76) zeilen += '%' + b64.slice(i, i + 76) + '\n';
+  add(zeilen + '%PHYSIKLABOR-DATEN-END\n');
+  objekte.forEach(function (o, i) {
+    offs.push(pos); add((i + 1) + ' 0 obj\n');
+    if (o.stream != null) add(o.dict + '\nstream\n' + o.stream + '\nendstream'); else add(o);
+    add('\nendobj\n');
+  });
+  var xref = pos, n = objekte.length + 1, x = 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+  offs.forEach(function (o) { x += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+  add(x + 'trailer\n<< /Size ' + n + ' /Root 1 0 R /Info ' + info + ' 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return { blob: new Blob(teileB, { type: 'application/pdf' }), seiten: seiten.length };
+}
+
+var letzteUrl = null;
+function pdfLaden(modus) {
+  if (!(S.d.vorname || '').trim()) { alert('Bitte trage zuerst auf der Startseite deinen Namen ein.'); geh(0); return; }
+  if (modus === 'voll') {
+    var f = fehlendeBasis();
+    if (f.length && !confirm('Es sind noch ' + f.length + ' Basis- und Plus-Aufgaben offen.\n\nTrotzdem dein ganzes Laborprotokoll herunterladen?\n(Am Ende einer Stunde reicht der Zwischenstand.)')) return;
+  }
+  try {
+    var r = bauePdf(modus), name = dateiname(modus);
+    if (letzteUrl) URL.revokeObjectURL(letzteUrl);
+    letzteUrl = URL.createObjectURL(r.blob);
+    var a = document.createElement('a'); a.href = letzteUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    S.exportiert = true; speichern();
+    var e = $('erfolg'); e.classList.remove('zeigen'); void e.offsetWidth; e.classList.add('zeigen');
+    $('toast').innerHTML = '⬆️ <b>Lade deine PDF jetzt in der Mathe-Aufgabe bei IServ hoch.</b><br><small>' + esc(name) + ' (' + r.seiten + ' Seiten) liegt in „Downloads“. Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a></small><button class="toastzu" aria-label="Hinweis schließen">✕</button>';
+    $('toast').classList.add('zeigen');
+    $('pdfAlt').style.display = 'block';
+    $('pdfAlt').innerHTML = 'Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a> und dort speichern. (' + r.seiten + ' Seiten)';
+  } catch (err) { alert('Die PDF konnte nicht erstellt werden: ' + err.message + '\nBitte melde dich bei deiner Lehrkraft.'); }
+}
+
+/* ---------- Mit einer früheren PDF weiterarbeiten ---------- */
+function ladeAusPdf(datei) {
+  var r = new FileReader();
+  r.onload = function () {
+    var b = new Uint8Array(r.result), s = '';
+    for (var i = 0; i < b.length; i += 8192) s += String.fromCharCode.apply(null, b.subarray(i, i + 8192));
+    var m = s.match(/%PHYSIKLABOR-DATEN-BEGIN\r?\n([\s\S]*?)%PHYSIKLABOR-DATEN-END/);
+    if (!m) { alert('In dieser Datei wurde kein Arbeitsstand gefunden. Nimm die PDF, die du im Mathe-Labor heruntergeladen hast.'); return; }
+    try {
+      var daten = JSON.parse(utf8B64(m[1].replace(/[%\s]/g, '')));
+      if (!daten.d) throw new Error('leer');
+      if (daten.labor !== 'mathe10g-funktionen') { alert('Diese PDF ist aus einem anderen Labor. Nimm die PDF aus dem Mathe-Labor 10 G.'); return; }
+      var wer = ((daten.d.vorname || '') + ' ' + (daten.d.nachname || '')).trim() || 'ohne Namen';
+      var wann = daten.gespeichert ? new Date(daten.gespeichert).toLocaleString('de-DE') : 'unbekannt';
+      if (!confirm('Arbeitsstand von ' + wer + ' (gespeichert ' + wann + ') laden?\n\nDie Eingaben, die gerade auf diesem PC stehen, werden ersetzt.')) return;
+      var neu = neuerZustand(); neu.d = daten.d; TABN.forEach(function (n) { if (Array.isArray(daten[n])) neu[n] = daten[n]; });
+      clearTimeout(speicherTimer); localStorage.setItem(KEY, JSON.stringify(neu)); S = neu; S.exportiert = true;
+      location.reload();
+    } catch (e) { alert('Der Arbeitsstand in der PDF ist beschädigt und kann nicht geladen werden.'); }
+  };
+  r.readAsArrayBuffer(datei);
+}
+
+/* =====================================================================
+   START: Seite aufbauen, Ereignisse verbinden
+   ===================================================================== */
+function init() {
+  $('nojs').remove();
+  $('abgabe').insertAdjacentHTML('beforebegin', STATIONEN.map(stationHtml).join(''));
+  $('abkarten').innerHTML = ABSCHNITTE.map(function (ab) {
+    var st = STATIONEN.filter(function (s) { return s.ab === ab.nr; });
+    return '<div class="abkarte"><div class="abnr">' + ab.nr + '</div><div><b>' + ab.titel + '</b><div class="satzhilfe">' + ab.text + ' · ca. ' + ab.zeit + ' Minuten</div>' + (ab.termin ? '<div class="termin">' + ab.termin + '</div>' : '') + '<ul>' +
+      st.map(function (s) { return '<li>' + s.ico + ' Station ' + s.nr + ': ' + s.titel + ' <span class="satzhilfe">(' + s.zeit + ' min)</span></li>'; }).join('') + '</ul></div></div>';
+  }).join('') + '<div class="abkarte klein"><div class="abnr">🏆</div><div><b>Abschluss</b><div class="satzhilfe">Station ' + STATIONEN[STATIONEN.length - 1].nr + ': ' + STATIONEN[STATIONEN.length - 1].titel + ' · ca. ' + STATIONEN[STATIONEN.length - 1].zeit + ' Minuten</div></div></div>';
+  baueNav(); baueSims(); binde(document); markiereWoerter(document); baueWoerterbuch(); bindeHilfen();
+  $('zurueckLetzte').addEventListener('click', function () { geh(STATIONEN.length); });
+  zeigeTabellen();
+  AUFG.forEach(function (a) {
+    if (a.art === 'urteile' && S.d[a.k + '.ausgewertet']) urteilAuswerten(a.k, true);
+    if (a.art === 'zuordnung' && S.d[a.k + '.ok']) zuordPruefen(a.k, true);
+  });
+  Object.keys(PRUEF).forEach(function (k) { if (S.d[k + '.ok']) zeigePruefung(k, true); });
+
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-geh]'); if (g) { if (g.tagName === 'A') e.preventDefault(); geh(Number(g.dataset.geh)); return; }
+    var p = e.target.closest('[data-pruefe]'); if (p) { zeigePruefung(p.dataset.pruefe); return; }
+    var u = e.target.closest('[data-urteil]'); if (u) { urteilAuswerten(u.dataset.urteil); return; }
+    var z = e.target.closest('[data-zuord]'); if (z) { zuordPruefen(z.dataset.zuord); return; }
+    var w = e.target.closest('[data-weg]'); if (w) { var q = w.dataset.weg.split(':'); S[q[0]].splice(Number(q[1]), 1); zeigeTabellen(q[0]); speichern(); return; }
+    var zw = e.target.closest('[data-zwischen]'); if (zw) { pdfLaden('zwischen'); return; }
+    if (e.target.closest('.toastzu')) { $('toast').classList.remove('zeigen'); return; }
+  });
+  $('starten').addEventListener('click', function () {
+    if (!(S.d.vorname || '').trim() || !(S.d.nachname || '').trim()) { alert('Bitte trage deinen Vor- und Nachnamen ein – er steht später auf deinem Protokoll.'); (S.d.vorname ? $('nachname') : $('vorname')).focus(); return; }
+    if (!S.d.ort) { alert('Bitte wähle noch aus: Wo arbeitest du gerade? (Unterricht am PC, am iPad oder Hausaufgabe) – das steht später auf deiner PDF.'); $('ort').focus(); return; }
+    var erste = 1; for (var i = 0; i < STATIONEN.length; i++) { var st = STATIONEN[i]; if (AUFG.some(function (a) { return a.st === st && zaehlt(a) && !istFertig(a); })) { erste = i + 1; break; } }
+    geh(erste);
+  });
+  function haHinweis() { $('haHinweis').textContent = S.d.ort === 'Hausaufgabe' ? '📅 Abgabe bis ' + LABOR.hausaufgabe + ' – als PDF bei IServ.' : ''; }
+  $('ort').addEventListener('change', haHinweis); haHinweis();
+  $('pdfVoll').addEventListener('click', function () { pdfLaden('voll'); });
+  $('pdfImport').addEventListener('change', function () { if (this.files[0]) ladeAusPdf(this.files[0]); this.value = ''; });
+  $('loeschen').addEventListener('click', function () {
+    if (!confirm('Hast du deine PDF bei IServ hochgeladen?\n\nAlle Eingaben werden von diesem Computer gelöscht.')) return;
+    clearTimeout(speicherTimer); try { localStorage.removeItem(KEY); } catch (e) {}
+    S = neuerZustand(); location.reload();
+  });
+  var schub = $('formeln');
+  function schublade(auf) { schub.classList.toggle('offen', auf); schub.setAttribute('aria-hidden', !auf); $('formelAuf').setAttribute('aria-expanded', auf); if (auf) $('formelZu').focus(); }
+  $('formelAuf').addEventListener('click', function () { schublade(!schub.classList.contains('offen')); });
+  $('formelZu').addEventListener('click', function () { schublade(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { schublade(false); $('toast').classList.remove('zeigen'); } });
+  window.addEventListener('beforeunload', function (e) { if ((S.d.vorname || S.mA.length) && !S.exportiert) { e.preventDefault(); e.returnValue = ''; } });
+  document.addEventListener('input', function () { S.exportiert = false; }, true);
+  if (warAlt) {
+    $('fortsetzenBox').style.display = 'block';
+    var g = stand(zaehlt);
+    $('fortsetzenBox').innerHTML = 'Auf diesem Computer ist noch ein Arbeitsstand von <b>' + esc(nameText()) + '</b> gespeichert (' + g.fertig + ' von ' + g.gesamt + ' Aufgaben). Bist du das? Dann klicke auf „Labor starten“. Sonst: <button class="knopf dunkel" id="neuBeginnen">Neu beginnen (alten Stand löschen)</button>';
+    $('neuBeginnen').addEventListener('click', function () { clearTimeout(speicherTimer); try { localStorage.removeItem(KEY); } catch (e) {} S = neuerZustand(); location.reload(); });
+  }
+  aktualisiereStatus();
+  geh(0);
+}
+init();
+
+</script>
+</body>
+</html>
