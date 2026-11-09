@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Midwest Lab</title>
+<style>
+:root{--bg:#F4F1EA;--card:#fff;--ink:#1D2733;--soft:#5B6773;--line:#DDD6C8;--accent:#B5472F;--accent2:#2F6E8E;--corn:#E9B949;--ok:#2E7D4F;--okbg:#E3F3E8;--bad:#B3261E;--badbg:#FBE4E1;--mid:#E9B949;--lake:#9CC7DD;--tile:#E7E2D7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap}
+header b{font-size:18px;letter-spacing:.2px}
+header .sp{flex:1}
+header button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:8px;padding:7px 11px;font:inherit;font-size:15px;cursor:pointer}
+header button:hover{background:rgba(255,255,255,.22)}
+.bar{height:6px;background:rgba(255,255,255,.18);border-radius:3px;width:120px;overflow:hidden}.bar i{display:block;height:100%;background:var(--corn)}
+main{max-width:860px;margin:0 auto;padding:18px 16px 80px}
+h1{font-size:30px;line-height:1.2;margin:8px 0 6px}h2{font-size:23px;margin:0 0 8px}h3{font-size:19px;margin:0 0 6px}
+.hero{background:linear-gradient(135deg,#2F6E8E,#1D2733);color:#fff;border-radius:16px;padding:22px 20px;margin-bottom:16px}
+.hero p{margin:6px 0;opacity:.92}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px;margin:14px 0}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.steps div{background:rgba(255,255,255,.12);border-radius:10px;padding:8px;font-size:14px;text-align:center}
+.steps span{display:block;font-size:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.st{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.st:hover{border-color:var(--accent2);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.st .ic{font-size:30px}.st .t{font-weight:700;margin:4px 0 2px}.st .m{font-size:14px;color:var(--soft)}
+.pg{height:8px;background:var(--tile);border-radius:4px;margin-top:8px;overflow:hidden}.pg i{display:block;height:100%;background:var(--ok)}
+.problem{background:#FFF7E0;border:1px solid #F0DCA0;border-radius:14px;padding:14px 16px;margin:12px 0}
+.bh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.nr{background:var(--ink);color:#fff;border-radius:6px;padding:1px 8px;font-weight:700;font-size:14px}
+.ph{font-weight:700;font-size:15px;color:var(--accent2)}
+.lv{font-size:13px;border-radius:20px;padding:1px 9px;border:1px solid var(--line);color:var(--soft)}
+.lv.l1{background:#EAF4EC}.lv.l2{background:#FFF4D6}.lv.l3{background:#FBE7E1}.lv.s{background:#EEE8FA}
+.q{margin-bottom:10px}
+.btn{background:var(--accent2);color:#fff;border:0;border-radius:9px;padding:9px 14px;font:inherit;font-size:16px;cursor:pointer;margin:4px 6px 4px 0}
+.btn:hover{filter:brightness(1.08)}.btn.g{background:#E9E4D8;color:var(--ink)}.btn.r{background:var(--accent)}
+.btn.sm{padding:5px 10px;font-size:14px}
+.opt{display:block;width:100%;text-align:left;background:#FAF8F3;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;margin:6px 0;font:inherit;cursor:pointer;color:inherit}
+.opt.on{border-color:var(--accent2);background:#E6F0F5}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}.opt.no{border-color:var(--bad);background:var(--badbg)}
+.fb{border-radius:10px;padding:8px 12px;margin-top:8px;font-weight:600}
+.fb.ok{background:var(--okbg);color:var(--ok)}.fb.mid{background:#FFF4D6;color:#7A5A00}.fb.no{background:var(--badbg);color:var(--bad)}
+.txt{background:#FFFDF8;border-left:5px solid var(--corn)}
+.txt p{margin:8px 0}.txt .pl{font-weight:800;color:var(--accent);margin-right:6px}
+.w{background:none;border:0;padding:0;font:inherit;color:inherit;border-bottom:2px dotted var(--accent2);cursor:pointer}
+.w:hover{background:#E6F0F5}
+select{font:inherit;font-size:16px;padding:3px 6px;border-radius:7px;border:1.5px solid var(--accent2);background:#fff;max-width:100%}
+select.ok{border-color:var(--ok);background:var(--okbg)}select.no{border-color:var(--bad);background:var(--badbg)}
+.gap{line-height:2.3}
+table.m{width:100%;border-collapse:collapse;table-layout:fixed}table.m select{width:100%}table.m td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tf{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}
+.tf button{border:1.5px solid var(--line);background:#FAF8F3;border-radius:8px;padding:5px 10px;font:inherit;font-size:15px;cursor:pointer}
+.tf button.on{border-color:var(--accent2);background:#E6F0F5;font-weight:700}
+.tf button.ok{border-color:var(--ok);background:var(--okbg)}.tf button.no{border-color:var(--bad);background:var(--badbg)}
+.item{padding:8px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}
+textarea{width:100%;min-height:130px;font:inherit;padding:10px;border-radius:10px;border:1.5px solid var(--line);resize:vertical}
+textarea:focus{outline:2px solid var(--accent2);border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{background:#EEF3F6;border:1px solid #CFDDE5;border-radius:20px;padding:4px 11px;font:inherit;font-size:15px;cursor:pointer;color:inherit}
+.chip.wb{background:#FFF4D6;border-color:#EBD38F}
+.count{font-size:14px;color:var(--soft);margin-top:4px}
+.check label{display:block;margin:4px 0;cursor:pointer}
+.mapwrap{overflow-x:auto}
+svg.map{width:100%;max-width:560px;height:auto;display:block;margin:6px auto}
+svg.map .s{cursor:pointer}
+svg.map .s rect{fill:var(--tile);stroke:#fff;stroke-width:2;rx:6}
+svg.map .s.on rect{fill:var(--accent2)}svg.map .s.on text{fill:#fff}
+svg.map .s.ok rect{fill:var(--ok)}svg.map .s.ok text{fill:#fff}
+svg.map .s.no rect{fill:var(--bad)}svg.map .s.no text{fill:#fff}
+svg.map .s.miss rect{fill:var(--mid);stroke:var(--ink);stroke-dasharray:4 3}
+svg.map text{font-size:13px;font-weight:700;fill:var(--ink);pointer-events:none;text-anchor:middle;dominant-baseline:central}
+.legend{font-size:14px;color:var(--soft);text-align:center}
+.reveal{background:#F3EEFB;border:1px solid #DCCFF2}
+.sol{display:none;background:#EFF7F1;border:1.5px dashed var(--ok);border-radius:10px;padding:8px 12px;margin-top:10px;font-size:15px}
+body.lk .sol{display:block}
+.lkbanner{display:none;background:#EFF7F1;border:2px solid var(--ok);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+body.lk .lkbanner{display:block}
+.pop{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:14px;padding:12px 16px;z-index:50;display:none;align-items:center;gap:12px;box-shadow:0 6px 24px rgba(0,0,0,.25);max-width:calc(100% - 32px)}
+.pop.on{display:flex}.pop b{font-size:19px}.pop button{background:rgba(255,255,255,.15);border:0;color:#fff;border-radius:8px;padding:6px 10px;font:inherit;cursor:pointer}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:20px;flex-wrap:wrap}
+.self td{padding:6px 4px}.self button{font-size:22px;background:none;border:2px solid transparent;border-radius:8px;cursor:pointer;padding:2px 5px}.self button.on{border-color:var(--accent2);background:#E6F0F5}
+.res h3{margin-top:14px}.res .a{background:#FAF8F3;border-radius:8px;padding:6px 10px;margin:4px 0 10px;white-space:pre-wrap}
+input.name{font:inherit;padding:8px 10px;border-radius:9px;border:1.5px solid var(--line);width:100%;max-width:320px}
+.small{font-size:14px;color:var(--soft)}
+@media (max-width:600px){.steps{grid-template-columns:repeat(2,1fr)}h1{font-size:25px}.bar{display:none}}
+@media print{header,.btn,.nav,.pop,.noprint{display:none!important}body{background:#fff}.card{break-inside:avoid;border-color:#bbb}}
+</style>
+</head>
+<body>
+<header>
+  <b>🌽 Midwest Lab</b><span class="small" style="color:#cdd" id="who"></span><span class="sp"></span>
+  <div class="bar" title="Progress"><i id="tot" style="width:0"></i></div>
+  <button onclick="go('home')">🏠 Start</button><button onclick="go('res')">📄 My results</button>
+</header>
+<main id="main"><div class="card"><b>Bitte im Browser öffnen</b> (Safari, Chrome …). Please open this page in a web browser.</div></main>
+<div class="pop" id="pop"><div><b id="popEn"></b><br><span id="popDe"></span></div><button onclick="say(document.getElementById('popEn').textContent,.8)">🔊</button><button onclick="hidePop()">✕</button></div>
+
+<script>
+/* =====================================================================
+   INHALT – Midwest Lab (Prototyp v0.1, 09.11.2026)
+   Alle Texte und Aufgaben stehen in STATIONS. Schlüssel (k) nicht umbenennen.
+   Markierungen im Text:  {{word|Übersetzung}} = Wort antippbar
+   Lückentext:            [[*richtig|falsch|falsch]]  (Stern = Lösung)
+   lv: 1 = ● Basis, 2 = ●● Plus, 3 = ●●● Profi, 'S' = ★ Extra
+   ===================================================================== */
+var STATIONS = [
+{ id:'s1', ic:'🗺️', title:'Where is the Midwest?', time:20,
+  problem:'Imagine you fly from New York to Los Angeles. In the middle of the flight, you look down: big flat fields, long straight roads and huge lakes. <b>Where are you?</b>',
+  blocks:[
+  { t:'map', k:'s1.map', nr:'1.1', lv:1, ph:'🤔 Guess & check',
+    q:'Which states belong to the Midwest? <b>Click on the states</b> you think. Then click <b>Check</b>.<br><span class="small">Tip: The Midwest is in the north, in the middle of the USA.</span>' },
+  { t:'text', k:'s1.t', title:'The heart of America', paras:[
+    'The Midwest is a {{region|Region, Gebiet}} in the north of the USA, right in the {{middle|Mitte}} of the country. It has twelve {{states|Bundesstaaten}}, for example Illinois, Ohio and Minnesota. Almost 69 million people live there.',
+    'In the north, there are the Great Lakes. They are so big that they look like the sea. In the west, there are the Great {{Plains|Ebenen}} – a huge, flat area of grassland. People call it the {{prairie|Prärie}}.',
+    'The Mississippi, one of the longest rivers in North America, {{flows|fließt}} through the Midwest. Because the region is in the middle of the country, people often call it “the {{Heartland|Herzland}}” of America.' ] },
+  { t:'gap', k:'s1.gap', nr:'1.2', lv:1, ph:'📝 After reading',
+    q:'Choose the right words. Then click <b>Check</b>.',
+    text:'The Midwest has [[8|*12|20]] states. In the north, there are the [[*Great Lakes|Rocky Mountains|beaches]]. The Great Plains are big and [[*flat|high|cold]]. A huge river, the [[Thames|*Mississippi|Rhine]], flows through the region.' },
+  { t:'mc', k:'s1.mc', nr:'1.3', lv:2, ph:'🧠 Think',
+    q:'Why do people call the Midwest “the Heartland”?',
+    opts:['Because the region has the shape of a heart.','Because the region is in the middle of the country.','Because people there love Valentine’s Day.'], right:1 },
+  { t:'write', k:'s1.w', nr:'1.4', lv:'S', ph:'✏️ Extra',
+    q:'Is there a region in Germany that is a bit like the Midwest? Write 2 sentences.',
+    min:15, starters:['I think … is a bit like the Midwest because …','In … there are also …','But the Midwest is much bigger than …'],
+    words:['flat','fields','farms','lakes','in the north','in the middle'],
+    sol:'Offen. Z. B. „I think Northern Germany is a bit like the Midwest because it is flat and there are many farms.“' }
+  ]},
+{ id:'s2', ic:'🌽', title:'Farms and food', time:25,
+  problem:'Cornflakes, popcorn, cheese, milk … <b>Where does all this food come from?</b>',
+  blocks:[
+  { t:'guess', k:'s2.g', nr:'2.1', lv:1, ph:'🤔 Guess first',
+    q:'What do farmers in the Midwest grow most? There is no right or wrong yet.',
+    opts:['rice','corn','bananas','oranges'], right:1,
+    why:'Corn! Iowa and Illinois grow more corn than any other state in the USA.' },
+  { t:'text', k:'s2.t', title:'America’s breadbasket', paras:[
+    'When you eat cornflakes or popcorn, the {{corn|Mais}} may come from the Midwest. Iowa and Illinois grow more corn than any other states in the USA. That is why the area is called the “Corn Belt”. Farmers also grow {{wheat|Weizen}} and {{soybeans|Sojabohnen}}.',
+    'Farms in the Midwest are often {{huge|riesig}}. Some farms have more than 400 hectares – that is as big as about 550 football {{pitches|Spielfelder}}! Farmers use big {{machines|Maschinen}}, GPS and even {{drones|Drohnen}}.',
+    'Wisconsin calls itself “America’s {{Dairyland|Milchland}}” because it has lots of cows and makes a lot of cheese. Fans of the Green Bay Packers football team are called “cheeseheads” – some of them even wear cheese hats!',
+    'But farming is not easy. In summer, there can be a {{drought|Dürre}}, and in spring there can be {{floods|Überschwemmungen}} and storms.' ] },
+  { t:'reveal', of:'s2.g' },
+  { t:'tf', k:'s2.tf', nr:'2.2', lv:1, ph:'📝 After reading',
+    q:'True, false or not in the text? Click for each sentence.',
+    items:[['Iowa and Illinois grow more corn than any other states.','T'],['Farms in the Midwest are usually very small.','F'],['Some farmers in the Midwest use drones.','T'],['Most farmers in the Midwest have horses.','NG'],['Some fans of the Green Bay Packers wear cheese hats.','T'],['Farming in the Midwest is always easy.','F']] },
+  { t:'match', k:'s2.m', nr:'2.3', lv:2, ph:'🔤 Words',
+    q:'Match the English words with the German words.',
+    left:['corn','wheat','huge','drought','flood','dairy'], opts:['Weizen','Mais','Dürre','riesig','Milch(wirtschaft)','Überschwemmung'], right:[1,0,3,2,5,4] },
+  { t:'write', k:'s2.w', nr:'2.4', lv:3, ph:'✏️ Your opinion',
+    q:'Would you like to live on a farm in the Midwest? Give at least two reasons.',
+    min:30, starters:['I would like to live on a farm because …','I wouldn’t like to live on a farm because …','On the one hand …, on the other hand …','In my opinion …'],
+    words:['animals','fresh air','hard work','far away from','machines','boring','exciting'],
+    sol:'Erwartung: eigene Meinung + 2 Begründungen mit because/on the one hand…; Bezug zum Text (huge farms, machines, drought) = Profi.' }
+  ]},
+{ id:'s3', ic:'🏙️', title:'Chicago – the Windy City', time:25,
+  problem:'Chicago has a funny nickname: <b>“the Windy City”</b>. Why?',
+  blocks:[
+  { t:'guess', k:'s3.g', nr:'3.1', lv:1, ph:'🤔 Guess first',
+    q:'Why is Chicago called “the Windy City”? What do you think?',
+    opts:['Because there is often a strong wind from the lake.','Because politicians in Chicago talked a lot.','Nobody knows for sure – there are different explanations.'], right:2,
+    why:'Nobody knows for sure! Some say it is the cold wind from Lake Michigan, others say it is because of politicians who talked too much. So if you chose a) or b), you were not wrong either.' },
+  { t:'text', k:'s3.t', title:'Chicago – big, high and famous', labels:true, paras:[
+    'Chicago in Illinois is the biggest city in the Midwest and the third-biggest city in the USA. About 2.7 million people live there. The city lies on the {{shore|Ufer}} of Lake Michigan, one of the Great Lakes.',
+    'In 1871, a big fire {{destroyed|zerstörte}} a large part of the city. The people {{rebuilt|bauten wieder auf}} it – and they built something new: {{skyscrapers|Wolkenkratzer}}. One of the first skyscrapers in the world was built in Chicago in 1885. Today, you can stand in a glass box 412 metres above the street at the Willis Tower – if you are {{brave|mutig}}!',
+    'Chicago is also famous for deep-dish pizza and for jazz and blues music. And the famous road Route 66 starts here. It goes all the way from Chicago to California.',
+    'Nobody knows exactly why Chicago is called “the Windy City”. Some people say it is because of the cold wind from the lake. Others say it is because of politicians who talked too much – they were “full of wind”.' ] },
+  { t:'reveal', of:'s3.g' },
+  { t:'match', k:'s3.h', nr:'3.2', lv:1, ph:'📝 After reading',
+    q:'Find the best heading for paragraphs A, B and C. One heading is not needed.',
+    left:['Paragraph A','Paragraph B','Paragraph C'], opts:['Life on a farm','A big city by a big lake','Pizza, music and a famous road','Fire and the first skyscrapers'], right:[1,3,2] },
+  { t:'match', k:'s3.n', nr:'3.3', lv:2, ph:'🔎 Numbers',
+    q:'What do the numbers mean? Scan the text.',
+    left:['2.7 million','1871','1885','412 metres'], opts:['one of the first skyscrapers','the glass box in the Willis Tower','the big fire','people who live in Chicago'], right:[3,2,0,1] },
+  { t:'write', k:'s3.w', nr:'3.4', lv:3, ph:'✏️ Your opinion',
+    q:'You can visit Chicago for one day. What would you do? Write 3–4 sentences.',
+    min:30, starters:['First, I would …','After that, I would …','I would also like to …','I wouldn’t … because …'],
+    words:['go up the Willis Tower','eat deep-dish pizza','walk along the lake','listen to jazz','take a photo','scary'],
+    sol:'Erwartung: would + Infinitiv, Reihenfolge (first, after that), Inhalte aus dem Text.' }
+  ]},
+{ id:'s4', ic:'🌪️', title:'Tornado Alley', time:25,
+  problem:'The sky turns green and dark. Then the sirens go off. <b>What do you do now?</b>',
+  blocks:[
+  { t:'guess', k:'s4.g', nr:'4.1', lv:1, ph:'🤔 Guess first',
+    q:'How many tornadoes are there in the USA in an average year?',
+    opts:['about 10','about 100','more than 1,000'], right:2,
+    why:'More than 1,000! On average there are about 1,200 tornadoes a year – more than in any other country.' },
+  { t:'text', k:'s4.t', title:'When the wind goes round and round', paras:[
+    'A {{tornado|Tornado, Wirbelsturm}} is a column of air that {{spins|sich dreht}} very fast. It goes from a {{thundercloud|Gewitterwolke}} down to the ground. The strongest tornadoes have winds of more than 300 km/h.',
+    'The USA has more tornadoes than any other country – about 1,200 every year. Many of them happen in the Great Plains, in an area called “Tornado Alley”. States like Kansas and Nebraska are part of it. Tornadoes happen most often in spring and early summer.',
+    'When there is a tornado {{warning|Warnung}}, {{sirens|Sirenen}} go off. People go to a {{basement|Keller}} or a storm {{shelter|Schutzraum}}. If there is no basement, they go to a small room in the middle of the house without windows, for example a bathroom. Many schools in the Midwest have tornado {{drills|Übungen}} – like fire drills in Germany.' ] },
+  { t:'reveal', of:'s4.g' },
+  { t:'sort', k:'s4.s', nr:'4.2', lv:1, ph:'📝 Safety rules',
+    q:'There is a tornado warning. What should you do? Sort the cards.',
+    cats:['✅ DO','❌ DON’T'],
+    items:[['Go to the basement.',0],['Go outside and film the tornado.',1],['Stay away from windows.',0],['Cover your head with your arms.',0],['Open all the windows.',1],['Hide under a bridge.',1],['Listen to the radio or the warnings on your phone.',0]] },
+  { t:'gap', k:'s4.gap', nr:'4.3', lv:2, ph:'🧠 Remember',
+    q:'Choose the right words.',
+    text:'Tornadoes happen most often in [[winter|*spring and early summer|autumn]]. When there is a warning, [[bells|*sirens|teachers]] go off. The safest place is the [[roof|garden|*basement]]. If there is no basement, go to a small room [[*without windows|with big windows|on the top floor]].' },
+  { t:'write', k:'s4.w', nr:'4.4', lv:2, ph:'✏️ Message',
+    q:'Your friend is on holiday in Kansas. Write a text message: What should they do if there is a tornado warning?',
+    min:25, starters:['Hi …, be careful!','If you hear the sirens, …','Don’t …','Stay …','Take care!'],
+    words:['basement','away from windows','bathroom','listen to','cover your head'],
+    sol:'Erwartung: Anrede, 3 Verhaltensregeln als Imperativ (Go…, Don’t…, Stay…), Gruß.' }
+  ]},
+{ id:'s5', ic:'🥨', title:'German roots', time:25,
+  problem:'In Ohio there is a town called Germantown, and in Minnesota there is New Ulm. <b>Why are there German names in the middle of America?</b>',
+  blocks:[
+  { t:'guess', k:'s5.g', nr:'5.1', lv:1, ph:'🤔 Guess first',
+    q:'How many Americans say that they have German ancestors (Vorfahren)?',
+    opts:['about 500,000','about 5 million','about 45 million'], right:2,
+    why:'About 45 million! It is one of the biggest groups in the USA.' },
+  { t:'text', k:'s5.t', title:'From Germany to the Midwest', paras:[
+    'In the 19th century, millions of Germans left their home and went to America. Many of them {{settled|ließen sich nieder}} in the Midwest because there was cheap land for farming.',
+    'Today, about 45 million Americans say they have German {{ancestors|Vorfahren}}. It is one of the biggest groups in the country.',
+    'You can still see this in the Midwest: there are towns called New Ulm (Minnesota), Germantown (Ohio) and Berlin (Wisconsin). The city of Milwaukee in Wisconsin became famous for beer because German {{brewers|Bierbrauer}} lived there. And in Cincinnati, Ohio, there is a very big Oktoberfest every year.',
+    'Some English words come from German, too – for example kindergarten, pretzel and hamburger (from the city of Hamburg).' ] },
+  { t:'reveal', of:'s5.g' },
+  { t:'mc', k:'s5.mc', nr:'5.2', lv:1, ph:'📝 After reading',
+    q:'Why did many Germans settle in the Midwest?',
+    opts:['Because it was warm there.','Because there was cheap land for farming.','Because there were many German schools.'], right:1 },
+  { t:'match', k:'s5.m', nr:'5.3', lv:2, ph:'🔎 Find it',
+    q:'Find the information in the text. One answer is not needed.',
+    left:['a town in Minnesota with a German name','a city that became famous for beer','a city with a big Oktoberfest','an English word that comes from German'],
+    opts:['Chicago','New Ulm','kindergarten','Milwaukee','Cincinnati'], right:[1,3,4,2] },
+  { t:'write', k:'s5.w', nr:'5.4', lv:2, ph:'🇩🇪 Mediation',
+    q:'<b>Sprachmittlung:</b> Dein Opa liest von einem großen Oktoberfest in Cincinnati (USA) und wundert sich. Erkläre ihm <b>auf Deutsch</b> in 3–4 Sätzen, warum es im Mittleren Westen so viel „Deutsches“ gibt.<br><span class="small">Du musst nicht alles übersetzen – nur das Wichtige.</span>',
+    min:30, starters:['Im 19. Jahrhundert …','Viele Deutsche sind …, weil …','Deshalb gibt es heute …','Zum Beispiel …'],
+    words:['ausgewandert','billiges Land','Bauernhöfe','45 Millionen','Ortsnamen','Bierbrauer'],
+    sol:'Erwartung (sinngemäß, Deutsch): Im 19. Jh. wanderten Millionen Deutsche aus; im Mittleren Westen gab es billiges Ackerland; heute ca. 45 Mio. Amerikaner mit deutschen Vorfahren; deshalb deutsche Ortsnamen, Bier in Milwaukee, Oktoberfest in Cincinnati. Keine Wort-für-Wort-Übersetzung.' }
+  ]},
+{ id:'s6', ic:'✉️', title:'Final task: A postcard', time:30,
+  problem:'You are on a trip to the Midwest. <b>Write a postcard to your English class!</b>',
+  blocks:[
+  { t:'info', html:'<b>Choose one place:</b> 🏙️ Chicago · 🌽 a big farm in Iowa · 🗿 Mount Rushmore in South Dakota · 🌊 the Great Lakes · 🌪️ a town in Tornado Alley<br><span class="small">Use what you learned in stations 1–5.</span>' },
+  { t:'write', k:'s6.w', nr:'6.1', lv:1, ph:'✏️ Postcard', big:true,
+    q:'Write a postcard (60–90 words). Use the checklist.',
+    min:60, starters:['Dear class,','Greetings from …!','I’m in … at the moment.','Yesterday I …','The weather is …','The best thing was …','Tomorrow I’m going to …','See you soon,'],
+    words:['amazing','huge','flat','delicious','scary','skyscraper','prairie','lake','farm'],
+    check:['I wrote a greeting (Dear …).','I said where I am.','I wrote what I saw or did (past tense: I saw, I went …).','I wrote about the weather or food.','I wrote an ending (See you soon, …).'],
+    sol:'Bewertung: Inhalt (Ort, Erlebnisse, Fakten aus den Stationen), Aufbau Postkarte, Sprache (simple past, going-to-future, Adjektive). Für Basis genügen kurze Sätze mit den Satzanfängen.' },
+  { t:'self', k:'s6.self', nr:'6.2', lv:1, ph:'🪞 How did it go?',
+    q:'Rate yourself.',
+    items:['I can say where the Midwest is.','I can understand a short text about the Midwest.','I can explain what to do in a tornado warning.','I can explain something in German that I read in English.','I can write a postcard in English.'] }
+  ]}
+];
+
+var MIDWEST=['ND','SD','NE','KS','MN','IA','MO','WI','IL','MI','IN','OH'];
+var TILES=[['AK',0,0],['ME',10,0],['WI',5,1],['VT',9,1],['NH',10,1],['WA',0,2],['ID',1,2],['MT',2,2],['ND',3,2],['MN',4,2],['IL',5,2],['MI',6,2],['NY',8,2],['MA',9,2],['OR',0,3],['NV',1,3],['WY',2,3],['SD',3,3],['IA',4,3],['IN',5,3],['OH',6,3],['PA',7,3],['NJ',8,3],['CT',9,3],['RI',10,3],['CA',0,4],['UT',1,4],['CO',2,4],['NE',3,4],['MO',4,4],['KY',5,4],['WV',6,4],['VA',7,4],['MD',8,4],['DE',9,4],['AZ',1,5],['NM',2,5],['KS',3,5],['AR',4,5],['TN',5,5],['NC',6,5],['SC',7,5],['OK',3,6],['LA',4,6],['MS',5,6],['AL',6,6],['GA',7,6],['HI',0,7],['TX',3,7],['FL',8,7]];
+var NAMES={AK:'Alaska',AL:'Alabama',AR:'Arkansas',AZ:'Arizona',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',IA:'Iowa',ID:'Idaho',IL:'Illinois',IN:'Indiana',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',MA:'Massachusetts',MD:'Maryland',ME:'Maine',MI:'Michigan',MN:'Minnesota',MO:'Missouri',MS:'Mississippi',MT:'Montana',NC:'North Carolina',ND:'North Dakota',NE:'Nebraska',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NV:'Nevada',NY:'New York',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VA:'Virginia',VT:'Vermont',WA:'Washington',WI:'Wisconsin',WV:'West Virginia',WY:'Wyoming'};
+
+/* ============================ PROGRAMM ============================ */
+var LS='midwestlab_v1', S={};
+try{S=JSON.parse(localStorage.getItem(LS))||{};}catch(e){S={};}
+function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
+if(location.hash.indexOf('lehrkraft')>=0) document.body.classList.add('lk');
+var M=document.getElementById('main'), CUR=null, BLK={};
+STATIONS.forEach(function(st){st.blocks.forEach(function(b){if(b.k)BLK[b.k]=b;});});
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function glos(s){return s.replace(/\{\{([^|}]+)\|([^}]+)\}\}/g,function(m,w,d){return '<button class="w" data-en="'+esc(w)+'" data-de="'+esc(d)+'">'+w+'</button>';});}
+function plain(s){return s.replace(/\{\{([^|}]+)\|[^}]+\}\}/g,'$1').replace(/<[^>]+>/g,'');}
+function gaps(text){var r=[];text.replace(/\[\[([^\]]+)\]\]/g,function(m,g){var o=g.split('|'),c=0;o=o.map(function(x,i){if(x[0]==='*'){c=i;return x.slice(1);}return x;});r.push({o:o,c:c});});return r;}
+function isTask(b){return b.k&&b.t!=='text';}
+function done(b){
+  if(b.t==='write')return wc(S[b.k]||'')>=(b.min||1);
+  if(b.t==='guess')return !!S[b.k+'.lock'];
+  if(b.t==='self')return (S[b.k]||[]).filter(function(x){return x!=null;}).length===b.items.length;
+  return !!S[b.k+'.d'];
+}
+function wc(t){return (t.trim().match(/\S+/g)||[]).length;}
+function stProg(st){var t=st.blocks.filter(isTask);return t.length?t.filter(done).length/t.length:0;}
+function totProg(){var a=0,d=0;STATIONS.forEach(function(st){st.blocks.filter(isTask).forEach(function(b){a++;if(done(b))d++;});});return a?d/a:0;}
+function upd(){document.getElementById('tot').style.width=Math.round(totProg()*100)+'%';document.getElementById('who').textContent=S.name?'· '+S.name:'';}
+function lvl(lv){if(lv==='S')return '<span class="lv s">★ Extra</span>';return '<span class="lv l'+lv+'">'+['','●','●●','●●●'][lv]+' '+['','Basic','Plus','Pro'][lv]+'</span>';}
+function head(b){return '<div class="bh"><span class="nr">'+b.nr+'</span><span class="ph">'+b.ph+'</span>'+lvl(b.lv)+'</div><div class="q">'+b.q+'</div>';}
+function fb(r,n){var c=r===n?'ok':r>=n/2?'mid':'no';return '<div class="fb '+c+'">'+(r===n?'🎉 Great! All '+n+' correct.':r+' of '+n+' correct. Change the red ones and check again.')+'</div>';}
+function sol(b){var h='';
+  if(b.t==='mc'||b.t==='guess')h=b.opts[b.right];
+  else if(b.t==='tf')h=b.items.map(function(i){return i[0]+' → '+{T:'true',F:'false',NG:'not in the text'}[i[1]];}).join('<br>');
+  else if(b.t==='gap')h=gaps(b.text).map(function(g){return g.o[g.c];}).join(' · ');
+  else if(b.t==='match')h=b.left.map(function(l,i){return l+' → '+b.opts[b.right[i]];}).join('<br>');
+  else if(b.t==='sort')h=b.items.map(function(i){return i[0]+' → '+b.cats[i[1]];}).join('<br>');
+  else if(b.t==='map')h=MIDWEST.map(function(s){return NAMES[s];}).join(', ');
+  else if(b.sol)h=b.sol; else return '';
+  return '<div class="sol"><b>👩‍🏫 Lösung / Erwartung:</b><br>'+h+'</div>';}
+
+function rBlock(b){
+  var h='', k=b.k, a=S[k];
+  switch(b.t){
+  case 'info': return '<div class="card">'+b.html+'</div>';
+  case 'text':
+    h='<div class="card txt" id="b-'+k+'"><h3>📖 '+b.title+'</h3><div class="noprint"><button class="btn sm" data-say="'+k+'" data-r="0.95">🔊 Read aloud</button><button class="btn sm g" data-say="'+k+'" data-r="0.75">🐢 slowly</button><button class="btn sm g" data-stop="1">⏹</button> <span class="small">Tap the <u style="text-decoration-style:dotted">underlined words</u> for German.</span></div>';
+    b.paras.forEach(function(p,i){h+='<p>'+(b.labels&&i<3?'<span class="pl">'+'ABC'[i]+'</span>':'')+glos(p)+'</p>';});
+    return h+'</div>';
+  case 'guess':
+    h='<div class="card" id="b-'+k+'">'+head(b);
+    if(S[k+'.lock']) h+='<div class="fb mid">🔒 Your guess: <b>'+esc(b.opts[a])+'</b> – read the text and find out!</div>';
+    else{ b.opts.forEach(function(o,i){h+='<button class="opt'+(a===i?' on':'')+'" data-k="'+k+'" data-i="'+i+'">'+'abcd'[i]+') '+esc(o)+'</button>';});
+      h+='<button class="btn" data-lock="'+k+'"'+(a==null?' disabled style="opacity:.5"':'')+'>🔒 Lock my guess</button>'; }
+    return h+sol(b)+'</div>';
+  case 'reveal':
+    var g=BLK[b.of]; h='<div class="card reveal" id="b-rv'+b.of+'"><b>🤔 Was your guess right?</b><br>';
+    if(!S[b.of+'.lock']) h+='<span class="small">First make your guess at the top of this page.</span>';
+    else if(!S[b.of+'.rev']) h+='<button class="btn" data-rev="'+b.of+'">Show the answer</button>';
+    else h+='Your guess: <b>'+esc(g.opts[S[b.of]])+'</b> '+(S[b.of]===g.right?'✅':'')+'<br>'+g.why;
+    return h+'</div>';
+  case 'mc':
+    h='<div class="card" id="b-'+k+'">'+head(b); var c=S[k+'.c'];
+    b.opts.forEach(function(o,i){var cl=a===i?(c?(i===b.right?' ok':' no'):' on'):'';h+='<button class="opt'+cl+'" data-k="'+k+'" data-i="'+i+'">'+'abcd'[i]+') '+esc(o)+'</button>';});
+    h+='<button class="btn" data-chk="'+k+'">✔ Check</button>';
+    if(c)h+=fb(a===b.right?1:0,1);
+    return h+sol(b)+'</div>';
+  case 'tf':
+    a=a||[]; var c2=S[k+'.c'], r=0; h='<div class="card" id="b-'+k+'">'+head(b);
+    b.items.forEach(function(it,i){h+='<div class="item">'+(i+1)+'. '+esc(it[0])+'<div class="tf">';
+      [['T','true'],['F','false'],['NG','not in the text']].forEach(function(o){var cl=a[i]===o[0]?(c2?(o[0]===it[1]?' ok':' no'):' on'):'';h+='<button class="'+cl+'" data-tf="'+k+'" data-i="'+i+'" data-v="'+o[0]+'">'+o[1]+'</button>';});
+      if(a[i]===it[1])r++; h+='</div></div>';});
+    h+='<button class="btn" data-chk="'+k+'">✔ Check</button>'; if(c2)h+=fb(r,b.items.length);
+    return h+sol(b)+'</div>';
+  case 'gap':
+    a=a||[]; var gs=gaps(b.text), c3=S[k+'.c'], r3=0, n=0;
+    var t=b.text.replace(/\[\[([^\]]+)\]\]/g,function(){var i=n++,g=gs[i],v=a[i];if(v===g.c)r3++;
+      var cl=c3&&v!=null&&v!==''?(v===g.c?' class="ok"':' class="no"'):'';
+      return '<select data-gap="'+k+'" data-i="'+i+'"'+cl+'><option value="">…</option>'+g.o.map(function(o,j){return '<option value="'+j+'"'+(v===j?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select>';});
+    h='<div class="card" id="b-'+k+'">'+head(b)+'<div class="gap">'+t+'</div><button class="btn" data-chk="'+k+'">✔ Check</button>'+(c3?fb(r3,gs.length):'');
+    return h+sol(b)+'</div>';
+  case 'match':
+    a=a||[]; var c4=S[k+'.c'], r4=0; h='<div class="card" id="b-'+k+'">'+head(b)+'<table class="m">';
+    b.left.forEach(function(l,i){var v=a[i];if(v===b.right[i])r4++;var cl=c4&&v!=null&&v!==''?(v===b.right[i]?' class="ok"':' class="no"'):'';
+      h+='<tr><td><b>'+esc(l)+'</b></td><td><select data-gap="'+k+'" data-i="'+i+'"'+cl+'><option value="">choose …</option>'+b.opts.map(function(o,j){return '<option value="'+j+'"'+(v===j?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></td></tr>';});
+    h+='</table><button class="btn" data-chk="'+k+'">✔ Check</button>'+(c4?fb(r4,b.left.length):'');
+    return h+sol(b)+'</div>';
+  case 'sort':
+    a=a||[]; var c5=S[k+'.c'], r5=0; h='<div class="card" id="b-'+k+'">'+head(b);
+    b.items.forEach(function(it,i){if(a[i]===it[1])r5++;h+='<div class="item">'+esc(it[0])+'<div class="tf">';
+      b.cats.forEach(function(c,j){var cl=a[i]===j?(c5?(j===it[1]?' ok':' no'):' on'):'';h+='<button class="'+cl+'" data-tf="'+k+'" data-i="'+i+'" data-v="'+j+'">'+c+'</button>';});h+='</div></div>';});
+    h+='<button class="btn" data-chk="'+k+'">✔ Check</button>'+(c5?fb(r5,b.items.length):'');
+    return h+sol(b)+'</div>';
+  case 'write':
+    h='<div class="card" id="b-'+k+'">'+head(b)+'<textarea data-w="'+k+'" placeholder="Write here …"'+(b.big?' style="min-height:220px"':'')+'>'+esc(a||'')+'</textarea>';
+    h+='<div class="count" id="c-'+k+'">'+cnt(b)+'</div>';
+    h+='<div class="small" style="margin-top:8px">💬 Sentence starters (tap to add):</div><div class="chips">'+b.starters.map(function(s){return '<button class="chip" data-add="'+k+'" data-t="'+esc(s)+'">'+esc(s)+'</button>';}).join('')+'</div>';
+    if(b.words)h+='<div class="small">🧺 Useful words:</div><div class="chips">'+b.words.map(function(s){return '<button class="chip wb" data-add="'+k+'" data-t="'+esc(s)+'">'+esc(s)+'</button>';}).join('')+'</div>';
+    if(b.check){var cl6=S[k+'.cl']||[];h+='<div class="check"><b>✅ Checklist</b>'+b.check.map(function(c,i){return '<label><input type="checkbox" data-cl="'+k+'" data-i="'+i+'"'+(cl6[i]?' checked':'')+'> '+esc(c)+'</label>';}).join('')+'</div>';}
+    return h+sol(b)+'</div>';
+  case 'self':
+    a=a||[]; h='<div class="card" id="b-'+k+'">'+head(b)+'<table class="self">';
+    b.items.forEach(function(it,i){h+='<tr><td>'+esc(it)+'</td><td style="white-space:nowrap">'+['😀','🙂','😕'].map(function(e,j){return '<button class="'+(a[i]===j?'on':'')+'" data-self="'+k+'" data-i="'+i+'" data-v="'+j+'">'+e+'</button>';}).join('')+'</td></tr>';});
+    return h+'</table></div>';
+  case 'map':
+    a=a||[]; var c7=S[k+'.c'], u=48, h7='<div class="mapwrap"><svg class="map" viewBox="-2 -2 532 388" role="img" aria-label="Tile map of the USA">';
+    h7+='<rect x="'+(6*u)+'" y="'+(1*u+6)+'" width="'+(3*u-6)+'" height="'+(u-12)+'" rx="18" fill="var(--lake)"/><text x="'+(7.5*u-3)+'" y="'+(1.5*u)+'" style="font-size:12px;fill:#1D4E66">Great Lakes</text>';
+    TILES.forEach(function(t){var on=a.indexOf(t[0])>=0, mw=MIDWEST.indexOf(t[0])>=0, cl='s';
+      if(c7){cl+=on?(mw?' ok':' no'):(mw?' miss':'');}else if(on)cl+=' on';
+      h7+='<g class="'+cl+'" data-st="'+t[0]+'"><title>'+NAMES[t[0]]+'</title><rect x="'+(t[1]*u)+'" y="'+(t[2]*u)+'" width="'+(u-4)+'" height="'+(u-4)+'" rx="6"/><text x="'+(t[1]*u+u/2-2)+'" y="'+(t[2]*u+u/2-2)+'">'+t[0]+'</text></g>';});
+    h7+='</svg></div><div class="legend" id="mapname">Each square is one state (not the real size). Tap a square to see its name.</div>';
+    var ok=a.filter(function(s){return MIDWEST.indexOf(s)>=0;}).length, wrong=a.length-ok;
+    h='<div class="card" id="b-'+k+'">'+head(b)+h7+'<button class="btn" data-chk="'+k+'">✔ Check</button><button class="btn g" data-mapclr="'+k+'">↺ Start again</button>';
+    if(c7)h+='<div class="fb '+(ok===12&&!wrong?'ok':'mid')+'">'+(ok===12&&!wrong?'🎉 Perfect! You found all 12 Midwest states.':'You found <b>'+ok+' of 12</b> Midwest states'+(wrong?' and chose <b>'+wrong+'</b> other state(s) (red)':'')+'. Yellow = Midwest states you missed. Read the text and try again!')+'</div><div class="legend">🟩 right · 🟥 not Midwest · 🟨 missed</div>';
+    return h+sol(b)+'</div>';
+  }
+  return '';
+}
+function cnt(b){var n=wc(S[b.k]||'');return n+' words'+(b.min?' · goal: at least '+b.min+(n>=b.min?' ✅':''):'');}
+function rr(k){var b=BLK[k],el=document.getElementById('b-'+k);if(el)el.outerHTML=rBlock(b);
+  STATIONS.forEach(function(st){st.blocks.forEach(function(x){if(x.t==='reveal'&&x.of===k){var e=document.getElementById('b-rv'+k);if(e)e.outerHTML=rBlock(x);}});});save();upd();}
+
+function home(){
+  var h='<div class="lkbanner"><b>👩‍🏫 Lehrkraft-Ansicht</b> (Adresse endet auf <code>#lehrkraft</code>): Bei jeder Aufgabe stehen Lösung bzw. Erwartungshorizont in grünen Kästen. Schüler*innen bekommen die Adresse <b>ohne</b> #lehrkraft.</div>';
+  h+='<div class="hero"><h1>Midwest Lab 🌽<br><span style="font-size:20px;font-weight:500">Exploring the heart of America</span></h1><p>Year 8 · 6 stations · about 150 minutes</p><div class="steps"><div><span>🤔</span>Guess first</div><div><span>📖</span>Read &amp; listen</div><div><span>✏️</span>Do the tasks</div><div><span>✔</span>Check yourself</div></div></div>';
+  h+='<div class="card"><b>Your name:</b><br><input class="name" id="nm" value="'+esc(S.name||'')+'" placeholder="First name"> <p class="small">● Basic tasks are for everybody. ●● Plus and ●●● Pro are a bit harder. ★ Extra is for fast learners. Your answers are saved on this device.</p></div>';
+  h+='<div class="grid">'+STATIONS.map(function(st,i){var p=Math.round(stProg(st)*100);return '<button class="st" data-go="'+i+'"><div class="ic">'+st.ic+'</div><div class="t">'+(i+1)+'. '+st.title+'</div><div class="m">about '+st.time+' min · '+st.blocks.filter(isTask).length+' tasks · '+p+' %</div><div class="pg"><i style="width:'+p+'%"></i></div></button>';}).join('')+'</div>';
+  M.innerHTML=h; CUR=null; upd();
+  document.getElementById('nm').oninput=function(){S.name=this.value;save();upd();};
+}
+function station(i){
+  var st=STATIONS[i]; CUR=i;
+  var h='<div class="lkbanner"><b>👩‍🏫 Lehrkraft-Ansicht</b> – Lösungen sind eingeblendet.</div><h2>'+st.ic+' Station '+(i+1)+': '+st.title+'</h2><div class="small">about '+st.time+' minutes</div><div class="problem">'+st.problem+'</div>';
+  st.blocks.forEach(function(b){h+=rBlock(b);});
+  h+='<div class="nav">'+(i>0?'<button class="btn g" data-go="'+(i-1)+'">← Station '+i+'</button>':'<span></span>')+(i<STATIONS.length-1?'<button class="btn" data-go="'+(i+1)+'">Station '+(i+2)+' →</button>':'<button class="btn" onclick="go(\'res\')">📄 My results</button>')+'</div>';
+  M.innerHTML=h; window.scrollTo(0,0); upd();
+}
+function results(){
+  var h='<h2>📄 My results'+(S.name?' – '+esc(S.name):'')+'</h2><p class="small">Progress: '+Math.round(totProg()*100)+' % · '+new Date().toLocaleDateString('de-DE')+'</p><div class="noprint"><button class="btn" onclick="window.print()">🖨️ Print / save as PDF</button><button class="btn r" id="del">🗑️ Delete my answers</button></div><div class="card res">';
+  STATIONS.forEach(function(st,i){h+='<h3>'+st.ic+' '+(i+1)+'. '+st.title+' – '+Math.round(stProg(st)*100)+' %</h3>';
+    st.blocks.filter(isTask).forEach(function(b){var a=S[b.k],t='';
+      if(b.t==='write')t=a||'—';else if(b.t==='guess')t=a!=null?b.opts[a]:'—';
+      else if(b.t==='map')t=(a||[]).map(function(s){return NAMES[s];}).join(', ')||'—';
+      else if(b.t==='self')t=b.items.map(function(x,j){return x+' '+(['😀','🙂','😕'][(a||[])[j]]||'—');}).join('\n');
+      else t=done(b)?'checked ✔':'not yet';
+      h+='<div><b>'+b.nr+'</b> '+plain(b.q).slice(0,90)+(plain(b.q).length>90?' …':'')+'</div><div class="a">'+esc(t)+'</div>';});});
+  M.innerHTML=h+'</div>'; CUR='res'; upd();
+  document.getElementById('del').onclick=function(){if(confirm('Really delete all your answers on this device?')){S={};save();home();}};
+}
+function go(x){speechSynthesis&&speechSynthesis.cancel&&speechSynthesis.cancel();if(x==='home')home();else if(x==='res')results();else station(x);}
+
+/* ---------- Vorlesen und Wörter ---------- */
+function say(t,rate){
+  if(!('speechSynthesis' in window)){alert('Your browser cannot read aloud.');return;}
+  speechSynthesis.cancel(); var u=new SpeechSynthesisUtterance(t); u.lang='en-US'; u.rate=rate||.95;
+  var v=speechSynthesis.getVoices().filter(function(v){return /^en[-_]US/i.test(v.lang);})[0]||speechSynthesis.getVoices().filter(function(v){return /^en/i.test(v.lang);})[0]; if(v)u.voice=v;
+  speechSynthesis.speak(u);}
+function hidePop(){document.getElementById('pop').classList.remove('on');}
+
+/* ---------- Klicks ---------- */
+M.addEventListener('click',function(e){
+  var t=e.target.closest('button,g[data-st]'); if(!t)return; var d=t.dataset;
+  if(d.go!=null){go(+d.go);return;}
+  if(t.classList.contains('w')){document.getElementById('popEn').textContent=d.en;document.getElementById('popDe').textContent='= '+d.de;document.getElementById('pop').classList.add('on');say(d.en,.8);return;}
+  if(d.say){var b=BLK[d.say];say(b.title+'. '+b.paras.map(plain).join(' '),+d.r);return;}
+  if(d.stop){speechSynthesis.cancel();return;}
+  if(d.st){var k=t.closest('.card').id.slice(2),a=S[k]||[],i=a.indexOf(d.st);if(i>=0)a.splice(i,1);else a.push(d.st);S[k]=a;S[k+'.c']=false;rr(k);
+    document.getElementById('mapname').textContent='👉 '+NAMES[d.st]+(a.indexOf(d.st)>=0?' – selected':'');return;}
+  if(d.mapclr){S[d.mapclr]=[];S[d.mapclr+'.c']=false;rr(d.mapclr);return;}
+  if(d.k!=null&&d.i!=null&&!d.tf&&!d.add&&!d.self){S[d.k]=+d.i;S[d.k+'.c']=false;rr(d.k);return;}
+  if(d.lock){S[d.lock+'.lock']=true;rr(d.lock);return;}
+  if(d.rev){S[d.rev+'.rev']=true;rr(d.rev);return;}
+  if(d.tf){var a2=S[d.tf]||[];a2[+d.i]=isNaN(+d.v)?d.v:+d.v;S[d.tf]=a2;S[d.tf+'.c']=false;rr(d.tf);return;}
+  if(d.self){var a3=S[d.self]||[];a3[+d.i]=+d.v;S[d.self]=a3;rr(d.self);return;}
+  if(d.chk){S[d.chk+'.c']=true;S[d.chk+'.d']=true;rr(d.chk);return;}
+  if(d.add){var ta=document.querySelector('textarea[data-w="'+d.add+'"]'),v=ta.value;ta.value=v+(v&&!/[\s]$/.test(v)?' ':'')+d.t+' ';S[d.add]=ta.value;save();document.getElementById('c-'+d.add).innerHTML=cnt(BLK[d.add]);upd();ta.focus();return;}
+});
+M.addEventListener('change',function(e){var t=e.target,d=t.dataset;
+  if(d.gap){var a=S[d.gap]||[];a[+d.i]=t.value===''?null:+t.value;S[d.gap]=a;S[d.gap+'.c']=false;save();
+    var card=t.closest('.card');card.querySelectorAll('select').forEach(function(s){s.className='';});var f=card.querySelector('.fb');if(f)f.remove();}
+  if(d.cl){var c=S[d.cl+'.cl']||[];c[+d.i]=t.checked;S[d.cl+'.cl']=c;save();}
+});
+M.addEventListener('input',function(e){var d=e.target.dataset;if(d.w){S[d.w]=e.target.value;save();document.getElementById('c-'+d.w).innerHTML=cnt(BLK[d.w]);upd();}});
+home();
+</script>
+</body>
+</html>
