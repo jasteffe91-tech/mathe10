@@ -308,6 +308,13 @@ html{font-size:19px}
 .kopfknoepfe{flex-shrink:0}
 @media (max-width:700px){.kopf-in{flex-wrap:wrap}.nav{order:3;flex-basis:100%}}
 
+.buchkurz{margin:.5rem 0 .8rem;padding:.45rem .8rem;border-radius:10px;background:#EEF4FB;color:#1F3A5F;font-size:.95rem}
+.buchbox{margin:1.2rem 0 .4rem;padding:.8rem 1rem;border:2px dashed #9DB8D9;border-radius:14px;background:#F6F9FD}
+.buchbox h3{margin:0 0 .3rem}
+.buchbox ul{margin:.4rem 0 0;padding-left:1.2rem}
+.buchbox li{margin:.25rem 0}
+.buchachtung{margin:.6rem 0 0;color:#7A5A00;background:#FFF3D6;border-radius:8px;padding:.4rem .7rem;font-size:.92rem}
+
 </style>
 </head>
 <body>
@@ -486,19 +493,20 @@ function miniParabel(a, e) {   // kleine Parabel (x und y von −4 bis 4)
 var ABSCHNITTE = [
   { nr: 1, titel: 'Wiederholung: Lineare Funktionen', kurz: 'Geraden', zeit: 95, text: 'Wertetabelle, Graph, Steigung, y-Achsenabschnitt, Tarife vergleichen',
     termin: '🖥️ Fr 13.11. PC-Raum · Rest Hausaufgabe bis Di 17.11., 8:00' },
-  { nr: 2, titel: 'Normalparabel und Faktor a', kurz: 'a', zeit: 115, text: 'Normalparabel, gestreckt, gestaucht, Öffnung, a ablesen und berechnen',
+  { nr: 2, titel: 'Normalparabel und Faktor a', kurz: 'Parabel & a', zeit: 115, text: 'Normalparabel, gestreckt, gestaucht, Öffnung, a ablesen und berechnen',
     termin: 'Di 17.11. · Fr 20.11. (Station 5 Hausaufgabe bis Fr 20.11., 8:00) · Di 24.11. Lernbüro: Station 7' },
-  { nr: 3, titel: 'Verschiebung, Fünf-Punkte-Verfahren, Nullstellen', kurz: 'e · Null', zeit: 110, text: 'Summand e, Scheitelpunkt, Parabeln schnell zeichnen, Nullstellen ablesen',
+  { nr: 3, titel: 'Verschiebung, Fünf-Punkte-Verfahren, Nullstellen', kurz: 'Verschieben & Nullstellen', zeit: 110, text: 'Summand e, Scheitelpunkt, Parabeln schnell zeichnen, Nullstellen ablesen',
     termin: 'Fr 27.11. · Di 01.12. (Station 10 Hausaufgabe bis Fr 04.12., 8:00) · Fr 04.12. · Di 08.12. Lernbüro' },
-  { nr: 4, titel: 'Gleichungen und Anwendungen', kurz: 'Gleich.', zeit: 125, text: 'Rein quadratische Gleichungen, Nullstellen berechnen, Parabel-Werkstatt, Alltag',
+  { nr: 4, titel: 'Gleichungen und Anwendungen', kurz: 'Gleichungen', zeit: 125, text: 'Rein quadratische Gleichungen, Nullstellen berechnen, Parabel-Werkstatt, Alltag',
     termin: 'Fr 11.12. · 🖥️ Di 15.12. PC/iPad: Station 14 · Rest Hausaufgabe bis Fr 18.12., 8:00' },
-  { nr: 5, titel: 'Fit für die Klassenarbeit', kurz: 'KA-Fit', zeit: 45, text: 'Selbsttest mit Hinweisen, welche Station du noch üben solltest',
+  { nr: 5, titel: 'Fit für die Klassenarbeit', kurz: 'Fit für die KA', zeit: 45, text: 'Selbsttest mit Hinweisen, welche Station du noch üben solltest',
     termin: 'Fr 08.01. · Di 12.01. Lernbüro · KA 2 am Fr 15.01.' }
 ];
 
 var STATIONEN = [
 /* ---------------------------------------------------------------- 1 */
 { id: 'st1', nr: 1, ab: 1, titel: 'Wertetabelle und Graph', zeit: 25, ico: '📋',
+  buch: { kurz: "Buch S. 58–60", liste: [["📖 Buch", "Wiederholung S. 58–59 (Lösungen hinten im Buch S. 212–213) · Wissen S. 60"], ["📖 Buch üben", "▽ S. 61 · ◪ S. 62 · ☒ S. 63"], ["📒 Arbeitsheft", "● S. 32 · ●● S. 33 · ●●● S. 34"]] },
   problem: '<p>Ein Fahrradverleih am Rhein verlangt <b>3 € Grundgebühr</b> und <b>2 € pro Stunde</b>. 🚲</p><p><b>Wie viel kostet eine Fahrradtour – und wie sieht das als Graph aus?</b></p>',
   bloecke: [
     { b: 'a', nr: '1.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
@@ -544,6 +552,7 @@ var STATIONEN = [
 
 /* ---------------------------------------------------------------- 2 */
 { id: 'st2', nr: 2, ab: 1, titel: 'Steigung und y-Achsenabschnitt', zeit: 30, ico: '📈',
+  buch: { kurz: "Buch S. 60 (Wissen)", liste: [["📖 Buch", "Wissen S. 60: Steigung m, y-Achsenabschnitt b, Steigungsdreieck"], ["📖 Buch üben", "▽ S. 61 · ◪ S. 62 · ☒ S. 63"], ["📒 Arbeitsheft", "● S. 32 · ●● S. 33 · ●●● S. 34"]] },
   problem: '<p>Jede Gerade hat eine Gleichung <b>y = <span style="color:' + FM + '">m</span>x + <span style="color:' + FB + '">b</span></b>.</p><p>Aber was bedeuten <b style="color:' + FM + '">m</b> und <b style="color:' + FB + '">b</b>? Was passiert mit der Geraden, wenn du sie veränderst?</p><p><b>Werde Geraden-Fängerin oder Geraden-Fänger!</b> 🎯</p>',
   bloecke: [
     { b: 'a', nr: '2.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
@@ -588,6 +597,7 @@ var STATIONEN = [
 
 /* ---------------------------------------------------------------- 3 */
 { id: 'st3', nr: 3, ab: 1, titel: 'Geraden im Alltag: Tarife vergleichen', zeit: 30, ico: '🚲',
+  buch: { kurz: "Buch S. 63", liste: [["📖 Buch üben", "Sachaufgaben ☒ S. 63 · Grundaufgaben ▽ S. 61 · ◪ S. 62"], ["📒 Arbeitsheft", "●●● S. 34 · Prüfungsaufgaben S. 98–103, z. B. „Klassenfahrt“ mit drei Bus-Angeboten"]] },
   problem: '<p>Zwei Fahrradverleihe machen Werbung:</p><p>🟦 <b>Radstation:</b> 3 € Grundgebühr + 2 € pro Stunde<br>🟧 <b>Rheinrad:</b> keine Grundgebühr, 3 € pro Stunde</p><p><b>Welcher Verleih ist günstiger?</b> 🤔</p>',
   bloecke: [
     { b: 'a', nr: '3.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
@@ -624,6 +634,7 @@ var STATIONEN = [
 
 /* ---------------------------------------------------------------- Fazit */
 { id: 'fazit1', nr: 4, ab: 1, titel: 'Fazit 1: Lineare Funktionen', zeit: 10, ico: '🏁',
+  buch: { kurz: "Buch S. 60", liste: [["📖 Buch", "Wissen S. 60 noch einmal lesen und mit deinem Merksatz vergleichen"], ["📒 Arbeitsheft", "● S. 32 · ●● S. 33 · ●●● S. 34"]] },
   problem: '<p>Geschafft! 🎉 Zum Schluss schaust du zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
   bloecke: [
     { b: 'a', nr: '4.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz1.ich', frage: 'Kreuze ehrlich an. Das hilft dir und deiner Lehrkraft.' },
@@ -637,6 +648,7 @@ var STATIONEN = [
 
 /* ================================================================ Abschnitt 2: Normalparabel und Streckfaktor a */
 { id: 'st5', nr: 5, ab: 2, titel: 'Die Normalparabel', zeit: 35, ico: '🌈',
+  buch: { kurz: "Buch S. 64 (Wissen)", liste: [["📖 Buch", "Wissen S. 64: quadratische Funktion, Normalparabel"], ["📖 Buch üben", "▽ S. 65 · ◪ S. 66 · ☒ S. 67"], ["📒 Arbeitsheft", "● S. 35 · ●● S. 36 · ●●● S. 37"]] },
   problem: '<p>Beim Seilspringen, beim Wasserstrahl eines Brunnens, beim Basketballwurf: Überall siehst du diese Kurve. 🏀</p><p>Sie heißt <b>Parabel</b>. Die einfachste Parabel gehört zur Funktion <b>f(x) = x²</b>.</p><p><b>Wie sieht sie genau aus?</b></p>',
   bloecke: [
     { b: 'a', nr: '5.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du? Es gibt hier noch kein Richtig oder Falsch.',
@@ -668,6 +680,7 @@ var STATIONEN = [
   ] },
 
 { id: 'st6', nr: 6, ab: 2, titel: 'Gestreckt und gestaucht: der Faktor a', zeit: 35, ico: '↕️',
+  buch: { kurz: "Buch S. 68 (Wissen)", liste: [["📖 Buch", "Wissen S. 68: gestreckte und gestauchte Parabel, a ablesen"], ["📖 Buch üben", "▽ S. 69 · ◪ S. 70 · ☒ S. 71"], ["📒 Arbeitsheft", "● S. 35 · ●● S. 36 · ●●● S. 37"]] },
   problem: '<p>Der Wasserstrahl eines Brunnens ist mal schmal und hoch, mal breit und flach. 💦</p><p>Mathematisch steckt dahinter eine Zahl vor dem x²: <b>f(x) = <span style="color:#1565C0">a</span> · x²</b>.</p><p><b>Was macht a mit der Parabel?</b></p>',
   bloecke: [
     { b: 'a', nr: '6.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du? Wähle jeweils eine Antwort.',
@@ -696,6 +709,7 @@ var STATIONEN = [
   ] },
 
 { id: 'st7', nr: 7, ab: 2, titel: 'Training: Parabeln mit a', zeit: 35, ico: '🏋️',
+  buch: { kurz: "Buch S. 65–71", liste: [["📖 Buch üben", "▽ S. 65 und 69 · ◪ S. 66 und 70 · ☒ S. 67 und 71"], ["📒 Arbeitsheft", "● S. 35 · ●● S. 36 · ●●● S. 37"]] },
   problem: '<p>Training im Lernbüro! 💪</p><p>Hier übst du alles zur Normalparabel und zum Faktor a. Beginne mit den ● Basis-Aufgaben. Wenn du sicher bist, nimm die ●● und ●●● Aufgaben.</p>',
   bloecke: [
     { b: 'a', nr: '7.1', lv: 1, ph: '🧮 Wertetabelle', art: 'rechnung', frage: 'Berechne für <b>f(x) = 0,5x²</b>.',
@@ -719,6 +733,7 @@ var STATIONEN = [
   ] },
 
 { id: 'fazit2', nr: 8, ab: 2, titel: 'Fazit 2: Normalparabel und a', zeit: 10, ico: '🏁',
+  buch: { kurz: "Buch S. 94", liste: [["📖 Buch", "Zusammenfassung S. 94 (Normalparabel, Faktor a)"], ["📒 Arbeitsheft", "● S. 35 · ●● S. 36 · ●●● S. 37"]] },
   problem: '<p>Abschnitt 2 geschafft! 🎉 Schau zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
   bloecke: [
     { b: 'a', nr: '8.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz2.ich', frage: 'Kreuze ehrlich an.',
@@ -731,6 +746,7 @@ var STATIONEN = [
 
 /* ================================================================ Abschnitt 3: e, Fünf-Punkte-Verfahren, Nullstellen */
 { id: 'st9', nr: 9, ab: 3, titel: 'Verschobene Parabeln: der Summand e', zeit: 35, ico: '⬆️',
+  buch: { kurz: "Buch S. 72 (Wissen)", liste: [["📖 Buch", "Wissen S. 72: nach oben oder unten verschobene Parabeln"], ["📖 Buch üben", "▽ S. 73 · ◪ S. 74 · ☒ S. 75"], ["📒 Arbeitsheft", "● S. 38 · ●● S. 39 · ●●● S. 40"]] },
   problem: '<p>Ein Springbrunnen spritzt Wasser aus einer Düse, die 2 m hoch ist. ⛲</p><p>Die Parabel beginnt also nicht im Ursprung – sie ist <b>nach oben verschoben</b>.</p><p><b>f(x) = <span style="color:#1565C0">a</span>x² + <span style="color:' + FB + '">e</span></b> – was bewirkt e?</p>',
   bloecke: [
     { b: 'a', nr: '9.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du?',
@@ -754,6 +770,7 @@ var STATIONEN = [
   ] },
 
 { id: 'st10', nr: 10, ab: 3, titel: 'Das Fünf-Punkte-Verfahren', zeit: 30, ico: '✋',
+  buch: { kurz: "Buch S. 76–77", liste: [["📖 Buch", "S. 76–77: Fünf-Punkte-Verfahren Schritt für Schritt (mit Bildern)"], ["📒 Arbeitsheft", "verschobene Parabeln zeichnen: ● S. 38 · ●● S. 39 · ●●● S. 40"]] },
   problem: '<p>Eine Parabel mit einer langen Wertetabelle zu zeichnen dauert. ⏳</p><p>Mit dem <b>Fünf-Punkte-Verfahren</b> geht es schnell: Du brauchst nur den Scheitelpunkt, den Faktor a und die Symmetrie.</p><p><b>Fünf Punkte – fertig!</b> ✋</p>',
   bloecke: [
     { b: 'info', html: '<b>Das Fünf-Punkte-Verfahren für f(x) = ax² + e</b><br>① Scheitelpunkt <b>S(0 | e)</b> eintragen.<br>② Von S: <b style="color:' + FX + '">1 nach rechts</b>, <b style="color:#1565C0">a nach oben</b> (bei negativem a nach unten) → Punkt <b>A</b>.<br>③ Von S: <b style="color:' + FX + '">2 nach rechts</b>, <b style="color:#7B3FA0">4 · a nach oben</b> → Punkt <b>B</b>.<br>④ A und B an der y-Achse spiegeln → <b>A′</b> und <b>B′</b>.<br>⑤ Die fünf Punkte zu einer Parabel verbinden.' },
@@ -774,6 +791,7 @@ var STATIONEN = [
   ] },
 
 { id: 'st11', nr: 11, ab: 3, titel: 'Nullstellen ablesen', zeit: 35, ico: '🎯',
+  buch: { kurz: "Buch S. 78 (Wissen)", liste: [["📖 Buch", "Wissen S. 78: Nullstellen zeichnerisch bestimmen"], ["📖 Buch üben", "▽ S. 79 · ◪ S. 80 · ☒ S. 81"], ["📒 Arbeitsheft", "● S. 41 · ●● S. 42 · ●●● S. 43"]] },
   problem: '<p>Zwei Kinder werfen sich einen Ball zu. 🏐 Wo würde der Ball auf den Boden treffen?</p><p>Am Boden ist die Höhe 0. Gesucht sind also die Stellen, an denen die Parabel die x-Achse schneidet: die <b>Nullstellen</b>.</p>',
   bloecke: [
     { b: 'a', nr: '11.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du?',
@@ -796,6 +814,7 @@ var STATIONEN = [
   ] },
 
 { id: 'fazit3', nr: 12, ab: 3, titel: 'Fazit 3: e, Fünf Punkte, Nullstellen', zeit: 10, ico: '🏁',
+  buch: { kurz: "Buch S. 86–87", liste: [["📖 Buch", "Zwischentest S. 86–87 – Lösungen hinten im Buch S. 213–215. So siehst du, was du schon kannst."], ["📖 Buch", "Zusammenfassung S. 94"]] },
   problem: '<p>Abschnitt 3 geschafft! 🎉 Schau zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
   bloecke: [
     { b: 'a', nr: '12.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz3.ich', frage: 'Kreuze ehrlich an.',
@@ -808,6 +827,7 @@ var STATIONEN = [
 
 /* ================================================================ Abschnitt 4: Gleichungen und Anwendungen */
 { id: 'st13', nr: 13, ab: 4, titel: 'Rein quadratische Gleichungen lösen', zeit: 40, ico: '⚖️',
+  buch: { kurz: "Buch S. 82 (Wissen)", liste: [["📖 Buch", "Wissen S. 82: rein quadratische Gleichungen lösen"], ["📖 Buch üben", "▽ S. 83 · ◪ S. 84 · ☒ S. 85"], ["📒 Arbeitsheft", "● S. 44 · ●● S. 45 · ●●● S. 46"]], achtung: "Achtung Druckfehler im Buch S. 83, Aufgabe 6 (Beispiel): Gerechnet wird 2x² + 20 = 0, im Schlusssatz steht falsch 2x² + 2 = 0." },
   problem: '<p>Ein quadratisches Beet soll <b>49 m²</b> groß sein. 🌷 Wie lang ist eine Seite?</p><p>Gesucht ist x mit <b>x² = 49</b>. In solchen Gleichungen kommt x nur als x² vor. Sie heißen <b>rein quadratische Gleichungen</b>.</p>',
   bloecke: [
     { b: 'a', nr: '13.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs', frage: 'Was glaubst du?',
@@ -837,6 +857,7 @@ var STATIONEN = [
   ] },
 
 { id: 'st14', nr: 14, ab: 4, titel: 'Parabel-Werkstatt am Computer', zeit: 40, ico: '🛠️',
+  buch: { kurz: "Buch S. 88", liste: [["📖 Buch", "S. 88: Parabeln mit dem Computer (Schieberegler a und e)"], ["📖 Buch üben", "Nullstellen berechnen: S. 82–85"], ["📒 Arbeitsheft", "● S. 44 · ●● S. 45 · ●●● S. 46"]] },
   problem: '<p>Mathematikerinnen und Mathematiker erforschen Funktionen mit dem Computer. 💻</p><p>Mit zwei Schiebereglern veränderst du a und e und siehst sofort, was passiert.</p><p><b>Heute forschst du selbst!</b> 🔬</p>',
   bloecke: [
     { b: 'sim', sim: 'W' },
@@ -861,6 +882,7 @@ var STATIONEN = [
   ] },
 
 { id: 'st15', nr: 15, ab: 4, titel: 'Parabeln im Alltag', zeit: 35, ico: '🌉',
+  buch: { kurz: "Buch S. 89–92", liste: [["📖 Buch üben", "Vermischte Übungen ▽ S. 89 · ◪ S. 90 · ☒ S. 91"], ["📖 Buch", "Tieftauchen „Sportfest“ S. 92 (Turmsprung, Ballwurf)"]], achtung: "Achtung Druckfehler im Buch S. 89, Aufgabe 8 und S. 90, Aufgabe 7 (Beispiel): Dort steht „x = −4“, richtig ist x² = −4." },
   problem: '<p>Parabeln sind überall: beim Springbrunnen, beim Sprung vom Turm, beim Brückenbogen und wenn ein Stein fällt. 🌉</p><p><b>Jetzt rechnest du mit echten Situationen – und prüfst, ob deine Ergebnisse passen.</b></p>',
   bloecke: [
     { b: 'info', html: '<b>Springbrunnen:</b> Der Wasserstrahl hat die Form <b>f(x) = −0,5x² + 2</b> (x und y in Metern, x = 0 ist die Mitte, der Boden ist y = 0).' + miniParabel(-0.5, 2) },
@@ -883,6 +905,7 @@ var STATIONEN = [
   ] },
 
 { id: 'fazit4', nr: 16, ab: 4, titel: 'Fazit 4: Gleichungen und Anwendungen', zeit: 10, ico: '🏁',
+  buch: { kurz: "Buch S. 94", liste: [["📖 Buch", "Zusammenfassung S. 94"], ["📒 Arbeitsheft", "● S. 44 · ●● S. 45 · ●●● S. 46"]] },
   problem: '<p>Abschnitt 4 geschafft! 🎉 Schau zurück: Was kannst du schon sicher?</p><p>Danach speicherst du deine <b>PDF</b> und lädst sie bei IServ hoch.</p>',
   bloecke: [
     { b: 'a', nr: '16.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fz4.ich', frage: 'Kreuze ehrlich an.',
@@ -895,6 +918,7 @@ var STATIONEN = [
 
 /* ================================================================ Abschnitt 5: Fit für die KA 2 */
 { id: 'st17', nr: 17, ab: 5, titel: 'Selbsttest: Fit für die Klassenarbeit', zeit: 45, ico: '📝',
+  buch: { kurz: "Buch S. 93–94", liste: [["📖 Buch", "Abschlusstest S. 93 – Lösungen hinten im Buch S. 215–216"], ["📖 Buch", "Zwischentest S. 86–87 (Lösungen S. 213–215) · Zusammenfassung S. 94"], ["📒 Arbeitsheft", "alle Themen: S. 32–46 · Prüfungsaufgaben „Gleichungen und Funktionen“ S. 92–97"]] },
   problem: '<p>Bald ist die Klassenarbeit. 📝 Teste dich selbst!</p><p>Bei jeder Aufgabe steht im Tipp, in welcher <b>Station</b> du üben kannst, wenn es noch nicht klappt.</p>',
   bloecke: [
     { b: 'a', nr: '17.1', lv: 1, ph: '📏 Geraden', art: 'rechnung', frage: 'Gerade <b>y = −2x + 5</b>: Gib m und b an.',
@@ -923,6 +947,7 @@ var STATIONEN = [
   ] },
 
 { id: 'fazitG', nr: 18, ab: 0, titel: 'Gesamtfazit der Reihe', zeit: 10, ico: '🏆',
+  buch: { kurz: "Buch S. 94", liste: [["📖 Buch", "Zusammenfassung S. 94 – die ganze Reihe auf einer Seite"]] },
   problem: '<p>Du hast die ganze Reihe „Funktionen & Parabeln“ geschafft! 🏆</p><p>Zum Schluss: Was nimmst du mit?</p>',
   bloecke: [
     { b: 'a', nr: '18.1', lv: 1, ph: '🪞 Selbsteinschätzung', art: 'ichkann', k: 'fzG.ich', frage: 'Kreuze ehrlich an.',
@@ -1139,15 +1164,18 @@ function stationHtml(st, idx) {
   var h = '<section class="seite" id="' + st.id + '" data-titel="' + st.nr + '">';
   h += '<div class="stationskopf"><div class="nr">' + st.nr + '</div><div><div class="abschnittmarke">' + (ab ? 'Lernabschnitt ' + ab.nr + ' · ' + ab.titel : 'Abschluss') + '</div><h1>' + st.titel + '</h1><div class="zeit">ca. ' + st.zeit + ' Minuten · ' + st.bloecke.filter(function (b) { return b.b === 'a' && b.lv !== 'S'; }).length + ' Aufgaben + Extra</div></div></div>';
   h += '<div class="problem"><div class="problemico" aria-hidden="true">' + st.ico + '</div><div><div class="problemmarke">' + (st.ab === 0 ? 'ZUM ABSCHLUSS' : 'DIE FRAGE') + ' <button class="lies" data-lies="1" title="Vorlesen" aria-label="Text vorlesen">🔊</button></div><div class="ptext">' + st.problem + '</div></div></div>';
+  if (st.buch) h += '<div class="buchkurz">📚 Nachlesen: <b>' + st.buch.kurz + '</b> · mehr Aufgaben im Buch und Arbeitsheft ganz unten auf dieser Seite</div>';
   st.bloecke.forEach(function (b) {
     if (b.b === 'a') h += aufgabeHtml(b);
     else if (b.b === 'info') h += '<div class="info">' + b.html + '</div>';
     else if (b.b === 'modell') h += '<div class="modell">🧩 ' + b.html + '</div>';
     else if (b.b === 'sim') h += '<div class="simplatz" data-simplatz="' + b.sim + '"></div>';
   });
-  var vor = idx > 0 ? '<button class="knopf grau" data-geh="' + idx + '">◂ ' + (idx === 1 ? 'Start' : 'Station ' + STATIONEN[idx - 2].nr) + '</button>' : '<span></span>';
-  var nach = idx < STATIONEN.length ? '<button class="knopf" data-geh="' + (idx + 2) + '">Weiter zu Station ' + STATIONEN[idx].nr + ' ▸</button>' : '<button class="knopf or" data-geh="' + (idx + 2) + '">Zur Abgabe ▸</button>';
+  // idx ist der Index in STATIONEN (0 = erste Station); Seite i zeigt STATIONEN[i - 1]
+  var vor = '<button class="knopf grau" data-geh="' + idx + '">◂ ' + (idx === 0 ? 'Start' : 'Station ' + STATIONEN[idx - 1].nr) + '</button>';
+  var nach = idx < STATIONEN.length - 1 ? '<button class="knopf" data-geh="' + (idx + 2) + '">Weiter zu Station ' + STATIONEN[idx + 1].nr + ' ▸</button>' : '<button class="knopf or" data-geh="' + (idx + 2) + '">Zur Abgabe ▸</button>';
   var zw = '<button class="knopf dunkel" data-zwischen="1">📄 Zwischenstand als PDF</button>';
+  if (st.buch) h += '<div class="buchbox"><h3>📚 Mehr üben und nachlesen</h3><p class="satzhilfe">Wenn du willst: Hier findest du Erklärungen, Beispiele und weitere Aufgaben. ● leicht · ●● mittel · ●●● schwer. Im Arbeitsheft führt der QR-Code oben auf der Seite zu einem Erklärfilm.</p><ul>' + st.buch.liste.map(function (z) { return '<li><b>' + z[0] + ':</b> ' + z[1] + '</li>'; }).join('') + '</ul>' + (st.buch.achtung ? '<p class="buchachtung">⚠️ ' + st.buch.achtung + '</p>' : '') + '</div>';
   return h + '<div class="weiter">' + vor + zw + nach + '</div></section>';
 }
 
