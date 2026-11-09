@@ -612,25 +612,25 @@ var MESSTAB = {
     zeilen: function () { return S.mB.map(function (r, i) { return [i + 1, r.f, r.r + ' von 5', r.v]; }); } }
 };
 
-/* ---------- Wörterbuch (Übersetzungen: nicht von Muttersprachlern geprüft) ---------- */
+/* ---------- Wörterbuch (Übersetzungen EN/TR/AR/UK/RU/ES: nicht von Muttersprachlern geprüft) ---------- */
 var GLOSSAR = [
-  { w: 'Funktion', art: 'die', pl: 'die Funktionen', ico: '🔁', formen: ['Funktion', 'Funktionen'], erkl: 'eine Zuordnung: Zu jedem x gehört genau ein y.', en: 'function', tr: 'fonksiyon', ar: 'دالة', uk: 'функція', ru: 'функция' },
-  { w: 'lineare Funktion', art: 'die', ico: '📏', formen: ['lineare Funktion', 'linear', 'lineare'], erkl: 'eine Funktion mit der Gleichung y = mx + b. Ihr Graph ist eine Gerade.', en: 'linear function', tr: 'doğrusal fonksiyon', ar: 'دالة خطية', uk: 'лінійна функція', ru: 'линейная функция' },
-  { w: 'Funktionsgleichung', art: 'die', ico: '✏️', formen: ['Funktionsgleichung', 'Gleichung'], erkl: 'die Rechenvorschrift einer Funktion, zum Beispiel y = 2x + 3.', en: 'equation of the function', tr: 'fonksiyon denklemi', ar: 'معادلة الدالة', uk: 'рівняння функції', ru: 'уравнение функции' },
-  { w: 'Wertetabelle', art: 'die', ico: '📋', formen: ['Wertetabelle', 'Wertetabellen'], erkl: 'eine Tabelle: oben die x-Werte, unten die passenden y-Werte.', en: 'table of values', tr: 'değer tablosu', ar: 'جدول القيم', uk: 'таблиця значень', ru: 'таблица значений' },
-  { w: 'Graph', art: 'der', pl: 'die Graphen', ico: '📈', formen: ['Graph', 'Graphen'], erkl: 'das Bild einer Funktion im Koordinatensystem.', en: 'graph', tr: 'grafik', ar: 'التمثيل البياني', uk: 'графік', ru: 'график' },
-  { w: 'Gerade', art: 'die', pl: 'die Geraden', ico: '➖', formen: ['Gerade', 'Geraden'], erkl: 'eine gerade Linie ohne Anfang und Ende. Der Graph einer linearen Funktion.', en: 'straight line', tr: 'doğru', ar: 'خط مستقيم', uk: 'пряма', ru: 'прямая' },
-  { w: 'Steigung', art: 'die', ico: '⛰️', formen: ['Steigung'], erkl: 'm in y = mx + b. Sie sagt, wie steil die Gerade ist: Geht man 1 nach rechts, geht es m nach oben (oder unten).', en: 'slope', tr: 'eğim', ar: 'الميل', uk: 'кутовий коефіцієнт (нахил)', ru: 'угловой коэффициент (наклон)' },
-  { w: 'y-Achsenabschnitt', art: 'der', ico: '📍', formen: ['y-Achsenabschnitt'], erkl: 'b in y = mx + b. Dort schneidet die Gerade die y-Achse: im Punkt P(0|b).', en: 'y-intercept', tr: 'y eksenini kestiği nokta', ar: 'المقطع الصادي', uk: 'точка перетину з віссю y', ru: 'точка пересечения с осью y' },
-  { w: 'Steigungsdreieck', art: 'das', ico: '📐', formen: ['Steigungsdreieck'], erkl: 'ein Dreieck an der Geraden: 1 nach rechts, m nach oben (oder unten).', en: 'slope triangle', tr: 'eğim üçgeni', ar: 'مثلث الميل', uk: 'трикутник нахилу', ru: 'треугольник наклона' },
-  { w: 'Koordinatensystem', art: 'das', ico: '➕', formen: ['Koordinatensystem'], erkl: 'zwei Zahlengeraden: die x-Achse (waagerecht) und die y-Achse (senkrecht).', en: 'coordinate system', tr: 'koordinat sistemi', ar: 'نظام الإحداثيات', uk: 'система координат', ru: 'система координат' },
-  { w: 'y-Achse', art: 'die', ico: '⬆️', formen: ['y-Achse'], erkl: 'die senkrechte Achse im Koordinatensystem.', en: 'y-axis', tr: 'y ekseni', ar: 'المحور الصادي', uk: 'вісь y', ru: 'ось y' },
-  { w: 'Punktprobe', art: 'die', ico: '🔍', formen: ['Punktprobe'], erkl: 'Man prüft, ob ein Punkt auf dem Graphen liegt: x einsetzen, y ausrechnen, vergleichen.', en: 'point test (does the point lie on the graph?)', tr: 'nokta kontrolü', ar: 'التحقق من النقطة', uk: 'перевірка точки', ru: 'проверка точки' },
-  { w: 'einsetzen', ico: '➡️', formen: ['einsetzen', 'Setze', 'setze'], erkl: 'eine Zahl für x in die Gleichung schreiben und ausrechnen.', en: 'to substitute', tr: 'yerine koymak', ar: 'يعوّض', uk: 'підставити', ru: 'подставить' },
-  { w: 'Schnittpunkt', art: 'der', pl: 'die Schnittpunkte', ico: '✂️', formen: ['Schnittpunkt', 'schneiden', 'schneidet'], erkl: 'der Punkt, an dem sich zwei Linien treffen.', en: 'intersection point', tr: 'kesişim noktası', ar: 'نقطة التقاطع', uk: 'точка перетину', ru: 'точка пересечения' },
-  { w: 'Grundgebühr', art: 'die', ico: '💶', formen: ['Grundgebühr'], erkl: 'ein fester Betrag, den man immer zahlt – auch bei 0 Stunden.', en: 'basic fee', tr: 'temel ücret', ar: 'الرسوم الأساسية', uk: 'базова плата', ru: 'базовая плата' },
-  { w: 'waagerecht', ico: '↔️', formen: ['waagerecht'], erkl: 'flach wie der Horizont, von links nach rechts.', en: 'horizontal', tr: 'yatay', ar: 'أفقي', uk: 'горизонтально', ru: 'горизонтально' },
-  { w: 'Parabel', art: 'die', ico: '🌈', formen: ['Parabel'], erkl: 'der Graph einer quadratischen Funktion, zum Beispiel y = x². Sie sieht aus wie ein U.', en: 'parabola', tr: 'parabol', ar: 'قطع مكافئ', uk: 'парабола', ru: 'парабола' }
+  { w: 'Funktion', art: 'die', pl: 'die Funktionen', ico: '🔁', formen: ['Funktion', 'Funktionen'], erkl: 'eine Zuordnung: Zu jedem x gehört genau ein y.', en: 'function', tr: 'fonksiyon', ar: 'دالة', uk: 'функція', ru: 'функция', es: 'función' },
+  { w: 'lineare Funktion', art: 'die', ico: '📏', formen: ['lineare Funktion', 'linear', 'lineare'], erkl: 'eine Funktion mit der Gleichung y = mx + b. Ihr Graph ist eine Gerade.', en: 'linear function', tr: 'doğrusal fonksiyon', ar: 'دالة خطية', uk: 'лінійна функція', ru: 'линейная функция', es: 'función lineal' },
+  { w: 'Funktionsgleichung', art: 'die', ico: '✏️', formen: ['Funktionsgleichung', 'Gleichung'], erkl: 'die Rechenvorschrift einer Funktion, zum Beispiel y = 2x + 3.', en: 'equation of the function', tr: 'fonksiyon denklemi', ar: 'معادلة الدالة', uk: 'рівняння функції', ru: 'уравнение функции', es: 'ecuación de la función' },
+  { w: 'Wertetabelle', art: 'die', ico: '📋', formen: ['Wertetabelle', 'Wertetabellen'], erkl: 'eine Tabelle: oben die x-Werte, unten die passenden y-Werte.', en: 'table of values', tr: 'değer tablosu', ar: 'جدول القيم', uk: 'таблиця значень', ru: 'таблица значений', es: 'tabla de valores' },
+  { w: 'Graph', art: 'der', pl: 'die Graphen', ico: '📈', formen: ['Graph', 'Graphen'], erkl: 'das Bild einer Funktion im Koordinatensystem.', en: 'graph', tr: 'grafik', ar: 'التمثيل البياني', uk: 'графік', ru: 'график', es: 'gráfica' },
+  { w: 'Gerade', art: 'die', pl: 'die Geraden', ico: '➖', formen: ['Gerade', 'Geraden'], erkl: 'eine gerade Linie ohne Anfang und Ende. Der Graph einer linearen Funktion.', en: 'straight line', tr: 'doğru', ar: 'خط مستقيم', uk: 'пряма', ru: 'прямая', es: 'recta' },
+  { w: 'Steigung', art: 'die', ico: '⛰️', formen: ['Steigung'], erkl: 'm in y = mx + b. Sie sagt, wie steil die Gerade ist: Geht man 1 nach rechts, geht es m nach oben (oder unten).', en: 'slope', tr: 'eğim', ar: 'الميل', uk: 'кутовий коефіцієнт (нахил)', ru: 'угловой коэффициент (наклон)', es: 'pendiente' },
+  { w: 'y-Achsenabschnitt', art: 'der', ico: '📍', formen: ['y-Achsenabschnitt'], erkl: 'b in y = mx + b. Dort schneidet die Gerade die y-Achse: im Punkt P(0|b).', en: 'y-intercept', tr: 'y eksenini kestiği nokta', ar: 'المقطع الصادي', uk: 'точка перетину з віссю y', ru: 'точка пересечения с осью y', es: 'ordenada en el origen' },
+  { w: 'Steigungsdreieck', art: 'das', ico: '📐', formen: ['Steigungsdreieck'], erkl: 'ein Dreieck an der Geraden: 1 nach rechts, m nach oben (oder unten).', en: 'slope triangle', tr: 'eğim üçgeni', ar: 'مثلث الميل', uk: 'трикутник нахилу', ru: 'треугольник наклона', es: 'triángulo de pendiente' },
+  { w: 'Koordinatensystem', art: 'das', ico: '➕', formen: ['Koordinatensystem'], erkl: 'zwei Zahlengeraden: die x-Achse (waagerecht) und die y-Achse (senkrecht).', en: 'coordinate system', tr: 'koordinat sistemi', ar: 'نظام الإحداثيات', uk: 'система координат', ru: 'система координат', es: 'sistema de coordenadas' },
+  { w: 'y-Achse', art: 'die', ico: '⬆️', formen: ['y-Achse'], erkl: 'die senkrechte Achse im Koordinatensystem.', en: 'y-axis', tr: 'y ekseni', ar: 'المحور الصادي', uk: 'вісь y', ru: 'ось y', es: 'eje y' },
+  { w: 'Punktprobe', art: 'die', ico: '🔍', formen: ['Punktprobe'], erkl: 'Man prüft, ob ein Punkt auf dem Graphen liegt: x einsetzen, y ausrechnen, vergleichen.', en: 'point test (does the point lie on the graph?)', tr: 'nokta kontrolü', ar: 'التحقق من النقطة', uk: 'перевірка точки', ru: 'проверка точки', es: 'comprobación del punto (¿está el punto en la gráfica?)' },
+  { w: 'einsetzen', ico: '➡️', formen: ['einsetzen', 'Setze', 'setze'], erkl: 'eine Zahl für x in die Gleichung schreiben und ausrechnen.', en: 'to substitute', tr: 'yerine koymak', ar: 'يعوّض', uk: 'підставити', ru: 'подставить', es: 'sustituir' },
+  { w: 'Schnittpunkt', art: 'der', pl: 'die Schnittpunkte', ico: '✂️', formen: ['Schnittpunkt', 'schneiden', 'schneidet'], erkl: 'der Punkt, an dem sich zwei Linien treffen.', en: 'intersection point', tr: 'kesişim noktası', ar: 'نقطة التقاطع', uk: 'точка перетину', ru: 'точка пересечения', es: 'punto de intersección' },
+  { w: 'Grundgebühr', art: 'die', ico: '💶', formen: ['Grundgebühr'], erkl: 'ein fester Betrag, den man immer zahlt – auch bei 0 Stunden.', en: 'basic fee', tr: 'temel ücret', ar: 'الرسوم الأساسية', uk: 'базова плата', ru: 'базовая плата', es: 'tarifa básica' },
+  { w: 'waagerecht', ico: '↔️', formen: ['waagerecht'], erkl: 'flach wie der Horizont, von links nach rechts.', en: 'horizontal', tr: 'yatay', ar: 'أفقي', uk: 'горизонтально', ru: 'горизонтально', es: 'horizontal' },
+  { w: 'Parabel', art: 'die', ico: '🌈', formen: ['Parabel'], erkl: 'der Graph einer quadratischen Funktion, zum Beispiel y = x². Sie sieht aus wie ein U.', en: 'parabola', tr: 'parabol', ar: 'قطع مكافئ', uk: 'парабола', ru: 'парабола', es: 'parábola' }
 ];
 
 /* =====================================================================
@@ -995,7 +995,7 @@ function baueUebersicht() {
    HILFEN für Sprachanfänger: Vorlesen, Wörterbuch mit Übersetzung,
    Wortspeicher-Knöpfe, Satzanfänge, Lückentexte mit Prüfen
    ===================================================================== */
-var SPRACHEN = { '': 'nur Deutsch', en: 'English', tr: 'Türkçe', ar: 'العربية', uk: 'Українська', ru: 'Русский' };
+var SPRACHEN = { '': 'nur Deutsch', en: 'English', tr: 'Türkçe', ar: 'العربية', uk: 'Українська', ru: 'Русский', es: 'Español' };
 
 /* ---------- Schreibhilfe unter Textfeldern ---------- */
 function schreibhilfe(k, platz, wort) {
