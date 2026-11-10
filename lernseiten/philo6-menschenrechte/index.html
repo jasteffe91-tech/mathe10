@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menschenrechte-Rallye</title>
+  <meta name="description" content="Interaktive Lernrallye zum Thema Menschenrechte für Philosophie, Klasse 6">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%8B%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Wird vom JavaScript ersetzt. Bleibt nur stehen, wenn die Seite in einer Vorschau ohne JavaScript geöffnet wurde. -->
+  <div id="no-js" class="no-js">
+    <h1>Menschenrechte – Jeder Mensch ist gleich viel wert!</h1>
+    <p><strong>Bitte im Browser öffnen</strong> (Safari, Chrome, Firefox, Edge). In der Datei-Vorschau funktioniert die Rallye nicht.</p>
+  </div>
+
+  <header class="topbar" hidden>
+    <a class="brand" href="#start" aria-label="Zur Übersicht">
+      <span class="brand-icon" aria-hidden="true">✋</span>
+      <span class="brand-text">Menschenrechte-Rallye</span>
+    </a>
+    <div class="top-progress" aria-label="Fortschritt">
+      <div class="bar"><div class="bar-fill" id="bar-fill"></div></div>
+      <span class="top-progress-text" id="progress-text">0 %</span>
+    </div>
+    <div class="top-stats">
+      <span class="pill" title="Gesammelte Sterne (eine pro geschaffter Station)">⭐ <b id="star-count">0</b>/6</span>
+      <span class="pill" title="Punkte aus den Wissensaufgaben">🏅 <b id="point-count">0</b></span>
+    </div>
+  </header>
+
+  <nav class="station-nav" id="station-nav" aria-label="Stationen" hidden></nav>
+
+  <main id="app" hidden>
+    <section class="view" id="view-start"></section>
+    <section class="view" id="view-s1"></section>
+    <section class="view" id="view-s2"></section>
+    <section class="view" id="view-s3"></section>
+    <section class="view" id="view-s4"></section>
+    <section class="view" id="view-s5"></section>
+    <section class="view" id="view-s6"></section>
+    <section class="view" id="view-ende"></section>
+  </main>
+
+  <footer class="site-footer" hidden>
+    Wimmelbild: © Detlef Surrey / Amnesty International ·
+    Diese Seite speichert nur deinen Lernfortschritt in deinem Browser – keine Namen, keine persönlichen Daten.
+  </footer>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" aria-label="Schließen">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="term-pop" id="term-pop" hidden></div>
+  <div id="print-area"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
