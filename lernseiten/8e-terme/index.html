@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>Terme und Gleichungen – fit für die Klassenarbeit</title>
+<script>document.documentElement.className += " js";</script>
+<meta name="description" content="Lernseite zur Vorbereitung auf die Klassenarbeit Terme und Gleichungen, Mathematik E-Kurs Jahrgang 8">
+<style>
+/* =========================================================
+   FARBEN – hier zentral änderbar
+   K, Z, p %, t: Farbcode wie im Schulbuch/Arbeitsheft Dreifach Mathe 8
+   ========================================================= */
+:root{
+  --dunkel:#1B4D3E; --haupt:#3E7C63; --akzent:#D98C1F; --akzent-text:#8A5200;
+  --hell:#F1F4F2; --text:#23302D; --grau:#55635E; --linie:#CBD6D1; --weiss:#FFFFFF;
+  --k:#B0185E;  --k-hg:#FBE8F1;   /* Kapital K (magenta) */
+  --z:#1C5DAA;  --z-hg:#E7F0FA;   /* Zinsen Z (blau) */
+  --p:#2A7A30;  --p-hg:#E6F3E7;   /* Zinssatz p % (grün) */
+  --t:#6A3D9A;  --t-hg:#F1EBF8;   /* Laufzeit t / n (violett) */
+  --merk-hg:#FFF6D5; --merk-rand:#D9A520;
+  --bsp-hg:#F2F4F3;  --bsp-rand:#8C9893;
+  --fehler-hg:#FCECEA; --fehler-rand:#9E2B25;
+  --ds-kopf:#DCEBC8;
+}
+*{box-sizing:border-box}
+html{font-size:106.25%;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--hell);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:Cambria,Georgia,"Times New Roman",serif;color:var(--dunkel);line-height:1.25}
+h2{font-size:1.65rem;margin:.2rem 0 1rem}
+h3{font-size:1.25rem;margin:2rem 0 .6rem;padding-bottom:.25rem;border-bottom:2px solid var(--linie)}
+h4{font-size:1.05rem;margin:1.2rem 0 .4rem;color:var(--dunkel)}
+p{margin:.5rem 0}
+a{color:var(--z)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--akzent);outline-offset:2px}
+ul,ol{padding-left:1.3rem}
+ol.inhalt-liste{padding-left:2.1rem}
+li{margin:.2rem 0}
+.klein{font-size:.9rem;color:var(--grau)}
+.nur-druck{display:none}
+main [id]{scroll-margin-top:4.5rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Kopf und Navigation ---------- */
+.kopf{background:var(--dunkel);color:#fff;padding:1rem 1rem .9rem}
+.kopf .innen{max-width:62rem;margin:0 auto}
+.kopf .kicker{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;opacity:.9;margin:0}
+.kopf h1{color:#fff;font-size:1.6rem;margin:.2rem 0 .15rem}
+.kopf .unter{margin:0;font-size:.95rem;opacity:.95}
+nav.reiter{position:relative;z-index:20;background:var(--weiss);border-bottom:1px solid var(--linie);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.js nav.reiter{position:sticky;top:0}   /* nur mit JavaScript festheften – ohne JS scrollt das Menü mit weg */
+nav.reiter .innen{max-width:62rem;margin:0 auto;padding:0 .5rem}
+.reiter-liste,.menu-liste{list-style:none;margin:0;padding:.35rem 0;display:flex;flex-wrap:wrap;gap:.25rem}
+.reiter-liste li,.menu-liste li{margin:0}
+.reiter-liste a,.menu-liste a{display:flex;align-items:center;min-height:44px;padding:.35rem .7rem;border-radius:.6rem;text-decoration:none;color:var(--dunkel);font-weight:600;font-size:.95rem}
+.reiter-liste a:hover,.menu-liste a:hover{background:var(--hell)}
+.reiter-liste a[aria-current="page"],.menu-liste a[aria-current="page"]{background:var(--haupt);color:#fff}
+.reiter-liste .nr,.menu-liste .nr{display:inline-flex;justify-content:center;align-items:center;width:1.45em;height:1.45em;border-radius:50%;background:var(--hell);color:var(--dunkel);font-size:.78em;margin-right:.35em}
+.reiter-liste a[aria-current="page"] .nr,.menu-liste a[aria-current="page"] .nr{background:#fff}
+.zusatz-marke{font-size:.7em;font-weight:700;margin-left:.35em;padding:.05em .4em;border-radius:.6em;background:var(--t-hg);color:var(--t)}
+/* Handy-Menü als Klappmenü: startet immer zugeklappt – auch ohne JavaScript */
+.menu-mobil{display:none}
+.menu-mobil > summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:.4rem .6rem;font-weight:700;color:var(--dunkel);cursor:pointer;list-style:none}
+.menu-mobil > summary::-webkit-details-marker{display:none}
+.menu-mobil > summary .symbol{font-size:1.5rem;line-height:1}
+.menu-mobil[open] > summary .symbol::before{content:"✕"}
+.menu-mobil:not([open]) > summary .symbol::before{content:"☰"}
+.menu-liste{flex-direction:column;flex-wrap:nowrap;padding:0 0 .6rem;max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.menu-liste a{min-height:48px;font-size:1rem}
+@media (max-width:820px){
+  .reiter-liste{display:none}
+  .menu-mobil{display:block}
+}
+/* Hinweis für Ansichten ohne JavaScript (Datei-Vorschau, Messenger, Mail) */
+.ohne-js{max-width:62rem;margin:.8rem auto 0;padding:0 1rem}
+.ohne-js .box{margin:0}
+.ersatz{display:none}
+html:not(.js) .ersatz{display:block}
+html:not(.js) .interaktiv{display:none !important}
+
+/* ---------- Inhalt ---------- */
+main{max-width:62rem;margin:0 auto;padding:1rem 1rem 3rem}
+section.tab{background:var(--weiss);border-radius:1rem;padding:1.2rem 1.1rem 1.6rem;margin:0 0 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.js section.tab{display:none}
+.js section.tab.aktiv{display:block}
+.kicker-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--akzent-text);margin-bottom:.2rem}
+.weiter{display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--linie)}
+.weiter a{display:inline-flex;align-items:center;min-height:44px;padding:.4rem .9rem;border-radius:.6rem;background:var(--hell);text-decoration:none;font-weight:600;color:var(--dunkel)}
+.raster{display:grid;gap:.8rem;grid-template-columns:minmax(0,1fr)}
+.raster > *{min-width:0}
+@media (min-width:700px){.raster.zwei{grid-template-columns:1fr 1fr}.raster.drei{grid-template-columns:repeat(3,1fr)}.raster.vier{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:980px){.raster.vier{grid-template-columns:repeat(4,1fr)}}
+
+/* ---------- Farbcode der Größen ---------- */
+.v{font-weight:700;white-space:nowrap}
+.v-k{color:var(--k)} .v-z{color:var(--z)} .v-p{color:var(--p)} .v-t{color:var(--t)}
+.mk{border-bottom:3px solid;padding:0 .1em}
+.mk.v-k{border-color:var(--k)} .mk.v-z{border-color:var(--z)} .mk.v-p{border-color:var(--p)} .mk.v-t{border-color:var(--t)}
+.karte{border-radius:.8rem;padding:.8rem .9rem;border:2px solid var(--linie);background:var(--weiss)}
+.karte.k{border-color:var(--k);background:var(--k-hg)}
+.karte.z{border-color:var(--z);background:var(--z-hg)}
+.karte.p{border-color:var(--p);background:var(--p-hg)}
+.karte.t{border-color:var(--t);background:var(--t-hg)}
+.karte .gross{font-size:1.6rem;font-weight:800;line-height:1.1}
+.karte h4{margin:.1rem 0 .3rem}
+
+/* ---------- Kästen ---------- */
+.box{border-radius:.8rem;padding:.8rem 1rem;margin:1rem 0;border-left:6px solid}
+.box > :first-child{margin-top:0}
+.box-titel{display:block;font-weight:800;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.35rem}
+.merk{background:var(--merk-hg);border-color:var(--merk-rand)}
+.merk .box-titel{color:var(--akzent-text)}
+.bsp{background:var(--bsp-hg);border-color:var(--bsp-rand)}
+.bsp .box-titel{color:var(--grau)}
+.fehler{background:var(--fehler-hg);border-color:var(--fehler-rand)}
+.fehler .box-titel{color:var(--fehler-rand)}
+.fehler li{margin:.35rem 0}
+.tipp{background:var(--hell);border-color:var(--haupt)}
+.tipp .box-titel{color:var(--dunkel)}
+.falsch{text-decoration:line-through;text-decoration-color:var(--fehler-rand);text-decoration-thickness:2px}
+.zeichen-falsch{color:var(--fehler-rand);font-weight:800}
+.zeichen-richtig{color:var(--p);font-weight:800}
+
+/* ---------- Formeln ---------- */
+.formel{display:inline-block;font-size:1.3rem;font-weight:700;white-space:nowrap;margin:.2rem 0}
+.formel.klein{font-size:1.05rem}
+.bruch{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;font-size:.85em;margin:0 .12em}
+.bruch > span:first-child{border-bottom:2px solid currentColor;padding:0 .2em .05em}
+.bruch > span:last-child{padding:.05em .2em 0}
+.formelzeile{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.2rem}
+.oder{font-size:.9rem;color:var(--grau);font-weight:600}
+.rechnung{font-variant-numeric:tabular-nums}
+.rechnung div{margin:.15rem 0}
+sub,sup{line-height:0}
+
+/* ---------- Beispiel-Schema Gegeben → Gesucht → Rechnung → Antwort ---------- */
+dl.schema{display:grid;grid-template-columns:minmax(0,1fr);gap:.15rem .9rem;margin:.4rem 0 0}
+dl.schema dd,dl.schema dt{min-width:0}
+dl.schema dt{font-weight:700;color:var(--dunkel);font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin-top:.45rem}
+dl.schema dd{margin:0}
+@media (min-width:640px){dl.schema{grid-template-columns:7.5rem minmax(0,1fr)}dl.schema dt{margin-top:0;padding-top:.1rem}dl.schema dd{margin-bottom:.35rem}}
+.antwort{font-weight:600}
+
+/* ---------- Tabellen ---------- */
+.tabelle-wrap{overflow-x:auto;margin:.8rem 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;min-width:100%;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--linie);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--dunkel);color:#fff;font-weight:700}
+tbody tr:nth-child(even) td{background:#FAFBFA}
+td.zahl,th.zahl{text-align:right}
+td.zahl{white-space:nowrap}
+@media (max-width:480px){td.zahl{white-space:normal}}
+
+/* ---------- Dreisatz wie im Buch: Anteil | Euro, Bögen links und rechts ---------- */
+.ds-wrap{overflow-x:auto;margin:.6rem 0}
+.ds{display:inline-grid;grid-template-columns:4.9em minmax(5em,auto) minmax(6.4em,auto) 4.9em;grid-template-rows:auto 2.3em 2.3em 2.3em;font-variant-numeric:tabular-nums}
+.ds .kopf-z{grid-row:1;background:var(--ds-kopf);font-weight:700;padding:.3rem .7rem;text-align:center;border:1px solid var(--linie)}
+.ds .zelle{display:flex;align-items:center;justify-content:center;padding:0 .7rem;border:1px solid var(--linie);background:#fff;white-space:nowrap}
+.ds .r1{grid-row:2}.ds .r2{grid-row:3}.ds .r3{grid-row:4}
+.ds .ca{grid-column:2}.ds .cb{grid-column:3}
+.ds .grau{background:#EDEFEE;color:var(--grau)}
+.ds .gesucht{background:#E3E6E4;font-weight:800}
+.ds .op{position:relative}
+.ds .ol1{grid-column:1;grid-row:2/4}.ds .ol2{grid-column:1;grid-row:3/5}
+.ds .or1{grid-column:4;grid-row:2/4}.ds .or2{grid-column:4;grid-row:3/5}
+.ds .op::before{content:"";position:absolute;top:25%;bottom:25%;width:.8em;border:2px solid var(--grau)}
+.ds .op.links::before{right:.25em;border-right:0;border-radius:.9em 0 0 .9em}
+.ds .op.rechts::before{left:.25em;border-left:0;border-radius:0 .9em .9em 0}
+.ds .op::after{content:"";position:absolute;bottom:calc(25% - 5px);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ds .op.links::after{right:.05em;border-left:7px solid var(--grau)}
+.ds .op.rechts::after{left:.05em;border-right:7px solid var(--grau)}
+.ds .op span{position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;font-weight:700;font-size:.92em;color:var(--dunkel)}
+.ds .op.links span{right:1.6em}
+.ds .op.rechts span{left:1.6em}
+@media (max-width:480px){
+  .ds{font-size:.85rem;grid-template-columns:4.4em minmax(4.2em,auto) minmax(5.4em,auto) 4.4em}
+  .ds .zelle{padding:0 .45rem}
+  .ds .op.links span{right:1.55em}.ds .op.rechts span{left:1.55em}
+  main{padding:.75rem 1rem 2rem}
+  section.tab{padding:1rem .8rem 1.3rem}
+  .box{padding:.7rem .75rem;border-left-width:5px}
+  table{font-size:.9rem}
+  th,td{padding:.35rem .45rem}
+  .aufgabe{padding:.7rem .75rem}
+  details.loesung > div{padding:.2rem .6rem .7rem}
+}
+
+/* ---------- Aufgaben und Lösungen ---------- */
+.aufgabe{border:1px solid var(--linie);border-radius:.8rem;padding:.8rem .95rem;margin:.9rem 0;background:#fff}
+.aufgabe h4{margin:0 0 .35rem;display:flex;flex-wrap:wrap;gap:.2rem .6rem;align-items:baseline}
+.aufgabe .nr{display:inline-flex;align-items:center;justify-content:center;min-width:2.1em;height:2.1em;border-radius:50%;background:var(--haupt);color:#fff;font-size:.85rem}
+.stufe{font-size:.8rem;font-weight:700;padding:.1rem .5rem;border-radius:1rem;white-space:nowrap}
+.stufe-1{background:#FCEBD6;color:#7A4300}
+.stufe-2{background:#F7DDEA;color:#7E1446}
+.stufe-3{background:#E9E1F5;color:#4E2A7A}
+.buchverweis{font-size:.88rem;color:var(--grau)}
+details.loesung{margin-top:.6rem;border-radius:.6rem;background:var(--hell)}
+details.loesung > summary{cursor:pointer;min-height:44px;display:flex;align-items:center;padding:.3rem .8rem;font-weight:700;color:var(--dunkel);list-style:none}
+details.loesung > summary::-webkit-details-marker{display:none}
+details.loesung > summary::before{content:"▸";margin-right:.5rem;transition:transform .15s}
+details.loesung[open] > summary::before{transform:rotate(90deg)}
+details.loesung > div{padding:.2rem .9rem .8rem}
+.stufen-kopf{display:flex;align-items:center;gap:.6rem;margin-top:2rem}
+
+/* ---------- Checkliste ---------- */
+.checkliste{list-style:none;padding:0;margin:.5rem 0}
+.checkliste li{display:flex;align-items:flex-start;gap:.4rem;padding:.25rem 0;border-bottom:1px dashed var(--linie)}
+.checkliste label{display:flex;gap:.6rem;align-items:flex-start;flex:1;min-width:0;overflow-wrap:break-word;hyphens:auto;cursor:pointer;min-height:44px;padding-top:.45rem}
+.checkliste input{width:1.35rem;height:1.35rem;margin:.1rem 0 0;flex:none;accent-color:var(--haupt)}
+.checkliste a{flex:none;min-height:44px;display:inline-flex;align-items:center;padding:0 .3rem;font-size:.9rem;white-space:nowrap}
+.fortschritt{height:.7rem;border-radius:.35rem;background:var(--hell);overflow:hidden;margin:.3rem 0 .2rem}
+.fortschritt div{height:100%;width:0;background:var(--haupt);transition:width .2s}
+
+/* ---------- Knöpfe und Eingaben ---------- */
+.knopf{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:.45rem 1rem;border-radius:.6rem;border:2px solid var(--haupt);background:var(--haupt);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.knopf.hell{background:#fff;color:var(--dunkel)}
+.knopf:hover{filter:brightness(1.07)}
+input[type=text]{font:inherit;font-size:1.1rem;min-height:46px;padding:.35rem .6rem;border:2px solid var(--linie);border-radius:.5rem;width:100%;max-width:14rem;background:#fff;color:var(--text)}
+input[type=text]:focus{border-color:var(--haupt)}
+.feld{display:flex;flex-direction:column;gap:.2rem;margin:.4rem 0}
+.feld label{font-weight:700}
+.knopfreihe{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
+.rueckmeldung{margin-top:.5rem;padding:.5rem .7rem;border-radius:.5rem;display:none}
+.rueckmeldung.richtig{display:block;background:var(--p-hg);border-left:5px solid var(--p)}
+.rueckmeldung.fast{display:block;background:var(--merk-hg);border-left:5px solid var(--merk-rand)}
+.rueckmeldung.falsch{display:block;background:var(--fehler-hg);border-left:5px solid var(--fehler-rand);text-decoration:none}
+.rueckmeldung.ungueltig{display:block;background:var(--bsp-hg);border-left:5px solid var(--bsp-rand)}
+.test-aufgabe{border:1px solid var(--linie);border-radius:.8rem;padding:.8rem .95rem;margin:.8rem 0}
+.test-zeile{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.test-zeile input{flex:1 1 9rem}
+.punkte{font-size:1.1rem;font-weight:800;color:var(--dunkel)}
+.rechner{border:2px solid var(--haupt);border-radius:1rem;padding:1rem;background:#fff}
+.rechner-felder{display:grid;gap:.4rem 1rem;grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.rechner-felder{grid-template-columns:1fr 1fr}}
+.auswahl{display:flex;flex-wrap:wrap;gap:.5rem;border:0;padding:0;margin:.4rem 0}
+.auswahl legend{font-weight:700;padding:0;margin-bottom:.2rem}
+.auswahl label{display:flex;align-items:center;gap:.45rem;min-height:44px;padding:.2rem .8rem;border:2px solid var(--linie);border-radius:.6rem;cursor:pointer}
+.auswahl input{width:1.2rem;height:1.2rem;accent-color:var(--haupt)}
+.ergebnis{margin-top:.8rem}
+.fehlertext{color:var(--fehler-rand);font-weight:700}
+
+/* ---------- Zinsdreieck, Diagramm, Taschenrechner ---------- */
+figure{margin:1rem 0}
+figcaption{font-size:.9rem;color:var(--grau);margin-top:.3rem}
+svg{max-width:100%;height:auto}
+.taste{display:inline-block;min-width:1.9em;padding:.05em .45em;border:2px solid var(--grau);border-bottom-width:4px;border-radius:.4em;background:#fff;font-weight:700;text-align:center;font-family:inherit}
+.frage-knopf[aria-pressed="true"]{background:var(--dunkel);border-color:var(--dunkel);color:#fff}
+.formel-antwort{margin-top:.6rem;min-height:3rem}
+
+/* ---------- Spickzettel ---------- */
+.spick{display:grid;gap:.6rem;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.spick{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.spick .karte{padding:.55rem .75rem}
+.spick h4{margin:.1rem 0 .3rem;font-size:1rem}
+.spick p,.spick li{margin:.12rem 0}
+.spick ul{margin:.2rem 0;padding-left:1.1rem}
+
+/* ---------- Video-Liste ---------- */
+.video{border:1px solid var(--linie);border-radius:.8rem;padding:.7rem .9rem;margin:.7rem 0}
+.video h4{margin:0 0 .25rem}
+.video .link{font-size:.9rem;word-break:break-all}
+.video ul{margin:.3rem 0 0}
+
+/* ---------- Komma-Trainer ---------- */
+.trainer{border:2px solid var(--haupt);border-radius:1rem;padding:1rem;background:#fff}
+.trainer-karte{background:var(--hell);border-radius:.8rem;padding:.8rem .9rem;margin-top:.6rem}
+.trainer-frage{font-size:1.2rem;font-weight:700;margin:.2rem 0 .5rem}
+.stufe-knopf[aria-pressed="true"]{background:var(--dunkel);border-color:var(--dunkel);color:#fff}
+.komma-erklaerung{margin-top:.6rem}
+.komma-erklaerung .zeile{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem}
+.komma-bild{position:relative;display:inline-flex;font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums;padding-bottom:.35em}
+.komma-bild .ziffer{width:1.25em;height:1.6em;display:flex;align-items:center;justify-content:center;margin-right:.2em;border:2px solid var(--linie);border-radius:.3em;background:#fff}
+.komma-bild .ziffer.ergaenzt{color:#8C9893;border-style:dashed}
+.komma-bild .komma{position:absolute;bottom:.05em;width:.5em;margin-left:-.35em;text-align:center;color:#B3261E;font-weight:900;line-height:1;transform:scale(1.9);transform-origin:50% 100%;transition:left .9s ease-in-out}
+.komma-text{font-weight:700;color:var(--dunkel)}
+@media (prefers-reduced-motion:reduce){.komma-bild .komma{transition:none}}
+
+#loesungsteil{display:none}
+.fusszeile{max-width:62rem;margin:0 auto;padding:0 1rem 2rem;font-size:.85rem;color:var(--grau)}
+
+/* =========================================================
+   DRUCK: alle Reiter untereinander, Lösungen gesammelt am Ende
+   ========================================================= */
+@media print{
+  @page{size:A4;margin:13mm 12mm 14mm}
+  html{font-size:10.5pt}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff}
+  nav.reiter,.nur-bildschirm,.interaktiv,details.loesung,.knopf,.weiter,.checkliste input{display:none !important}
+  .nur-druck{display:block !important}
+  .js section.tab,section.tab{display:block !important;box-shadow:none;border-radius:0;padding:0;margin:0;break-before:page}
+  section.tab#start{break-before:auto}
+  main{padding:0;max-width:none}
+  .kopf{padding:.4rem 0 .6rem;background:#fff;color:var(--dunkel);border-bottom:3px solid var(--dunkel);margin-bottom:.6rem}
+  .kopf h1{color:var(--dunkel)}
+  #loesungsteil{display:block !important;break-before:page}
+  table,.ds,.box,.aufgabe,figure,.karte,.video,.loesung-eintrag,dl.schema,.formelzeile{break-inside:avoid}
+  .tabelle-wrap.lang,.tabelle-wrap.lang table{break-inside:auto}
+  tr{break-inside:avoid}
+  thead{display:table-header-group}
+  h2,h3,h4{break-after:avoid}
+  .tabelle-wrap,.ds-wrap{overflow:visible}
+  table{min-width:0;width:100%}
+  th,td{padding:.25rem .4rem}
+  a{color:inherit;text-decoration:none}
+  .checkliste li{padding:.05rem 0}
+  .checkliste label{min-height:0;padding-top:.1rem}
+  .checkliste label::before{content:"☐";font-size:1.2em;line-height:1}
+  .checkliste a{min-height:0}
+  h3{margin-top:1.1rem}
+  .spick{grid-template-columns:1fr 1fr;gap:.4rem;font-size:10pt;line-height:1.35}
+  .spick .karte{padding:.4rem .55rem;border-width:1.5px}
+  .spick h4{font-size:11pt;margin:0 0 .15rem}
+  .spick .formel{font-size:11pt}
+  #spickzettel h2{margin-bottom:.3rem;font-size:14pt}
+  #spickzettel .kicker-label,#spickzettel .spick-intro{display:none}
+  .fusszeile{display:none}
+}
+
+/* ---------- Ergänzungen Terme und Gleichungen (Farben wie Dreifach Mathe 8) ---------- */
+:root{--x:#C62828;--term:#2E7D32;--koef:#1C5DAA}
+.vx{color:var(--x);font-weight:700}.vt{color:var(--term);font-weight:700}.vk{color:var(--koef);font-weight:700}
+.va{color:var(--x);font-weight:700}.vb{color:var(--koef);font-weight:700}
+.umf{display:grid;grid-template-columns:auto auto;gap:.15rem .9rem;justify-content:start;font-family:Cambria,Georgia,serif;font-size:1.12rem;margin:.4rem 0}
+.umf .gl{text-align:right}.umf .op{color:var(--koef);font-weight:700}
+.wort-term td:first-child{font-style:italic}
+.svg-box{background:#fff;border:1px solid var(--linie);border-radius:.6rem;padding:.4rem;display:inline-block;max-width:100%}
+.svg-box svg{max-width:100%;height:auto}
+.werkzeug{background:#fff;border:2px solid var(--haupt);border-radius:.8rem;padding:.8rem 1rem;margin:1rem 0}
+.werkzeug input[type=text]{font-size:1.05rem;padding:.45rem .6rem;border:1.5px solid var(--linie);border-radius:.45rem;min-width:12rem;max-width:100%}
+.werkzeug .feld{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.4rem 0}
+.eingabe-hilfe{font-size:.9rem;color:var(--grau);margin:.3rem 0}
+.spick .formel{display:block;white-space:normal;font-size:1.05rem}
+.umf{overflow-x:auto}
+</style>
+</head>
+<body>
+<header class="kopf"><div class="innen">
+  <p class="kicker">Mathematik · E-Kurs Jahrgang 8 · Comenius-Gesamtschule Voerde</p>
+  <h1>Terme und Gleichungen – fit für die Klassenarbeit</h1>
+  <p class="unter">Lernseite zur 2. Klassenarbeit · Mittwoch, 09.12.2026 · Schuljahr 2026/27</p>
+</div></header>
+<nav class="reiter" id="navigation" aria-label="Kapitel"><div class="innen">
+  <details class="menu-mobil" id="menu-mobil"><summary><span>Menü: <span id="aktueller-reiter">Kapitel wählen</span></span><span class="symbol" aria-hidden="true"></span></summary><ul class="menu-liste"><li><a href="#start"><span class="nr">1</span>Start</a></li><li><a href="#terme"><span class="nr">2</span>Terme</a></li><li><a href="#umformen"><span class="nr">3</span>Umformen</a></li><li><a href="#gleichungen"><span class="nr">4</span>Gleichungen</a></li><li><a href="#formeln"><span class="nr">5</span>Formeln</a></li><li><a href="#sachaufgaben"><span class="nr">6</span>Sachaufgaben</a></li><li><a href="#wiederholung"><span class="nr">7</span>Wiederholung</a></li><li><a href="#ueben"><span class="nr">8</span>Üben</a></li><li><a href="#material"><span class="nr">9</span>Material</a></li><li><a href="#spickzettel"><span class="nr">10</span>Spickzettel</a></li></ul></details>
+  <ul class="reiter-liste" id="reiter-liste"><li><a href="#start"><span class="nr">1</span>Start</a></li><li><a href="#terme"><span class="nr">2</span>Terme</a></li><li><a href="#umformen"><span class="nr">3</span>Umformen</a></li><li><a href="#gleichungen"><span class="nr">4</span>Gleichungen</a></li><li><a href="#formeln"><span class="nr">5</span>Formeln</a></li><li><a href="#sachaufgaben"><span class="nr">6</span>Sachaufgaben</a></li><li><a href="#wiederholung"><span class="nr">7</span>Wiederholung</a></li><li><a href="#ueben"><span class="nr">8</span>Üben</a></li><li><a href="#material"><span class="nr">9</span>Material</a></li><li><a href="#spickzettel"><span class="nr">10</span>Spickzettel</a></li></ul>
+</div></nav>
+<noscript><div class="ohne-js"><div class="box merk"><span class="box-titel">Hinweis: Diese Ansicht ist eingeschränkt</span>
+  <p>Du siehst die Seite in einer Vorschau ohne JavaScript. Lesen kannst du alles, und die Lösungen lassen sich aufklappen. <strong>Checkliste, Term-Prüfer, Probe-Maschine und Selbsttest</strong> funktionieren nur im Browser.</p>
+  <p><strong>So öffnest du die Seite richtig:</strong> Android: Datei antippen → „Öffnen mit“ → <strong>Chrome</strong>. iPhone/iPad: am besten über den Link deiner Lehrkraft in <strong>Safari</strong>. Am Laptop: Datei im Browser öffnen.</p>
+</div></div></noscript>
+<main id="inhalt">
+<section class="tab" id="start" data-titel="Start">
+  <span class="kicker-label">Start</span>
+  <h2>1 · Worum geht es?</h2>
+  <div class="box merk"><span class="box-titel">Die Klassenarbeit</span><p><strong>2. Klassenarbeit Terme und Gleichungen · Mittwoch, 09.12.2026 · 90 Minuten</strong></p><ul><li><strong>Teil 1 – ohne Taschenrechner</strong> (ca. 25 Minuten): Wiederholung aus Klasse 5–7 und Grundwissen zu Termen und Gleichungen. Teil 1 wird danach eingesammelt.</li><li><strong>Teil 2 – mit Taschenrechner</strong>, vollständig im Heft: Terme im Sachzusammenhang, Gleichungen, eine Sachaufgabe und eine Transferaufgabe.</li><li>Schreibe immer den <strong>Rechenweg</strong> auf: Umformungen hinter dem Strich, die <strong>Probe</strong> und bei Sachaufgaben einen <strong>Antwortsatz</strong>.</li></ul></div>
+  <h3 id="checkliste-titel">Das kann ich – meine Checkliste</h3>
+  <p>Hake ab, was du sicher kannst. Der Pfeil führt dich zum passenden Kapitel.</p>
+  <p class="nur-bildschirm interaktiv klein" id="fortschritt-text" aria-live="polite">0 von 16 abgehakt</p>
+  <div class="fortschritt nur-bildschirm interaktiv" aria-hidden="true"><div id="fortschritt-balken"></div></div>
+  <h4>Teil 1 – ohne Taschenrechner</h4><ul class="checkliste"><li><label><input type="checkbox" data-key="c01"><span>Ich rechne sicher mit negativen Zahlen und beachte Punkt vor Strich.</span></label><a href="#w-rational" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c02"><span>Ich berechne Umfang und Flächeninhalt von Rechteck, Quadrat und Dreieck.</span></label><a href="#w-flaechen" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c03"><span>Ich wandle Brüche, Dezimalzahlen und Prozente um und ordne sie.</span></label><a href="#w-bruch" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c04"><span>Ich löse Dreisatz-Aufgaben (proportional und antiproportional).</span></label><a href="#w-dreisatz" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c05"><span>Ich fasse gleichartige Terme zusammen und erkenne gleichwertige Terme.</span></label><a href="#t-vereinfachen" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c06"><span>Ich löse eine einfache Gleichung, z. B. an der Waage.</span></label><a href="#g-waage" aria-label="Zum passenden Kapitel">→ Kapitel</a></li></ul>
+  <h4>Teil 2 – mit Taschenrechner</h4><ul class="checkliste"><li><label><input type="checkbox" data-key="c07"><span>Ich stelle Terme zu Mustern und Texten auf.</span></label><a href="#t-muster" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c08"><span>Ich löse Plus- und Minusklammern auf.</span></label><a href="#t-klammern" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c09"><span>Ich schreibe Produkte als Potenz.</span></label><a href="#t-potenzen" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c10"><span>Ich multipliziere aus und klammere aus.</span></label><a href="#u-ausmult" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c11"><span>Ich multipliziere Summen mit Summen (jeder mit jedem).</span></label><a href="#u-summen" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c12"><span>Ich wende die drei binomischen Formeln an – auch rückwärts.</span></label><a href="#u-binom" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c13"><span>Ich löse Gleichungen mit Äquivalenzumformungen und mache die Probe.</span></label><a href="#g-aequivalenz" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c14"><span>Ich löse Gleichungen mit Klammern und erkenne Sonderfälle.</span></label><a href="#g-sonderfaelle" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c15"><span>Ich stelle Formeln nach einer Größe um.</span></label><a href="#formeln" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c16"><span>Ich löse Sachaufgaben mit dem Sechs-Schritte-Verfahren.</span></label><a href="#sachaufgaben" aria-label="Zum passenden Kapitel">→ Kapitel</a></li></ul>
+  <p class="nur-bildschirm interaktiv"><button class="knopf hell" type="button" id="checkliste-zuruecksetzen">Häkchen löschen</button></p>
+  <h3>So benutzt du diese Seite</h3>
+  <p>Hake zuerst ab, was du schon sicher kannst. Lies dann die Kapitel zu den fehlenden Punkten und rechne jedes Beispiel selbst mit. Übe danach im Reiter <a href="#ueben">Üben</a>: erst ★, dann ★★ und ★★★. Schau erst in die Lösung, wenn du fertig bist. Mit dem <a href="#termpruefer">Term-Prüfer</a> und der <a href="#probemaschine">Probe-Maschine</a> kontrollierst du jede Hausaufgabe selbst. Zum Schluss machst du den <a href="#selbsttest">Selbsttest</a>.</p>
+  <p class="klein">Die Seite funktioniert ohne Internet. Öffne die Datei in einem Browser (Safari, Chrome), nicht nur in einer Vorschau – sonst funktionieren Checkliste, Prüfer und Selbsttest nicht.</p>
+  <h3>Inhalt</h3>
+  <ol class="inhalt-liste">
+    <li><a href="#start">Start</a> – Klassenarbeit, Checkliste</li>
+    <li><a href="#terme">Terme</a> – <a href="#t-muster">Muster und Variable</a> · <a href="#t-gleichwertig">gleichwertige Terme</a> · <a href="#t-vereinfachen">vereinfachen</a> · <a href="#t-klammern">Klammern</a> · <a href="#t-potenzen">Potenzen</a></li>
+    <li><a href="#umformen">Terme umformen</a> – <a href="#u-ausmult">ausmultiplizieren und ausklammern</a> · <a href="#u-summen">Summe mal Summe</a> · <a href="#u-binom">binomische Formeln</a></li>
+    <li><a href="#gleichungen">Gleichungen</a> – <a href="#g-probieren">probieren</a> · <a href="#g-waage">Waage</a> · <a href="#g-aequivalenz">Äquivalenzumformungen</a> · <a href="#g-sonderfaelle">Klammern und Sonderfälle</a></li>
+    <li><a href="#formeln">Formeln umstellen</a></li>
+    <li><a href="#sachaufgaben">Sachaufgaben</a> – Sechs-Schritte-Verfahren</li>
+    <li><a href="#wiederholung">Wiederholung für Teil 1</a></li>
+    <li><a href="#ueben">Üben</a> – <a href="#stufe-1">★</a> · <a href="#stufe-2">★★</a> · <a href="#stufe-3">★★★</a> · <a href="#termpruefer">Term-Prüfer</a> · <a href="#probemaschine">Probe-Maschine</a> · <a href="#selbsttest">Selbsttest</a></li>
+    <li><a href="#material">Material</a> – Buch und Arbeitsheft</li>
+    <li><a href="#spickzettel">Spickzettel</a></li>
+  </ol>
+  <div class="box tipp"><span class="box-titel">Farben auf dieser Seite – wie im Buch</span><p><span class="vx">x</span> Variable (rot) · <span class="vt">3x + 5</span> Term (grün) · <span class="vk">3</span> Koeffizient bzw. Faktor vor der Klammer (blau) · binomische Formeln: <span class="va">a</span> rot, <span class="vb">b</span> blau</p><p class="klein">Du musst die Farben nicht auswendig kennen – sie helfen nur beim Lesen.</p></div>
+  <nav class="weiter" aria-label="Weiterblättern"><span></span><a href="#terme">Weiter: Terme →</a></nav>
+</section>
+<section class="tab" id="terme" data-titel="Terme">
+  <span class="kicker-label">Terme</span>
+  <h2>2 · Terme aufstellen und vereinfachen</h2>
+  <h3 id="t-muster">Muster, Variable und Term</h3>
+  <div class="svg-box"><svg viewBox="0 0 418 92" width="585" role="img" aria-label="Quadratkette mit 1, 2 und 3 Quadraten aus Streichhölzern"><line x1="14" y1="10" x2="54" y2="10" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="54" cy="10" r="4.5" fill="#C62828"/><line x1="14" y1="58" x2="54" y2="58" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="54" cy="58" r="4.5" fill="#C62828"/><line x1="10" y1="14" x2="10" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="10" cy="14" r="4.5" fill="#C62828"/><line x1="58" y1="14" x2="58" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="58" cy="14" r="4.5" fill="#C62828"/><text x="34" y="84" text-anchor="middle" font-size="15" font-family="Arial" fill="#23302D">Figur 1</text><line x1="102" y1="10" x2="142" y2="10" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="142" cy="10" r="4.5" fill="#C62828"/><line x1="102" y1="58" x2="142" y2="58" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="142" cy="58" r="4.5" fill="#C62828"/><line x1="150" y1="10" x2="190" y2="10" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="190" cy="10" r="4.5" fill="#C62828"/><line x1="150" y1="58" x2="190" y2="58" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="190" cy="58" r="4.5" fill="#C62828"/><line x1="98" y1="14" x2="98" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="98" cy="14" r="4.5" fill="#C62828"/><line x1="146" y1="14" x2="146" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="146" cy="14" r="4.5" fill="#C62828"/><line x1="194" y1="14" x2="194" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="194" cy="14" r="4.5" fill="#C62828"/><text x="146" y="84" text-anchor="middle" font-size="15" font-family="Arial" fill="#23302D">Figur 2</text><line x1="238" y1="10" x2="278" y2="10" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="278" cy="10" r="4.5" fill="#C62828"/><line x1="238" y1="58" x2="278" y2="58" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="278" cy="58" r="4.5" fill="#C62828"/><line x1="286" y1="10" x2="326" y2="10" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="326" cy="10" r="4.5" fill="#C62828"/><line x1="286" y1="58" x2="326" y2="58" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="326" cy="58" r="4.5" fill="#C62828"/><line x1="334" y1="10" x2="374" y2="10" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="374" cy="10" r="4.5" fill="#C62828"/><line x1="334" y1="58" x2="374" y2="58" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="374" cy="58" r="4.5" fill="#C62828"/><line x1="234" y1="14" x2="234" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="234" cy="14" r="4.5" fill="#C62828"/><line x1="282" y1="14" x2="282" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="282" cy="14" r="4.5" fill="#C62828"/><line x1="330" y1="14" x2="330" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="330" cy="14" r="4.5" fill="#C62828"/><line x1="378" y1="14" x2="378" y2="54" stroke="#C8A165" stroke-width="6" stroke-linecap="round"/><circle cx="378" cy="14" r="4.5" fill="#C62828"/><text x="306" y="84" text-anchor="middle" font-size="15" font-family="Arial" fill="#23302D">Figur 3</text></svg></div>
+  <p>Wie viele Hölzer braucht Figur <span class="vx">n</span>? Jedes Quadrat bekommt 3 Hölzer (oben, unten, rechts), dazu kommt links eines: <span class="vt">3 · n + 1</span>.</p>
+  <div class="box merk"><span class="box-titel">Merke</span><p>Eine <strong>Variable</strong> (z. B. <span class="vx">n</span> oder <span class="vx">x</span>) ist ein Platzhalter für Zahlen. Ein <strong>Term</strong> ist eine Rechenvorschrift aus Zahlen, Variablen und Rechenzeichen, z. B. <span class="vt">3n + 1</span>. Setzt man eine Zahl ein, erhält man den <strong>Termwert</strong>: n = 10 → 3 · 10 + 1 = 31.</p><p>Den Malpunkt vor einer Variablen oder Klammer darf man weglassen: 3 · n = 3n, 4 · (x + 2) = 4(x + 2).</p></div>
+  <h3 id="t-gleichwertig">Gleichwertige Terme</h3>
+  <p>Für die Quadratkette gibt es viele richtige Terme: <span class="vt">3n + 1</span>, <span class="vt">4 + 3(n − 1)</span>, <span class="vt">n + n + (n + 1)</span>. Sie sind <strong>gleichwertig</strong>: Für jede eingesetzte Zahl kommt dasselbe heraus.</p>
+  <div class="box merk"><span class="box-titel">So prüfst du Gleichwertigkeit</span><ul><li><strong>Zeigen:</strong> Forme einen Term in den anderen um: 4 + 3(n − 1) = 4 + 3n − 3 = 3n + 1.</li><li><strong>Widerlegen:</strong> Ein einziges Gegenbeispiel reicht: 2(n + 1) und 2n + 1 ergeben für n = 3 die Werte 8 und 7 → nicht gleichwertig.</li></ul></div>
+  <h3 id="t-vereinfachen">Terme vereinfachen</h3>
+  <div class="box merk"><span class="box-titel">Merke</span><p>Nur <strong>gleichartige Terme</strong> (gleiche Variable, gleicher Exponent) darf man zusammenfassen. Wie im Buch: <strong>1. sortieren · 2. zusammenfassen</strong>.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Vereinfachen</span><p><span class="vt">5x + 2y − 3x + 4y</span></p><p>1. sortieren: = 5x − 3x + 2y + 4y<br>2. zusammenfassen: = <strong>2x + 6y</strong></p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">3a + 4b = 7ab</span> <span class="zeichen-falsch" aria-label="falsch">✗</span> – a und b sind nicht gleichartig, der Term bleibt 3a + 4b. Ebenso: <span class="falsch">2x + 5 = 7x</span> ✗.</p></div>
+  <h3 id="t-klammern">Plus- und Minusklammern</h3>
+  <div class="box merk"><span class="box-titel">Merke</span><p><strong style="color:var(--term)">Plus vor der Klammer:</strong> Klammer einfach weglassen. 12 + (3x − 5) = 12 + 3x − 5 = 3x + 7</p><p><strong style="color:var(--x)">Minus vor der Klammer:</strong> Klammer weglassen und <strong>jedes</strong> Vorzeichen in der Klammer umdrehen. 10 − (2a − 4) = 10 − 2a + 4 = 14 − 2a</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">−(4 − y) = −4 − y</span> ✗ – auch das Minus vor y wird umgedreht: −(4 − y) = −4 + y.</p></div>
+  <h3 id="t-potenzen">Terme und Potenzen</h3>
+  <div class="box merk"><span class="box-titel">Merke</span><p>Gleiche Faktoren schreibt man als Potenz: a · a · a = a³ (Basis a, Exponent 3). Zahlen und Variablen werden getrennt multipliziert: 2a · 3a = 2 · 3 · a · a = <strong>6a²</strong>.</p><p>Gleiche Basis: Exponenten addieren, a² · a³ = a⁵.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">a² + a² = a⁴</span> ✗ richtig: 2a² (Summe!) · <span class="falsch">a · a · a = 3a</span> ✗ richtig: a³ (Produkt!) · <span class="falsch">2³ · 2⁴ = 4⁷</span> ✗ richtig: 2⁷.</p></div>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#start">← Start</a><a href="#umformen">Weiter: Umformen →</a></nav>
+</section>
+<section class="tab" id="umformen" data-titel="Umformen">
+  <span class="kicker-label">Termumformungen</span>
+  <h2>3 · Ausmultiplizieren, ausklammern, binomische Formeln</h2>
+  <h3 id="u-ausmult">Ausmultiplizieren und ausklammern</h3>
+  <div class="svg-box"><svg viewBox="0 0 370 134" width="425" role="img" aria-label="Rechteck 4 mal (6 + x) aus zwei Teilen"><rect x="40" y="10" width="200" height="90" fill="#FBE3C8" stroke="#23302D" stroke-width="2"/><text x="140.0" y="61.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">4 · 6 = 24</text><rect x="240" y="10" width="110" height="90" fill="#DCEFD8" stroke="#23302D" stroke-width="2"/><text x="295.0" y="61.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">4x</text><text x="140.0" y="122" text-anchor="middle" font-size="16" font-weight="700" fill="#1C5DAA" font-family="Arial">6</text><text x="295.0" y="122" text-anchor="middle" font-size="16" font-weight="700" fill="#1C5DAA" font-family="Arial">x</text><text x="30" y="61.0" text-anchor="end" font-size="16" font-weight="700" fill="#C62828" font-family="Arial">4</text></svg></div>
+  <p>Die ganze Fläche ist 4 · (6 + x). Die beiden Teile zusammen sind 24 + 4x. Also gilt: 4 · (6 + x) = 24 + 4x.</p>
+  <div class="box merk"><span class="box-titel">Merke</span><p><strong>Ausmultiplizieren:</strong> Jeder Summand in der Klammer wird mit dem Faktor multipliziert. <span class="vk">−2</span> · (x − 3) = −2x + 6</p><p><strong>Ausklammern:</strong> rückwärts – den gemeinsamen Faktor vor die Klammer: 6x + 10y = <span class="vk">2</span> · (3x + 5y). Probe: wieder ausmultiplizieren.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">2(x + 3) = 2x + 3</span> ✗ – die 3 muss auch mit 2 multipliziert werden: 2x + 6.</p></div>
+  <h3 id="u-summen">Summe mal Summe – jeder mit jedem</h3>
+  <div class="svg-box"><svg viewBox="0 0 330 264" width="379" role="img" aria-label="Rechteck (x + 3) mal (x + 2) aus vier Teilen"><rect x="40" y="10" width="170" height="150" fill="#FBE3C8" stroke="#23302D" stroke-width="2"/><text x="125.0" y="91.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">x²</text><rect x="210" y="10" width="100" height="150" fill="#DCEFD8" stroke="#23302D" stroke-width="2"/><text x="260.0" y="91.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">3x</text><rect x="40" y="160" width="170" height="70" fill="#E6DDF2" stroke="#23302D" stroke-width="2"/><text x="125.0" y="201.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">2x</text><rect x="210" y="160" width="100" height="70" fill="#F8DCE6" stroke="#23302D" stroke-width="2"/><text x="260.0" y="201.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">6</text><text x="125.0" y="252" text-anchor="middle" font-size="16" font-weight="700" fill="#1C5DAA" font-family="Arial">x</text><text x="260.0" y="252" text-anchor="middle" font-size="16" font-weight="700" fill="#1C5DAA" font-family="Arial">3</text><text x="30" y="91.0" text-anchor="end" font-size="16" font-weight="700" fill="#C62828" font-family="Arial">x</text><text x="30" y="201.0" text-anchor="end" font-size="16" font-weight="700" fill="#C62828" font-family="Arial">2</text></svg></div>
+  <div class="box merk"><span class="box-titel">Merke</span><p>Jeder Summand der ersten Klammer wird mit jedem Summanden der zweiten Klammer multipliziert: 1. ausmultiplizieren · 2. Produkte berechnen · 3. sortieren · 4. zusammenfassen.</p><p>(x + 3) · (x + 2) = x² + 2x + 3x + 6 = <strong>x² + 5x + 6</strong></p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Mit Minus</span><p>(x + 4) · (x − 2) = x² − 2x + 4x − 8 = <strong>x² + 2x − 8</strong></p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">(x + 3)(x + 2) = x² + 6</span> ✗ – es fehlen die beiden „gemischten“ Produkte 2x und 3x.</p></div>
+  <h3 id="u-binom">Die binomischen Formeln</h3>
+  <div class="svg-box"><svg viewBox="0 0 310 294" width="356" role="img" aria-label="Quadrat mit Seite a + b aus a², zweimal ab und b²"><rect x="40" y="10" width="170" height="170" fill="#FBE3C8" stroke="#23302D" stroke-width="2"/><text x="125.0" y="101.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">a²</text><rect x="210" y="10" width="80" height="170" fill="#DCEFD8" stroke="#23302D" stroke-width="2"/><text x="250.0" y="101.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">ab</text><rect x="40" y="180" width="170" height="80" fill="#E6DDF2" stroke="#23302D" stroke-width="2"/><text x="125.0" y="226.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">ab</text><rect x="210" y="180" width="80" height="80" fill="#F8DCE6" stroke="#23302D" stroke-width="2"/><text x="250.0" y="226.0" text-anchor="middle" font-size="17" font-weight="700" font-family="Arial" fill="#23302D">b²</text><text x="125.0" y="282" text-anchor="middle" font-size="16" font-weight="700" fill="#1C5DAA" font-family="Arial">a</text><text x="250.0" y="282" text-anchor="middle" font-size="16" font-weight="700" fill="#1C5DAA" font-family="Arial">b</text><text x="30" y="101.0" text-anchor="end" font-size="16" font-weight="700" fill="#C62828" font-family="Arial">a</text><text x="30" y="226.0" text-anchor="end" font-size="16" font-weight="700" fill="#C62828" font-family="Arial">b</text></svg></div>
+  <div class="box merk"><span class="box-titel">Die drei binomischen Formeln</span><div class="formelzeile"><span class="formel">(<span class="va">a</span> + <span class="vb">b</span>)² = <span class="va">a</span>² + 2<span class="va">a</span><span class="vb">b</span> + <span class="vb">b</span>²</span></div><div class="formelzeile"><span class="formel">(<span class="va">a</span> − <span class="vb">b</span>)² = <span class="va">a</span>² − 2<span class="va">a</span><span class="vb">b</span> + <span class="vb">b</span>²</span></div><div class="formelzeile"><span class="formel">(<span class="va">a</span> + <span class="vb">b</span>)(<span class="va">a</span> − <span class="vb">b</span>) = <span class="va">a</span>² − <span class="vb">b</span>²</span></div><p class="klein">Merkhilfe: Quadrat – doppeltes Produkt – Quadrat. Bei der 2. Formel steht das Minus nur in der Mitte.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Anwenden</span><p>(x + 5)² = x² + 10x + 25 · (y − 4)² = y² − 8y + 16 · (z + 6)(z − 6) = z² − 36</p><p><strong>Kopfrechnen:</strong> 21² = (20 + 1)² = 400 + 40 + 1 = 441 · 19 · 21 = 20² − 1 = 399</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Rückwärts</span><p>x² + 14x + 49 = (x + 7)² · a² − 25 = (a + 5)(a − 5) · 4b² + 20b + 25 = (2b + 5)²</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">(a + b)² = a² + b²</span> ✗ – Gegenbeispiel: (3 + 4)² = 49, aber 3² + 4² = 25. Es fehlt 2ab. Und: <span class="falsch">(2x + 1)² = 2x² + 4x + 1</span> ✗, denn (2x)² = 4x².</p></div>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#terme">← Terme</a><a href="#gleichungen">Weiter: Gleichungen →</a></nav>
+</section>
+<section class="tab" id="gleichungen" data-titel="Gleichungen">
+  <span class="kicker-label">Gleichungen</span>
+  <h2>4 · Gleichungen lösen</h2>
+  <h3 id="g-probieren">Systematisch probieren</h3>
+  <p>3x + 4 = x + 12. Starte mit x = 1 und vergleiche beide Seiten:</p>
+  <div class="tabelle-wrap"><table><thead><tr><th>x</th><th>links 3x + 4</th><th>rechts x + 12</th><th>Vergleich</th></tr></thead><tbody>
+  <tr><td>1</td><td>7</td><td>13</td><td>links kleiner → x größer</td></tr><tr><td>2</td><td>10</td><td>14</td><td>links kleiner → x größer</td></tr><tr><td>3</td><td>13</td><td>15</td><td>links kleiner → x größer</td></tr><tr><td><strong>4</strong></td><td>16</td><td>16</td><td><strong>gleich ✓</strong></td></tr></tbody></table></div>
+  <p class="klein">Probieren ist erlaubt – bei großen Zahlen, Brüchen oder negativen Lösungen dauert es aber lange.</p>
+  <h3 id="g-waage">Die Waage</h3>
+  <div class="svg-box"><svg viewBox="0 0 400 180" width="400" role="img" aria-label="Waage im Gleichgewicht: links 4 Würfel und 1 Kugel, rechts 1 Würfel und 7 Kugeln"><polygon points="200,70 180,170 220,170" fill="#C9D2D8" stroke="#34434F" stroke-width="2"/><line x1="40" y1="70" x2="360" y2="70" stroke="#34434F" stroke-width="5"/><rect x="20" y="132" width="150" height="8" rx="3" fill="#9AA6AE"/><rect x="230" y="132" width="150" height="8" rx="3" fill="#9AA6AE"/><line x1="40" y1="70" x2="25" y2="132" stroke="#76838D"/><line x1="160" y1="70" x2="165" y2="132" stroke="#76838D"/><line x1="240" y1="70" x2="235" y2="132" stroke="#76838D"/><line x1="360" y1="70" x2="375" y2="132" stroke="#76838D"/><rect x="26" y="110" width="22" height="22" rx="3" fill="#F6D3D0" stroke="#C62828" stroke-width="2"/><text x="37" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#C62828" font-family="Arial">x</text><rect x="51" y="110" width="22" height="22" rx="3" fill="#F6D3D0" stroke="#C62828" stroke-width="2"/><text x="62" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#C62828" font-family="Arial">x</text><rect x="76" y="110" width="22" height="22" rx="3" fill="#F6D3D0" stroke="#C62828" stroke-width="2"/><text x="87" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#C62828" font-family="Arial">x</text><rect x="101" y="110" width="22" height="22" rx="3" fill="#F6D3D0" stroke="#C62828" stroke-width="2"/><text x="112" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#C62828" font-family="Arial">x</text><circle cx="135" cy="122" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><rect x="236" y="110" width="22" height="22" rx="3" fill="#F6D3D0" stroke="#C62828" stroke-width="2"/><text x="247" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#C62828" font-family="Arial">x</text><circle cx="271" cy="122" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><circle cx="290" cy="122" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><circle cx="309" cy="122" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><circle cx="328" cy="122" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><circle cx="347" cy="122" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><circle cx="271" cy="103" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/><circle cx="290" cy="103" r="9" fill="#D6E6F7" stroke="#1C5DAA" stroke-width="2"/></svg></div>
+  <p>Würfel = x, Kugel = 1. Die Waage zeigt 4x + 1 = x + 7. Nimm auf beiden Seiten einen Würfel und eine Kugel weg: 3x = 6. Also wiegt ein Würfel 2 Kugeln: x = 2.</p>
+  <div class="box merk"><span class="box-titel">Merke</span><p>Was man auf <strong>beiden Seiten gleich</strong> macht, hält die Waage im Gleichgewicht. Die Waage hat aber Grenzen: „minus 3 Kugeln“ kann man nicht auf die Waage legen – rechnen kann man trotzdem.</p></div>
+  <h3 id="g-aequivalenz">Äquivalenzumformungen und Probe</h3>
+  <div class="box merk"><span class="box-titel">So gehst du vor</span><ol><li>jede Seite vereinfachen (Klammern auflösen, zusammenfassen)</li><li>alle x auf eine Seite</li><li>alle Zahlen auf die andere Seite</li><li>durch die Zahl vor dem x teilen</li><li>Lösungsmenge notieren und die <strong>Probe</strong> in der ursprünglichen Gleichung machen</li></ol></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Äquivalenzumformung</span><div class="umf"><span class="gl">4x + 1 = x + 7</span><span class="op">| − x</span><span class="gl">3x + 1 = 7</span><span class="op">| − 1</span><span class="gl">3x = 6</span><span class="op">| : 3</span><span class="gl"><span class="vx">x = 2</span></span><span class="op"></span></div><p><strong>L = {2}</strong> · Probe: 4 · 2 + 1 = 9 und 2 + 7 = 9 ✓</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p><span class="falsch">−3x = 12 | + 3</span> ✗ – −3x heißt „−3 mal x“. Die Umkehrung ist <strong>: (−3)</strong>, also x = −4.</p></div>
+  <h3 id="g-sonderfaelle">Klammern, Sonderfälle und binomische Formeln</h3>
+  <div class="box bsp"><span class="box-titel">Beispiel · Mit Klammern</span><div class="umf"><span class="gl">3 · (x − 4) + 2 = x + 6</span><span class="op">Klammer</span><span class="gl">3x − 10 = x + 6</span><span class="op">| − x</span><span class="gl">2x − 10 = 6</span><span class="op">| + 10</span><span class="gl">2x = 16</span><span class="op">| : 2</span><span class="gl"><span class="vx">x = 8</span></span><span class="op"></span></div><p>L = {8} · Probe: 3 · 4 + 2 = 14 und 8 + 6 = 14 ✓</p></div>
+  <div class="box merk"><span class="box-titel">Sonderfälle</span><p>2 · (x + 3) = 2x + 6 → 6 = 6 (wahr): <strong>Jede Zahl</strong> ist Lösung, L = ℚ.<br>2x + 1 = 2 · (x + 2) → 1 = 4 (falsch): <strong>keine</strong> Lösung, L = { }.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Mit binomischer Formel ⊕E</span><div class="umf"><span class="gl">(x + 4)² = x² + 40</span><span class="op">binom. Formel</span><span class="gl">x² + 8x + 16 = x² + 40</span><span class="op">| − x²</span><span class="gl">8x + 16 = 40</span><span class="op">| − 16</span><span class="gl">8x = 24</span><span class="op">| : 8</span><span class="gl"><span class="vx">x = 3</span></span><span class="op"></span></div><p>L = {3}</p></div>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#umformen">← Umformen</a><a href="#formeln">Weiter: Formeln →</a></nav>
+</section>
+<section class="tab" id="formeln" data-titel="Formeln">
+  <span class="kicker-label">Formeln</span>
+  <h2>5 · Formeln umstellen</h2>
+  <p>Eine Formel ist eine Gleichung mit mehreren Variablen. Man stellt sie <strong>genauso um wie eine Gleichung</strong> – bis die gesuchte Größe allein steht.</p>
+  <div class="box bsp"><span class="box-titel">Beispiel · Zinsformel nach K</span><div class="umf"><span class="gl">Z = K · p %</span><span class="op">| : p %</span><span class="gl">Z : p % = K</span><span class="op">Seiten tauschen</span><span class="gl"><span class="vx">K = Z : p %</span></span><span class="op"></span></div></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Dreieck nach h</span><div class="umf"><span class="gl">A = (g · h) : 2</span><span class="op">| · 2</span><span class="gl">2A = g · h</span><span class="op">| : g</span><span class="gl"><span class="vx">h = 2A : g</span></span><span class="op"></span></div></div>
+  <h3>Das Formeldreieck</h3>
+  <div class="svg-box"><svg viewBox="0 0 260 205" width="240" role="img" aria-label="Formeldreieck: oben Z, unten K und p Prozent"><polygon points="130,8 8,196 252,196" fill="#FFF6D5" stroke="#1B4D3E" stroke-width="3" stroke-linejoin="round"/><line x1="67" y1="104" x2="193" y2="104" stroke="#1B4D3E" stroke-width="3"/><line x1="130" y1="104" x2="130" y2="196" stroke="#1B4D3E" stroke-width="3"/><text x="130" y="86" text-anchor="middle" font-size="40" font-weight="700" fill="#1C5DAA" font-family="Arial">Z</text><text x="84" y="166" text-anchor="middle" font-size="36" font-weight="700" fill="#B0185E" font-family="Arial">K</text><text x="178" y="166" text-anchor="middle" font-size="30" font-weight="700" fill="#2A7A30" font-family="Arial">p %</text></svg></div>
+  <p>Halte die gesuchte Größe zu: Was übrig bleibt, ist die Formel. Waagerechter Strich = geteilt, senkrechter Strich = mal. Das klappt bei allen Formeln der Form „Größe = Produkt“, z. B. s = v · t oder P = U · I.</p>
+  <div class="tabelle-wrap"><table><thead><tr><th>Formel</th><th>umgestellt</th></tr></thead><tbody>
+  <tr><td>s = v · t</td><td>v = s : t · t = s : v</td></tr><tr><td>V = G · h</td><td>G = V : h · h = V : G</td></tr><tr><td>u = 4 · a</td><td>a = u : 4</td></tr><tr><td>F = 1,8 · C + 32</td><td>C = (F − 32) : 1,8</td></tr></tbody></table></div>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#gleichungen">← Gleichungen</a><a href="#sachaufgaben">Weiter: Sachaufgaben →</a></nav>
+</section>
+<section class="tab" id="sachaufgaben" data-titel="Sachaufgaben">
+  <span class="kicker-label">Sachaufgaben</span>
+  <h2>6 · Sachaufgaben mit dem Sechs-Schritte-Verfahren</h2>
+  <p><em>Mia ist dreimal so alt wie ihr Bruder Tim. Zusammen sind sie 24 Jahre alt. Wie alt sind die beiden?</em></p>
+  <div class="tabelle-wrap"><table><thead><tr><th>Schritt</th><th>Was tust du?</th><th>Beispiel</th></tr></thead><tbody>
+  <tr><td>1.</td><td><strong>Die Variable festlegen</strong></td><td>x = Alter von Tim (in Jahren)</td></tr><tr><td>2.</td><td><strong>Die Terme aufstellen</strong></td><td>Tim: x · Mia: 3x</td></tr><tr><td>3.</td><td><strong>Die Gleichung aufstellen – Was ist gleich?</strong></td><td>x + 3x = 24</td></tr><tr><td>4.</td><td><strong>Die Gleichung lösen</strong></td><td>4x = 24 | : 4 → x = 6 · Mia: 3 · 6 = 18</td></tr><tr><td>5.</td><td><strong>Die Lösung überprüfen</strong></td><td>6 + 18 = 24 ✓ und 18 = 3 · 6 ✓</td></tr><tr><td>6.</td><td><strong>Die Antwort formulieren</strong></td><td>Tim ist 6 Jahre alt, Mia 18 Jahre.</td></tr>
+  </tbody></table></div>
+  <h3>Vom Text zum Term</h3>
+  <div class="tabelle-wrap"><table class="wort-term"><thead><tr><th>im Text</th><th>als Term</th></tr></thead><tbody>
+  <tr><td>das Doppelte (Dreifache) einer Zahl</td><td>2x (3x)</td></tr><tr><td>eine Zahl, um 5 vergrößert</td><td>x + 5</td></tr><tr><td>eine Zahl, um 4 vermindert</td><td>x − 4</td></tr>
+  <tr><td>die Hälfte einer Zahl</td><td>x : 2</td></tr><tr><td>3 Jahre älter als x</td><td>x + 3</td></tr><tr><td>Grundgebühr 8 € und 0,10 € pro Minute</td><td>8 + 0,1x</td></tr></tbody></table></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Saisonkarte oder Einzeleintritt?</span><p>Freibad: Einzeleintritt 4 € · Saisonkarte 30 € und 1,50 € pro Besuch. Ab wann lohnt sich die Saisonkarte?</p><p>1 x = Anzahl der Besuche · 2 Einzeln: 4x · Saisonkarte: 30 + 1,5x · 3 4x = 30 + 1,5x · 4 2,5x = 30 → x = 12 · 5 4 · 12 = 48 € und 30 + 1,5 · 12 = 48 € ✓</p><p class="antwort">6 Bei 12 Besuchen kosten beide gleich viel (48 €). Ab dem 13. Besuch ist die Saisonkarte günstiger.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p>„Bei x = 12 ist die Saisonkarte günstiger.“ ✗ – bei x = 12 sind beide <strong>gleich</strong> teuer. Günstiger wird sie erst ab 13 Besuchen. Lies die Frage im Antwortsatz genau!</p></div>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#formeln">← Formeln</a><a href="#wiederholung">Weiter: Wiederholung →</a></nav>
+</section>
+<section class="tab" id="wiederholung" data-titel="Wiederholung"><span class="kicker-label">Teil 1</span><h2>7 · Wiederholung für Teil 1 der Klassenarbeit</h2><p>Teil 1 ist ohne Taschenrechner. Ein Teil davon wiederholt Grundwissen aus Klasse 5–7.</p><h3 id="w-rational">Rechnen mit rationalen Zahlen</h3><div class="box merk"><span class="box-titel">Merke</span><p>Minus mal Minus ergibt Plus. Punkt vor Strich, Klammern zuerst.</p></div><article class="aufgabe" id="a-w1"><h4><span class="nr">W1</span> Rechnen mit rationalen Zahlen <span class="stufe stufe-1">★</span></h4><p>Berechne: a) (−5) · 8   b) −12 + 20   c) 9 − (−3)   d) (−42) : 6   e) 20 − 3 · 4   f) (−2)⁴</p><details class="loesung" data-titel="Wiederholung W1 (★)"><summary>Lösung anzeigen</summary><div><p>a) −40 · b) 8 · c) 12 · d) −7 · e) 8 · f) 16</p></div></details></article><h3 id="w-flaechen">Umfang und Flächeninhalt</h3><div class="box merk"><span class="box-titel">Merke</span><p>Rechteck: u = 2a + 2b, A = a · b · Quadrat: u = 4a, A = a² · Dreieck: A = (g · h) : 2</p></div><article class="aufgabe" id="a-w2"><h4><span class="nr">W2</span> Umfang und Flächeninhalt <span class="stufe stufe-1">★</span></h4><p>a) Rechteck 7 cm × 5 cm: u und A?   b) Ein Quadrat hat den Umfang 36 cm. Seitenlänge und Flächeninhalt?   c) Dreieck g = 8 cm, h = 6 cm: A?</p><details class="loesung" data-titel="Wiederholung W2 (★)"><summary>Lösung anzeigen</summary><div><p>a) u = 24 cm, A = 35 cm² · b) a = 9 cm, A = 81 cm² · c) A = 24 cm²</p></div></details></article><h3 id="w-bruch">Bruch – Dezimalzahl – Prozent</h3><div class="box merk"><span class="box-titel">Merke</span><p>3/4 = 0,75 = 75 % · 1/5 = 0,2 = 20 % · Zum Vergleichen alles als Dezimalzahl schreiben.</p></div><article class="aufgabe" id="a-w3"><h4><span class="nr">W3</span> Bruch – Dezimalzahl – Prozent <span class="stufe stufe-1">★</span></h4><p>a) Schreibe 3/5 als Dezimalzahl und in Prozent.   b) Schreibe 12 % als Dezimalzahl und als gekürzten Bruch.   c) Ordne: 0,45 · 2/5 · 48 % · 1/2</p><details class="loesung" data-titel="Wiederholung W3 (★)"><summary>Lösung anzeigen</summary><div><p>a) 0,6 = 60 % · b) 0,12 = 3/25 · c) 2/5 (0,4) < 0,45 < 48 % < 1/2</p></div></details></article><h3 id="w-dreisatz">Dreisatz</h3><div class="box merk"><span class="box-titel">Merke</span><p>Proportional: doppelt so viel → doppelt so teuer. Antiproportional: doppelt so viele Arbeiter → halb so lange.</p></div><article class="aufgabe" id="a-w4"><h4><span class="nr">W4</span> Dreisatz <span class="stufe stufe-1">★</span></h4><p>a) 3 Hefte kosten 4,50 €. Was kosten 7 Hefte?   b) 4 Pumpen leeren ein Becken in 9 Stunden. Wie lange brauchen 6 Pumpen?</p><details class="loesung" data-titel="Wiederholung W4 (★)"><summary>Lösung anzeigen</summary><div><p>a) 1 Heft 1,50 € → 7 Hefte 10,50 € · b) 1 Pumpe 36 h → 6 Pumpen 6 h</p></div></details></article><nav class="weiter" aria-label="Weiterblättern"><a href="#sachaufgaben">← Sachaufgaben</a><a href="#ueben">Weiter: Üben →</a></nav></section>
+<section class="tab" id="ueben" data-titel="Üben">
+  <span class="kicker-label">Üben</span>
+  <h2>8 · Üben</h2>
+  <p>Rechne im Heft. Schau erst in die Lösung, wenn du fertig bist. Mit dem Term-Prüfer und der Probe-Maschine kannst du auch jede Hausaufgabe kontrollieren.</p>
+  <div class="stufen-kopf"><span class="stufe stufe-1">★ Basis</span><h3 id="stufe-1" style="margin:0;border:0">Basis</h3></div><article class="aufgabe" id="a-a1"><h4><span class="nr">A1</span> Zusammenfassen <span class="stufe stufe-1">★</span></h4><p>Vereinfache: a) 8x + 3 − 5x + 6   b) 6m + 2n − 4m + n</p><details class="loesung" data-titel="Üben A1 (★)"><summary>Lösung anzeigen</summary><div><p>a) 3x + 9 · b) 2m + 3n</p></div></details><p class="buchverweis">Ähnlich: Buch S. 8 · AH S. 2</p></article><article class="aufgabe" id="a-a2"><h4><span class="nr">A2</span> Klammern auflösen <span class="stufe stufe-1">★</span></h4><p>a) 15 + (4x − 9)   b) 20 − (3y + 8)   c) 5a − (2a − 7)</p><details class="loesung" data-titel="Üben A2 (★)"><summary>Lösung anzeigen</summary><div><p>a) 4x + 6 · b) 12 − 3y · c) 3a + 7</p></div></details><p class="buchverweis">Ähnlich: Buch S. 9 · AH S. 5</p></article><article class="aufgabe" id="a-a3"><h4><span class="nr">A3</span> Potenzen <span class="stufe stufe-1">★</span></h4><p>a) 4x · 3x   b) y · y · y · y   c) a² · a⁵   d) 2b² + 3b²</p><details class="loesung" data-titel="Üben A3 (★)"><summary>Lösung anzeigen</summary><div><p>a) 12x² · b) y⁴ · c) a⁷ · d) 5b²</p></div></details><p class="buchverweis">Ähnlich: Buch S. 11</p></article><article class="aufgabe" id="a-a4"><h4><span class="nr">A4</span> Ausmultiplizieren <span class="stufe stufe-1">★</span></h4><p>a) 6(x + 5)   b) −3(2a − 4)   c) x(x − 7)</p><details class="loesung" data-titel="Üben A4 (★)"><summary>Lösung anzeigen</summary><div><p>a) 6x + 30 · b) −6a + 12 · c) x² − 7x</p></div></details><p class="buchverweis">Ähnlich: Buch S. 15 · AH S. 8</p></article><article class="aufgabe" id="a-a5"><h4><span class="nr">A5</span> Gleichungen <span class="stufe stufe-1">★</span></h4><p>Löse und mache die Probe: a) 4x + 3 = 23   b) 7x − 4 = 3x + 12   c) 9 + x = 4x</p><details class="loesung" data-titel="Üben A5 (★)"><summary>Lösung anzeigen</summary><div><p>a) x = 5 · b) x = 4 · c) x = 3</p></div></details><p class="buchverweis">Ähnlich: Buch S. 27 · AH S. 17</p></article><article class="aufgabe" id="a-a6"><h4><span class="nr">A6</span> Waage <span class="stufe stufe-1">★</span></h4><p>Links liegen 5 Würfel und 2 Kugeln, rechts 2 Würfel und 14 Kugeln. Die Waage ist im Gleichgewicht. Stelle eine Gleichung auf und löse sie.</p><details class="loesung" data-titel="Üben A6 (★)"><summary>Lösung anzeigen</summary><div><p>5x + 2 = 2x + 14 → 3x = 12 → x = 4. Ein Würfel wiegt 4 Kugeln.</p></div></details><p class="buchverweis">Ähnlich: Buch S. 27</p></article><div class="stufen-kopf"><span class="stufe stufe-2">★★ Standard</span><h3 id="stufe-2" style="margin:0;border:0">Standard</h3></div><article class="aufgabe" id="a-b1"><h4><span class="nr">B1</span> Ausklammern <span class="stufe stufe-2">★★</span></h4><p>a) 12x + 20   b) 9a² − 6a   c) 15xy + 10x</p><details class="loesung" data-titel="Üben B1 (★★)"><summary>Lösung anzeigen</summary><div><p>a) 4(3x + 5) · b) 3a(3a − 2) · c) 5x(3y + 2)</p></div></details><p class="buchverweis">Ähnlich: Buch S. 16 · AH S. 9</p></article><article class="aufgabe" id="a-b2"><h4><span class="nr">B2</span> Summe mal Summe <span class="stufe stufe-2">★★</span></h4><p>a) (x + 6)(x + 2)   b) (a − 4)(a + 9)   c) (2y + 3)(y − 1)</p><details class="loesung" data-titel="Üben B2 (★★)"><summary>Lösung anzeigen</summary><div><p>a) x² + 8x + 12 · b) a² + 5a − 36 · c) 2y² + y − 3</p></div></details><p class="buchverweis">Ähnlich: Buch S. 19–20 · AH S. 11–12</p></article><article class="aufgabe" id="a-b3"><h4><span class="nr">B3</span> Binomische Formeln <span class="stufe stufe-2">★★</span></h4><p>a) (x + 8)²   b) (a − 5)²   c) (y + 7)(y − 7)   d) 71² im Kopf</p><details class="loesung" data-titel="Üben B3 (★★)"><summary>Lösung anzeigen</summary><div><p>a) x² + 16x + 64 · b) a² − 10a + 25 · c) y² − 49 · d) 4 900 + 140 + 1 = 5 041</p></div></details><p class="buchverweis">Ähnlich: Buch S. 22–23 · AH S. 14–15</p></article><article class="aufgabe" id="a-b4"><h4><span class="nr">B4</span> Gleichungen mit Klammern <span class="stufe stufe-2">★★</span></h4><p>a) 3(x − 2) = 2x + 5   b) 6 − 2(x − 1) = x − 1   c) 4(x + 3) = 2(x + 9)</p><details class="loesung" data-titel="Üben B4 (★★)"><summary>Lösung anzeigen</summary><div><p>a) x = 11 · b) 8 − 2x = x − 1 → x = 3 · c) 4x + 12 = 2x + 18 → x = 3</p></div></details><p class="buchverweis">Ähnlich: Buch S. 28 · AH S. 18</p></article><article class="aufgabe" id="a-b5"><h4><span class="nr">B5</span> Formeln umstellen <span class="stufe stufe-2">★★</span></h4><p>a) P = U · I nach I   b) V = G · h nach G   c) Z = K · p % nach p %</p><details class="loesung" data-titel="Üben B5 (★★)"><summary>Lösung anzeigen</summary><div><p>a) I = P : U · b) G = V : h · c) p % = Z : K</p></div></details><p class="buchverweis">Ähnlich: Buch S. 35 · AH S. 23–24</p></article><article class="aufgabe" id="a-b6"><h4><span class="nr">B6</span> Geschwister <span class="stufe stufe-2">★★</span></h4><p>Lina ist 5 Jahre älter als ihr Bruder. Zusammen sind sie 29 Jahre alt. Wie alt sind die beiden? Nutze das Sechs-Schritte-Verfahren.</p><details class="loesung" data-titel="Üben B6 (★★)"><summary>Lösung anzeigen</summary><div><p>x + (x + 5) = 29 → 2x = 24 → x = 12. Der Bruder ist 12, Lina 17 Jahre alt.</p></div></details><p class="buchverweis">Ähnlich: Buch S. 32 · AH S. 21</p></article><div class="stufen-kopf"><span class="stufe stufe-3">★★★ Knobel</span><h3 id="stufe-3" style="margin:0;border:0">Knobel</h3></div><article class="aufgabe" id="a-c1"><h4><span class="nr">C1</span> Gleichwertig? <span class="stufe stufe-3">★★★</span></h4><p>Entscheide und begründe: a) (a + b)² und a² + b²   b) (x − 1)(x + 1) und x² − 1   c) 2(n + 4) und 2n + 4</p><details class="loesung" data-titel="Üben C1 (★★★)"><summary>Lösung anzeigen</summary><div><p>a) nein (es fehlt 2ab; a = b = 1: 4 ≠ 2) · b) ja (3. binomische Formel) · c) nein (n = 0: 8 ≠ 4)</p></div></details><p class="buchverweis">Ähnlich: Buch S. 33</p></article><article class="aufgabe" id="a-c2"><h4><span class="nr">C2</span> Rückwärts <span class="stufe stufe-3">★★★</span></h4><p>Schreibe als Quadrat oder Produkt: a) x² + 12x + 36   b) a² − 81   c) 9y² − 30y + 25</p><details class="loesung" data-titel="Üben C2 (★★★)"><summary>Lösung anzeigen</summary><div><p>a) (x + 6)² · b) (a + 9)(a − 9) · c) (3y − 5)²</p></div></details><p class="buchverweis">Ähnlich: Buch S. 23 · AH S. 16</p></article><article class="aufgabe" id="a-c3"><h4><span class="nr">C3</span> Gleichungen mit Quadraten <span class="stufe stufe-3">★★★</span></h4><p>a) (x + 6)² = x² + 60   b) (x − 4)² = (x + 1)²</p><details class="loesung" data-titel="Üben C3 (★★★)"><summary>Lösung anzeigen</summary><div><p>a) 12x + 36 = 60 → x = 2 · b) x² − 8x + 16 = x² + 2x + 1 → −10x = −15 → x = 1,5</p></div></details><p class="buchverweis">Ähnlich: Buch S. 29</p></article><article class="aufgabe" id="a-c4"><h4><span class="nr">C4</span> Sonderfälle <span class="stufe stufe-3">★★★</span></h4><p>a) 5(x − 2) = 5x − 10   b) 3x + 4 = 3(x + 1)   c) Erfinde selbst eine Gleichung ohne Lösung.</p><details class="loesung" data-titel="Üben C4 (★★★)"><summary>Lösung anzeigen</summary><div><p>a) −10 = −10, wahr: L = ℚ · b) 4 = 3, falsch: L = { } · c) z. B. x + 1 = x + 2</p></div></details><p class="buchverweis">Ähnlich: Buch S. 29</p></article><article class="aufgabe" id="a-c5"><h4><span class="nr">C5</span> Fitnessstudio <span class="stufe stufe-3">★★★</span></h4><p>Studio A: 20 € im Monat und 2 € pro Besuch. Studio B: 5 € pro Besuch. Ab wie vielen Besuchen im Monat ist Studio A günstiger?</p><details class="loesung" data-titel="Üben C5 (★★★)"><summary>Lösung anzeigen</summary><div><p>20 + 2x = 5x → 3x = 20 → x ≈ 6,7. Bei 6 Besuchen ist B billiger (30 € gegenüber 32 €), ab 7 Besuchen ist A günstiger (34 € gegenüber 35 €).</p></div></details><p class="buchverweis">Ähnlich: Buch S. 33</p></article><article class="aufgabe" id="a-c6"><h4><span class="nr">C6</span> Tische stellen <span class="stufe stufe-3">★★★</span></h4><p>An einen Tisch passen 4 Personen, an zwei aneinandergestellte Tische 6, an drei 8. a) Stelle einen Term für n Tische auf. b) Wie viele Tische braucht eine Klasse mit 30 Personen?</p><details class="loesung" data-titel="Üben C6 (★★★)"><summary>Lösung anzeigen</summary><div><p>a) 2n + 2 · b) 2n + 2 = 30 → n = 14 Tische</p></div></details><p class="buchverweis">Ähnlich: Buch S. 41</p></article>
+  <h3 id="termpruefer">Term-Prüfer: Sind meine Terme gleichwertig?</h3>
+  <div class="interaktiv werkzeug">
+    <form id="termpruefer-form" novalidate>
+      <div class="feld"><label for="tp-a">Aufgabe</label><input type="text" id="tp-a" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="z. B. (x+4)(x-2)"></div>
+      <div class="feld"><label for="tp-b">Dein Ergebnis</label><input type="text" id="tp-b" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="z. B. x^2+2x-8"></div>
+      <div class="knopfreihe"><button type="submit" class="knopf">Prüfen</button><button type="reset" class="knopf hell">Leeren</button></div>
+    </form>
+    <div class="rueckmeldung" id="tp-ergebnis" aria-live="polite"></div>
+    <p class="eingabe-hilfe">Eingabe: mal als * oder ·, hoch als ^ (x^2) oder ², geteilt als : oder /. 3x und 2(x+1) darfst du ohne Malzeichen schreiben.</p>
+  </div>
+  <h3 id="probemaschine">Probe-Maschine für Gleichungen</h3>
+  <div class="interaktiv werkzeug">
+    <form id="probe-form" novalidate>
+      <div class="feld"><label for="pm-gl">Gleichung</label><input type="text" id="pm-gl" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="z. B. 4x+1=x+7"></div>
+      <div class="feld"><label for="pm-x">x =</label><input type="text" id="pm-x" inputmode="decimal" autocomplete="off" placeholder="z. B. 2" style="min-width:5rem"></div>
+      <div class="knopfreihe"><button type="submit" class="knopf">Probe machen</button></div>
+    </form>
+    <div class="rueckmeldung" id="pm-ergebnis" aria-live="polite"></div>
+  </div>
+  <h3 id="selbsttest">Selbsttest mit Zufallsaufgaben</h3>
+  <div class="interaktiv">
+    <p>10 Aufgaben mit neuen Zahlen bei jedem Start. Rechne auf einem Blatt und tippe das Ergebnis ein: Zahlen wie 4 oder −2,5 · Terme wie 3x^2 - 4x + 1.</p>
+    <div class="knopfreihe"><button type="button" class="knopf" id="test-neu">Neue Aufgaben</button><span class="punkte" id="test-punkte" aria-live="polite"></span></div>
+    <div id="test-liste"></div>
+  </div>
+  <p class="ersatz nur-druck klein">Term-Prüfer, Probe-Maschine und Selbsttest gibt es nur in der digitalen Version, geöffnet in einem Browser wie Safari oder Chrome.</p>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#wiederholung">← Wiederholung</a><a href="#material">Weiter: Material →</a></nav>
+</section>
+<section class="tab" id="material" data-titel="Material">
+  <span class="kicker-label">Material</span>
+  <h2>9 · Material zum Weiterüben</h2>
+  <h3 id="buch">Buch und Arbeitsheft (Dreifach Mathe 8)</h3>
+  <p>Im Arbeitsheft gibt es jedes Thema auf drei Seiten: ◸ Basis · ⊠ mittel · ⊠ schwer. Fang mit der Seite an, die zu deiner Ampel passt.</p>
+  <div class="tabelle-wrap"><table><thead><tr><th>Thema</th><th>Buch</th><th>Arbeitsheft</th></tr></thead><tbody>
+  <tr><td>Terme aufstellen und vereinfachen</td><td>S. 8–9</td><td>S. 2–4</td></tr><tr><td>Plus- und Minusklammern</td><td>S. 9</td><td>S. 5–7</td></tr><tr><td>Terme und Potenzen</td><td>S. 10–13</td><td>–</td></tr><tr><td>Ausmultiplizieren und ausklammern</td><td>S. 14–17</td><td>S. 8–10</td></tr><tr><td>Summe mal Summe ⊕E</td><td>S. 18–21</td><td>S. 11–13</td></tr><tr><td>Binomische Formeln ⊕E</td><td>S. 22–23, 38</td><td>S. 14–16</td></tr><tr><td>Gleichungen probieren und Waage</td><td>S. 24–27</td><td>S. 17</td></tr><tr><td>Äquivalenzumformungen</td><td>S. 26–29</td><td>S. 17–19</td></tr><tr><td>Sachaufgaben (Sechs Schritte)</td><td>S. 30–33</td><td>S. 20–22</td></tr><tr><td>Formeln umstellen</td><td>S. 34–35</td><td>S. 23–25</td></tr><tr><td>Zwischentest</td><td>S. 36–37 (Lösungen S. 240)</td><td>–</td></tr><tr><td>Vermischte Übungen</td><td>S. 39–41</td><td>–</td></tr><tr><td>Abschlusstest</td><td>S. 43 (Lösungen S. 242–243)</td><td>–</td></tr>
+  </tbody></table></div>
+  <h3>Zum Knobeln</h3>
+  <ul><li><strong>Pascal’sches Dreieck</strong> (Buch S. 38): Welche Zahlen stehen in (a + b)³?</li><li><strong>Tieftauchen „Historische Rätsel“</strong> (Buch S. 42): Rätsel aus Ägypten, Griechenland und von Adam Ries.</li></ul>
+  <h3>Interaktive Waage</h3>
+  <p>Eine Waage zum Ausprobieren gibt es online: <a href="https://www.geogebra.org/m/vpdxgtrv" target="_blank" rel="noopener">GeoGebra – Equality Explorer (Waage-Modell)</a>. Dafür brauchst du Internet.</p>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#ueben">← Üben</a><a href="#spickzettel">Weiter: Spickzettel →</a></nav>
+</section>
+<section class="tab" id="spickzettel" data-titel="Spickzettel">
+  <span class="kicker-label">Spickzettel</span>
+  <h2>10 · Spickzettel Terme und Gleichungen</h2>
+  <p class="spick-intro">Alles Wichtige auf einer Seite – zum Ausdrucken und Wiederholen. In der Klassenarbeit ist er nicht erlaubt.</p>
+  <div class="spick"><div class="karte"><h4>Vereinfachen</h4><p class="formel">nur gleichartige Terme zusammenfassen<br>5x + 2y − 3x = 2x + 2y</p></div><div class="karte"><h4>Klammern</h4><p class="formel">Minus vor der Klammer: jedes Vorzeichen umdrehen<br>10 − (2a − 4) = 14 − 2a</p></div><div class="karte"><h4>Potenzen</h4><p class="formel">a · a · a = a³ · 2a · 3a = 6a²<br>a² · a³ = a⁵ · a² + a² = 2a²</p></div><div class="karte"><h4>Ausmultiplizieren · Ausklammern</h4><p class="formel">−2(x − 3) = −2x + 6<br>6x + 10y = 2(3x + 5y)</p></div><div class="karte"><h4>Summe mal Summe</h4><p class="formel">jeder mit jedem<br>(x + 4)(x − 2) = x² + 2x − 8</p></div><div class="karte"><h4>Binomische Formeln</h4><p class="formel">(a + b)² = a² + 2ab + b²<br>(a − b)² = a² − 2ab + b²<br>(a + b)(a − b) = a² − b²</p></div><div class="karte"><h4>Gleichungen lösen</h4><p class="formel">1 vereinfachen · 2 x auf eine Seite · 3 Zahlen auf die andere · 4 teilen · 5 L und Probe</p></div><div class="karte"><h4>Sonderfälle</h4><p class="formel">6 = 6 → L = ℚ (alle Zahlen)<br>1 = 4 → L = { } (keine Lösung)</p></div><div class="karte"><h4>Formeln umstellen</h4><p class="formel">wie Gleichungen: Z = K · p % → K = Z : p %</p></div><div class="karte"><h4>Sechs Schritte</h4><p class="formel">Variable · Terme · Gleichung · lösen · prüfen · Antwortsatz</p></div></div>
+  <nav class="weiter" aria-label="Weiterblättern"><a href="#material">← Material</a><span></span></nav>
+</section>
+<section id="loesungsteil" aria-hidden="true"><h2>Lösungen</h2><p class="klein">Alle Lösungen der Aufgaben dieser Lernseite, in der Reihenfolge der Kapitel.</p><div id="loesungen-inhalt"></div></section></main>
+<footer class="fusszeile"><p>Mathematik · E-Kurs 8 · Terme und Gleichungen · Comenius-Gesamtschule Voerde · Stand: 01.10.2026 · Buchseiten: Dreifach Mathe 8 (Cornelsen)</p></footer>
+<script id="logik">
+var TG = (function () {
+  'use strict';
+
+  /* ---------- Term lesen (eigener Parser, kein eval) ---------- */
+  function normal(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/[−–]/g, '-').replace(/[·×∙⋅]/g, '*').replace(/:/g, '/')
+      .replace(/²/g, '^2').replace(/³/g, '^3').replace(/⁴/g, '^4').replace(/⁵/g, '^5')
+      .replace(/\s+/g, '').toLowerCase();
+  }
+  function tokens(s) {
+    var t = [], i = 0, c, m;
+    while (i < s.length) {
+      c = s.charAt(i);
+      m = s.slice(i).match(/^\d+([.,]\d+)?/);
+      if (m) { t.push({ typ: 'zahl', wert: parseFloat(m[0].replace(',', '.')) }); i += m[0].length; continue; }
+      if (/[a-z]/.test(c)) { t.push({ typ: 'var', name: c }); i++; continue; }
+      if ('+-*/^()'.indexOf(c) >= 0) { t.push({ typ: c }); i++; continue; }
+      throw new Error('Das Zeichen „' + c + '“ kenne ich nicht.');
+    }
+    return t;
+  }
+  function parse(eingabe) {
+    var s = normal(eingabe);
+    if (s === '') return { ok: false, fehler: 'Bitte gib einen Term ein.' };
+    var t, p = 0, vars = {};
+    try { t = tokens(s); } catch (e) { return { ok: false, fehler: e.message }; }
+    function verknuepfe(op, l, r) {        // eigener Abschluss je Rechenzeichen
+      if (op === '+') return function (v) { return l(v) + r(v); };
+      if (op === '-') return function (v) { return l(v) - r(v); };
+      if (op === '*') return function (v) { return l(v) * r(v); };
+      return function (v) { return l(v) / r(v); };
+    }
+    function sieh() { return t[p]; }
+    function nimm(typ) { if (t[p] && t[p].typ === typ) { p++; return true; } return false; }
+    function ausdruck() {
+      var n = glied();
+      while (sieh() && (sieh().typ === '+' || sieh().typ === '-')) {
+        var op = t[p++].typ;
+        n = verknuepfe(op, n, glied());
+      }
+      return n;
+    }
+    function startetFaktor(k) { return k && (k.typ === 'zahl' || k.typ === 'var' || k.typ === '('); }
+    function glied() {
+      var n = vorzeichen();
+      while (sieh() && (sieh().typ === '*' || sieh().typ === '/' || startetFaktor(sieh()))) {
+        var op = '*';
+        if (sieh().typ === '*' || sieh().typ === '/') op = t[p++].typ;
+        n = verknuepfe(op, n, vorzeichen());
+      }
+      return n;
+    }
+    function vorzeichen() {
+      if (nimm('-')) return negativ(vorzeichen());
+      if (nimm('+')) return vorzeichen();
+      return potenz();
+    }
+    function negativ(a) { return function (v) { return -a(v); }; }
+    function hoch(b, e) { return function (v) { return Math.pow(b(v), e(v)); }; }
+    function potenz() {
+      var b = atom();
+      if (nimm('^')) return hoch(b, vorzeichen());
+      return b;
+    }
+    function atom() {
+      var k = sieh();
+      if (!k) throw new Error('Der Term hört zu früh auf.');
+      if (k.typ === 'zahl') { p++; var w = k.wert; return function () { return w; }; }
+      if (k.typ === 'var') { p++; vars[k.name] = true; var nm = k.name; return function (v) { return v[nm]; }; }
+      if (nimm('(')) { var a = ausdruck(); if (!nimm(')')) throw new Error('Eine Klammer wird nicht geschlossen.'); return a; }
+      throw new Error('An dieser Stelle fehlt eine Zahl oder Variable.');
+    }
+    var f;
+    try { f = ausdruck(); if (p < t.length) throw new Error(t[p].typ === ')' ? 'Eine Klammer zu viel.' : 'Ich verstehe den Term nicht ganz.'); }
+    catch (e) { return { ok: false, fehler: e.message }; }
+    return { ok: true, f: f, vars: Object.keys(vars) };
+  }
+
+  /* ---------- Gleichwertigkeit durch Einsetzen ---------- */
+  var PROBEN = [1.37, -2.71, 3.14, -0.58, 4.6, 0.83, -3.9];
+  function wert(f, namen, k) { var v = {}; namen.forEach(function (n, j) { v[n] = PROBEN[(k + 2 * j) % PROBEN.length] + j * 0.29; }); return f(v); }
+  function gleichwertig(a, b) {
+    var A = typeof a === 'string' ? parse(a) : a, B = typeof b === 'string' ? parse(b) : b;
+    if (!A.ok || !B.ok) return false;
+    var namen = A.vars.concat(B.vars.filter(function (n) { return A.vars.indexOf(n) < 0; }));
+    for (var k = 0; k < PROBEN.length; k++) {
+      var x = wert(A.f, namen, k), y = wert(B.f, namen, k);
+      if (!isFinite(x) || !isFinite(y)) return false;
+      if (Math.abs(x - y) > 1e-7 * Math.max(1, Math.abs(x), Math.abs(y))) return false;
+    }
+    return true;
+  }
+  function gegenbeispiel(a, b) {          // ganze Zahl, bei der sich die Terme unterscheiden
+    var A = parse(a), B = parse(b); if (!A.ok || !B.ok) return null;
+    var namen = A.vars.concat(B.vars.filter(function (n) { return A.vars.indexOf(n) < 0; }));
+    for (var z = 1; z <= 6; z++) {
+      var v = {}; namen.forEach(function (n, j) { v[n] = z + j; });
+      var x = A.f(v), y = B.f(v);
+      if (Math.abs(x - y) > 1e-9) return { v: v, a: x, b: y };
+    }
+    return null;
+  }
+  function anzahlGlieder(s) {            // Summanden auf oberster Ebene
+    s = normal(s); var tiefe = 0, n = 1;
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charAt(i);
+      if (c === '(') tiefe++; else if (c === ')') tiefe--;
+      else if ((c === '+' || c === '-') && tiefe === 0 && i > 0 && '*/^('.indexOf(s.charAt(i - 1)) < 0) n++;
+    }
+    return n;
+  }
+
+  /* ---------- Zahlen ---------- */
+  function zahl(e) {
+    var s = normal(e).replace(/€|cm|jahre|jahr/g, '');
+    var m = s.match(/^x=(.*)$/); if (m) s = m[1];
+    m = s.match(/^l=\{(.*)\}$/); if (m) s = m[1];
+    if (/^-?\d+([.,]\d+)?$/.test(s)) return parseFloat(s.replace(',', '.'));
+    m = s.match(/^(-?\d+)\/(\d+)$/); if (m && +m[2] !== 0) return +m[1] / +m[2];
+    return NaN;
+  }
+  function f(n) {                       // Zahl schön (Komma, echtes Minus)
+    var s = (Math.round(n * 1000) / 1000).toString().replace('.', ',');
+    return s.replace('-', '−');
+  }
+  function lin(a, b, v) {               // a·v + b schön, z. B. 3x − 4
+    v = v || 'x'; var s = '';
+    if (a !== 0) s = (a === 1 ? '' : a === -1 ? '−' : f(a)) + v;
+    if (b !== 0) s += (s ? (b > 0 ? ' + ' : ' − ') + f(Math.abs(b)) : f(b));
+    return s || '0';
+  }
+  function quad(a, b, c, v) {           // a·v² + b·v + c
+    v = v || 'x'; var teile = [], s = '';
+    [[a, v + '²'], [b, v], [c, '']].forEach(function (z) {
+      var k = z[0]; if (k === 0) return;
+      var betrag = Math.abs(k), txt = (z[1] && betrag === 1 ? '' : f(betrag)) + z[1];
+      if (!s) s = (k < 0 ? '−' : '') + txt; else s += (k < 0 ? ' − ' : ' + ') + txt;
+    });
+    return s || '0';
+  }
+  function plusZahl(b) { return b < 0 ? '− ' + f(-b) : '+ ' + f(b); }
+
+  /* ---------- Selbsttest ---------- */
+  function ganz(r, a, b) { return a + Math.floor(r() * (b - a + 1)); }
+  function wahl(r, liste) { return liste[Math.floor(r() * liste.length)]; }
+  function nichtNull(r, a, b) { var z; do { z = ganz(r, a, b); } while (z === 0); return z; }
+  // Diese Aufgaben stehen in der Klassenarbeit und werden nie erzeugt
+  var GESPERRT = ['5x−7=3x+9', '3x+2=x+8', '2x+5=17−x', '4·(x−2)=2x+6', '(x+3)²', '(x+2)²', '4a+3b−a+2b', '2x·5x', '7−(3−y)'];
+  function gesperrt(text) { var k = text.replace(/\s/g, ''); return GESPERRT.some(function (g) { return k.indexOf(g) >= 0; }); }
+
+  var TYPEN = {
+    vereinfachen: function (r) {
+      var a = ganz(r, 4, 9), c = ganz(r, 1, a - 1), b = ganz(r, 1, 9), d = ganz(r, 1, 9);
+      return { titel: 'Terme zusammenfassen', stufe: 1, art: 'term', glieder: true,
+        text: 'Vereinfache: ' + a + 'x + ' + b + ' − ' + c + 'x + ' + d, loesung: lin(a - c, b + d),
+        weg: 'sortieren: ' + a + 'x − ' + c + 'x + ' + b + ' + ' + d + ' → zusammenfassen: ' + lin(a - c, b + d) };
+    },
+    minusklammer: function (r) {
+      var e = ganz(r, 10, 20), k = ganz(r, 2, 6), g = ganz(r, 2, 9), v = wahl(r, ['a', 'y', 'b']);
+      return { titel: 'Minus vor der Klammer', stufe: 1, art: 'term', glieder: true,
+        text: 'Löse die Klammer auf und fasse zusammen: ' + e + ' − (' + k + v + ' − ' + g + ')', loesung: lin(-k, e + g, v),
+        weg: e + ' − ' + k + v + ' + ' + g + ' = ' + lin(-k, e + g, v) + ' (Minus vor der Klammer dreht jedes Vorzeichen)' };
+    },
+    potenz: function (r) {
+      var m = ganz(r, 2, 7), n = ganz(r, 2, 6), v = wahl(r, ['x', 'a', 'y']);
+      return { titel: 'Produkt als Potenz', stufe: 1, art: 'term', produkt: true,
+        text: 'Vereinfache: ' + m + v + ' · ' + n + v, loesung: (m * n) + v + '²',
+        weg: m + ' · ' + n + ' · ' + v + ' · ' + v + ' = ' + (m * n) + v + '²' };
+    },
+    ausmultiplizieren: function (r) {
+      var k = nichtNull(r, -6, 6), a = ganz(r, 1, 5), b = nichtNull(r, -9, 9);
+      if (Math.abs(k) === 1) k = k * 3;
+      var innen = lin(a, b), kt = k < 0 ? '(' + f(k) + ')' : f(k);
+      return { titel: 'Ausmultiplizieren', stufe: 2, art: 'term', ohneKlammer: true,
+        text: 'Multipliziere aus: ' + f(k) + ' · (' + innen + ')', loesung: lin(k * a, k * b),
+        weg: kt + ' · ' + (a === 1 ? 'x' : a + 'x') + ' + ' + kt + ' · ' + (b < 0 ? '(' + f(b) + ')' : f(b)) + ' = ' + lin(k * a, k * b) };
+    },
+    ausklammern: function (r) {
+      var g = ganz(r, 2, 6), a = wahl(r, [2, 3, 5, 7]), b = wahl(r, [3, 4, 5, 7, 9].filter(function (z) { return z !== a; })) * wahl(r, [1, -1]);
+      return { titel: 'Ausklammern', stufe: 2, art: 'term', klammerPflicht: true,
+        text: 'Klammere den größten gemeinsamen Faktor aus: ' + lin(g * a, g * b), loesung: g + '·(' + lin(a, b) + ')', anzeige: g + ' · (' + lin(a, b) + ')',
+        weg: 'gemeinsamer Faktor: ' + g + ' → ' + g + ' · ' + (a === 1 ? 'x' : a + 'x') + ' ' + plusZahl(g * b).replace(f(Math.abs(g * b)), g + ' · ' + f(Math.abs(b))) + ' = ' + g + ' · (' + lin(a, b) + ')', faktor: g };
+    },
+    summenprodukt: function (r) {
+      var a = nichtNull(r, -8, 9), b; do { b = nichtNull(r, -8, 9); } while (b === -a);
+      return { titel: 'Summe mal Summe', stufe: 2, art: 'term', ohneKlammer: true,
+        text: 'Multipliziere aus: (' + lin(1, a) + ') · (' + lin(1, b) + ')', loesung: quad(1, a + b, a * b),
+        weg: 'x² ' + plusZahl(b) + 'x ' + plusZahl(a) + 'x ' + plusZahl(a * b) + ' = ' + quad(1, a + b, a * b) };
+    },
+    binomisch: function (r) {
+      var a = wahl(r, [4, 5, 6, 7, 8, 9, 10, 11, 12]), v = wahl(r, ['x', 'a', 'y']), form = ganz(r, 1, 3);
+      if (form === 1) return { titel: '1. binomische Formel', stufe: 2, art: 'term', ohneKlammer: true, text: 'Berechne: (' + v + ' + ' + a + ')²', loesung: quad(1, 2 * a, a * a, v), weg: v + '² + 2 · ' + v + ' · ' + a + ' + ' + a + '² = ' + quad(1, 2 * a, a * a, v) };
+      if (form === 2) return { titel: '2. binomische Formel', stufe: 2, art: 'term', ohneKlammer: true, text: 'Berechne: (' + v + ' − ' + a + ')²', loesung: quad(1, -2 * a, a * a, v), weg: v + '² − 2 · ' + v + ' · ' + a + ' + ' + a + '² = ' + quad(1, -2 * a, a * a, v) };
+      return { titel: '3. binomische Formel', stufe: 2, art: 'term', ohneKlammer: true, text: 'Berechne: (' + v + ' + ' + a + ') · (' + v + ' − ' + a + ')', loesung: quad(1, 0, -a * a, v), weg: v + '² − ' + a + '² = ' + quad(1, 0, -a * a, v) };
+    },
+    gleichung: function (r) {
+      var a = ganz(r, 3, 9), c = ganz(r, 1, a - 1), s = ganz(r, -5, 10), b = nichtNull(r, -12, 12), d = (a - c) * s + b;
+      var txt = lin(a, b) + ' = ' + lin(c, d);
+      return { titel: 'Gleichung lösen', stufe: 1, art: 'zahl', einheit: '', text: 'Löse: ' + txt + '   Gib x an.', loesung: s, gleichung: txt,
+        weg: txt + ' | − ' + (c === 1 ? 'x' : c + 'x') + ' → ' + lin(a - c, b) + ' = ' + f(d) + ' | ' + (b > 0 ? '− ' + b : '+ ' + (-b)) + ' → ' + lin(a - c, 0) + ' = ' + f(d - b) + (a - c === 1 ? '' : ' | : ' + (a - c) + ' → x = ' + f(s)) + ' · L = {' + f(s) + '}' };
+    },
+    klammergleichung: function (r) {
+      var k = ganz(r, 2, 5), a = nichtNull(r, -6, 6), b = ganz(r, 1, k - 1), s = ganz(r, -3, 9), c = k * (s + a) - b * s;
+      var txt = k + ' · (' + lin(1, a) + ') = ' + lin(b, c);
+      return { titel: 'Gleichung mit Klammer', stufe: 2, art: 'zahl', einheit: '', text: 'Löse: ' + txt + '   Gib x an.', loesung: s, gleichung: txt,
+        weg: 'Klammer auflösen: ' + lin(k, k * a) + ' = ' + lin(b, c) + ' → ' + lin(k - b, k * a) + ' = ' + f(c) + ' → ' + lin(k - b, 0) + ' = ' + f(c - k * a) + (k - b === 1 ? '' : ' → x = ' + f(s)) + ' · L = {' + f(s) + '}' };
+    },
+    raetsel: function (r) {
+      var art = ganz(r, 1, 3);
+      if (art === 1) { var k = ganz(r, 2, 6), b = ganz(r, 3, 20), x = ganz(r, 2, 15), e = k * x + b;
+        return { titel: 'Zahlenrätsel', stufe: 3, art: 'zahl', einheit: '', text: 'Wenn ich das ' + ['', '', 'Doppelte', 'Dreifache', 'Vierfache', 'Fünffache', 'Sechsfache'][k] + ' einer Zahl um ' + b + ' vergrößere, erhalte ich ' + e + '. Wie heißt die Zahl?', loesung: x,
+          weg: k + 'x + ' + b + ' = ' + e + ' → ' + k + 'x = ' + (e - b) + ' → x = ' + x }; }
+      if (art === 2) { var d = ganz(r, 2, 9), y = ganz(r, 6, 16), su = 2 * y + d;
+        return { titel: 'Altersrätsel', stufe: 3, art: 'zahl', einheit: 'Jahre', text: 'Ben ist ' + d + ' Jahre älter als seine Schwester Ida. Zusammen sind sie ' + su + ' Jahre alt. Wie alt ist Ida?', loesung: y,
+          weg: 'x = Alter von Ida · x + (x + ' + d + ') = ' + su + ' → 2x = ' + (su - d) + ' → x = ' + y + '. Ida ist ' + y + ' Jahre alt.' }; }
+      var m = ganz(r, 2, 5), z = ganz(r, 3, 12), sum = (m + 1) * z;
+      return { titel: 'Altersrätsel', stufe: 3, art: 'zahl', einheit: 'Jahre', text: 'Frau Kaya ist ' + ['', '', 'doppelt', 'dreimal', 'viermal', 'fünfmal'][m] + ' so alt wie ihr Sohn Can. Zusammen sind sie ' + sum + ' Jahre alt. Wie alt ist Can?', loesung: z,
+        weg: 'x = Alter von Can · x + ' + m + 'x = ' + sum + ' → ' + (m + 1) + 'x = ' + sum + ' → x = ' + z + '. Can ist ' + z + ' Jahre alt.' };
+    }
+  };
+  var REIHE = ['vereinfachen', 'minusklammer', 'potenz', 'gleichung', 'ausmultiplizieren', 'ausklammern', 'summenprodukt', 'binomisch', 'klammergleichung', 'raetsel'];
+  function erzeugeTest(r) {
+    return REIHE.map(function (typ) { var a; do { a = TYPEN[typ](r); } while (gesperrt(a.text)); a.typ = typ; return a; });
+  }
+
+  function pruefe(a, eingabe) {
+    if (a.art === 'zahl') {
+      var z = zahl(eingabe);
+      if (isNaN(z)) return { status: 'ungueltig', text: 'Bitte gib eine Zahl ein, z. B. 4 oder −2,5.' };
+      if (Math.abs(z - a.loesung) < 1e-9) return { status: 'richtig', text: 'Richtig!' };
+      return { status: 'falsch', text: 'Noch nicht. Tipp: Mache die Probe – setze deine Zahl in die Gleichung ein.' };
+    }
+    var e = parse(eingabe);
+    if (!e.ok) return { status: 'ungueltig', text: e.fehler + ' Schreibe z. B. 3x^2 - 4x + 1 oder 2(x+5).' };
+    if (!gleichwertig(e, parse(a.loesung))) {
+      var g = gegenbeispiel(eingabe, a.loesung);
+      return { status: 'falsch', text: 'Noch nicht. ' + (g ? 'Prüfe mit ' + Object.keys(g.v).map(function (n) { return n + ' = ' + g.v[n]; }).join(', ') + ': Dein Term ergibt ' + f(g.a) + ', richtig wäre ' + f(g.b) + '.' : '') };
+    }
+    var s = normal(eingabe);
+    if (a.ohneKlammer && s.indexOf('(') >= 0) return { status: 'falsch', text: 'Der Wert stimmt – aber löse die Klammern noch auf.' };
+    if (a.klammerPflicht) {
+      if (s.indexOf('(') < 0) return { status: 'falsch', text: 'Der Wert stimmt – aber du sollst ausklammern: Faktor · (…).' };
+      var m = s.match(/^(\d+)\*?\(/);
+      if (m && +m[1] < a.faktor) return { status: 'falsch', text: 'Fast! Es gibt einen größeren gemeinsamen Faktor als ' + m[1] + '.' };
+    }
+    if (a.produkt && /[*(]/.test(s)) return { status: 'falsch', text: 'Der Wert stimmt – schreibe es noch als ein Produkt mit Potenz, z. B. 12x^2.' };
+    if (a.glieder && anzahlGlieder(eingabe) > anzahlGlieder(a.loesung)) return { status: 'falsch', text: 'Der Wert stimmt – fasse aber noch weiter zusammen.' };
+    return { status: 'richtig', text: 'Richtig!' };
+  }
+
+  /* ---------- Probe-Maschine für Gleichungen ---------- */
+  function probe(gleichung, xEingabe) {
+    var teile = normal(gleichung).split('=');
+    if (teile.length !== 2) return { ok: false, fehler: 'Die Gleichung braucht genau ein Gleichheitszeichen.' };
+    var L = parse(teile[0]), R = parse(teile[1]), x = zahl(xEingabe);
+    if (!L.ok) return { ok: false, fehler: 'Linke Seite: ' + L.fehler };
+    if (!R.ok) return { ok: false, fehler: 'Rechte Seite: ' + R.fehler };
+    if (isNaN(x)) return { ok: false, fehler: 'Bitte gib für x eine Zahl ein.' };
+    var andere = L.vars.concat(R.vars).filter(function (n) { return n !== 'x'; });
+    if (andere.length) return { ok: false, fehler: 'Die Probe-Maschine rechnet nur mit der Variablen x.' };
+    var l = L.f({ x: x }), r = R.f({ x: x });
+    return { ok: true, links: l, rechts: r, stimmt: Math.abs(l - r) < 1e-9 };
+  }
+
+  return { parse: parse, gleichwertig: gleichwertig, gegenbeispiel: gegenbeispiel, anzahlGlieder: anzahlGlieder, zahl: zahl, f: f,
+           lin: lin, quad: quad, TYPEN: TYPEN, REIHE: REIHE, erzeugeTest: erzeugeTest, pruefe: pruefe, probe: probe, gesperrt: gesperrt };
+})();
+
+</script>
+<script id="oberflaeche">
+(function () {
+  'use strict';
+  var $ = function (sel, el) { return (el || document).querySelector(sel); };
+  var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
+
+  /* ---------- Lösungsteil für den Druck ---------- */
+  (function baueLoesungsteil() {
+    var ziel = $('#loesungen-inhalt');
+    if (!ziel) return;
+    var letzteGruppe = '';
+    $$('details.loesung').forEach(function (d) {
+      var sec = d.closest('section.tab');
+      var gruppe = sec ? sec.getAttribute('data-titel') : '';
+      if (gruppe !== letzteGruppe) { var h = document.createElement('h3'); h.textContent = gruppe; ziel.appendChild(h); letzteGruppe = gruppe; }
+      var box = document.createElement('div'); box.className = 'loesung-eintrag';
+      var t = document.createElement('h4'); t.textContent = d.getAttribute('data-titel') || 'Lösung'; box.appendChild(t);
+      for (var c = 0; c < d.children.length; c++) {
+        if (d.children[c].tagName === 'DIV') { var k = d.children[c].cloneNode(true); $$('[id]', k).forEach(function (el) { el.removeAttribute('id'); }); box.appendChild(k); break; }
+      }
+      ziel.appendChild(box);
+    });
+  })();
+
+  /* ---------- Reiter-Navigation ---------- */
+  var tabs = $$('section.tab'), nav = $('#navigation'), menu = $('#menu-mobil'), aktuell = $('#aktueller-reiter');
+  function zeige(hash) {
+    var id = (hash || '').replace(/^#/, ''), el = id ? document.getElementById(id) : null;
+    if (!el || !el.closest('main')) el = tabs[0];
+    var tab = el.closest('section.tab') || tabs[0];
+    tabs.forEach(function (t) { t.classList.toggle('aktiv', t === tab); });
+    $$('a', nav).forEach(function (a) { if (a.getAttribute('href') === '#' + tab.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (aktuell) aktuell.textContent = tab.getAttribute('data-titel');
+    if (menu) menu.open = false;
+    if (el === tab) window.scrollTo(0, 0); else el.scrollIntoView();
+  }
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && menu) menu.open = false; });
+  document.addEventListener('click', function (ev) { if (menu && menu.open && !menu.contains(ev.target)) menu.open = false; });
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var ziel = a.getAttribute('href');
+    if (ziel.length < 2 || !document.getElementById(ziel.slice(1))) return;
+    ev.preventDefault(); zeige(ziel);
+    try { if (location.hash !== ziel) history.pushState(null, '', ziel); } catch (e) { /* Adresszeile gesperrt */ }
+  });
+  window.addEventListener('hashchange', function () { zeige(location.hash); });
+  window.addEventListener('popstate', function () { zeige(location.hash); });
+  zeige(location.hash);
+
+  /* ---------- Checkliste ---------- */
+  var SCHLUESSEL = 'terme8e-checkliste-v1';
+  function lade() { try { return JSON.parse(window.localStorage.getItem(SCHLUESSEL)) || {}; } catch (e) { return {}; } }
+  function speichere(z) { try { window.localStorage.setItem(SCHLUESSEL, JSON.stringify(z)); } catch (e) { /* ohne Speicher */ } }
+  var boxen = $$('.checkliste input[type=checkbox]'), zustand = lade();
+  function fortschritt() {
+    var n = boxen.filter(function (b) { return b.checked; }).length, txt = $('#fortschritt-text'), balken = $('#fortschritt-balken');
+    if (txt) txt.textContent = n + ' von ' + boxen.length + ' abgehakt' + (n === boxen.length ? ' – super, du bist bereit!' : '');
+    if (balken) balken.style.width = (100 * n / boxen.length) + '%';
+  }
+  boxen.forEach(function (b) {
+    b.checked = !!zustand[b.getAttribute('data-key')];
+    b.addEventListener('change', function () { zustand[b.getAttribute('data-key')] = b.checked; speichere(zustand); fortschritt(); });
+  });
+  var reset = $('#checkliste-zuruecksetzen');
+  if (reset) reset.addEventListener('click', function () { boxen.forEach(function (b) { b.checked = false; }); zustand = {}; speichere(zustand); fortschritt(); });
+  fortschritt();
+
+  /* ---------- Term-Prüfer ---------- */
+  var tp = $('#termpruefer-form');
+  if (tp) tp.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var a = $('#tp-a').value, b = $('#tp-b').value, aus = $('#tp-ergebnis');
+    var A = TG.parse(a), B = TG.parse(b);
+    if (!A.ok) { aus.className = 'rueckmeldung ungueltig'; aus.textContent = 'Erster Term: ' + A.fehler; return; }
+    if (!B.ok) { aus.className = 'rueckmeldung ungueltig'; aus.textContent = 'Zweiter Term: ' + B.fehler; return; }
+    if (TG.gleichwertig(A, B)) { aus.className = 'rueckmeldung richtig'; aus.textContent = '✓ Die Terme sind gleichwertig – für jede eingesetzte Zahl kommt dasselbe heraus.'; return; }
+    var g = TG.gegenbeispiel(a, b);
+    aus.className = 'rueckmeldung falsch';
+    aus.textContent = '✗ Nicht gleichwertig.' + (g ? ' Gegenbeispiel: ' + Object.keys(g.v).map(function (n) { return n + ' = ' + g.v[n]; }).join(', ') + ' → erster Term ' + TG.f(g.a) + ', zweiter Term ' + TG.f(g.b) + '.' : '');
+  });
+
+  /* ---------- Probe-Maschine ---------- */
+  var pm = $('#probe-form');
+  if (pm) pm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var r = TG.probe($('#pm-gl').value, $('#pm-x').value), aus = $('#pm-ergebnis');
+    if (!r.ok) { aus.className = 'rueckmeldung ungueltig'; aus.textContent = r.fehler; return; }
+    aus.className = 'rueckmeldung ' + (r.stimmt ? 'richtig' : 'falsch');
+    aus.textContent = 'Links: ' + TG.f(r.links) + ' · rechts: ' + TG.f(r.rechts) + (r.stimmt ? ' → ✓ wahre Aussage, die Zahl ist eine Lösung.' : ' → ✗ falsche Aussage, die Zahl ist keine Lösung.');
+  });
+
+  /* ---------- Selbsttest ---------- */
+  var liste = $('#test-liste'), punkteAnzeige = $('#test-punkte'), aufgaben = [], geloest = [];
+  var STERNE = { 1: '★', 2: '★★', 3: '★★★' };
+  function punkte() { punkteAnzeige.textContent = 'Richtig: ' + geloest.filter(Boolean).length + ' von ' + aufgaben.length; }
+  function neuerTest() {
+    aufgaben = TG.erzeugeTest(Math.random); geloest = aufgaben.map(function () { return false; }); liste.innerHTML = '';
+    aufgaben.forEach(function (a, i) {
+      var nr = i + 1, art = document.createElement('div'); art.className = 'test-aufgabe';
+      art.innerHTML = '<p><strong>Aufgabe ' + nr + ' · ' + a.titel + '</strong> <span class="stufe stufe-' + a.stufe + '">' + STERNE[a.stufe] + '</span></p>' +
+        '<p>' + a.text + '</p>' +
+        '<form class="test-zeile" novalidate><label class="sr" for="t' + nr + '">Deine Antwort zu Aufgabe ' + nr + '</label>' +
+        '<input type="text" id="t' + nr + '" inputmode="' + (a.art === 'zahl' ? 'decimal' : 'text') + '" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + (a.art === 'zahl' ? 'Zahl' : 'Term, z. B. 3x^2+2x') + '">' +
+        (a.einheit ? '<span aria-hidden="true">' + a.einheit + '</span>' : '') + '<button type="submit" class="knopf">Prüfen</button></form>' +
+        '<div class="rueckmeldung" aria-live="polite"></div>' +
+        '<details class="test-weg"><summary>Lösungsweg anzeigen</summary><p class="rechnung">' + a.weg + '</p></details>';
+      var form = $('form', art), feld = $('input', art), rm = $('.rueckmeldung', art);
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var r = TG.pruefe(a, feld.value);
+        rm.className = 'rueckmeldung ' + r.status;
+        rm.textContent = (r.status === 'richtig' ? '✓ ' : r.status === 'ungueltig' ? '' : '✗ ') + r.text;
+        if (r.status === 'richtig') { geloest[i] = true; punkte(); }
+      });
+      liste.appendChild(art);
+    });
+    punkte();
+  }
+  if (liste) { $('#test-neu').addEventListener('click', neuerTest); neuerTest(); }
+})();
+
+</script>
+</body>
+</html>
