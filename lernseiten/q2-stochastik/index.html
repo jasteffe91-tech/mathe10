@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:">
+<title>Daten und Zufall – fit für die Klausur</title>
+<script>document.documentElement.className += " js";</script>
+<meta name="description" content="Lernseite zur Klausur Daten und Zufall, Mathematik Q2 Grundkurs">
+<style>
+/* =========================================================
+   FARBEN – hier zentral änderbar
+   K, Z, p %, t: Farbcode wie im Schulbuch/Arbeitsheft Dreifach Mathe 8
+   ========================================================= */
+:root{
+  --dunkel:#1F2A44; --haupt:#1F6FB2; --akzent:#D98C1F; --akzent-text:#8A5200;
+  --hell:#F1F4F2; --text:#23302D; --grau:#55635E; --linie:#CBD6D1; --weiss:#FFFFFF;
+  --k:#B0185E;  --k-hg:#FBE8F1;   /* Kapital K (magenta) */
+  --z:#1C5DAA;  --z-hg:#E7F0FA;   /* Zinsen Z (blau) */
+  --p:#2A7A30;  --p-hg:#E6F3E7;   /* Zinssatz p % (grün) */
+  --t:#6A3D9A;  --t-hg:#F1EBF8;   /* Laufzeit t / n (violett) */
+  --merk-hg:#FFF6D5; --merk-rand:#D9A520;
+  --bsp-hg:#F2F4F3;  --bsp-rand:#8C9893;
+  --fehler-hg:#FCECEA; --fehler-rand:#9E2B25;
+  --ds-kopf:#DCEBC8;
+}
+*{box-sizing:border-box}
+html{font-size:106.25%;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--hell);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:Cambria,Georgia,"Times New Roman",serif;color:var(--dunkel);line-height:1.25}
+h2{font-size:1.65rem;margin:.2rem 0 1rem}
+h3{font-size:1.25rem;margin:2rem 0 .6rem;padding-bottom:.25rem;border-bottom:2px solid var(--linie)}
+h4{font-size:1.05rem;margin:1.2rem 0 .4rem;color:var(--dunkel)}
+p{margin:.5rem 0}
+a{color:var(--z)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--akzent);outline-offset:2px}
+ul,ol{padding-left:1.3rem}
+ol.inhalt-liste{padding-left:2.1rem}
+li{margin:.2rem 0}
+.klein{font-size:.9rem;color:var(--grau)}
+.nur-druck{display:none}
+main [id]{scroll-margin-top:4.5rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Kopf und Navigation ---------- */
+.kopf{background:var(--dunkel);color:#fff;padding:1rem 1rem .9rem}
+.kopf .innen{max-width:62rem;margin:0 auto}
+.kopf .kicker{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;opacity:.9;margin:0}
+.kopf h1{color:#fff;font-size:1.6rem;margin:.2rem 0 .15rem}
+.kopf .unter{margin:0;font-size:.95rem;opacity:.95}
+nav.reiter{position:relative;z-index:20;background:var(--weiss);border-bottom:1px solid var(--linie);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.js nav.reiter{position:sticky;top:0}   /* nur mit JavaScript festheften – ohne JS scrollt das Menü mit weg */
+nav.reiter .innen{max-width:62rem;margin:0 auto;padding:0 .5rem}
+.reiter-liste,.menu-liste{list-style:none;margin:0;padding:.35rem 0;display:flex;flex-wrap:wrap;gap:.25rem}
+.reiter-liste li,.menu-liste li{margin:0}
+.reiter-liste a,.menu-liste a{display:flex;align-items:center;min-height:44px;padding:.35rem .7rem;border-radius:.6rem;text-decoration:none;color:var(--dunkel);font-weight:600;font-size:.95rem}
+.reiter-liste a:hover,.menu-liste a:hover{background:var(--hell)}
+.reiter-liste a[aria-current="page"],.menu-liste a[aria-current="page"]{background:var(--haupt);color:#fff}
+.reiter-liste .nr,.menu-liste .nr{display:inline-flex;justify-content:center;align-items:center;width:1.45em;height:1.45em;border-radius:50%;background:var(--hell);color:var(--dunkel);font-size:.78em;margin-right:.35em}
+.reiter-liste a[aria-current="page"] .nr,.menu-liste a[aria-current="page"] .nr{background:#fff}
+.zusatz-marke{font-size:.7em;font-weight:700;margin-left:.35em;padding:.05em .4em;border-radius:.6em;background:var(--t-hg);color:var(--t)}
+/* Handy-Menü als Klappmenü: startet immer zugeklappt – auch ohne JavaScript */
+.menu-mobil{display:none}
+.menu-mobil > summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:.4rem .6rem;font-weight:700;color:var(--dunkel);cursor:pointer;list-style:none}
+.menu-mobil > summary::-webkit-details-marker{display:none}
+.menu-mobil > summary .symbol{font-size:1.5rem;line-height:1}
+.menu-mobil[open] > summary .symbol::before{content:"✕"}
+.menu-mobil:not([open]) > summary .symbol::before{content:"☰"}
+.menu-liste{flex-direction:column;flex-wrap:nowrap;padding:0 0 .6rem;max-height:70vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.menu-liste a{min-height:48px;font-size:1rem}
+@media (max-width:820px){
+  .reiter-liste{display:none}
+  .menu-mobil{display:block}
+}
+/* Hinweis für Ansichten ohne JavaScript (Datei-Vorschau, Messenger, Mail) */
+.ohne-js{max-width:62rem;margin:.8rem auto 0;padding:0 1rem}
+.ohne-js .box{margin:0}
+.ersatz{display:none}
+html:not(.js) .ersatz{display:block}
+html:not(.js) .interaktiv{display:none !important}
+
+/* ---------- Inhalt ---------- */
+main{max-width:62rem;margin:0 auto;padding:1rem 1rem 3rem}
+section.tab{background:var(--weiss);border-radius:1rem;padding:1.2rem 1.1rem 1.6rem;margin:0 0 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.js section.tab{display:none}
+.js section.tab.aktiv{display:block}
+.kicker-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--akzent-text);margin-bottom:.2rem}
+.weiter{display:flex;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--linie)}
+.weiter a{display:inline-flex;align-items:center;min-height:44px;padding:.4rem .9rem;border-radius:.6rem;background:var(--hell);text-decoration:none;font-weight:600;color:var(--dunkel)}
+.raster{display:grid;gap:.8rem;grid-template-columns:minmax(0,1fr)}
+.raster > *{min-width:0}
+@media (min-width:700px){.raster.zwei{grid-template-columns:1fr 1fr}.raster.drei{grid-template-columns:repeat(3,1fr)}.raster.vier{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:980px){.raster.vier{grid-template-columns:repeat(4,1fr)}}
+
+/* ---------- Farbcode der Größen ---------- */
+.v{font-weight:700;white-space:nowrap}
+.v-k{color:var(--k)} .v-z{color:var(--z)} .v-p{color:var(--p)} .v-t{color:var(--t)}
+.mk{border-bottom:3px solid;padding:0 .1em}
+.mk.v-k{border-color:var(--k)} .mk.v-z{border-color:var(--z)} .mk.v-p{border-color:var(--p)} .mk.v-t{border-color:var(--t)}
+.karte{border-radius:.8rem;padding:.8rem .9rem;border:2px solid var(--linie);background:var(--weiss)}
+.karte.k{border-color:var(--k);background:var(--k-hg)}
+.karte.z{border-color:var(--z);background:var(--z-hg)}
+.karte.p{border-color:var(--p);background:var(--p-hg)}
+.karte.t{border-color:var(--t);background:var(--t-hg)}
+.karte .gross{font-size:1.6rem;font-weight:800;line-height:1.1}
+.karte h4{margin:.1rem 0 .3rem}
+
+/* ---------- Kästen ---------- */
+.box{border-radius:.8rem;padding:.8rem 1rem;margin:1rem 0;border-left:6px solid}
+.box > :first-child{margin-top:0}
+.box-titel{display:block;font-weight:800;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.35rem}
+.merk{background:var(--merk-hg);border-color:var(--merk-rand)}
+.merk .box-titel{color:var(--akzent-text)}
+.bsp{background:var(--bsp-hg);border-color:var(--bsp-rand)}
+.bsp .box-titel{color:var(--grau)}
+.fehler{background:var(--fehler-hg);border-color:var(--fehler-rand)}
+.fehler .box-titel{color:var(--fehler-rand)}
+.fehler li{margin:.35rem 0}
+.tipp{background:var(--hell);border-color:var(--haupt)}
+.tipp .box-titel{color:var(--dunkel)}
+.falsch{text-decoration:line-through;text-decoration-color:var(--fehler-rand);text-decoration-thickness:2px}
+.zeichen-falsch{color:var(--fehler-rand);font-weight:800}
+.zeichen-richtig{color:var(--p);font-weight:800}
+
+/* ---------- Formeln ---------- */
+.formel{display:inline-block;font-size:1.3rem;font-weight:700;white-space:nowrap;margin:.2rem 0}
+.formel.klein{font-size:1.05rem}
+.bruch{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.15;font-size:.85em;margin:0 .12em}
+.bruch > span:first-child{border-bottom:2px solid currentColor;padding:0 .2em .05em}
+.bruch > span:last-child{padding:.05em .2em 0}
+.formelzeile{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem 1.2rem}
+.oder{font-size:.9rem;color:var(--grau);font-weight:600}
+.rechnung{font-variant-numeric:tabular-nums}
+.rechnung div{margin:.15rem 0}
+sub,sup{line-height:0}
+
+/* ---------- Beispiel-Schema Gegeben → Gesucht → Rechnung → Antwort ---------- */
+dl.schema{display:grid;grid-template-columns:minmax(0,1fr);gap:.15rem .9rem;margin:.4rem 0 0}
+dl.schema dd,dl.schema dt{min-width:0}
+dl.schema dt{font-weight:700;color:var(--dunkel);font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;margin-top:.45rem}
+dl.schema dd{margin:0}
+@media (min-width:640px){dl.schema{grid-template-columns:7.5rem minmax(0,1fr)}dl.schema dt{margin-top:0;padding-top:.1rem}dl.schema dd{margin-bottom:.35rem}}
+.antwort{font-weight:600}
+
+/* ---------- Tabellen ---------- */
+.tabelle-wrap{overflow-x:auto;margin:.8rem 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;min-width:100%;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--linie);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--dunkel);color:#fff;font-weight:700}
+tbody tr:nth-child(even) td{background:#FAFBFA}
+td.zahl,th.zahl{text-align:right}
+td.zahl{white-space:nowrap}
+@media (max-width:480px){td.zahl{white-space:normal}}
+
+/* ---------- Dreisatz wie im Buch: Anteil | Euro, Bögen links und rechts ---------- */
+.ds-wrap{overflow-x:auto;margin:.6rem 0}
+.ds{display:inline-grid;grid-template-columns:4.9em minmax(5em,auto) minmax(6.4em,auto) 4.9em;grid-template-rows:auto 2.3em 2.3em 2.3em;font-variant-numeric:tabular-nums}
+.ds .kopf-z{grid-row:1;background:var(--ds-kopf);font-weight:700;padding:.3rem .7rem;text-align:center;border:1px solid var(--linie)}
+.ds .zelle{display:flex;align-items:center;justify-content:center;padding:0 .7rem;border:1px solid var(--linie);background:#fff;white-space:nowrap}
+.ds .r1{grid-row:2}.ds .r2{grid-row:3}.ds .r3{grid-row:4}
+.ds .ca{grid-column:2}.ds .cb{grid-column:3}
+.ds .grau{background:#EDEFEE;color:var(--grau)}
+.ds .gesucht{background:#E3E6E4;font-weight:800}
+.ds .op{position:relative}
+.ds .ol1{grid-column:1;grid-row:2/4}.ds .ol2{grid-column:1;grid-row:3/5}
+.ds .or1{grid-column:4;grid-row:2/4}.ds .or2{grid-column:4;grid-row:3/5}
+.ds .op::before{content:"";position:absolute;top:25%;bottom:25%;width:.8em;border:2px solid var(--grau)}
+.ds .op.links::before{right:.25em;border-right:0;border-radius:.9em 0 0 .9em}
+.ds .op.rechts::before{left:.25em;border-left:0;border-radius:0 .9em .9em 0}
+.ds .op::after{content:"";position:absolute;bottom:calc(25% - 5px);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ds .op.links::after{right:.05em;border-left:7px solid var(--grau)}
+.ds .op.rechts::after{left:.05em;border-right:7px solid var(--grau)}
+.ds .op span{position:absolute;top:50%;transform:translateY(-50%);white-space:nowrap;font-weight:700;font-size:.92em;color:var(--dunkel)}
+.ds .op.links span{right:1.6em}
+.ds .op.rechts span{left:1.6em}
+@media (max-width:480px){
+  .ds{font-size:.85rem;grid-template-columns:4.4em minmax(4.2em,auto) minmax(5.4em,auto) 4.4em}
+  .ds .zelle{padding:0 .45rem}
+  .ds .op.links span{right:1.55em}.ds .op.rechts span{left:1.55em}
+  main{padding:.75rem 1rem 2rem}
+  section.tab{padding:1rem .8rem 1.3rem}
+  .box{padding:.7rem .75rem;border-left-width:5px}
+  table{font-size:.9rem}
+  th,td{padding:.35rem .45rem}
+  .aufgabe{padding:.7rem .75rem}
+  details.loesung > div{padding:.2rem .6rem .7rem}
+}
+
+/* ---------- Aufgaben und Lösungen ---------- */
+.aufgabe{border:1px solid var(--linie);border-radius:.8rem;padding:.8rem .95rem;margin:.9rem 0;background:#fff}
+.aufgabe h4{margin:0 0 .35rem;display:flex;flex-wrap:wrap;gap:.2rem .6rem;align-items:baseline}
+.aufgabe .nr{display:inline-flex;align-items:center;justify-content:center;min-width:2.1em;height:2.1em;border-radius:50%;background:var(--haupt);color:#fff;font-size:.85rem}
+.stufe{font-size:.8rem;font-weight:700;padding:.1rem .5rem;border-radius:1rem;white-space:nowrap}
+.stufe-1{background:#FCEBD6;color:#7A4300}
+.stufe-2{background:#F7DDEA;color:#7E1446}
+.stufe-3{background:#E9E1F5;color:#4E2A7A}
+.buchverweis{font-size:.88rem;color:var(--grau)}
+details.loesung{margin-top:.6rem;border-radius:.6rem;background:var(--hell)}
+details.loesung > summary{cursor:pointer;min-height:44px;display:flex;align-items:center;padding:.3rem .8rem;font-weight:700;color:var(--dunkel);list-style:none}
+details.loesung > summary::-webkit-details-marker{display:none}
+details.loesung > summary::before{content:"▸";margin-right:.5rem;transition:transform .15s}
+details.loesung[open] > summary::before{transform:rotate(90deg)}
+details.loesung > div{padding:.2rem .9rem .8rem}
+.stufen-kopf{display:flex;align-items:center;gap:.6rem;margin-top:2rem}
+
+/* ---------- Checkliste ---------- */
+.checkliste{list-style:none;padding:0;margin:.5rem 0}
+.checkliste li{display:flex;align-items:flex-start;gap:.4rem;padding:.25rem 0;border-bottom:1px dashed var(--linie)}
+.checkliste label{display:flex;gap:.6rem;align-items:flex-start;flex:1;min-width:0;overflow-wrap:break-word;hyphens:auto;cursor:pointer;min-height:44px;padding-top:.45rem}
+.checkliste input{width:1.35rem;height:1.35rem;margin:.1rem 0 0;flex:none;accent-color:var(--haupt)}
+.checkliste a{flex:none;min-height:44px;display:inline-flex;align-items:center;padding:0 .3rem;font-size:.9rem;white-space:nowrap}
+.fortschritt{height:.7rem;border-radius:.35rem;background:var(--hell);overflow:hidden;margin:.3rem 0 .2rem}
+.fortschritt div{height:100%;width:0;background:var(--haupt);transition:width .2s}
+
+/* ---------- Knöpfe und Eingaben ---------- */
+.knopf{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:.45rem 1rem;border-radius:.6rem;border:2px solid var(--haupt);background:var(--haupt);color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.knopf.hell{background:#fff;color:var(--dunkel)}
+.knopf:hover{filter:brightness(1.07)}
+input[type=text]{font:inherit;font-size:1.1rem;min-height:46px;padding:.35rem .6rem;border:2px solid var(--linie);border-radius:.5rem;width:100%;max-width:14rem;background:#fff;color:var(--text)}
+input[type=text]:focus{border-color:var(--haupt)}
+.feld{display:flex;flex-direction:column;gap:.2rem;margin:.4rem 0}
+.feld label{font-weight:700}
+.knopfreihe{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
+.rueckmeldung{margin-top:.5rem;padding:.5rem .7rem;border-radius:.5rem;display:none}
+.rueckmeldung.richtig{display:block;background:var(--p-hg);border-left:5px solid var(--p)}
+.rueckmeldung.fast{display:block;background:var(--merk-hg);border-left:5px solid var(--merk-rand)}
+.rueckmeldung.falsch{display:block;background:var(--fehler-hg);border-left:5px solid var(--fehler-rand);text-decoration:none}
+.rueckmeldung.ungueltig{display:block;background:var(--bsp-hg);border-left:5px solid var(--bsp-rand)}
+.test-aufgabe{border:1px solid var(--linie);border-radius:.8rem;padding:.8rem .95rem;margin:.8rem 0}
+.test-zeile{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.test-zeile input{flex:1 1 9rem}
+.punkte{font-size:1.1rem;font-weight:800;color:var(--dunkel)}
+.rechner{border:2px solid var(--haupt);border-radius:1rem;padding:1rem;background:#fff}
+.rechner-felder{display:grid;gap:.4rem 1rem;grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.rechner-felder{grid-template-columns:1fr 1fr}}
+.auswahl{display:flex;flex-wrap:wrap;gap:.5rem;border:0;padding:0;margin:.4rem 0}
+.auswahl legend{font-weight:700;padding:0;margin-bottom:.2rem}
+.auswahl label{display:flex;align-items:center;gap:.45rem;min-height:44px;padding:.2rem .8rem;border:2px solid var(--linie);border-radius:.6rem;cursor:pointer}
+.auswahl input{width:1.2rem;height:1.2rem;accent-color:var(--haupt)}
+.ergebnis{margin-top:.8rem}
+.fehlertext{color:var(--fehler-rand);font-weight:700}
+
+/* ---------- Zinsdreieck, Diagramm, Taschenrechner ---------- */
+figure{margin:1rem 0}
+figcaption{font-size:.9rem;color:var(--grau);margin-top:.3rem}
+svg{max-width:100%;height:auto}
+.taste{display:inline-block;min-width:1.9em;padding:.05em .45em;border:2px solid var(--grau);border-bottom-width:4px;border-radius:.4em;background:#fff;font-weight:700;text-align:center;font-family:inherit}
+.frage-knopf[aria-pressed="true"]{background:var(--dunkel);border-color:var(--dunkel);color:#fff}
+.formel-antwort{margin-top:.6rem;min-height:3rem}
+
+/* ---------- Spickzettel ---------- */
+.spick{display:grid;gap:.6rem;grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.spick{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.spick .karte{padding:.55rem .75rem}
+.spick h4{margin:.1rem 0 .3rem;font-size:1rem}
+.spick p,.spick li{margin:.12rem 0}
+.spick ul{margin:.2rem 0;padding-left:1.1rem}
+
+/* ---------- Video-Liste ---------- */
+.video{border:1px solid var(--linie);border-radius:.8rem;padding:.7rem .9rem;margin:.7rem 0}
+.video h4{margin:0 0 .25rem}
+.video .link{font-size:.9rem;word-break:break-all}
+.video ul{margin:.3rem 0 0}
+
+/* ---------- Komma-Trainer ---------- */
+.trainer{border:2px solid var(--haupt);border-radius:1rem;padding:1rem;background:#fff}
+.trainer-karte{background:var(--hell);border-radius:.8rem;padding:.8rem .9rem;margin-top:.6rem}
+.trainer-frage{font-size:1.2rem;font-weight:700;margin:.2rem 0 .5rem}
+.stufe-knopf[aria-pressed="true"]{background:var(--dunkel);border-color:var(--dunkel);color:#fff}
+.komma-erklaerung{margin-top:.6rem}
+.komma-erklaerung .zeile{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .8rem}
+.komma-bild{position:relative;display:inline-flex;font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums;padding-bottom:.35em}
+.komma-bild .ziffer{width:1.25em;height:1.6em;display:flex;align-items:center;justify-content:center;margin-right:.2em;border:2px solid var(--linie);border-radius:.3em;background:#fff}
+.komma-bild .ziffer.ergaenzt{color:#8C9893;border-style:dashed}
+.komma-bild .komma{position:absolute;bottom:.05em;width:.5em;margin-left:-.35em;text-align:center;color:#B3261E;font-weight:900;line-height:1;transform:scale(1.9);transform-origin:50% 100%;transition:left .9s ease-in-out}
+.komma-text{font-weight:700;color:var(--dunkel)}
+@media (prefers-reduced-motion:reduce){.komma-bild .komma{transition:none}}
+
+#loesungsteil{display:none}
+.fusszeile{max-width:62rem;margin:0 auto;padding:0 1rem 2rem;font-size:.85rem;color:var(--grau)}
+
+/* =========================================================
+   DRUCK: alle Reiter untereinander, Lösungen gesammelt am Ende
+   ========================================================= */
+@media print{
+  @page{size:A4;margin:13mm 12mm 14mm}
+  html{font-size:10.5pt}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff}
+  nav.reiter,.nur-bildschirm,.interaktiv,details.loesung,.knopf,.weiter,.checkliste input{display:none !important}
+  .nur-druck{display:block !important}
+  .js section.tab,section.tab{display:block !important;box-shadow:none;border-radius:0;padding:0;margin:0;break-before:page}
+  section.tab#start{break-before:auto}
+  main{padding:0;max-width:none}
+  .kopf{padding:.4rem 0 .6rem;background:#fff;color:var(--dunkel);border-bottom:3px solid var(--dunkel);margin-bottom:.6rem}
+  .kopf h1{color:var(--dunkel)}
+  #loesungsteil{display:block !important;break-before:page}
+  table,.ds,.box,.aufgabe,figure,.karte,.video,.loesung-eintrag,dl.schema,.formelzeile{break-inside:avoid}
+  .tabelle-wrap.lang,.tabelle-wrap.lang table{break-inside:auto}
+  tr{break-inside:avoid}
+  thead{display:table-header-group}
+  h2,h3,h4{break-after:avoid}
+  .tabelle-wrap,.ds-wrap{overflow:visible}
+  table{min-width:0;width:100%}
+  th,td{padding:.25rem .4rem}
+  a{color:inherit;text-decoration:none}
+  .checkliste li{padding:.05rem 0}
+  .checkliste label{min-height:0;padding-top:.1rem}
+  .checkliste label::before{content:"☐";font-size:1.2em;line-height:1}
+  .checkliste a{min-height:0}
+  h3{margin-top:1.1rem}
+  .spick{grid-template-columns:1fr 1fr;gap:.4rem;font-size:10pt;line-height:1.35}
+  .spick .karte{padding:.4rem .55rem;border-width:1.5px}
+  .spick h4{font-size:11pt;margin:0 0 .15rem}
+  .spick .formel{font-size:11pt}
+  #spickzettel h2{margin-bottom:.3rem;font-size:14pt}
+  #spickzettel .kicker-label,#spickzettel .spick-intro{display:none}
+  .fusszeile{display:none}
+}
+
+/* ---------- Ergänzungen Daten und Zufall (Q2) ---------- */
+.werkzeug{background:#fff;border:2px solid var(--haupt);border-radius:.8rem;padding:.8rem 1rem;margin:1rem 0}
+.werkzeug input[type=text],.werkzeug select{font-size:1.05rem;padding:.45rem .6rem;border:1.5px solid var(--linie);border-radius:.45rem;min-width:9rem;max-width:100%}
+.werkzeug .feld{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.4rem 0}
+.werkzeug label{min-width:11rem}
+.f{font-family:Cambria,Georgia,serif;font-size:1.08rem}
+.baum{font-family:Cambria,Georgia,serif;background:#fff;border:1px solid var(--linie);border-radius:.6rem;padding:.4rem;display:block;max-width:540px;margin:.6rem 0}
+.baum svg{display:block;width:100%;height:auto}
+table td,table th{text-align:center}
+.spick .formel{display:block;white-space:normal;font-size:1.02rem}
+</style>
+</head>
+<body>
+<header class="kopf"><div class="innen">
+  <p class="kicker">Mathematik · Q2 Grundkurs · Stochastik</p>
+  <h1>Daten und Zufall – fit für die Klausur</h1>
+  <p class="unter">Lernseite zur Reihe „Alles nur Zufall?“ · Klausur vor den Weihnachtsferien · Schuljahr 2026/27</p>
+</div></header>
+<nav class="reiter" id="navigation" aria-label="Kapitel"><div class="innen">
+  <details class="menu-mobil" id="menu-mobil"><summary><span>Menü: <span id="aktueller-reiter">Kapitel wählen</span></span><span class="symbol" aria-hidden="true"></span></summary><ul class="menu-liste"><li><a href="#start"><span class="nr">0</span>Start</a></li><li><a href="#daten"><span class="nr">1</span>Daten</a></li><li><a href="#mehrstufig"><span class="nr">2</span>Mehrstufig</a></li><li><a href="#bedingt"><span class="nr">3</span>Bedingt</a></li><li><a href="#unabhaengig"><span class="nr">4</span>Unabhängig</a></li><li><a href="#zufallsgroesse"><span class="nr">5</span>Zufallsgröße</a></li><li><a href="#streuung"><span class="nr">6</span>Streuung</a></li><li><a href="#rechner"><span class="nr">7</span>Rechner</a></li><li><a href="#selbsttest"><span class="nr">8</span>Selbsttest</a></li><li><a href="#probeklausur"><span class="nr">9</span>Probeklausur</a></li><li><a href="#spickzettel"><span class="nr">10</span>Spickzettel</a></li></ul></details>
+  <ul class="reiter-liste" id="reiter-liste"><li><a href="#start"><span class="nr">0</span>Start</a></li><li><a href="#daten"><span class="nr">1</span>Daten</a></li><li><a href="#mehrstufig"><span class="nr">2</span>Mehrstufig</a></li><li><a href="#bedingt"><span class="nr">3</span>Bedingt</a></li><li><a href="#unabhaengig"><span class="nr">4</span>Unabhängig</a></li><li><a href="#zufallsgroesse"><span class="nr">5</span>Zufallsgröße</a></li><li><a href="#streuung"><span class="nr">6</span>Streuung</a></li><li><a href="#rechner"><span class="nr">7</span>Rechner</a></li><li><a href="#selbsttest"><span class="nr">8</span>Selbsttest</a></li><li><a href="#probeklausur"><span class="nr">9</span>Probeklausur</a></li><li><a href="#spickzettel"><span class="nr">10</span>Spickzettel</a></li></ul>
+</div></nav>
+<noscript><div class="ohne-js"><div class="box merk"><span class="box-titel">Hinweis: Diese Ansicht ist eingeschränkt</span>
+  <p>Du siehst die Seite ohne JavaScript. Lesen kannst du alles, die Lösungen lassen sich aufklappen. <strong>Checkliste, Rechner und Selbsttest</strong> funktionieren nur im Browser (Link deiner Lehrkraft in Safari oder Chrome öffnen).</p>
+</div></div></noscript>
+<main id="inhalt">
+<section class="tab" id="start" data-titel="Start"><span class="kicker-label">Start</span><h2>Daten und Zufall – fit für die Klausur</h2>
+  <div class="box merk"><span class="box-titel">Die Klausur</span><p><strong>Klausur Mathematik Q2 · Grundkurs · vor den Weihnachtsferien · 180 Minuten</strong> (den genauen Termin nennt deine Lehrkraft)</p><ul><li><strong>Teil A – ohne Hilfsmittel</strong> (höchstens 60 Minuten): kurze Aufgaben zu allen Themen. Teil A gibst du selbst ab.</li><li><strong>Teil B – mit GeoGebra und Formelsammlung</strong>: zwei größere Aufgaben mit Sachzusammenhang.</li><li>Grundlage: Buch <em>Elemente der Mathematik Q-Phase GK</em>, Kapitel 5, S. 148–185.</li></ul></div>
+  <h3 id="checkliste-titel">Das kann ich – meine Checkliste</h3>
+  <p>Hake ab, was du sicher kannst. Der Pfeil führt dich zum passenden Kapitel. Die Häkchen bleiben auf diesem Gerät gespeichert.</p>
+  <p class="nur-bildschirm interaktiv klein" id="fortschritt-text" aria-live="polite">0 von 14 abgehakt</p>
+  <div class="fortschritt nur-bildschirm interaktiv" aria-hidden="true"><div id="fortschritt-balken"></div></div>
+  <ul class="checkliste"><li><label><input type="checkbox" data-key="c01"><span>Ich berechne x̄ und s̄ aus einer Häufigkeitstabelle – von Hand und mit GeoGebra.</span></label><a href="#daten" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c02"><span>Ich lese und vergleiche Boxplots (Median, Quartile).</span></label><a href="#d-boxplot" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c03"><span>Ich zeichne Baumdiagramme und nutze beide Pfadregeln.</span></label><a href="#mehrstufig" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c04"><span>Ich unterscheide Ziehen mit und ohne Zurücklegen.</span></label><a href="#m-urne" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c05"><span>Ich nutze das Gegenereignis („mindestens einmal“).</span></label><a href="#m-gegen" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c06"><span>Ich übersetze zwischen Term und Ereignis – in beide Richtungen.</span></label><a href="#m-term" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c07"><span>Ich unterscheide P(A ∩ B), P<sub>A</sub>(B) und P<sub>B</sub>(A) – auch sprachlich.</span></label><a href="#bedingt" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c08"><span>Ich wechsle zwischen Vierfeldertafel und beiden Baumdiagrammen.</span></label><a href="#b-vierfelder" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c09"><span>Ich beurteile Diagnosetests (positiv getestet – wirklich krank?).</span></label><a href="#b-test" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c10"><span>Ich prüfe zwei Ereignisse auf stochastische Unabhängigkeit.</span></label><a href="#unabhaengig" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c11"><span>Ich berechne P(A ∪ B), P(A \ B) und „entweder … oder“.</span></label><a href="#u-verknuepfen" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c12"><span>Ich stelle die Wahrscheinlichkeitsverteilung einer Zufallsgröße auf.</span></label><a href="#zufallsgroesse" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c13"><span>Ich berechne E(X) und entscheide, ob ein Spiel fair ist.</span></label><a href="#z-fair" aria-label="Zum passenden Kapitel">→ Kapitel</a></li><li><label><input type="checkbox" data-key="c14"><span>Ich berechne Var(X) und √Var(X) und deute sie als Risiko.</span></label><a href="#streuung" aria-label="Zum passenden Kapitel">→ Kapitel</a></li></ul>
+  <p class="nur-bildschirm interaktiv"><button class="knopf hell" type="button" id="checkliste-zuruecksetzen">Häkchen löschen</button></p>
+  <h3>So benutzt du diese Seite</h3>
+  <p>Jedes Kapitel hat ein <b>Merkwissen</b>, ein <b>durchgerechnetes Beispiel</b>, den <b>typischen Fehler</b> und Übungen ★ bis ★★★ mit Lösung. Im Reiter <a href="#selbsttest">Selbsttest</a> bekommst du immer neue Aufgaben mit sofortiger Rückmeldung, im Reiter <a href="#probeklausur">Probeklausur</a> übst du Teil A unter Zeitdruck.</p>
+  <div class="box tipp"><span class="box-titel">Mathe-Labor</span><p>Die Erarbeitung mit Simulationen läuft im <b>Mathe-Labor „Daten &amp; Zufall“</b>: <a href="https://jasteffe91-tech.github.io/mathe10/labor/mathe/stochastik/" target="_blank" rel="noopener">https://jasteffe91-tech.github.io/mathe10/labor/mathe/stochastik/</a>. Diese Lernseite ist zum Wiederholen und für die Klausurvorbereitung.</p></div>
+  <h3>Schreibweisen (wie im Buch)</h3>
+  <div class="tabelle-wrap"><table><thead><tr><th>Zeichen</th><th>Bedeutung</th></tr></thead><tbody><tr><td>x̄, s̄</td><td>arithmetisches Mittel und empirische Standardabweichung von Daten</td></tr><tr><td>Σ</td><td>Summe: Σ xᵢ · h(xᵢ) = x₁·h(x₁) + x₂·h(x₂) + …</td></tr><tr><td>(g|b)</td><td>Ergebnis: erst g, dann b</td></tr><tr><td>Ā</td><td>Gegenereignis „nicht A“</td></tr><tr><td>A ∩ B · A ∪ B · A \ B</td><td>„A und B“ · „A oder B“ (mindestens eins) · „A ohne B“</td></tr><tr><td>P<sub>A</sub>(B)</td><td>Wahrscheinlichkeit von B unter der Bedingung A</td></tr><tr><td>X, E(X), Var(X), √Var(X)</td><td>Zufallsgröße, Erwartungswert, Varianz, Standardabweichung</td></tr></tbody></table></div>
+<nav class="weiter" aria-label="Weiterblättern"><span></span><a href="#daten">Weiter: Daten →</a></nav></section><section class="tab" id="daten" data-titel="Daten"><span class="kicker-label">Kapitel 1 · Buch S. 150–157</span><h2>1 · Daten auswerten: Mittelwert und Streuung</h2>
+  <div class="box merk"><span class="box-titel">Merkwissen</span><p><b>Arithmetisches Mittel</b> einer Häufigkeitsverteilung (h = relative Häufigkeit):</p><p class="f">x̄ = x₁·h(x₁) + x₂·h(x₂) + … + xₘ·h(xₘ) = Σ xᵢ·h(xᵢ)</p><p><b>Empirische Standardabweichung</b> = Wurzel aus der mittleren quadratischen Abweichung:</p><p class="f">s̄² = Σ (xᵢ − x̄)²·h(xᵢ) &nbsp;&nbsp;und&nbsp;&nbsp; s̄ = √s̄²</p><p>s̄ misst, wie stark die Werte um x̄ streuen. Gleiches x̄ heißt <b>nicht</b> gleiche Streuung.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Tore pro Spiel</span><div class="tabelle-wrap"><table><thead><tr><th>Tore xᵢ</th><th>0</th><th>1</th><th>2</th><th>3</th><th>Summe</th></tr></thead><tbody><tr><td>Anzahl Spiele</td><td>2</td><td>3</td><td>4</td><td>1</td><td>10</td></tr><tr><td>h(xᵢ)</td><td>0,2</td><td>0,3</td><td>0,4</td><td>0,1</td><td>1</td></tr><tr><td>xᵢ·h(xᵢ)</td><td>0</td><td>0,3</td><td>0,8</td><td>0,3</td><td>x̄ = 1,4</td></tr><tr><td>(xᵢ − x̄)²·h(xᵢ)</td><td>0,392</td><td>0,048</td><td>0,144</td><td>0,256</td><td>s̄² = 0,84</td></tr></tbody></table></div><p>s̄ = √0,84 ≈ 0,92 Tore. Im Mittel fallen 1,4 Tore pro Spiel, die Werte weichen typischerweise um knapp 1 Tor davon ab.</p></div>
+  <div class="box tipp"><span class="box-titel">GeoGebra</span><p>Werte und Häufigkeiten als Listen eingeben: <code>w = {0, 1, 2, 3}</code>, <code>h = {2, 3, 4, 1}</code> → <code>Mittelwert(w, h)</code> und <code>stdevp(w, h)</code> (oder Tabellen-Ansicht → „Analyse einer Variablen“, Wert σ). <b>Achtung:</b> Die <i>empirische</i> Standardabweichung teilt durch n – in GeoGebra ist das <b>stdevp</b> bzw. σ, nicht s.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p>Die relativen Häufigkeiten müssen zusammen <b>1</b> ergeben. Selbst im Buch steht auf dem Merkzettel S. 182 ein Fehler: Beim Datensatz 1; 0; 2; 1; 1; 1; 1; 0; 1; 2 kommt die 1 sechsmal vor, also h(1) = 0,6 (nicht 0,5). Richtig ist x̄ = 1 und s̄ ≈ 0,632.</p></div>
+  <h3 id="d-boxplot">Boxplots wiederholen</h3>
+  <div class="box merk"><span class="box-titel">Boxplot</span><p>Geordnete Liste → <b>Minimum</b>, <b>unteres Quartil</b> (Median der unteren Hälfte), <b>Median</b>, <b>oberes Quartil</b>, <b>Maximum</b>. Die Box enthält die mittleren 50 % der Werte.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Boxplot-Werte bestimmen</span><p>3; 5; 6; 8; 9; 10; 12; 15 (8 Werte) → Median (8 + 9)/2 = 8,5 · unteres Quartil (5 + 6)/2 = 5,5 · oberes Quartil (10 + 12)/2 = 11 · Minimum 3 · Maximum 15.</p></div>
+  <h3>Üben</h3>
+  <article class="aufgabe" id="d1"><h4><span class="nr">1.1</span> Mittelwert und Standardabweichung <span class="stufe stufe-1">★</span></h4><p>Werte 2, 4, 6 mit den relativen Häufigkeiten 0,25; 0,5; 0,25. Berechne x̄ und s̄.</p><details class="loesung" data-titel="Daten 1.1 (★)"><summary>Lösung anzeigen</summary><div><p>x̄ = 2·0,25 + 4·0,5 + 6·0,25 = 4 · s̄² = 4·0,25 + 0 + 4·0,25 = 2 · s̄ = √2 ≈ 1,41.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 154 Nr. 6</p></article>
+  <article class="aufgabe" id="d2"><h4><span class="nr">1.2</span> Welche Bäckerei arbeitet gleichmäßiger? <span class="stufe stufe-2">★★</span></h4><p>Brötchengewichte in g · Bäckerei A: 48 / 50 / 52 mit 10 % / 80 % / 10 % · Bäckerei B: 46 / 50 / 54 mit 25 % / 50 % / 25 %. Vergleiche.</p><details class="loesung" data-titel="Daten 1.2 (★★)"><summary>Lösung anzeigen</summary><div><p>Beide: x̄ = 50 g. A: s̄² = 4·0,1 + 0 + 4·0,1 = 0,8 → s̄ ≈ 0,89 g. B: s̄² = 16·0,25 + 0 + 16·0,25 = 8 → s̄ ≈ 2,83 g. Gleiches Mittel, aber A streut viel weniger → A arbeitet gleichmäßiger.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 155 Nr. 13</p></article>
+  <article class="aufgabe" id="d3"><h4><span class="nr">1.3</span> Fehlender Wert <span class="stufe stufe-3">★★★</span></h4><p>Die Werte 2, 5 und x kommen mit den relativen Häufigkeiten 0,3; 0,5 und 0,2 vor. Es gilt x̄ = 5. Bestimme x.</p><details class="loesung" data-titel="Daten 1.3 (★★★)"><summary>Lösung anzeigen</summary><div><p>2·0,3 + 5·0,5 + x·0,2 = 5 ⇔ 3,1 + 0,2x = 5 ⇔ x = 9,5.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 151 Nr. 5</p></article>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#start">← Start</a><a href="#mehrstufig">Weiter: Mehrstufig →</a></nav></section><section class="tab" id="mehrstufig" data-titel="Mehrstufig"><span class="kicker-label">Kapitel 2 · Buch S. 158–161</span><h2>2 · Mehrstufige Zufallsexperimente</h2>
+  <div class="box merk"><span class="box-titel">Pfadregeln</span><p><b>Pfadmultiplikationsregel:</b> Die Wahrscheinlichkeit eines Ergebnisses ist das <b>Produkt</b> der Wahrscheinlichkeiten längs des Pfades.</p><p><b>Pfadadditionsregel:</b> Die Wahrscheinlichkeit eines Ereignisses ist die <b>Summe</b> der Wahrscheinlichkeiten seiner Pfade.</p><p>An jeder Verzweigung ergeben die Wahrscheinlichkeiten zusammen 1.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Glücksrad dreimal</span><p>Rot 0,4, Blau 0,6. P(genau zweimal Rot) = P((r|r|b)) + P((r|b|r)) + P((b|r|r)) = 3 · 0,4² · 0,6 = 0,288.</p></div>
+  <h3 id="m-urne">Mit und ohne Zurücklegen</h3>
+  <div class="box merk"><span class="box-titel">Urnenmodelle</span><p><b>Mit Zurücklegen:</b> Die Wahrscheinlichkeiten bleiben auf jeder Stufe gleich (Würfeln, Glücksrad drehen).</p><p><b>Ohne Zurücklegen:</b> Nach jedem Zug fehlt eine Kugel – Zähler und Nenner ändern sich (Lose ziehen, Personen auswählen, „mit einem Griff“).</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · 4 grüne, 2 gelbe Kugeln, zweimal ohne Zurücklegen</span><div class="baum"><svg viewBox="0 0 520 230" width="520" height="230" role="img" aria-label="Baumdiagramm" xmlns="http://www.w3.org/2000/svg" font-size="15"><line x1="20" y1="115" x2="150" y2="62" stroke="#1F6FB2" stroke-width="2"/><text x="60" y="80.5" fill="#1F2A44">4/6</text><circle cx="165" cy="62" r="14" fill="#fff" stroke="#1F2A44"/><text x="165" y="67" text-anchor="middle" font-weight="700">g</text><line x1="180" y1="62" x2="300" y2="30" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="38.0" fill="#1F2A44">3/5</text><circle cx="315" cy="30" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="35" text-anchor="middle" font-weight="700">g</text><text x="340" y="35" fill="#8A5200">12/30</text><line x1="180" y1="62" x2="300" y2="94" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="96.0" fill="#1F2A44">2/5</text><circle cx="315" cy="94" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="99" text-anchor="middle" font-weight="700">y</text><text x="340" y="99" fill="#8A5200">8/30</text><line x1="20" y1="115" x2="150" y2="168" stroke="#1F6FB2" stroke-width="2"/><text x="60" y="159.5" fill="#1F2A44">2/6</text><circle cx="165" cy="168" r="14" fill="#fff" stroke="#1F2A44"/><text x="165" y="173" text-anchor="middle" font-weight="700">y</text><line x1="180" y1="168" x2="300" y2="136" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="144.0" fill="#1F2A44">4/5</text><circle cx="315" cy="136" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="141" text-anchor="middle" font-weight="700">g</text><text x="340" y="141" fill="#8A5200">8/30</text><line x1="180" y1="168" x2="300" y2="200" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="202.0" fill="#1F2A44">1/5</text><circle cx="315" cy="200" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="205" text-anchor="middle" font-weight="700">y</text><text x="340" y="205" fill="#8A5200">2/30</text></svg></div><p>P(verschiedene Farben) = 4/6 · 2/5 + 2/6 · 4/5 = 8/30 + 8/30 = 16/30 = 8/15.</p></div>
+  <h3 id="m-gegen">Das Gegenereignis</h3>
+  <div class="box merk"><span class="box-titel">Komplementärregel</span><p class="f">P(Ā) = 1 − P(A)</p><p>Besonders praktisch bei „<b>mindestens einmal</b>“: P(mindestens einmal Rot) = 1 − P(keinmal Rot).</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Mindestens einmal Rot</span><p>Glücksrad wie oben, dreimal: P(mindestens einmal Rot) = 1 − 0,6³ = 1 − 0,216 = 0,784.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p>„Mindestens eine“ ist nicht „genau eine“! 1 − P(keine) liefert <b>mindestens</b> eine. Für <b>genau</b> eine braucht man alle Pfade mit genau einem Treffer.</p></div>
+  <h3 id="m-term">Term ↔ Ereignis (typisch fürs Abitur)</h3>
+  <div class="box bsp"><span class="box-titel">Beispiel · Würfel dreimal</span><p>(5/6)³ → „keine Sechs“ · 1 − (5/6)³ → „mindestens eine Sechs“ · 3 · 1/6 · (5/6)² → „genau eine Sechs“ · (1/6)³ + 3 · (1/6)² · 5/6 → „mindestens zwei Sechsen“.</p></div>
+  <h3>Üben</h3>
+  <article class="aufgabe" id="m1"><h4><span class="nr">2.1</span> Münze dreimal <span class="stufe stufe-1">★</span></h4><p>Eine Münze wird dreimal geworfen. Berechne P(genau zweimal Wappen).</p><details class="loesung" data-titel="Mehrstufig 2.1 (★)"><summary>Lösung anzeigen</summary><div><p>3 Pfade mit je (1/2)³ = 1/8 → 3/8 = 0,375.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 159 Nr. 3</p></article>
+  <article class="aufgabe" id="m2"><h4><span class="nr">2.2</span> Ohne Zurücklegen <span class="stufe stufe-2">★★</span></h4><p>5 rote und 3 weiße Kugeln, zwei ohne Zurücklegen. Berechne P(beide weiß) und P(mindestens eine rote).</p><details class="loesung" data-titel="Mehrstufig 2.2 (★★)"><summary>Lösung anzeigen</summary><div><p>P(beide weiß) = 3/8 · 2/7 = 6/56 = 3/28 ≈ 0,1071. P(mindestens eine rote) = 1 − 3/28 = 25/28 ≈ 0,8929.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 161 Nr. 7</p></article>
+  <article class="aufgabe" id="m3"><h4><span class="nr">2.3</span> Term ↔ Ereignis <span class="stufe stufe-3">★★★</span></h4><p>Glücksrad Rot 0,4, Blau 0,6, dreimal. Beschreibe ein Ereignis zum Term 0,6³ + 3 · 0,4 · 0,6².</p><details class="loesung" data-titel="Mehrstufig 2.3 (★★★)"><summary>Lösung anzeigen</summary><div><p>0,6³ = keinmal Rot, 3 · 0,4 · 0,6² = genau einmal Rot → „<b>höchstens einmal Rot</b>“ (= 0,216 + 0,432 = 0,648).</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 161 Nr. 10</p></article>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#daten">← Daten</a><a href="#bedingt">Weiter: Bedingt →</a></nav></section><section class="tab" id="bedingt" data-titel="Bedingt"><span class="kicker-label">Kapitel 3 · Buch S. 162–171</span><h2>3 · Bedingte Wahrscheinlichkeit und Vierfeldertafel</h2>
+  <div class="box merk"><span class="box-titel">Bedingte Wahrscheinlichkeit</span><p class="f">P<sub>A</sub>(B) = P(A ∩ B) / P(A)</p><p>P<sub>A</sub>(B): Wahrscheinlichkeit von B, wenn man schon weiß, dass A eingetreten ist. Die Grundgesamtheit ist auf A <b>eingeschränkt</b>.</p></div>
+  <div class="tabelle-wrap"><table><thead><tr><th>Ausdruck</th><th>so sagt man es</th><th>Grundgesamtheit</th></tr></thead><tbody><tr><td>P(A ∩ B)</td><td>Anteil der Personen, die A <b>und</b> B haben</td><td>alle</td></tr><tr><td>P<sub>A</sub>(B)</td><td>Anteil der B <b>unter den</b> A</td><td>nur die A</td></tr><tr><td>P<sub>B</sub>(A)</td><td>Anteil der A <b>unter den</b> B</td><td>nur die B</td></tr></tbody></table></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p>P<sub>A</sub>(B) und P<sub>B</sub>(A) sind fast immer verschieden! „Anteil der Raucher unter den Erkrankten“ ist etwas anderes als „Anteil der Erkrankten unter den Rauchern“.</p></div>
+  <h3 id="b-vierfelder">Vierfeldertafel ↔ zwei Baumdiagramme</h3>
+  <div class="box merk"><span class="box-titel">So hängen sie zusammen</span><p>Die <b>inneren Felder</b> der Vierfeldertafel sind die <b>Pfadenden</b>, die <b>Randfelder</b> sind die Wahrscheinlichkeiten der <b>1. Stufe</b>. Aus einer Tafel kann man beide Bäume zeichnen: „erst A, dann B“ und „erst B, dann A“.</p></div>
+  <h3 id="b-test">Diagnosetests</h3>
+  <div class="box bsp"><span class="box-titel">Beispiel · Positiv getestet – wirklich krank?</span><p>2 % sind krank (K). Der Test erkennt 90 % der Kranken (Sensitivität), bei 5 % der Gesunden schlägt er fälschlich an.</p><div class="baum"><svg viewBox="0 0 520 230" width="520" height="230" role="img" aria-label="Baumdiagramm" xmlns="http://www.w3.org/2000/svg" font-size="15"><line x1="20" y1="115" x2="150" y2="62" stroke="#1F6FB2" stroke-width="2"/><text x="60" y="80.5" fill="#1F2A44">0,02</text><circle cx="165" cy="62" r="14" fill="#fff" stroke="#1F2A44"/><text x="165" y="67" text-anchor="middle" font-weight="700">K</text><line x1="180" y1="62" x2="300" y2="30" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="38.0" fill="#1F2A44">0,9</text><circle cx="315" cy="30" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="35" text-anchor="middle" font-weight="700">T</text><text x="340" y="35" fill="#8A5200">0,018</text><line x1="180" y1="62" x2="300" y2="94" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="96.0" fill="#1F2A44">0,1</text><circle cx="315" cy="94" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="99" text-anchor="middle" font-weight="700">T̄</text><text x="340" y="99" fill="#8A5200">0,002</text><line x1="20" y1="115" x2="150" y2="168" stroke="#1F6FB2" stroke-width="2"/><text x="60" y="159.5" fill="#1F2A44">0,98</text><circle cx="165" cy="168" r="14" fill="#fff" stroke="#1F2A44"/><text x="165" y="173" text-anchor="middle" font-weight="700">K̄</text><line x1="180" y1="168" x2="300" y2="136" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="144.0" fill="#1F2A44">0,05</text><circle cx="315" cy="136" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="141" text-anchor="middle" font-weight="700">T</text><text x="340" y="141" fill="#8A5200">0,049</text><line x1="180" y1="168" x2="300" y2="200" stroke="#1F6FB2" stroke-width="2"/><text x="225" y="202.0" fill="#1F2A44">0,95</text><circle cx="315" cy="200" r="14" fill="#fff" stroke="#1F2A44"/><text x="315" y="205" text-anchor="middle" font-weight="700">T̄</text><text x="340" y="205" fill="#8A5200">0,931</text></svg></div><div class="tabelle-wrap"><table><thead><tr><th></th><th>T (positiv)</th><th>T̄ (negativ)</th><th>gesamt</th></tr></thead><tbody><tr><td><b>K</b> (krank)</td><td>0,018</td><td>0,002</td><td>0,02</td></tr><tr><td><b>K̄</b></td><td>0,049</td><td>0,931</td><td>0,98</td></tr><tr><td>gesamt</td><td>0,067</td><td>0,933</td><td>1</td></tr></tbody></table></div><p class="f">P<sub>T</sub>(K) = 0,018 / 0,067 ≈ 0,2687</p><p>Nur etwa 27 % der positiv Getesteten sind krank – weil die vielen Gesunden viele Fehlalarme liefern (0,049 &gt; 0,018).</p></div>
+  <div class="box tipp"><span class="box-titel">Rechner</span><p>Mit dem <a href="#rechner">Vierfeldertafel-Rechner</a> kannst du eigene Zahlen ausprobieren.</p></div>
+  <h3>Üben</h3>
+  <article class="aufgabe" id="b1"><h4><span class="nr">3.1</span> Ausdrücke in Worte <span class="stufe stufe-1">★</span></h4><p>M: „isst in der Mensa“, V: „isst vegetarisch“. Formuliere P(M ∩ V), P<sub>M</sub>(V) und P<sub>V</sub>(M) mit „Anteil“.</p><details class="loesung" data-titel="Bedingt 3.1 (★)"><summary>Lösung anzeigen</summary><div><p>P(M ∩ V): Anteil der Personen, die in der Mensa <b>und</b> vegetarisch essen (an allen). P<sub>M</sub>(V): Anteil der Vegetarier <b>unter den</b> Mensa-Essern. P<sub>V</sub>(M): Anteil der Mensa-Esser <b>unter den</b> Vegetariern.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 164 Nr. 5/6</p></article>
+  <article class="aufgabe" id="b2"><h4><span class="nr">3.2</span> Kiosk <span class="stufe stufe-2">★★</span></h4><p>55 % kaufen ein Getränk (G), 20 % kaufen Getränk und Snack (S), 35 % kaufen weder Getränk noch Snack. Stelle die Vierfeldertafel auf und berechne P<sub>G</sub>(S) und P<sub>S</sub>(G).</p><details class="loesung" data-titel="Bedingt 3.2 (★★)"><summary>Lösung anzeigen</summary><div><div class="tabelle-wrap"><table><thead><tr><th></th><th>S</th><th>S̄</th><th>gesamt</th></tr></thead><tbody><tr><td>G</td><td>0,2</td><td>0,35</td><td>0,55</td></tr><tr><td>Ḡ</td><td>0,1</td><td>0,35</td><td>0,45</td></tr><tr><td>gesamt</td><td>0,3</td><td>0,7</td><td>1</td></tr></tbody></table></div><p>P<sub>G</sub>(S) = 0,2 / 0,55 ≈ 0,3636 · P<sub>S</sub>(G) = 0,2 / 0,3 ≈ 0,6667.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 168 Nr. 1</p></article>
+  <article class="aufgabe" id="b3"><h4><span class="nr">3.3</span> Zweiter Test <span class="stufe stufe-3">★★★</span></h4><p>10 % einer Gruppe sind krank. Ein Test erkennt 80 % der Kranken und 90 % der Gesunden richtig. a) Berechne P<sub>T</sub>(K). b) Wer positiv ist, macht einen zweiten, unabhängigen Test derselben Art. Berechne die Wahrscheinlichkeit, krank zu sein, wenn auch der zweite Test positiv ist.</p><details class="loesung" data-titel="Bedingt 3.3 (★★★)"><summary>Lösung anzeigen</summary><div><p>a) P(T) = 0,1·0,8 + 0,9·0,1 = 0,17 → P<sub>T</sub>(K) = 0,08 / 0,17 ≈ 0,4706.</p><p>b) Neuer Anteil der Kranken: 0,4706. P<sub>T</sub>(K) = 0,4706·0,8 / (0,4706·0,8 + 0,5294·0,1) ≈ 0,3765 / 0,4294 ≈ 0,8767 (exakt: 0,064 / 0,073). Der zweite Test macht das Ergebnis viel sicherer.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 170 Nr. 11</p></article>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#mehrstufig">← Mehrstufig</a><a href="#unabhaengig">Weiter: Unabhängig →</a></nav></section><section class="tab" id="unabhaengig" data-titel="Unabhängig"><span class="kicker-label">Kapitel 4 · Buch S. 163, 170–171</span><h2>4 · Unabhängigkeit und Verknüpfungen</h2>
+  <div class="box merk"><span class="box-titel">Stochastische Unabhängigkeit</span><p>A und B sind <b>stochastisch unabhängig</b>, wenn</p><p class="f">P(A ∩ B) = P(A) · P(B) &nbsp;&nbsp; bzw. &nbsp;&nbsp; P<sub>A</sub>(B) = P(B)</p><p>Im Baumdiagramm: Die Wahrscheinlichkeiten auf den Teilpfaden der 2. Stufe sind <b>gleich</b>.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Kiosk (Aufgabe 3.2)</span><p><b>Zu prüfende Bedingung:</b> P(G ∩ S) = P(G) · P(S) · <b>Angaben:</b> P(G) = 0,55; P(S) = 0,3; P(G ∩ S) = 0,2 · <b>Einsetzen:</b> 0,55 · 0,3 = 0,165 ≠ 0,2 → G und S sind <b>abhängig</b> (wer ein Getränk kauft, kauft eher auch einen Snack).</p></div>
+  <h3 id="u-verknuepfen">Ereignisse verknüpfen</h3>
+  <div class="tabelle-wrap"><table><thead><tr><th>Ereignis</th><th>in Worten</th><th>aus der Vierfeldertafel</th></tr></thead><tbody><tr><td>A ∩ B</td><td>A und B</td><td>inneres Feld</td></tr><tr><td>A ∪ B</td><td>A oder B (mindestens eins)</td><td>P(A) + P(B) − P(A ∩ B)</td></tr><tr><td>A \ B</td><td>A, aber nicht B</td><td>P(A ∩ B̄)</td></tr><tr><td>entweder A oder B</td><td>genau eins von beiden</td><td>P(A ∩ B̄) + P(Ā ∩ B)</td></tr></tbody></table></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Kiosk</span><p>P(G ∪ S) = 0,55 + 0,3 − 0,2 = 0,65 (= 1 − 0,35 ✓) · P(G \ S) = 0,35 · P(entweder G oder S) = 0,35 + 0,1 = 0,45.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p>„Unabhängig“ heißt nicht „unvereinbar“! Unvereinbar: A ∩ B ist unmöglich. Unabhängig: A ändert die Wahrscheinlichkeit von B nicht.</p></div>
+  <h3>Üben</h3>
+  <article class="aufgabe" id="u1"><h4><span class="nr">4.1</span> Zwei Würfe <span class="stufe stufe-1">★</span></h4><p>Zweimal würfeln. A: „erster Wurf gerade“, B: „zweiter Wurf eine 6“. Unabhängig?</p><details class="loesung" data-titel="Unabhängig 4.1 (★)"><summary>Lösung anzeigen</summary><div><p>P(A) = 1/2, P(B) = 1/6, P(A ∩ B) = 3/36 = 1/12 = 1/2 · 1/6 → unabhängig.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 164 Nr. 3</p></article>
+  <article class="aufgabe" id="u2"><h4><span class="nr">4.2</span> Tafel prüfen <span class="stufe stufe-2">★★</span></h4><p>Innere Felder: P(A ∩ B) = 0,12; P(A ∩ B̄) = 0,28; P(Ā ∩ B) = 0,18; P(Ā ∩ B̄) = 0,42. Unabhängig?</p><details class="loesung" data-titel="Unabhängig 4.2 (★★)"><summary>Lösung anzeigen</summary><div><p>P(A) = 0,4; P(B) = 0,3; 0,4 · 0,3 = 0,12 = P(A ∩ B) → unabhängig.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 171 Nr. 13</p></article>
+  <article class="aufgabe" id="u3"><h4><span class="nr">4.3</span> Oder und entweder-oder <span class="stufe stufe-3">★★★</span></h4><p>A und B sind unabhängig mit P(A) = 0,5 und P(B) = 0,4. Berechne P(A ∪ B) und P(entweder A oder B).</p><details class="loesung" data-titel="Unabhängig 4.3 (★★★)"><summary>Lösung anzeigen</summary><div><p>P(A ∩ B) = 0,2 → P(A ∪ B) = 0,5 + 0,4 − 0,2 = 0,7 · entweder–oder = 0,7 − 0,2 = 0,5.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 171 Nr. 15</p></article>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#bedingt">← Bedingt</a><a href="#zufallsgroesse">Weiter: Zufallsgröße →</a></nav></section><section class="tab" id="zufallsgroesse" data-titel="Zufallsgröße"><span class="kicker-label">Kapitel 5 · Buch S. 172–177</span><h2>5 · Zufallsgröße und Erwartungswert</h2>
+  <div class="box merk"><span class="box-titel">Zufallsgröße und Erwartungswert</span><p>Eine <b>Zufallsgröße X</b> ordnet jedem Ergebnis eine Zahl zu (z. B. Auszahlung, Anzahl). Die <b>Wahrscheinlichkeitsverteilung</b> gibt zu jedem Wert xᵢ die Wahrscheinlichkeit P(X = xᵢ) an.</p><p class="f">E(X) = x₁·P(X = x₁) + … + xₘ·P(X = xₘ) = Σ xᵢ·P(X = xᵢ)</p><p>E(X) ist der Wert, der sich <b>auf lange Sicht im Mittel</b> ergibt – „wie x̄, nur mit Wahrscheinlichkeiten statt relativer Häufigkeiten“. E(X) muss selbst gar nicht vorkommen.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Würfel-Spiel</span><div class="tabelle-wrap"><table><thead><tr><th>Augenzahl</th><th>6</th><th>5</th><th>1 bis 4</th></tr></thead><tbody><tr><td>Auszahlung xᵢ</td><td>5 €</td><td>2 €</td><td>0 €</td></tr><tr><td>P(X = xᵢ)</td><td>1/6</td><td>1/6</td><td>4/6</td></tr></tbody></table></div><p>E(X) = 5·1/6 + 2·1/6 + 0·4/6 = 7/6 ≈ 1,17 €. Bei 1 € Einsatz gewinnt man auf lange Sicht im Mittel 0,17 € pro Spiel.</p></div>
+  <h3 id="z-fair">Faires Spiel</h3>
+  <div class="box merk"><span class="box-titel">Fair</span><p>Ein Spiel ist <b>fair</b>, wenn der Erwartungswert der <b>Auszahlung</b> gleich dem <b>Einsatz</b> ist – oder gleichwertig: der Erwartungswert des <b>Gewinns</b> (Auszahlung − Einsatz) ist 0.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Zwei Münzen, Einsatz 1 €</span><p>Zweimal Wappen 2 €, genau einmal Wappen 1 €, sonst 0 €: E(X) = 2·1/4 + 1·1/2 + 0·1/4 = 1 € = Einsatz → fair.</p></div>
+  <div class="box fehler"><span class="box-titel">⚠ Typischer Fehler</span><p>Auszahlung und Gewinn verwechseln: Bei 1 € Einsatz und 3 € Auszahlung beträgt der Gewinn 2 €. Schreibe immer dazu, ob X die Auszahlung oder den Gewinn angibt.</p></div>
+  <h3>Üben</h3>
+  <article class="aufgabe" id="z1"><h4><span class="nr">5.1</span> Erwartungswert <span class="stufe stufe-1">★</span></h4><p>X: 0 / 1 / 2 / 5 mit 0,4 / 0,3 / 0,2 / 0,1. Berechne E(X).</p><details class="loesung" data-titel="Zufallsgröße 5.1 (★)"><summary>Lösung anzeigen</summary><div><p>E(X) = 0 + 0,3 + 0,4 + 0,5 = 1,2.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 174 Nr. 1</p></article>
+  <article class="aufgabe" id="z2"><h4><span class="nr">5.2</span> Fairer Einsatz <span class="stufe stufe-2">★★</span></h4><p>Glücksrad: mit 1/4 → 3 €, mit 1/2 → 1 €, mit 1/4 → 0 €. Welcher Einsatz ist fair?</p><details class="loesung" data-titel="Zufallsgröße 5.2 (★★)"><summary>Lösung anzeigen</summary><div><p>E(X) = 3·1/4 + 1·1/2 = 1,25 € → fairer Einsatz 1,25 €.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 176 Nr. 13</p></article>
+  <article class="aufgabe" id="z3"><h4><span class="nr">5.3</span> Fehlende Wahrscheinlichkeit <span class="stufe stufe-3">★★★</span></h4><p>X nimmt die Werte 0, 2 und 10 an. P(X = 2) = 0,3 und E(X) = 1,6. Bestimme die übrigen Wahrscheinlichkeiten.</p><details class="loesung" data-titel="Zufallsgröße 5.3 (★★★)"><summary>Lösung anzeigen</summary><div><p>2·0,3 + 10·p = 1,6 ⇔ p = 0,1 = P(X = 10) · P(X = 0) = 1 − 0,3 − 0,1 = 0,6.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 175 Nr. 11</p></article>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#unabhaengig">← Unabhängig</a><a href="#streuung">Weiter: Streuung →</a></nav></section><section class="tab" id="streuung" data-titel="Streuung"><span class="kicker-label">Kapitel 6 · Buch S. 178–181</span><h2>6 · Varianz und Standardabweichung einer Zufallsgröße</h2>
+  <div class="box merk"><span class="box-titel">Varianz und Standardabweichung</span><p class="f">Var(X) = Σ (xᵢ − E(X))²·P(X = xᵢ) &nbsp;&nbsp; und &nbsp;&nbsp; √Var(X)</p><p>„Wie s̄, nur mit E(X) statt x̄ und Wahrscheinlichkeiten statt relativen Häufigkeiten.“ Große √Var(X) = die Werte schwanken stark um E(X) = <b>höheres Risiko</b>.</p></div>
+  <div class="box bsp"><span class="box-titel">Beispiel · Zu Aufgabe 5.1</span><p>E(X) = 1,2 · Var(X) = (0 − 1,2)²·0,4 + (1 − 1,2)²·0,3 + (2 − 1,2)²·0,2 + (5 − 1,2)²·0,1 = 0,576 + 0,012 + 0,128 + 1,444 = 2,16 · √Var(X) ≈ 1,47.</p></div>
+  <div class="box merk"><span class="box-titel">Im Histogramm ohne Rechnung</span><p><b>Kleine</b> Standardabweichung: hohe Säulen nah am Erwartungswert, niedrige Säulen am Rand. <b>Große</b> Standardabweichung: hohe Säulen weit weg vom Erwartungswert.</p></div>
+  <div class="box tipp"><span class="box-titel">GeoGebra</span><p><code>w = {0, 1, 2, 5}</code>, <code>p = {0.4, 0.3, 0.2, 0.1}</code> → <code>Mittelwert(w, p)</code> = E(X) und <code>stdevp(w, p)</code> = √Var(X).</p></div>
+  <h3>Üben</h3>
+  <article class="aufgabe" id="s1"><h4><span class="nr">6.1</span> Einfach <span class="stufe stufe-1">★</span></h4><p>X: 0 oder 2 mit je 0,5. Berechne E(X) und √Var(X).</p><details class="loesung" data-titel="Streuung 6.1 (★)"><summary>Lösung anzeigen</summary><div><p>E(X) = 1 · Var(X) = 1·0,5 + 1·0,5 = 1 · √Var(X) = 1.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 179 Beispiel</p></article>
+  <article class="aufgabe" id="s2"><h4><span class="nr">6.2</span> Gleicher Erwartungswert, anderes Risiko <span class="stufe stufe-2">★★</span></h4><p>Spiel A: 0 € oder 2 € mit je 0,5. Spiel B: 0 € mit 0,9, 10 € mit 0,1. Vergleiche.</p><details class="loesung" data-titel="Streuung 6.2 (★★)"><summary>Lösung anzeigen</summary><div><p>Beide E = 1 €. A: √Var = 1 €. B: Var = 1²·0,9 + 9²·0,1 = 9 → √Var = 3 €. B ist viel riskanter: meist nichts, selten viel.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 178 Einstieg</p></article>
+  <article class="aufgabe" id="s3"><h4><span class="nr">6.3</span> Augensumme <span class="stufe stufe-3">★★★</span></h4><p>Zwei Würfel, X = Augensumme. Berechne E(X) und √Var(X) mit GeoGebra.</p><details class="loesung" data-titel="Streuung 6.3 (★★★)"><summary>Lösung anzeigen</summary><div><p>Werte 2 … 12 mit 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1 von 36 → E(X) = 7 · Var(X) = 35/6 ≈ 5,83 · √Var(X) ≈ 2,42.</p></div></details><p class="buchverweis">Ähnlich im Buch: S. 174 Nr. 2</p></article>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#zufallsgroesse">← Zufallsgröße</a><a href="#rechner">Weiter: Rechner →</a></nav></section><section class="tab" id="rechner" data-titel="Rechner"><span class="kicker-label">Werkzeuge</span><h2>7 · Zwei Rechner zum Kontrollieren</h2>
+  <p>Rechne zuerst selbst – dann kontrollierst du hier. In der Klausur rechnest du in Teil A von Hand, in Teil B mit GeoGebra.</p>
+  <div class="werkzeug" id="kenngroessen"><h3>Kenngrößen-Rechner</h3>
+    <form id="kg-form" class="interaktiv" novalidate>
+      <div class="feld"><label for="kg-art">Art</label><select id="kg-art"><option value="h">Daten (Häufigkeiten) → x̄, s̄</option><option value="w">Zufallsgröße (Wahrscheinlichkeiten) → E(X), √Var(X)</option></select></div>
+      <div class="feld"><label for="kg-werte">Werte xᵢ</label><input type="text" id="kg-werte" placeholder="z. B. 0 1 2 5" autocomplete="off"></div>
+      <div class="feld"><label for="kg-gew">Häufigkeiten bzw. Wahrscheinlichkeiten</label><input type="text" id="kg-gew" placeholder="z. B. 0,4 0,3 0,2 0,1" autocomplete="off"></div>
+      <p class="eingabe-hilfe klein">Zahlen mit Leerzeichen oder Semikolon trennen. Komma ist das Dezimalkomma. Brüche wie 1/6 gehen auch.</p>
+      <button class="knopf" type="submit">Berechnen</button></form>
+    <div id="kg-ergebnis" class="rueckmeldung" aria-live="polite"></div></div>
+  <div class="werkzeug" id="vierfelder"><h3>Vierfeldertafel-Rechner</h3>
+    <form id="vf-form" class="interaktiv" novalidate>
+      <div class="feld"><label for="vf-a">P(A)</label><input type="text" id="vf-a" placeholder="z. B. 0,02" autocomplete="off"></div>
+      <div class="feld"><label for="vf-ba">P<sub>A</sub>(B)</label><input type="text" id="vf-ba" placeholder="z. B. 0,9" autocomplete="off"></div>
+      <div class="feld"><label for="vf-bna">P<sub>Ā</sub>(B)</label><input type="text" id="vf-bna" placeholder="z. B. 0,05" autocomplete="off"></div>
+      <button class="knopf" type="submit">Tafel und Umkehrung</button></form>
+    <div id="vf-ergebnis" class="rueckmeldung" aria-live="polite"></div></div>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#streuung">← Streuung</a><a href="#selbsttest">Weiter: Selbsttest →</a></nav></section><section class="tab" id="selbsttest" data-titel="Selbsttest"><span class="kicker-label">Selbsttest</span><h2>8 · Selbsttest mit Rückmeldung</h2>
+  <p>Acht Aufgaben quer durch alle Kapitel, jedes Mal mit neuen Zahlen. Antworten als Dezimalzahl, Bruch (1/4) oder Prozent (25 %). Jede Rückmeldung nennt das Kapitel zum Nachlesen.</p>
+  <div class="interaktiv">
+    <div class="knopfreihe"><button type="button" class="knopf" id="test-neu">Neue Aufgaben</button><span class="punkte" id="test-punkte" aria-live="polite"></span></div>
+    <div id="test-liste"></div>
+  </div>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#rechner">← Rechner</a><a href="#probeklausur">Weiter: Probeklausur →</a></nav></section><section class="tab" id="probeklausur" data-titel="Probeklausur"><span class="kicker-label">Probeklausur</span><h2>9 · Probeklausur Teil A (ohne Hilfsmittel)</h2>
+  <p><b>So übst du:</b> Stoppuhr auf 45 Minuten, kein Taschenrechner, kein iPad. Erst danach die Lösungen öffnen. Die Aufgaben sind <b>nicht</b> die echten Klausuraufgaben – aber so ähnlich gestellt.</p>
+<article class="aufgabe" id="p1"><h4><span class="nr">P1</span> Datensatz <span class="stufe stufe-2">★★</span></h4><p>Die Werte 0, 10 und 20 haben die relativen Häufigkeiten 0,3; 0,4 und 0,3. (1) Zeige, dass x̄ = 10. (2) Berechne s̄. (3) Wie ändert sich s̄, wenn jeder Wert um 5 erhöht wird? Begründe.</p><details class="loesung" data-titel="Probeklausur P1 (★★)"><summary>Lösung anzeigen</summary><div><p>(1) 0 + 4 + 6 = 10. (2) s̄² = 100·0,3 + 0 + 100·0,3 = 60 → s̄ = √60 ≈ 7,75. (3) Gar nicht: Alle Werte und x̄ verschieben sich gleich, die Abstände zu x̄ bleiben gleich.</p></div></details></article><article class="aufgabe" id="p2"><h4><span class="nr">P2</span> Baum mit Lücken <span class="stufe stufe-2">★★</span></h4><p>P(A) = 0,3; P<sub>A</sub>(B) = 0,5; P<sub>Ā</sub>(B) = 0,2. (1) Berechne P(B). (2) Berechne P<sub>B</sub>(A). (3) Sind A und B unabhängig?</p><details class="loesung" data-titel="Probeklausur P2 (★★)"><summary>Lösung anzeigen</summary><div><p>(1) P(B) = 0,3·0,5 + 0,7·0,2 = 0,15 + 0,14 = 0,29. (2) P<sub>B</sub>(A) = 0,15 / 0,29 = 15/29 ≈ 0,5172. (3) Nein: P<sub>A</sub>(B) = 0,5 ≠ 0,2 = P<sub>Ā</sub>(B) (Teilpfade der 2. Stufe verschieden).</p></div></details></article><article class="aufgabe" id="p3"><h4><span class="nr">P3</span> Term ↔ Ereignis <span class="stufe stufe-2">★★</span></h4><p>Ein Würfel wird dreimal geworfen. Gib zu jedem Term ein Ereignis an: (1) (5/6)³ (2) 3 · 1/6 · (5/6)² (3) 1 − (5/6)³. Gib (4) einen Term für „genau zwei Sechsen“ an.</p><details class="loesung" data-titel="Probeklausur P3 (★★)"><summary>Lösung anzeigen</summary><div><p>(1) keine Sechs (2) genau eine Sechs (3) mindestens eine Sechs (4) 3 · (1/6)² · 5/6.</p></div></details></article><article class="aufgabe" id="p4"><h4><span class="nr">P4</span> Faires Spiel <span class="stufe stufe-2">★★</span></h4><p>Einsatz 2 €. Bei einer 6 werden a € ausgezahlt, bei einer 5 werden 3 € ausgezahlt, sonst nichts. (1) Bestimme a so, dass das Spiel fair ist. (2) Für a = 6: Berechne den Erwartungswert des Gewinns.</p><details class="loesung" data-titel="Probeklausur P4 (★★)"><summary>Lösung anzeigen</summary><div><p>(1) a/6 + 3/6 = 2 ⇔ a = 9 €. (2) E(Auszahlung) = 6/6 + 3/6 = 1,5 € → E(Gewinn) = 1,5 − 2 = −0,50 € pro Spiel.</p></div></details></article>
+  <h3>Teil B üben</h3>
+  <p>Buch S. 185 Nr. 6–10 (Lösungen S. 309–310) mit GeoGebra. Schreibe immer den Ansatz auf – GeoGebra liefert nur das Ergebnis.</p>
+<nav class="weiter" aria-label="Weiterblättern"><a href="#selbsttest">← Selbsttest</a><a href="#spickzettel">Weiter: Spickzettel →</a></nav></section><section class="tab" id="spickzettel" data-titel="Spickzettel"><span class="kicker-label">Spickzettel</span><h2>10 · Spickzettel Daten und Zufall</h2><p class="spick-intro">Alles Wichtige auf einer Seite – zum Ausdrucken. In der Klausur ist er nicht erlaubt (in Teil B gibt es die Formelsammlung).</p><div class="spick"><div class="karte"><h4>Mittelwert</h4><p class="formel">x̄ = Σ xᵢ·h(xᵢ)</p></div><div class="karte"><h4>Streuung</h4><p class="formel">s̄² = Σ (xᵢ − x̄)²·h(xᵢ), s̄ = √s̄²</p></div><div class="karte"><h4>Pfadregeln</h4><p class="formel">längs multiplizieren · Pfade addieren · Verzweigung = 1</p></div><div class="karte"><h4>Gegenereignis</h4><p class="formel">P(mind. einmal) = 1 − P(keinmal)</p></div><div class="karte"><h4>Bedingt</h4><p class="formel">P<sub>A</sub>(B) = P(A ∩ B) / P(A) · „Anteil der B unter den A“</p></div><div class="karte"><h4>Vierfeldertafel</h4><p class="formel">innen = Pfadenden · Rand = 1. Stufe · beide Bäume möglich</p></div><div class="karte"><h4>Unabhängig</h4><p class="formel">P(A ∩ B) = P(A)·P(B) ⇔ P<sub>A</sub>(B) = P(B)</p></div><div class="karte"><h4>Verknüpfen</h4><p class="formel">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</p></div><div class="karte"><h4>Erwartungswert</h4><p class="formel">E(X) = Σ xᵢ·P(X = xᵢ) · fair: E(Auszahlung) = Einsatz</p></div><div class="karte"><h4>Standardabweichung</h4><p class="formel">Var(X) = Σ (xᵢ − E(X))²·P(X = xᵢ), √Var(X)</p></div></div><h3>Buch und Material</h3><div class="tabelle-wrap"><table><thead><tr><th>Thema</th><th>Buch (Elemente Q-GK)</th><th>Lösungen im Buch</th></tr></thead><tbody><tr><td>Daten, Boxplots</td><td>S. 150–157</td><td>S. 306</td></tr><tr><td>Mehrstufig, Urnen</td><td>S. 158–161</td><td>S. 306</td></tr><tr><td>Bedingt, Vierfeldertafel</td><td>S. 162–171</td><td>S. 306–307</td></tr><tr><td>Zufallsgröße, E(X)</td><td>S. 172–177</td><td>S. 307–308</td></tr><tr><td>Var(X)</td><td>S. 178–181</td><td>S. 308</td></tr><tr><td>Wiederholen für die Klausur</td><td>S. 184–185</td><td>S. 308–310</td></tr></tbody></table></div><p class="klein">Achtung: Auf dem Merkzettel S. 182 stimmt das Datenbeispiel nicht (h(1) = 0,6 statt 0,5). Im Antwortsatz der Lösung S. 309 Nr. 6 muss es 5,2 cm heißen (nicht 5,3 cm).</p><nav class="weiter" aria-label="Weiterblättern"><a href="#probeklausur">← Probeklausur</a><span></span></nav></section>
+<section id="loesungsteil" aria-hidden="true"><h2>Lösungen</h2><p class="klein">Alle Lösungen der Aufgaben dieser Lernseite, in der Reihenfolge der Kapitel.</p><div id="loesungen-inhalt"></div></section></main>
+<footer class="fusszeile"><p>Mathematik · Q2 Grundkurs · Daten und Zufall · Stand: 11.11.2026 · Buchseiten: Elemente der Mathematik Q-Phase GK (Westermann)</p></footer>
+<script id="logik">
+/* Logik der Lernseite „Daten und Zufall“ (Q2 GK, 11.11.2026) – Selbsttest-Generator, Antwortprüfung und zwei Rechner.
+   Schnittstelle wie lernseite_logik.js der Lernseite Terme 8E: TG.erzeugeTest(zufall) und TG.pruefe(aufgabe, eingabe),
+   damit lernseite_oberflaeche.js unverändert mitgenutzt werden kann. Kein eval. Prüfung: node test_logik.js */
+var TG = (function () {
+  'use strict';
+  function f(x, st) {                       // Zahl deutsch: Komma, echtes Minus, ohne überflüssige Nullen
+    st = (st === undefined) ? 4 : st;
+    var s = (Math.round(x * Math.pow(10, st)) / Math.pow(10, st)).toFixed(st).replace(/\.?0+$/, '');
+    if (s === '-0') s = '0';
+    return s.replace('-', '−').replace('.', ',');
+  }
+  function zahl(e) {                        // „0,25“, „25 %“, „1/4“, „−0.5“ → Zahl (Prozent schon geteilt) oder null
+    if (e === null || e === undefined) return null;
+    var s = String(e).trim().replace(/\s+/g, '').replace(/−/g, '-').replace(/€|h|euro/gi, '');
+    if (!s) return null;
+    var proz = /%$/.test(s); if (proz) s = s.slice(0, -1);
+    s = s.replace(',', '.');
+    var m = s.match(/^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+    var w = m ? Number(m[1]) / Number(m[2]) : (/^-?\d*\.?\d+$/.test(s) ? Number(s) : null);
+    if (w === null || !isFinite(w)) return null;
+    return { w: proz ? w / 100 : w, proz: proz };
+  }
+  function ganz(r, a, b) { return a + Math.floor(r() * (b - a + 1)); }
+  function wahl(r, liste) { return liste[Math.floor(r() * liste.length)]; }
+  function summe(a) { return a.reduce(function (s, x) { return s + x; }, 0); }
+
+  /* ---------- Kenngrößen (für Rechner und Aufgaben) ---------- */
+  function kenngroessen(werte, gew) {      // gew = Häufigkeiten oder Wahrscheinlichkeiten
+    var n = summe(gew); if (!(n > 0)) return null;
+    var h = gew.map(function (g) { return g / n; });
+    var m = summe(werte.map(function (x, i) { return x * h[i]; }));
+    var v = summe(werte.map(function (x, i) { return (x - m) * (x - m) * h[i]; }));
+    return { h: h, mittel: m, varianz: v, sd: Math.sqrt(v), n: n };
+  }
+  function vierfelder(pA, pBA, pBnA) {      // P(A), P_A(B), P_Ā(B) → Tafel und Umkehrung
+    var AB = pA * pBA, AnB = pA * (1 - pBA), nAB = (1 - pA) * pBnA, nAnB = (1 - pA) * (1 - pBnA), B = AB + nAB;
+    return { AB: AB, AnB: AnB, nAB: nAB, nAnB: nAnB, A: pA, nA: 1 - pA, B: B, nB: 1 - B,
+             pAB_B: B > 0 ? AB / B : NaN, pAB_nB: B < 1 ? AnB / (1 - B) : NaN, unabh: Math.abs(AB - pA * B) < 1e-12 };
+  }
+
+  /* ---------- Aufgabentypen des Selbsttests ---------- */
+  var TYPEN = {
+    mittel: function (r) {
+      var a = ganz(r, 1, 4), d = ganz(r, 1, 3), x = [a, a + d, a + 2 * d], k = [ganz(r, 1, 5), ganz(r, 1, 6), ganz(r, 1, 5)];
+      var K = kenngroessen(x, k), n = summe(k);
+      return { titel: 'Arithmetisches Mittel', stufe: 1, art: 'zahl', soll: K.mittel, tol: 0.005, ort: '#daten',
+        text: 'Werte ' + x.join(', ') + ' mit den absoluten Häufigkeiten ' + k.join(', ') + '. Berechne x̄ (auf zwei Nachkommastellen).',
+        weg: 'x̄ = (' + x.map(function (v, i) { return v + '·' + k[i]; }).join(' + ') + ') / ' + n + ' = ' + f(summe(x.map(function (v, i) { return v * k[i]; }))) + ' / ' + n + ' ≈ ' + f(K.mittel, 2) };
+    },
+    streuung: function (r) {
+      var m = ganz(r, 3, 8), d = ganz(r, 1, 3), q = wahl(r, [[0.25, 0.5, 0.25], [0.2, 0.6, 0.2], [0.1, 0.8, 0.1], [0.4, 0.2, 0.4]]);
+      var x = [m - d, m, m + d], K = kenngroessen(x, q);
+      return { titel: 'Empirische Standardabweichung', stufe: 2, art: 'zahl', soll: K.sd, tol: 0.005, ort: '#daten',
+        text: 'Werte ' + x.join(', ') + ' mit den relativen Häufigkeiten ' + q.map(function (v) { return f(v); }).join('; ') + '. Berechne s̄ (auf zwei Nachkommastellen).',
+        weg: 'x̄ = ' + f(K.mittel) + ' · s̄² = (' + d + ')²·' + f(q[0]) + ' + 0 + (' + d + ')²·' + f(q[2]) + ' = ' + f(K.varianz) + ' · s̄ = √' + f(K.varianz) + ' ≈ ' + f(K.sd, 2) };
+    },
+    pfad: function (r) {
+      var rot = ganz(r, 2, 5), blau = ganz(r, 2, 5), n = rot + blau, ohne = r() < 0.5;
+      var p = ohne ? (rot / n) * ((rot - 1) / (n - 1)) : (rot / n) * (rot / n);
+      return { titel: 'Pfadmultiplikationsregel', stufe: 1, art: 'zahl', soll: p, tol: 0.00051, ort: '#mehrstufig',
+        text: 'In einer Urne liegen ' + rot + ' rote und ' + blau + ' blaue Kugeln. Es wird zweimal ' + (ohne ? '<b>ohne</b>' : '<b>mit</b>') + ' Zurücklegen gezogen. Wie groß ist P(zweimal rot)? (Bruch, Dezimalzahl oder Prozent)',
+        weg: ohne ? rot + '/' + n + ' · ' + (rot - 1) + '/' + (n - 1) + ' = ' + (rot * (rot - 1)) + '/' + (n * (n - 1)) + ' ≈ ' + f(p) : rot + '/' + n + ' · ' + rot + '/' + n + ' = ' + (rot * rot) + '/' + (n * n) + ' ≈ ' + f(p) };
+    },
+    gegen: function (r) {
+      var p = wahl(r, [0.1, 0.2, 0.3, 0.25, 0.4]), k = ganz(r, 2, 4), w = 1 - Math.pow(1 - p, k);
+      return { titel: 'Gegenereignis', stufe: 2, art: 'zahl', soll: w, tol: 0.00051, ort: '#mehrstufig',
+        text: 'Ein Glücksrad zeigt mit der Wahrscheinlichkeit ' + f(p) + ' „Gewinn“. Es wird ' + k + '-mal gedreht. Berechne P(mindestens einmal Gewinn) auf vier Nachkommastellen.',
+        weg: 'Gegenereignis „keinmal Gewinn“: ' + f(1 - p) + '^' + k + ' = ' + f(Math.pow(1 - p, k)) + ' → 1 − ' + f(Math.pow(1 - p, k)) + ' ≈ ' + f(w) };
+    },
+    bedingt: function (r) {
+      var pA = wahl(r, [0.2, 0.3, 0.4, 0.5, 0.6]), pBA = wahl(r, [0.1, 0.2, 0.25, 0.5, 0.8]), pBnA = wahl(r, [0.05, 0.1, 0.2, 0.3]);
+      var V = vierfelder(pA, pBA, pBnA);
+      return { titel: 'Baum umkehren', stufe: 3, art: 'zahl', soll: V.pAB_B, tol: 0.00051, ort: '#bedingt',
+        text: 'P(A) = ' + f(pA) + ', P<sub>A</sub>(B) = ' + f(pBA) + ', P<sub>Ā</sub>(B) = ' + f(pBnA) + '. Berechne P<sub>B</sub>(A) auf vier Nachkommastellen.',
+        weg: 'P(A ∩ B) = ' + f(pA) + ' · ' + f(pBA) + ' = ' + f(V.AB) + ' · P(Ā ∩ B) = ' + f(1 - pA) + ' · ' + f(pBnA) + ' = ' + f(V.nAB) + ' · P(B) = ' + f(V.B) + ' · P<sub>B</sub>(A) = ' + f(V.AB) + ' / ' + f(V.B) + ' ≈ ' + f(V.pAB_B) };
+    },
+    erwartung: function (r) {
+      var x = [0, ganz(r, 1, 3), ganz(r, 4, 6), ganz(r, 8, 20)], p = wahl(r, [[0.5, 0.3, 0.15, 0.05], [0.6, 0.2, 0.15, 0.05], [0.4, 0.4, 0.1, 0.1], [0.55, 0.25, 0.1, 0.1]]);
+      var E = summe(x.map(function (v, i) { return v * p[i]; }));
+      return { titel: 'Erwartungswert', stufe: 1, art: 'zahl', soll: E, tol: 0.005, ort: '#zufallsgroesse', einheit: '€',
+        text: 'Auszahlung X in €: ' + x.map(function (v, i) { return v + ' € mit ' + f(p[i]); }).join(' · ') + '. Berechne E(X).',
+        weg: 'E(X) = ' + x.map(function (v, i) { return v + '·' + f(p[i]); }).join(' + ') + ' = ' + f(E) + ' €' };
+    },
+    fair: function (r) {
+      var a = ganz(r, 2, 6), b = ganz(r, 1, 2), pa = wahl(r, [0.1, 0.2, 0.25]), pb = wahl(r, [0.3, 0.4]), e = ganz(r, 1, 3);
+      var E0 = b * pb, aus = (e - E0) / pa;
+      if (aus <= 0) { e = e + 2; aus = (e - E0) / pa; }
+      return { titel: 'Faires Spiel', stufe: 3, art: 'zahl', soll: aus, tol: 0.005, ort: '#zufallsgroesse', einheit: '€',
+        text: 'Einsatz ' + e + ' €. Mit der Wahrscheinlichkeit ' + f(pb) + ' werden ' + b + ' € ausgezahlt, mit ' + f(pa) + ' der Hauptgewinn, sonst nichts. Wie hoch muss der Hauptgewinn sein, damit das Spiel fair ist?',
+        weg: 'Fair: E(Auszahlung) = Einsatz → ' + b + '·' + f(pb) + ' + a·' + f(pa) + ' = ' + e + ' → a = (' + e + ' − ' + f(E0) + ') / ' + f(pa) + ' ≈ ' + f(aus, 2) + ' €' };
+    },
+    varianz: function (r) {
+      var a = ganz(r, 1, 4), b = a + ganz(r, 2, 6), p = wahl(r, [0.2, 0.25, 0.5, 0.75, 0.8]);
+      var E = a * (1 - p) + b * p, V = (a - E) * (a - E) * (1 - p) + (b - E) * (b - E) * p;
+      return { titel: 'Standardabweichung einer Zufallsgröße', stufe: 2, art: 'zahl', soll: Math.sqrt(V), tol: 0.005, ort: '#streuung',
+        text: 'X nimmt den Wert ' + a + ' mit ' + f(1 - p) + ' und den Wert ' + b + ' mit ' + f(p) + ' an. Berechne √Var(X) auf zwei Nachkommastellen.',
+        weg: 'E(X) = ' + a + '·' + f(1 - p) + ' + ' + b + '·' + f(p) + ' = ' + f(E) + ' · Var(X) = (' + a + ' − ' + f(E) + ')²·' + f(1 - p) + ' + (' + b + ' − ' + f(E) + ')²·' + f(p) + ' = ' + f(V) + ' · √Var(X) ≈ ' + f(Math.sqrt(V), 2) };
+    }
+  };
+  var REIHE = ['mittel', 'streuung', 'pfad', 'gegen', 'bedingt', 'erwartung', 'varianz', 'fair'];
+  function erzeugeTest(r) { return REIHE.map(function (typ) { var a = TYPEN[typ](r); a.typ = typ; return a; }); }
+
+  function pruefe(a, eingabe) {
+    var z = zahl(eingabe);
+    if (!z) return { status: 'ungueltig', text: 'Bitte eine Zahl eingeben, z. B. 0,25 oder 25 % oder 1/4.' };
+    var ok = Math.abs(z.w - a.soll) <= a.tol + 1e-12;
+    var hin = a.ort ? ' Zum Nachlesen: Reiter „' + { '#daten': 'Daten', '#mehrstufig': 'Mehrstufig', '#bedingt': 'Bedingt', '#zufallsgroesse': 'Zufallsgröße', '#streuung': 'Streuung' }[a.ort] + '“.' : '';
+    if (ok) return { status: 'richtig', text: 'Richtig! (' + f(a.soll, 4) + (a.einheit ? ' ' + a.einheit : '') + ')' };
+    if (!z.proz && Math.abs(z.w / 100 - a.soll) <= a.tol) return { status: 'falsch', text: 'Fast: Du hast vermutlich Prozent gemeint – schreibe dann das %-Zeichen dazu.' };
+    return { status: 'falsch', text: 'Noch nicht. Öffne den Lösungsweg oder rechne noch einmal.' + hin };
+  }
+
+  return { f: f, zahl: zahl, kenngroessen: kenngroessen, vierfelder: vierfelder, TYPEN: TYPEN, REIHE: REIHE, erzeugeTest: erzeugeTest, pruefe: pruefe };
+})();
+if (typeof module !== 'undefined') module.exports = TG;
+
+</script>
+<script id="oberflaeche">
+(function () {
+  'use strict';
+  var $ = function (sel, el) { return (el || document).querySelector(sel); };
+  var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
+
+  /* ---------- Lösungsteil für den Druck ---------- */
+  (function baueLoesungsteil() {
+    var ziel = $('#loesungen-inhalt');
+    if (!ziel) return;
+    var letzteGruppe = '';
+    $$('details.loesung').forEach(function (d) {
+      var sec = d.closest('section.tab');
+      var gruppe = sec ? sec.getAttribute('data-titel') : '';
+      if (gruppe !== letzteGruppe) { var h = document.createElement('h3'); h.textContent = gruppe; ziel.appendChild(h); letzteGruppe = gruppe; }
+      var box = document.createElement('div'); box.className = 'loesung-eintrag';
+      var t = document.createElement('h4'); t.textContent = d.getAttribute('data-titel') || 'Lösung'; box.appendChild(t);
+      for (var c = 0; c < d.children.length; c++) {
+        if (d.children[c].tagName === 'DIV') { var k = d.children[c].cloneNode(true); $$('[id]', k).forEach(function (el) { el.removeAttribute('id'); }); box.appendChild(k); break; }
+      }
+      ziel.appendChild(box);
+    });
+  })();
+
+  /* ---------- Reiter-Navigation ---------- */
+  var tabs = $$('section.tab'), nav = $('#navigation'), menu = $('#menu-mobil'), aktuell = $('#aktueller-reiter');
+  function zeige(hash) {
+    var id = (hash || '').replace(/^#/, ''), el = id ? document.getElementById(id) : null;
+    if (!el || !el.closest('main')) el = tabs[0];
+    var tab = el.closest('section.tab') || tabs[0];
+    tabs.forEach(function (t) { t.classList.toggle('aktiv', t === tab); });
+    $$('a', nav).forEach(function (a) { if (a.getAttribute('href') === '#' + tab.id) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (aktuell) aktuell.textContent = tab.getAttribute('data-titel');
+    if (menu) menu.open = false;
+    if (el === tab) window.scrollTo(0, 0); else el.scrollIntoView();
+  }
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && menu) menu.open = false; });
+  document.addEventListener('click', function (ev) { if (menu && menu.open && !menu.contains(ev.target)) menu.open = false; });
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var ziel = a.getAttribute('href');
+    if (ziel.length < 2 || !document.getElementById(ziel.slice(1))) return;
+    ev.preventDefault(); zeige(ziel);
+    try { if (location.hash !== ziel) history.pushState(null, '', ziel); } catch (e) { /* Adresszeile gesperrt */ }
+  });
+  window.addEventListener('hashchange', function () { zeige(location.hash); });
+  window.addEventListener('popstate', function () { zeige(location.hash); });
+  zeige(location.hash);
+
+  /* ---------- Checkliste ---------- */
+  var SCHLUESSEL = 'q2gk-stochastik-checkliste-v1';
+  function lade() { try { return JSON.parse(window.localStorage.getItem(SCHLUESSEL)) || {}; } catch (e) { return {}; } }
+  function speichere(z) { try { window.localStorage.setItem(SCHLUESSEL, JSON.stringify(z)); } catch (e) { /* ohne Speicher */ } }
+  var boxen = $$('.checkliste input[type=checkbox]'), zustand = lade();
+  function fortschritt() {
+    var n = boxen.filter(function (b) { return b.checked; }).length, txt = $('#fortschritt-text'), balken = $('#fortschritt-balken');
+    if (txt) txt.textContent = n + ' von ' + boxen.length + ' abgehakt' + (n === boxen.length ? ' – super, du bist bereit!' : '');
+    if (balken) balken.style.width = (100 * n / boxen.length) + '%';
+  }
+  boxen.forEach(function (b) {
+    b.checked = !!zustand[b.getAttribute('data-key')];
+    b.addEventListener('change', function () { zustand[b.getAttribute('data-key')] = b.checked; speichere(zustand); fortschritt(); });
+  });
+  var reset = $('#checkliste-zuruecksetzen');
+  if (reset) reset.addEventListener('click', function () { boxen.forEach(function (b) { b.checked = false; }); zustand = {}; speichere(zustand); fortschritt(); });
+  fortschritt();
+
+  /* ---------- Term-Prüfer ---------- */
+  var tp = $('#termpruefer-form');
+  if (tp) tp.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var a = $('#tp-a').value, b = $('#tp-b').value, aus = $('#tp-ergebnis');
+    var A = TG.parse(a), B = TG.parse(b);
+    if (!A.ok) { aus.className = 'rueckmeldung ungueltig'; aus.textContent = 'Erster Term: ' + A.fehler; return; }
+    if (!B.ok) { aus.className = 'rueckmeldung ungueltig'; aus.textContent = 'Zweiter Term: ' + B.fehler; return; }
+    if (TG.gleichwertig(A, B)) { aus.className = 'rueckmeldung richtig'; aus.textContent = '✓ Die Terme sind gleichwertig – für jede eingesetzte Zahl kommt dasselbe heraus.'; return; }
+    var g = TG.gegenbeispiel(a, b);
+    aus.className = 'rueckmeldung falsch';
+    aus.textContent = '✗ Nicht gleichwertig.' + (g ? ' Gegenbeispiel: ' + Object.keys(g.v).map(function (n) { return n + ' = ' + g.v[n]; }).join(', ') + ' → erster Term ' + TG.f(g.a) + ', zweiter Term ' + TG.f(g.b) + '.' : '');
+  });
+
+  /* ---------- Probe-Maschine ---------- */
+  var pm = $('#probe-form');
+  if (pm) pm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var r = TG.probe($('#pm-gl').value, $('#pm-x').value), aus = $('#pm-ergebnis');
+    if (!r.ok) { aus.className = 'rueckmeldung ungueltig'; aus.textContent = r.fehler; return; }
+    aus.className = 'rueckmeldung ' + (r.stimmt ? 'richtig' : 'falsch');
+    aus.textContent = 'Links: ' + TG.f(r.links) + ' · rechts: ' + TG.f(r.rechts) + (r.stimmt ? ' → ✓ wahre Aussage, die Zahl ist eine Lösung.' : ' → ✗ falsche Aussage, die Zahl ist keine Lösung.');
+  });
+
+  /* ---------- Selbsttest ---------- */
+  var liste = $('#test-liste'), punkteAnzeige = $('#test-punkte'), aufgaben = [], geloest = [];
+  var STERNE = { 1: '★', 2: '★★', 3: '★★★' };
+  function punkte() { punkteAnzeige.textContent = 'Richtig: ' + geloest.filter(Boolean).length + ' von ' + aufgaben.length; }
+  function neuerTest() {
+    aufgaben = TG.erzeugeTest(Math.random); geloest = aufgaben.map(function () { return false; }); liste.innerHTML = '';
+    aufgaben.forEach(function (a, i) {
+      var nr = i + 1, art = document.createElement('div'); art.className = 'test-aufgabe';
+      art.innerHTML = '<p><strong>Aufgabe ' + nr + ' · ' + a.titel + '</strong> <span class="stufe stufe-' + a.stufe + '">' + STERNE[a.stufe] + '</span></p>' +
+        '<p>' + a.text + '</p>' +
+        '<form class="test-zeile" novalidate><label class="sr" for="t' + nr + '">Deine Antwort zu Aufgabe ' + nr + '</label>' +
+        '<input type="text" id="t' + nr + '" inputmode="' + (a.art === 'zahl' ? 'decimal' : 'text') + '" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="' + (a.art === 'zahl' ? 'Zahl' : 'Term, z. B. 3x^2+2x') + '">' +
+        (a.einheit ? '<span aria-hidden="true">' + a.einheit + '</span>' : '') + '<button type="submit" class="knopf">Prüfen</button></form>' +
+        '<div class="rueckmeldung" aria-live="polite"></div>' +
+        '<details class="test-weg"><summary>Lösungsweg anzeigen</summary><p class="rechnung">' + a.weg + '</p></details>';
+      var form = $('form', art), feld = $('input', art), rm = $('.rueckmeldung', art);
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var r = TG.pruefe(a, feld.value);
+        rm.className = 'rueckmeldung ' + r.status;
+        rm.textContent = (r.status === 'richtig' ? '✓ ' : r.status === 'ungueltig' ? '' : '✗ ') + r.text;
+        if (r.status === 'richtig') { geloest[i] = true; punkte(); }
+      });
+      liste.appendChild(art);
+    });
+    punkte();
+  }
+  if (liste) { $('#test-neu').addEventListener('click', neuerTest); neuerTest(); }
+})();
+
+</script>
+<script id="werkzeuge">
+/* Rechner der Lernseite „Daten und Zufall“: Kenngrößen-Rechner und Vierfeldertafel-Rechner (nutzt TG aus lernseite_logik.js). */
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var f = TG.f;
+  function liste(s) { return String(s || '').split(/[;\s]+/).filter(Boolean).map(function (x) { var z = TG.zahl(x); return z ? z.w : NaN; }); }
+  function zelle(t, kopf) { return (kopf ? '<th>' : '<td>') + t + (kopf ? '</th>' : '</td>'); }
+
+  var kg = $('#kg-form');
+  if (kg) kg.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var x = liste($('#kg-werte').value), g = liste($('#kg-gew').value), aus = $('#kg-ergebnis'), art = $('#kg-art').value;
+    if (!x.length || x.length !== g.length || x.concat(g).some(isNaN) || g.some(function (v) { return v < 0; })) {
+      aus.className = 'rueckmeldung ungueltig'; aus.innerHTML = 'Bitte gleich viele Werte und Gewichte eingeben, getrennt durch Leerzeichen oder Semikolon (Komma = Dezimalkomma).'; return;
+    }
+    var K = TG.kenngroessen(x, g), wk = art === 'w';
+    var sGew = g.reduce(function (s, v) { return s + v; }, 0);
+    var warn = wk && Math.abs(sGew - 1) > 1e-9 ? '<p class="klein">⚠ Die Wahrscheinlichkeiten ergeben zusammen ' + f(sGew) + ', nicht 1. Gerechnet wird mit den Anteilen.</p>' : '';
+    var M = wk ? 'E(X)' : 'x̄', V = wk ? 'Var(X)' : 's̄²', S = wk ? '√Var(X)' : 's̄', H = wk ? 'P(X = xᵢ)' : 'h(xᵢ)';
+    var t = '<div class="tabelle-wrap"><table><thead><tr>' + zelle('xᵢ', 1) + zelle(H, 1) + zelle('xᵢ · ' + H, 1) + zelle('(xᵢ − ' + M + ')² · ' + H, 1) + '</tr></thead><tbody>';
+    x.forEach(function (v, i) { t += '<tr>' + zelle(f(v)) + zelle(f(K.h[i])) + zelle(f(v * K.h[i])) + zelle(f((v - K.mittel) * (v - K.mittel) * K.h[i])) + '</tr>'; });
+    t += '<tr><th>Summe</th><th>' + f(1) + '</th><th>' + M + ' = ' + f(K.mittel) + '</th><th>' + V + ' = ' + f(K.varianz) + '</th></tr></tbody></table></div>';
+    aus.className = 'rueckmeldung richtig';
+    aus.innerHTML = warn + t + '<p><b>' + M + ' = ' + f(K.mittel) + '</b> · <b>' + V + ' = ' + f(K.varianz) + '</b> · <b>' + S + ' ≈ ' + f(K.sd, 4) + '</b></p>';
+  });
+
+  var vf = $('#vf-form');
+  if (vf) vf.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var a = TG.zahl($('#vf-a').value), b = TG.zahl($('#vf-ba').value), c = TG.zahl($('#vf-bna').value), aus = $('#vf-ergebnis');
+    if (!a || !b || !c || [a.w, b.w, c.w].some(function (v) { return v < 0 || v > 1; })) {
+      aus.className = 'rueckmeldung ungueltig'; aus.textContent = 'Bitte drei Wahrscheinlichkeiten zwischen 0 und 1 eingeben (z. B. 0,05 oder 5 %).'; return;
+    }
+    var V = TG.vierfelder(a.w, b.w, c.w);
+    var t = '<div class="tabelle-wrap"><table><thead><tr><th></th><th>B</th><th>B̄</th><th>gesamt</th></tr></thead><tbody>' +
+      '<tr><th>A</th><td>' + f(V.AB) + '</td><td>' + f(V.AnB) + '</td><td>' + f(V.A) + '</td></tr>' +
+      '<tr><th>Ā</th><td>' + f(V.nAB) + '</td><td>' + f(V.nAnB) + '</td><td>' + f(V.nA) + '</td></tr>' +
+      '<tr><th>gesamt</th><td>' + f(V.B) + '</td><td>' + f(V.nB) + '</td><td>1</td></tr></tbody></table></div>';
+    var um = '<p><b>Umgekehrter Baum („erst B, dann A“):</b> P(B) = ' + f(V.B) + ' · P<sub>B</sub>(A) = ' + f(V.AB) + ' / ' + f(V.B) + ' ≈ <b>' + f(V.pAB_B) + '</b> · P<sub>B̄</sub>(A) = ' + f(V.AnB) + ' / ' + f(V.nB) + ' ≈ ' + f(V.pAB_nB) + '</p>';
+    var un = '<p><b>Unabhängig?</b> P(A) · P(B) = ' + f(V.A * V.B) + (V.unabh ? ' = ' : ' ≠ ') + 'P(A ∩ B) = ' + f(V.AB) + ' → ' + (V.unabh ? 'A und B sind stochastisch unabhängig.' : 'A und B sind stochastisch abhängig.') + '</p>';
+    aus.className = 'rueckmeldung richtig'; aus.innerHTML = t + um + un;
+  });
+})();
+
+</script>
+</body>
+</html>
