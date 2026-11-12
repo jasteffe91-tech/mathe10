@@ -1,0 +1,1376 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Weltall-Labor 8d – Vortrags-Check</title>
+<style>
+:root{--navy:#141A3A;--navy2:#1E2A5A;--gold:#F4B942;--hell:#F4F5FB;--line:#D9DDEC;--text:#161B33;--grau:#5E6585;--ok:#2E9E6A;--ok-l:#E3F4EA;--bad:#D2453A;--bad-l:#FBE6E3;--r:14px}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--text);background:var(--hell);line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.hinweis-js{background:#FFE7A6;padding:1rem;text-align:center;font-weight:700}
+.kopf{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.kopf-in{max-width:1100px;margin:0 auto;padding:.5rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.logo{font-weight:800;white-space:nowrap}.logo span{color:var(--gold)}
+.themachip{font-size:.8rem;background:rgba(255,255,255,.12);border-radius:999px;padding:.15rem .7rem}
+.themachip:empty{display:none}
+.nav{display:flex;gap:.3rem;flex-wrap:wrap;flex:1;justify-content:flex-end}
+.nav button{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.07);color:#fff;border-radius:999px;padding:.2rem .65rem;font-size:.8rem;cursor:pointer}
+.nav button[aria-current="step"]{background:var(--gold);color:var(--navy);font-weight:800;border-color:var(--gold)}
+.nav button.fertig::after{content:" ✓";color:#7FE0B0;font-weight:800}
+.nav button[aria-current="step"].fertig::after{color:var(--navy)}
+.fortschritt{height:5px;background:rgba(255,255,255,.15)}
+.fortschritt div{height:100%;background:linear-gradient(90deg,#7FB8FF,var(--gold));width:0;transition:width .4s}
+main{max-width:1000px;margin:0 auto;padding:1.1rem 1rem 4rem}
+.seite{display:none}.seite.aktiv{display:block;animation:rein .3s ease}
+@keyframes rein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.held{background:radial-gradient(circle at 85% 20%,#2C3A7A 0,transparent 45%),var(--navy);color:#fff;border-radius:var(--r);padding:1.6rem 1.6rem 1.3rem;margin-bottom:1rem}
+.held .ober{color:var(--gold);font-weight:800;letter-spacing:.12em;font-size:.75rem}
+.held h1{font-size:2rem;line-height:1.15;margin:.4rem 0 .6rem}
+.karte{background:#fff;border-radius:var(--r);padding:1.1rem 1.3rem;margin:0 0 1rem;border:1px solid var(--line);box-shadow:0 1px 3px rgba(20,26,58,.05)}
+h2{font-size:1.15rem;margin:0 0 .6rem;color:var(--navy2)}
+h3{font-size:1rem;margin:.2rem 0 .6rem;color:var(--navy2)}
+.klein{font-size:.85rem;color:var(--grau)}.held .klein{color:#C9CEEA}
+.zeile{display:flex;gap:.8rem;flex-wrap:wrap}
+.feld{display:flex;flex-direction:column;font-weight:600;font-size:.9rem;flex:1;min-width:150px}
+.feld.klein-feld{flex:0 0 90px;min-width:90px}
+input[type=text],textarea,select{border:2px solid var(--line);border-radius:10px;padding:.45rem .6rem;background:#fff;width:100%}
+textarea{resize:vertical;min-height:7rem}
+.themen{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem}
+.thema{display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;text-align:left;border:2px solid var(--line);border-left:8px solid var(--tf);background:#fff;border-radius:12px;padding:.7rem .8rem;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.thema:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(20,26,58,.12)}
+.thema.aktiv{border-color:var(--tf);background:color-mix(in srgb,var(--tf) 10%,#fff)}
+.tico{font-size:1.6rem}.tkurz{font-size:.7rem;font-weight:800;color:var(--tf);letter-spacing:.1em}.tname{font-weight:700;line-height:1.25}
+.tstand{font-size:.75rem;background:var(--hell);border-radius:999px;padding:0 .5rem;margin-top:.2rem}
+.stationsliste{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.4rem .9rem;font-size:.9rem}
+.stationsliste b{display:block}
+.info{background:#EAF0FF;border-left:5px solid #4A6CD8;border-radius:8px;padding:.7rem 1rem;margin:.8rem 0}
+.auftrag{background:#FFF6DF;border-left:5px solid var(--gold);border-radius:8px;padding:.7rem 1rem;margin:0 0 1rem}
+.fuss{text-align:center;font-size:.85rem}
+.knopf{background:var(--navy2);color:#fff;border:0;border-radius:999px;padding:.5rem 1.1rem;font-weight:700;cursor:pointer}
+.knopf:hover{background:#2D3D80}.knopf.hell{background:#E6E9F7;color:var(--navy2)}.knopf.hell:hover{background:#D7DCF2}
+.knopf.gross{font-size:1.05rem;padding:.7rem 1.4rem;background:var(--gold);color:var(--navy)}
+.link{background:none;border:0;color:#3346B0;text-decoration:underline;cursor:pointer;padding:0}.link.rot{color:var(--bad)}
+.pruefleiste{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.8rem}
+.erstwert{font-size:.9rem;color:var(--grau)}
+.stkopf{display:flex;gap:1rem;align-items:center;margin:.2rem 0 1rem}
+.stnr{width:3.2rem;height:3.2rem;border-radius:50%;background:var(--tf);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.4rem;flex:none}
+.stkopf h1{margin:0;font-size:1.6rem;line-height:1.2}
+.stthema{font-size:.8rem;font-weight:800;color:var(--tf);letter-spacing:.06em;text-transform:uppercase}
+.stzeit{color:var(--grau);font-size:.85rem}
+/* Fragen */
+.frage{display:flex;gap:.8rem;padding:.8rem 0;border-bottom:1px solid var(--line)}
+.frage:last-of-type{border-bottom:0}
+.fnr{width:2rem;height:2rem;border-radius:50%;background:#E6E9F7;color:var(--navy2);display:grid;place-items:center;font-weight:800;flex:none}
+.frage.ok .fnr{background:var(--ok);color:#fff}.frage.bad .fnr{background:var(--bad);color:#fff}
+.finhalt{flex:1;min-width:0}
+.ftext{font-weight:600;margin:.1rem 0 .5rem}
+.optionen{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.4rem}
+.opt{text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:.45rem .7rem;cursor:pointer}
+.opt:hover:not(:disabled){border-color:#8E9BDB;background:#F5F7FF}
+.opt.gewaehlt{border-color:var(--navy2);background:#E6E9F7;font-weight:600}
+.opt.richtig{border-color:var(--ok);background:var(--ok-l);font-weight:700}
+.opt.falsch{border-color:var(--bad);background:var(--bad-l);text-decoration:line-through}
+.opt:disabled{cursor:default;color:var(--text)}
+.rueck{margin-top:.5rem;border-radius:8px;padding:.45rem .7rem;font-size:.92rem}
+.rueck.ja{background:var(--ok-l)}.rueck.nein{background:var(--bad-l)}
+/* Gruppen */
+.gzeile{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:.4rem .8rem;align-items:center;padding:.45rem .5rem;border-radius:10px}
+.gzeile:nth-child(odd){background:#F7F8FC}
+.gzeile.ok{background:var(--ok-l)}.gzeile.bad{background:var(--bad-l)}
+.gwahl{display:flex;gap:.4rem;align-items:center}
+.mark{font-weight:800;font-size:1.1rem;width:1.2rem}.ok .mark{color:var(--ok)}.bad .mark{color:var(--bad)}
+.loesung,.erkl{grid-column:1/-1;font-size:.85rem}.erkl{color:var(--grau)}
+.nrschild{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;margin-right:.3rem}
+.lueckentext{line-height:2.4}
+.lsel{display:inline-flex;align-items:center;gap:.2rem}
+.lsel select{width:auto;max-width:100%;padding:.2rem .4rem;border-color:#9AA6DD}
+.lsel.ok select{border-color:var(--ok);background:var(--ok-l)}.lsel.bad select{border-color:var(--bad);background:var(--bad-l)}
+.lrichtig{font-size:.8rem;color:var(--ok);font-weight:700}
+.bildwrap{margin:0 0 1rem}
+.bild{width:100%;height:auto;display:block;border-radius:14px}
+.lesetext p{margin:.4rem 0 .7rem}
+/* Freitext */
+.kwbox{margin-top:.7rem;font-size:.9rem;line-height:2}
+.chip{display:inline-block;border-radius:999px;padding:0 .55rem;font-size:.82rem;line-height:1.7;margin-right:.2rem}
+.chip.ja{background:var(--ok-l);color:#1E6B47;font-weight:700}.chip.nein{background:var(--bad-l);color:#9B2A22}.chip.offen{background:#FFF1CC;color:#7A5A00}
+.muster{background:#EAF0FF;border-left:5px solid #4A6CD8;border-radius:8px;padding:.7rem 1rem;margin-top:.8rem}
+.selbst{margin-top:.8rem}
+.sbknoepfe{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+.sb{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.35rem .8rem;cursor:pointer}
+.sb.an{border-color:var(--navy2);background:var(--navy2);color:#fff;font-weight:700}
+.dreifrage{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.6rem 0;font-weight:600;font-size:.9rem}
+.dreifrage label{display:flex;flex-direction:column}
+.ergebnisbalken{margin-top:1rem;background:#E6E9F7;border-radius:10px;padding:.7rem 1rem;font-size:1.05rem}
+.weiter{display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;margin-top:1.2rem}
+/* Ergebnis */
+.tab{width:100%;border-collapse:collapse;font-size:.92rem}
+.tab th{background:var(--navy2);color:#fff;text-align:left;padding:.4rem .6rem}
+.tab td{padding:.4rem .6rem;border-bottom:1px solid var(--line);vertical-align:middle}
+.offen{color:var(--bad);font-weight:700}
+.balken{position:relative;background:#E6E9F7;border-radius:999px;height:1.3rem;min-width:110px;overflow:hidden}
+.balken div{height:100%}.balken span{position:absolute;inset:0;display:grid;place-items:center;font-size:.78rem;font-weight:800}
+.ampel{display:flex;gap:1.1rem;align-items:center;border-width:3px}
+.ampel .aico{font-size:3rem}.ampel .gross{font-size:2.4rem;font-weight:900;line-height:1}
+.ampel.gruen{border-color:var(--ok);background:var(--ok-l)}.ampel.gelb{border-color:#E3A21A;background:#FFF4D6}.ampel.rot{border-color:var(--bad);background:var(--bad-l)}.ampel.grau{background:#F0F1F7}
+.wliste li{margin:.3rem 0}
+details.mehr{margin-top:.8rem}details.mehr summary{cursor:pointer;font-weight:700;color:var(--navy2)}
+.toast{position:fixed;left:50%;bottom:1.2rem;transform:translate(-50%,150%);background:var(--navy);color:#fff;padding:.7rem 1.1rem;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.3);z-index:50;max-width:min(92vw,560px);transition:transform .3s;font-size:.92rem}
+.toast.zeigen{transform:translate(-50%,0)}
+@media (max-width:720px){
+  html{font-size:16px}
+  .navtxt{display:none}
+  .kopf-in{gap:.4rem .6rem;padding:.4rem .7rem}
+  .nav{flex:1 1 100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}
+  .nav button{flex:none;padding:.15rem .55rem}
+  .gzeile{grid-template-columns:1fr}
+  .dreifrage{grid-template-columns:1fr}
+  .held h1{font-size:1.6rem}
+  .optionen{grid-template-columns:1fr}
+  .ampel{flex-direction:column;align-items:flex-start}
+}
+@media (min-width:721px){.nav .navtxt{display:none}.nav button[aria-current="step"] .navtxt{display:inline}}
+
+</style>
+</head>
+<body>
+<div class="hinweis-js" id="nojs">Diese Seite braucht JavaScript. Bitte im Browser (Safari, Chrome, Edge, Firefox) öffnen – nicht in einer Dateivorschau.</div>
+
+<header class="kopf">
+  <div class="kopf-in">
+    <div class="logo">🔭 Weltall-Labor <span>8d</span></div>
+    <div class="themachip" id="themaChip"></div>
+    <nav class="nav" id="nav" aria-label="Stationen"></nav>
+  </div>
+  <div class="fortschritt"><div id="fort"></div></div>
+</header>
+<div class="toast" id="toast" role="status"></div>
+
+<main>
+<section class="seite" id="start">
+  <div class="held">
+    <div class="ober">PHYSIK 8d · ERDE UND WELTALL · VORTRAGS-CHECK</div>
+    <h1>Bist du fit für<br>deinen Vortrag?</h1>
+    <p>Du hast vier Termine lang an deinem Vortrag gearbeitet. Jetzt prüfst du, ob du dein Thema <b>wirklich</b> kannst: Fakten, Fachbegriffe, Bilder erklären, Texte verstehen und Fragen aus dem Publikum beantworten.</p>
+    <p class="klein">7 Stationen · ca. 70 Minuten · am Ende bekommst du dein Ergebnis: <b>🚀 fit</b> · <b>🛠️ fast fit</b> · <b>📚 noch üben</b></p>
+  </div>
+
+  <div class="karte">
+    <h2>① Wer bist du?</h2>
+    <div class="zeile">
+      <label class="feld">Vorname<input type="text" id="vorname" autocomplete="off"></label>
+      <label class="feld">Nachname<input type="text" id="nachname" autocomplete="off"></label>
+      <label class="feld klein-feld">Klasse<input type="text" id="klasse" size="4"></label>
+    </div>
+  </div>
+
+  <div class="karte">
+    <h2>② Welches Thema hatte deine Präsentation?</h2>
+    <p>Wähle <b>das Thema deiner eigenen Gruppe</b>. Zu diesem Thema wirst du geprüft.</p>
+    <div class="themen" id="themen"></div>
+    <div class="pruefleiste"><button class="knopf gross" id="weiterBtn" style="display:none">Weiter →</button></div>
+  </div>
+
+  <div class="karte">
+    <h2>So funktioniert das Labor</h2>
+    <div class="stationsliste">
+      <div><b>1 🧠 Wissens-Check</b> 10 Fragen mit sofortiger Rückmeldung</div>
+      <div><b>2 🔤 Fachbegriffe</b> Begriffe und Erklärungen zuordnen</div>
+      <div><b>3 🖼️ Bild-Station</b> ein Bild beschriften und beschreiben</div>
+      <div><b>4 📖 Text-Station</b> Text lesen, richtig/falsch, Lückentext</div>
+      <div><b>5 🔢 Zahlen & Reihenfolge</b> wichtige Zahlen, Abläufe ordnen</div>
+      <div><b>6 🎤 Erklär-Station</b> Fragen aus dem Publikum beantworten</div>
+      <div><b>7 🏁 Abschluss-Check</b> 8 neue Fragen ohne Hilfe</div>
+      <div><b>📊 Ergebnis</b> Ampel + Liste: Was muss ich noch üben?</div>
+    </div>
+    <div class="info"><b>Wichtig:</b> Arbeite <b>allein</b> und <b>ehrlich</b> – nur so weißt du am Ende, ob du fit bist. Bei vielen Aufgaben zählt der <b>erste Versuch</b>. Danach darfst du verbessern und lernst dabei.<br>Deine Eingaben bleiben nur auf diesem Gerät gespeichert (8 Stunden) und werden nirgendwohin gesendet.</div>
+  </div>
+
+  <p class="fuss"><button class="link" data-geh="lehrkraft">👩‍🏫 Hinweise für die Lehrkraft (Vertretung)</button> · <button class="link rot" id="allesLoeschen">alle Eingaben auf diesem Gerät löschen</button></p>
+</section>
+
+<section class="seite" id="station"></section>
+
+<section class="seite" id="lehrkraft">
+  <div class="karte">
+    <h1 style="margin-top:0">👩‍🏫 Hinweise für die Vertretung</h1>
+    <p><b>Klasse 8d · Physik · Doppelstunde (90 Minuten)</b>. Für diese Stunde brauchen Sie <b>keine Physik-Kenntnisse</b>: Das Labor prüft alle Antworten selbst und zeigt am Ende jedem Kind ein Ergebnis.</p>
+    <h2>Worum geht es?</h2>
+    <p>Die Klasse hat in Gruppen Vorträge zu acht Themen rund um Erde und Weltall vorbereitet. Jede Schülerin und jeder Schüler wählt hier das <b>Thema der eigenen Präsentation</b> und wird dazu intensiv abgefragt. Das Labor ist gleichzeitig <b>Vorbereitung</b> und <b>Check</b>: Am Ende steht eine Ampel (fit · fast fit · noch üben) und eine Liste, was noch wiederholt werden muss.</p>
+    <h2>Ablauf</h2>
+    <table class="tab">
+      <thead><tr><th>Zeit</th><th>Was passiert</th></tr></thead>
+      <tbody>
+        <tr><td>0–10 Min.</td><td>Geräte holen, Link bzw. QR-Code zeigen (Tafel/Beamer). Kurz erklären (Text unten vorlesen).</td></tr>
+        <tr><td>10–80 Min.</td><td><b>Einzelarbeit im Labor</b>: Name eintragen → eigenes Vortragsthema wählen → Stationen 1 bis 7 der Reihe nach. Ruhige Arbeitsatmosphäre.</td></tr>
+        <tr><td>80–90 Min.</td><td><b>Ergebnis</b>: PDF speichern und abgeben (wie unten). Kurze Abfrage: Wer ist 🚀 fit, wer 🛠️ fast fit, wer 📚 muss noch üben?</td></tr>
+      </tbody>
+    </table>
+    <h2>Zum Vorlesen am Anfang</h2>
+    <div class="info">„Ihr habt vier Termine an euren Vorträgen gearbeitet. Heute prüft ihr, ob ihr euer Thema wirklich könnt. Öffnet den Link, tragt euren Namen ein und wählt das Thema <b>eurer eigenen</b> Präsentation. Ihr arbeitet allein. Bei vielen Aufgaben zählt der erste Versuch – also erst nachdenken, dann klicken. Am Ende seht ihr, ob ihr fit seid oder noch üben müsst. Speichert euer Ergebnis als PDF.“</div>
+    <h2>Abgabe am Ende</h2>
+    <p>Auf der Ergebnis-Seite: <b>„📄 Ergebnis als PDF speichern“</b>. Die PDF wird nach Ansage der Fachlehrkraft abgegeben (z. B. IServ). Klappt der Download nicht: Ergebnis-Bildschirm zeigen lassen und <b>Name, Thema und Prozentwert</b> notieren.</p>
+    <h2>Wenn jemand früher fertig ist</h2>
+    <ul>
+      <li>Die Punkte aus „Das solltest du noch wiederholen“ ins Heft/Logbuch schreiben.</li>
+      <li>Wer die eigene Präsentation noch nicht fertig/abgegeben hat: daran weiterarbeiten.</li>
+      <li>Danach freiwillig ein <b>zweites Thema</b> ausprobieren (Startseite).</li>
+    </ul>
+    <h2>Häufige Fragen</h2>
+    <ul>
+      <li><b>Kein Gerät?</b> Zu zweit an einem Gerät – möglichst mit jemandem aus derselben Vortragsgruppe (gleiches Thema).</li>
+      <li><b>Seite aus Versehen geschlossen?</b> Einfach wieder öffnen – auf demselben Gerät ist alles noch da (nicht im privaten Modus).</li>
+      <li><b>Thema vergessen?</b> Die acht Themen: Erde · Sonne · Unsere Planeten · Weltbilder · Gravitation · Asteroiden, Kometen &amp; Meteoroiden · Doppelstern &amp; Schwarze Löcher · Galaxien, Universum &amp; Urknall.</li>
+      <li><b>„Musterlösung“ geht nicht auf?</b> Erst muss eine eigene Antwort mit mindestens zwei Sätzen geschrieben sein.</li>
+    </ul>
+    <div class="pruefleiste"><button class="knopf" data-geh="start">← zurück zur Startseite</button></div>
+  </div>
+</section>
+</main>
+
+<script>
+/* =====================================================================
+   INHALT des Weltall-Labors 8d „Vortrags-Check Erde und Weltall“ (v1, 12.11.2026)
+   Grundlage: die 8 Vortragsthemen aus Vortraege_Erde_und_Weltall.pptx.
+   REGEL beim Schreiben: Die RICHTIGE Antwort steht immer an ERSTER Stelle.
+   Die Seite mischt die Reihenfolge selbst (für jede Frage immer gleich).
+   Lückentext: [[richtig|falsch|falsch]]
+   Fachbegriff-Prüfung: 'Anzeige:wortteil1/wortteil2' (klein, ohne Umlaut-Sorgen)
+   ===================================================================== */
+
+/* ---------- kleine Zeichenhilfen für die Bilder ---------- */
+function mk(n, x, y, tx, ty) {
+  // Nummernschild bei (x,y) mit Linie zum Ziel (tx,ty)
+  return '<line x1="' + x + '" y1="' + y + '" x2="' + tx + '" y2="' + ty + '" stroke="#F4B942" stroke-width="2"/>' +
+    '<circle cx="' + tx + '" cy="' + ty + '" r="3.5" fill="#F4B942"/>' +
+    '<circle cx="' + x + '" cy="' + y + '" r="14" fill="#F4B942" stroke="#141A3A" stroke-width="2"/>' +
+    '<text x="' + x + '" y="' + (y + 5.5) + '" text-anchor="middle" font-size="16" font-weight="800" fill="#141A3A" font-family="Arial">' + n + '</text>';
+}
+function sterne(anz, w, h, saat) {
+  var s = '', z = saat || 7;
+  function r() { z = (z * 9301 + 49297) % 233280; return z / 233280; }
+  for (var i = 0; i < anz; i++) s += '<circle cx="' + (r() * w).toFixed(1) + '" cy="' + (r() * h).toFixed(1) + '" r="' + (0.5 + r() * 1.3).toFixed(1) + '" fill="#fff" opacity="' + (0.3 + r() * 0.6).toFixed(2) + '"/>';
+  return s;
+}
+function bildRahmen(inhalt, h) {
+  return '<svg class="bild" viewBox="0 0 600 ' + (h || 340) + '" role="img" aria-label="Bild mit Nummern"><rect width="600" height="' + (h || 340) + '" rx="14" fill="#141A3A"/>' + sterne(70, 600, h || 340) + inhalt + '</svg>';
+}
+function txt(x, y, s, gr, farbe, anker) { return '<text x="' + x + '" y="' + y + '" font-size="' + (gr || 14) + '" fill="' + (farbe || '#DDE3FF') + '" text-anchor="' + (anker || 'middle') + '" font-family="Arial" font-weight="700">' + s + '</text>'; }
+
+function bildErde() {
+  var c = '<circle cx="220" cy="170" r="150" fill="#7FB8FF" opacity=".18"/>' +
+    '<circle cx="220" cy="170" r="130" fill="#7A5230"/><circle cx="220" cy="170" r="122" fill="#D9622B"/>' +
+    '<circle cx="220" cy="170" r="70" fill="#F29B38"/><circle cx="220" cy="170" r="38" fill="#FFE27A"/>' +
+    '<line x1="150" y1="331" x2="290" y2="9" stroke="#fff" stroke-width="3" stroke-dasharray="8 6"/>' +
+    txt(298, 16, 'N', 15, '#fff', 'start');
+  c += mk(1, 420, 40, 342, 100) + mk(2, 470, 120, 344, 148) + mk(3, 470, 205, 318, 188) + mk(4, 470, 285, 272, 194) + mk(5, 80, 300, 232, 172) + mk(6, 80, 40, 268, 60);
+  return bildRahmen(c);
+}
+function bildSonne() {
+  var c = '<circle cx="230" cy="172" r="168" fill="#FFB347" opacity=".12"/>' +
+    '<path d="M109,102 C40,40 110,-20 160,51" fill="none" stroke="#FF7A2F" stroke-width="9" stroke-linecap="round" opacity=".9"/>' +
+    '<circle cx="230" cy="172" r="140" fill="#FFB22E"/><circle cx="230" cy="172" r="132" fill="#F08A24"/>' +
+    '<circle cx="230" cy="172" r="92" fill="#FFC94A"/><circle cx="230" cy="172" r="46" fill="#FFF6C8"/>';
+  for (var i = 0; i < 14; i++) { var w = i * Math.PI / 7, x = 230 + 112 * Math.cos(w), y = 172 + 112 * Math.sin(w); c += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="11" fill="none" stroke="#C9601A" stroke-width="2" stroke-dasharray="14 6"/>'; }
+  c += '<ellipse cx="318" cy="66" rx="13" ry="9" fill="#4A2A10"/><ellipse cx="318" cy="66" rx="6" ry="4" fill="#1E1006"/>';
+  c += mk(1, 470, 45, 318, 66) + mk(2, 500, 120, 368, 160) + mk(3, 500, 200, 300, 215) + mk(4, 500, 285, 240, 182) + mk(5, 60, 300, 150, 250) + mk(6, 40, 130, 90, 27);
+  return bildRahmen(c);
+}
+function bildPlaneten() {
+  var c = '<circle cx="-110" cy="150" r="150" fill="#FFB22E"/>', y = 150;
+  c += '<circle cx="70" cy="' + y + '" r="5" fill="#A9A9A9"/>' +
+    '<circle cx="108" cy="' + y + '" r="10" fill="#E8C98A"/>' +
+    '<circle cx="146" cy="' + y + '" r="10" fill="#3D7DDB"/><path d="M140,146 q6,-4 10,2" stroke="#3FA34D" stroke-width="4" fill="none"/>' + txt(146, y + 30, 'Erde', 12, '#9FD0FF') +
+    '<circle cx="184" cy="' + y + '" r="7" fill="#C1440E"/>' +
+    '<circle cx="262" cy="' + y + '" r="42" fill="#D8A56B"/><path d="M222,140 h80 M221,158 h82 M226,172 h72" stroke="#A86B3C" stroke-width="5"/><ellipse cx="276" cy="162" rx="9" ry="6" fill="#B5442A"/>' +
+    '<ellipse cx="375" cy="' + y + '" rx="62" ry="13" fill="none" stroke="#E9D9A6" stroke-width="6"/><circle cx="375" cy="' + y + '" r="32" fill="#E3C47E"/><path d="M343,152 a62,13 0 0 0 64,0" stroke="#E9D9A6" stroke-width="6" fill="none"/>' +
+    '<circle cx="470" cy="' + y + '" r="21" fill="#9FE3E6"/><ellipse cx="470" cy="' + y + '" rx="4" ry="32" fill="none" stroke="#CDEFF0" stroke-width="2"/>' +
+    '<circle cx="545" cy="' + y + '" r="20" fill="#3557D8"/>';
+  c += mk(3, 70, 70, 70, 144) + mk(6, 108, 250, 108, 160) + mk(1, 184, 70, 184, 143) + mk(7, 262, 250, 262, 192) + mk(2, 375, 70, 375, 118) + mk(5, 470, 250, 470, 171) + mk(4, 545, 70, 545, 130);
+  c += txt(300, 320, 'Abstände und Größen sind nicht maßstabsgetreu.', 12, '#8F9BD6');
+  return bildRahmen(c);
+}
+function bildWeltbilder() {
+  var c = txt(150, 28, 'Bild A', 16, '#F4B942') + txt(450, 28, 'Bild B', 16, '#F4B942') + '<line x1="300" y1="15" x2="300" y2="325" stroke="#3A447A" stroke-width="2"/>';
+  // A
+  c += '<circle cx="150" cy="180" r="138" fill="none" stroke="#8F9BD6" stroke-dasharray="3 6" stroke-width="2"/>';
+  for (var i = 0; i < 16; i++) { var w = i * Math.PI / 8; c += '<text x="' + (150 + 138 * Math.cos(w)).toFixed(0) + '" y="' + (185 + 138 * Math.sin(w)).toFixed(0) + '" font-size="12" fill="#fff" text-anchor="middle">✦</text>'; }
+  [40, 72, 104].forEach(function (r) { c += '<circle cx="150" cy="180" r="' + r + '" fill="none" stroke="#56609A" stroke-width="1.5"/>'; });
+  c += '<circle cx="150" cy="180" r="14" fill="#3D7DDB"/><circle cx="178" cy="152" r="6" fill="#C9C9C9"/><circle cx="83" cy="125" r="13" fill="#FFB22E"/><circle cx="235" cy="240" r="7" fill="#C1440E"/>';
+  // B
+  [42, 80, 118].forEach(function (r) { c += '<circle cx="450" cy="180" r="' + r + '" fill="none" stroke="#56609A" stroke-width="1.5"/>'; });
+  c += '<circle cx="450" cy="180" r="20" fill="#FFB22E"/><circle cx="480" cy="152" r="5" fill="#E8C98A"/><circle cx="392" cy="234" r="10" fill="#3D7DDB"/><circle cx="392" cy="234" r="19" fill="none" stroke="#56609A" stroke-dasharray="2 3"/><circle cx="377" cy="222" r="4.5" fill="#C9C9C9"/><circle cx="550" cy="120" r="8" fill="#C1440E"/>';
+  c += mk(1, 40, 300, 150, 180) + mk(2, 40, 60, 83, 125) + mk(3, 260, 300, 235, 240) + mk(4, 330, 60, 450, 180) + mk(5, 340, 310, 392, 234) + mk(6, 330, 175, 377, 222);
+  return bildRahmen(c);
+}
+function bildGravitation() {
+  var c = '<ellipse cx="230" cy="170" rx="112" ry="80" fill="#5FA8FF" opacity=".45"/><circle cx="230" cy="170" r="72" fill="#3D7DDB"/>' +
+    '<path d="M200,140 q20,-18 40,0 q12,14 -6,26 q-22,8 -34,-26z" fill="#3FA34D"/>' +
+    '<circle cx="530" cy="170" r="24" fill="#C9C9C9"/><circle cx="522" cy="162" r="5" fill="#A5A5A5"/>' +
+    '<line x1="380" y1="170" x2="492" y2="170" stroke="#FF8A65" stroke-width="5"/><path d="M372,170 l16,-9 v18z M500,170 l-16,-9 v18z" fill="#FF8A65"/>';
+  c += mk(1, 530, 60, 530, 146) + mk(2, 380, 60, 340, 168) + mk(3, 60, 60, 120, 168) + mk(4, 160, 305, 228, 245) + mk(5, 440, 290, 430, 172);
+  c += txt(300, 330, 'nicht maßstabsgetreu – der Wasserberg ist stark übertrieben', 12, '#8F9BD6');
+  return bildRahmen(c);
+}
+function bildAsteroiden() {
+  var c = '<line x1="330" y1="15" x2="330" y2="325" stroke="#3A447A" stroke-width="2"/>' + '<circle cx="10" cy="200" r="34" fill="#FFB22E"/>';
+  c += '<path d="M10,110 A90,90 0 0 1 100,200" fill="none" stroke="#56609A" stroke-width="1.5"/><circle cx="74" cy="137" r="6" fill="#C1440E"/>';
+  var z = 3; function r() { z = (z * 9301 + 49297) % 233280; return z / 233280; }
+  for (var i = 0; i < 70; i++) { var w = -Math.PI / 2 + r() * Math.PI / 2, rr = 118 + r() * 22; c += '<circle cx="' + (10 + rr * Math.cos(w)).toFixed(1) + '" cy="' + (200 + rr * Math.sin(w)).toFixed(1) + '" r="' + (1 + r() * 1.8).toFixed(1) + '" fill="#B9A58C"/>'; }
+  c += '<path d="M10,25 A175,175 0 0 1 185,200" fill="none" stroke="#56609A" stroke-width="1.5"/><circle cx="134" cy="77" r="13" fill="#D8A56B"/>';
+  c += '<path d="M232,250 L327,258 L321,288 Z" fill="#9FE3E6" opacity=".55"/><path d="M232,250 L326,270 L324,277 Z" fill="#fff" opacity=".7"/><circle cx="232" cy="250" r="9" fill="#E6F7FF" opacity=".6"/><circle cx="232" cy="250" r="4" fill="#8A8F9C"/>';
+  c += '<path d="M330,300 Q465,250 600,300" fill="none" stroke="#7FB8FF" stroke-width="130" opacity=".2"/><path d="M330,300 Q465,250 600,300 L600,340 L330,340 Z" fill="#3FA34D"/>';
+  c += '<path d="M380,80 l9,-4 l6,5 l-3,8 l-9,1z" fill="#9A8C7A"/>';
+  c += '<path d="M432,207 L470,245" stroke="#FFE27A" stroke-width="4" stroke-linecap="round" opacity=".9"/><path d="M418,193 L470,245" stroke="#FFF3B0" stroke-width="1.5" opacity=".6"/><circle cx="471" cy="246" r="4" fill="#fff"/>';
+  c += '<path d="M548,283 l10,-3 l6,6 l-4,5 l-11,0z" fill="#3B342C"/>';
+  c += txt(465, 330, 'Erde mit Lufthülle', 12, '#E8F5E9');
+  c += mk(1, 150, 300, 130, 156) + mk(2, 280, 200, 232, 250) + mk(3, 240, 325, 300, 268) + mk(4, 450, 50, 388, 82) + mk(5, 380, 250, 450, 225) + mk(6, 575, 230, 556, 283);
+  return bildRahmen(c);
+}
+function bildSchwarzeLoecher() {
+  var c = txt(150, 28, 'Doppelstern', 15, '#F4B942') + txt(450, 28, 'Schwarzes Loch', 15, '#F4B942') + '<line x1="300" y1="15" x2="300" y2="325" stroke="#3A447A" stroke-width="2"/>';
+  c += '<circle cx="140" cy="180" r="40" fill="none" stroke="#56609A" stroke-dasharray="4 4" stroke-width="1.5"/><circle cx="140" cy="180" r="100" fill="none" stroke="#56609A" stroke-dasharray="4 4" stroke-width="1.5"/>';
+  c += '<circle cx="100" cy="180" r="30" fill="#FFF3C4" opacity=".25"/><circle cx="100" cy="180" r="23" fill="#FFF3C4"/><circle cx="240" cy="180" r="12" fill="#FF7A45"/>';
+  c += '<path d="M134,174 l12,12 M146,174 l-12,12" stroke="#fff" stroke-width="3"/>';
+  c += '<ellipse cx="450" cy="185" rx="120" ry="26" fill="#FF8A3D" opacity=".85"/><ellipse cx="450" cy="185" rx="80" ry="15" fill="#FFD27A"/>';
+  c += '<circle cx="450" cy="180" r="40" fill="#FFB86B" opacity=".8"/><circle cx="450" cy="180" r="36" fill="#000"/>';
+  c += '<path d="M370,185 a80,15 0 0 0 160,0" fill="none" stroke="#FFD27A" stroke-width="9"/>';
+  c += mk(1, 40, 80, 90, 170) + mk(2, 250, 300, 242, 191) + mk(3, 80, 300, 140, 184) + mk(4, 450, 80, 450, 172) + mk(5, 560, 290, 540, 192);
+  return bildRahmen(c);
+}
+function bildGalaxien() {
+  var c = '<circle cx="220" cy="175" r="120" fill="#7A6BD8" opacity=".10"/>';
+  var z = 11; function r() { z = (z * 9301 + 49297) % 233280; return z / 233280; }
+  for (var arm = 0; arm < 2; arm++) for (var i = 0; i < 140; i++) {
+    var t = i / 140 * 7, rr = 15 + t * 14, w = t + arm * Math.PI, x = 220 + rr * Math.cos(w) + (r() - .5) * 14, y = 175 + rr * Math.sin(w) * 0.8 + (r() - .5) * 12;
+    c += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (0.8 + r() * 1.6).toFixed(1) + '" fill="' + (r() > .7 ? '#BFD4FF' : '#fff') + '" opacity="' + (0.5 + r() * .5).toFixed(2) + '"/>';
+  }
+  c += '<circle cx="220" cy="175" r="16" fill="#FFF1C9" opacity=".9"/><circle cx="220" cy="175" r="30" fill="#FFE3A3" opacity=".25"/>';
+  var sw = 5.2 + Math.PI, sr = 15 + 5.2 * 14; var sx = 220 + sr * Math.cos(sw), sy = 175 + sr * Math.sin(sw) * 0.8;
+  c += '<circle cx="' + sx.toFixed(1) + '" cy="' + sy.toFixed(1) + '" r="5" fill="#FFD23F" stroke="#fff" stroke-width="1.5"/>';
+  c += '<ellipse cx="490" cy="90" rx="48" ry="30" fill="#FFE3B3" opacity=".25"/><ellipse cx="490" cy="90" rx="30" ry="18" fill="#FFE9C4" opacity=".45"/><ellipse cx="490" cy="90" rx="12" ry="7" fill="#FFF4DD"/>';
+  for (var k = 0; k < 40; k++) c += '<circle cx="' + (470 + r() * 70).toFixed(1) + '" cy="' + (230 + r() * 60 + Math.sin(k) * 8).toFixed(1) + '" r="' + (0.8 + r() * 2).toFixed(1) + '" fill="#CFE0FF" opacity=".8"/>';
+  var aw = 3.4, ar = 15 + aw * 14, ax = 220 + ar * Math.cos(aw), ay = 175 + ar * Math.sin(aw) * 0.8;
+  c += mk(1, 60, 40, 216, 172) + mk(2, 60, 200, ax, ay) + mk(3, 40, 300, sx, sy) + mk(4, 580, 40, 520, 82) + mk(5, 580, 300, 520, 262);
+  return bildRahmen(c);
+}
+
+/* ---------- die 8 Themen ---------- */
+var THEMEN = [
+/* ============================================================ ERDE */
+{ id: 'ER', name: 'Erde', farbe: '#2C8C7A', ico: '🌍',
+  mc: [
+    ['Der wievielte Planet von der Sonne aus ist die Erde?', ['der dritte', 'der zweite', 'der vierte', 'der fünfte'], 'Merkur, Venus, Erde – die Erde ist der 3. Planet.'],
+    ['Wie lange dauert eine Drehung der Erde um ihre eigene Achse?', ['etwa 24 Stunden', 'etwa 12 Stunden', 'etwa 7 Tage', 'etwa 365 Tage'], 'Eine Drehung um die eigene Achse (Rotation) = ein Tag = etwa 24 Stunden.'],
+    ['Wodurch entstehen Tag und Nacht?', ['durch die Drehung der Erde um ihre eigene Achse', 'durch den Umlauf der Erde um die Sonne', 'durch den Mond, der die Sonne verdeckt', 'durch die Neigung der Erdachse'], 'Die Erde dreht sich: Die Seite zur Sonne hat Tag, die abgewandte Seite hat Nacht.'],
+    ['Warum gibt es Jahreszeiten?', ['weil die Erdachse geneigt ist', 'weil die Erde im Sommer näher an der Sonne ist', 'weil die Sonne im Sommer heißer brennt', 'weil sich die Erde im Winter langsamer dreht'], 'Jahreszeiten entstehen durch die schräge (geneigte) Erdachse – nicht durch den Abstand zur Sonne.'],
+    ['Wie lange braucht die Erde für einen Umlauf um die Sonne?', ['etwa 365,25 Tage', 'genau 360 Tage', 'etwa 30 Tage', 'etwa 24 Stunden'], 'Ein Umlauf um die Sonne = ein Jahr = 365,25 Tage.'],
+    ['Warum gibt es alle vier Jahre ein Schaltjahr?', ['weil sich die 0,25 Tage in vier Jahren zu einem ganzen Tag addieren', 'weil sich die Erde alle vier Jahre schneller dreht', 'weil der Mond alle vier Jahre einen Tag „klaut“', 'weil man sich das früher so ausgedacht hat, es hat keinen Grund'], '4 · 0,25 Tage = 1 Tag. Dieser Tag wird als 29. Februar eingefügt.'],
+    ['Welche Reihenfolge der Schichten stimmt – von außen nach innen?', ['Kruste – Mantel – Kern', 'Kern – Mantel – Kruste', 'Mantel – Kruste – Kern', 'Kruste – Kern – Mantel'], 'Außen die dünne Kruste, darunter der dicke Mantel, ganz innen der Kern.'],
+    ['Welche Form hat die Erde?', ['fast eine Kugel, an den Polen leicht abgeplattet', 'eine genaue Kugel', 'eine flache Scheibe', 'ein Ei, das an den Polen spitz ist'], 'Durch die Drehung ist die Erde am Äquator etwas dicker und an den Polen leicht abgeplattet.'],
+    ['Wie viel der Erdoberfläche ist ungefähr mit Wasser bedeckt?', ['etwa 70 %', 'etwa 30 %', 'etwa 50 %', 'etwa 95 %'], 'Rund 71 % der Oberfläche sind Wasser – deshalb heißt die Erde auch „Blauer Planet“.'],
+    ['Was macht die Erde (bisher) einzigartig?', ['Sie ist der einzige bekannte Planet mit Leben.', 'Sie ist der größte Planet.', 'Sie ist der einzige Planet mit einem Mond.', 'Sie ist der einzige Planet mit einer Lufthülle.'], 'Nur auf der Erde kennen wir Leben. Andere Planeten haben auch Monde und Lufthüllen.']
+  ],
+  begriffe: [
+    ['Rotation', 'Drehung der Erde um ihre eigene Achse (ein Tag)'],
+    ['Umlauf', 'Bewegung der Erde einmal um die Sonne herum (ein Jahr)'],
+    ['Erdachse', 'gedachte Linie vom Nordpol zum Südpol, um die sich die Erde dreht'],
+    ['Äquator', 'gedachte Linie um die Erde, die sie in Nord- und Südhalbkugel teilt'],
+    ['Erdkruste', 'dünne, feste äußere Gesteinsschicht, auf der wir leben'],
+    ['Erdmantel', 'dicke, heiße Gesteinsschicht zwischen Kruste und Kern'],
+    ['Erdkern', 'innerster Teil der Erde aus Eisen und Nickel, extrem heiß'],
+    ['Atmosphäre', 'Lufthülle der Erde, die uns schützt und Sauerstoff enthält']
+  ],
+  bild: { svg: bildErde, titel: 'Die Erde im Querschnitt',
+    labels: ['Atmosphäre (Lufthülle)', 'Erdkruste', 'Erdmantel', 'äußerer Kern (flüssig)', 'innerer Kern (fest)', 'Erdachse'],
+    extra: ['Äquator', 'Mond'],
+    fragen: [['Die gestrichelte Linie ist schräg gezeichnet, weil …', ['die Erdachse geneigt ist (ca. 23,5°)', 'die Erde umkippt', 'der Zeichner ungenau war']]],
+    beschreib: { f: 'Beschreibe das Bild in 3–4 Sätzen so, als würdest du es in deinem Vortrag erklären. Nenne die Schichten von außen nach innen.',
+      kw: ['Kruste:krust', 'Mantel:mantel', 'Kern:kern', 'flüssig/fest:flüssig/fest', 'Achse:achse', 'heiß:heiß/heiss/temperatur/grad'],
+      muster: 'Das Bild zeigt die Erde im Querschnitt. Ganz außen ist die Lufthülle (Atmosphäre). Darunter liegt die dünne, feste Erdkruste, auf der wir leben. Dann folgt der dicke, heiße Erdmantel. Innen liegt der Erdkern: Der äußere Kern ist flüssig, der innere Kern ist fest – obwohl er über 5000 °C heiß ist. Die gestrichelte Linie ist die geneigte Erdachse.' } },
+  text: { titel: 'Warum ist es im Sommer warm?',
+    html: '<p>Viele Menschen glauben, dass es im Sommer warm ist, weil die Erde dann näher an der Sonne ist. Das stimmt aber nicht! Die Erde ist sogar <b>Anfang Januar</b> der Sonne am nächsten – also mitten im Winter auf der Nordhalbkugel.</p><p>Der wahre Grund ist die <b>geneigte Erdachse</b>. Sie ist um etwa 23,5 Grad schräg gestellt und zeigt immer in dieselbe Richtung im Weltall. Im Sommer ist die Nordhalbkugel deshalb zur Sonne hin geneigt. Die Sonnenstrahlen treffen <b>steiler</b> auf den Boden und erwärmen ihn stärker. Außerdem sind die Tage <b>länger</b>, die Sonne hat also mehr Zeit zum Wärmen.</p><p>Im Winter ist die Nordhalbkugel von der Sonne weg geneigt. Die Strahlen kommen flach an und verteilen sich auf eine größere Fläche. Die Tage sind kurz. Auf der Südhalbkugel ist es genau umgekehrt: Wenn wir Sommer haben, ist in Australien Winter.</p><p>Am Äquator gibt es kaum Jahreszeiten, weil die Sonne dort das ganze Jahr über steil steht.</p>',
+    rf: [
+      ['Im Sommer ist die Erde der Sonne am nächsten.', false, 'Falsch: Am nächsten ist die Erde Anfang Januar.'],
+      ['Die Erdachse ist um etwa 23,5 Grad geneigt.', true, 'Richtig.'],
+      ['Im Sommer treffen die Sonnenstrahlen steiler auf den Boden.', true, 'Richtig: Steile Strahlen wärmen stärker.'],
+      ['Im Winter sind die Tage auf der Nordhalbkugel länger.', false, 'Falsch: Im Winter sind die Tage kurz.'],
+      ['Wenn in Deutschland Sommer ist, ist in Australien Winter.', true, 'Richtig: Auf der Südhalbkugel ist es umgekehrt.'],
+      ['Am Äquator gibt es besonders starke Jahreszeiten.', false, 'Falsch: Am Äquator gibt es kaum Jahreszeiten.']
+    ],
+    luecke: 'Jahreszeiten entstehen, weil die Erdachse [[geneigt|gebogen|gerade]] ist. Im Sommer treffen die Sonnenstrahlen [[steil|flach|gar nicht]] auf und die Tage sind [[länger|kürzer|gleich lang]]. Der Abstand zur Sonne ist dafür [[nicht der Grund|der wichtigste Grund]]. Die Drehung der Erde um sich selbst erzeugt dagegen [[Tag und Nacht|die Jahreszeiten|Ebbe und Flut]].' },
+  zahlen: { paare: [
+      ['Abstand Erde – Sonne', '150 Millionen km'],
+      ['Durchmesser der Erde', 'etwa 12 700 km'],
+      ['Neigung der Erdachse', 'etwa 23,5°'],
+      ['Alter der Erde', 'etwa 4,6 Milliarden Jahre'],
+      ['Abstand Erde – Mond', 'etwa 384 000 km'],
+      ['Temperatur im Erdkern', 'über 5 000 °C']
+    ],
+    reihe: { f: 'Ordne die Teile der Erde von innen (1) nach außen (5).', items: ['innerer Kern', 'äußerer Kern', 'Erdmantel', 'Erdkruste', 'Atmosphäre'] } },
+  erklaeren: [
+    ['Ein Mitschüler fragt: „Wie entstehen eigentlich Tag und Nacht?“ Erkläre es ihm.', 'Die Erde dreht sich in etwa 24 Stunden einmal um ihre eigene Achse (Rotation). Die Seite, die gerade zur Sonne zeigt, wird beleuchtet – dort ist Tag. Die abgewandte Seite liegt im Schatten – dort ist Nacht. Durch die Drehung wechseln sich Tag und Nacht ab.', ['Drehung:dreh/rotat/rotier', 'Achse:achse', 'Sonne:sonne', '24 Stunden:24', 'Seite/Schatten:seite/schatten/beleucht']],
+    ['Erkläre, warum es im Sommer wärmer ist als im Winter. Achtung: Typischer Fehler!', 'Die Erdachse ist geneigt. Im Sommer ist unsere Nordhalbkugel zur Sonne hin geneigt: Die Sonnenstrahlen treffen steiler auf und die Tage sind länger. Darum wird es wärmer. Der Abstand zur Sonne ist NICHT der Grund – im Januar ist die Erde der Sonne sogar am nächsten.', ['geneigte Achse:neig/schräg/schief', 'steil:steil', 'längere Tage:länger/lange tage', 'nicht der Abstand:abstand/entfernung/näher']],
+    ['Warum gibt es auf der Erde Leben – und (soweit wir wissen) nirgendwo sonst? Nenne mindestens drei Gründe.', 'Die Erde hat flüssiges Wasser, weil sie den richtigen Abstand zur Sonne hat (nicht zu heiß, nicht zu kalt). Sie hat eine Atmosphäre mit Sauerstoff, die vor Strahlung schützt und Wärme hält. Ein Magnetfeld schützt vor gefährlichen Teilchen aus dem All (Sonnenwind).', ['Wasser:wasser', 'Temperatur/Abstand:abstand/temperatur/warm/kalt/heiß', 'Atmosphäre/Luft:atmosph/luft/sauerstoff', 'Schutz:schutz/schütz/magnet']]
+  ],
+  abschluss: [
+    ['In Deutschland ist Sommer. Welche Jahreszeit ist dann in Australien?', ['Winter', 'auch Sommer', 'Frühling', 'Herbst'], 'Nord- und Südhalbkugel haben entgegengesetzte Jahreszeiten.'],
+    ['Woraus besteht der Erdkern hauptsächlich?', ['Eisen und Nickel', 'flüssigem Gestein (Magma)', 'Wasser und Eis', 'Gold und Silber'], 'Der Erdkern besteht vor allem aus Eisen und Nickel.'],
+    ['Welche Schicht der Erde ist flüssig?', ['der äußere Kern', 'der innere Kern', 'die Erdkruste', 'keine einzige'], 'Der äußere Kern ist flüssig, der innere Kern ist trotz der Hitze fest (riesiger Druck).'],
+    ['Wann ist die Erde der Sonne am nächsten?', ['Anfang Januar', 'Anfang Juli', 'im Frühling', 'jeden Tag gleich'], 'Anfang Januar – das zeigt: Der Abstand macht nicht die Jahreszeiten.'],
+    ['Welches Gas ist am häufigsten in unserer Luft?', ['Stickstoff', 'Sauerstoff', 'Kohlenstoffdioxid', 'Helium'], 'Luft besteht zu etwa 78 % aus Stickstoff und 21 % aus Sauerstoff.'],
+    ['In welche Richtung dreht sich die Erde? (Die Sonne geht im Osten auf.)', ['von West nach Ost', 'von Ost nach West', 'von Nord nach Süd', 'sie dreht sich nicht'], 'Die Erde dreht sich nach Osten – deshalb scheint die Sonne im Osten aufzugehen.'],
+    ['Wie alt ist die Erde ungefähr?', ['4,6 Milliarden Jahre', '6000 Jahre', '4,6 Millionen Jahre', '13,8 Milliarden Jahre'], 'Die Erde ist etwa 4,6 Milliarden Jahre alt (13,8 Mrd. Jahre ist das Alter des Universums).'],
+    ['Wie lange braucht das Licht von der Sonne bis zur Erde?', ['etwa 8 Minuten', 'etwa 1 Sekunde', 'etwa 1 Tag', 'etwa 1 Jahr'], 'Licht braucht für die 150 Millionen km etwa 8 Minuten.']
+  ] },
+
+/* ============================================================ SONNE */
+{ id: 'SO', name: 'Sonne', farbe: '#E3A21A', ico: '☀️',
+  mc: [
+    ['Was ist die Sonne?', ['ein Stern', 'ein Planet', 'ein Mond', 'eine Galaxie'], 'Die Sonne ist ein Stern – der Stern im Zentrum unseres Sonnensystems.'],
+    ['Woraus besteht die Sonne hauptsächlich?', ['aus Wasserstoff und Helium', 'aus brennender Kohle', 'aus flüssiger Lava', 'aus Eisen und Gestein'], 'Die Sonne ist eine riesige Gaskugel aus Wasserstoff und Helium.'],
+    ['Wie erzeugt die Sonne Licht und Wärme?', ['durch Kernfusion im Inneren', 'durch Verbrennen von Gas wie bei einem Feuer', 'durch Strom aus Blitzen', 'durch Reibung beim Drehen'], 'Im Kern verschmelzen Wasserstoffkerne zu Heliumkernen: Kernfusion. Das ist kein Feuer!'],
+    ['Wie weit ist die Sonne ungefähr von der Erde entfernt?', ['150 Millionen km', '150 000 km', '15 Milliarden km', '1,5 Millionen km'], 'Rund 150 Millionen km.'],
+    ['Wie groß ist der Durchmesser der Sonne im Vergleich zur Erde?', ['etwa 109-mal so groß', 'etwa doppelt so groß', 'etwa 10-mal so groß', 'genauso groß'], 'Etwa 109 Erden passen nebeneinander über den Sonnendurchmesser.'],
+    ['Wie heiß ist die Oberfläche der Sonne ungefähr?', ['etwa 5 500 °C', 'etwa 100 °C', 'etwa 15 Millionen °C', 'etwa 500 °C'], 'Die Oberfläche hat ca. 5 500 °C. 15 Millionen °C herrschen im Kern.'],
+    ['Was sind Sonnenflecken?', ['kühlere, dunklere Stellen auf der Sonnenoberfläche', 'Löcher in der Sonne', 'Planeten, die vor der Sonne vorbeiziehen', 'Schmutz auf dem Teleskop'], 'Sonnenflecken sind etwas kühler (ca. 4 000 °C) und wirken deshalb dunkel.'],
+    ['Was ist der Sonnenwind?', ['ein Strom aus winzigen, elektrisch geladenen Teilchen', 'ein Sturm aus heißer Luft', 'Wind auf der Erde an heißen Tagen', 'Licht, das von der Sonne kommt'], 'Der Sonnenwind besteht aus geladenen Teilchen, die ins All strömen.'],
+    ['Welche Leuchterscheinung entsteht auf der Erde durch den Sonnenwind?', ['Polarlichter', 'Regenbögen', 'Sternschnuppen', 'Blitze'], 'Treffen die Teilchen auf unsere Lufthülle, leuchten Polarlichter.'],
+    ['Warum darf man nie direkt in die Sonne schauen – auch nicht mit Fernglas?', ['weil die Netzhaut im Auge dauerhaft geschädigt werden kann', 'weil man dann niesen muss', 'weil die Sonne dann dunkler wird', 'das ist nur ein Gerücht'], 'Sonnenlicht kann die Netzhaut für immer schädigen – Blindheitsgefahr!']
+  ],
+  begriffe: [
+    ['Stern', 'riesige, selbst leuchtende Gaskugel'],
+    ['Kernfusion', 'Verschmelzen von Wasserstoff zu Helium, dabei wird Energie frei'],
+    ['Sonnenfleck', 'kühlere, dunkle Stelle auf der Sonnenoberfläche'],
+    ['Sonnenwind', 'Strom geladener Teilchen, der von der Sonne ins All fließt'],
+    ['Polarlicht', 'Leuchten am Himmel, wenn Sonnenteilchen auf die Lufthülle treffen'],
+    ['Protuberanz', 'riesiger Bogen aus heißem Gas, der aus der Sonne herausragt'],
+    ['Korona', 'äußerste, sehr heiße und dünne Gashülle der Sonne'],
+    ['Sonnensystem', 'die Sonne mit allen Planeten, Monden und kleinen Körpern, die sie umkreisen']
+  ],
+  bild: { svg: bildSonne, titel: 'Die Sonne im Querschnitt',
+    labels: ['Sonnenfleck', 'Oberfläche (Photosphäre)', 'Strahlungszone', 'Kern (Kernfusion)', 'Konvektionszone (Gas steigt auf und sinkt ab)', 'Protuberanz'],
+    extra: ['Sonnenwind', 'Planet'],
+    fragen: [['Im Kern der Sonne ist es …', ['etwa 15 Millionen °C heiß', 'etwa 5 500 °C heiß', 'kühler als an der Oberfläche']]],
+    beschreib: { f: 'Beschreibe das Bild in 3–4 Sätzen wie in deinem Vortrag: Was passiert innen, was sieht man außen?',
+      kw: ['Kern:kern', 'Kernfusion:fusion', 'Oberfläche:oberfl', 'Sonnenfleck:fleck', 'Temperatur:°c/grad/heiß/heiss', 'Wasserstoff/Helium:wasserstoff/helium'],
+      muster: 'Das Bild zeigt die Sonne im Querschnitt. Im Kern findet die Kernfusion statt: Wasserstoff verschmilzt zu Helium, dabei entstehen Licht und Wärme (ca. 15 Mio. °C). Die Energie wandert durch die Strahlungszone und die Konvektionszone nach außen. Die Oberfläche ist ca. 5 500 °C heiß. Oben sieht man einen dunkleren, kühleren Sonnenfleck und links eine Protuberanz, einen Gasbogen.' } },
+  text: { titel: 'Das Kraftwerk Sonne',
+    html: '<p>Die Sonne ist etwa <b>4,6 Milliarden Jahre</b> alt. In ihrem Kern ist es rund <b>15 Millionen Grad</b> heiß, und der Druck ist unvorstellbar groß. Dort verschmelzen Wasserstoffkerne zu Heliumkernen. Diese <b>Kernfusion</b> setzt riesige Mengen Energie frei. Die Sonne „brennt“ also nicht wie ein Lagerfeuer – zum Verbrennen bräuchte man Sauerstoff.</p><p>Die Energie braucht sehr lange, bis sie vom Kern an die Oberfläche kommt. Von der Oberfläche bis zur Erde ist das Licht dann nur noch etwa <b>8 Minuten</b> unterwegs. Wenn wir die Sonne sehen, sehen wir sie also so, wie sie vor 8 Minuten war.</p><p>Die Sonne enthält über <b>99 %</b> der gesamten Masse unseres Sonnensystems. Ihr Vorrat an Wasserstoff reicht noch etwa <b>5 Milliarden Jahre</b>. Dann bläht sie sich zu einem <b>Roten Riesen</b> auf. Am Ende bleibt ein kleiner, langsam abkühlender <b>Weißer Zwerg</b> übrig. Für ein Schwarzes Loch ist die Sonne zu leicht.</p>',
+    rf: [
+      ['Die Sonne brennt wie ein riesiges Lagerfeuer.', false, 'Falsch: Es ist Kernfusion, kein Feuer.'],
+      ['Sonnenlicht braucht etwa 8 Minuten bis zur Erde.', true, 'Richtig.'],
+      ['Die Sonne enthält über 99 % der Masse des Sonnensystems.', true, 'Richtig.'],
+      ['Der Wasserstoff der Sonne ist schon fast aufgebraucht.', false, 'Falsch: Er reicht noch etwa 5 Milliarden Jahre.'],
+      ['Am Ende wird die Sonne zu einem Schwarzen Loch.', false, 'Falsch: Sie wird zu einem Weißen Zwerg – sie ist zu leicht für ein Schwarzes Loch.'],
+      ['Im Kern ist es heißer als an der Oberfläche.', true, 'Richtig: Kern ca. 15 Mio. °C, Oberfläche ca. 5 500 °C.']
+    ],
+    luecke: 'In ihrem Kern verschmilzt die Sonne [[Wasserstoff|Sauerstoff|Kohle]] zu [[Helium|Wasser|Eisen]]. Diesen Vorgang nennt man [[Kernfusion|Verbrennung|Verdunstung]]. Das Licht braucht etwa [[8 Minuten|8 Sekunden|8 Stunden]] bis zur Erde. In ferner Zukunft wird die Sonne zuerst ein [[Roter Riese|Schwarzes Loch|Komet]].' },
+  zahlen: { paare: [
+      ['Temperatur im Sonnenkern', 'etwa 15 Millionen °C'],
+      ['Temperatur der Oberfläche', 'etwa 5 500 °C'],
+      ['Durchmesser im Vergleich zur Erde', 'etwa 109-mal'],
+      ['Alter der Sonne', 'etwa 4,6 Milliarden Jahre'],
+      ['Lichtlaufzeit Sonne – Erde', 'etwa 8 Minuten'],
+      ['Anteil an der Masse des Sonnensystems', 'über 99 %']
+    ],
+    reihe: { f: 'Ordne den Lebenslauf der Sonne vom Anfang (1) bis zum Ende (5).', items: ['Gas- und Staubwolke zieht sich zusammen', 'junger Stern zündet die Kernfusion', 'heute: Wasserstoff wird zu Helium', 'Roter Riese', 'Weißer Zwerg'] } },
+  erklaeren: [
+    ['Jemand sagt: „Die Sonne ist ein riesiges Feuer.“ Erkläre, was in der Sonne wirklich passiert.', 'Die Sonne brennt nicht wie ein Feuer – dafür bräuchte man Sauerstoff. Im Kern ist es ca. 15 Millionen °C heiß und der Druck ist riesig. Dort verschmelzen Wasserstoffkerne zu Heliumkernen (Kernfusion). Dabei wird sehr viel Energie frei, die als Licht und Wärme abgestrahlt wird.', ['Kernfusion:fusion/verschmel', 'Wasserstoff:wasserstoff', 'Helium:helium', 'Kern:kern', 'kein Feuer:kein feuer/nicht wie/sauerstoff']],
+    ['Erkläre, was Sonnenflecken sind und warum sie dunkel aussehen.', 'Sonnenflecken sind Stellen auf der Sonnenoberfläche, die kühler sind (ca. 4 000 °C statt 5 500 °C). Weil sie weniger heiß sind, leuchten sie schwächer und sehen im Vergleich zur Umgebung dunkel aus. Sie entstehen durch starke Magnetfelder der Sonne.', ['kühler:kühl/kälter/kalt', 'Oberfläche:oberfl', 'dunkel:dunkel', 'Temperatur:°c/grad/4000/4 000']],
+    ['Warum ist die Sonne für das Leben auf der Erde so wichtig? Nenne mindestens drei Gründe.', 'Die Sonne liefert Licht und Wärme. Ohne Wärme wäre die Erde eiskalt. Pflanzen brauchen Sonnenlicht für die Fotosynthese – sie stellen Nahrung und Sauerstoff her. Die Sonne treibt Wetter und den Wasserkreislauf an. Ihre Anziehungskraft hält die Erde auf ihrer Bahn.', ['Licht:licht', 'Wärme:wärme/warm', 'Pflanzen:pflanz/fotosynth/photosynth', 'Wetter/Wasser:wetter/wasser/regen', 'Anziehung:anzieh/gravitation/bahn']]
+  ],
+  abschluss: [
+    ['Welche Farbe hat das Licht der Sonne im Weltall eigentlich?', ['weiß (alle Farben zusammen)', 'gelb', 'rot', 'blau'], 'Im All wirkt die Sonne weiß. Gelblich erscheint sie durch unsere Lufthülle.'],
+    ['Was passiert mit der Sonne in etwa 5 Milliarden Jahren?', ['Sie bläht sich zum Roten Riesen auf.', 'Sie explodiert als Supernova.', 'Sie wird zu einem Schwarzen Loch.', 'Sie wird zu einem Planeten.'], 'Die Sonne wird zum Roten Riesen und danach zum Weißen Zwerg.'],
+    ['Wie heißt die äußerste, sehr heiße Gashülle der Sonne, die man bei einer Sonnenfinsternis sieht?', ['Korona', 'Kruste', 'Atmosphäre', 'Ozonschicht'], 'Die Korona ist über eine Million Grad heiß.'],
+    ['Wie viele Erden würden ungefähr in die Sonne hineinpassen?', ['etwa 1,3 Millionen', 'etwa 109', 'etwa 1000', 'etwa 10'], '109-mal der Durchmesser – aber 1,3 Millionen-mal das Volumen!'],
+    ['Wie nennt man es, wenn der Mond die Sonne verdeckt?', ['Sonnenfinsternis', 'Mondfinsternis', 'Neumondnacht', 'Polarnacht'], 'Bei einer Sonnenfinsternis schiebt sich der Mond vor die Sonne.'],
+    ['Woher hat die Sonne ihre Energie NICHT?', ['aus der Verbrennung mit Sauerstoff', 'aus Kernfusion', 'aus Wasserstoff', 'aus der Verschmelzung von Atomkernen'], 'Im All gibt es keinen Sauerstoff zum Verbrennen. Die Energie kommt aus der Kernfusion.'],
+    ['Wie nennt man den Stern, um den die Erde kreist, mit seinen Planeten zusammen?', ['Sonnensystem', 'Milchstraße', 'Universum', 'Sternbild'], 'Sonne + Planeten + Monde + kleine Körper = Sonnensystem.'],
+    ['Was zeigt ein Sonnenfleck an?', ['eine kühlere Stelle mit starkem Magnetfeld', 'ein Loch, durch das man ins Innere schaut', 'einen Kometen vor der Sonne', 'einen Fehler im Bild'], 'Sonnenflecken sind kühlere Gebiete, verursacht durch Magnetfelder.']
+  ] },
+
+/* ============================================================ PLANETEN */
+{ id: 'PL', name: 'Unsere Planeten', farbe: '#3949AB', ico: '🪐',
+  mc: [
+    ['Wie viele Planeten umkreisen die Sonne?', ['acht', 'neun', 'sieben', 'zwölf'], 'Es sind acht Planeten. Pluto zählt seit 2006 als Zwergplanet.'],
+    ['Welche Planeten sind Gesteinsplaneten (außer der Erde)?', ['Merkur, Venus, Mars', 'Jupiter, Saturn, Mars', 'Uranus, Neptun, Venus', 'Merkur, Saturn, Neptun'], 'Die inneren Planeten Merkur, Venus, Erde und Mars bestehen aus Gestein.'],
+    ['Welche Planeten sind Gasriesen?', ['Jupiter und Saturn', 'Uranus und Neptun', 'Mars und Venus', 'Merkur und Mars'], 'Jupiter und Saturn bestehen vor allem aus Wasserstoff und Helium.'],
+    ['Welche Planeten nennt man Eisriesen?', ['Uranus und Neptun', 'Jupiter und Saturn', 'Merkur und Venus', 'Mars und Jupiter'], 'Uranus und Neptun enthalten viel gefrorenes Wasser, Ammoniak und Methan.'],
+    ['Welcher Planet ist der größte?', ['Jupiter', 'Saturn', 'Neptun', 'Erde'], 'Jupiter ist so groß, dass alle anderen Planeten zusammen hineinpassen würden.'],
+    ['Welcher Planet ist der kleinste und liegt am nächsten an der Sonne?', ['Merkur', 'Mars', 'Venus', 'Pluto'], 'Merkur ist der kleinste Planet und der Sonne am nächsten.'],
+    ['Welcher Planet ist für seine auffälligen Ringe bekannt?', ['Saturn', 'Mars', 'Venus', 'Merkur'], 'Saturns Ringe bestehen aus Eis- und Gesteinsbrocken.'],
+    ['Warum heißt der Mars „der Rote Planet“?', ['Sein Boden enthält viel Eisenoxid (Rost).', 'Er ist sehr heiß und glüht.', 'Er ist mit roten Pflanzen bedeckt.', 'Er spiegelt das Licht der Sonne rot.'], 'Rostiger, eisenhaltiger Staub färbt den Mars rot.'],
+    ['Warum zählt Pluto nicht mehr zu den Planeten?', ['Er hat seine Umlaufbahn nicht von anderen Körpern „freigeräumt“.', 'Er ist explodiert.', 'Er umkreist nicht die Sonne.', 'Er ist größer als die Erde.'], 'Seit 2006 ist Pluto ein Zwergplanet, weil er seine Bahn nicht freigeräumt hat.'],
+    ['Welcher Planet ist der heißeste?', ['Venus', 'Merkur', 'Mars', 'Jupiter'], 'Venus (ca. 460 °C) – ihre dicke Lufthülle aus CO₂ hält die Wärme fest (Treibhauseffekt).']
+  ],
+  begriffe: [
+    ['Planet', 'großer Himmelskörper, der um einen Stern kreist und seine Bahn freigeräumt hat'],
+    ['Zwergplanet', 'kleiner, runder Himmelskörper, der seine Bahn nicht freigeräumt hat (z. B. Pluto)'],
+    ['Gesteinsplanet', 'Planet mit fester Oberfläche aus Gestein'],
+    ['Gasriese', 'riesiger Planet aus Wasserstoff und Helium ohne feste Oberfläche'],
+    ['Eisriese', 'großer Planet mit viel gefrorenem Wasser, Ammoniak und Methan'],
+    ['Mond', 'Himmelskörper, der um einen Planeten kreist'],
+    ['Umlaufbahn', 'Weg, auf dem ein Planet um die Sonne läuft'],
+    ['Treibhauseffekt', 'Gase in der Lufthülle halten die Wärme fest'],
+  ],
+  bild: { svg: bildPlaneten, titel: 'Die Planeten in der richtigen Reihenfolge',
+    labels: ['Mars', 'Saturn', 'Merkur', 'Neptun', 'Uranus', 'Venus', 'Jupiter'],
+    extra: ['Pluto'],
+    fragen: [['Der rote Fleck auf Nr. 7 ist …', ['ein riesiger Wirbelsturm', 'ein Vulkan', 'ein Meer']]],
+    beschreib: { f: 'Beschreibe das Bild in 3–4 Sätzen: Nenne die Planeten in der Reihenfolge von der Sonne aus und ordne sie den drei Gruppen zu.',
+      kw: ['Merkur:merkur', 'Venus:venus', 'Mars:mars', 'Jupiter:jupiter', 'Saturn:saturn', 'Uranus:uranus', 'Neptun:neptun', 'Gesteinsplaneten:gestein', 'Gasriesen:gasries', 'Eisriesen:eisries'],
+      muster: 'Von der Sonne aus kommen Merkur, Venus, Erde und Mars – das sind die kleinen Gesteinsplaneten. Danach folgen die Gasriesen Jupiter und Saturn. Jupiter ist der größte Planet und hat einen roten Wirbelsturm, Saturn hat die auffälligen Ringe. Ganz außen liegen die Eisriesen Uranus und Neptun.' } },
+  text: { titel: 'Steckbriefe: Vier besondere Planeten',
+    html: '<p><b>Venus</b> ist fast so groß wie die Erde, aber dort möchte niemand wohnen: Ihre dicke Lufthülle besteht fast nur aus Kohlenstoffdioxid. Sie hält die Wärme fest – auf der Venus ist es etwa <b>460 °C</b> heiß. Sie ist damit heißer als Merkur, obwohl Merkur näher an der Sonne liegt. Die Venus dreht sich außerdem rückwärts.</p><p><b>Mars</b> hat zwei kleine Monde: <b>Phobos und Deimos</b>. Auf ihm steht der höchste Vulkan im Sonnensystem, der <b>Olympus Mons</b> (über 20 km hoch). Roboterfahrzeuge (Rover) untersuchen den Mars, ob es dort früher Wasser und vielleicht Leben gab.</p><p><b>Jupiter</b> hat über <b>90 Monde</b>. Sein <b>Großer Roter Fleck</b> ist ein Wirbelsturm, in den die Erde hineinpassen würde.</p><p><b>Neptun</b> ist der äußerste Planet. Er braucht <b>165 Jahre</b> für einen Umlauf um die Sonne. Auf ihm wehen die schnellsten Winde des Sonnensystems.</p>',
+    rf: [
+      ['Merkur ist der heißeste Planet, weil er der Sonne am nächsten ist.', false, 'Falsch: Die Venus ist heißer – wegen ihrer dicken CO₂-Lufthülle.'],
+      ['Mars hat zwei Monde.', true, 'Richtig: Phobos und Deimos.'],
+      ['Der höchste Vulkan im Sonnensystem steht auf dem Mars.', true, 'Richtig: Olympus Mons.'],
+      ['Der Große Rote Fleck ist ein Vulkan auf dem Jupiter.', false, 'Falsch: Er ist ein riesiger Wirbelsturm.'],
+      ['Neptun braucht 165 Jahre für einen Sonnenumlauf.', true, 'Richtig.'],
+      ['Die Venus ist viel kleiner als die Erde.', false, 'Falsch: Sie ist fast genauso groß.']
+    ],
+    luecke: 'Die vier inneren Planeten sind [[Gesteinsplaneten|Gasriesen|Eisriesen]]. Der größte Planet ist [[Jupiter|Saturn|Neptun]]. Die Venus ist so heiß, weil ihre Lufthülle die Wärme [[festhält|abkühlt|zurück zur Sonne schickt]]. Der äußerste Planet heißt [[Neptun|Uranus|Pluto]]. Pluto ist heute ein [[Zwergplanet|Mond|Gasriese]].' },
+  zahlen: { paare: [
+      ['Anzahl der Planeten', '8'],
+      ['Monde des Mars', '2'],
+      ['Monde des Jupiter', 'über 90'],
+      ['Temperatur auf der Venus', 'etwa 460 °C'],
+      ['Umlaufzeit des Neptun', '165 Jahre'],
+      ['Pluto wurde Zwergplanet im Jahr', '2006']
+    ],
+    reihe: { f: 'Ordne die Planeten nach ihrer Größe (Durchmesser): vom kleinsten (1) zum größten (7).', items: ['Merkur', 'Mars', 'Venus', 'Neptun', 'Uranus', 'Saturn', 'Jupiter'] } },
+  erklaeren: [
+    ['Erkläre den Unterschied zwischen Gesteinsplaneten und Gasriesen. Nenne Beispiele.', 'Gesteinsplaneten (Merkur, Venus, Erde, Mars) sind klein, liegen innen und haben eine feste Oberfläche aus Gestein. Gasriesen (Jupiter, Saturn) sind riesig, liegen weiter außen und bestehen vor allem aus Wasserstoff und Helium – auf ihnen könnte man nicht landen. Sie haben viele Monde und Ringe.', ['Gestein:gestein', 'feste Oberfläche:fest/oberfl', 'Gas:gas/wasserstoff/helium', 'Beispiel innen:merkur/venus/mars', 'Beispiel außen:jupiter/saturn', 'Größe:groß/klein']],
+    ['Warum ist die Venus heißer als der Merkur, obwohl der Merkur näher an der Sonne ist?', 'Die Venus hat eine sehr dicke Lufthülle aus Kohlenstoffdioxid. Diese Lufthülle lässt die Wärme nicht mehr ins All entweichen (Treibhauseffekt). Merkur hat fast keine Lufthülle – die Wärme geht sofort verloren, nachts wird es eiskalt.', ['Lufthülle:lufth/atmosph', 'Kohlenstoffdioxid:kohlenstoff/co2/co₂', 'Treibhaus:treibhaus', 'Wärme bleibt:festh/hält/entweich/gefangen']],
+    ['Warum ist Pluto kein Planet mehr? Erkläre es so, dass es deine Klasse versteht.', 'Seit 2006 gibt es feste Regeln für Planeten: Ein Planet kreist um die Sonne, ist (fast) rund und hat seine Umlaufbahn von anderen Körpern freigeräumt. Pluto kreist um die Sonne und ist rund, aber in seiner Bahn gibt es viele andere Eisbrocken (Kuipergürtel). Deshalb ist er ein Zwergplanet.', ['2006:2006', 'Bahn freigeräumt:freiger/geräumt/bahn', 'Zwergplanet:zwerg', 'rund:rund/kugel', 'andere Körper:andere/brocken/kuiper']]
+  ],
+  abschluss: [
+    ['Mit welchem Merksatz kann man sich die Reihenfolge der Planeten merken?', ['Mein Vater erklärt mir jeden Sonntag unseren Nachthimmel.', 'Jeder Mensch sieht einmal nachts Venus.', 'Sonne, Mond und Sterne.', 'Mars macht Venus jeden Sonntag nervös.'], 'Merkur – Venus – Erde – Mars – Jupiter – Saturn – Uranus – Neptun.'],
+    ['Welcher Planet liegt zwischen Mars und Saturn?', ['Jupiter', 'Uranus', 'Erde', 'Venus'], 'Die Reihenfolge ist … Mars – Jupiter – Saturn …'],
+    ['Welcher Planet „liegt auf der Seite“ – seine Achse ist fast waagerecht?', ['Uranus', 'Saturn', 'Venus', 'Mars'], 'Uranus rollt gewissermaßen um die Sonne.'],
+    ['Welcher Planet würde (theoretisch) in einer riesigen Badewanne schwimmen?', ['Saturn', 'Jupiter', 'Erde', 'Merkur'], 'Saturn hat eine geringere Dichte als Wasser.'],
+    ['Welcher Planet ist am Abend- oder Morgenhimmel am hellsten zu sehen?', ['Venus', 'Neptun', 'Uranus', 'Merkur'], 'Die Venus ist der „Abendstern“ bzw. „Morgenstern“.'],
+    ['Woran erkennt man Gasriesen?', ['Sie haben keine feste Oberfläche.', 'Sie sind sehr klein.', 'Sie liegen nahe an der Sonne.', 'Sie haben keine Monde.'], 'Gasriesen bestehen aus Gas – man könnte nicht auf ihnen landen.'],
+    ['Welcher Planet wird gerade von Rovern (Roboterfahrzeugen) erforscht?', ['Mars', 'Jupiter', 'Venus', 'Neptun'], 'Auf dem Mars fahren Rover wie „Perseverance“.'],
+    ['Warum braucht Neptun so viel länger für einen Umlauf als die Erde?', ['Seine Bahn ist viel länger und er bewegt sich langsamer.', 'Er dreht sich rückwärts.', 'Er hat zu viele Monde.', 'Er ist schwerer als die Sonne.'], 'Weit außen ist die Bahn riesig und der Planet langsamer.']
+  ] },
+
+/* ============================================================ WELTBILDER */
+{ id: 'WB', name: 'Weltbilder', farbe: '#7B4C9C', ico: '🔭',
+  mc: [
+    ['Was steht im geozentrischen Weltbild im Mittelpunkt?', ['die Erde', 'die Sonne', 'der Mond', 'die Milchstraße'], '„Geo“ heißt Erde: Die Erde steht im Mittelpunkt.'],
+    ['Was steht im heliozentrischen Weltbild im Mittelpunkt?', ['die Sonne', 'die Erde', 'der Mond', 'der Polarstern'], '„Helios“ heißt Sonne: Die Sonne steht im Mittelpunkt.'],
+    ['Welcher Gelehrte beschrieb um 150 n. Chr. das geozentrische Weltbild ausführlich?', ['Ptolemäus', 'Kopernikus', 'Galilei', 'Newton'], 'Claudius Ptolemäus – sein Weltbild galt rund 1400 Jahre lang.'],
+    ['Wer machte das heliozentrische Weltbild mit seinem Buch von 1543 bekannt?', ['Nikolaus Kopernikus', 'Ptolemäus', 'Aristoteles', 'Albert Einstein'], 'Kopernikus’ Buch erschien 1543, in seinem Todesjahr.'],
+    ['Was beobachtete Galileo Galilei mit seinem Fernrohr?', ['vier Monde, die um den Jupiter kreisen', 'die Ringe des Neptun', 'Leben auf dem Mars', 'ein Schwarzes Loch'], 'Die Jupitermonde zeigten: Nicht alles kreist um die Erde.'],
+    ['Was fand Johannes Kepler heraus?', ['Planeten bewegen sich auf Ellipsenbahnen.', 'Die Erde ist eine Scheibe.', 'Die Sonne kreist um die Erde.', 'Planeten bewegen sich auf genauen Kreisen.'], 'Kepler: Planetenbahnen sind Ellipsen (leicht gestauchte Kreise).'],
+    ['Warum war die Kirche damals gegen das neue Weltbild?', ['Es widersprach der damaligen Auslegung der Bibel, nach der die Erde im Zentrum steht.', 'Kopernikus war ein Feind des Papstes.', 'Die Kirche hatte bessere Fernrohre.', 'Das neue Weltbild war mathematisch falsch.'], 'Die Erde (und der Mensch) sollte im Mittelpunkt der Schöpfung stehen.'],
+    ['Was passierte Galileo Galilei 1633?', ['Er musste vor einem Kirchengericht seiner Lehre abschwören und stand bis zu seinem Tod unter Hausarrest.', 'Er wurde zum Papst gewählt.', 'Er entdeckte den Neptun.', 'Er bekam den Nobelpreis.'], 'Galilei wurde verurteilt; erst 1992 erkannte die Kirche den Fehler an.'],
+    ['Warum glaubten die Menschen so lange, dass die Erde stillsteht?', ['Weil man die Bewegung der Erde nicht spürt und die Sonne über den Himmel zu wandern scheint.', 'Weil es verboten war, in den Himmel zu schauen.', 'Weil es keine Sterne gab.', 'Weil die Erde früher wirklich stillstand.'], 'Für unsere Augen sieht es so aus, als würde sich der Himmel um uns drehen.'],
+    ['Was wissen wir heute über die Sonne?', ['Sie ist einer von Milliarden Sternen in der Milchstraße.', 'Sie ist der Mittelpunkt des ganzen Universums.', 'Sie kreist um die Erde.', 'Sie ist der größte Stern überhaupt.'], 'Es gibt keinen Mittelpunkt des Universums – die Sonne ist ein ganz normaler Stern.']
+  ],
+  begriffe: [
+    ['geozentrisch', 'Die Erde steht im Mittelpunkt, alles kreist um sie.'],
+    ['heliozentrisch', 'Die Sonne steht im Mittelpunkt, die Planeten kreisen um sie.'],
+    ['Weltbild', 'Vorstellung der Menschen davon, wie das Weltall aufgebaut ist'],
+    ['Fernrohr (Teleskop)', 'Gerät, mit dem man weit entfernte Dinge vergrößert sieht'],
+    ['Ellipse', 'leicht gestauchter Kreis – so sehen die Planetenbahnen aus'],
+    ['Epizykel', 'kleiner Hilfskreis, mit dem Ptolemäus Schleifen der Planeten erklärte'],
+    ['Inquisition', 'Kirchengericht, das Menschen mit „falschen“ Lehren bestrafte'],
+    ['Fixsterne', 'Sterne, die am Himmel ihre Lage zueinander nicht verändern']
+  ],
+  bild: { svg: bildWeltbilder, titel: 'Zwei Weltbilder im Vergleich',
+    labels: ['Erde', 'Sonne', 'Mars', 'Sonne', 'Erde', 'Mond'],
+    extra: ['Fixsternhimmel', 'Jupiter'],
+    fragen: [['Bild A zeigt das …', ['geozentrische Weltbild', 'heliozentrische Weltbild']], ['Wer gehört zu Bild B?', ['Kopernikus', 'Ptolemäus', 'Aristoteles']], ['Die Sternchen außen in Bild A stellen dar:', ['die Kugel der Fixsterne', 'Sternschnuppen', 'Asteroiden']]],
+    beschreib: { f: 'Vergleiche Bild A und Bild B in 3–4 Sätzen. Was steht jeweils in der Mitte? Wer hat das Weltbild vertreten?',
+      kw: ['geozentrisch:geozentr', 'heliozentrisch:heliozentr', 'Mitte:mitte/mittelpunkt/zentrum', 'Ptolemäus:ptolem', 'Kopernikus:kopernik', 'Erde und Sonne:erde'],
+      muster: 'Bild A zeigt das geozentrische Weltbild von Ptolemäus: Die Erde steht in der Mitte, Mond, Sonne und Planeten kreisen um sie, außen ist die Kugel der Fixsterne. Bild B zeigt das heliozentrische Weltbild von Kopernikus: Die Sonne steht in der Mitte, die Erde ist ein Planet und kreist mit ihrem Mond um die Sonne, genauso wie Mars und die anderen Planeten.' } },
+  text: { titel: 'Galileis Fernrohr',
+    html: '<p>Im Jahr <b>1609</b> hörte der italienische Forscher <b>Galileo Galilei</b> von einer neuen Erfindung aus den Niederlanden: dem Fernrohr. Er baute sich selbst eines und richtete es als einer der Ersten an den Himmel.</p><p>Was er sah, war eine Sensation. Der Mond war keine glatte, perfekte Kugel, sondern hatte <b>Berge und Krater</b>. Um den Jupiter kreisten <b>vier Monde</b> – also drehte sich nicht alles um die Erde! Die Venus zeigte <b>Phasen</b> wie der Mond, was nur zu erklären war, wenn sie um die Sonne kreist.</p><p>Galilei war überzeugt: <b>Kopernikus</b> hatte recht. Doch die Kirche hielt am alten Weltbild fest. <b>1633</b> musste Galilei vor einem Kirchengericht seiner Lehre abschwören. Er verbrachte den Rest seines Lebens unter Hausarrest. Erst <b>1992</b> gab die katholische Kirche offiziell zu, dass man Galilei Unrecht getan hatte.</p>',
+    rf: [
+      ['Galilei hat das Fernrohr erfunden.', false, 'Falsch: Er hörte von der Erfindung aus den Niederlanden und baute es nach.'],
+      ['Galilei sah, dass der Mond Krater und Berge hat.', true, 'Richtig.'],
+      ['Um den Jupiter entdeckte Galilei vier Monde.', true, 'Richtig.'],
+      ['Die Venusphasen bewiesen, dass die Venus um die Erde kreist.', false, 'Falsch: Sie zeigten, dass die Venus um die Sonne kreist.'],
+      ['Galilei musste 1633 seiner Lehre abschwören.', true, 'Richtig.'],
+      ['Die Kirche erkannte schon 1650 an, dass Galilei recht hatte.', false, 'Falsch: Erst 1992.']
+    ],
+    luecke: 'Im [[geozentrischen|heliozentrischen]] Weltbild steht die Erde in der Mitte. [[Kopernikus|Ptolemäus|Aristoteles]] stellte die Sonne in die Mitte. Galilei entdeckte mit dem [[Fernrohr|Mikroskop|Kompass]] Monde um den [[Jupiter|Mars|Merkur]]. [[Kepler|Galilei|Ptolemäus]] erkannte, dass die Planetenbahnen Ellipsen sind.' },
+  zahlen: { paare: [
+      ['Ptolemäus beschreibt das geozentrische Weltbild', 'um 150 n. Chr.'],
+      ['Buch von Kopernikus erscheint', '1543'],
+      ['Galilei richtet sein Fernrohr zum Himmel', '1609/1610'],
+      ['Galilei muss abschwören', '1633'],
+      ['Kirche erkennt Galileis Unrecht an', '1992'],
+      ['Monde, die Galilei am Jupiter sah', '4']
+    ],
+    reihe: { f: 'Ordne die Ereignisse zeitlich: vom frühesten (1) bis zum spätesten (5).', items: ['Aristoteles lehrt: Die Erde ruht in der Mitte (ca. 350 v. Chr.)', 'Ptolemäus schreibt sein großes Himmelsbuch (ca. 150 n. Chr.)', 'Kopernikus veröffentlicht das heliozentrische Weltbild', 'Galilei wird vom Kirchengericht verurteilt', 'Newton erklärt die Planetenbahnen mit der Gravitation (1687)'] } },
+  erklaeren: [
+    ['Erkläre den Unterschied zwischen dem geozentrischen und dem heliozentrischen Weltbild.', 'Im geozentrischen Weltbild (Ptolemäus) steht die Erde ruhend im Mittelpunkt, Sonne, Mond und Planeten kreisen um sie. Im heliozentrischen Weltbild (Kopernikus) steht die Sonne im Mittelpunkt, die Erde ist ein Planet, kreist um die Sonne und dreht sich um sich selbst.', ['geozentrisch:geozentr', 'heliozentrisch:heliozentr', 'Erde in der Mitte:erde', 'Sonne in der Mitte:sonne', 'Ptolemäus/Kopernikus:ptolem/kopernik']],
+    ['Welche Beobachtungen Galileis sprachen gegen das geozentrische Weltbild? Nenne mindestens zwei.', 'Galilei sah mit dem Fernrohr vier Monde, die um den Jupiter kreisen – also kreist nicht alles um die Erde. Die Venus zeigte Phasen wie der Mond; das passt nur, wenn sie um die Sonne kreist. Außerdem hatte der Mond Krater und die Sonne Flecken – der Himmel war nicht „perfekt“.', ['Fernrohr:fernrohr/teleskop', 'Jupitermonde:jupiter', 'Venusphasen:venus/phase', 'Mondkrater:krater/berge']],
+    ['Warum hat es so lange gedauert, bis sich das heliozentrische Weltbild durchgesetzt hat?', 'Für unsere Augen sieht es so aus, als würde die Sonne um die Erde wandern – die Bewegung der Erde spüren wir nicht. Die Kirche hielt das alte Weltbild für richtig, weil es zur damaligen Auslegung der Bibel passte, und bestrafte Gegner. Beweise gab es erst mit dem Fernrohr und Keplers Berechnungen.', ['Beobachtung/spüren:spür/sieht/aussehen/beobacht', 'Kirche:kirche', 'Bibel/Glaube:bibel/glaub/gott', 'Beweise:beweis/fernrohr/kepler']]
+  ],
+  abschluss: [
+    ['Was bedeutet das griechische Wort „Helios“?', ['Sonne', 'Erde', 'Himmel', 'Stern'], 'Helios = Sonne, Geo = Erde.'],
+    ['Womit erklärte Ptolemäus, dass Planeten manchmal Schleifen am Himmel machen?', ['mit kleinen Hilfskreisen (Epizykeln)', 'mit der Gravitation', 'mit Ellipsenbahnen', 'mit Schwarzen Löchern'], 'Epizykel: Planeten bewegen sich auf kleinen Kreisen, die selbst auf großen Kreisen laufen.'],
+    ['Welcher griechische Forscher hatte schon um 250 v. Chr. die Idee, dass die Sonne in der Mitte steht?', ['Aristarch von Samos', 'Ptolemäus', 'Pythagoras', 'Archimedes'], 'Aristarch war seiner Zeit weit voraus – kaum jemand glaubte ihm.'],
+    ['Was zeigte Kepler zusätzlich zu den Ellipsenbahnen?', ['Planeten sind nahe der Sonne schneller.', 'Planeten sind immer gleich schnell.', 'Die Sonne bewegt sich um die Erde.', 'Der Mond ist ein Planet.'], 'Nahe an der Sonne laufen die Planeten schneller, weiter weg langsamer.'],
+    ['Wer erklärte 1687, WARUM die Planeten um die Sonne kreisen?', ['Isaac Newton mit der Gravitation', 'Galileo Galilei mit dem Fernrohr', 'Ptolemäus mit Epizykeln', 'Kopernikus mit seinem Buch'], 'Newton: Die Massenanziehung (Gravitation) hält die Planeten auf ihren Bahnen.'],
+    ['Steht die Sonne heute für uns im Mittelpunkt des Universums?', ['Nein, das Universum hat keinen Mittelpunkt – die Sonne ist ein Stern unter Milliarden.', 'Ja, wie bei Kopernikus.', 'Nein, die Erde ist der Mittelpunkt.', 'Ja, aber nur nachts.'], 'Unser Weltbild hat sich weiterentwickelt.'],
+    ['Warum erkannte die Kirche Galileis Unrecht erst so spät an?', ['Weil es lange dauerte, alte Urteile zu überprüfen und zuzugeben.', 'Weil Galilei erst 1992 starb.', 'Weil es vorher keine Fernrohre gab.', 'Weil die Erde 1992 aufhörte, sich zu drehen.'], 'Erst 1992 sprach Papst Johannes Paul II. vom Unrecht an Galilei.'],
+    ['Welches Instrument war für den Beweis des neuen Weltbilds besonders wichtig?', ['das Fernrohr', 'die Waage', 'das Thermometer', 'der Kompass'], 'Mit dem Fernrohr konnte man endlich Neues am Himmel sehen.']
+  ] },
+
+/* ============================================================ GRAVITATION */
+{ id: 'GR', name: 'Gravitation', farbe: '#4A5C8A', ico: '🍎',
+  mc: [
+    ['Was ist Gravitation?', ['die Anziehungskraft zwischen allen Körpern mit Masse', 'eine magnetische Kraft', 'die Kraft, die nur auf der Erde wirkt', 'die Kraft, mit der Luft drückt'], 'Gravitation = Massenanziehung. Sie wirkt zwischen allen Körpern, die eine Masse haben.'],
+    ['Was hält die Planeten auf ihrer Bahn um die Sonne?', ['die Gravitation der Sonne', 'der Sonnenwind', 'unsichtbare Seile aus Licht', 'Magnetismus der Erde'], 'Die Sonne zieht die Planeten an – sonst würden sie geradeaus ins All fliegen.'],
+    ['Welcher Forscher ist durch die Geschichte vom fallenden Apfel bekannt?', ['Isaac Newton', 'Albert Einstein', 'Galileo Galilei', 'Johannes Kepler'], 'Isaac Newton beschrieb 1687 das Gravitationsgesetz.'],
+    ['Wann ist die Anziehungskraft zwischen zwei Körpern größer?', ['wenn die Massen größer sind', 'wenn die Körper weiter auseinander sind', 'wenn die Körper kälter sind', 'wenn die Körper heller sind'], 'Mehr Masse = mehr Anziehung. Mehr Abstand = weniger Anziehung.'],
+    ['Was passiert mit der Anziehungskraft, wenn der Abstand größer wird?', ['Sie wird kleiner.', 'Sie wird größer.', 'Sie bleibt gleich.', 'Sie wird plötzlich null.'], 'Je weiter weg, desto schwächer die Gravitation – aber sie wird nie ganz null.'],
+    ['Was verursacht Ebbe und Flut?', ['vor allem die Anziehung des Mondes', 'der Wind', 'Erdbeben im Meer', 'die Wärme der Sonne'], 'Der Mond zieht das Wasser der Meere an.'],
+    ['Wie stark ist die Anziehungskraft auf dem Mond im Vergleich zur Erde?', ['etwa ein Sechstel', 'genauso stark', 'doppelt so stark', 'gar nicht vorhanden'], 'Auf dem Mond ist man etwa sechsmal leichter – die Masse bleibt aber gleich.'],
+    ['Warum schweben Astronautinnen und Astronauten in der ISS?', ['Sie fallen ständig mit der ISS um die Erde herum (freier Fall).', 'Dort oben gibt es überhaupt keine Gravitation.', 'Die ISS hat einen Anti-Schwerkraft-Motor.', 'Weil im All keine Luft ist.'], 'In 400 km Höhe wirkt noch etwa 90 % der Gravitation! Die ISS „fällt“ ständig um die Erde.'],
+    ['Was zeigte ein Astronaut 1971 auf dem Mond mit Hammer und Feder?', ['Ohne Luft fallen beide gleich schnell.', 'Der Hammer fällt schneller.', 'Die Feder schwebt davon.', 'Beide fallen nach oben.'], 'Ohne Luftwiderstand fallen alle Körper gleich schnell.'],
+    ['Warum fällt ein Apfel auf die Erde – und nicht die Erde zum Apfel?', ['Beide ziehen sich an, aber die riesige Erde bewegt sich dabei praktisch gar nicht.', 'Nur die Erde zieht, der Apfel zieht nicht.', 'Der Apfel ist schwerer als die Erde.', 'Weil der Apfel nach unten will.'], 'Die Anziehung ist gegenseitig – die Erde ist aber viel zu schwer, um sich merklich zu bewegen.']
+  ],
+  begriffe: [
+    ['Gravitation', 'Anziehungskraft zwischen allen Körpern, die eine Masse haben'],
+    ['Masse', 'gibt an, wie schwer und träge ein Körper ist (Einheit: kg) – überall gleich'],
+    ['Gewichtskraft', 'Kraft, mit der ein Körper von einem Himmelskörper angezogen wird – ist auf dem Mond kleiner'],
+    ['Schwerelosigkeit', 'Zustand, in dem man schwebt, weil man frei fällt'],
+    ['Umlaufbahn', 'Weg eines Körpers um einen anderen, auf dem ihn die Gravitation hält'],
+    ['Gezeiten', 'regelmäßiger Wechsel von Ebbe und Flut'],
+    ['Flut', 'Das Wasser steigt an der Küste an.'],
+    ['Ebbe', 'Das Wasser zieht sich von der Küste zurück.']
+  ],
+  bild: { svg: bildGravitation, titel: 'Erde und Mond: Ebbe und Flut',
+    labels: ['Mond', 'Flutberg auf der Seite zum Mond', 'Flutberg auf der abgewandten Seite', 'Ebbe', 'Anziehungskraft (Erde und Mond ziehen sich gegenseitig an)'],
+    extra: ['Sonne', 'Schwerelosigkeit'],
+    fragen: [['Wie viele Flutberge gibt es gleichzeitig auf der Erde?', ['zwei', 'einen', 'vier']], ['Wie oft hat ein Ort an der Küste ungefähr Flut pro Tag?', ['zweimal', 'einmal', 'gar nicht']]],
+    beschreib: { f: 'Erkläre mit dem Bild in 3–4 Sätzen, wie Ebbe und Flut entstehen.',
+      kw: ['Mond:mond', 'Anziehung:anzieh/gravitation/zieht', 'Wasser:wasser/meer', 'Flutberg:flut', 'Ebbe:ebbe', 'Drehung:dreh/rotat'],
+      muster: 'Der Mond zieht mit seiner Gravitation das Wasser der Meere an. Auf der Seite zum Mond entsteht ein Flutberg, auf der gegenüberliegenden Seite ebenfalls. Dazwischen ist Ebbe. Weil sich die Erde unter den Flutbergen hindurchdreht, hat jeder Küstenort etwa zweimal am Tag Flut und zweimal Ebbe.' } },
+  text: { titel: 'Schwerelos – aber nicht ohne Schwerkraft',
+    html: '<p>Die Internationale Raumstation <b>ISS</b> fliegt in etwa <b>400 km Höhe</b> um die Erde. Viele denken, dass es dort oben keine Schwerkraft gibt. Das ist falsch: In 400 km Höhe ist die Gravitation der Erde immer noch etwa <b>90 %</b> so stark wie am Boden.</p><p>Warum schweben die Astronautinnen und Astronauten dann? Die ISS ist mit etwa <b>28 000 km/h</b> unterwegs. Sie fällt ständig in Richtung Erde – ist aber so schnell, dass sie dabei immer an der Erde „vorbeifällt“. Die Menschen in der ISS fallen genauso schnell mit. Deshalb drücken sie nicht auf den Boden und schweben. Das nennt man <b>Schwerelosigkeit</b>.</p><p>Für eine Runde um die Erde braucht die ISS nur etwa <b>90 Minuten</b>. Die Crew erlebt also bis zu 16 Sonnenaufgänge an einem Tag. Weil die Muskeln in der Schwerelosigkeit kaum arbeiten müssen, trainieren die Astronauten jeden Tag etwa zwei Stunden.</p>',
+    rf: [
+      ['In der ISS gibt es überhaupt keine Gravitation.', false, 'Falsch: Etwa 90 % der Gravitation wirken noch.'],
+      ['Die ISS fliegt in etwa 400 km Höhe.', true, 'Richtig.'],
+      ['Die ISS fällt ständig um die Erde herum.', true, 'Richtig: Sie „fällt“ an der Erde vorbei.'],
+      ['Die ISS braucht für eine Erdumrundung etwa einen Tag.', false, 'Falsch: nur etwa 90 Minuten.'],
+      ['Astronauten müssen in der ISS täglich Sport machen.', true, 'Richtig: etwa zwei Stunden, damit die Muskeln nicht schwach werden.'],
+      ['Schwerelosigkeit bedeutet, dass man ständig frei fällt.', true, 'Richtig.']
+    ],
+    luecke: 'Gravitation ist eine [[Anziehungskraft|Abstoßungskraft|magnetische Kraft]]. Je größer die Masse, desto [[stärker|schwächer]] ist die Anziehung. Je größer der Abstand, desto [[schwächer|stärker]] ist sie. Ebbe und Flut entstehen vor allem durch den [[Mond|Wind|Mars]]. Astronauten in der ISS schweben, weil sie ständig [[fallen|steigen|stillstehen]].' },
+  zahlen: { paare: [
+      ['Newton veröffentlicht das Gravitationsgesetz', '1687'],
+      ['Flughöhe der ISS', 'etwa 400 km'],
+      ['Geschwindigkeit der ISS', 'etwa 28 000 km/h'],
+      ['Dauer einer Erdumrundung der ISS', 'etwa 90 Minuten'],
+      ['Anziehung auf dem Mond im Vergleich zur Erde', 'etwa 1/6'],
+      ['Zeit von einer Flut zur nächsten', 'etwa 12,5 Stunden']
+    ],
+    reihe: { f: 'Ordne nach der Stärke der Anziehung an der Oberfläche: von der schwächsten (1) zur stärksten (5).', items: ['Mond', 'Mars', 'Erde', 'Jupiter', 'Sonne'] } },
+  erklaeren: [
+    ['Erkläre, warum die Erde um die Sonne kreist und nicht einfach geradeaus ins All fliegt.', 'Die Erde bewegt sich sehr schnell vorwärts. Ohne Kraft würde sie geradeaus weiterfliegen. Die Sonne zieht die Erde aber mit ihrer Gravitation ständig zu sich hin. Beides zusammen – Vorwärtsbewegung und Anziehung – ergibt die Kreisbahn (Umlaufbahn).', ['Gravitation/Anziehung:gravitation/anzieh/zieht', 'Sonne:sonne', 'geradeaus:geradeaus/gerade', 'Geschwindigkeit:schnell/geschwind/bewegt', 'Bahn:bahn/kreis']],
+    ['Ein Mitschüler sagt: „Im Weltall gibt es keine Schwerkraft.“ Stimmt das? Begründe.', 'Das stimmt nicht. Gravitation wirkt überall im Weltall, sie wird nur mit zunehmendem Abstand schwächer. Sonst würde der Mond nicht um die Erde und die Erde nicht um die Sonne kreisen. Astronauten in der ISS schweben, weil sie ständig mit der ISS um die Erde fallen (Schwerelosigkeit), nicht weil es keine Gravitation gibt.', ['stimmt nicht:stimmt nicht/falsch/nicht richtig', 'überall:überall/weltall', 'schwächer:schwächer/abstand', 'fallen:fall', 'Mond/Planeten kreisen:mond/kreis/bahn']],
+    ['Was ist der Unterschied zwischen Masse und Gewichtskraft? Erkläre am Beispiel einer Reise zum Mond.', 'Die Masse (in kg) gibt an, wie viel Stoff ein Körper hat – sie ist überall gleich. Die Gewichtskraft ist die Kraft, mit der ein Himmelskörper ihn anzieht. Auf dem Mond ist sie nur etwa ein Sechstel so groß wie auf der Erde. Ein Astronaut mit 80 kg hat auf dem Mond immer noch 80 kg Masse, wird aber viel schwächer angezogen und kann hoch springen.', ['Masse:masse', 'gleich bleibt:gleich/bleibt', 'Gewichtskraft:gewicht/kraft', 'ein Sechstel:~sechstel|1/6|sechsmal|6-mal|6 mal', 'Mond:mond']]
+  ],
+  abschluss: [
+    ['Wer zieht wen an: Erde und Mond?', ['Beide ziehen sich gegenseitig an.', 'Nur die Erde zieht den Mond an.', 'Nur der Mond zieht die Erde an.', 'Sie ziehen sich gar nicht an.'], 'Gravitation wirkt immer gegenseitig.'],
+    ['Wann gibt es besonders starke Fluten (Springflut)?', ['wenn Sonne, Mond und Erde in einer Linie stehen', 'wenn der Mond nicht zu sehen ist, weil es bewölkt ist', 'nur im Sommer', 'wenn starker Wind weht'], 'Bei Neu- und Vollmond addieren sich die Anziehung von Sonne und Mond.'],
+    ['Was würde passieren, wenn die Gravitation der Sonne plötzlich verschwände?', ['Die Erde würde geradeaus ins All fliegen.', 'Die Erde würde in die Sonne stürzen.', 'Die Erde würde stehen bleiben.', 'Nichts würde sich ändern.'], 'Ohne Anziehung keine Kreisbahn – die Erde flöge geradeaus weiter.'],
+    ['Welcher Himmelskörper im Sonnensystem hat die stärkste Anziehungskraft?', ['die Sonne', 'Jupiter', 'die Erde', 'der Mond'], 'Die Sonne hat die mit Abstand größte Masse.'],
+    ['Eine Feder und ein Stein fallen in einer luftleeren Röhre. Was passiert?', ['Beide kommen gleichzeitig unten an.', 'Der Stein ist viel früher unten.', 'Die Feder schwebt.', 'Die Feder ist früher unten.'], 'Ohne Luftwiderstand fallen alle Körper gleich schnell.'],
+    ['Ein Rucksack hat auf der Erde 6 kg Masse. Welche Masse hat er auf dem Mond?', ['6 kg', '1 kg', '36 kg', '0 kg'], 'Die Masse bleibt überall gleich – nur die Gewichtskraft wird kleiner.'],
+    ['Was hält den Mond auf seiner Bahn um die Erde?', ['die Gravitation der Erde', 'das Magnetfeld der Sonne', 'die Lufthülle der Erde', 'der Sonnenwind'], 'Die Erde zieht den Mond an.'],
+    ['Wie heißt die Kraft, mit der dich die Erde nach unten zieht?', ['Gewichtskraft', 'Reibungskraft', 'Magnetkraft', 'Muskelkraft'], 'Die Gewichtskraft ist die Folge der Gravitation.']
+  ] },
+
+/* ============================================================ ASTEROIDEN */
+{ id: 'AK', name: 'Asteroiden, Kometen & Meteoroiden', farbe: '#D9734E', ico: '☄️',
+  mc: [
+    ['Was sind Asteroiden?', ['Brocken aus Gestein und Metall, die um die Sonne kreisen', 'kleine Sterne', 'Monde der Erde', 'Wolken aus Gas'], 'Asteroiden sind Gesteins- und Metallbrocken.'],
+    ['Wo befinden sich die meisten Asteroiden unseres Sonnensystems?', ['im Asteroidengürtel zwischen Mars und Jupiter', 'zwischen Erde und Mond', 'im Inneren der Sonne', 'hinter dem Neptun in der Milchstraße'], 'Der Asteroidengürtel liegt zwischen Mars und Jupiter.'],
+    ['Warum nennt man Kometen „schmutzige Schneebälle“?', ['Sie bestehen aus Eis, Staub und Gestein.', 'Sie sind weiß und kalt wie Schnee auf der Erde.', 'Sie werden von Astronauten geworfen.', 'Sie sind aus Kohle.'], 'Ein Kometenkern ist ein Gemisch aus Eis, Staub und Gestein.'],
+    ['Wann bekommt ein Komet seinen Schweif?', ['wenn er in die Nähe der Sonne kommt', 'wenn er weit weg von der Sonne ist', 'wenn er auf die Erde fällt', 'immer, er hat ihn von Anfang an'], 'In Sonnennähe verdampft Eis und reißt Staub mit – der Schweif entsteht.'],
+    ['Wie nennt man einen kleinen Gesteinsbrocken, der durchs Weltall fliegt?', ['Meteoroid', 'Meteor', 'Meteorit', 'Komet'], 'Im All: Meteoroid.'],
+    ['Wie nennt man die Leuchtspur am Himmel, wenn ein Brocken in der Lufthülle verglüht?', ['Meteor (Sternschnuppe)', 'Meteoroid', 'Meteorit', 'Asteroid'], 'Die Leuchterscheinung ist der Meteor – umgangssprachlich Sternschnuppe.'],
+    ['Wie nennt man einen Brocken, der den Erdboden erreicht?', ['Meteorit', 'Meteor', 'Meteoroid', 'Komet'], 'Auf der Erde angekommen: Meteorit.'],
+    ['Warum leuchtet eine Sternschnuppe?', ['Der Brocken wird in der Luft extrem heiß und glüht.', 'Er spiegelt das Mondlicht.', 'Er ist ein kleiner Stern.', 'Er hat eine Batterie.'], 'Mit riesiger Geschwindigkeit wird die Luft davor zusammengepresst – alles wird glühend heiß.'],
+    ['Wie oft kann man den Halleyschen Kometen von der Erde aus sehen?', ['etwa alle 76 Jahre', 'jedes Jahr', 'alle 1000 Jahre', 'jede Nacht'], 'Zuletzt war er 1986 zu sehen, das nächste Mal 2061.'],
+    ['Was ist vermutlich vor 66 Millionen Jahren mit den Dinosauriern passiert?', ['Ein etwa 10 km großer Asteroid schlug ein und veränderte das Klima.', 'Ein Komet hat sie mit Eis bedeckt.', 'Sternschnuppen haben sie verbrannt.', 'Der Mond ist auf die Erde gefallen.'], 'Der Einschlag in Mexiko (Chicxulub-Krater) löste ein weltweites Massensterben aus.']
+  ],
+  begriffe: [
+    ['Asteroid', 'Brocken aus Gestein oder Metall, der um die Sonne kreist'],
+    ['Asteroidengürtel', 'Bereich zwischen Mars und Jupiter mit sehr vielen Asteroiden'],
+    ['Komet', 'Körper aus Eis, Staub und Gestein, der in Sonnennähe einen Schweif bekommt'],
+    ['Kometenschweif', 'leuchtende Spur aus Gas und Staub, die immer von der Sonne weg zeigt'],
+    ['Meteoroid', 'kleiner Brocken, der durch das Weltall fliegt'],
+    ['Meteor', 'Leuchtspur am Himmel, wenn ein Brocken in der Lufthülle verglüht'],
+    ['Meteorit', 'Rest eines Brockens, der auf dem Erdboden liegt'],
+    ['Krater', 'Vertiefung im Boden, die bei einem Einschlag entsteht']
+  ],
+  bild: { svg: bildAsteroiden, titel: 'Kleine Körper im Sonnensystem',
+    labels: ['Asteroidengürtel', 'Kometenkern', 'Kometenschweif', 'Meteoroid', 'Meteor (Sternschnuppe)', 'Meteorit'],
+    extra: ['Mars', 'Mond'],
+    fragen: [['In welche Richtung zeigt der Kometenschweif?', ['immer von der Sonne weg', 'immer zur Sonne hin', 'immer nach unten']], ['Der kleine rote Punkt in der Nähe der Sonne (links oben) ist …', ['der Mars', 'ein Meteorit', 'der Jupiter']]],
+    beschreib: { f: 'Beschreibe das Bild in 3–4 Sätzen. Erkläre besonders den Unterschied zwischen Meteoroid, Meteor und Meteorit.',
+      kw: ['Asteroidengürtel:gürtel', 'Komet:komet', 'Schweif:schweif', 'Meteoroid:meteoroid', 'Meteor:~meteor(?!o|i)', 'Meteorit:meteorit', 'Lufthülle:lufth/atmosph/luft'],
+      muster: 'Links sieht man die Sonne, die Marsbahn und den Asteroidengürtel zwischen Mars und Jupiter. Unten fliegt ein Komet; sein Schweif zeigt von der Sonne weg. Rechts ist die Erde mit ihrer Lufthülle: Der Brocken im All ist ein Meteoroid. Wenn er in der Lufthülle verglüht, sieht man einen Meteor (Sternschnuppe). Was am Boden ankommt, ist ein Meteorit.' } },
+  text: { titel: 'Gefahr aus dem All?',
+    html: '<p>Jeden Tag fallen etwa <b>100 Tonnen</b> Staub und kleine Steinchen aus dem All auf die Erde. Fast alles davon verglüht in <b>80 bis 120 km Höhe</b> in der Lufthülle. Größere Einschläge sind selten. Der bekannteste war vor <b>66 Millionen Jahren</b>: Ein etwa 10 km großer Asteroid schlug in Mexiko ein. Staub verdunkelte jahrelang den Himmel, und die Dinosaurier starben aus.</p><p>Im Jahr <b>2013</b> explodierte über der russischen Stadt <b>Tscheljabinsk</b> ein etwa 20 m großer Brocken. Die Druckwelle zerbrach Fensterscheiben, über 1 000 Menschen wurden verletzt.</p><p>Heute beobachten Teleskope den Himmel und suchen gefährliche Asteroiden. <b>2022</b> testete die NASA mit der Mission <b>DART</b>, ob man einen Asteroiden ablenken kann: Eine Raumsonde krachte absichtlich in den kleinen Asteroiden Dimorphos – und veränderte tatsächlich seine Bahn. Für die nächsten 100 Jahre ist kein großer Einschlag bekannt.</p>',
+    rf: [
+      ['Täglich fallen etwa 100 Tonnen Material aus dem All auf die Erde.', true, 'Richtig – meist als Staub.'],
+      ['Die meisten Brocken erreichen den Erdboden.', false, 'Falsch: Fast alles verglüht in 80–120 km Höhe.'],
+      ['Der Dinosaurier-Asteroid war etwa 10 km groß.', true, 'Richtig.'],
+      ['In Tscheljabinsk wurden 2013 viele Menschen durch Glassplitter verletzt.', true, 'Richtig: Die Druckwelle zerbrach Fenster.'],
+      ['Mit DART wurde ein Asteroid zerstört.', false, 'Falsch: Er wurde nur abgelenkt – seine Bahn hat sich verändert.'],
+      ['Für die nächsten 100 Jahre ist ein großer Einschlag angekündigt.', false, 'Falsch: Es ist keiner bekannt.']
+    ],
+    luecke: 'Ein Brocken im Weltall heißt [[Meteoroid|Meteorit|Meteor]]. Verglüht er in der Lufthülle, sieht man einen [[Meteor|Meteoriten|Asteroiden]]. Kommt ein Rest am Boden an, heißt er [[Meteorit|Meteoroid|Komet]]. Kometen bestehen aus [[Eis, Staub und Gestein|Metall|heißem Gas]]. Ihr Schweif zeigt immer [[von der Sonne weg|zur Sonne hin]].' },
+  zahlen: { paare: [
+      ['Wiederkehr des Halleyschen Kometen', 'etwa alle 76 Jahre'],
+      ['Nächster Besuch des Halleyschen Kometen', '2061'],
+      ['Dinosaurier-Einschlag vor', '66 Millionen Jahren'],
+      ['Größe des Dinosaurier-Asteroiden', 'etwa 10 km'],
+      ['Höhe, in der Sternschnuppen verglühen', '80–120 km'],
+      ['Ablenkung eines Asteroiden durch DART', '2022']
+    ],
+    reihe: { f: 'Ordne von der Sonne nach außen: was liegt am nächsten (1), was am weitesten weg (5)?', items: ['Erde', 'Mars', 'Asteroidengürtel', 'Jupiter', 'Kuipergürtel (Heimat vieler Kometen, hinter Neptun)'] } },
+  erklaeren: [
+    ['Erkläre den Unterschied zwischen Meteoroid, Meteor und Meteorit. Tipp: Es ist derselbe Brocken an verschiedenen Orten.', 'Ein Meteoroid ist ein kleiner Brocken, der durchs Weltall fliegt. Tritt er in die Lufthülle der Erde ein, wird er so heiß, dass er glüht – diese Leuchtspur nennt man Meteor oder Sternschnuppe. Verglüht er nicht ganz und landet ein Rest auf dem Boden, heißt dieser Meteorit.', ['Meteoroid im All:meteoroid', 'Meteor leuchtet:~meteor(?!o|i)', 'Sternschnuppe:sternschnupp', 'Meteorit am Boden:meteorit', 'Lufthülle:lufth/atmosph/luft']],
+    ['Erkläre den Unterschied zwischen einem Asteroiden und einem Kometen.', 'Ein Asteroid ist ein Brocken aus Gestein oder Metall, meist im Asteroidengürtel zwischen Mars und Jupiter. Er hat keinen Schweif. Ein Komet besteht aus Eis, Staub und Gestein („schmutziger Schneeball“) und kommt von weit außen. In Sonnennähe verdampft sein Eis – dann bekommt er eine Hülle und einen leuchtenden Schweif.', ['Gestein/Metall:gestein/metall', 'Eis:eis', 'Schweif:schweif', 'Sonnennähe:sonne', 'Asteroidengürtel:gürtel']],
+    ['Warum zeigt der Schweif eines Kometen immer von der Sonne weg – auch wenn sich der Komet von der Sonne entfernt?', 'Der Schweif entsteht, weil die Sonne das Eis des Kometen verdampfen lässt. Das Gas und der Staub werden vom Sonnenwind und vom Druck des Sonnenlichts nach außen weggeblasen. Deshalb zeigt der Schweif immer von der Sonne weg – egal, in welche Richtung der Komet fliegt.', ['Sonnenwind:sonnenwind/wind', 'weggeblasen:geblasen/gedrückt/weg', 'Eis verdampft:verdampf/eis', 'egal welche Richtung:richtung/egal']]
+  ],
+  abschluss: [
+    ['Wann kann man in Deutschland besonders viele Sternschnuppen sehen?', ['um den 12. August (Perseiden)', 'an Weihnachten', 'jeden Mittag', 'nur bei Vollmond'], 'Die Erde fliegt dann durch die Staubspur eines Kometen.'],
+    ['Woher kommen die Staubteilchen der Perseiden-Sternschnuppen?', ['von einem Kometen, der Staub auf seiner Bahn hinterlassen hat', 'vom Mond', 'von der Sonne', 'von Flugzeugen'], 'Kometen verlieren Staub – kreuzt die Erde die Spur, gibt es viele Sternschnuppen.'],
+    ['Welcher Körper ist am größten?', ['Ceres im Asteroidengürtel (ca. 940 km)', 'ein typischer Meteoroid', 'ein Sandkorn-Meteor', 'ein Meteorit im Museum'], 'Ceres ist so groß, dass sie heute als Zwergplanet zählt.'],
+    ['Wie heißt der Krater, den der Dinosaurier-Asteroid hinterlassen hat?', ['Chicxulub-Krater (Mexiko)', 'Nördlinger Ries', 'Grand Canyon', 'Olympus Mons'], 'Chicxulub liegt auf der Halbinsel Yucatán in Mexiko.'],
+    ['Woran kann man einen Meteoriten oft erkennen?', ['Er ist schwer, hat eine dunkle Schmelzkruste und enthält oft Eisen.', 'Er ist leicht wie Bimsstein und weiß.', 'Er leuchtet im Dunkeln.', 'Er ist immer rund wie eine Kugel.'], 'Viele Meteoriten enthalten Eisen und sind durch das Glühen außen dunkel.'],
+    ['Was passiert mit einem Kometen weit weg von der Sonne?', ['Er hat keinen Schweif und ist nur ein dunkler Eisbrocken.', 'Er schmilzt komplett.', 'Er explodiert.', 'Er leuchtet am hellsten.'], 'Weit draußen ist es zu kalt – das Eis verdampft nicht.'],
+    ['Warum verglühen die meisten Meteoroiden?', ['Weil sie in der Lufthülle durch die hohe Geschwindigkeit extrem heiß werden.', 'Weil sie von der Sonne geschmolzen werden.', 'Weil sie vom Mond abgefangen werden.', 'Weil sie aus Eis sind.'], 'Die Lufthülle ist unser Schutzschild.'],
+    ['Wie nennt man Menschen, die den Himmel nach gefährlichen Asteroiden absuchen, um die Erde zu schützen? (Fachgebiet)', ['Planetare Verteidigung', 'Wettervorhersage', 'Erdbebenkunde', 'Raketenbau'], 'Planetare Verteidigung: früh entdecken – und notfalls ablenken wie bei DART.']
+  ] },
+
+/* ============================================================ SCHWARZE LÖCHER */
+{ id: 'SL', name: 'Doppelstern & Schwarze Löcher', farbe: '#2B2D42', ico: '🕳️',
+  mc: [
+    ['Was ist ein Doppelstern?', ['zwei Sterne, die um einen gemeinsamen Schwerpunkt kreisen', 'ein Stern, der doppelt so hell ist', 'ein Stern mit zwei Planeten', 'zwei Sterne, die zusammengestoßen sind'], 'Zwei Sterne umkreisen einen gemeinsamen Schwerpunkt.'],
+    ['Wie häufig sind Doppelsterne im Universum?', ['sehr häufig', 'extrem selten', 'es gibt nur einen', 'es gibt keine'], 'Ein großer Teil aller Sterne hat einen oder mehrere Partner.'],
+    ['Wo liegt der gemeinsame Schwerpunkt eines Doppelsterns?', ['näher am schwereren Stern', 'immer genau in der Mitte', 'näher am leichteren Stern', 'im leichteren Stern'], 'Wie bei einer Wippe: Der Schwerpunkt liegt näher am schwereren Partner.'],
+    ['Was ist ein Schwarzes Loch?', ['ein extrem dichtes Objekt, dem nichts entkommt – nicht einmal Licht', 'ein Loch im Weltall, in dem gar nichts ist', 'ein erloschener Planet', 'ein schwarzer Stern aus Kohle'], 'Riesige Masse auf winzigem Raum – die Gravitation ist unvorstellbar stark.'],
+    ['Warum sieht man ein Schwarzes Loch nicht direkt?', ['Weil nicht einmal Licht aus ihm entkommen kann.', 'Weil es zu klein ist.', 'Weil es sich hinter Sternen versteckt.', 'Weil es nur nachts existiert.'], 'Kein Licht kommt heraus – man sieht nur die Wirkung auf die Umgebung.'],
+    ['Wie entsteht ein Schwarzes Loch (zum Beispiel)?', ['beim Kollaps eines sehr massereichen Sterns nach einer Supernova', 'wenn ein Planet zu heiß wird', 'wenn zwei Kometen zusammenstoßen', 'wenn die Sonne untergeht'], 'Der Kern eines sehr schweren Sterns stürzt in sich zusammen.'],
+    ['Was ist eine Supernova?', ['die gewaltige Explosion eines Sterns am Ende seines Lebens', 'ein neuer, kleiner Stern', 'ein besonders heller Planet', 'ein Komet mit zwei Schweifen'], 'Eine Supernova kann kurz heller leuchten als eine ganze Galaxie.'],
+    ['Was befindet sich im Zentrum unserer Milchstraße?', ['ein supermassereiches Schwarzes Loch', 'die Sonne', 'ein riesiger Planet', 'gar nichts'], 'Es heißt Sagittarius A* und hat etwa 4 Millionen Sonnenmassen.'],
+    ['Wird unsere Sonne einmal zu einem Schwarzen Loch?', ['Nein, dafür ist sie zu leicht.', 'Ja, in 5 Milliarden Jahren.', 'Ja, morgen.', 'Sie ist schon eins.'], 'Die Sonne wird ein Weißer Zwerg. Für ein Schwarzes Loch braucht es ein Vielfaches ihrer Masse.'],
+    ['Wann wurde zum ersten Mal ein „Foto“ eines Schwarzen Lochs veröffentlicht?', ['2019', '1919', '1969', '2000'], '2019 zeigte das Event Horizon Telescope den Schatten des Schwarzen Lochs in der Galaxie M87.']
+  ],
+  begriffe: [
+    ['Doppelstern', 'zwei Sterne, die sich gegenseitig umkreisen'],
+    ['Schwerpunkt', 'Punkt, um den sich beide Sterne eines Doppelsterns drehen'],
+    ['Schwarzes Loch', 'Objekt mit so starker Gravitation, dass nicht einmal Licht entkommt'],
+    ['Ereignishorizont', 'unsichtbare Grenze um ein Schwarzes Loch: Wer sie überschreitet, kommt nie zurück'],
+    ['Supernova', 'gewaltige Explosion eines massereichen Sterns'],
+    ['Akkretionsscheibe', 'Scheibe aus heißem, leuchtendem Gas, das um ein Schwarzes Loch kreist'],
+    ['Sonnenmasse', 'Vergleichsmaß: die Masse unserer Sonne'],
+    ['Lichtgeschwindigkeit', 'Geschwindigkeit des Lichts, etwa 300 000 km pro Sekunde']
+  ],
+  bild: { svg: bildSchwarzeLoecher, titel: 'Doppelstern und Schwarzes Loch',
+    labels: ['schwerer Stern', 'leichter Stern', 'gemeinsamer Schwerpunkt', 'Schwarzes Loch (Ereignishorizont)', 'Akkretionsscheibe (heißes Gas)'],
+    extra: ['Planet', 'Supernova'],
+    fragen: [['Warum liegt das Kreuz (Nr. 3) nicht genau in der Mitte zwischen den Sternen?', ['Weil der große Stern schwerer ist.', 'Weil der kleine Stern heißer ist.', 'Weil der Zeichner es verschoben hat.']], ['Was leuchtet bei einem Schwarzen Loch?', ['das heiße Gas um das Loch herum', 'das Loch selbst', 'gar nichts']]],
+    beschreib: { f: 'Beschreibe beide Bildhälften in 3–4 Sätzen wie in deinem Vortrag.',
+      kw: ['Doppelstern:doppelstern', 'Schwerpunkt:schwerpunkt', 'kreisen:kreis/umkreis/drehen', 'Licht:licht', 'Gas/Scheibe:gas/scheibe', 'Gravitation:gravitation/anzieh'],
+      muster: 'Links ist ein Doppelstern: Ein großer, schwerer Stern und ein kleiner, leichter Stern ziehen sich durch die Gravitation an und kreisen um ihren gemeinsamen Schwerpunkt. Der Schwerpunkt liegt näher am schweren Stern. Rechts ist ein Schwarzes Loch. Es selbst ist schwarz, weil nicht einmal Licht entkommen kann. Um das Loch kreist eine Scheibe aus heißem Gas, die hell leuchtet, bevor sie hineinstürzt.' } },
+  text: { titel: 'Das Schwarze Loch in unserer Milchstraße',
+    html: '<p>Im Zentrum unserer Milchstraße, etwa <b>26 000 Lichtjahre</b> von uns entfernt, sitzt ein riesiges Schwarzes Loch. Es heißt <b>Sagittarius A*</b> (gesprochen: „A-Stern“) und hat etwa <b>4 Millionen</b> Mal so viel Masse wie die Sonne.</p><p>Gesehen hat man es lange nicht – man kann ein Schwarzes Loch ja nicht direkt sehen. Forschende beobachteten aber über viele Jahre <b>Sterne</b>, die um ein unsichtbares Etwas rasen. Aus ihren Bahnen konnten sie berechnen, wie schwer es sein muss. Dafür gab es <b>2020 den Nobelpreis für Physik</b>, unter anderem für den deutschen Forscher <b>Reinhard Genzel</b>.</p><p><b>2022</b> veröffentlichte das Event Horizon Telescope – ein Zusammenschluss von Radioteleskopen auf der ganzen Welt – ein Bild: einen dunklen Schatten in einem leuchtenden Ring aus heißem Gas.</p><p>Gefährlich ist es für uns nicht: Die Erde ist viel zu weit weg. Ein Schwarzes Loch ist kein Staubsauger – aus großer Entfernung zieht es nicht stärker als ein Stern mit derselben Masse.</p>',
+    rf: [
+      ['Das Schwarze Loch in der Milchstraße heißt Sagittarius A*.', true, 'Richtig.'],
+      ['Es hat etwa die gleiche Masse wie unsere Sonne.', false, 'Falsch: etwa 4 Millionen Sonnenmassen.'],
+      ['Man entdeckte es, indem man Sterne beobachtete, die darum kreisen.', true, 'Richtig.'],
+      ['Für die Erforschung gab es einen Nobelpreis.', true, 'Richtig: 2020 für Physik.'],
+      ['Das Schwarze Loch saugt die Erde bald ein.', false, 'Falsch: Es ist viel zu weit weg.'],
+      ['Ein Schwarzes Loch zieht aus großer Entfernung stärker als ein Stern gleicher Masse.', false, 'Falsch: Es zieht genauso stark – es ist kein Staubsauger.']
+    ],
+    luecke: 'Bei einem Doppelstern kreisen zwei Sterne um einen gemeinsamen [[Schwerpunkt|Planeten|Kometen]]. Ein Schwarzes Loch ist so [[dicht|hell|kalt]], dass nicht einmal [[Licht|Wasser|Staub]] entkommen kann. Es entsteht oft nach einer [[Supernova|Sonnenfinsternis|Sternschnuppe]]. Die Grenze, hinter der es kein Zurück gibt, heißt [[Ereignishorizont|Äquator|Umlaufbahn]].' },
+  zahlen: { paare: [
+      ['Masse von Sagittarius A*', 'etwa 4 Millionen Sonnenmassen'],
+      ['Entfernung zum Zentrum der Milchstraße', 'etwa 26 000 Lichtjahre'],
+      ['Erstes Bild eines Schwarzen Lochs (M87)', '2019'],
+      ['Bild von Sagittarius A*', '2022'],
+      ['Nobelpreis für die Erforschung von Sagittarius A*', '2020'],
+      ['Lichtgeschwindigkeit pro Sekunde', 'etwa 300 000 km']
+    ],
+    reihe: { f: 'Wie entsteht ein Schwarzes Loch? Ordne die Schritte von (1) bis (5).', items: ['Ein sehr massereicher Stern leuchtet Millionen Jahre lang.', 'Sein Brennstoff im Kern ist aufgebraucht.', 'Der Kern stürzt unter seiner eigenen Gravitation zusammen.', 'Die äußeren Schichten werden in einer Supernova weggesprengt.', 'Übrig bleibt ein Schwarzes Loch.'] } },
+  erklaeren: [
+    ['Erkläre, was ein Doppelstern ist und wo der gemeinsame Schwerpunkt liegt.', 'Ein Doppelstern besteht aus zwei Sternen, die sich durch ihre Gravitation gegenseitig anziehen und um einen gemeinsamen Schwerpunkt kreisen. Der Schwerpunkt liegt näher am schwereren Stern – wie bei einer Wippe, bei der sich der schwerere Mensch näher an die Mitte setzen muss.', ['zwei Sterne:zwei stern/zwei', 'Schwerpunkt:schwerpunkt', 'kreisen:kreis/umkreis/drehen', 'schwererer Stern:schwer', 'Gravitation:gravitation/anzieh']],
+    ['Ein Kind fragt: „Warum ist ein Schwarzes Loch schwarz?“ Erkläre es verständlich.', 'In einem Schwarzen Loch ist sehr viel Masse auf winzigem Raum zusammengepresst. Dadurch ist die Gravitation so stark, dass nichts mehr entkommen kann – nicht einmal Licht, das schnellste, was es gibt. Weil kein Licht herauskommt, sieht es schwarz aus. Sichtbar ist nur heißes Gas, das um das Loch kreist.', ['Masse:masse/schwer', 'kleiner Raum:klein/eng/dicht/zusammengepresst', 'Gravitation:gravitation/anzieh', 'Licht entkommt nicht:licht', 'nichts entkommt:entkomm/raus']],
+    ['Wie können Forschende ein Schwarzes Loch entdecken, obwohl man es nicht sehen kann? Nenne zwei Möglichkeiten.', 'Man beobachtet Sterne, die sehr schnell um etwas Unsichtbares kreisen – aus ihren Bahnen kann man die Masse berechnen. Außerdem leuchtet das heiße Gas der Akkretionsscheibe hell, und mit vielen zusammengeschalteten Teleskopen kann man sogar den Schatten fotografieren (2019, 2022). Auch Gravitationswellen von verschmelzenden Schwarzen Löchern kann man messen.', ['Sterne beobachten:stern', 'Bahnen:bahn/kreis', 'heißes Gas:gas/scheibe/leucht', 'Teleskop:teleskop/foto/bild', 'Gravitationswellen:welle']]
+  ],
+  abschluss: [
+    ['Wenn man die Sonne durch ein Schwarzes Loch mit genau derselben Masse ersetzen würde – was würde mit der Erde passieren?', ['Sie würde weiter auf ihrer Bahn kreisen, aber es wäre dunkel und kalt.', 'Sie würde sofort eingesaugt.', 'Sie würde ins All davonfliegen.', 'Sie würde explodieren.'], 'Gleiche Masse = gleiche Anziehung in diesem Abstand. Es fehlen nur Licht und Wärme.'],
+    ['Was ist der Ereignishorizont?', ['die Grenze, hinter der nichts mehr entkommen kann', 'die Oberfläche eines Sterns', 'der Rand der Milchstraße', 'der Horizont auf der Erde'], 'Hinter dem Ereignishorizont gibt es kein Zurück.'],
+    ['Welcher bekannte Stern ist in Wahrheit ein Doppelstern (Sirius A und B)?', ['Sirius', 'die Sonne', 'der Polarstern ist nur ein Stern', 'der Mond'], 'Sirius, der hellste Stern am Nachthimmel, hat einen kleinen Partner: einen Weißen Zwerg.'],
+    ['Was wurde 2015 zum ersten Mal gemessen, als zwei Schwarze Löcher verschmolzen?', ['Gravitationswellen', 'Sonnenwind', 'Polarlichter', 'Sternschnuppen'], 'Gravitationswellen sind winzige „Wellen“ im Raum selbst.'],
+    ['Wer sagte mit seiner Relativitätstheorie Schwarze Löcher theoretisch voraus?', ['Albert Einstein (mit Karl Schwarzschild)', 'Isaac Newton', 'Galileo Galilei', 'Kopernikus'], 'Einstein (1915) und Schwarzschild (1916) – lange bevor man eines fand.'],
+    ['Was bleibt nach einer Supernova eines mittelschweren Sterns übrig – wenn er für ein Schwarzes Loch nicht schwer genug ist?', ['ein Neutronenstern', 'ein Planet', 'ein Komet', 'gar nichts'], 'Neutronensterne sind extrem dicht – ein Teelöffel wiegt Milliarden Tonnen.'],
+    ['Warum ist ein Schwarzes Loch kein „kosmischer Staubsauger“?', ['Aus großer Entfernung zieht es nicht stärker als ein Stern gleicher Masse.', 'Weil es gar keine Gravitation hat.', 'Weil es alles abstößt.', 'Weil es sich ständig bewegt.'], 'Nur wer sehr nahe kommt, wird verschluckt.'],
+    ['Wie nennt man Sterne, die nur zufällig nebeneinander am Himmel stehen, aber gar nicht zusammengehören?', ['optischer Doppelstern', 'echter Doppelstern', 'Schwarzes Loch', 'Supernova'], 'Sie stehen nur in derselben Blickrichtung – in Wirklichkeit sind sie weit voneinander entfernt.']
+  ] },
+
+/* ============================================================ GALAXIEN */
+{ id: 'GU', name: 'Galaxien, Universum & Urknall', farbe: '#5B3A9E', ico: '🌌',
+  mc: [
+    ['Was ist eine Galaxie?', ['eine riesige Ansammlung von Milliarden Sternen, Gas und Staub', 'ein großer Planet', 'ein Sternbild am Himmel', 'ein Schwarzes Loch'], 'Galaxien werden durch die Gravitation zusammengehalten.'],
+    ['Wie heißt unsere Galaxie?', ['Milchstraße', 'Andromeda', 'Sonnensystem', 'Orion'], 'Wir leben in der Milchstraße.'],
+    ['Welche Formen von Galaxien gibt es?', ['Spiral-, elliptische und irreguläre Galaxien', 'runde, eckige und dreieckige Galaxien', 'heiße und kalte Galaxien', 'nur Spiralgalaxien'], 'Spiralgalaxie, elliptische Galaxie, irreguläre (unregelmäßige) Galaxie.'],
+    ['Welche Form hat die Milchstraße?', ['Spiralgalaxie (mit Balken)', 'elliptische Galaxie', 'irreguläre Galaxie', 'Kugel'], 'Die Milchstraße ist eine Balkenspiralgalaxie.'],
+    ['Was bedeutet „Universum“?', ['alles, was es gibt – Materie, Raum und Zeit', 'nur unser Sonnensystem', 'nur die Milchstraße', 'alle Planeten'], 'Das Universum (Weltall) umfasst alles.'],
+    ['Wann entstand das Universum nach der Urknall-Theorie?', ['vor etwa 13,8 Milliarden Jahren', 'vor etwa 4,6 Milliarden Jahren', 'vor etwa 6000 Jahren', 'vor etwa 66 Millionen Jahren'], '13,8 Mrd. Jahre: Urknall. (4,6 Mrd. Jahre: Sonne und Erde.)'],
+    ['Was passiert mit dem Universum heute?', ['Es dehnt sich weiter aus.', 'Es zieht sich zusammen.', 'Es bleibt genau gleich groß.', 'Es dreht sich um die Erde.'], 'Der Raum dehnt sich aus – die Galaxien entfernen sich voneinander.'],
+    ['Was ist ein Lichtjahr?', ['die Strecke, die das Licht in einem Jahr zurücklegt', 'die Zeit, die die Erde für einen Umlauf braucht', 'ein besonders helles Jahr', 'das Alter eines Sterns'], 'Ein Lichtjahr ist eine Entfernung (etwa 9,5 Billionen km) – keine Zeit!'],
+    ['Wie heißt die große Nachbargalaxie der Milchstraße?', ['Andromeda-Galaxie', 'Sombrero-Galaxie', 'Mars-Galaxie', 'Sonnen-Galaxie'], 'Andromeda ist etwa 2,5 Millionen Lichtjahre entfernt.'],
+    ['Wer entdeckte 1929, dass sich die Galaxien von uns entfernen?', ['Edwin Hubble', 'Isaac Newton', 'Galileo Galilei', 'Nikolaus Kopernikus'], 'Hubble: Je weiter eine Galaxie entfernt ist, desto schneller entfernt sie sich.']
+  ],
+  begriffe: [
+    ['Galaxie', 'riesige Sterneninsel aus Milliarden Sternen, Gas und Staub'],
+    ['Milchstraße', 'unsere Heimatgalaxie'],
+    ['Spiralgalaxie', 'flache Galaxie mit leuchtenden, gebogenen Armen'],
+    ['elliptische Galaxie', 'Galaxie in Form eines Balls oder Eis ohne Arme'],
+    ['irreguläre Galaxie', 'Galaxie ohne erkennbare, regelmäßige Form'],
+    ['Universum', 'alles, was es gibt: Materie, Raum und Zeit'],
+    ['Urknall', 'Beginn des Universums vor etwa 13,8 Milliarden Jahren'],
+    ['Lichtjahr', 'Entfernung, die das Licht in einem Jahr zurücklegt']
+  ],
+  bild: { svg: bildGalaxien, titel: 'Galaxien',
+    labels: ['Zentrum (mit Schwarzem Loch)', 'Spiralarm', 'unsere Sonne', 'elliptische Galaxie', 'irreguläre Galaxie'],
+    extra: ['Urknall', 'Komet'],
+    fragen: [['Die große Galaxie links ist eine …', ['Spiralgalaxie', 'elliptische Galaxie', 'irreguläre Galaxie']], ['Würde die Milchstraße ähnlich aussehen?', ['Ja, sie ist auch eine Spiralgalaxie.', 'Nein, sie ist eine elliptische Galaxie.', 'Nein, sie ist ein Sonnensystem.']]],
+    beschreib: { f: 'Beschreibe das Bild in 3–4 Sätzen: Welche Galaxienformen siehst du? Wo liegt unsere Sonne?',
+      kw: ['Spiralgalaxie:spiral', 'elliptisch:ellip', 'irregulär:irregul/unregelm', 'Zentrum:zentrum/mitte', 'Sonne:sonne', 'Milchstraße:milchstra'],
+      muster: 'Links ist eine Spiralgalaxie – so ähnlich sieht unsere Milchstraße aus. In der Mitte liegt ein helles Zentrum mit einem Schwarzen Loch, außen winden sich die Spiralarme. Unsere Sonne liegt nicht in der Mitte, sondern weit außen in einem Spiralarm. Rechts oben ist eine elliptische Galaxie ohne Arme, rechts unten eine irreguläre Galaxie ohne feste Form.' } },
+  text: { titel: 'Ein Blick in die Vergangenheit',
+    html: '<p>Licht ist schnell, aber nicht unendlich schnell. Von der Sonne braucht es 8 Minuten zu uns. Das Licht der <b>Andromeda-Galaxie</b> war sogar <b>2,5 Millionen Jahre</b> unterwegs. Wenn wir sie sehen, blicken wir also in die <b>Vergangenheit</b>.</p><p>Das <b>James-Webb-Weltraumteleskop</b>, das seit <b>2021</b> im All ist, sieht Galaxien, deren Licht über <b>13 Milliarden Jahre</b> zu uns unterwegs war. Sie zeigen das Universum kurz nach dem <b>Urknall</b>.</p><p>Der Urknall war keine Explosion an einem bestimmten Ort. Vielmehr entstanden <b>Raum und Zeit</b> selbst, und der Raum dehnt sich seitdem aus. Man kann es sich wie einen <b>Rosinenkuchen</b> im Ofen vorstellen: Der Teig geht auf, und alle Rosinen (Galaxien) entfernen sich voneinander. Einen Mittelpunkt gibt es nicht.</p><p>Ein „Echo“ des Urknalls kann man heute noch messen: die <b>kosmische Hintergrundstrahlung</b>, die 1965 entdeckt wurde.</p>',
+    rf: [
+      ['Wenn wir weit entfernte Galaxien sehen, blicken wir in die Vergangenheit.', true, 'Richtig: Ihr Licht war sehr lange unterwegs.'],
+      ['Das Licht von Andromeda braucht 2,5 Millionen Jahre zu uns.', true, 'Richtig.'],
+      ['Der Urknall war eine Explosion an einem bestimmten Ort im Weltall.', false, 'Falsch: Raum und Zeit selbst sind entstanden.'],
+      ['Im Rosinenkuchen-Modell sind die Rosinen die Galaxien.', true, 'Richtig.'],
+      ['Das Universum hat einen genauen Mittelpunkt.', false, 'Falsch: Es gibt keinen Mittelpunkt.'],
+      ['Die Hintergrundstrahlung ist ein „Echo“ des Urknalls.', true, 'Richtig: 1965 entdeckt.']
+    ],
+    luecke: 'Unsere Galaxie heißt [[Milchstraße|Andromeda|Sonnensystem]] und ist eine [[Spiralgalaxie|elliptische Galaxie|irreguläre Galaxie]]. Ein Lichtjahr ist eine [[Entfernung|Zeitspanne|Geschwindigkeit]]. Das Universum entstand vor etwa [[13,8|4,6|1,5]] Milliarden Jahren und [[dehnt sich aus|schrumpft|bleibt gleich groß]].' },
+  zahlen: { paare: [
+      ['Alter des Universums', 'etwa 13,8 Milliarden Jahre'],
+      ['Durchmesser der Milchstraße', 'etwa 100 000 Lichtjahre'],
+      ['Anzahl der Sterne in der Milchstraße', '100–400 Milliarden'],
+      ['Entfernung der Andromeda-Galaxie', 'etwa 2,5 Millionen Lichtjahre'],
+      ['Ein Lichtjahr', 'etwa 9,5 Billionen km'],
+      ['Ein Sonnenumlauf um das Zentrum der Milchstraße dauert', 'etwa 230 Millionen Jahre']
+    ],
+    reihe: { f: 'Ordne die Geschichte des Universums vom Anfang (1) bis heute (5).', items: ['Urknall: Raum und Zeit entstehen', 'erste Atome entstehen, das Universum wird durchsichtig', 'die ersten Sterne leuchten auf', 'die Milchstraße bildet sich', 'Sonne und Erde entstehen (vor 4,6 Mrd. Jahren)'] } },
+  erklaeren: [
+    ['Erkläre, was eine Galaxie ist und wo wir uns in unserer Galaxie befinden.', 'Eine Galaxie ist eine riesige Ansammlung von Milliarden Sternen, Gas und Staub, die durch die Gravitation zusammengehalten wird. Unsere Galaxie ist die Milchstraße, eine Spiralgalaxie mit etwa 100 000 Lichtjahren Durchmesser. Unsere Sonne liegt nicht in der Mitte, sondern in einem Spiralarm, etwa 26 000 Lichtjahre vom Zentrum entfernt.', ['Sterne:stern', 'Milliarden:milliard', 'Gravitation:gravitation/anzieh/zusammengehalten', 'Milchstraße:milchstra', 'Spiralarm:spiral/arm', 'nicht in der Mitte:außen/nicht in der mitte/rand']],
+    ['Was besagt die Urknall-Theorie? Erkläre auch, warum der Urknall keine „normale“ Explosion war.', 'Nach der Urknall-Theorie entstand das Universum vor etwa 13,8 Milliarden Jahren aus einem extrem heißen, dichten Zustand. Dabei entstanden Raum und Zeit selbst. Es war keine Explosion an einem Ort im Raum – der Raum selbst dehnt sich seitdem aus. Deshalb entfernen sich die Galaxien voneinander.', ['13,8 Milliarden:13,8/13.8', 'heiß und dicht:heiß/heiss/dicht', 'Raum und Zeit:raum', 'Ausdehnung:dehn/ausdehn', 'Galaxien entfernen sich:entfern']],
+    ['Warum sagt man: „Ein Blick ins Weltall ist ein Blick in die Vergangenheit“?', 'Licht braucht Zeit, um zu uns zu kommen. Von der Sonne 8 Minuten, von Andromeda 2,5 Millionen Jahre – Andromeda ist also 2,5 Millionen Lichtjahre entfernt. Wir sehen eine Galaxie also so, wie sie war, als das Licht losgeschickt wurde. Je weiter weg wir schauen, desto weiter blicken wir in die Vergangenheit – bis kurz nach dem Urknall.', ['Licht braucht Zeit:licht', 'unterwegs/braucht:braucht/unterwegs/dauert', 'Lichtjahr:lichtjahr', 'Beispiel:andromeda/sonne/8 min', 'so wie es war:früher/war/damals/vergangen']]
+  ],
+  abschluss: [
+    ['Was wird in ferner Zukunft (in etwa 4–5 Milliarden Jahren) mit der Milchstraße und Andromeda passieren?', ['Sie werden zusammenstoßen und verschmelzen.', 'Sie werden sich in Luft auflösen.', 'Nichts – sie entfernen sich nur.', 'Andromeda wird ein Planet.'], 'Andromeda kommt auf uns zu. Die Sterne werden aber kaum zusammenstoßen – dazwischen ist sehr viel Platz.'],
+    ['Wie viele Galaxien gibt es ungefähr im beobachtbaren Universum?', ['Milliarden (wahrscheinlich Hunderte Milliarden oder mehr)', 'genau acht', 'etwa hundert', 'nur unsere'], 'Unvorstellbar viele – jede mit Milliarden Sternen.'],
+    ['Wie nennt man die schwache Strahlung, die als „Echo“ des Urknalls überall im All gemessen wird?', ['kosmische Hintergrundstrahlung', 'Sonnenwind', 'Polarlicht', 'Röntgenstrahlung'], '1965 zufällig entdeckt – ein starker Hinweis auf den Urknall.'],
+    ['Welche Galaxien kann man von der Südhalbkugel aus mit bloßem Auge sehen?', ['die Magellanschen Wolken', 'die Sombrero-Galaxie', 'gar keine', 'nur die Sonne'], 'Die Große und Kleine Magellansche Wolke sind irreguläre Nachbargalaxien.'],
+    ['Warum sieht man die Milchstraße am Nachthimmel als hellen Streifen?', ['Weil wir von innen auf die flache Scheibe der Galaxie schauen.', 'Weil dort Milch verschüttet wurde.', 'Weil es eine Wolke ist.', 'Weil es der Schweif eines Kometen ist.'], 'In Richtung der Scheibe sehen wir unzählige Sterne hintereinander.'],
+    ['Welches Teleskop schaut seit 2021 besonders weit in die Vergangenheit des Universums?', ['das James-Webb-Weltraumteleskop', 'Galileis Fernrohr', 'ein Mikroskop', 'das Hubble-Auge der Erde'], 'James Webb sieht im Infrarotlicht Galaxien kurz nach dem Urknall.'],
+    ['Was hält eine Galaxie zusammen?', ['die Gravitation', 'Magnetismus', 'der Sonnenwind', 'Luftdruck'], 'Die Gravitation aller Sterne, des Gases und der Dunklen Materie.'],
+    ['Im Rosinenkuchen-Modell geht der Teig im Ofen auf. Wofür steht der Teig?', ['für den Raum, der sich ausdehnt', 'für die Sterne', 'für die Planeten', 'für das Licht'], 'Der Raum dehnt sich aus, die Rosinen (Galaxien) entfernen sich voneinander.']
+  ] }
+];
+
+/* =====================================================================
+   WELTALL-LABOR 8d – Programm (Anzeige, Prüfen, Punkte, Ergebnis)
+   Texte und Aufgaben stehen in inhalt.js.
+   ===================================================================== */
+var KEY = 'weltall8d-labor-v1', MAXALTER = 8 * 3600 * 1000;
+function neuerZustand() { return { v: 1, t: Date.now(), d: { klasse: '8d' }, a: {}, erst: {}, seite: 'start' }; }
+function laden() {
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (!s || s.v !== 1 || Date.now() - s.t > MAXALTER) return null;
+    s.a = s.a || {}; s.erst = s.erst || {}; s.d = s.d || { klasse: '8d' };
+    return s;
+  } catch (e) { return null; }
+}
+var S = laden() || neuerZustand();
+var spTimer = null;
+function speichern() { S.t = Date.now(); clearTimeout(spTimer); spTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 150); }
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function plain(html) { var d = document.createElement('div'); d.innerHTML = html; return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function mische(n, saat) { // feste, aber „zufällig“ wirkende Reihenfolge
+  var idx = [], z = hash(saat) || 1; for (var i = 0; i < n; i++) idx.push(i);
+  for (var j = n - 1; j > 0; j--) { z = (z * 1103515245 + 12345) & 0x7fffffff; var k = z % (j + 1), t = idx[j]; idx[j] = idx[k]; idx[k] = t; }
+  return idx;
+}
+function toast(html, lang) { var t = $('toast'); t.innerHTML = html; t.classList.add('zeigen'); clearTimeout(t._z); t._z = setTimeout(function () { t.classList.remove('zeigen'); }, lang || 3500); }
+function T() { for (var i = 0; i < THEMEN.length; i++) if (THEMEN[i].id === S.d.thema) return THEMEN[i]; return null; }
+
+var ST = [
+  { id: 's1', ico: '🧠', titel: 'Wissens-Check', zeit: 10, auftrag: 'Beantworte die 10 Fragen zu deinem Thema. <b>Deine erste Antwort zählt</b> – danach siehst du sofort, ob sie stimmt. Lies bei Fehlern die Erklärung genau: Genau das musst du für den Vortrag noch lernen.' },
+  { id: 's2', ico: '🔤', titel: 'Fachbegriffe', zeit: 8, auftrag: 'Im Vortrag musst du die Fachbegriffe erklären können. Ordne jedem Begriff die passende Erklärung zu und klicke auf „Prüfen“. <b>Der erste Prüf-Versuch zählt.</b> Danach darfst du verbessern.' },
+  { id: 's3', ico: '🖼️', titel: 'Bild-Station', zeit: 12, auftrag: 'In Vorträgen zeigt man Bilder – und muss sie erklären können. ① Ordne jeder Nummer den richtigen Begriff zu und beantworte die Fragen. ② Beschreibe danach das Bild mit eigenen Worten.' },
+  { id: 's4', ico: '📖', titel: 'Text-Station', zeit: 12, auftrag: 'Lies den Text genau – er enthält auch Neues, das gut in deinen Vortrag passt. ① Entscheide: richtig oder falsch? ② Fülle den Lückentext aus.' },
+  { id: 's5', ico: '🔢', titel: 'Zahlen & Reihenfolge', zeit: 8, auftrag: 'Gute Vorträge enthalten wichtige Zahlen. ① Ordne jedem Fakt die richtige Zahl zu. ② Bringe die Begriffe in die richtige Reihenfolge.' },
+  { id: 's6', ico: '🎤', titel: 'Erklär-Station', zeit: 15, auftrag: 'Nach deinem Vortrag stellt das Publikum Fragen. Beantworte sie <b>schriftlich in ganzen Sätzen</b> – so, wie du es mündlich sagen würdest. Danach deckst du die Musterlösung auf und bewertest dich <b>ehrlich</b> selbst.' },
+  { id: 's7', ico: '🏁', titel: 'Abschluss-Check', zeit: 8, auftrag: 'Jetzt wird es ernst: <b>8 neue Fragen ohne Hilfe.</b> Du kannst deine Antworten noch ändern. Erst wenn alle beantwortet sind, klickst du auf „Auswerten“. Danach ist nichts mehr änderbar.' },
+  { id: 'erg', ico: '📊', titel: 'Ergebnis' }
+];
+
+/* ---------- Bausteine ---------- */
+var GR = {}, FT = {};   // registrierte Prüfgruppen und Freitexte der aktuellen Station
+function k(t, s) { return t.id + '.' + s; }
+
+function mcHtml(key, q, nr, sofort, gesperrt) {
+  var ord = mische(q[1].length, key), ant = S.a[key], zeige = sofort ? ant != null : gesperrt;
+  var h = '<div class="frage' + (zeige ? (ant === 0 ? ' ok' : ' bad') : '') + '"><div class="fnr">' + nr + '</div><div class="finhalt"><p class="ftext">' + q[0] + '</p><div class="optionen">';
+  ord.forEach(function (o) {
+    var kl = 'opt';
+    if (ant === o) kl += ' gewaehlt';
+    if (zeige && o === 0) kl += ' richtig';
+    if (zeige && ant === o && o !== 0) kl += ' falsch';
+    h += '<button class="' + kl + '" data-mc="' + key + '" data-o="' + o + '"' + (zeige ? ' disabled' : '') + '>' + esc(q[1][o]) + '</button>';
+  });
+  h += '</div>';
+  if (zeige) h += '<div class="rueck ' + (ant === 0 ? 'ja' : 'nein') + '">' + (ant === 0 ? '✓ Richtig! ' : (ant == null ? '– nicht beantwortet. ' : '✗ Leider falsch. ')) + esc(q[2]) + '</div>';
+  return h + '</div></div>';
+}
+
+// Prüfgruppe: rows = [{k, l (html), o (Liste, richtige zuerst ODER gemeinsame Liste), r (richtiger Text), e (Erklärung)}]
+function gruppeHtml(gk, rows, titel) {
+  GR[gk] = rows;
+  var chk = S.a[gk + '.chk'], los = S.a[gk + '.los'];
+  var h = '<div class="gruppe" id="g-' + gk + '">' + (titel ? '<h3>' + titel + '</h3>' : '') + '<div class="zeilen">';
+  rows.forEach(function (r) {
+    var w = S.a[r.k] || '', ok = chk ? w === r.r : null;
+    h += '<div class="gzeile' + (chk ? (ok ? ' ok' : ' bad') : '') + '"><div class="glabel">' + r.l + '</div><div class="gwahl"><select data-sel="' + r.k + '"><option value="">– bitte wählen –</option>';
+    r.o.forEach(function (o) { h += '<option' + (o === w ? ' selected' : '') + '>' + esc(o) + '</option>'; });
+    h += '</select>' + (chk ? '<span class="mark">' + (ok ? '✓' : '✗') + '</span>' : '') + '</div>';
+    if (chk && !ok && los) h += '<div class="loesung">Richtig: <b>' + esc(r.r) + '</b></div>';
+    if (chk && r.e && (ok || los)) h += '<div class="erkl">' + esc(r.e) + '</div>';
+    h += '</div>';
+  });
+  return h + '</div>' + pruefLeiste(gk, rows.length) + '</div>';
+}
+function lueckeHtml(gk, text, titel) {
+  var teile = text.split(/\[\[(.*?)\]\]/), rows = [], chk = S.a[gk + '.chk'], los = S.a[gk + '.los'], h = '';
+  teile.forEach(function (p, i) {
+    if (i % 2 === 0) { h += esc(p); return; }
+    var opts = p.split('|'), key = gk + '.' + rows.length, ord = mische(opts.length, key), w = S.a[key] || '', ok = chk ? w === opts[0] : null;
+    rows.push({ k: key, r: opts[0] });
+    h += '<span class="lsel' + (chk ? (ok ? ' ok' : ' bad') : '') + '"><select data-sel="' + key + '"><option value="">…</option>';
+    ord.forEach(function (o) { h += '<option' + (opts[o] === w ? ' selected' : '') + '>' + esc(opts[o]) + '</option>'; });
+    h += '</select>' + (chk && !ok && los ? '<span class="lrichtig">→ ' + esc(opts[0]) + '</span>' : '') + '</span>';
+  });
+  GR[gk] = rows;
+  return '<div class="gruppe" id="g-' + gk + '">' + (titel ? '<h3>' + titel + '</h3>' : '') + '<p class="lueckentext">' + h + '</p>' + pruefLeiste(gk, rows.length) + '</div>';
+}
+function pruefLeiste(gk, n) {
+  var e = S.erst[gk], chk = S.a[gk + '.chk'];
+  var h = '<div class="pruefleiste"><button class="knopf" data-pruef="' + gk + '">✔ Prüfen</button>';
+  if (chk && !S.a[gk + '.los']) h += '<button class="knopf hell" data-los="' + gk + '">👀 Lösung zeigen</button>';
+  if (e) h += '<span class="erstwert">Erster Versuch: <b>' + e.r + ' von ' + e.n + '</b> richtig' + (e.r === e.n ? ' 🎉' : ' – verbessere jetzt deine Fehler.') + '</span>';
+  return h + '</div>';
+}
+function kwListe(kw) { return kw.map(function (x) { var i = x.indexOf(':'); return { name: x.slice(0, i), st: x.slice(i + 1) }; }); }
+function kwTreffer(text, kw) {
+  var t = (text || '').toLowerCase();
+  return kwListe(kw).map(function (x) {
+    var hit = x.st.charAt(0) === '~' ? new RegExp(x.st.slice(1), 'i').test(t) : x.st.split('/').some(function (s) { return s && t.indexOf(s) >= 0; });
+    return { name: x.name, hit: hit };
+  });
+}
+function freitextHtml(key, frage, kw, muster, platz) {
+  FT[key] = { kw: kw, muster: muster };
+  var text = S.a[key] || '', m = S.a[key + '.m'], sb = S.a[key + '.sb'], kc = S.a[key + '.kc'];
+  var h = '<div class="freitext" id="f-' + key + '"><p class="ftext">' + frage + '</p><textarea data-txt="' + key + '" rows="5" placeholder="' + esc(platz || 'Schreibe in ganzen Sätzen …') + '">' + esc(text) + '</textarea>';
+  h += '<div class="pruefleiste"><button class="knopf hell" data-kw="' + key + '">🔍 Fachbegriffe prüfen</button><button class="knopf" data-muster="' + key + '">📖 Musterlösung aufdecken</button></div>';
+  if (kc || m) {
+    var tr = kwTreffer(text, kw), n = tr.filter(function (x) { return x.hit; }).length;
+    h += '<div class="kwbox"><b>Wichtige Fachbegriffe: ' + n + ' von ' + tr.length + '</b> benutzt. ';
+    h += tr.map(function (x) { return x.hit ? '<span class="chip ja">✓ ' + esc(x.name) + '</span>' : (m ? '<span class="chip nein">✗ ' + esc(x.name) + '</span>' : ''); }).join(' ');
+    if (!m && n < tr.length) h += '<span class="chip offen">' + (tr.length - n) + ' fehlen noch – findest du sie?</span>';
+    h += '</div>';
+  }
+  if (m) {
+    h += '<div class="muster"><b>Musterlösung:</b> ' + esc(muster) + '</div>';
+    h += '<div class="selbst"><b>Vergleiche ehrlich: Wie gut war deine Antwort?</b><div class="sbknoepfe">' +
+      [[2, '😀 vollständig richtig'], [1, '😐 teilweise'], [0, '😕 kaum / falsch']].map(function (x) { return '<button class="sb' + (sb === x[0] ? ' an' : '') + '" data-sb="' + key + '" data-v="' + x[0] + '">' + x[1] + '</button>'; }).join('') + '</div></div>';
+  }
+  return h + '</div>';
+}
+
+/* ---------- Stationen bauen ---------- */
+function stationHtml(sid) {
+  var t = T(), st = ST.filter(function (x) { return x.id === sid; })[0], h = '';
+  var nr = ST.indexOf(st) + 1;
+  h += '<div class="stkopf" style="--tf:' + t.farbe + '"><div class="stnr">' + (sid === 'erg' ? '📊' : nr) + '</div><div><div class="stthema">' + t.ico + ' ' + esc(t.name) + '</div><h1>' + st.ico + ' ' + st.titel + '</h1>' + (st.zeit ? '<div class="stzeit">⏱ ca. ' + st.zeit + ' Minuten</div>' : '') + '</div></div>';
+  if (st.auftrag) h += '<div class="auftrag">' + st.auftrag + '</div>';
+  if (sid === 's1') {
+    h += '<div class="karte">' + t.mc.map(function (q, i) { return mcHtml(k(t, 'mc' + i), q, i + 1, true); }).join('') + '</div>';
+  } else if (sid === 's2') {
+    var erk = t.begriffe.map(function (b) { return b[1]; }), ord = mische(erk.length, t.id + 'beg');
+    h += '<div class="karte">' + gruppeHtml(k(t, 'beg'), t.begriffe.map(function (b, i) { return { k: k(t, 'beg.' + i), l: '<b>' + esc(b[0]) + '</b>', o: ord.map(function (o) { return erk[o]; }), r: b[1] }; }), 'Begriff → Erklärung') + '</div>';
+  } else if (sid === 's3') {
+    var b = t.bild, namen = [];
+    b.labels.concat(b.extra).forEach(function (n) { if (namen.indexOf(n) < 0) namen.push(n); });
+    var o3 = mische(namen.length, t.id + 'bild').map(function (o) { return namen[o]; });
+    var rows = b.labels.map(function (n, i) { return { k: k(t, 'bild.' + i), l: '<span class="nrschild">' + (i + 1) + '</span> Nummer ' + (i + 1), o: o3, r: n }; });
+    (b.fragen || []).forEach(function (f, i) { var key = k(t, 'bildf.' + i); rows.push({ k: key, l: esc(f[0]), o: mische(f[1].length, key).map(function (o) { return f[1][o]; }), r: f[1][0] }); });
+    h += '<div class="karte"><h2>① ' + esc(b.titel) + '</h2><div class="bildwrap">' + b.svg() + '</div>' + gruppeHtml(k(t, 'bild'), rows) + '</div>';
+    h += '<div class="karte"><h2>② Beschreibe das Bild</h2>' + freitextHtml(k(t, 'besch'), b.beschreib.f, b.beschreib.kw, b.beschreib.muster, 'Das Bild zeigt …') + '</div>';
+  } else if (sid === 's4') {
+    h += '<div class="karte lesetext"><h2>📖 ' + esc(t.text.titel) + '</h2>' + t.text.html + '</div>';
+    h += '<div class="karte">' + gruppeHtml(k(t, 'rf'), t.text.rf.map(function (r, i) { return { k: k(t, 'rf.' + i), l: esc(r[0]), o: ['richtig', 'falsch'], r: r[1] ? 'richtig' : 'falsch', e: r[2] }; }), '① Richtig oder falsch?') + '</div>';
+    h += '<div class="karte">' + lueckeHtml(k(t, 'lue'), t.text.luecke, '② Lückentext: Wähle das passende Wort') + '</div>';
+  } else if (sid === 's5') {
+    var zl = t.zahlen.paare.map(function (p) { return p[1]; }), oz = mische(zl.length, t.id + 'zahl');
+    h += '<div class="karte">' + gruppeHtml(k(t, 'zahl'), t.zahlen.paare.map(function (p, i) { return { k: k(t, 'zahl.' + i), l: esc(p[0]), o: oz.map(function (o) { return zl[o]; }), r: p[1] }; }), '① Welche Zahl gehört dazu?') + '</div>';
+    var re = t.zahlen.reihe, pos = re.items.map(function (x, i) { return String(i + 1); }), or = mische(re.items.length, t.id + 'reihe');
+    h += '<div class="karte">' + gruppeHtml(k(t, 'reihe'), or.map(function (o) { return { k: k(t, 'reihe.' + o), l: esc(re.items[o]), o: pos, r: String(o + 1) }; }), '② ' + esc(re.f)) + '</div>';
+  } else if (sid === 's6') {
+    t.erklaeren.forEach(function (e, i) { h += '<div class="karte"><h2>🎤 Publikumsfrage ' + (i + 1) + '</h2>' + freitextHtml(k(t, 'erk' + i), esc(e[0]), e[2], e[1]) + '</div>'; });
+    h += '<div class="karte"><h2>❓ Eure drei Fragen fürs Publikum</h2><p>Eure Gruppe hat drei Fragen zu eurem Vortrag vorbereitet (halbes DIN-A4-Blatt). Schreibe sie hier mit der <b>richtigen Antwort</b> auf. Hast du sie noch nicht? Dann überlege dir jetzt drei gute Fragen.</p>';
+    for (var q = 1; q <= 3; q++) h += '<div class="dreifrage"><label>Frage ' + q + '<input type="text" data-txt="' + k(t, 'eig.f' + q) + '" value="' + esc(S.a[k(t, 'eig.f' + q)] || '') + '" placeholder="Frage ' + q + ' …"></label><label>Antwort<input type="text" data-txt="' + k(t, 'eig.a' + q) + '" value="' + esc(S.a[k(t, 'eig.a' + q)] || '') + '" placeholder="Antwort …"></label></div>';
+    h += '</div>';
+  } else if (sid === 's7') {
+    var gk = k(t, 'ab'), fertig = !!S.erst[gk];
+    h += '<div class="karte">' + t.abschluss.map(function (q, i) { return mcHtml(k(t, 'ab' + i), q, i + 1, false, fertig); }).join('');
+    if (fertig) h += '<div class="ergebnisbalken">Abschluss-Check: <b>' + S.erst[gk].r + ' von ' + S.erst[gk].n + '</b> richtig.</div>';
+    else h += '<div class="pruefleiste"><button class="knopf gross" data-auswerten="1">🏁 Auswerten</button></div>';
+    h += '</div>';
+  } else if (sid === 'erg') {
+    h += ergebnisHtml();
+  }
+  var i = ST.indexOf(st);
+  h += '<div class="weiter">' + (i > 0 ? '<button class="knopf hell" data-geh="' + ST[i - 1].id + '">← ' + ST[i - 1].titel + '</button>' : '<button class="knopf hell" data-geh="start">← Start</button>') + (i < ST.length - 1 ? '<button class="knopf" data-geh="' + ST[i + 1].id + '">' + ST[i + 1].titel + ' →</button>' : '') + '</div>';
+  return h;
+}
+
+/* ---------- Punkte ---------- */
+function punkte(t, sid) {
+  var e = function (s) { return S.erst[k(t, s)]; }, r = 0, n = 0, fertig = true;
+  function grp(s, anz) { var g = e(s); n += anz; if (g) r += g.r; else fertig = false; }
+  function sb(s) { n += 2; var v = S.a[k(t, s) + '.sb']; if (v == null) fertig = false; else r += v; }
+  if (sid === 's1') { t.mc.forEach(function (q, i) { n++; var a = S.a[k(t, 'mc' + i)]; if (a == null) fertig = false; else if (a === 0) r++; }); }
+  if (sid === 's2') grp('beg', t.begriffe.length);
+  if (sid === 's3') { grp('bild', t.bild.labels.length + (t.bild.fragen || []).length); sb('besch'); }
+  if (sid === 's4') { grp('rf', t.text.rf.length); grp('lue', (t.text.luecke.match(/\[\[/g) || []).length); }
+  if (sid === 's5') { grp('zahl', t.zahlen.paare.length); grp('reihe', t.zahlen.reihe.items.length); }
+  if (sid === 's6') t.erklaeren.forEach(function (x, i) { sb('erk' + i); });
+  if (sid === 's7') grp('ab', t.abschluss.length);
+  return { r: r, n: n, fertig: fertig, p: n ? Math.round(100 * r / n) : 0 };
+}
+function gesamt(t) {
+  var r = 0, n = 0, offen = [];
+  ST.forEach(function (st) { if (st.id === 'erg') return; var p = punkte(t, st.id); r += p.r; n += p.n; if (!p.fertig) offen.push(st); });
+  return { r: r, n: n, p: n ? Math.round(100 * r / n) : 0, offen: offen };
+}
+function ampel(p) {
+  if (p >= 80) return { f: 'gruen', ico: '🚀', t: 'Du bist fit für deinen Vortrag!', s: 'Super! Du kennst dich in deinem Thema gut aus. Übe jetzt noch das freie Sprechen.' };
+  if (p >= 60) return { f: 'gelb', ico: '🛠️', t: 'Fast fit – aber noch nicht ganz.', s: 'Du weißt schon viel. Wiederhole die Punkte in der Liste unten, dann bist du sicher.' };
+  return { f: 'rot', ico: '📚', t: 'Noch nicht fit – du musst dein Thema noch üben.', s: 'Kein Problem – genau dafür ist dieser Check da. Arbeite die Liste unten durch und mache den Check danach noch einmal.' };
+}
+function wiederholen(t) {
+  var l = [];
+  t.mc.forEach(function (q, i) { var a = S.a[k(t, 'mc' + i)]; if (a != null && a !== 0) l.push(q[2]); });
+  if (S.erst[k(t, 'ab')]) t.abschluss.forEach(function (q, i) { if (S.a[k(t, 'ab' + i)] !== 0) l.push(q[2]); });
+  ST.forEach(function (st) { if (st.id === 'erg' || st.id === 's1' || st.id === 's7') return; var p = punkte(t, st.id); if (p.fertig && p.p < 60) l.push('Station „' + st.titel + '“ noch einmal gründlich üben (' + p.p + ' %).'); });
+  t.erklaeren.forEach(function (x, i) { if (S.a[k(t, 'erk' + i) + '.sb'] === 0) l.push('Erklären üben: ' + plain(x[0])); });
+  return l;
+}
+function ergebnisHtml() {
+  var t = T(), g = gesamt(t), h = '';
+  h += '<div class="karte"><h2>Deine Punkte je Station</h2><table class="tab"><thead><tr><th>Station</th><th>Punkte</th><th>Anteil</th></tr></thead><tbody>';
+  ST.forEach(function (st) { if (st.id === 'erg') return; var p = punkte(t, st.id); h += '<tr><td><button class="link" data-geh="' + st.id + '">' + st.ico + ' ' + st.titel + '</button></td><td>' + (p.fertig ? p.r + ' / ' + p.n : '<span class="offen">noch offen</span>') + '</td><td>' + (p.fertig ? '<div class="balken"><div style="width:' + p.p + '%;background:' + (p.p >= 80 ? '#2E9E6A' : p.p >= 60 ? '#E3A21A' : '#D2453A') + '"></div><span>' + p.p + ' %</span></div>' : '–') + '</td></tr>'; });
+  h += '</tbody></table></div>';
+  if (g.offen.length) {
+    h += '<div class="karte ampel grau"><div class="aico">⏳</div><div><h2>Noch nicht fertig</h2><p>Bearbeite noch: ' + g.offen.map(function (s) { return '<button class="link" data-geh="' + s.id + '">' + s.titel + '</button>'; }).join(', ') + '. Danach bekommst du dein Gesamtergebnis.</p><p>Bisher: ' + g.r + ' von ' + g.n + ' Punkten.</p></div></div>';
+  } else {
+    var a = ampel(g.p);
+    h += '<div class="karte ampel ' + a.f + '"><div class="aico">' + a.ico + '</div><div><div class="gross">' + g.p + ' %</div><h2>' + a.t + '</h2><p>' + a.s + '</p><p class="klein">' + g.r + ' von ' + g.n + ' Punkten · ab 80 %: fit · 60–79 %: fast fit · unter 60 %: noch üben</p></div></div>';
+  }
+  var w = wiederholen(t);
+  h += '<div class="karte"><h2>📝 Das solltest du noch wiederholen</h2>' + (w.length ? '<ul class="wliste">' + w.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><p class="klein">Tipp: Schreibe diese Punkte auf deine Karteikarten oder in dein Logbuch.</p>' : '<p>Nichts – stark! 🎉</p>') + '</div>';
+  h += '<div class="karte"><h2>📄 Ergebnis sichern</h2><p>Speichere dein Ergebnis als PDF und gib es so ab, wie es deine Lehrkraft sagt (z. B. IServ). Zeige danach der Lehrkraft deinen Bildschirm.</p><div class="pruefleiste"><button class="knopf gross" data-pdf="1">📄 Ergebnis als PDF speichern</button></div><p id="pdfAlt" class="klein"></p>' +
+    '<details class="mehr"><summary>Schon fertig? Weitere Möglichkeiten</summary><p>• Teste dein Wissen in einem <button class="link" data-geh="start">anderen Thema</button> (deine Ergebnisse hier bleiben gespeichert).<br>• Oder starte dieses Thema neu, um zu üben: <button class="link rot" data-reset="1">Thema zurücksetzen</button></p></details></div>';
+  return h;
+}
+
+/* ---------- Navigation ---------- */
+function baueNav() {
+  var t = T(), n = $('nav');
+  if (!t) { n.innerHTML = ''; $('themaChip').textContent = ''; return; }
+  $('themaChip').innerHTML = t.ico + ' ' + esc(t.name);
+  n.innerHTML = '<button data-geh="start" title="Start">🏠</button>' + ST.map(function (st, i) {
+    var f = st.id !== 'erg' && punkte(t, st.id).fertig;
+    return '<button data-geh="' + st.id + '" class="' + (f ? 'fertig' : '') + '"' + (S.seite === st.id ? ' aria-current="step"' : '') + ' title="' + st.titel + '">' + (st.id === 'erg' ? '📊' : (i + 1)) + '<span class="navtxt"> ' + st.titel + '</span></button>';
+  }).join('');
+  var anz = ST.filter(function (st) { return st.id !== 'erg' && punkte(t, st.id).fertig; }).length;
+  $('fort').style.width = Math.round(100 * anz / 7) + '%';
+}
+function geh(id, kein) {
+  if (id !== 'start' && id !== 'lehrkraft' && !T()) id = 'start';
+  S.seite = id; speichern();
+  document.querySelectorAll('.seite').forEach(function (s) { s.classList.remove('aktiv'); });
+  if (id === 'start' || id === 'lehrkraft') { $(id).classList.add('aktiv'); if (id === 'start') zeigeThemen(); }
+  else { GR = {}; FT = {}; $('station').innerHTML = stationHtml(id); $('station').classList.add('aktiv'); }
+  baueNav();
+  if (!kein) window.scrollTo(0, 0);
+}
+function neuZeichnen() { var y = window.scrollY; geh(S.seite, true); window.scrollTo(0, y); }
+
+function zeigeThemen() {
+  $('themen').innerHTML = THEMEN.map(function (t) {
+    var g = gesamt(t), los = g.r > 0 || g.offen.length < 7;
+    return '<button class="thema' + (S.d.thema === t.id ? ' aktiv' : '') + '" data-thema="' + t.id + '" style="--tf:' + t.farbe + '"><span class="tico">' + t.ico + '</span><span class="tkurz">' + t.id + '</span><span class="tname">' + esc(t.name) + '</span>' + (los ? '<span class="tstand">' + (g.offen.length ? (7 - g.offen.length) + ' / 7 Stationen' : g.p + ' % ✓') + '</span>' : '') + '</button>';
+  }).join('');
+  $('vorname').value = S.d.vorname || ''; $('nachname').value = S.d.nachname || ''; $('klasse').value = S.d.klasse || '8d';
+  $('weiterBtn').style.display = T() ? '' : 'none';
+  if (T()) $('weiterBtn').textContent = 'Weiter mit „' + T().name + '“ →';
+}
+
+/* ---------- Ereignisse ---------- */
+document.addEventListener('click', function (ev) {
+  var b = ev.target.closest('button'); if (!b) return;
+  var d = b.dataset;
+  if (d.geh) { geh(d.geh); return; }
+  if (d.thema) {
+    if (!(S.d.vorname || '').trim()) { toast('✋ Bitte trage zuerst deinen <b>Vornamen</b> ein.'); $('vorname').focus(); return; }
+    if (S.d.thema && S.d.thema !== d.thema && !confirm('Du wechselst das Thema.\nDeine Antworten zum bisherigen Thema bleiben gespeichert.\n\nWeiter?')) return;
+    S.d.thema = d.thema; speichern(); geh('s1'); return;
+  }
+  if (d.mc) {
+    var t = T(), istAb = d.mc.indexOf('.ab') > 0;
+    if (!istAb && S.a[d.mc] != null) return;
+    if (istAb && S.erst[k(t, 'ab')]) return;
+    S.a[d.mc] = +d.o; speichern(); neuZeichnen(); return;
+  }
+  if (d.pruef) {
+    var rows = GR[d.pruef], leer = rows.filter(function (r) { return !S.a[r.k]; }).length;
+    if (leer) { toast('Bitte fülle erst alle Felder aus (' + leer + ' fehlen noch).'); return; }
+    var r = rows.filter(function (x) { return S.a[x.k] === x.r; }).length;
+    if (!S.erst[d.pruef]) S.erst[d.pruef] = { r: r, n: rows.length };
+    S.a[d.pruef + '.chk'] = 1; speichern(); neuZeichnen();
+    toast(r === rows.length ? '🎉 Alles richtig!' : r + ' von ' + rows.length + ' richtig. Verbessere die rot markierten Felder.');
+    return;
+  }
+  if (d.los) { S.a[d.los + '.los'] = 1; speichern(); neuZeichnen(); return; }
+  if (d.kw) { S.a[d.kw + '.kc'] = 1; speichern(); neuZeichnen(); return; }
+  if (d.muster) {
+    var txt = (S.a[d.muster] || '').trim();
+    if (txt.length < 40) { toast('✍️ Schreibe zuerst deine eigene Antwort (mindestens 2 Sätze). Erst dann darfst du die Musterlösung sehen.'); return; }
+    S.a[d.muster + '.m'] = 1; speichern(); neuZeichnen(); return;
+  }
+  if (d.sb) { S.a[d.sb + '.sb'] = +d.v; speichern(); neuZeichnen(); return; }
+  if (d.auswerten) {
+    var t2 = T(), offen = t2.abschluss.filter(function (q, i) { return S.a[k(t2, 'ab' + i)] == null; }).length;
+    if (offen) { toast('Es fehlen noch ' + offen + ' Antworten.'); return; }
+    if (!confirm('Abschluss-Check jetzt auswerten?\nDanach kannst du nichts mehr ändern.')) return;
+    S.erst[k(t2, 'ab')] = { r: t2.abschluss.filter(function (q, i) { return S.a[k(t2, 'ab' + i)] === 0; }).length, n: t2.abschluss.length };
+    speichern(); neuZeichnen(); return;
+  }
+  if (d.pdf) { pdfLaden(); return; }
+  if (d.reset) {
+    var t3 = T();
+    if (!confirm('Alle Antworten zum Thema „' + t3.name + '“ löschen und neu beginnen?\n\nSpeichere vorher dein Ergebnis als PDF!')) return;
+    Object.keys(S.a).forEach(function (x) { if (x.indexOf(t3.id + '.') === 0) delete S.a[x]; });
+    Object.keys(S.erst).forEach(function (x) { if (x.indexOf(t3.id + '.') === 0) delete S.erst[x]; });
+    speichern(); geh('s1'); return;
+  }
+  if (b.id === 'weiterBtn') { var nx = ST.filter(function (st) { return st.id !== 'erg' && !punkte(T(), st.id).fertig; })[0]; geh(nx ? nx.id : 'erg'); return; }
+  if (b.id === 'allesLoeschen') { if (confirm('Wirklich ALLE Eingaben auf diesem Gerät löschen (alle Themen)?')) { S = neuerZustand(); speichern(); geh('start'); } return; }
+});
+document.addEventListener('change', function (ev) {
+  var e = ev.target;
+  if (e.dataset.sel) { S.a[e.dataset.sel] = e.value; speichern(); }
+});
+document.addEventListener('input', function (ev) {
+  var e = ev.target;
+  if (e.dataset.txt) { S.a[e.dataset.txt] = e.value; speichern(); }
+  if (e.id === 'vorname' || e.id === 'nachname' || e.id === 'klasse') { S.d[e.id] = e.value; speichern(); }
+});
+
+/* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
+var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
+var BR_B=[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556];
+var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, '™': 153 };
+var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': '\u00a0', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta' };
+function normPdf(s) {
+  s = String(s).replace(/\r\n?/g, '\n').normalize('NFC');
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s[i], c = ch.charCodeAt(0);
+    if (ERSATZ[ch] != null) { o += ERSATZ[ch]; continue; }
+    if (c >= 0xD800 && c <= 0xDBFF) { i++; continue; }          // Emoji u. Ä. weglassen
+    if (c > 255 && !WIN[ch]) {
+      if (c >= 0xFE00 && c <= 0xFE0F) continue;
+      if (c >= 0x2460 && c <= 0x2473) { o += (c - 0x245F) + ')'; continue; }               // ① → 1)
+      if ((c >= 0x2190 && c <= 0x2BFF) || c === 0x200D) continue;                           // Symbole, Pfeile, ● weglassen
+      var bas = ch.normalize('NFD')[0], sond = { 'ı': 'i', 'ł': 'l', 'Ł': 'L', 'đ': 'd', 'ə': 'e' }[ch];  // ş → s, ğ → g …
+      if (sond) { o += sond; continue; }
+      if (bas && bas.charCodeAt(0) < 256) { o += bas; continue; }
+      o += '?'; continue;
+    }
+    o += ch;
+  }
+  return o;
+}
+function code(ch) { var c = ch.charCodeAt(0); return WIN[ch] || (c < 256 ? c : 63); }
+function bTxt(s, gr, fett) { var w = 0, tab = fett ? BR_B : BR_N; for (var i = 0; i < s.length; i++) { var c = code(s[i]); w += (c >= 32 ? (tab[c - 32] || 556) : 0); } return w * gr / 1000; }
+function pdfStr(s) {
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = code(s[i]);
+    if (c === 40 || c === 41 || c === 92) o += '\\' + String.fromCharCode(c);
+    else if (c < 32 || c > 126) o += '\\' + ('00' + c.toString(8)).slice(-3);
+    else o += String.fromCharCode(c);
+  }
+  return '(' + o + ')';
+}
+function umbruch(s, gr, fett, max) {
+  var zeilen = [];
+  normPdf(s).split('\n').forEach(function (abs) {
+    if (!abs.trim()) { zeilen.push(''); return; }
+    var akt = '';
+    abs.split(/ +/).forEach(function (wort) {
+      // überlange Wörter (z. B. ohne Leerzeichen) hart trennen
+      while (bTxt(wort, gr, fett) > max) {
+        var n = wort.length; while (n > 1 && bTxt(wort.slice(0, n) + '-', gr, fett) > max) n--;
+        if (akt) { zeilen.push(akt); akt = ''; }
+        zeilen.push(wort.slice(0, n) + '-'); wort = wort.slice(n);
+      }
+      var test = akt ? akt + ' ' + wort : wort;
+      if (bTxt(test, gr, fett) > max && akt) { zeilen.push(akt); akt = wort; } else akt = test;
+    });
+    zeilen.push(akt);
+  });
+  return zeilen;
+}
+function hex(h) { return [parseInt(h.substr(1, 2), 16) / 255, parseInt(h.substr(3, 2), 16) / 255, parseInt(h.substr(5, 2), 16) / 255].map(function (v) { return v.toFixed(3); }).join(' '); }
+
+/* =====================================================================
+   PDF-Ergebnis (A4, Helvetica) – wird komplett im Browser gebaut.
+   Nutzt Hilfsfunktionen aus pdf_basis.js (aus dem NW-Labor 6a übernommen).
+   ===================================================================== */
+function heuteDe() { var d = new Date(); return ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + d.getFullYear(); }
+function sauber(s) { return (s || '').trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9-]+/g, '_'); }
+
+function bauePdf() {
+  var t = T(), A4W = 595.28, A4H = 841.89, RL = 56, RR = 56, UNTEN = 64, BREIT = A4W - RL - RR;
+  var seiten = [], cmd = null, y = 0, name = ((S.d.vorname || '') + ' ' + (S.d.nachname || '')).trim() || 'ohne Namen', dat = heuteDe();
+  function neueSeite() { cmd = []; seiten.push(cmd); y = A4H - 60; if (seiten.length > 1) text(RL, A4H - 34, 'Vortrags-Check ' + t.name + ' · ' + name, 8.5, false, '#76838D'); }
+  function text(x, yy, s, gr, fett, farbe, schraeg) { cmd.push('BT ' + hex(farbe || '#16202A') + ' rg /' + (schraeg ? 'F3' : fett ? 'F2' : 'F1') + ' ' + gr + ' Tf ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' Td ' + pdfStr(normPdf(s)) + ' Tj ET'); }
+  function rechteck(x, yy, w, h, farbe) { cmd.push(hex(farbe) + ' rg ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f'); }
+  function platz(h) { if (y - h < UNTEN) neueSeite(); }
+  function absatz(s, gr, fett, farbe, einzug, schraeg, abstand) {
+    var lh = gr * 1.36; umbruch(s, gr, fett, BREIT - (einzug || 0)).forEach(function (z) { platz(lh); y -= lh; if (z) text(RL + (einzug || 0), y + gr * 0.28, z, gr, fett, farbe, schraeg); });
+    y -= (abstand == null ? 4 : abstand);
+  }
+  function balken(titel) { platz(50); y -= 8; rechteck(RL, y - 22, BREIT, 22, '#1E2A5A'); text(RL + 10, y - 15.5, titel, 12, true, '#FFFFFF'); y -= 32; }
+
+  neueSeite();
+  rechteck(0, A4H - 118, A4W, 118, '#141A3A'); rechteck(0, A4H - 122, A4W, 4, '#F4B942');
+  text(RL, A4H - 44, 'PHYSIK 8d · WELTALL-LABOR · VORTRAGS-CHECK', 10, true, '#F4B942');
+  text(RL, A4H - 74, 'Thema: ' + t.name, 22, true, '#FFFFFF');
+  text(RL, A4H - 98, 'Erde und Weltall · Vorbereitung und Check für den Vortrag', 11, false, '#DCE4EA');
+  y = A4H - 150;
+  [['Name', name], ['Klasse', S.d.klasse || '8d'], ['Datum', dat]].forEach(function (p, i) { text(RL, y - i * 19, p[0] + ':', 10.5, true, '#5E6B75'); text(RL + 70, y - i * 19, p[1], 10.5, i === 0); });
+  y -= 3 * 19 + 10;
+
+  var g = gesamt(t);
+  if (g.offen.length) absatz('Noch nicht fertig. Offen: ' + g.offen.map(function (s) { return s.titel; }).join(', ') + '. Bisher ' + g.r + ' von ' + g.n + ' Punkten.', 12, true, '#B36B00', 0, false, 8);
+  else { var a = ampel(g.p); absatz('Ergebnis: ' + g.p + ' %  (' + g.r + ' von ' + g.n + ' Punkten)', 15, true, a.f === 'gruen' ? '#2E7D4F' : a.f === 'gelb' ? '#9A6A00' : '#B3261E', 0, false, 2); absatz(a.t, 12, true, '#16202A', 0, false, 8); }
+
+  balken('Punkte je Station');
+  ST.forEach(function (st, i) {
+    if (st.id === 'erg') return; var p = punkte(t, st.id);
+    platz(16); y -= 15; if (i % 2) rechteck(RL, y - 4, BREIT, 15, '#F3F5FA');
+    text(RL + 6, y, (i + 1) + '  ' + st.titel, 10, false); text(RL + 300, y, p.fertig ? p.r + ' / ' + p.n + ' Punkte' : 'noch offen', 10, true, p.fertig ? '#16202A' : '#B3261E'); if (p.fertig) text(RL + 410, y, p.p + ' %', 10, true, p.p >= 80 ? '#2E7D4F' : p.p >= 60 ? '#9A6A00' : '#B3261E');
+  });
+  y -= 8;
+
+  var w = wiederholen(t);
+  balken('Das sollte ich noch wiederholen');
+  if (!w.length) absatz('Nichts – alles sicher.', 10, false); else w.forEach(function (x) { absatz('- ' + x, 9.5, false, '#16202A', 4, false, 2); });
+
+  balken('Bild-Station: meine Bildbeschreibung');
+  var bk = k(t, 'besch'); absatz(S.a[bk] || '(nicht bearbeitet)', 10, false, S.a[bk] ? '#16202A' : '#B3261E', 0, !S.a[bk], 2);
+  absatz('Selbstbewertung: ' + ({ 2: 'vollständig richtig', 1: 'teilweise', 0: 'kaum / falsch' }[S.a[bk + '.sb']] || 'fehlt'), 9, true, '#5E6B75', 0, false, 6);
+
+  balken('Erklär-Station: meine Antworten');
+  t.erklaeren.forEach(function (e, i) {
+    var kk = k(t, 'erk' + i); platz(50);
+    absatz('Frage ' + (i + 1) + ': ' + e[0], 9.5, true, '#1E2A5A', 0, false, 2);
+    absatz(S.a[kk] || '(nicht beantwortet)', 10, false, S.a[kk] ? '#16202A' : '#B3261E', 8, !S.a[kk], 2);
+    absatz('Selbstbewertung: ' + ({ 2: 'vollständig richtig', 1: 'teilweise', 0: 'kaum / falsch' }[S.a[kk + '.sb']] || 'fehlt'), 9, true, '#5E6B75', 8, false, 8);
+  });
+
+  balken('Unsere drei Fragen fürs Publikum');
+  [1, 2, 3].forEach(function (q) { absatz('Frage ' + q + ': ' + (S.a[k(t, 'eig.f' + q)] || '–'), 10, true, '#16202A', 0, false, 1); absatz('Antwort: ' + (S.a[k(t, 'eig.a' + q)] || '–'), 10, false, '#16202A', 8, false, 6); });
+
+  seiten.forEach(function (c, i) { cmd = c; text(RL, 30, 'Physik 8d · Weltall-Labor · ' + name + ' · ' + dat, 8.5, false, '#76838D'); var sx = 'Seite ' + (i + 1) + ' von ' + seiten.length; text(A4W - RR - bTxt(sx, 8.5, false), 30, sx, 8.5, false, '#76838D'); });
+
+  var objekte = [], teile = [], pos = 0, offs = [];
+  function obj(s) { objekte.push(s); return objekte.length; }
+  obj('<< /Type /Catalog /Pages 2 0 R >>'); obj('PAGES');
+  var f1 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var f2 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  var f3 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+  var kids = [];
+  seiten.forEach(function (c) { var strom = c.join('\n'), inh = obj({ dict: '<< /Length ' + strom.length + ' >>', stream: strom }); kids.push(obj('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + A4W + ' ' + A4H + '] /Resources << /Font << /F1 ' + f1 + ' 0 R /F2 ' + f2 + ' 0 R /F3 ' + f3 + ' 0 R >> >> /Contents ' + inh + ' 0 R >>')); });
+  objekte[1] = '<< /Type /Pages /Kids [' + kids.map(function (x) { return x + ' 0 R'; }).join(' ') + '] /Count ' + kids.length + ' >>';
+  var info = obj('<< /Title ' + pdfStr(normPdf('Vortrags-Check ' + t.name + ' - ' + name)) + ' /Producer (Weltall-Labor 8d) >>');
+  function add(s) { var b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255; teile.push(b); pos += b.length; }
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  objekte.forEach(function (o, i) { offs.push(pos); add((i + 1) + ' 0 obj\n'); if (o.stream != null) add(o.dict + '\nstream\n' + o.stream + '\nendstream'); else add(o); add('\nendobj\n'); });
+  var xref = pos, n = objekte.length + 1, x = 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+  offs.forEach(function (o) { x += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+  add(x + 'trailer\n<< /Size ' + n + ' /Root 1 0 R /Info ' + info + ' 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return { blob: new Blob(teile, { type: 'application/pdf' }), seiten: seiten.length };
+}
+var letzteUrl = null;
+function pdfLaden() {
+  if (!(S.d.vorname || '').trim()) { alert('Bitte trage zuerst auf der Startseite deinen Namen ein.'); geh('start'); return; }
+  try {
+    var r = bauePdf(), t = T(), name = 'Physik_8d_Weltall_' + t.id + '_' + (sauber(S.d.nachname) || 'Nachname') + '_' + (sauber(S.d.vorname) || 'Vorname') + '.pdf';
+    if (letzteUrl) URL.revokeObjectURL(letzteUrl);
+    letzteUrl = URL.createObjectURL(r.blob);
+    var a = document.createElement('a'); a.href = letzteUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    $('pdfAlt').innerHTML = '✅ ' + esc(name) + ' (' + r.seiten + ' Seiten) liegt in „Downloads“. Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a> und dort speichern.';
+    toast('📄 PDF gespeichert. Gib sie so ab, wie es deine Lehrkraft sagt.', 5000);
+  } catch (err) { alert('Die PDF konnte nicht erstellt werden: ' + err.message + '\nZeige der Lehrkraft stattdessen deinen Bildschirm.'); }
+}
+
+/* Start */
+(function () {
+  $('nojs').style.display = 'none';
+  var ziel = S.seite || 'start';
+  geh(ziel === 'lehrkraft' ? 'start' : ziel);
+})();
+
+</script>
+</body>
+</html>
