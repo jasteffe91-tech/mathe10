@@ -207,13 +207,13 @@ details.mehr{margin-top:.8rem}details.mehr summary{cursor:pointer;font-weight:70
       <tbody>
         <tr><td>0–10 Min.</td><td>Geräte holen, Link bzw. QR-Code zeigen (Tafel/Beamer). Kurz erklären (Text unten vorlesen).</td></tr>
         <tr><td>10–80 Min.</td><td><b>Einzelarbeit im Labor</b>: Name eintragen → eigenes Vortragsthema wählen → Stationen 1 bis 7 der Reihe nach. Ruhige Arbeitsatmosphäre.</td></tr>
-        <tr><td>80–90 Min.</td><td><b>Ergebnis</b>: PDF speichern und abgeben (wie unten). Kurze Abfrage: Wer ist 🚀 fit, wer 🛠️ fast fit, wer 📚 muss noch üben?</td></tr>
+        <tr><td>80–90 Min.</td><td><b>Ergebnis</b>: PDF speichern und in der IServ-Aufgabe hochladen. Kurze Abfrage: Wer ist 🚀 fit, wer 🛠️ fast fit, wer 📚 muss noch üben?</td></tr>
       </tbody>
     </table>
     <h2>Zum Vorlesen am Anfang</h2>
-    <div class="info">„Ihr habt vier Termine an euren Vorträgen gearbeitet. Heute prüft ihr, ob ihr euer Thema wirklich könnt. Öffnet den Link, tragt euren Namen ein und wählt das Thema <b>eurer eigenen</b> Präsentation. Ihr arbeitet allein. Bei vielen Aufgaben zählt der erste Versuch – also erst nachdenken, dann klicken. Am Ende seht ihr, ob ihr fit seid oder noch üben müsst. Speichert euer Ergebnis als PDF.“</div>
+    <div class="info">„Ihr habt vier Termine an euren Vorträgen gearbeitet. Heute prüft ihr, ob ihr euer Thema wirklich könnt. Öffnet den Link, tragt euren Namen ein und wählt das Thema <b>eurer eigenen</b> Präsentation. Ihr arbeitet allein. Bei vielen Aufgaben zählt der erste Versuch – also erst nachdenken, dann klicken. Am Ende seht ihr, ob ihr fit seid oder noch üben müsst. Speichert euer Ergebnis am Ende als PDF und ladet es bei IServ in der Aufgabe „Physik 8d – Weltall-Labor“ hoch.“</div>
     <h2>Abgabe am Ende</h2>
-    <p>Auf der Ergebnis-Seite: <b>„📄 Ergebnis als PDF speichern“</b>. Die PDF wird nach Ansage der Fachlehrkraft abgegeben (z. B. IServ). Klappt der Download nicht: Ergebnis-Bildschirm zeigen lassen und <b>Name, Thema und Prozentwert</b> notieren.</p>
+    <p>Auf der Ergebnis-Seite: <b>„📄 Ergebnis als PDF speichern“</b>. Die PDF laden die SuS bei <b>IServ</b> in der Aufgabe <b>„Physik 8d – Weltall-Labor“</b> hoch (die Aufgabe hat die Fachlehrkraft angelegt). Klappt der Download nicht: Ergebnis-Bildschirm zeigen lassen und <b>Name, Thema und Prozentwert</b> notieren.</p>
     <h2>Wenn jemand früher fertig ist</h2>
     <ul>
       <li>Die Punkte aus „Das solltest du noch wiederholen“ ins Heft/Logbuch schreiben.</li>
@@ -1114,7 +1114,7 @@ function ergebnisHtml() {
   }
   var w = wiederholen(t);
   h += '<div class="karte"><h2>📝 Das solltest du noch wiederholen</h2>' + (w.length ? '<ul class="wliste">' + w.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><p class="klein">Tipp: Schreibe diese Punkte auf deine Karteikarten oder in dein Logbuch.</p>' : '<p>Nichts – stark! 🎉</p>') + '</div>';
-  h += '<div class="karte"><h2>📄 Ergebnis sichern</h2><p>Speichere dein Ergebnis als PDF und gib es so ab, wie es deine Lehrkraft sagt (z. B. IServ). Zeige danach der Lehrkraft deinen Bildschirm.</p><div class="pruefleiste"><button class="knopf gross" data-pdf="1">📄 Ergebnis als PDF speichern</button></div><p id="pdfAlt" class="klein"></p>' +
+  h += '<div class="karte"><h2>📄 Ergebnis sichern</h2><p>Speichere dein Ergebnis als PDF und <b>lade es bei IServ hoch</b> (Aufgabe „Physik 8d – Weltall-Labor“). Zeige danach der Lehrkraft deinen Bildschirm.</p><div class="pruefleiste"><button class="knopf gross" data-pdf="1">📄 Ergebnis als PDF speichern</button></div><p id="pdfAlt" class="klein"></p>' +
     '<details class="mehr"><summary>Schon fertig? Weitere Möglichkeiten</summary><p>• Teste dein Wissen in einem <button class="link" data-geh="start">anderen Thema</button> (deine Ergebnisse hier bleiben gespeichert).<br>• Oder starte dieses Thema neu, um zu üben: <button class="link rot" data-reset="1">Thema zurücksetzen</button></p></details></div>';
   return h;
 }
@@ -1360,7 +1360,7 @@ function pdfLaden() {
     letzteUrl = URL.createObjectURL(r.blob);
     var a = document.createElement('a'); a.href = letzteUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
     $('pdfAlt').innerHTML = '✅ ' + esc(name) + ' (' + r.seiten + ' Seiten) liegt in „Downloads“. Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a> und dort speichern.';
-    toast('📄 PDF gespeichert. Gib sie so ab, wie es deine Lehrkraft sagt.', 5000);
+    toast('📄 PDF gespeichert. Lade sie jetzt bei IServ hoch (Aufgabe „Physik 8d – Weltall-Labor“).', 5000);
   } catch (err) { alert('Die PDF konnte nicht erstellt werden: ' + err.message + '\nZeige der Lehrkraft stattdessen deinen Bildschirm.'); }
 }
 
