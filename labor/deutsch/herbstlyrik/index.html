@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Deutschlabor Herbstlyrik</title>
+<style>
+:root{--dunkel:#3B2418;--rost:#A4471B;--gold:#C98A1B;--hell:#FBF3EA;--rand:#E3D3C1;--text:#2A211B;--grau:#6E6259;--gruen:#2E7D4F;--gruenh:#E5F3EA;--rot:#9B2D3F;--roth:#F8E3E6;--gelb:#FBE8C8;--karte:#FFFFFF;--bg:#F6EEE4}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer}
+.hinweis-js{background:var(--roth);padding:16px;text-align:center;font-weight:600}
+.kopf{position:sticky;top:0;z-index:20;background:var(--dunkel);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.kopf-in{max-width:980px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:18px;white-space:nowrap}.logo span{color:#F2C66D}
+.nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.nb{border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;border-radius:8px;min-width:34px;height:34px;padding:0 6px;font-weight:700;font-size:14px}
+.nb.akt{background:var(--gold);border-color:var(--gold);color:var(--dunkel)}
+.nb.fertig:not(.akt){background:rgba(46,125,79,.55);border-color:transparent}
+.fortschritt{height:4px;background:rgba(255,255,255,.15)}.fortschritt div{height:4px;background:var(--gold);width:0;transition:width .4s}
+main{max-width:980px;margin:0 auto;padding:16px}
+.seite{display:none}.seite.aktiv{display:block}
+.held{background:linear-gradient(135deg,#3B2418,#7A3A1A 60%,#C98A1B);color:#fff;border-radius:18px;padding:28px 24px;margin-bottom:16px}
+.held h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(28px,6vw,42px);line-height:1.15;margin:6px 0 12px}
+.ober{font-size:12px;letter-spacing:.12em;font-weight:700;color:#F2C66D}
+.held .klein{color:#F3E6D8}
+.karte,.teil{background:var(--karte);border:1px solid var(--rand);border-radius:14px;padding:18px;margin-bottom:14px}
+.karte h2{margin:0 0 10px;font-size:20px}
+.teil h3{margin:0 0 10px;font-size:18px;color:var(--rost)}
+.teil.info{background:var(--hell)}
+.teil.warn{background:var(--gelb)}
+.zeile{display:flex;gap:12px;flex-wrap:wrap}
+.feld{display:flex;flex-direction:column;font-size:14px;font-weight:600;color:var(--grau);flex:1 1 160px}
+.feld.klein-feld{flex:0 1 90px}
+input,select,textarea{font:inherit;font-size:17px;border:1.5px solid var(--rand);border-radius:10px;padding:9px 11px;background:#fff;color:var(--text);max-width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,138,27,.2)}
+textarea{width:100%;line-height:1.55;resize:vertical}
+.klein{font-size:14px;color:var(--grau)}
+.knopf{background:var(--rost);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700}
+.knopf.hell{background:#fff;color:var(--rost);border:1.5px solid var(--rost)}
+.knopf.gross{font-size:18px;padding:13px 22px}
+.knopf[disabled]{opacity:.45;cursor:not-allowed}
+label.knopf{display:inline-block}
+.pruefleiste{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.erstv{font-size:14px;color:var(--grau)}
+.link{background:none;border:0;color:var(--rost);text-decoration:underline;padding:0}.link.rot{color:var(--rot)}
+.fuss{text-align:center;font-size:14px}
+.liste li{margin-bottom:6px}
+.skarten{display:grid;gap:8px}
+.skarte{display:grid;grid-template-columns:34px 34px 1fr auto;align-items:center;gap:8px;text-align:left;background:var(--hell);border:1px solid var(--rand);border-radius:12px;padding:10px 12px}
+.skarte.fertig{background:var(--gruenh)}
+.snr{font-weight:800;color:var(--grau)}.sico{font-size:24px}
+.stit{font-weight:700}.stit small{display:block;font-weight:400;font-size:13px;color:var(--grau)}
+.sstat{font-size:13px;font-weight:700;color:var(--grau);white-space:nowrap}
+.sh{margin-bottom:12px}.shkopf{display:flex;gap:12px;align-items:center}.shico{font-size:42px}
+.sh h1{margin:0;font-family:Georgia,serif;font-size:30px}.sh .ober{color:var(--rost)}
+.ziel{background:var(--gelb);border-radius:10px;padding:10px 14px;margin:10px 0}
+details.hilfe{background:#fff;border:1px dashed var(--gold);border-radius:10px;padding:8px 14px;margin:8px 0}
+details.hilfe summary{cursor:pointer;font-weight:700;color:var(--rost)}
+.vl{background:var(--hell);border:1px solid var(--rand);border-radius:20px;padding:2px 10px;font-size:14px;vertical-align:middle}
+/* Gedicht */
+.gedicht{background:#FFFDF9;border:1px solid var(--rand);border-left:5px solid var(--gold);border-radius:12px;padding:14px 16px}
+.gkopf{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}
+.gautor{font-size:14px;color:var(--grau);font-style:italic}
+.gtitel{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--dunkel)}.gzus{font-size:14px;font-weight:400;color:var(--grau)}
+.vers{display:flex;align-items:center;gap:8px;font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.6}
+.vnr{min-width:22px;text-align:right;font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:12px;color:#A99A8C}
+.sluecke{height:14px}
+.wort{background:none;border:0;padding:0;font:inherit;text-decoration:underline dotted var(--gold) 2px;text-underline-offset:4px;color:inherit}
+.ghinweis{font-size:12px;color:var(--grau);margin-top:8px}
+/* Zuordnen */
+.zeilen{display:grid;gap:8px}
+.gzeile{display:grid;grid-template-columns:1fr minmax(170px,260px);gap:8px 12px;align-items:center;border:1px solid var(--rand);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+.gzeile.ok{background:var(--gruenh);border-color:#9CCDB0}.gzeile.bad{background:var(--roth);border-color:#E3A9B3}
+.gwahl{display:flex;align-items:center;gap:8px}.gwahl select{flex:1;min-width:0}
+.zahl{width:90px}
+.mark{font-weight:800;font-size:20px}.ok .mark{color:var(--gruen)}.bad .mark{color:var(--rot)}
+.loesung{grid-column:1/-1;font-size:14px;color:var(--gruen)}.loesung.inline{display:inline}
+.satzbox{background:var(--hell);border-radius:10px;padding:10px 14px;margin-top:10px}
+.erkl{background:var(--hell);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:15px}
+.merk{line-height:1.7}
+/* MC */
+.frage{display:flex;gap:10px;border:1px solid var(--rand);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.frage.ok{border-color:#9CCDB0}.frage.bad{border-color:#E3A9B3}
+.fnr{background:var(--dunkel);color:#fff;border-radius:50%;width:28px;height:28px;flex:0 0 28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.finhalt{flex:1;min-width:0}.ftext{margin:0 0 8px;font-weight:600}
+.optionen{display:grid;gap:6px}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--rand);border-radius:10px;padding:8px 12px}
+.opt.gewaehlt{border-color:var(--gold);background:var(--gelb)}
+.opt.richtig{border-color:var(--gruen);background:var(--gruenh)}.opt.falsch{border-color:var(--rot);background:var(--roth)}
+.opt[disabled]{cursor:default;color:var(--text)}
+.rueck{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px}.rueck.ja{background:var(--gruenh)}.rueck.nein{background:var(--roth)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:#fff;border:1.5px solid var(--rand);border-radius:20px;padding:6px 14px}
+.chip.klein{font-size:13px;padding:4px 10px}
+.chip.gewaehlt{background:var(--gelb);border-color:var(--gold)}
+.chip.richtig{background:var(--gruenh);border-color:var(--gruen)}.chip.falsch{background:var(--roth);border-color:var(--rot)}
+.chip.fehlt{border-style:dashed;border-color:var(--gruen)}
+/* Reim */
+.reimb{width:36px;height:30px;border-radius:8px;border:1.5px dashed var(--grau);background:#fff;font-weight:800;font-family:-apple-system,Helvetica,sans-serif;font-size:16px;flex:0 0 36px}
+.reimb.ra{background:#F9D9A8;border:1.5px solid #C98A1B}.reimb.rb{background:#CDE4F5;border:1.5px solid #3C7DB3}.reimb.rc{background:#D9EFD3;border:1.5px solid #4E9A41}
+.reimb.rd{background:#F3D3E0;border:1.5px solid #B04D7A}.reimb.re{background:#E3DAF3;border:1.5px solid #6E55A8}.reimb.rf{background:#F6E9B8;border:1.5px solid #A88A1B}
+.reimb.ok{box-shadow:0 0 0 3px var(--gruen)}.reimb.bad{box-shadow:0 0 0 3px var(--rot)}
+.rl{font-size:13px;font-weight:700;color:var(--gruen);font-family:-apple-system,Helvetica,sans-serif}
+/* Betonung */
+.bzeile{border:1px solid var(--rand);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.bzeile.ok{background:var(--gruenh)}.bzeile.bad{background:var(--roth)}
+.bquelle{font-size:13px;color:var(--grau);margin-bottom:6px}
+.silben{display:flex;flex-wrap:wrap;align-items:center;gap:2px;row-gap:8px}
+.silbe{background:#fff;border:1.5px solid var(--rand);border-radius:8px;padding:4px 7px;font-family:Georgia,serif;font-size:19px}
+.silbe.wende{margin-right:12px}
+.silbe.an{background:var(--rost);color:#fff;border-color:var(--rost);font-weight:700;text-transform:uppercase}
+.silbe.soll{outline:3px solid var(--gruen)}
+.metrum{margin-top:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:15px}
+/* Markieren / Vortrag */
+.marktext,.vtxt{font-family:Georgia,serif;font-size:19px;line-height:2.1;background:#FFFDF9;border:1px solid var(--rand);border-radius:12px;padding:12px}
+.mt{background:none;border:0;padding:1px 3px;border-radius:5px;font:inherit}
+.mt.an{background:var(--gelb)}.mt.richtig{background:var(--gruenh);outline:2px solid var(--gruen)}.mt.falsch{background:var(--roth);outline:2px solid var(--rot)}.mt.fehlt{outline:2px dashed var(--gruen)}
+.vw{background:none;border:0;padding:1px 2px;font:inherit}.vw.bet{text-decoration:underline 3px var(--rost);text-underline-offset:5px;font-weight:700}
+.vg{background:none;border:0;font-family:-apple-system,Helvetica,sans-serif;font-size:13px;color:#C9B9A8;padding:0 4px;min-width:20px}
+.vg.p1,.vg.p2{color:var(--rost);font-weight:800;font-size:19px}
+.check{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.wz,.mz{font-size:13px;border-radius:14px;padding:3px 10px;background:#F1E8DD;color:var(--grau)}
+.mz.ok{background:var(--gruenh);color:var(--gruen);font-weight:700}
+.sa{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.muster{background:#FFFDF9;border:2px solid var(--gold);border-radius:12px;padding:14px;margin-top:12px}
+.mtitel{font-weight:800;color:var(--rost);margin-bottom:6px}
+.krit{margin-top:12px}.kz{display:flex;gap:8px;align-items:flex-start;padding:5px 0;font-size:16px}.kz input{width:20px;height:20px;margin-top:3px}
+/* Elfchen / Parallel */
+.ezeile{display:grid;grid-template-columns:30px 1fr 90px;gap:4px 10px;align-items:center;margin-bottom:8px}
+.ezahl{background:var(--gold);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:800}
+.ezeile input{width:100%}.ehilfe{grid-column:2;font-size:13px;color:var(--grau)}
+.estat{font-size:14px;font-weight:700}.estat.ok{color:var(--gruen)}.estat.bad{color:var(--rot)}
+.elfvorschau{margin-top:10px}.elftext{font-family:Georgia,serif;font-size:20px;text-align:center;background:#FFFDF9;border-radius:12px;padding:12px;border:1px solid var(--rand)}
+.ppaar{border:1px solid var(--rand);border-radius:12px;padding:8px 10px;margin-bottom:8px}
+.pv{display:flex;gap:8px;align-items:center;margin-bottom:6px}.pv input{flex:1;min-width:0;font-family:Georgia,serif}
+.preim{font-size:14px;min-height:18px}.preim .ok{color:var(--gruen);font-weight:700}.preim .frag{color:#9A6A00}
+/* Tabellen / Ergebnis */
+.tab{border-collapse:collapse;width:100%;font-size:15px}.tab th,.tab td{border-bottom:1px solid var(--rand);padding:6px 8px;text-align:left;vertical-align:top}
+.tab th{background:var(--hell)}.tab.selbst td:not(:first-child),.tab.selbst th:not(:first-child){text-align:center;width:52px}
+.tab.selbst input{width:22px;height:22px}
+.sfuss{background:var(--hell);border:1px solid var(--rand);border-radius:14px;padding:14px 18px;margin-top:6px}
+.ampel{display:flex;gap:16px;align-items:center}.aico{font-size:54px}.aprozent{font-size:36px;font-weight:800}
+.ampel.gruen{background:var(--gruenh)}.ampel.gelb{background:var(--gelb)}.ampel.rot{background:var(--roth)}
+.balken{background:#EFE4D8;border-radius:6px;height:10px;min-width:80px}.balken div{background:var(--gold);height:10px;border-radius:6px}
+.rot{color:var(--rot)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(140%);background:var(--dunkel);color:#fff;padding:12px 18px;border-radius:12px;max-width:min(92vw,560px);z-index:50;transition:transform .3s;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast.zeigen{transform:translateX(-50%) translateY(0)}
+audio{width:100%;margin-top:8px}
+@media (max-width:640px){
+  body{font-size:16px}main{padding:12px}
+  .gzeile{grid-template-columns:1fr}
+  .skarte{grid-template-columns:26px 30px 1fr}.sstat{grid-column:3}
+  .vers{font-size:17px}.gtitel{font-size:21px}
+  .logo{font-size:16px}.nb{min-width:30px;height:30px;font-size:13px;flex:0 0 auto}
+  .nav{flex-wrap:nowrap;overflow-x:auto;margin-left:0;width:100%;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  .held{padding:22px 18px}
+}
+
+</style>
+</head>
+<body>
+<div class="hinweis-js" id="nojs">Diese Seite braucht JavaScript. Bitte im Browser (Safari, Chrome, Edge, Firefox) öffnen – nicht in einer Dateivorschau.</div>
+
+<header class="kopf">
+  <div class="kopf-in">
+    <div class="logo">🍂 Deutschlabor <span>Herbstlyrik</span></div>
+    <nav class="nav" id="nav" aria-label="Stationen"></nav>
+  </div>
+  <div class="fortschritt"><div id="fort"></div></div>
+</header>
+<div class="toast" id="toast" role="status"></div>
+
+<main>
+<section class="seite" id="start">
+  <div class="held">
+    <div class="ober">DEUTSCH · JAHRGANG 6 · HERBSTGEDICHTE</div>
+    <h1>Werde Gedicht&shy;forscherin<br>und Gedicht&shy;forscher!</h1>
+    <p>In zehn Stationen lernst du, wie Gedichte gebaut sind: Reime, Rhythmus, sprachliche Bilder und Stimmung. Du übst, ein Gedicht zu untersuchen und vorzutragen – und schreibst eigene Herbstgedichte.</p>
+    <p class="klein">10 Stationen · passend zu den Stunden der Reihe · am Ende: Ergebnis, Wiederholungsliste und PDF mit all deinen Texten</p>
+  </div>
+
+  <div class="karte">
+    <h2>① Wer bist du?</h2>
+    <div class="zeile">
+      <label class="feld">Vorname<input type="text" id="vorname" autocomplete="off"></label>
+      <label class="feld">Nachname<input type="text" id="nachname" autocomplete="off"></label>
+      <label class="feld klein-feld">Klasse<input type="text" id="klasse" size="4" placeholder="6a"></label>
+      <label class="feld">Ich arbeite …<select id="ort"><option value="">– wählen –</option><option>im Unterricht</option><option>zu Hause (Hausaufgabe)</option><option>zum Üben vor der Klassenarbeit</option></select></label>
+    </div>
+  </div>
+
+  <div class="karte">
+    <h2>② Deine Stationen</h2>
+    <p class="klein">Arbeite die Stationen so, wie es deine Lehrkraft sagt – meistens passend zur Stunde. Du kannst jederzeit weitermachen: Dein Stand bleibt auf diesem Gerät gespeichert.</p>
+    <div class="skarten" id="skarten"></div>
+    <div class="pruefleiste"><button class="knopf hell" data-geh="erg">📊 zum Ergebnis</button></div>
+  </div>
+
+  <div class="karte">
+    <h2>So funktioniert das Labor</h2>
+    <ul class="liste">
+      <li>🔊 <b>Vorlesen:</b> Gedichte und Aufgaben kannst du dir vorlesen lassen.</li>
+      <li><u>Unterstrichene Wörter</u> im Gedicht antippen → du bekommst eine Erklärung.</li>
+      <li>Bei vielen Aufgaben zählt der <b>erste Prüf-Versuch</b>. Danach darfst du verbessern und dir die Lösung zeigen lassen.</li>
+      <li>Bei Schreibaufgaben siehst du die <b>Musterlösung</b> erst, wenn du selbst genug geschrieben hast. Dann bewertest du dich ehrlich selbst.</li>
+      <li>Deine Eingaben bleiben nur auf diesem Gerät und werden nirgendwohin gesendet.</li>
+    </ul>
+  </div>
+
+  <p class="fuss"><button class="link" data-geh="lehrkraft">👩‍🏫 Hinweise für die Lehrkraft</button> · <button class="link rot" id="allesLoeschen">alle Eingaben auf diesem Gerät löschen</button></p>
+</section>
+
+<section class="seite" id="station"></section>
+
+<section class="seite" id="lehrkraft">
+  <div class="karte">
+    <h1 style="margin-top:0">👩‍🏫 Hinweise für die Lehrkraft</h1>
+    <p>Das Labor begleitet die Reihe <b>„Herbstgedichte“ (Deutsch Jg. 6, 16 Stunden, KA 2)</b>. Jede Station passt zu einer Stunde der Reihenplanung und kann dort als Übungs- oder Sicherungsphase (10–40 Min.) oder als Hausaufgabe eingesetzt werden. Alle Gedichte im Labor sind gemeinfrei. Das Gedicht der Klassenarbeit kommt im Labor <b>nicht</b> vor.</p>
+    <table class="tab">
+      <thead><tr><th>Station</th><th>Stunde</th><th>Inhalt</th></tr></thead>
+      <tbody>
+        <tr><td>1 🍂 Herbstwörter</td><td>1</td><td>Sinne zuordnen, Elfchen mit Wortzähler</td></tr>
+        <tr><td>2 🧰 Werkzeugkasten</td><td>2</td><td>Fachbegriffe, Verse/Strophen zählen, Zitieren</td></tr>
+        <tr><td>3 🔔 Reim-Detektiv</td><td>3</td><td>Reimschema per Antippen (4 Gedichte, alle 4 Reimarten)</td></tr>
+        <tr><td>4 🥁 Rhythmus</td><td>4</td><td>betonte Silben antippen, Jambus/Trochäus</td></tr>
+        <tr><td>5 🎨 Sprachliche Bilder</td><td>5–6</td><td>10 Beispiele zuordnen, Personifikationen in „November“ markieren, Wirkung</td></tr>
+        <tr><td>6 🌦️ Stimmung</td><td>7</td><td>Stimmungswörter, Belege, Zitierregel, eigener Text mit Musterlösung</td></tr>
+        <tr><td>7 🔍 Gedicht untersuchen</td><td>8–9</td><td>Einleitung bauen, Form, Schreibplan, ganze Untersuchung zu „Herbstbild“ (Live-Check, Musterlösung, Selbstbewertung)</td></tr>
+        <tr><td>8 🎤 Vortrag</td><td>10–11</td><td>Vortragszeichen setzen, Aufnahme (nur lokal), Selbsteinschätzung</td></tr>
+        <tr><td>9 ✍️ Schreibwerkstatt</td><td>12–13</td><td>Parallelgedicht zu „November“ mit Reimhinweis und Überarbeitungs-Checkliste</td></tr>
+        <tr><td>10 🏁 KA-Fit</td><td>14</td><td>10 Fragen zu Rilkes „Herbst“, Auswertung erst am Ende</td></tr>
+      </tbody>
+    </table>
+    <h2>Ergebnis und Abgabe</h2>
+    <p>Auf der Ergebnis-Seite: Ampel (🌟 ab 80 % · 🍂 60–79 % · 📚 unter 60 %), Liste „Das solltest du noch wiederholen“ und <b>PDF</b> mit Punkten und allen Texten (Elfchen, Stimmung, Untersuchung, Vortrags-Selbsteinschätzung, Parallelgedicht). Die Abgabe der PDF legen Sie fest (z. B. IServ-Aufgabe). Den Arbeitsstand können die SuS als Datei speichern und auf einem anderen Gerät laden.</p>
+    <h2>Gut zu wissen</h2>
+    <ul>
+      <li>Der Stand bleibt auf dem Gerät gespeichert (nicht im privaten Modus). Geteilte Schul-iPads: am Ende „alle Eingaben löschen“ (Startseite unten).</li>
+      <li>Punkte aus Schreibaufgaben beruhen auf der <b>Selbstbewertung</b> der SuS – sie dienen der Rückmeldung, nicht der Note.</li>
+      <li>Der Reimhinweis in der Schreibwerkstatt ist nur eine Hilfe (Computer-Heuristik) – das Ohr entscheidet.</li>
+      <li>Vorlesen nutzt die Sprachausgabe des Geräts; die Aufnahme in Station 8 braucht Mikrofon-Erlaubnis und wird nicht gespeichert.</li>
+    </ul>
+    <div class="pruefleiste"><button class="knopf" data-geh="start">← zurück zur Startseite</button></div>
+  </div>
+</section>
+</main>
+
+<script>
+/* =====================================================================
+   DEUTSCHLABOR HERBSTLYRIK · Jg. 6 – alle Texte, Gedichte, Aufgaben
+   Regeln: Bei Auswahlaufgaben steht die RICHTIGE Antwort immer zuerst
+   (die Seite mischt selbst). Gedichte: gemeinfrei, heutige Rechtschreibung.
+   ===================================================================== */
+var LABOR = { name: 'Deutschlabor Herbstlyrik', kurz: 'Deutsch 6', key: 'deutschlabor-herbst6-v1' };
+
+var GEDICHTE = {
+  g1: { titel: 'Herbstlied', autor: 'Johann Gaudenz von Salis-Seewis', zusatz: '(Strophen 1–2)',
+    strophen: [
+      ['Bunt sind schon die Wälder,', 'gelb die Stoppelfelder,', 'und der Herbst beginnt.', 'Rote Blätter fallen,', 'graue Nebel wallen,', 'kühler weht der Wind.'],
+      ['Wie die volle Traube', 'aus dem Rebenlaube', 'purpurfarbig strahlt!', 'Am Geländer reifen', 'Pfirsiche, mit Streifen', 'rot und weiß bemalt.']],
+    woerter: { 'Stoppelfelder': 'abgeerntete Getreidefelder, auf denen nur noch kurze Halme (Stoppeln) stehen', 'wallen': 'wogen, sich langsam hin und her bewegen', 'Rebenlaube': 'die Blätter des Weinstocks', 'purpurfarbig': 'dunkelrot', 'Geländer': 'hier: ein Holzgitter an der Hauswand, an dem Obst wächst (Spalier)' } },
+  g2: { titel: 'Herbstbild', autor: 'Friedrich Hebbel', zusatz: '',
+    strophen: [
+      ['Dies ist ein Herbsttag, wie ich keinen sah!', 'Die Luft ist still, als atmete man kaum,', 'und dennoch fallen raschelnd, fern und nah,', 'die schönsten Früchte ab von jedem Baum.'],
+      ['O stört sie nicht, die Feier der Natur!', 'Dies ist die Lese, die sie selber hält,', 'denn heute löst sich von den Zweigen nur,', 'was vor dem milden Strahl der Sonne fällt.']],
+    woerter: { 'Lese': 'Ernte (wie bei der Weinlese)', 'milden': 'sanften, nicht zu starken', 'dennoch': 'trotzdem', 'Feier': 'Fest' } },
+  g3: { titel: 'November', autor: 'Heinrich Seidel', zusatz: '',
+    strophen: [
+      ['Solchen Monat muss man loben:', 'Keiner kann wie dieser toben,', 'keiner so verdrießlich sein', 'und so ohne Sonnenschein!', 'Keiner so in Wolken maulen,', 'keiner so mit Sturmwind graulen!', 'Und wie nass er alles macht!', 'Ja, es ist die wahre Pracht.'],
+      ['Seht das schöne Schlackerwetter!', 'Und die armen welken Blätter,', 'wie sie tanzen in dem Wind', 'und so ganz verloren sind!', 'Wie der Sturm sie jagt und zwirbelt', 'und sie durcheinander wirbelt', "und sie hetzt ohn' Unterlass:", 'Ja, das ist Novemberspaß!'],
+      ['Und die Scheiben, wie sie rinnen!', 'Und die Wolken, wie sie spinnen', 'ihren feuchten Himmelstau', 'ur und ewig, trüb und grau!', 'Auf dem Dach die Regentropfen:', 'Wie sie pochen, wie sie klopfen!', 'Und an jeder Traufe hängt', "Trän' an Träne dicht gedrängt."],
+      ['O, wie ist der Mann zu loben,', "der solch unvernünft'ges Toben", 'schon im Voraus hat bedacht', 'und die Häuser hohl gemacht!', 'So dass wir im Trocknen hausen', 'und mit stillvergnügtem Grausen', 'und in wohlgeborgner Ruh', 'solchem Gräuel schauen zu!']],
+    woerter: { 'verdrießlich': 'schlecht gelaunt, mürrisch', 'maulen': 'meckern, sich beschweren', 'graulen': 'Angst machen, gruseln', 'Schlackerwetter': 'nasses, matschiges Wetter mit Regen und Schnee', 'zwirbelt': 'dreht, wirbelt herum', 'Unterlass': 'Pause („ohne Unterlass“ = ohne Pause)', 'Himmelstau': 'Regen, Feuchtigkeit vom Himmel', 'Traufe': 'Dachrinne, Dachkante', "unvernünft'ges": 'unvernünftiges, verrücktes', 'hausen': 'wohnen', 'stillvergnügtem': 'leise zufriedenem', 'wohlgeborgner': 'gut geschützter', 'Gräuel': 'etwas Schreckliches', 'bedacht': 'vorher überlegt' } },
+  g4: { titel: 'Herbst', autor: 'Rainer Maria Rilke', zusatz: '',
+    strophen: [
+      ['Die Blätter fallen, fallen wie von weit,', 'als welkten in den Himmeln ferne Gärten;', 'sie fallen mit verneinender Gebärde.'],
+      ['Und in den Nächten fällt die schwere Erde', 'aus allen Sternen in die Einsamkeit.'],
+      ['Wir alle fallen. Diese Hand da fällt.', 'Und sieh dir andre an: es ist in allen.'],
+      ['Und doch ist Einer, welcher dieses Fallen', 'unendlich sanft in seinen Händen hält.']],
+    woerter: { 'welkten': 'verblühten, vertrockneten', 'verneinender': '„nein“ sagender', 'Gebärde': 'Bewegung, Geste', 'Einsamkeit': 'Alleinsein' } }
+};
+
+/* Teil-Typen: info · gedicht · zuordnen · zahlen · mc (sofort|ende) · reim · betonung · markieren · mehrfach · elfchen · freitext · vortrag · parallel */
+var STATIONEN = [
+ { id: 's1', ico: '🍂', titel: 'Herbstwörter', zeit: 20, stunde: 1,
+   ziel: 'Ich sammle Herbstwörter mit allen Sinnen und schreibe ein Elfchen.',
+   tipp: 'Frag dich bei jedem Wort: Mit welchem Körperteil nehme ich das wahr? Augen, Ohren, Nase, Haut oder Zunge?',
+   teile: [
+    { typ: 'info', html: '<p>Gedichte leben von <b>genauen Wörtern</b>. Wer schreibt „Der Wald ist schön“, zeigt wenig. Wer schreibt „Goldene Blätter rascheln unter meinen Stiefeln“, lässt uns den Herbst <b>sehen, hören und fühlen</b>.</p>' },
+    { typ: 'zuordnen', id: 'sinne', titel: '① Mit welchem Sinn nimmst du das wahr?', thema: 'Wörter den Sinnen zuordnen', optionen: ['Sehen', 'Hören', 'Riechen', 'Fühlen', 'Schmecken'],
+      zeilen: [['goldene Blätter', 'Sehen'], ['graue Wolken', 'Sehen'], ['raschelndes Laub', 'Hören'], ['heulender Sturm', 'Hören'], ['prasselnder Regen', 'Hören'], ['modriger Waldboden', 'Riechen'], ['Rauch vom Kartoffelfeuer', 'Riechen'], ['eine glatte Kastanie in der Hand', 'Fühlen'], ['eisiger Wind auf der Haut', 'Fühlen'], ['süßer Pflaumenkuchen', 'Schmecken'], ['gebratene Maronen', 'Schmecken']] },
+    { typ: 'elfchen', id: 'elfchen', titel: '② Dein Herbst-Elfchen', thema: 'Elfchen-Bauplan' }
+   ] },
+ { id: 's2', ico: '🧰', titel: 'Gedicht-Werkzeugkasten', zeit: 15, stunde: 2,
+   ziel: 'Ich kenne die wichtigsten Fachbegriffe: Titel, Verfasser, Vers, Strophe, Reim, Sprecher.',
+   tipp: 'Ein Vers ist eine Zeile. Eine Strophe ist wie ein Absatz – zwischen zwei Strophen ist eine Leerzeile.',
+   teile: [
+    { typ: 'gedicht', g: 'g1' },
+    { typ: 'zuordnen', id: 'begriffe', titel: '① Welcher Fachbegriff passt?', thema: 'Fachbegriffe Vers, Strophe, Reim, Sprecher', optionen: ['Vers', 'Strophe', 'Reim', 'Titel', 'Verfasser', 'Sprecher (lyrisches Ich)'],
+      zeilen: [['eine Zeile im Gedicht', 'Vers'], ['mehrere Verse, die zusammen einen Abschnitt bilden', 'Strophe'], ['gleicher Klang am Versende, z. B. Wälder – Felder', 'Reim'], ['„Herbstlied“', 'Titel'], ['Johann Gaudenz von Salis-Seewis', 'Verfasser'], ['die Stimme, die im Gedicht spricht – nicht unbedingt der Dichter selbst', 'Sprecher (lyrisches Ich)']] },
+    { typ: 'zahlen', id: 'zaehlen', titel: '② Zähle im „Herbstlied“ nach', thema: 'Verse und Strophen zählen',
+      zeilen: [['Wie viele Strophen hat das Gedicht?', 2], ['Wie viele Verse hat eine Strophe?', 6], ['Wie viele Verse hat das Gedicht insgesamt?', 12], ['In welchem Vers steht „kühler weht der Wind“?', 6]] },
+    { typ: 'mc', id: 'werkzeug', modus: 'sofort', titel: '③ Kurz-Check', thema: 'Fachbegriffe Vers, Strophe, Reim, Sprecher', fragen: [
+      ['Ist der Sprecher eines Gedichts immer der Dichter selbst?', ['Nein – der Sprecher ist eine Stimme im Gedicht, die der Dichter erfunden haben kann.', 'Ja, immer.', 'Nur bei Herbstgedichten.'], 'Darum schreibt man in der Untersuchung „Der Sprecher …“ oder „Das lyrische Ich …“ und nicht „Der Dichter fühlt …“.'],
+      ['Woran erkennst du ein Gedicht meistens schon auf den ersten Blick?', ['an Versen und Strophen', 'an Kapiteln mit Nummern', 'an einer Tabelle'], 'Gedichte sind in Verse und Strophen gegliedert – die Zeilen enden nicht am Seitenrand.'],
+      ['Welches Wortpaar reimt sich?', ['fallen – wallen', 'Wälder – Wind', 'Traube – Pfirsich'], 'fallen – wallen: ab dem betonten Vokal „a“ klingt alles gleich: -allen.'],
+      ['Wie gibst du eine Stelle aus dem Gedicht richtig an?', ['„kühler weht der Wind“ (V. 6)', 'kühler weht der Wind (Zeile sechs)', '„kühler Wind“ (S. 6)'], 'Zitat in Anführungszeichen, dahinter in Klammern V. für Vers und die Nummer.']] }
+   ] },
+ { id: 's3', ico: '🔔', titel: 'Reim-Detektiv', zeit: 20, stunde: 3,
+   ziel: 'Ich bestimme das Reimschema mit Buchstaben und benenne Paarreim, Kreuzreim, umarmenden Reim und Schweifreim.',
+   tipp: 'Der erste Vers bekommt immer a. Reimt sich ein späterer Vers darauf, bekommt er auch a. Ein neuer Klang bekommt den nächsten Buchstaben: b, c, d …',
+   teile: [
+    { typ: 'info', html: '<table class="tab"><thead><tr><th>Reimart</th><th>Schema</th><th>Merkhilfe</th></tr></thead><tbody><tr><td><b>Paarreim</b></td><td>a a b b</td><td>immer zwei hintereinander – ein Paar</td></tr><tr><td><b>Kreuzreim</b></td><td>a b a b</td><td>die Reimbögen kreuzen sich</td></tr><tr><td><b>umarmender Reim</b></td><td>a b b a</td><td>die äußeren Verse umarmen die inneren</td></tr><tr><td><b>Schweifreim</b></td><td>a a b c c b</td><td>ein Paar, dann ein „Schweif“ – zweimal</td></tr></tbody></table><p class="klein">So geht’s: Tippe auf das Kästchen vor jedem Vers, bis der passende Buchstabe erscheint.</p>' },
+    { typ: 'reim', id: 'reim1', g: 'g1', thema: 'Reimschema bestimmen (Schweifreim)', loesung: 'aabccbddeffe', name: 'Schweifreim' },
+    { typ: 'reim', id: 'reim2', g: 'g2', thema: 'Reimschema bestimmen (Kreuzreim)', loesung: 'ababcdcd', name: 'Kreuzreim' },
+    { typ: 'reim', id: 'reim3', g: 'g3', strophen: [0], thema: 'Reimschema bestimmen (Paarreim)', loesung: 'aabbccdd', name: 'Paarreim' },
+    { typ: 'reim', id: 'reim4', g: 'g4', strophen: [2, 3], thema: 'Reimschema bestimmen (umarmender Reim)', loesung: 'abba', name: 'umarmender Reim' },
+    { typ: 'mc', id: 'reimpaare', modus: 'sofort', titel: 'Reim-Training', thema: 'Reime erkennen', fragen: [
+      ['Was reimt sich auf „Wind“?', ['Kind', 'Wand', 'wild'], 'Wind – Kind: gleicher Klang ab dem betonten „i“: -ind.'],
+      ['Was reimt sich auf „Nebel“?', ['Hebel', 'Nabel', 'Nadel'], 'Nebel – Hebel: -ebel.'],
+      ['Was reimt sich auf „Laub“?', ['Staub', 'Lob', 'laut'], 'Laub – Staub: -aub.'],
+      ['Welches Paar ist ein unreiner Reim (klingt nur ähnlich)?', ['Augen – laufen', 'Wind – Kind', 'Haus – aus'], 'Augen – laufen klingt ähnlich, aber g und f sind verschieden. Das nennt man unreinen Reim.']] }
+   ] },
+ { id: 's4', ico: '🥁', titel: 'Rhythmus', zeit: 15, stunde: 4,
+   ziel: 'Ich höre betonte Silben und unterscheide Jambus (xX) und Trochäus (Xx).',
+   tipp: 'Lies den Vers laut und klopfe mit. Wo klopfst du stärker? Das ist die betonte Silbe. Tipp: Übertreibe beim Lesen!',
+   teile: [
+    { typ: 'info', html: '<p>Jedes Wort hat eine <b>betonte Silbe</b>: <b>HERBST</b>-tag, <b>NE</b>-bel, No-<b>VEM</b>-ber. Wechseln sich betonte (<b>X</b>) und unbetonte (<b>x</b>) Silben regelmäßig ab, hat das Gedicht ein <b>Metrum</b> (einen Takt).</p><ul><li><b>Trochäus</b> X x – beginnt <b>betont</b>: <b>BUNT</b> sind <b>SCHON</b> die <b>WÄL</b>-der</li><li><b>Jambus</b> x X – beginnt <b>unbetont</b>: die <b>LUFT</b> ist <b>STILL</b></li></ul><p class="klein">Tippe auf jede Silbe, die du betonst. Sie wird dann groß und farbig.</p>' },
+    { typ: 'betonung', id: 'beton', thema: 'Betonte Silben und Metrum (Jambus/Trochäus)', zeilen: [
+      { quelle: 'Herbstlied, V. 1', silben: ['Bunt', 'sind', 'schon', 'die', 'Wäl', 'der,'], wort: [1, 1, 1, 1, 0, 1], betont: [0, 2, 4], metrum: 'Trochäus' },
+      { quelle: 'November, V. 1', silben: ['Sol', 'chen', 'Mo', 'nat', 'muss', 'man', 'lo', 'ben:'], wort: [0, 1, 0, 1, 1, 1, 0, 1], betont: [0, 2, 4, 6], metrum: 'Trochäus' },
+      { quelle: 'Herbstbild, V. 2', silben: ['Die', 'Luft', 'ist', 'still,', 'als', 'at', 'me', 'te', 'man', 'kaum,'], wort: [1, 1, 1, 1, 1, 0, 0, 1, 1, 1], betont: [1, 3, 5, 7, 9], metrum: 'Jambus' },
+      { quelle: 'Herbst (Rilke), V. 1', silben: ['Die', 'Blät', 'ter', 'fal', 'len,', 'fal', 'len', 'wie', 'von', 'weit,'], wort: [1, 0, 1, 0, 1, 0, 1, 1, 1, 1], betont: [1, 3, 5, 7, 9], metrum: 'Jambus' }] },
+    { typ: 'mc', id: 'metrum', modus: 'sofort', titel: 'Kurz-Check', thema: 'Betonte Silben und Metrum (Jambus/Trochäus)', fragen: [
+      ['Warum haben viele Gedichte ein Metrum?', ['Es entsteht ein gleichmäßiger Takt – wie in einem Lied.', 'Damit das Gedicht länger wird.', 'Damit man es nicht laut lesen kann.'], 'Der Takt macht das Gedicht gut sprechbar und klingt angenehm.'],
+      ['Ein Vers beginnt mit einer betonten Silbe und dann wechselt es immer ab. Das ist ein …', ['Trochäus', 'Jambus', 'Kreuzreim'], 'Trochäus = X x (betont – unbetont).']] }
+   ] },
+ { id: 's5', ico: '🎨', titel: 'Sprachliche Bilder', zeit: 25, stunde: '5–6',
+   ziel: 'Ich erkenne Vergleich, Personifikation, Metapher, Lautmalerei und Alliteration und erkläre ihre Wirkung.',
+   tipp: 'Steht ein „wie“ oder „als ob“ dabei → Vergleich. Tut etwas aus der Natur, was nur Menschen tun → Personifikation. Klingt das Wort wie das Geräusch → Lautmalerei.',
+   teile: [
+    { typ: 'info', html: '<div class="merk"><b>Vergleich:</b> zwei Dinge werden mit <i>wie</i> oder <i>als</i> verbunden – „Die Bäume sind kahl wie Besen.“<br><b>Personifikation:</b> Natur oder Dinge handeln oder fühlen wie Menschen – „Die Sonne lacht.“<br><b>Metapher:</b> ein Vergleich ohne <i>wie</i> – „ein Meer aus Blättern“.<br><b>Lautmalerei:</b> das Wort klingt wie das Geräusch – rascheln, pochen, klopfen.<br><b>Alliteration:</b> gleiche Anfangslaute – „kalte Kastanien kullern“.</div>' },
+    { typ: 'zuordnen', id: 'bilder', titel: '① Welches sprachliche Mittel ist das?', thema: 'Sprachliche Bilder unterscheiden', optionen: ['Vergleich', 'Personifikation', 'Metapher', 'Lautmalerei', 'Alliteration'],
+      zeilen: [['„Die Bäume sind kahl wie Besen.“', 'Vergleich'], ['„Der Herbst malt die Blätter bunt.“', 'Personifikation'], ['„Die Sonne lacht.“', 'Personifikation'], ['„ein Meer aus Blättern“', 'Metapher'], ['„Der Mond ist eine Laterne am Himmel.“', 'Metapher'], ['„Das Laub raschelt.“', 'Lautmalerei'], ['„Kalte Kastanien kullern.“', 'Alliteration'], ['„Die Blätter fallen, fallen wie von weit“ (Rilke)', 'Vergleich'], ['„die Feier der Natur“ (Hebbel)', 'Metapher'], ['„Wie sie pochen, wie sie klopfen!“ (Seidel, über Regentropfen)', 'Lautmalerei']] },
+    { typ: 'gedicht', g: 'g3', strophen: [0] },
+    { typ: 'markieren', id: 'markNov', g: 'g3', strophe: 0, titel: '② Der November als Person', thema: 'Personifikation im Text finden',
+      frage: 'Tippe in der ersten Strophe von „November“ alle Wörter an, mit denen der November <b>wie ein Mensch</b> beschrieben wird (Tätigkeiten oder Gefühle). Es sind <b>vier</b>.',
+      ziele: ['toben', 'verdrießlich', 'maulen', 'graulen'], erkl: 'Toben, verdrießlich sein, maulen und graulen – das tun eigentlich Menschen. Der November wirkt wie ein schlecht gelaunter, wilder Kerl.' },
+    { typ: 'mc', id: 'wirkung', modus: 'sofort', titel: '③ Und wie wirkt das?', thema: 'Wirkung sprachlicher Bilder erklären', fragen: [
+      ['Warum lässt Seidel den November „toben“ und „maulen“?', ['Der November wirkt wie ein schlecht gelaunter Mensch – das ist lebendig und ein bisschen lustig.', 'Weil der November wirklich ein Mensch ist.', 'Damit sich das Gedicht nicht reimt.'], 'Personifikationen machen die Natur lebendig: Wir stellen uns den November wie eine Figur vor.'],
+      ['„Die Bäume sind kahl wie Besen.“ – Was bewirkt der Vergleich?', ['Man kann sich die dünnen, kahlen Äste genau vorstellen.', 'Man weiß, dass die Bäume putzen.', 'Er hat keine Wirkung.'], 'Ein Vergleich macht etwas vorstellbar, indem er es mit etwas Bekanntem verbindet.'],
+      ['Was ist der Unterschied zwischen Vergleich und Metapher?', ['Bei der Metapher fehlt das „wie“.', 'Die Metapher muss sich reimen.', 'Es gibt keinen Unterschied.'], '„Der Nebel ist wie Watte“ (Vergleich) – „Der Nebel ist Watte“ (Metapher).']] }
+   ] },
+ { id: 's6', ico: '🌦️', titel: 'Stimmung', zeit: 25, stunde: 7,
+   ziel: 'Ich beschreibe die Stimmung eines Gedichts und belege sie mit Zitat und Versangabe.',
+   tipp: 'Achte auf Adjektive, Verben und Satzzeichen. Viele Ausrufezeichen wirken aufgeregt, Wörter wie „still“ oder „kaum“ wirken ruhig.',
+   teile: [
+    { typ: 'gedicht', g: 'g2' },
+    { typ: 'mehrfach', id: 'stimmG2', titel: '① Welche drei Wörter passen zur Stimmung von „Herbstbild“?', thema: 'Stimmung erkennen', optionen: ['still', 'feierlich', 'friedlich', 'wütend', 'hektisch', 'albern', 'laut', 'ängstlich'], richtig: 3,
+      erkl: 'Die Luft ist still, die Früchte fallen leise, und die Natur feiert – das wirkt still, feierlich und friedlich.' },
+    { typ: 'gedicht', g: 'g3' },
+    { typ: 'mehrfach', id: 'stimmG3', titel: '② Welche vier Beschreibungen passen zu „November“?', thema: 'Stimmung erkennen', optionen: ['stürmisch', 'ungemütlich', 'augenzwinkernd, nicht ganz ernst', 'am Ende gemütlich', 'feierlich', 'ganz still', 'verzweifelt'], richtig: 4,
+      erkl: 'Draußen tobt der Sturm (stürmisch, ungemütlich). Das „Loben“ ist nicht ernst gemeint (augenzwinkernd). In der letzten Strophe sitzt man gemütlich im Trocknen.' },
+    { typ: 'mc', id: 'belege', modus: 'sofort', titel: '③ Belege finden', thema: 'Stimmung mit Zitat belegen', fragen: [
+      ['Welche Stelle belegt, dass „Herbstbild“ still wirkt?', ['„Die Luft ist still, als atmete man kaum“ (V. 2)', '„Dies ist ein Herbsttag, wie ich keinen sah!“ (V. 1)', '„die schönsten Früchte“ (V. 4)'], 'Das Wort „still“ und „als atmete man kaum“ zeigen die Ruhe direkt.'],
+      ['Welche Stelle zeigt, dass es am Ende von „November“ gemütlich wird?', ['„So dass wir im Trocknen hausen“ (V. 29)', '„Seht das schöne Schlackerwetter!“ (V. 9)', '„Keiner kann wie dieser toben“ (V. 2)'], 'Im Trocknen, in „wohlgeborgner Ruh“ – drinnen ist es gemütlich.'],
+      ['Ist das Lob am Anfang („Solchen Monat muss man loben“) ernst gemeint?', ['Nein, es ist ironisch: Eigentlich ist das Wetter schrecklich.', 'Ja, der Sprecher liebt Regen über alles.', 'Das kann man nicht wissen.'], 'Wer „lobt“, dass jemand tobt und mault, meint es nicht ernst. Das nennt man Ironie.'],
+      ['Welcher Satz ist richtig zitiert?', ['Das Gedicht wirkt still: „Die Luft ist still“ (V. 2).', 'Das Gedicht wirkt still: Die Luft ist still (Zeile 2).', 'Das Gedicht wirkt still, „weil die Luft still ist“ (S. 2).'], 'Wörtlich übernommen, in Anführungszeichen, mit Versangabe (V. 2).']] },
+    { typ: 'freitext', id: 'stimmSatz', titel: '④ Jetzt du: Stimmung beschreiben', thema: 'Stimmung mit Zitat belegen', min: 20,
+      frage: 'Beschreibe die Stimmung von „Herbstbild“ in 2–3 Sätzen. Belege sie mit mindestens einem Zitat mit Versangabe.',
+      satzanfaenge: ['Das Gedicht „Herbstbild“ wirkt …', 'Das zeigt sich in Vers …, wo es heißt: „…“', 'Dadurch wirkt …'],
+      muss: [['Stimmungswort', 'still|ruhig|friedlich|feierlich|sanft|leise|gemütlich'], ['Zitat in Anführungszeichen', '[„"»].{3,}[“"«]'], ['Versangabe (V. …)', 'V\\.\\s?\\d']],
+      muster: 'Das Gedicht „Herbstbild“ wirkt still und feierlich. Schon in Vers 2 heißt es: „Die Luft ist still, als atmete man kaum“ (V. 2). Es ist so ruhig, dass man sich kaum zu atmen traut. Auch „die Feier der Natur“ (V. 5) zeigt, dass dieser Herbsttag etwas Besonderes ist.',
+      kriterien: ['Ich habe die Stimmung mit einem passenden Wort benannt.', 'Ich habe ein Zitat in Anführungszeichen verwendet.', 'Ich habe die Versangabe angegeben.', 'Ich habe erklärt, warum das Zitat die Stimmung zeigt.'] }
+   ] },
+ { id: 's7', ico: '🔍', titel: 'Gedicht untersuchen', zeit: 40, stunde: '8–9',
+   ziel: 'Ich untersuche ein Gedicht in einem zusammenhängenden Text: Einleitung, Form, Inhalt, Sprache, Stimmung, Schluss.',
+   tipp: 'Arbeite den Schreibplan Schritt für Schritt ab. Nutze die Satzanfänge-Knöpfe unter dem Schreibfeld.',
+   teile: [
+    { typ: 'gedicht', g: 'g2' },
+    { typ: 'zuordnen', id: 'einleitung', titel: '① Baue die Einleitung', thema: 'Einleitung schreiben (Titel, Verfasser, Textart, Thema)',
+      zeilen: [['Titel', '„Herbstbild“', ['„Herbstbild“', '„Herbstlied“', '„November“']], ['Verfasser', 'Friedrich Hebbel', ['Friedrich Hebbel', 'Heinrich Seidel', 'Rainer Maria Rilke']], ['Textart', 'Gedicht', ['Gedicht', 'Fabel', 'Bericht']], ['Thema', 'ein stiller Herbsttag, an dem reife Früchte von den Bäumen fallen', ['ein stiller Herbsttag, an dem reife Früchte von den Bäumen fallen', 'ein Sturm, der alle Bäume umwirft', 'ein Kind, das im Garten Äpfel pflückt']]],
+      satz: 'In dem {2} {0} von {1} geht es um {3}.' },
+    { typ: 'zuordnen', id: 'formG2', titel: '② Form und Sprache von „Herbstbild“', thema: 'Form und sprachliche Mittel bestimmen',
+      zeilen: [['Anzahl der Strophen', '2', ['2', '4', '8']], ['Verse je Strophe', '4', ['4', '2', '8']], ['Reimschema', 'abab cdcd', ['abab cdcd', 'aabb ccdd', 'abba cddc']], ['Reimart', 'Kreuzreim', ['Kreuzreim', 'Paarreim', 'umarmender Reim']], ['Metrum', 'Jambus', ['Jambus', 'Trochäus']], ['„als atmete man kaum“ (V. 2) ist ein …', 'Vergleich', ['Vergleich', 'Reim', 'Titel']], ['„die Feier der Natur“ (V. 5) ist eine …', 'Metapher', ['Metapher', 'Lautmalerei', 'Strophe']]] },
+    { typ: 'zuordnen', id: 'plan', titel: '③ Bringe den Schreibplan in die richtige Reihenfolge', thema: 'Aufbau einer Gedichtuntersuchung', optionen: ['1.', '2.', '3.', '4.', '5.', '6.'],
+      zeilen: [['Einleitung: Titel, Verfasser, Textart, Thema', '1.'], ['Form: Strophen, Verse, Reimschema', '2.'], ['Inhalt: Was passiert in jeder Strophe?', '3.'], ['Sprache: sprachliche Bilder mit Zitat und Wirkung', '4.'], ['Stimmung mit Beleg', '5.'], ['Schluss: eigene Meinung mit Begründung', '6.']] },
+    { typ: 'freitext', id: 'untersuchung', titel: '④ Deine Untersuchung zu „Herbstbild“', thema: 'Gedicht zusammenhängend untersuchen', min: 80, gross: true,
+      frage: 'Schreibe eine vollständige Untersuchung des Gedichts „Herbstbild“ (mindestens 80 Wörter). Halte dich an den Schreibplan. Benutze Fachbegriffe und zitiere mit Versangabe.',
+      satzanfaenge: ['In dem Gedicht „Herbstbild“ von Friedrich Hebbel geht es um …', 'Das Gedicht besteht aus … Strophen mit jeweils … Versen.', 'Das Reimschema ist …, es handelt sich also um einen …', 'In der ersten Strophe …', 'In der zweiten Strophe …', 'In Vers … steht: „…“ (V. …). Das ist ein/eine …', 'Dadurch wirkt …', 'Die Stimmung ist …, weil …', 'Mir gefällt das Gedicht (nicht), weil …'],
+      muss: [['Titel', 'Herbstbild'], ['Verfasser', 'Hebbel'], ['Strophe', 'Strophe'], ['Reimart', 'Kreuzreim'], ['sprachliches Bild', 'Vergleich|Metapher|Personifikation'], ['Versangabe', 'V\\.\\s?\\d'], ['Stimmung', 'still|ruhig|friedlich|feierlich']],
+      muster: 'In dem Gedicht „Herbstbild“ von Friedrich Hebbel geht es um einen stillen Herbsttag, an dem die reifen Früchte von den Bäumen fallen.\n\nDas Gedicht besteht aus zwei Strophen mit jeweils vier Versen. Das Reimschema ist abab cdcd, es handelt sich also um einen Kreuzreim. Das Metrum ist ein Jambus.\n\nIn der ersten Strophe beschreibt der Sprecher einen besonderen Herbsttag: Die Luft ist ganz still, trotzdem fallen überall Früchte von den Bäumen. In der zweiten Strophe bittet er darum, diese „Feier der Natur“ (V. 5) nicht zu stören, denn die Natur hält ihre Ernte selbst.\n\nIm zweiten Vers steht ein Vergleich: „Die Luft ist still, als atmete man kaum“ (V. 2). Dadurch merkt man, wie ruhig es ist – man traut sich fast nicht zu atmen. „Die Feier der Natur“ (V. 5) ist eine Metapher. Sie zeigt, dass der Herbst etwas Feierliches und Wertvolles ist. Außerdem wird die Natur wie ein Mensch dargestellt, der seine „Lese“ (V. 6) selbst hält. Das ist eine Personifikation.\n\nDie Stimmung ist still, friedlich und feierlich. Man hört nur, wie die Früchte „raschelnd“ (V. 3) fallen.\n\nMir gefällt das Gedicht, weil man sich den ruhigen Herbsttag gut vorstellen kann.',
+      kriterien: ['Einleitung mit Titel, Verfasser und Thema', 'Strophen und Verse genannt', 'Reimschema und Kreuzreim genannt', 'Inhalt beider Strophen wiedergegeben', 'mindestens ein sprachliches Bild mit Zitat und Versangabe', 'Wirkung des Bildes erklärt', 'Stimmung genannt und belegt', 'Schluss mit eigener Meinung und Begründung'] }
+   ] },
+ { id: 's8', ico: '🎤', titel: 'Vortrag', zeit: 25, stunde: '10–11',
+   ziel: 'Ich setze Vortragszeichen und trage ein Gedicht gestaltend vor.',
+   tipp: 'Pausen gehören an Satzzeichen und ans Strophenende. Betone Wörter, die wichtig oder überraschend sind – nicht jedes zweite Wort!',
+   teile: [
+    { typ: 'zuordnen', id: 'zeichen', titel: '① Was bedeuten die Vortragszeichen?', thema: 'Vortragszeichen kennen', optionen: ['kurze Pause', 'lange Pause', 'Wort betonen', 'lauter werden', 'leiser werden'],
+      zeilen: [['|', 'kurze Pause'], ['||', 'lange Pause'], ['Wort unterstrichen', 'Wort betonen'], ['↗', 'lauter werden'], ['↘', 'leiser werden']] },
+    { typ: 'vortrag', id: 'vortrag', g: 'g3', strophe: 1, titel: '② Vortragszeichen setzen', thema: 'Vortrag vorbereiten',
+      kriterien: ['laut und deutlich', 'passendes Tempo, nicht zu schnell', 'Pausen an passenden Stellen', 'wichtige Wörter betont', 'Stimmung passt zum Gedicht', 'flüssig, ohne Stocken'] }
+   ] },
+ { id: 's9', ico: '✍️', titel: 'Schreibwerkstatt', zeit: 35, stunde: '12–13',
+   ziel: 'Ich schreibe ein Parallelgedicht mit Paarreim und Personifikation und überarbeite es.',
+   tipp: 'Sammle zuerst Reimwörter (unten in der Reimhilfe). Lass deinen Monat Dinge tun, die Menschen tun: lachen, schimpfen, tanzen, schlafen …',
+   teile: [
+    { typ: 'gedicht', g: 'g3', strophen: [0] },
+    { typ: 'info', html: '<div class="merk"><b>Bauplan wie bei Seidel:</b> 8 Verse · <b>Paarreim</b> (aabbccdd) · der Monat oder das Wetter <b>handelt wie ein Mensch</b> (Personifikation) · mindestens ein <b>Ausruf</b> mit ! · Wer mag: ein Augenzwinkern wie bei Seidel („muss man loben“, obwohl alles schrecklich ist).</div>' },
+    { typ: 'parallel', id: 'parallel', titel: 'Dein Parallelgedicht', thema: 'Eigenes Gedicht schreiben (Paarreim, Personifikation)',
+      themen: ['Dezember', 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'Regenwetter', 'Schneetag', 'Hitzetag'],
+      kriterien: ['Mein Gedicht hat 8 Verse.', 'Alle vier Verspaare reimen sich (Paarreim).', 'Mein Monat/Wetter handelt wie ein Mensch (mindestens zwei Stellen).', 'Ich habe mindestens einen Ausruf mit ! verwendet.', 'Die Stimmung passt zu meinem Monat/Wetter.', 'Ich habe Rechtschreibung und Großschreibung am Versanfang geprüft.'] }
+   ] },
+ { id: 's10', ico: '🏁', titel: 'KA-Fit', zeit: 20, stunde: 14,
+   ziel: 'Ich überprüfe an einem neuen Gedicht, ob ich fit für die Klassenarbeit bin.',
+   tipp: 'Lies das Gedicht zweimal. Lass dir Zeit – hier gibt es die Rückmeldung erst am Ende.',
+   teile: [
+    { typ: 'gedicht', g: 'g4' },
+    { typ: 'mc', id: 'kafit', modus: 'ende', titel: 'Abschluss-Check: 10 Fragen zu Rilkes „Herbst“', thema: 'Abschluss-Check', fragen: [
+      ['Wie viele Strophen hat das Gedicht?', ['4', '3', '2'], 'Zähle die Abschnitte zwischen den Leerzeilen: 3 + 2 + 2 + 2 Verse = 4 Strophen.'],
+      ['Welches Wort kommt (in verschiedenen Formen) am häufigsten vor?', ['fallen', 'Blätter', 'Hand'], 'fallen, fällt, Fallen – das ganze Gedicht dreht sich ums Fallen.'],
+      ['„fallen wie von weit“ (V. 1) ist …', ['ein Vergleich', 'eine Personifikation', 'eine Lautmalerei'], 'Das „wie“ verrät den Vergleich.'],
+      ['Die Verse 6–9 enden auf fällt – allen – Fallen – hält. Das ist ein …', ['umarmender Reim', 'Paarreim', 'Kreuzreim'], 'abba: Die äußeren Verse umarmen die inneren.'],
+      ['Welches Metrum hat Vers 1: „Die Blätter fallen, fallen wie von weit“?', ['Jambus', 'Trochäus', 'gar keins'], 'die BLÄT-ter FAL-len FAL-len WIE von WEIT – unbetont, betont: Jambus.'],
+      ['„Die Blätter fallen, fallen“ – wie wirkt die Wiederholung?', ['eindringlich, als würde das Fallen nicht aufhören', 'lustig und laut', 'Sie hat keine Wirkung.'], 'Wiederholungen verstärken: Das Fallen geht immer weiter.'],
+      ['Wer ist mit „Wir alle fallen“ (V. 6) gemeint?', ['die Menschen', 'nur die Blätter', 'die Sterne'], '„Diese Hand da fällt“ – jetzt geht es um Menschen: Auch sie werden älter und vergehen.'],
+      ['Wie wirkt das Ende (V. 8–9)?', ['tröstlich: Jemand hält alles Fallen ganz sanft.', 'wütend', 'fröhlich und ausgelassen'], '„unendlich sanft in seinen Händen“ – nach dem vielen Fallen kommt Trost.'],
+      ['Welche Angabe ist richtig zitiert?', ['„Wir alle fallen.“ (V. 6)', 'Wir alle fallen (Zeile 6)', '„Wir alle fallen“ (S. 6)'], 'Anführungszeichen + (V. 6).'],
+      ['Welcher Satz passt am besten als Einleitung?', ['In dem Gedicht „Herbst“ von Rainer Maria Rilke geht es um fallende Blätter und darum, dass alles vergeht und doch gehalten wird.', 'Rilke ist ein Dichter und das Gedicht ist schön.', 'Die Blätter fallen.'], 'Eine Einleitung nennt Titel, Verfasser, Textart und Thema.']] }
+   ] }
+];
+
+var REIMHILFE = [
+  ['-ind', 'Wind, Kind, geschwind, blind, sind, find'], ['-au', 'grau, blau, Tau, genau, schlau, Frau'], ['-icht', 'Licht, nicht, Gesicht, Gedicht, Pflicht, spricht'],
+  ['-ee', 'Schnee, See, Tee, Klee, weh'], ['-eit', 'Zeit, weit, breit, bereit, Dunkelheit, Heiterkeit'], ['-acht', 'Nacht, lacht, Pracht, macht, sacht, gedacht'],
+  ['-en (loben)', 'loben, toben, oben, droben, geschoben'], ['-aus', 'Haus, raus, Maus, aus, Strauß, Graus'], ['-ein', 'Sonnenschein, fein, klein, sein, herein, allein'],
+  ['-alt', 'kalt, bald, Wald, alt, Gestalt, knallt'], ['-ehen', 'gehen, wehen, sehen, stehen, drehen'], ['-ieren', 'frieren, spazieren, verlieren']
+];
+
+/* =====================================================================
+   DEUTSCHLABOR HERBSTLYRIK – Programm (Anzeige, Prüfen, Punkte, Ergebnis)
+   Inhalte: inhalt.js · PDF: pdf_basis.js + pdf.js
+   ===================================================================== */
+var KEY = LABOR.key, MAXALTER = 120 * 24 * 3600 * 1000;
+function neuerZustand() { return { v: 1, t: Date.now(), d: {}, a: {}, erst: {}, seite: 'start' }; }
+function laden() {
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (!s || s.v !== 1 || Date.now() - s.t > MAXALTER) return null;
+    s.a = s.a || {}; s.erst = s.erst || {}; s.d = s.d || {}; return s;
+  } catch (e) { return null; }
+}
+var S = laden() || neuerZustand(), spTimer = null;
+function speichern() { S.t = Date.now(); clearTimeout(spTimer); spTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 120); }
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function plain(html) { var d = document.createElement('div'); d.innerHTML = html; return (d.textContent || '').replace(/\s+/g, ' ').trim(); }
+function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function mische(n, saat) { var idx = [], z = hash(saat) || 1, i; for (i = 0; i < n; i++) idx.push(i); for (var j = n - 1; j > 0; j--) { z = (z * 1103515245 + 12345) & 0x7fffffff; var k = z % (j + 1), t = idx[j]; idx[j] = idx[k]; idx[k] = t; } return idx; }
+function toast(html, lang) { var t = $('toast'); t.innerHTML = html; t.classList.add('zeigen'); clearTimeout(t._z); t._z = setTimeout(function () { t.classList.remove('zeigen'); }, lang || 3800); }
+function woerter(s) { return (s || '').trim().split(/\s+/).filter(function (w) { return /[A-Za-zÄÖÜäöüß0-9]/.test(w); }).length; }
+var BUCHST = 'A-Za-zÄÖÜäöüßéè';
+function sauberWort(t) { return t.replace(new RegExp('^[^' + BUCHST + ']+|[^' + BUCHST + "']+$", 'g'), ''); }
+
+/* ---------- Teile-Verzeichnis ---------- */
+var PART = {}, PST = {};
+STATIONEN.forEach(function (st) { st.teile.forEach(function (p) { if (p.id) { PART[p.id] = p; PST[p.id] = st; } }); });
+function stationById(id) { for (var i = 0; i < STATIONEN.length; i++) if (STATIONEN[i].id === id) return STATIONEN[i]; return null; }
+
+/* ---------- Vorlesen ---------- */
+var VL = [];
+function vlKnopf(text, label) { VL.push(text); return '<button class="vl" data-lies="' + (VL.length - 1) + '" title="vorlesen">🔊' + (label ? ' ' + label : '') + '</button>'; }
+function lies(text) {
+  if (!('speechSynthesis' in window)) { toast('Vorlesen geht auf diesem Gerät leider nicht.'); return; }
+  var ss = window.speechSynthesis; if (ss.speaking) { ss.cancel(); return; }
+  var u = new SpeechSynthesisUtterance(text); u.lang = 'de-DE'; u.rate = 0.9;
+  var de = (ss.getVoices() || []).filter(function (v) { return /^de/i.test(v.lang); }); if (de.length) u.voice = de[0];
+  ss.speak(u);
+}
+
+/* ---------- Gedichte ---------- */
+function verseVon(g, strophen) {
+  var G = GEDICHTE[g], out = [], nr = 0;
+  G.strophen.forEach(function (str, si) { str.forEach(function (v) { nr++; if (!strophen || strophen.indexOf(si) >= 0) out.push({ s: si, nr: nr, t: v }); }); });
+  return out;
+}
+function glossiere(g, vers) {
+  var W = GEDICHTE[g].woerter || {};
+  return vers.split(' ').map(function (tok) {
+    var w = sauberWort(tok);
+    if (w && W[w]) { var i = tok.indexOf(w); return esc(tok.slice(0, i)) + '<button class="wort" data-wort="' + g + '|' + esc(w) + '">' + esc(w) + '</button>' + esc(tok.slice(i + w.length)); }
+    return esc(tok);
+  }).join(' ');
+}
+function gedichtHtml(g, strophen, links) {
+  var G = GEDICHTE[g], vs = verseVon(g, strophen), h = '<div class="gedicht"><div class="gkopf"><div><div class="gautor">' + esc(G.autor) + '</div><div class="gtitel">' + esc(G.titel) + ' <span class="gzus">' + esc(G.zusatz + (strophen ? ' – Ausschnitt' : '')) + '</span></div></div>' + vlKnopf(G.titel + '. Von ' + G.autor + '. ' + vs.map(function (v) { return v.t; }).join('\n'), 'vorlesen') + '</div>';
+  var last = -1;
+  vs.forEach(function (v) {
+    if (last >= 0 && v.s !== last) h += '<div class="sluecke"></div>';
+    last = v.s;
+    h += '<div class="vers">' + (links ? links(v) : '') + '<span class="vnr">' + v.nr + '</span><span class="vtext">' + glossiere(g, v.t) + '</span></div>';
+  });
+  if (Object.keys(G.woerter || {}).length) h += '<div class="ghinweis">Unterstrichene Wörter antippen → Erklärung</div>';
+  return h + '</div>';
+}
+
+/* ---------- Bausteine ---------- */
+function pruefLeiste(pid, extra) {
+  var chk = S.a[pid + '.chk'], h = '<div class="pruefleiste"><button class="knopf" data-pruef="' + pid + '">' + (chk ? 'erneut prüfen' : 'Prüfen') + '</button>';
+  if (chk) { h += '<button class="knopf hell" data-los="' + pid + '">Lösung zeigen</button>'; var e = S.erst[pid], w = wert(PART[pid]); h += '<span class="erstv">Erster Versuch: <b>' + e + ' von ' + w.n + '</b></span>'; }
+  return h + (extra || '') + '</div>';
+}
+function rowsZ(p) { return p.zeilen.map(function (z, i) { return { k: p.id + '.' + i, l: z[0], r: String(z[1]), o: z[2] ? mische(z[2].length, p.id + i).map(function (j) { return z[2][j]; }) : p.optionen }; }); }
+
+function zuordnenHtml(p) {
+  var chk = S.a[p.id + '.chk'], los = S.a[p.id + '.los'], h = '<div class="teil"><h3>' + p.titel + '</h3><div class="zeilen">';
+  var reihen = mische(p.zeilen.length, p.id + 'r'), alleRows = rowsZ(p);
+  (p.satz ? alleRows.map(function (r, i) { return i; }) : reihen).forEach(function (i) {
+    var r = alleRows[i], w = S.a[r.k] || '', ok = chk ? w === r.r : null;
+    h += '<div class="gzeile' + (chk ? (ok ? ' ok' : ' bad') : '') + '"><div class="glabel">' + esc(r.l) + '</div><div class="gwahl"><select data-sel="' + r.k + '"><option value="">– wählen –</option>';
+    r.o.forEach(function (o) { h += '<option' + (o === w ? ' selected' : '') + '>' + esc(o) + '</option>'; });
+    h += '</select>' + (chk ? '<span class="mark">' + (ok ? '✓' : '✗') + '</span>' : '') + '</div>';
+    if (chk && !ok && los) h += '<div class="loesung">Richtig: <b>' + esc(r.r) + '</b></div>';
+    h += '</div>';
+  });
+  h += '</div>';
+  if (p.satz && chk) {
+    var teile = alleRows.map(function (r) { return S.a[r.k] || '…'; }), satz = p.satz.replace(/\{(\d)\}/g, function (m, n) { return teile[+n]; });
+    h += '<div class="satzbox">Dein Einleitungssatz: <b>' + esc(satz) + '</b></div>';
+  }
+  return h + pruefLeiste(p.id) + '</div>';
+}
+function zahlenHtml(p) {
+  var chk = S.a[p.id + '.chk'], los = S.a[p.id + '.los'], h = '<div class="teil"><h3>' + p.titel + '</h3><div class="zeilen">';
+  p.zeilen.forEach(function (z, i) {
+    var k = p.id + '.' + i, w = S.a[k] == null ? '' : S.a[k], ok = chk ? String(w).trim() === String(z[1]) : null;
+    h += '<div class="gzeile' + (chk ? (ok ? ' ok' : ' bad') : '') + '"><div class="glabel">' + esc(z[0]) + '</div><div class="gwahl"><input class="zahl" inputmode="numeric" data-in="' + k + '" value="' + esc(w) + '">' + (chk ? '<span class="mark">' + (ok ? '✓' : '✗') + '</span>' : '') + '</div>';
+    if (chk && !ok && los) h += '<div class="loesung">Richtig: <b>' + z[1] + '</b></div>';
+    h += '</div>';
+  });
+  return h + '</div>' + pruefLeiste(p.id) + '</div>';
+}
+function mcHtml(p) {
+  var ende = p.modus === 'ende', aus = S.a[p.id + '.aus'], h = '<div class="teil"><h3>' + p.titel + '</h3>';
+  if (ende && !aus) h += '<p class="klein">Du kannst deine Antworten noch ändern. Erst „Auswerten“ zeigt, was richtig ist.</p>';
+  p.fragen.forEach(function (q, i) {
+    var key = p.id + '.' + i, ord = mische(q[1].length, key), ant = S.a[key], zeige = ende ? !!aus : ant != null;
+    h += '<div class="frage' + (zeige ? (ant === 0 ? ' ok' : ' bad') : '') + '"><div class="fnr">' + (i + 1) + '</div><div class="finhalt"><p class="ftext">' + esc(q[0]) + ' ' + vlKnopf(q[0] + ' ' + q[1].join('. Oder: ')) + '</p><div class="optionen">';
+    ord.forEach(function (o) {
+      var kl = 'opt'; if (ant === o) kl += ' gewaehlt'; if (zeige && o === 0) kl += ' richtig'; if (zeige && ant === o && o !== 0) kl += ' falsch';
+      h += '<button class="' + kl + '" data-mc="' + key + '" data-o="' + o + '"' + (zeige ? ' disabled' : '') + '>' + esc(q[1][o]) + '</button>';
+    });
+    h += '</div>';
+    if (zeige) h += '<div class="rueck ' + (ant === 0 ? 'ja' : 'nein') + '">' + (ant === 0 ? '✓ Richtig! ' : ant == null ? '– nicht beantwortet. ' : '✗ Leider falsch. ') + esc(q[2]) + '</div>';
+    h += '</div></div>';
+  });
+  if (ende) {
+    var alle = p.fragen.every(function (q, i) { return S.a[p.id + '.' + i] != null; });
+    if (!aus) h += '<div class="pruefleiste"><button class="knopf gross" data-aus="' + p.id + '"' + (alle ? '' : ' disabled') + '>Auswerten</button>' + (alle ? '' : '<span class="klein">Beantworte zuerst alle Fragen.</span>') + '</div>';
+    else { var w = wert(p); h += '<div class="satzbox">Ergebnis: <b>' + w.r + ' von ' + w.n + '</b> richtig.</div>'; }
+  }
+  return h + '</div>';
+}
+function reimNorm(arr) { var m = {}, n = 0; return arr.map(function (c) { if (!c) return '?'; if (m[c] == null) m[c] = 'abcdefghij'[n++]; return m[c]; }); }
+function reimHtml(p) {
+  var G = GEDICHTE[p.g], vs = verseVon(p.g, p.strophen), chk = S.a[p.id + '.chk'], los = S.a[p.id + '.los'];
+  var stud = vs.map(function (v, i) { return S.a[p.id + '.v' + i] || ''; }), sn = reimNorm(stud), ln = p.loesung.split('');
+  var h = '<div class="teil"><h3>„' + esc(G.titel) + '“ – Reimschema</h3>';
+  h += gedichtHtml(p.g, p.strophen, function (v) {
+    var i = 0; while (i < vs.length && vs[i].nr !== v.nr) i++; var c = stud[i], ok = chk ? sn[i] === ln[i] : null;
+    return '<button class="reimb' + (c ? ' r' + c : '') + (chk ? (ok ? ' ok' : ' bad') : '') + '" data-reim="' + p.id + '" data-v="' + i + '">' + (c || '·') + '</button>' + (chk && los && !ok ? '<span class="rl">' + ln[i] + '</span>' : '');
+  });
+  var nk = p.id + '.name', nw = S.a[nk] || '', nok = chk ? nw === p.name : null;
+  h += '<div class="gzeile' + (chk ? (nok ? ' ok' : ' bad') : '') + '"><div class="glabel">Wie heißt diese Reimart?</div><div class="gwahl"><select data-sel="' + nk + '"><option value="">– wählen –</option>';
+  ['Paarreim', 'Kreuzreim', 'umarmender Reim', 'Schweifreim'].forEach(function (o) { h += '<option' + (o === nw ? ' selected' : '') + '>' + o + '</option>'; });
+  h += '</select>' + (chk ? '<span class="mark">' + (nok ? '✓' : '✗') + '</span>' : '') + '</div>' + (chk && los && !nok ? '<div class="loesung">Richtig: <b>' + p.name + '</b></div>' : '') + '</div>';
+  if (chk && los) h += '<div class="satzbox">Lösung: <b>' + p.loesung + '</b> → ' + p.name + '</div>';
+  return h + pruefLeiste(p.id) + '</div>';
+}
+function betonungHtml(p) {
+  var chk = S.a[p.id + '.chk'], los = S.a[p.id + '.los'], h = '<div class="teil"><h3>Betonte Silben antippen</h3>';
+  p.zeilen.forEach(function (z, li) {
+    var k = p.id + '.' + li, sel = S.a[k] || [], ok = chk ? gleicheMenge(sel, z.betont) : null;
+    h += '<div class="bzeile' + (chk ? (ok ? ' ok' : ' bad') : '') + '"><div class="bquelle">' + esc(z.quelle) + ' ' + vlKnopf(z.silben.join('').replace(/,|:/g, '')) + '</div><div class="silben">';
+    z.silben.forEach(function (s, si) {
+      var an = sel.indexOf(si) >= 0, soll = z.betont.indexOf(si) >= 0;
+      h += '<button class="silbe' + (an ? ' an' : '') + (chk && los && soll ? ' soll' : '') + (z.wort[si] ? ' wende' : '') + '" data-silbe="' + k + '" data-s="' + si + '">' + esc(s) + '</button>';
+    });
+    h += (chk ? '<span class="mark">' + (ok ? '✓' : '✗') + '</span>' : '') + '</div>';
+    if (chk && los) h += '<div class="loesung">Muster: ' + z.silben.map(function (s, si) { return z.betont.indexOf(si) >= 0 ? 'X' : 'x'; }).join(' ') + '</div>';
+    var mk = k + '.m', mw = S.a[mk] || '', mok = chk ? mw === z.metrum : null;
+    h += '<div class="metrum">Metrum: ';
+    ['Jambus', 'Trochäus'].forEach(function (m) { h += '<button class="chip' + (mw === m ? ' gewaehlt' : '') + (chk && mw === m ? (mok ? ' richtig' : ' falsch') : '') + '" data-set="' + mk + '" data-w="' + m + '">' + m + '</button>'; });
+    if (chk && los && !mok) h += ' <span class="loesung inline">→ ' + z.metrum + '</span>';
+    h += '</div></div>';
+  });
+  return h + pruefLeiste(p.id) + '</div>';
+}
+function gleicheMenge(a, b) { if (a.length !== b.length) return false; for (var i = 0; i < b.length; i++) if (a.indexOf(b[i]) < 0) return false; return true; }
+function markTokens(p) { var out = []; GEDICHTE[p.g].strophen[p.strophe].forEach(function (v, vi) { v.split(' ').forEach(function (t) { out.push({ t: t, w: sauberWort(t), v: vi }); }); }); return out; }
+function markierenHtml(p) {
+  var chk = S.a[p.id + '.chk'], los = S.a[p.id + '.los'], sel = S.a[p.id] || [], toks = markTokens(p), h = '<div class="teil"><h3>' + p.titel + '</h3><p>' + p.frage + '</p><div class="marktext">', lv = -1;
+  toks.forEach(function (tk, i) {
+    if (tk.v !== lv) { if (lv >= 0) h += '<br>'; lv = tk.v; }
+    var an = sel.indexOf(i) >= 0, ziel = p.ziele.indexOf(tk.w) >= 0, kl = 'mt';
+    if (an) kl += ' an'; if (chk && an) kl += ziel ? ' richtig' : ' falsch'; if (chk && los && ziel && !an) kl += ' fehlt';
+    h += '<button class="' + kl + '" data-mark="' + p.id + '" data-t="' + i + '">' + esc(tk.t) + '</button> ';
+  });
+  h += '</div>';
+  if (chk) h += '<div class="erkl">' + esc(p.erkl) + '</div>';
+  return h + pruefLeiste(p.id) + '</div>';
+}
+function mehrfachHtml(p) {
+  var chk = S.a[p.id + '.chk'], los = S.a[p.id + '.los'], sel = S.a[p.id] || [], h = '<div class="teil"><h3>' + p.titel + '</h3><div class="optionen chips">';
+  mische(p.optionen.length, p.id).forEach(function (o) {
+    var an = sel.indexOf(o) >= 0, rich = o < p.richtig, kl = 'chip';
+    if (an) kl += ' gewaehlt'; if (chk && an) kl += rich ? ' richtig' : ' falsch'; if (chk && los && rich && !an) kl += ' fehlt';
+    h += '<button class="' + kl + '" data-mehr="' + p.id + '" data-o="' + o + '">' + esc(p.optionen[o]) + '</button>';
+  });
+  h += '</div>' + (chk ? '<div class="erkl">' + esc(p.erkl) + '</div>' : '');
+  return h + pruefLeiste(p.id) + '</div>';
+}
+var ELF = [[1, 'eine Farbe oder Eigenschaft', 'Grau'], [2, 'etwas, das diese Farbe hat', 'dichter Nebel'], [3, 'wo oder wie ist es?', 'hängt im Garten'], [4, 'ein Satz über dich', 'ich bleibe lieber drinnen'], [1, 'ein Schlusswort', 'November']];
+function elfchenHtml(p) {
+  var h = '<div class="teil"><h3>' + p.titel + '</h3><p>Ein Elfchen hat <b>11 Wörter</b> in 5 Zeilen: 1 – 2 – 3 – 4 – 1. Die grauen Beispiele verschwinden, sobald du schreibst.</p><div class="elfchen">';
+  ELF.forEach(function (e, i) {
+    var k = p.id + '.' + i, w = S.a[k] || '', n = woerter(w), ok = n === e[0];
+    h += '<div class="ezeile"><span class="ezahl">' + e[0] + '</span><input data-in="' + k + '" data-elf="' + e[0] + '" value="' + esc(w) + '" placeholder="' + esc(e[2]) + '"><span class="estat' + (w ? (ok ? ' ok' : ' bad') : '') + '" id="es-' + k.replace('.', '-') + '">' + (w ? (ok ? '✓' : n + ' statt ' + e[0]) : '') + '</span><div class="ehilfe">' + esc(e[1]) + '</div></div>';
+  });
+  return h + '</div><div class="elfvorschau" id="ev-' + p.id + '">' + elfVorschau(p) + '</div></div>';
+}
+function elfVorschau(p) { var z = ELF.map(function (e, i) { return esc(S.a[p.id + '.' + i] || ''); }); return z.join('') ? '<div class="klein">So sieht dein Elfchen aus:</div><div class="elftext">' + z.join('<br>') + '</div>' : ''; }
+
+function freitextHtml(p) {
+  var t = S.a[p.id] || '', n = woerter(t), zeig = S.a[p.id + '.zeig'], fertig = S.a[p.id + '.fertig'];
+  var h = '<div class="teil"><h3>' + p.titel + '</h3><p>' + esc(p.frage) + ' ' + vlKnopf(p.frage) + '</p>';
+  h += '<textarea data-in="' + p.id + '" rows="' + (p.gross ? 16 : 6) + '" placeholder="Schreibe hier …"' + (fertig ? ' readonly' : '') + '>' + esc(t) + '</textarea>';
+  if (!fertig) { h += '<div class="sa"><span class="klein">Satzanfänge:</span> '; p.satzanfaenge.forEach(function (s, i) { h += '<button class="chip klein" data-sa="' + p.id + '" data-i="' + i + '">' + esc(s) + '</button>'; }); h += '</div>'; }
+  h += '<div class="check" id="ck-' + p.id + '">' + checkHtml(p) + '</div>';
+  if (!zeig) h += '<div class="pruefleiste"><button class="knopf" data-muster="' + p.id + '"' + (n >= p.min ? '' : ' disabled') + ' id="mb-' + p.id + '">Musterlösung zeigen</button><span class="klein" id="mh-' + p.id + '">' + (n >= p.min ? '' : 'Erst ab ' + p.min + ' Wörtern.') + '</span></div>';
+  else {
+    h += '<div class="muster"><div class="mtitel">Musterlösung – vergleiche mit deinem Text</div>' + esc(p.muster).replace(/\n/g, '<br>') + '</div>';
+    h += '<div class="krit"><div class="mtitel">Selbstbewertung: Was ist dir gelungen? Sei ehrlich!</div>';
+    p.kriterien.forEach(function (k, i) { var kk = p.id + '.k' + i; h += '<label class="kz"><input type="checkbox" data-krit="' + kk + '"' + (S.a[kk] ? ' checked' : '') + (fertig ? ' disabled' : '') + '> ' + esc(k) + '</label>'; });
+    h += fertig ? '<div class="satzbox">✓ Gespeichert: ' + wert(p).r + ' von ' + p.kriterien.length + ' Punkten.</div>' : '<div class="pruefleiste"><button class="knopf" data-fertig="' + p.id + '">Selbstbewertung speichern</button><span class="klein">Du darfst deinen Text vorher noch verbessern.</span></div>';
+    h += '</div>';
+  }
+  return h + '</div>';
+}
+function checkHtml(p) {
+  var t = S.a[p.id] || '', n = woerter(t), h = '<span class="wz">' + n + ' Wörter' + (n < p.min ? ' (mind. ' + p.min + ')' : ' ✓') + '</span>';
+  p.muss.forEach(function (m) { var ok = new RegExp(m[1], 'i').test(t); h += '<span class="mz' + (ok ? ' ok' : '') + '">' + (ok ? '✓ ' : '○ ') + esc(m[0]) + '</span>'; });
+  return h;
+}
+function vortragTokens(p) { var out = []; GEDICHTE[p.g].strophen[p.strophe].forEach(function (v, vi) { v.split(' ').forEach(function (t, ti, arr) { out.push({ t: t, v: vi, ende: ti === arr.length - 1 }); }); }); return out; }
+function vortragHtml(p) {
+  var toks = vortragTokens(p), b = S.a[p.id + '.b'] || [], pa = S.a[p.id + '.p'] || {}, h = '<div class="teil"><h3>' + p.titel + '</h3>';
+  h += '<p>Strophe 2 von „November“. <b>Tippe auf ein Wort</b>, um es zu betonen (unterstrichen). <b>Tippe auf ein Kästchen ▫ zwischen den Wörtern</b>, um eine Pause zu setzen: einmal = | kurz, zweimal = || lang, dreimal = weg.</p><div class="vtxt">';
+  var lv = -1;
+  toks.forEach(function (tk, i) {
+    if (tk.v !== lv) { if (lv >= 0) h += '<br>'; lv = tk.v; }
+    h += '<button class="vw' + (b.indexOf(i) >= 0 ? ' bet' : '') + '" data-vw="' + p.id + '" data-w="' + i + '">' + esc(tk.t) + '</button><button class="vg p' + (pa[i] || 0) + '" data-vg="' + p.id + '" data-w="' + i + '">' + ['▫', '|', '||'][pa[i] || 0] + '</button>';
+  });
+  var np = Object.keys(pa).filter(function (k) { return pa[k]; }).length;
+  h += '</div><div class="check"><span class="mz' + (b.length >= 3 ? ' ok' : '') + '">' + (b.length >= 3 ? '✓' : '○') + ' mindestens 3 Betonungen (' + b.length + ')</span><span class="mz' + (np >= 3 ? ' ok' : '') + '">' + (np >= 3 ? '✓' : '○') + ' mindestens 3 Pausen (' + np + ')</span></div>';
+  h += '<div class="info klein">Tipp: Nach „Ja, das ist Novemberspaß!“ gehört eine lange Pause (Strophenende). „schöne“ im ersten Vers kann man ironisch betonen – das Wetter ist ja gar nicht schön!</div>';
+  h += '<h3>③ Nimm dich auf und hör dich an</h3><p class="klein">Die Aufnahme bleibt nur auf diesem Gerät und wird nicht gespeichert. Ohne Mikrofon: Trag das Gedicht einer Partnerin oder einem Partner vor.</p><div class="pruefleiste"><button class="knopf" id="recBtn" data-rec="1">⏺ Aufnahme starten</button><span id="recInfo" class="klein"></span></div><div id="recAudio"></div>';
+  h += '<h3>④ Wie war dein Vortrag?</h3><table class="tab selbst"><thead><tr><th></th><th>☺☺</th><th>☺</th><th>☹</th></tr></thead><tbody>';
+  p.kriterien.forEach(function (k, ki) { var kk = p.id + '.s' + ki; h += '<tr><td>' + esc(k) + '</td>' + [2, 1, 0].map(function (v) { return '<td><input type="radio" name="' + kk + '" data-vs="' + kk + '" value="' + v + '"' + (S.a[kk] === v ? ' checked' : '') + '></td>'; }).join('') + '</tr>'; });
+  return h + '</tbody></table></div>';
+}
+function reimKern(w) {
+  w = (w || '').toLowerCase().replace(/[^a-zäöüß]/g, '');
+  var V = '[aeiouäöüy]+', K = '[^aeiouäöüy]*', m;
+  if (/(e|en|er|el|em|es|ern|eln|et)$/.test(w) && w.length > 3) m = w.match(new RegExp(V + K + 'e' + K + '$'));
+  if (!m) m = w.match(new RegExp(V + K + '$'));
+  return (m ? m[0] : w).replace(/ä/g, 'e').replace(/ie/g, 'i').replace(/ah|aa/g, 'a').replace(/eh/g, 'e').replace(/(.)\1/g, '$1').replace(/dt|d$/, 't').replace(/ß/g, 's');
+}
+function letztesWort(v) { var t = (v || '').trim().split(/\s+/); return sauberWort(t[t.length - 1] || ''); }
+function parallelHtml(p) {
+  var fertig = S.a[p.id + '.fertig'], th = S.a[p.id + '.thema'] || '', h = '<div class="teil"><h3>' + p.titel + '</h3>';
+  h += '<div class="gzeile"><div class="glabel">Worüber schreibst du?</div><div class="gwahl"><select data-sel="' + p.id + '.thema"><option value="">– wählen –</option>' + p.themen.map(function (t) { return '<option' + (t === th ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select></div></div>';
+  h += '<div class="pverse">';
+  for (var i = 0; i < 8; i++) {
+    var k = p.id + '.v' + i, ph = i === 0 ? 'Solchen Monat muss man loben:' : i === 1 ? 'Keiner kann wie dieser toben,' : '';
+    h += (i % 2 === 0 ? '<div class="ppaar">' : '') + '<div class="pv"><span class="vnr">' + (i + 1) + '</span><input data-in="' + k + '" data-par="' + p.id + '" value="' + esc(S.a[k] || '') + '" placeholder="' + esc(ph) + '"' + (fertig ? ' readonly' : '') + '></div>';
+    if (i % 2 === 1) h += '<div class="preim" id="pr-' + p.id + '-' + (i - 1) / 2 + '">' + reimHinweis(p, (i - 1) / 2) + '</div></div>';
+  }
+  h += '</div><details class="hilfe"><summary>🧩 Reimhilfe</summary><table class="tab">' + REIMHILFE.map(function (r) { return '<tr><td><b>' + esc(r[0]) + '</b></td><td>' + esc(r[1]) + '</td></tr>'; }).join('') + '</table></details>';
+  var voll = parVoll(p);
+  h += '<div class="krit"><div class="mtitel">Überarbeiten: Hake ab, was stimmt – und verbessere vorher, was noch fehlt.</div>';
+  p.kriterien.forEach(function (k, ki) { var kk = p.id + '.k' + ki; h += '<label class="kz"><input type="checkbox" data-krit="' + kk + '"' + (S.a[kk] ? ' checked' : '') + (fertig ? ' disabled' : '') + '> ' + esc(k) + '</label>'; });
+  h += fertig ? '<div class="satzbox">✓ Gespeichert. Dein Gedicht steht auch in deiner Ergebnis-PDF.</div>' : '<div class="pruefleiste"><button class="knopf" data-fertig="' + p.id + '" id="pf-' + p.id + '"' + (voll ? '' : ' disabled') + '>Gedicht fertig – speichern</button><span class="klein" id="ph-' + p.id + '">' + (voll ? '' : 'Erst alle 8 Verse schreiben.') + '</span></div>';
+  return h + '</div></div>';
+}
+function parVoll(p) { for (var i = 0; i < 8; i++) if (!(S.a[p.id + '.v' + i] || '').trim()) return false; return true; }
+function reimHinweis(p, paar) {
+  var a = letztesWort(S.a[p.id + '.v' + paar * 2]), b = letztesWort(S.a[p.id + '.v' + (paar * 2 + 1)]);
+  if (!a || !b) return '';
+  return reimKern(a) === reimKern(b) ? '<span class="ok">✓ ' + esc(a) + ' – ' + esc(b) + ' reimt sich wohl</span>' : '<span class="frag">? ' + esc(a) + ' – ' + esc(b) + ': Reimt sich das? Sprich es laut!</span>';
+}
+
+/* ---------- Punkte ---------- */
+function wert(p) {
+  var n = 0, r = 0, f = false, i;
+  switch (p.typ) {
+    case 'zuordnen': n = p.zeilen.length; f = !!S.a[p.id + '.chk']; r = f ? S.erst[p.id] || 0 : 0; break;
+    case 'zahlen': n = p.zeilen.length; f = !!S.a[p.id + '.chk']; r = f ? S.erst[p.id] || 0 : 0; break;
+    case 'reim': n = 3; f = !!S.a[p.id + '.chk']; r = f ? S.erst[p.id] || 0 : 0; break;
+    case 'betonung': n = p.zeilen.length * 2; f = !!S.a[p.id + '.chk']; r = f ? S.erst[p.id] || 0 : 0; break;
+    case 'markieren': n = p.ziele.length; f = !!S.a[p.id + '.chk']; r = f ? S.erst[p.id] || 0 : 0; break;
+    case 'mehrfach': n = p.richtig; f = !!S.a[p.id + '.chk']; r = f ? S.erst[p.id] || 0 : 0; break;
+    case 'mc': n = p.fragen.length; f = true;
+      for (i = 0; i < n; i++) { var a = S.a[p.id + '.' + i]; if (a == null) f = false; else if (a === 0) r++; }
+      if (p.modus === 'ende') { f = !!S.a[p.id + '.aus']; if (!f) r = 0; } break;
+    case 'elfchen': n = 5; f = true; ELF.forEach(function (e, i) { var w = S.a[p.id + '.' + i] || ''; if (!w.trim()) f = false; if (woerter(w) === e[0]) r++; }); break;
+    case 'freitext': n = p.kriterien.length; f = !!S.a[p.id + '.fertig']; for (i = 0; i < n; i++) if (S.a[p.id + '.k' + i]) r++; if (!f) r = 0; break;
+    case 'parallel': n = p.kriterien.length; f = !!S.a[p.id + '.fertig'] && parVoll(p); for (i = 0; i < n; i++) if (S.a[p.id + '.k' + i]) r++; if (!f) r = 0; break;
+    case 'vortrag': n = 3; var b = S.a[p.id + '.b'] || [], pa = S.a[p.id + '.p'] || {}, np = Object.keys(pa).filter(function (k) { return pa[k]; }).length, zok = b.length >= 3 && np >= 3, sok = true;
+      p.kriterien.forEach(function (k, ki) { if (S.a[p.id + '.s' + ki] == null) sok = false; });
+      r = (zok ? 2 : 0) + (sok ? 1 : 0); f = zok && sok; break;
+    default: return null;
+  }
+  return { n: n, r: r, fertig: f };
+}
+function erstWert(p) { // Punkte beim ersten Prüfen
+  var i, r = 0;
+  if (p.typ === 'zuordnen') rowsZ(p).forEach(function (row) { if ((S.a[row.k] || '') === row.r) r++; });
+  if (p.typ === 'zahlen') p.zeilen.forEach(function (z, i) { if (String(S.a[p.id + '.' + i] == null ? '' : S.a[p.id + '.' + i]).trim() === String(z[1])) r++; });
+  if (p.typ === 'reim') { var vs = verseVon(p.g, p.strophen), sn = reimNorm(vs.map(function (v, i) { return S.a[p.id + '.v' + i] || ''; })), ln = p.loesung.split(''), falsch = 0; for (i = 0; i < ln.length; i++) if (sn[i] !== ln[i]) falsch++; r = (falsch === 0 ? 2 : falsch === 1 ? 1 : 0) + ((S.a[p.id + '.name'] || '') === p.name ? 1 : 0); }
+  if (p.typ === 'betonung') p.zeilen.forEach(function (z, li) { if (gleicheMenge(S.a[p.id + '.' + li] || [], z.betont)) r++; if (S.a[p.id + '.' + li + '.m'] === z.metrum) r++; });
+  if (p.typ === 'markieren') { var toks = markTokens(p), hit = 0, wr = 0; (S.a[p.id] || []).forEach(function (t) { if (p.ziele.indexOf(toks[t].w) >= 0) hit++; else wr++; }); r = Math.max(0, Math.min(p.ziele.length, hit - wr)); }
+  if (p.typ === 'mehrfach') { var h2 = 0, w2 = 0; (S.a[p.id] || []).forEach(function (o) { if (o < p.richtig) h2++; else w2++; }); r = Math.max(0, h2 - w2); }
+  return r;
+}
+function bereitZumPruefen(p) {
+  if (p.typ === 'zuordnen') return rowsZ(p).every(function (row) { return S.a[row.k]; });
+  if (p.typ === 'zahlen') return p.zeilen.every(function (z, i) { return S.a[p.id + '.' + i] != null && String(S.a[p.id + '.' + i]).trim() !== ''; });
+  if (p.typ === 'reim') return verseVon(p.g, p.strophen).every(function (v, i) { return S.a[p.id + '.v' + i]; }) && S.a[p.id + '.name'];
+  if (p.typ === 'betonung') return p.zeilen.every(function (z, li) { return (S.a[p.id + '.' + li] || []).length && S.a[p.id + '.' + li + '.m']; });
+  if (p.typ === 'markieren' || p.typ === 'mehrfach') return (S.a[p.id] || []).length > 0;
+  return true;
+}
+function stPunkte(st) {
+  var n = 0, r = 0, f = true, offen = 0;
+  st.teile.forEach(function (p) { var w = wert(p); if (!w) return; n += w.n; r += w.r; if (!w.fertig) { f = false; offen++; } });
+  return { n: n, r: r, fertig: f, offen: offen, p: n ? Math.round(100 * r / n) : 0 };
+}
+function gesamt() { var n = 0, r = 0, offen = []; STATIONEN.forEach(function (st) { var p = stPunkte(st); n += p.n; r += p.r; if (!p.fertig) offen.push(st); }); return { n: n, r: r, p: n ? Math.round(100 * r / n) : 0, offen: offen }; }
+function ampel(p) { return p >= 80 ? { f: 'gruen', ico: '🌟', t: 'Gedichtprofi! Du bist fit für die Klassenarbeit.' } : p >= 60 ? { f: 'gelb', ico: '🍂', t: 'Fast fit – wiederhole die Punkte aus der Liste.' } : { f: 'rot', ico: '📚', t: 'Noch üben – arbeite die Liste in Ruhe durch und frag nach.' }; }
+function wiederholen() {
+  var l = [];
+  STATIONEN.forEach(function (st) { st.teile.forEach(function (p) { var w = wert(p); if (w && w.fertig && p.thema && w.n && w.r / w.n < 0.7 && l.indexOf(p.thema) < 0) l.push(p.thema); }); });
+  return l;
+}
+
+/* ---------- Seiten ---------- */
+function geh(z) {
+  if (window.speechSynthesis) try { speechSynthesis.cancel(); } catch (e) {}
+  S.seite = z; speichern();
+  document.querySelectorAll('.seite').forEach(function (s) { s.classList.remove('aktiv'); });
+  if (z === 'start' || z === 'lehrkraft') { $(z).classList.add('aktiv'); if (z === 'start') startZeigen(); }
+  else if (z === 'erg') { $('station').classList.add('aktiv'); ergebnisZeigen(); }
+  else { $('station').classList.add('aktiv'); stationZeigen(z); }
+  navZeigen(); window.scrollTo(0, 0);
+}
+function navZeigen() {
+  var h = '<button class="nb' + (S.seite === 'start' ? ' akt' : '') + '" data-geh="start" title="Start">🏠</button>';
+  STATIONEN.forEach(function (st, i) { var p = stPunkte(st); h += '<button class="nb' + (S.seite === st.id ? ' akt' : '') + (p.fertig ? ' fertig' : '') + '" data-geh="' + st.id + '" title="' + esc(st.titel) + '">' + (i + 1) + '</button>'; });
+  h += '<button class="nb' + (S.seite === 'erg' ? ' akt' : '') + '" data-geh="erg" title="Ergebnis">📊</button>';
+  $('nav').innerHTML = h;
+  var fertig = STATIONEN.filter(function (st) { return stPunkte(st).fertig; }).length;
+  $('fort').style.width = Math.round(100 * fertig / STATIONEN.length) + '%';
+}
+function startZeigen() {
+  ['vorname', 'nachname', 'klasse'].forEach(function (f) { $(f).value = S.d[f] || ''; });
+  $('ort').value = S.d.ort || '';
+  var h = '';
+  STATIONEN.forEach(function (st, i) {
+    var p = stPunkte(st);
+    h += '<button class="skarte' + (p.fertig ? ' fertig' : '') + '" data-geh="' + st.id + '"><span class="snr">' + (i + 1) + '</span><span class="sico">' + st.ico + '</span><span class="stit">' + esc(st.titel) + '<small>' + esc(st.ziel) + '</small></span><span class="sstat">' + (p.fertig ? '✓ ' + p.p + ' %' : p.offen < st.teile.filter(function (t) { return wert(t); }).length ? 'begonnen' : '~' + st.zeit + ' Min.') + '</span></button>';
+  });
+  $('skarten').innerHTML = h;
+}
+function stationZeigen(id) {
+  var st = stationById(id); if (!st) { geh('start'); return; }
+  VL = []; var i = STATIONEN.indexOf(st), p = stPunkte(st);
+  var h = '<div class="sh"><div class="shkopf"><span class="shico">' + st.ico + '</span><div><div class="ober">Station ' + (i + 1) + ' von ' + STATIONEN.length + ' · ca. ' + st.zeit + ' Min. · passt zu Stunde ' + st.stunde + '</div><h1>' + esc(st.titel) + '</h1></div></div>';
+  h += '<div class="ziel"><b>Mein Ziel:</b> ' + esc(st.ziel) + ' ' + vlKnopf(st.ziel) + '</div>';
+  h += '<details class="hilfe"><summary>💡 Tipp</summary><p>' + esc(st.tipp) + '</p></details></div>';
+  st.teile.forEach(function (t) {
+    if (t.typ === 'info') h += '<div class="teil info">' + t.html + '</div>';
+    else if (t.typ === 'gedicht') h += '<div class="teil">' + gedichtHtml(t.g, t.strophen) + '</div>';
+    else h += ({ zuordnen: zuordnenHtml, zahlen: zahlenHtml, mc: mcHtml, reim: reimHtml, betonung: betonungHtml, markieren: markierenHtml, mehrfach: mehrfachHtml, elfchen: elfchenHtml, freitext: freitextHtml, vortrag: vortragHtml, parallel: parallelHtml })[t.typ](t);
+  });
+  h += '<div class="sfuss"><div class="sstand">' + (p.fertig ? '✅ Station fertig: <b>' + p.r + ' von ' + p.n + ' Punkten (' + p.p + ' %)</b>' : 'Noch ' + p.offen + ' Aufgabe' + (p.offen === 1 ? '' : 'n') + ' offen · bisher ' + p.r + ' von ' + p.n + ' Punkten') + '</div><div class="pruefleiste">';
+  if (i > 0) h += '<button class="knopf hell" data-geh="' + STATIONEN[i - 1].id + '">← zurück</button>';
+  h += '<button class="knopf" data-geh="' + (i < STATIONEN.length - 1 ? STATIONEN[i + 1].id : 'erg') + '">' + (i < STATIONEN.length - 1 ? 'weiter zu Station ' + (i + 2) + ' →' : 'zum Ergebnis 📊') + '</button></div></div>';
+  $('station').innerHTML = h;
+}
+function neuZeichnen() { var y = window.scrollY; if (S.seite === 'erg') ergebnisZeigen(); else stationZeigen(S.seite); navZeigen(); window.scrollTo(0, y); }
+function ergebnisZeigen() {
+  VL = []; var g = gesamt(), h = '<div class="sh"><div class="shkopf"><span class="shico">📊</span><div><div class="ober">' + esc(LABOR.name) + '</div><h1>Dein Ergebnis</h1></div></div></div>';
+  if (g.offen.length) h += '<div class="teil warn">Noch nicht alle Stationen sind fertig: ' + g.offen.map(function (st) { return '<button class="link" data-geh="' + st.id + '">' + (STATIONEN.indexOf(st) + 1) + ' ' + esc(st.titel) + '</button>'; }).join(' · ') + '</div>';
+  var a = ampel(g.p);
+  h += '<div class="teil ampel ' + a.f + '"><div class="aico">' + a.ico + '</div><div><div class="aprozent">' + g.p + ' %</div><div>' + g.r + ' von ' + g.n + ' Punkten' + (g.offen.length ? ' (bisher)' : '') + '</div><b>' + esc(a.t) + '</b></div></div>';
+  h += '<div class="teil"><h3>Punkte je Station</h3><table class="tab"><tbody>';
+  STATIONEN.forEach(function (st, i) { var p = stPunkte(st); h += '<tr><td>' + (i + 1) + ' ' + st.ico + ' ' + esc(st.titel) + '</td><td>' + (p.fertig ? p.r + ' / ' + p.n : '<span class="rot">offen</span>') + '</td><td><div class="balken"><div style="width:' + p.p + '%"></div></div></td></tr>'; });
+  h += '</tbody></table></div>';
+  var w = wiederholen();
+  h += '<div class="teil"><h3>📌 Das solltest du noch wiederholen</h3>' + (w.length ? '<ul>' + w.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul><p class="klein">Hilfe: Merkblätter im Gedichtheft, Buch Kapitel 8, die Tipps an den Stationen.</p>' : '<p>Nichts – alles sicher! 🎉</p>') + '</div>';
+  h += '<div class="teil"><h3>📄 Ergebnis speichern und abgeben</h3><p>Die PDF enthält deine Punkte, die Wiederholungsliste und alle deine Texte (Elfchen, Stimmung, Untersuchung, Parallelgedicht, Vortrag).</p><div class="pruefleiste"><button class="knopf gross" data-pdf="1">📄 Ergebnis als PDF speichern</button></div><div id="pdfAlt" class="klein"></div><p class="klein">Gib die PDF so ab, wie es deine Lehrkraft sagt (z. B. IServ-Aufgabe oder per Mail).</p></div>';
+  h += '<div class="teil"><h3>💾 Arbeitsstand auf ein anderes Gerät mitnehmen</h3><p class="klein">Dein Stand bleibt auf diesem Gerät gespeichert. Für ein anderes Gerät: Datei speichern und dort laden.</p><div class="pruefleiste"><button class="knopf hell" data-sichern="1">Arbeitsstand als Datei speichern</button><label class="knopf hell">Arbeitsstand laden<input type="file" accept=".json,application/json" id="ladeDatei" hidden></label></div></div>';
+  $('station').innerHTML = h;
+}
+
+/* ---------- Aufnahme ---------- */
+var rec = null, recTeile = [];
+function aufnahme() {
+  var btn = $('recBtn');
+  if (rec && rec.state === 'recording') { rec.stop(); return; }
+  if (!navigator.mediaDevices || !window.MediaRecorder) { $('recInfo').textContent = 'Aufnahme geht in diesem Browser nicht.'; return; }
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(function (strom) {
+    recTeile = []; rec = new MediaRecorder(strom);
+    rec.ondataavailable = function (e) { if (e.data.size) recTeile.push(e.data); };
+    rec.onstop = function () { strom.getTracks().forEach(function (t) { t.stop(); }); var url = URL.createObjectURL(new Blob(recTeile, { type: rec.mimeType || 'audio/webm' })); $('recAudio').innerHTML = '<audio controls src="' + url + '"></audio>'; btn.textContent = '⏺ neue Aufnahme'; $('recInfo').textContent = 'Hör dir zu: Passen Pausen und Betonung?'; };
+    rec.start(); btn.textContent = '⏹ Aufnahme stoppen'; $('recInfo').textContent = '🔴 Aufnahme läuft …';
+  }).catch(function () { $('recInfo').textContent = 'Kein Zugriff aufs Mikrofon – trag das Gedicht einer Partnerin oder einem Partner vor.'; });
+}
+
+/* ---------- Ereignisse ---------- */
+function setze(k, v) { S.a[k] = v; speichern(); }
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('button,[data-geh]'); if (!b) return;
+  var d = b.dataset, p, arr, i;
+  if (d.geh) { geh(d.geh); return; }
+  if (d.lies != null) { lies(VL[+d.lies]); return; }
+  if (d.wort) { var t = d.wort.split('|'); toast('<b>' + esc(t[1]) + '</b> = ' + esc(GEDICHTE[t[0]].woerter[t[1]]), 5000); return; }
+  if (d.mc) { if (S.a[d.mc] != null && !(PART[d.mc.split('.')[0]].modus === 'ende' && !S.a[d.mc.split('.')[0] + '.aus'])) return; setze(d.mc, +d.o); neuZeichnen(); return; }
+  if (d.aus) { setze(d.aus + '.aus', 1); neuZeichnen(); toast('Ausgewertet: ' + wert(PART[d.aus]).r + ' von ' + PART[d.aus].fragen.length + ' richtig.'); return; }
+  if (d.pruef) {
+    p = PART[d.pruef];
+    if (!bereitZumPruefen(p)) { toast('Bitte zuerst alles bearbeiten.'); return; }
+    if (S.erst[p.id] == null) S.erst[p.id] = erstWert(p);
+    setze(p.id + '.chk', 1); neuZeichnen(); var w = wert(p); toast(erstWert(p) === w.n ? '✓ Alles richtig!' : 'Geprüft – verbessere die rot markierten Stellen.'); return;
+  }
+  if (d.los) { setze(d.los + '.los', 1); neuZeichnen(); return; }
+  if (d.reim) { var k = d.reim + '.v' + d.v, L = ['', 'a', 'b', 'c', 'd', 'e', 'f'], cur = L.indexOf(S.a[k] || ''); setze(k, L[(cur + 1) % L.length]); neuZeichnen(); return; }
+  if (d.silbe) { arr = (S.a[d.silbe] || []).slice(); i = arr.indexOf(+d.s); if (i >= 0) arr.splice(i, 1); else arr.push(+d.s); setze(d.silbe, arr); neuZeichnen(); return; }
+  if (d.set) { setze(d.set, d.w); neuZeichnen(); return; }
+  if (d.mark) { arr = (S.a[d.mark] || []).slice(); i = arr.indexOf(+d.t); if (i >= 0) arr.splice(i, 1); else arr.push(+d.t); setze(d.mark, arr); neuZeichnen(); return; }
+  if (d.mehr) { arr = (S.a[d.mehr] || []).slice(); i = arr.indexOf(+d.o); if (i >= 0) arr.splice(i, 1); else arr.push(+d.o); setze(d.mehr, arr); neuZeichnen(); return; }
+  if (d.sa) { p = PART[d.sa]; var ta = document.querySelector('textarea[data-in="' + d.sa + '"]'); var add = p.satzanfaenge[+d.i]; ta.value = (ta.value && !/\s$/.test(ta.value) ? ta.value + ' ' : ta.value) + add; setze(d.sa, ta.value); ta.focus(); liveFreitext(p); return; }
+  if (d.muster) { setze(d.muster + '.zeig', 1); neuZeichnen(); return; }
+  if (d.fertig) { setze(d.fertig + '.fertig', 1); neuZeichnen(); toast('Gespeichert ✓'); return; }
+  if (d.vw) { arr = (S.a[d.vw + '.b'] || []).slice(); i = arr.indexOf(+d.w); if (i >= 0) arr.splice(i, 1); else arr.push(+d.w); setze(d.vw + '.b', arr); neuZeichnen(); return; }
+  if (d.vg) { var o = Object.assign({}, S.a[d.vg + '.p'] || {}); o[d.w] = ((o[d.w] || 0) + 1) % 3; setze(d.vg + '.p', o); neuZeichnen(); return; }
+  if (d.rec) { aufnahme(); return; }
+  if (d.pdf) { pdfLaden(); return; }
+  if (d.sichern) { sichernDatei(); return; }
+});
+document.addEventListener('change', function (e) {
+  var t = e.target, d = t.dataset;
+  if (d.sel) { setze(d.sel, t.value); if (S.seite !== 'start') neuZeichnen(); return; }
+  if (d.krit) { setze(d.krit, t.checked); navZeigen(); return; }
+  if (d.vs) { setze(d.vs, +t.value); navZeigen(); return; }
+  if (t.id === 'ladeDatei' && t.files[0]) { ladeDatei(t.files[0]); return; }
+  if (t.id === 'ort') { S.d.ort = t.value; speichern(); }
+});
+document.addEventListener('input', function (e) {
+  var t = e.target, d = t.dataset;
+  if (['vorname', 'nachname', 'klasse'].indexOf(t.id) >= 0) { S.d[t.id] = t.value; speichern(); return; }
+  if (!d.in) return;
+  setze(d.in, t.value);
+  if (d.elf) { var n = woerter(t.value), ok = n === +d.elf, el = $('es-' + d.in.replace('.', '-')); el.className = 'estat' + (t.value ? (ok ? ' ok' : ' bad') : ''); el.textContent = t.value ? (ok ? '✓' : n + ' statt ' + d.elf) : ''; var pid = d.in.split('.')[0]; $('ev-' + pid).innerHTML = elfVorschau(PART[pid]); navZeigen(); return; }
+  if (d.par) { var P = PART[d.par], idx = +d.in.split('.v')[1], paar = Math.floor(idx / 2); $('pr-' + P.id + '-' + paar).innerHTML = reimHinweis(P, paar); var voll = parVoll(P), pf = $('pf-' + P.id); if (pf) { pf.disabled = !voll; $('ph-' + P.id).textContent = voll ? '' : 'Erst alle 8 Verse schreiben.'; } return; }
+  if (PART[d.in] && PART[d.in].typ === 'freitext') { liveFreitext(PART[d.in]); return; }
+});
+function liveFreitext(p) {
+  $('ck-' + p.id).innerHTML = checkHtml(p);
+  var mb = $('mb-' + p.id); if (mb) { var ok = woerter(S.a[p.id]) >= p.min; mb.disabled = !ok; $('mh-' + p.id).textContent = ok ? '' : 'Erst ab ' + p.min + ' Wörtern.'; }
+}
+function sichernDatei() {
+  var blob = new Blob([JSON.stringify(S)], { type: 'application/json' }), a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'Deutschlabor_Herbstlyrik_' + (sauber(S.d.vorname) || 'Stand') + '.json'; document.body.appendChild(a); a.click(); a.remove();
+  toast('💾 Datei gespeichert (Downloads).');
+}
+function ladeDatei(f) {
+  var r = new FileReader();
+  r.onload = function () { try { var s = JSON.parse(r.result); if (!s || s.v !== 1 || !s.a) throw 0; if (!confirm('Den gespeicherten Stand laden? Dein aktueller Stand auf diesem Gerät wird ersetzt.')) return; S = s; speichern(); geh('erg'); toast('Arbeitsstand geladen ✓'); } catch (e) { alert('Diese Datei ist kein Arbeitsstand des Deutschlabors.'); } };
+  r.readAsText(f);
+}
+
+/* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
+var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
+var BR_B=[278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584,350,556,350,278,556,500,1000,556,556,333,1000,667,333,1000,350,611,350,350,278,278,500,500,350,556,1000,333,1000,556,333,944,350,500,667,278,333,556,556,556,556,280,556,333,737,370,556,584,333,737,333,400,584,333,333,333,611,556,278,333,333,365,556,834,834,834,611,722,722,722,722,722,722,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,556,556,556,556,556,278,278,278,278,611,611,611,611,611,611,611,584,611,611,611,611,611,556,611,556];
+var WIN = { '€': 128, '‚': 130, '„': 132, '…': 133, '‘': 145, '’': 146, '“': 147, '”': 148, '•': 149, '–': 150, '—': 151, '™': 153 };
+var ERSATZ = { '≈': '~', '→': '->', '←': '<-', '⇒': '=>', '−': '-', '★': '*', '✓': '', '✗': 'x', '✕': 'x', '\u2009': ' ', '\u202f': '\u00a0', '₀': '0', '₁': '1', '₂': '2', '⁴': '^4', '\t': '    ', 'Δ': 'Delta ', 'η': 'eta' };
+function normPdf(s) {
+  s = String(s).replace(/\r\n?/g, '\n').normalize('NFC');
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s[i], c = ch.charCodeAt(0);
+    if (ERSATZ[ch] != null) { o += ERSATZ[ch]; continue; }
+    if (c >= 0xD800 && c <= 0xDBFF) { i++; continue; }          // Emoji u. Ä. weglassen
+    if (c > 255 && !WIN[ch]) {
+      if (c >= 0xFE00 && c <= 0xFE0F) continue;
+      if (c >= 0x2460 && c <= 0x2473) { o += (c - 0x245F) + ')'; continue; }               // ① → 1)
+      if ((c >= 0x2190 && c <= 0x2BFF) || c === 0x200D) continue;                           // Symbole, Pfeile, ● weglassen
+      var bas = ch.normalize('NFD')[0], sond = { 'ı': 'i', 'ł': 'l', 'Ł': 'L', 'đ': 'd', 'ə': 'e' }[ch];  // ş → s, ğ → g …
+      if (sond) { o += sond; continue; }
+      if (bas && bas.charCodeAt(0) < 256) { o += bas; continue; }
+      o += '?'; continue;
+    }
+    o += ch;
+  }
+  return o;
+}
+function code(ch) { var c = ch.charCodeAt(0); return WIN[ch] || (c < 256 ? c : 63); }
+function bTxt(s, gr, fett) { var w = 0, tab = fett ? BR_B : BR_N; for (var i = 0; i < s.length; i++) { var c = code(s[i]); w += (c >= 32 ? (tab[c - 32] || 556) : 0); } return w * gr / 1000; }
+function pdfStr(s) {
+  var o = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = code(s[i]);
+    if (c === 40 || c === 41 || c === 92) o += '\\' + String.fromCharCode(c);
+    else if (c < 32 || c > 126) o += '\\' + ('00' + c.toString(8)).slice(-3);
+    else o += String.fromCharCode(c);
+  }
+  return '(' + o + ')';
+}
+function umbruch(s, gr, fett, max) {
+  var zeilen = [];
+  normPdf(s).split('\n').forEach(function (abs) {
+    if (!abs.trim()) { zeilen.push(''); return; }
+    var akt = '';
+    abs.split(/ +/).forEach(function (wort) {
+      // überlange Wörter (z. B. ohne Leerzeichen) hart trennen
+      while (bTxt(wort, gr, fett) > max) {
+        var n = wort.length; while (n > 1 && bTxt(wort.slice(0, n) + '-', gr, fett) > max) n--;
+        if (akt) { zeilen.push(akt); akt = ''; }
+        zeilen.push(wort.slice(0, n) + '-'); wort = wort.slice(n);
+      }
+      var test = akt ? akt + ' ' + wort : wort;
+      if (bTxt(test, gr, fett) > max && akt) { zeilen.push(akt); akt = wort; } else akt = test;
+    });
+    zeilen.push(akt);
+  });
+  return zeilen;
+}
+function hex(h) { return [parseInt(h.substr(1, 2), 16) / 255, parseInt(h.substr(3, 2), 16) / 255, parseInt(h.substr(5, 2), 16) / 255].map(function (v) { return v.toFixed(3); }).join(' '); }
+
+/* =====================================================================
+   PDF-Ergebnis (A4, Helvetica) – komplett im Browser gebaut.
+   Hilfsfunktionen aus pdf_basis.js (NW-Labor 6a / Weltall-Labor 8d).
+   ===================================================================== */
+function heuteDe() { var d = new Date(); return ('0' + d.getDate()).slice(-2) + '.' + ('0' + (d.getMonth() + 1)).slice(-2) + '.' + d.getFullYear(); }
+function sauber(s) { return (s || '').trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9-]+/g, '_'); }
+
+function bauePdf() {
+  var A4W = 595.28, A4H = 841.89, RL = 56, RR = 56, UNTEN = 64, BREIT = A4W - RL - RR;
+  var seiten = [], cmd = null, y = 0, name = ((S.d.vorname || '') + ' ' + (S.d.nachname || '')).trim() || 'ohne Namen', dat = heuteDe();
+  function neueSeite() { cmd = []; seiten.push(cmd); y = A4H - 60; if (seiten.length > 1) text(RL, A4H - 34, 'Deutschlabor Herbstlyrik · ' + name, 8.5, false, '#6E6259'); }
+  function text(x, yy, s, gr, fett, farbe, schraeg) { cmd.push('BT ' + hex(farbe || '#2A211B') + ' rg /' + (schraeg ? 'F3' : fett ? 'F2' : 'F1') + ' ' + gr + ' Tf ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' Td ' + pdfStr(normPdf(s)) + ' Tj ET'); }
+  function rechteck(x, yy, w, h, farbe) { cmd.push(hex(farbe) + ' rg ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' ' + w.toFixed(2) + ' ' + h.toFixed(2) + ' re f'); }
+  function platz(h) { if (y - h < UNTEN) neueSeite(); }
+  function absatz(s, gr, fett, farbe, einzug, schraeg, abstand) {
+    var lh = gr * 1.38; umbruch(s, gr, fett, BREIT - (einzug || 0)).forEach(function (z) { platz(lh); y -= lh; if (z) text(RL + (einzug || 0), y + gr * 0.28, z, gr, fett, farbe, schraeg); });
+    y -= (abstand == null ? 4 : abstand);
+  }
+  function balken(titel) { platz(54); y -= 8; rechteck(RL, y - 22, BREIT, 22, '#3B2418'); text(RL + 10, y - 15.5, titel, 12, true, '#FFFFFF'); y -= 32; }
+  function sb(v) { return { 2: 'gut', 1: 'teilweise', 0: 'noch nicht' }[v] || '-'; }
+
+  neueSeite();
+  rechteck(0, A4H - 118, A4W, 118, '#3B2418'); rechteck(0, A4H - 122, A4W, 4, '#C98A1B');
+  text(RL, A4H - 44, 'DEUTSCH · JAHRGANG 6 · DEUTSCHLABOR', 10, true, '#F2C66D');
+  text(RL, A4H - 74, 'Herbstlyrik – mein Ergebnis', 22, true, '#FFFFFF');
+  text(RL, A4H - 98, 'Gedichte lesen, untersuchen, vortragen und schreiben', 11, false, '#F3E6D8');
+  y = A4H - 150;
+  [['Name', name], ['Klasse', S.d.klasse || '-'], ['Datum', dat], ['Gearbeitet', S.d.ort || '-']].forEach(function (p, i) { text(RL, y - i * 18, p[0] + ':', 10.5, true, '#6E6259'); text(RL + 80, y - i * 18, p[1], 10.5, i === 0); });
+  y -= 4 * 18 + 8;
+
+  var g = gesamt(), a = ampel(g.p);
+  if (g.offen.length) absatz('Noch nicht fertig: ' + g.offen.map(function (s) { return s.titel; }).join(', ') + '. Bisher ' + g.r + ' von ' + g.n + ' Punkten (' + g.p + ' %).', 11.5, true, '#A4471B', 0, false, 8);
+  else { absatz('Ergebnis: ' + g.p + ' %  (' + g.r + ' von ' + g.n + ' Punkten)', 15, true, a.f === 'gruen' ? '#2E7D4F' : a.f === 'gelb' ? '#9A6A00' : '#9B2D3F', 0, false, 2); absatz(a.t, 11.5, true, '#2A211B', 0, false, 8); }
+
+  balken('Punkte je Station');
+  STATIONEN.forEach(function (st, i) {
+    var p = stPunkte(st); platz(16); y -= 15; if (i % 2) rechteck(RL, y - 4, BREIT, 15, '#FBF3EA');
+    text(RL + 6, y, (i + 1) + '  ' + st.titel, 10, false);
+    text(RL + 280, y, p.fertig ? p.r + ' / ' + p.n + ' Punkte' : 'noch offen', 10, true, p.fertig ? '#2A211B' : '#9B2D3F');
+    if (p.fertig) text(RL + 400, y, p.p + ' %', 10, true, p.p >= 80 ? '#2E7D4F' : p.p >= 60 ? '#9A6A00' : '#9B2D3F');
+  });
+  y -= 8;
+  balken('Das sollte ich noch wiederholen');
+  var w = wiederholen(); if (!w.length) absatz('Nichts – alles sicher.', 10, false); else w.forEach(function (x) { absatz('- ' + x, 10, false, '#2A211B', 4, false, 2); });
+
+  function eintrag(titel, inhalt) { absatz(titel, 10, true, '#A4471B', 0, false, 2); absatz(inhalt || '(nicht bearbeitet)', 10.5, false, inhalt ? '#2A211B' : '#9B2D3F', 8, !inhalt, 8); }
+  balken('Mein Herbst-Elfchen');
+  var elf = [0, 1, 2, 3, 4].map(function (i) { return S.a['elfchen.' + i] || ''; });
+  if (elf.join('')) elf.forEach(function (z) { absatz(z || ' ', 11.5, false, '#2A211B', 20, true, 0); }); else absatz('(nicht bearbeitet)', 10, false, '#9B2D3F', 8, true);
+  y -= 6;
+  balken('Stimmung von „Herbstbild“');
+  eintrag('Mein Text:', S.a.stimmSatz);
+  balken('Meine Untersuchung zu „Herbstbild“');
+  eintrag('Mein Text:', S.a.untersuchung);
+  var U = PART.untersuchung; if (S.a['untersuchung.fertig']) absatz('Selbstbewertung: ' + U.kriterien.map(function (k, i) { return (S.a['untersuchung.k' + i] ? '[x] ' : '[ ] ') + k; }).join('   '), 9, false, '#6E6259', 0, false, 8);
+  balken('Mein Vortrag (Selbsteinschätzung)');
+  PART.vortrag.kriterien.forEach(function (k, i) { absatz(k + ': ' + sb(S.a['vortrag.s' + i]), 10, false, '#2A211B', 4, false, 1); });
+  y -= 6;
+  balken('Mein Parallelgedicht' + (S.a['parallel.thema'] ? ': ' + S.a['parallel.thema'] : ''));
+  var pv = []; for (var i = 0; i < 8; i++) pv.push(S.a['parallel.v' + i] || '');
+  if (pv.join('')) pv.forEach(function (z) { absatz(z || ' ', 11.5, false, '#2A211B', 20, true, 0); }); else absatz('(nicht bearbeitet)', 10, false, '#9B2D3F', 8, true);
+
+  seiten.forEach(function (c, i) { cmd = c; text(RL, 30, 'Deutsch 6 · Deutschlabor Herbstlyrik · ' + name + ' · ' + dat, 8.5, false, '#6E6259'); var sx = 'Seite ' + (i + 1) + ' von ' + seiten.length; text(A4W - RR - bTxt(sx, 8.5, false), 30, sx, 8.5, false, '#6E6259'); });
+
+  var objekte = [], teile = [], pos = 0, offs = [];
+  function obj(s) { objekte.push(s); return objekte.length; }
+  obj('<< /Type /Catalog /Pages 2 0 R >>'); obj('PAGES');
+  var f1 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  var f2 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  var f3 = obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+  var kids = [];
+  seiten.forEach(function (c) { var strom = c.join('\n'), inh = obj({ dict: '<< /Length ' + strom.length + ' >>', stream: strom }); kids.push(obj('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + A4W + ' ' + A4H + '] /Resources << /Font << /F1 ' + f1 + ' 0 R /F2 ' + f2 + ' 0 R /F3 ' + f3 + ' 0 R >> >> /Contents ' + inh + ' 0 R >>')); });
+  objekte[1] = '<< /Type /Pages /Kids [' + kids.map(function (x) { return x + ' 0 R'; }).join(' ') + '] /Count ' + kids.length + ' >>';
+  var info = obj('<< /Title ' + pdfStr(normPdf('Deutschlabor Herbstlyrik - ' + name)) + ' /Producer (Deutschlabor Herbstlyrik) >>');
+  function add(s) { var b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i) & 255; teile.push(b); pos += b.length; }
+  add('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+  objekte.forEach(function (o, i) { offs.push(pos); add((i + 1) + ' 0 obj\n'); if (o.stream != null) add(o.dict + '\nstream\n' + o.stream + '\nendstream'); else add(o); add('\nendobj\n'); });
+  var xref = pos, n = objekte.length + 1, x = 'xref\n0 ' + n + '\n0000000000 65535 f \n';
+  offs.forEach(function (o) { x += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+  add(x + 'trailer\n<< /Size ' + n + ' /Root 1 0 R /Info ' + info + ' 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+  return { blob: new Blob(teile, { type: 'application/pdf' }), seiten: seiten.length };
+}
+var letzteUrl = null;
+function pdfLaden() {
+  if (!(S.d.vorname || '').trim()) { alert('Bitte trage zuerst auf der Startseite deinen Namen ein.'); geh('start'); return; }
+  try {
+    var r = bauePdf(), name = 'Deutsch6_Herbstlyrik_' + (sauber(S.d.nachname) || 'Nachname') + '_' + (sauber(S.d.vorname) || 'Vorname') + '.pdf';
+    if (letzteUrl) URL.revokeObjectURL(letzteUrl);
+    letzteUrl = URL.createObjectURL(r.blob);
+    var a = document.createElement('a'); a.href = letzteUrl; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    $('pdfAlt').innerHTML = '✅ ' + esc(name) + ' (' + r.seiten + ' Seiten) liegt in „Downloads“. Kein Download? <a href="' + letzteUrl + '" target="_blank" rel="noopener">PDF in neuem Tab öffnen</a> und dort speichern.';
+    toast('📄 PDF gespeichert.', 4000);
+  } catch (err) { alert('Die PDF konnte nicht erstellt werden: ' + err.message + '\nZeige der Lehrkraft stattdessen deinen Bildschirm.'); }
+}
+
+/* Start */
+(function () {
+  $('nojs').style.display = 'none';
+  $('allesLoeschen').addEventListener('click', function () { if (confirm('Wirklich alle Eingaben auf diesem Gerät löschen?')) { S = neuerZustand(); try { localStorage.removeItem(KEY); } catch (e) {} geh('start'); } });
+  if (window.speechSynthesis) try { speechSynthesis.getVoices(); } catch (e) {}
+  geh(S.seite || 'start');
+})();
+
+</script>
+</body>
+</html>
