@@ -1664,6 +1664,282 @@ LL.phasen = {
   };
 })();
 
+/* ===== engines3.js ===== */
+/* Aufgaben-Engines Teil 3 (Ausbau 12.11.2026):
+   lehrroboter (Lernen durch Lehren, Wirkungsnetz) · kontrastfaelle · vergleichsurteil · vorabfragen · conceptcartoon ·
+   fermi · textniveaus · rueckblick · reaktivtext */
+(function () {
+  'use strict';
+  var LL = window.LL, h = LL.h, s = LL.s, E = LL.engines, fmt = LL.fmt;
+
+  /* ---------- Bring dem Roboter bei: Wirkungsnetz bauen, Roboter schließt daraus ---------- */
+  // cfg: {begriffe:[..], fragen:[{von, nach, soll:+1|-1}], start:[[von,nach,art]], thema}
+  E.lehrroboter = function (ziel, cfg) {
+    var B = cfg.begriffe, links = (cfg.start || []).map(function (x) { return { v: x[0], n: x[1], a: x[2] }; }), ausgabe = h('div'), graf = h('div', { class: 'sim-buehne' }), liste = h('div');
+    function wege(von, nach) { // alle einfachen Wege, Vorzeichen = Produkt
+      var res = [];
+      (function such(k, besucht, vz, pfad) {
+        if (k === nach && pfad.length) { res.push({ vz: vz, pfad: pfad.slice() }); return; }
+        links.forEach(function (l) { if (l.v === k && (besucht.indexOf(l.n) < 0 || l.n === nach)) { pfad.push(l); such(l.n, besucht.concat([l.n]), vz * l.a, pfad); pfad.pop(); } });
+      })(von, [von], 1, []);
+      return res;
+    }
+    function antwort(von, nach) {
+      var w = wege(von, nach);
+      if (!w.length) return { a: 0, t: '🤖 „Das weiß ich nicht – du hast mir keinen Zusammenhang zwischen <i>' + B[von] + '</i> und <i>' + B[nach] + '</i> beigebracht.“' };
+      var plus = w.some(function (x) { return x.vz > 0; }), minus = w.some(function (x) { return x.vz < 0; });
+      if (plus && minus) return { a: 9, t: '🤖 „Ich finde Wege mit gegensätzlicher Wirkung. Dann kann ich nicht sagen, was insgesamt passiert.“' };
+      var cur = 1, teile = [B[von] + ' ↑']; w[0].pfad.forEach(function (l) { cur *= l.a; teile.push(B[l.n] + (cur > 0 ? ' ↑' : ' ↓')); }); var p = teile.join(' ⇒ ');
+      return { a: plus ? 1 : -1, t: '🤖 „Wenn <i>' + B[von] + '</i> zunimmt, dann ' + (plus ? '<b>nimmt</b>' : '<b>nimmt</b>') + ' <i>' + B[nach] + '</i> ' + (plus ? '<b>zu</b>' : '<b>ab</b>') + '. Mein Gedankenweg: ' + p + '“' };
+    }
+    function zyklen() { // Rückkopplungen erkennen
+      var gefunden = [];
+      B.forEach(function (_, k) { wege(k, k).forEach(function (w) { var key = w.pfad.map(function (l) { return l.v; }).sort().join(','); if (!gefunden.some(function (g) { return g.key === key; })) gefunden.push({ key: key, vz: w.vz, pfad: w.pfad }); }); });
+      return gefunden;
+    }
+    function male() {
+      LL.leeren(graf); LL.leeren(liste);
+      var W = 620, H = 380, M = [310, 190], R = 150, pos = B.map(function (_, i) { var w = i / B.length * Math.PI * 2 - Math.PI / 2; return [M[0] + R * 1.45 * Math.cos(w), M[1] + R * Math.sin(w)]; });
+      var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Wirkungsnetz' });
+      var def = s('defs'); ['g', 'r'].forEach(function (k) { var m = s('marker', { id: 'pfeil-' + k, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }); m.appendChild(s('path', { d: 'M0 0L10 5L0 10z', fill: k === 'g' ? '#16a34a' : '#dc2626' })); def.appendChild(m); }); svg.appendChild(def);
+      links.forEach(function (l) {
+        var a = pos[l.v], b = pos[l.n], dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy) || 1, k = Math.min(0.42, 46 / d);
+        svg.appendChild(s('line', { x1: a[0] + dx * k, y1: a[1] + dy * k, x2: b[0] - dx * k, y2: b[1] - dy * k, stroke: l.a > 0 ? '#16a34a' : '#dc2626', 'stroke-width': 3, 'marker-end': 'url(#pfeil-' + (l.a > 0 ? 'g' : 'r') + ')' }));
+      });
+      B.forEach(function (n, i) { svg.appendChild(s('rect', { x: pos[i][0] - 62, y: pos[i][1] - 20, width: 124, height: 40, rx: 12, fill: '#fff', stroke: '#4f46e5', 'stroke-width': 2 })); var t = s('text', { x: pos[i][0], y: pos[i][1] + 4, 'text-anchor': 'middle', 'font-size': n.length > 16 ? 10.5 : 12, 'font-weight': 700, fill: '#16203a' }); t.textContent = n; svg.appendChild(t); });
+      graf.appendChild(svg);
+      links.forEach(function (l, i) { liste.appendChild(h('div', { class: 'zettel', style: 'display:flex;gap:8px;align-items:center;cursor:default' }, h('span', { style: 'flex:1' }, B[l.v] + (l.a > 0 ? ' — verstärkt → ' : ' — schwächt → ') + B[l.n]), h('button', { class: 'pfeilknopf', type: 'button', 'aria-label': 'Verbindung löschen', onclick: function () { links.splice(i, 1); male(); } }, '✕'))); });
+      if (!links.length) liste.appendChild(h('p', { class: 'klein' }, 'Noch keine Verbindungen – der Roboter weiß noch nichts.'));
+    }
+    function sel(lbl) { return h('select', { 'aria-label': lbl }, B.map(function (n, i) { return h('option', { value: i }, n); })); }
+    var sv = sel('Ursache'), sn = sel('Wirkung'), sa = h('select', { 'aria-label': 'Art der Wirkung' }, h('option', { value: 1 }, 'verstärkt ↑'), h('option', { value: -1 }, 'schwächt ↓')); sn.selectedIndex = 1;
+    var fv = sel('Frage: Ursache'), fn = sel('Frage: Wirkung'); fn.selectedIndex = 3;
+    ziel.appendChild(h('div', { class: 'kasten info', html: '🤖 <b>Bring dem Lernroboter bei, wie ' + cfg.thema + ' zusammenhängt.</b> Er kennt nur die Pfeile, die du ihm gibst, und zieht daraus Schlüsse. Im Test zeigt sich, ob dein Netz stimmt – <i>welcher</i> Pfeil falsch ist, musst du selbst herausfinden.' }));
+    ziel.appendChild(h('div', { class: 'sim' }, graf, h('div', { class: 'sim-steuer' },
+      h('h4', { style: 'margin:0' }, '① Beibringen'), sv, sa, sn,
+      h('button', { class: 'knopf klein', type: 'button', onclick: function () { var v = Number(sv.value), n = Number(sn.value), a = Number(sa.value); if (v === n) { LL.toast('Ursache und Wirkung müssen verschieden sein.'); return; } links = links.filter(function (l) { return !(l.v === v && l.n === n); }); links.push({ v: v, n: n, a: a }); male(); } }, '➕ Pfeil hinzufügen'), liste)));
+    ziel.appendChild(h('div', { class: 'zwei', style: 'margin-top:12px' },
+      h('div', { class: 'karte', style: 'box-shadow:none' }, h('h4', null, '② Fragen stellen'), h('div', { class: 'knopfreihe' }, h('span', { class: 'klein' }, 'Wenn'), fv, h('span', { class: 'klein' }, 'zunimmt, was passiert mit'), fn, h('span', { class: 'klein' }, '?')),
+        h('button', { class: 'knopf zweit klein', type: 'button', onclick: function () { LL.fb(ausgabe, 'info', h('span', { html: antwort(Number(fv.value), Number(fn.value)).t })); } }, 'Roboter fragen'), ausgabe),
+      h('div', { class: 'karte', style: 'box-shadow:none' }, h('h4', null, '③ Test: Der Roboter schreibt eine Klassenarbeit'), h('button', { class: 'knopf klein', type: 'button', onclick: test }, '📝 Test starten'), testBox)));
+    var testBox = h('div');
+    ziel.lastChild.lastChild.appendChild(testBox);
+    function test() {
+      LL.leeren(testBox); var r = 0;
+      cfg.fragen.forEach(function (F, i) {
+        var a = antwort(F.von, F.nach), ok = a.a === F.soll; if (ok) r++;
+        testBox.appendChild(h('div', { class: 'klein', style: 'margin:6px 0', html: (ok ? '✅' : '❌') + ' <b>Frage ' + (i + 1) + ':</b> Wenn ' + B[F.von] + ' zunimmt – was passiert mit ' + B[F.nach] + '?<br>' + a.t }));
+      });
+      testBox.appendChild(h('div', { class: 'fb ' + (r === cfg.fragen.length ? 'ok' : 'warn') }, r + ' von ' + cfg.fragen.length + ' Antworten richtig. ' + (r === cfg.fragen.length ? 'Dein Roboter hat alles verstanden – du auch!' : 'Untersuche die falschen Gedankenwege: Welcher Pfeil fehlt oder zeigt die falsche Wirkung?')));
+      var z = zyklen();
+      if (z.length) testBox.appendChild(h('div', { class: 'fb info', html: '🔁 <b>Rückkopplung entdeckt:</b> ' + z.map(function (c) { return c.pfad.map(function (l) { return B[l.v]; }).join(' → ') + ' → … (' + (c.vz > 0 ? '<b>verstärkend</b>: eine Veränderung schaukelt sich auf' : '<b>ausgleichend</b>: eine Veränderung wird gebremst') + ')'; }).join('<br>') }));
+    }
+    male();
+  };
+
+  /* ---------- Kontrastierende Fälle: erst vergleichen, dann erklären lassen ---------- */
+  // cfg: {intro, faelle:[{titel, html}], merkmale:[{t, r}], frage:{f, o:[], r, fb:[]}, erklaerung}
+  E.kontrastfaelle = function (ziel, cfg) {
+    var rueck1 = h('div'), stufe2 = h('div', { hidden: true }), stufe3 = h('div', { hidden: true });
+    ziel.appendChild(h('div', { class: 'kasten info', html: cfg.intro }));
+    ziel.appendChild(h('div', { class: 'raster', style: 'grid-template-columns:repeat(auto-fit,minmax(170px,1fr))' }, cfg.faelle.map(function (f) { return h('div', { class: 'karte', style: 'box-shadow:none;text-align:center' }, h('h4', null, f.titel), h('div', { html: f.html })); })));
+    ziel.appendChild(h('div', { class: 'frage' }, '① Worin unterscheiden sich die Fälle entscheidend? (mehrere möglich)'));
+    var boxen = cfg.merkmale.map(function (m) { var c = h('input', { type: 'checkbox', style: 'width:22px;height:22px' }); return h('label', { class: 'option', style: 'align-items:center' }, c, h('span', { html: m.t })); });
+    ziel.appendChild(h('div', { class: 'optionen' }, boxen));
+    ziel.appendChild(h('button', { class: 'knopf', type: 'button', onclick: function () {
+      var f = 0; boxen.forEach(function (b, i) { var an = b.querySelector('input').checked, ok = an === !!cfg.merkmale[i].r; b.classList.toggle('richtig', !!cfg.merkmale[i].r); b.classList.toggle('falsch', an && !cfg.merkmale[i].r); if (!ok) f++; });
+      LL.fb(rueck1, f ? 'warn' : 'ok', f ? 'Grün markiert sind die Merkmale, die wirklich einen Unterschied machen. Vergleiche noch einmal genau.' : '✓ Genau – du hast die entscheidenden Unterschiede gefunden.'); stufe2.hidden = false;
+    } }, 'Vergleich prüfen'));
+    ziel.appendChild(rueck1);
+    var r2 = h('div');
+    stufe2.appendChild(h('div', { class: 'frage', html: '② ' + cfg.frage.f }));
+    var ks = cfg.frage.o.map(function (o, j) { return h('button', { class: 'option', type: 'button', onclick: function () { ks.forEach(function (b, m) { b.classList.toggle('richtig', m === cfg.frage.r && j === cfg.frage.r); b.classList.toggle('falsch', m === j && j !== cfg.frage.r); }); LL.fb(r2, j === cfg.frage.r ? 'ok' : 'nein', h('span', { html: (cfg.frage.fb && cfg.frage.fb[j]) || '' })); stufe3.hidden = false; } }, h('span', { class: 'mark' }, String.fromCharCode(65 + j)), h('span', { html: o })); });
+    stufe2.appendChild(h('div', { class: 'optionen' }, LL.mischeKnoepfe(ks, cfg.frage.f))); stufe2.appendChild(r2);
+    stufe3.appendChild(h('div', { class: 'karte einblenden', style: 'background:#f5f3ff;box-shadow:none' }, h('h4', null, '③ Jetzt ist die Zeit für die Erklärung'), h('div', { html: cfg.erklaerung })));
+    ziel.appendChild(stufe2); ziel.appendChild(stufe3);
+  };
+
+  /* ---------- Vergleichendes Urteilen: Paare beurteilen, Rangfolge entsteht ---------- */
+  // cfg: {aufgabe, texte:[{t, rang}], kriterien:[..]}
+  E.vergleichsurteil = function (ziel, cfg, d) {
+    var T = cfg.texte, paare = [], siege = T.map(function () { return 0; }), i = 0, flaeche = h('div'), gruende = {};
+    for (var a = 0; a < T.length; a++) for (var b = a + 1; b < T.length; b++) paare.push([a, b]);
+    paare = LL.mischen(paare, LL.hash(d.id));
+    ziel.appendChild(h('div', { class: 'kasten info', html: cfg.aufgabe + '<br><span class="klein">Beim vergleichenden Urteilen braucht man keine Punkte: Man entscheidet nur, welcher von zwei Texten besser ist. Aus vielen Paarvergleichen entsteht eine Rangfolge.</span>' }));
+    ziel.appendChild(flaeche);
+    function zeige() {
+      LL.leeren(flaeche);
+      if (i >= paare.length) return ende();
+      var p = LL.mischen(paare[i], LL.hash(d.id + i)), krit = h('div', { class: 'knopfreihe' }, h('span', { class: 'klein' }, 'Entscheidend war für mich:'), cfg.kriterien.map(function (k) { return h('button', { class: 'chip', type: 'button', 'aria-pressed': 'false', onclick: function () { var an = this.getAttribute('aria-pressed') !== 'true'; this.setAttribute('aria-pressed', String(an)); } }, k); }));
+      flaeche.appendChild(h('div', { class: 'klein' }, 'Vergleich ' + (i + 1) + ' von ' + paare.length));
+      flaeche.appendChild(h('div', { class: 'zwei' }, p.map(function (k, j) { return h('button', { class: 'karte', type: 'button', style: 'box-shadow:none;text-align:left;font-size:1rem', onclick: function () { siege[k]++; krit.querySelectorAll('[aria-pressed=true]').forEach(function (c) { gruende[c.textContent] = (gruende[c.textContent] || 0) + 1; }); i++; zeige(); } }, h('div', { class: 'chip' }, 'Text ' + String.fromCharCode(65 + j) + ' – dieser ist besser'), h('p', { style: 'margin-top:8px', html: T[k].t })); })));
+      flaeche.appendChild(krit);
+    }
+    function ende() {
+      var ord = T.map(function (_, k) { return k; }).sort(function (x, y) { return siege[y] - siege[x]; }), treffer = ord.filter(function (k, pos) { return T[k].rang === pos + 1; }).length;
+      flaeche.appendChild(h('h4', null, 'Deine Rangfolge im Vergleich mit der Rangfolge einer Fachkonferenz'));
+      flaeche.appendChild(h('table', { class: 'tab' }, h('tr', null, h('th', null, 'Platz'), h('th', null, 'Text'), h('th', null, 'Siege'), h('th', null, 'Platz laut Fachkonferenz')),
+        ord.map(function (k, pos) { return h('tr', { style: T[k].rang === pos + 1 ? 'background:#ecfdf5' : '' }, h('td', null, pos + 1), h('td', { class: 'klein', html: T[k].t.slice(0, 90) + '…' }), h('td', null, siege[k]), h('td', null, T[k].rang)); })));
+      var top = Object.keys(gruende).sort(function (x, y) { return gruende[y] - gruende[x]; });
+      flaeche.appendChild(h('div', { class: 'fb info', html: treffer + ' von ' + T.length + ' Plätzen stimmen überein. ' + (top.length ? 'Am häufigsten entschieden hat bei dir: <b>' + top.slice(0, 2).join('</b> und <b>') + '</b>. ' : '') + 'Besprecht Abweichungen: Welche Kriterien hat die Fachkonferenz vermutlich stärker gewichtet?' }));
+      flaeche.appendChild(h('button', { class: 'knopf zweit', type: 'button', onclick: function () { i = 0; siege = T.map(function () { return 0; }); gruende = {}; zeige(); } }, '↺ Noch einmal'));
+    }
+    zeige();
+  };
+
+  /* ---------- Vorab-Fragen: raten, lesen, noch einmal beantworten ---------- */
+  // cfg: {fragen:[{f, o:[], r}], text, titel}
+  E.vorabfragen = function (ziel, cfg, d) {
+    var phase = 1, vorher = [], nachher = [], flaeche = h('div');
+    ziel.appendChild(flaeche);
+    function fragenRunde(ergebnis, weiter, titel, hinweis) {
+      flaeche.appendChild(h('h4', null, titel)); flaeche.appendChild(h('p', { class: 'klein' }, hinweis));
+      cfg.fragen.forEach(function (q, n) {
+        var ks = q.o.map(function (o, j) { return h('button', { class: 'option', type: 'button', 'aria-pressed': 'false', onclick: function () { ergebnis[n] = j; ks.forEach(function (b, m) { b.setAttribute('aria-pressed', String(m === j)); }); } }, h('span', { class: 'mark' }, String.fromCharCode(65 + j)), h('span', { html: o })); });
+        flaeche.appendChild(h('div', null, h('div', { class: 'frage', html: (n + 1) + '. ' + q.f }), h('div', { class: 'optionen' }, LL.mischeKnoepfe(ks, q.f + d.id))));
+      });
+      flaeche.appendChild(h('button', { class: 'knopf', type: 'button', onclick: function () { if (ergebnis.filter(function (x) { return x !== undefined; }).length < cfg.fragen.length) { LL.toast('Bitte alle Fragen beantworten – Raten ist ausdrücklich erlaubt.'); return; } weiter(); } }, 'Weiter →'));
+    }
+    function zeige() {
+      LL.leeren(flaeche);
+      if (phase === 1) fragenRunde(vorher, function () { phase = 2; zeige(); }, '① Bevor du liest: Was weißt du schon?', 'Rate ruhig! Es gibt keine Rückmeldung und keine Bewertung. Die Fragen lenken deine Aufmerksamkeit beim Lesen.');
+      else if (phase === 2) { flaeche.appendChild(h('h4', null, '② Lies den Text: ' + cfg.titel)); flaeche.appendChild(h('div', { class: 'markiertext', html: cfg.text })); flaeche.appendChild(h('div', { class: 'knopfreihe' }, h('button', { class: 'knopf zweit klein', type: 'button', onclick: function () { LL.vorlesen(cfg.text.replace(/<[^>]+>/g, '')); } }, '🔊 Vorlesen'), h('button', { class: 'knopf', type: 'button', onclick: function () { phase = 3; zeige(); } }, 'Text gelesen →'))); }
+      else if (phase === 3) fragenRunde(nachher, function () { phase = 4; zeige(); }, '③ Dieselben Fragen noch einmal', 'Ohne Text – aus dem Gedächtnis.');
+      else {
+        var v = cfg.fragen.filter(function (q, n) { return vorher[n] === q.r; }).length, n2 = cfg.fragen.filter(function (q, n) { return nachher[n] === q.r; }).length;
+        flaeche.appendChild(h('h4', null, '④ Auswertung'));
+        flaeche.appendChild(h('div', { class: 'messwert' }, h('div', null, h('small', null, 'vor dem Lesen'), v + ' / ' + cfg.fragen.length), h('div', null, h('small', null, 'nach dem Lesen'), n2 + ' / ' + cfg.fragen.length)));
+        flaeche.appendChild(h('ul', null, cfg.fragen.map(function (q, n) { return h('li', { class: 'klein', html: (nachher[n] === q.r ? '✅ ' : '❌ ') + q.f + ' → <b>' + q.o[q.r] + '</b>' + (vorher[n] !== q.r && nachher[n] === q.r ? ' <span class="chip">dazugelernt</span>' : '') }); })));
+        flaeche.appendChild(h('div', { class: 'kasten info klein', html: '<b>Warum Fragen vor dem Lesen?</b> Studien zum „Pretesting-Effekt“ zeigen: Wer vor dem Lernen Fragen beantwortet – auch falsch –, behält die Inhalte danach oft besser als bei reiner Lesezeit. Die Fragen wirken wie Suchscheinwerfer.' }));
+        flaeche.appendChild(h('button', { class: 'knopf zweit', type: 'button', onclick: function () { phase = 1; vorher = []; nachher = []; zeige(); } }, '↺ Neu'));
+      }
+    }
+    zeige();
+  };
+
+  /* ---------- Concept Cartoon: Wer hat recht? ---------- */
+  // cfg: {szene, bild, figuren:[{name, emo, aussage, erkl}], richtig}
+  E.conceptcartoon = function (ziel, cfg) {
+    var gewaehlt = -1, rueck = h('div'), begr = h('textarea', { 'aria-label': 'Begründung', placeholder: 'Ich stimme … zu, weil …', style: 'min-height:70px' });
+    ziel.appendChild(h('div', { class: 'szene' }, h('div', { class: 'bild' }, cfg.bild), h('div', { html: cfg.szene })));
+    var figs = cfg.figuren.map(function (f, i) {
+      return h('button', { class: 'karte', type: 'button', 'aria-pressed': 'false', style: 'box-shadow:none;text-align:left', onclick: function () { gewaehlt = i; figs.forEach(function (b, j) { b.style.borderColor = j === i ? 'var(--akzent)' : ''; b.style.background = j === i ? 'var(--akzent-hell)' : ''; b.setAttribute('aria-pressed', String(j === i)); }); } },
+        h('div', { style: 'font-size:2.2rem' }, f.emo), h('b', null, f.name), h('div', { class: 'blase sie', style: 'max-width:100%;margin-top:6px', html: '„' + f.aussage + '“' }));
+    });
+    ziel.appendChild(h('div', { class: 'frage' }, '① Wem stimmst du zu?'));
+    ziel.appendChild(h('div', { class: 'raster', style: 'grid-template-columns:repeat(auto-fit,minmax(190px,1fr))' }, figs));
+    ziel.appendChild(h('div', { class: 'frage' }, '② Begründe deine Wahl – und überlege, was die anderen denken könnten.'));
+    ziel.appendChild(begr);
+    ziel.appendChild(h('button', { class: 'knopf', type: 'button', onclick: function () {
+      if (gewaehlt < 0) { LL.toast('Wähle zuerst eine Person aus.'); return; }
+      if (begr.value.trim().split(/\s+/).length < 5) { LL.toast('Schreib erst eine kurze Begründung (mindestens 5 Wörter).'); return; }
+      LL.leeren(rueck);
+      rueck.appendChild(h('div', { class: 'fb ' + (gewaehlt === cfg.richtig ? 'ok' : 'warn') }, gewaehlt === cfg.richtig ? '✓ Deine Wahl ist fachlich gut begründbar.' : 'Fachlich trifft eine andere Aussage zu – genau dafür sind Concept Cartoons da: Alle Aussagen klingen plausibel.'));
+      rueck.appendChild(h('ul', null, cfg.figuren.map(function (f, i) { return h('li', { style: 'margin:6px 0', html: (i === cfg.richtig ? '✅ ' : '💭 ') + '<b>' + f.name + ':</b> ' + f.erkl }); })));
+      if (cfg.weiter) rueck.appendChild(h('a', { class: 'knopf zweit klein', href: '#/demo/' + cfg.weiter }, '▶ Passende Simulation ausprobieren'));
+    } }, 'Auflösung zeigen'));
+    ziel.appendChild(rueck);
+  };
+
+  /* ---------- Fermi-Aufgaben: Größenordnung schätzen, dann zerlegen ---------- */
+  // cfg: {aufgaben:[{frage, stufen:[[wert, text]], faktoren:[{n, min, max, step, wert, einheit}], rechne(fn), einheit, referenz, fazit}]}
+  E.fermi = function (ziel, cfg) {
+    cfg.aufgaben.forEach(function (A, n) {
+      var box = h('div', { class: 'karte', style: 'box-shadow:none;margin:10px 0' }), bauch = null, rueck = h('div'), ergebnis = h('div', { style: 'font-size:1.3rem;font-weight:800;margin:8px 0' }), regler = [];
+      box.appendChild(h('h4', null, 'Fermi-Aufgabe ' + (n + 1) + ': ' + A.frage));
+      box.appendChild(h('div', { class: 'frage' }, '① Bauchgefühl: Welche Größenordnung?'));
+      var ks = A.stufen.map(function (st, j) { return h('button', { class: 'chip', type: 'button', 'aria-pressed': 'false', onclick: function () { bauch = j; ks.forEach(function (b, m) { b.setAttribute('aria-pressed', String(m === j)); }); teil2.hidden = false; } }, st[1]); });
+      box.appendChild(h('div', { class: 'knopfreihe' }, ks));
+      var teil2 = h('div', { hidden: true });
+      teil2.appendChild(h('div', { class: 'frage' }, '② Zerlege das Problem in Größen, die du abschätzen kannst:'));
+      function neu() {
+        var v = A.rechne(regler.map(function (r) { return r.wert(); }));
+        ergebnis.textContent = '≈ ' + v.toLocaleString('de-DE', { maximumSignificantDigits: 3 }) + ' ' + A.einheit;
+        var stufe = A.stufen.reduce(function (best, st, j) { return Math.abs(Math.log10(v) - Math.log10(st[0])) < Math.abs(Math.log10(v) - Math.log10(A.stufen[best][0])) ? j : best; }, 0);
+        LL.fb(rueck, bauch === stufe ? 'ok' : 'info', h('span', { html: (bauch === stufe ? '🎯 Dein Bauchgefühl lag in der richtigen Größenordnung.' : 'Dein Bauchgefühl lag bei „' + A.stufen[bauch][1] + '“ – die Zerlegung ergibt „' + A.stufen[stufe][1] + '“.') + ' ' + A.fazit }));
+      }
+      A.faktoren.forEach(function (f) { var r = LL.regler({ name: f.n, min: f.min, max: f.max, step: f.step || 1, wert: f.wert, einheit: f.einheit, fmt: function (v) { return fmt(v, 2); }, bei: neu }); regler.push(r); teil2.appendChild(r); });
+      teil2.appendChild(ergebnis); teil2.appendChild(rueck);
+      teil2.appendChild(h('p', { class: 'klein', html: '<b>Formel:</b> ' + A.formel }));
+      box.appendChild(teil2); ziel.appendChild(box);
+      ks.forEach(function (k) { k.addEventListener('click', neu); });
+    });
+  };
+
+  /* ---------- Ein Text in drei Sprachniveaus mit Glossar ---------- */
+  // cfg: {titel, fassungen:[{n, text}], glossar:{wort: erkl}, fragen}
+  E.textniveaus = function (ziel, cfg, d) {
+    var akt = 0, textEl = h('div', { class: 'markiertext', 'aria-live': 'polite' }), info = h('div');
+    function markiere(t) {
+      Object.keys(cfg.glossar).forEach(function (w) { t = t.replace(new RegExp('(' + w + '\\w*)', 'g'), '<button type="button" class="glossar" data-w="' + w + '" style="border:0;background:#fef3c7;border-bottom:2px dotted #b45309;font:inherit;padding:0 2px;cursor:help;border-radius:3px">$1</button>'); });
+      return t;
+    }
+    function male() { textEl.innerHTML = markiere(cfg.fassungen[akt].text); LL.leeren(info); }
+    textEl.addEventListener('click', function (e) { var b = e.target.closest('.glossar'); if (b) LL.fb(info, 'info', h('span', { html: '📘 <b>' + b.textContent + ':</b> ' + cfg.glossar[b.dataset.w] })); });
+    var ks = cfg.fassungen.map(function (f, i) { return h('button', { type: 'button', 'aria-pressed': String(i === 0), onclick: function () { akt = i; ks.forEach(function (b, j) { b.setAttribute('aria-pressed', String(j === i)); }); male(); } }, f.n); });
+    ziel.appendChild(h('div', { class: 'niveau-umschalter' }, ks));
+    ziel.appendChild(h('h4', { style: 'margin:12px 0 6px' }, cfg.titel)); ziel.appendChild(textEl); ziel.appendChild(info);
+    ziel.appendChild(h('div', { class: 'knopfreihe' }, h('button', { class: 'knopf zweit klein', type: 'button', onclick: function () { LL.vorlesen(cfg.fassungen[akt].text.replace(/<[^>]+>/g, '')); } }, '🔊 Vorlesen'), h('span', { class: 'klein' }, 'Gelb unterstrichene Wörter antippen = Erklärung.')));
+    var q = h('div'); ziel.appendChild(h('h4', null, 'Verstanden? (gleiche Fragen für alle Fassungen)')); ziel.appendChild(q);
+    E.mc(q, { fragen: cfg.fragen }, d);
+    male();
+  };
+
+  /* ---------- Rückblick-Roulette: verteilt und vermischt abrufen ---------- */
+  // cfg: {karten:[{zeit, thema, f, a}]}
+  E.rueckblick = function (ziel, cfg, d) {
+    var ZEITEN = ['letzte Stunde', 'letzte Woche', 'letzter Monat', 'letztes Halbjahr'], runde = 0, stat = {}, flaeche = h('div');
+    function ziehe() {
+      LL.leeren(flaeche); runde++;
+      var r = LL.zufall(LL.hash(d.id) + runde * 97);
+      ZEITEN.forEach(function (z) {
+        var pool = cfg.karten.filter(function (k) { return k.zeit === z; }); if (!pool.length) return;
+        var k = pool[Math.floor(r() * pool.length)], antwort = h('div', { hidden: true, class: 'kasten ok', html: '<b>Antwort:</b> ' + k.a }), bew = h('div', { class: 'knopfreihe', hidden: true });
+        bew.appendChild(h('button', { class: 'knopf gruen klein', type: 'button', onclick: function () { zaehle(z, true); bew.innerHTML = '<span class="chip">✓ gewusst</span>'; } }, '✓ gewusst'));
+        bew.appendChild(h('button', { class: 'knopf zweit klein', type: 'button', onclick: function () { zaehle(z, false); bew.innerHTML = '<span class="chip">↺ wiederholen</span>'; } }, '✗ nicht gewusst'));
+        flaeche.appendChild(h('div', { class: 'karte', style: 'box-shadow:none;margin:8px 0' }, h('div', { class: 'knopfreihe' }, h('span', { class: 'chip fach' }, '🕰 ' + z), h('span', { class: 'chip' }, k.thema)), h('div', { class: 'frage', html: k.f }),
+          h('button', { class: 'knopf zweit klein', type: 'button', onclick: function () { antwort.hidden = false; bew.hidden = false; this.hidden = true; } }, 'Erst im Kopf beantworten – dann aufdecken'), antwort, bew));
+      });
+      flaeche.appendChild(h('button', { class: 'knopf', type: 'button', onclick: ziehe }, '🎲 Neue Runde ziehen'));
+      flaeche.appendChild(statistik);
+      zeigeStat();
+    }
+    var statistik = h('div', { class: 'messwert', style: 'margin-top:12px' });
+    function zaehle(z, ok) { stat[z] = stat[z] || [0, 0]; stat[z][ok ? 0 : 1]++; zeigeStat(); }
+    function zeigeStat() { LL.leeren(statistik); ZEITEN.forEach(function (z) { var s2 = stat[z] || [0, 0]; statistik.appendChild(h('div', null, h('small', null, z), s2[0] + ' ✓ / ' + s2[1] + ' ✗')); }); }
+    ziel.appendChild(h('div', { class: 'kasten info', html: 'Jede Runde mischt vier Fragen aus <b>verschiedenen Zeiträumen und Themen</b> – so wird altes Wissen immer wieder aktiviert (verteiltes und vermischtes Abrufen). Ideal als 5-Minuten-Stundenstart.' }));
+    ziel.appendChild(flaeche); ziehe();
+  };
+
+  /* ---------- Reaktiver Text (Explorable Explanation) ---------- */
+  // cfg: {text mit [name], variablen:{name:{min,max,step,wert,fmt}}, rechne(v)->{name:wert}, diagramm(v)}
+  E.reaktivtext = function (ziel, cfg) {
+    var v = {}, p = h('p', { style: 'font-size:1.12rem;line-height:2.3' }), stage = h('div', { class: 'sim-buehne' });
+    Object.keys(cfg.variablen).forEach(function (k) { v[k] = cfg.variablen[k].wert; });
+    function male() {
+      var erg = cfg.rechne(v); LL.leeren(p);
+      cfg.text.split(/(\[[a-z]+\])/).forEach(function (teil) {
+        var m = teil.match(/^\[([a-z]+)\]$/);
+        if (!m) { p.appendChild(document.createTextNode(teil)); return; }
+        var k = m[1];
+        if (cfg.variablen[k]) {
+          var V = cfg.variablen[k];
+          p.appendChild(h('span', { style: 'display:inline-flex;align-items:center;gap:2px;background:#eef0ff;border:1.5px solid #c7d2fe;border-radius:10px;padding:0 4px;white-space:nowrap' },
+            h('button', { class: 'pfeilknopf', type: 'button', style: 'min-width:30px;min-height:30px', 'aria-label': k + ' verringern', onclick: function () { v[k] = Math.max(V.min, Math.round((v[k] - V.step) * 1000) / 1000); male(); } }, '−'),
+            h('b', { style: 'color:#4f46e5;min-width:2.5em;text-align:center' }, V.fmt(v[k])),
+            h('button', { class: 'pfeilknopf', type: 'button', style: 'min-width:30px;min-height:30px', 'aria-label': k + ' erhöhen', onclick: function () { v[k] = Math.min(V.max, Math.round((v[k] + V.step) * 1000) / 1000); male(); } }, '+')));
+        } else p.appendChild(h('b', { style: 'background:#fef3c7;border-radius:6px;padding:2px 6px' }, erg[k]));
+      });
+      LL.leeren(stage); if (cfg.diagramm) stage.appendChild(cfg.diagramm(v, LL));
+    }
+    ziel.appendChild(h('div', { class: 'kasten info klein', html: 'Ein „reaktiver Text“: Blau umrandete Zahlen lassen sich mit − und + verändern, die gelb hinterlegten Ergebnisse rechnen sofort mit.' }));
+    ziel.appendChild(p); ziel.appendChild(stage);
+    if (cfg.fragen) { var q = h('div'); ziel.appendChild(h('h4', null, 'Erkunde und beantworte')); ziel.appendChild(q); E.kurzantwort(q, { aufgaben: cfg.fragen }); }
+    if (cfg.hinweis) ziel.appendChild(LL.modellhinweis(cfg.hinweis));
+    male();
+  };
+})();
+
 /* ===== sims_mathe.js ===== */
 /* Simulationen Mathematik: lineare Funktionen, Brüche, Prozentstreifen, Zufall, Dreieck/Thales, Mittelwert/Median, Ableitung */
 (function () {
@@ -4147,13 +4423,164 @@ LL.grenzen = [
   { t: 'Aktivität ≠ Lernerfolg', ja: 'wenn am Ende gesichert wird, was gelernt wurde (Regel, Begriff, Begründung).', nein: 'wenn Klicken und Spielen mit Lernen verwechselt werden.' }
 ];
 
+/* ===== daten/ausbau.js ===== */
+/* Ausbau 12.11.2026: weitere Formate, Demos, Quellen, Prinzipien und Ideen (nach zweiter Recherche).
+   Wird NACH unterricht.js geladen, weil es Ziele und Tour ergänzt. */
+(function () {
+  var AB = '12.11.2026';
+  function q(id, kurz, titel, x) { LL.quellen[id] = Object.assign({ id: id, kurz: kurz, titel: titel, abruf: AB }, x); }
+  q('richland2009', 'Richland u. a. 2009', 'Richland, L. E., Kornell, N. & Kao, L. S. (2009). The Pretesting Effect: Do Unsuccessful Retrieval Attempts Enhance Learning? Journal of Experimental Psychology: Applied, 15(3), 243–257.', { url: 'https://doi.org/10.1037/a0016496', status: 'geprueft', kern: 'Fünf Experimente: Wer vor dem Lesen Fragen beantwortete, schnitt im Nachtest besser ab als mit zusätzlicher Lernzeit – auch bei Fragen, die im Vortest falsch beantwortet wurden.' });
+  q('schwartz1998', 'Schwartz & Bransford 1998', 'Schwartz, D. L. & Bransford, J. D. (1998). A Time for Telling. Cognition and Instruction, 16(4), 475–522.', { url: 'https://doi.org/10.1207/s1532690xci1604_4', status: 'geprueft', kern: 'Das Vergleichen kontrastierender Fälle baut differenziertes Wissen auf, das spätere Erklärungen erst fruchtbar macht („Zeit zum Erklären“).' });
+  q('biswas2010', 'Biswas u. a. 2010', 'Biswas, G. u. a. (2010). Measuring Self-Regulated Learning Skills through Social Interactions in a Teachable Agent Environment. Research and Practice in Technology Enhanced Learning, 5(2), 123–152.', { url: 'https://archive.isis.vanderbilt.edu/sites/default/files/Biswas-etal_MeasuringSRL_RPTEL2010.pdf', status: 'geprueft', hinweis: 'Titel und Link geprüft; Band/Seiten aus der Literatur.', kern: '„Betty’s Brain“: Lernende bringen einem Computeragenten ein kausales Wirkungsnetz bei; der Agent beantwortet Fragen und schreibt Tests. Untersucht werden Lernen und Selbstregulation.' });
+  q('jones2015', 'Jones & Wheadon 2015', 'Jones, I. & Wheadon, C. (2015). Peer Assessment Using Comparative and Absolute Judgement. Studies in Educational Evaluation, 47, 93–101.', { url: 'https://core.ac.uk/download/288374745.pdf', status: 'geprueft', kern: 'Schülerinnen und Schüler beurteilten Arbeiten per Paarvergleich zuverlässig und valide – mit absoluten Bewertungen gelang das nicht. Lernwirkungen beim Schreiben sind in späteren Studien uneinheitlich.' });
+  q('fiorella2016', 'Fiorella & Mayer 2016', 'Fiorella, L. & Mayer, R. E. (2016). Eight Ways to Promote Generative Learning. Educational Psychology Review, 28(4), 717–741.', { url: 'https://doi.org/10.1007/s10648-015-9348-9', status: 'geprueft', kern: 'Acht generative Lernstrategien: Zusammenfassen, Mapping, Zeichnen, Vorstellen, Selbsttesten, Selbsterklären, Lehren, Nachspielen – jeweils mit Randbedingungen.' });
+  q('keogh1999', 'Keogh & Naylor 1999', 'Keogh, B. & Naylor, S. (1999). Concept Cartoons, Teaching and Learning in Science: An Evaluation. International Journal of Science Education, 21(4), 431–446.', { url: 'https://www.tused.org/index.php/tused/article/view/273', status: 'geprueft', hinweis: 'Link führt zum Überblicksartikel „Concept cartoons: What have we learnt?“ (Naylor & Keogh 2013).', kern: 'Figuren vertreten verschiedene plausible Sichtweisen auf ein Phänomen; das regt Diskussion und Argumentation an und macht Vorstellungen sichtbar.' });
+  q('victor2011', 'Victor 2011', 'Victor, B. (2011). Explorable Explanations (Essay).', { url: 'http://worrydream.com/ExplorableExplanations/', status: 'literatur', kern: 'Idee „reaktiver Dokumente“: Zahlen im Text lassen sich verändern, die Folgen werden sofort sichtbar.' });
+  q('crouch2001', 'Crouch & Mazur 2001', 'Crouch, C. H. & Mazur, E. (2001). Peer Instruction: Ten Years of Experience and Results. American Journal of Physics, 69(9), 970–977.', { status: 'literatur', kern: 'Abstimmen – mit dem Nachbarn diskutieren – erneut abstimmen: verbessert konzeptuelles Verständnis in Physik-Vorlesungen.' });
+
+  /* ---------- neue Formate ---------- */
+  function f(id, kat, name, b, x) { LL.formate.push(Object.assign({ id: id, kat: kat, name: name, b: b }, x || {})); }
+  f('vorabfragen', 'A', 'Vorab-Fragen vor dem Lernen (Pretesting)', 'Fragen werden VOR dem Lesen beantwortet (Raten erlaubt), danach noch einmal. Die Fragen lenken die Aufmerksamkeit.', { prozesse: 'Erwartungen bilden, gezielt lesen, abrufen.', mehrwert: 'Vorher-nachher-Vergleich zeigt den Lernzuwachs sofort; ohne Bewertungsdruck.', grenzen: 'Die Wirkung ist vor allem für Faktenwissen belegt; Fragen müssen zum Text passen.', quellen: ['richland2009'], herkunft: 'Pretesting-Forschung', innovativ: true, phasen: ['einstieg', 'erarbeitung'] });
+  f('rueckblick', 'A', 'Rückblick-Roulette (verteilt & vermischt)', 'Jede Runde zieht Fragen aus verschiedenen Zeiträumen (letzte Stunde … letztes Halbjahr) und Themen.', { prozesse: 'Verteiltes und vermischtes Abrufen.', mehrwert: 'Altes Wissen kommt automatisch wieder; Schwachstellen nach Zeitraum werden sichtbar.', grenzen: 'Selbstbewertung „gewusst“ kann geschönt sein.', quellen: ['cepeda2006', 'rohrer2020', 'roediger2006'], herkunft: 'Retrieval Practice im Klassenraum', innovativ: true, phasen: ['wiederholung', 'einstieg'] });
+  f('textniveaus', 'B', 'Ein Text in drei Sprachniveaus', 'Derselbe Inhalt in einfacher Sprache, Standardsprache und Fachsprache – umschaltbar, mit Glossar zum Antippen.', { prozesse: 'Verstehen sichern, Fachsprache schrittweise aufbauen.', mehrwert: 'Alle lesen denselben Inhalt; der Wechsel nach oben ist jederzeit möglich.', grenzen: 'Gute Fassungen zu schreiben ist aufwendig; einfache Sprache darf fachlich nicht falsch werden.', quellen: ['leisen2013', 'cast2024'], herkunft: 'Sprachsensibler Unterricht / UDL', phasen: ['differenzierung', 'erarbeitung'] });
+  f('reaktivtext', 'C', 'Reaktiver Text (Explorable Explanation)', 'Zahlen im Fließtext lassen sich verändern – Ergebnisse und Diagramm rechnen sofort mit.', { prozesse: 'Zusammenhänge durch „Was wäre, wenn …?“ erkunden.', mehrwert: 'Text und Modell verschmelzen; die Wirkung einer Größe ist im Satz selbst sichtbar.', grenzen: 'Das zugrunde liegende Modell muss offen gelegt werden.', quellen: ['victor2011'], herkunft: 'Explorable Explanations (Bret Victor)', innovativ: true, phasen: ['erarbeitung', 'transfer'] });
+  f('kontrastfaelle', 'D', 'Kontrastierende Fälle', 'Ähnliche Fälle vergleichen, die sich in einem entscheidenden Merkmal unterscheiden – erst danach folgt die Erklärung.', { prozesse: 'Vergleichen, Merkmale unterscheiden, Bedarf nach Erklärung entwickeln.', mehrwert: 'Die Erklärung trifft auf vorbereitetes Wissen („time for telling“).', grenzen: 'Fälle müssen sorgfältig konstruiert werden; ohne anschließende Erklärung bleibt es beim Vergleich.', quellen: ['schwartz1998'], herkunft: 'Schwartz & Bransford 1998', innovativ: true, phasen: ['einstieg', 'erarbeitung'] });
+  f('fermi', 'D', 'Fermi-Aufgabe (Größenordnung schätzen)', 'Ein scheinbar unlösbares Mengenproblem in schätzbare Teile zerlegen – erst Bauchgefühl, dann Modell.', { prozesse: 'Modellieren, Annahmen treffen, Größenordnungen einschätzen.', mehrwert: 'Regler zeigen sofort, welche Annahme das Ergebnis stark beeinflusst.', grenzen: 'Es gibt keine exakte Lösung – Annahmen müssen begründet werden.', herkunft: 'Mathematikdidaktik (Modellieren)', phasen: ['einstieg', 'transfer'] });
+  f('conceptcartoon', 'F', 'Concept Cartoon: Wer hat recht?', 'Mehrere Figuren vertreten plausible, aber unterschiedliche Sichtweisen. Erst wählen und begründen, dann auflösen.', { prozesse: 'Vorstellungen äußern, argumentieren, Fehlvorstellungen erkennen.', mehrwert: 'Die Begründung ist Pflicht vor der Auflösung; jede Figur erhält eine eigene Erklärung.', grenzen: 'Am stärksten im Gespräch – digital als Vorbereitung oder Diagnose.', quellen: ['keogh1999'], herkunft: 'Keogh & Naylor', phasen: ['einstieg', 'diagnose'] });
+  f('vergleichsurteil', 'F', 'Vergleichendes Urteilen (Paarvergleich)', 'Statt Punkte zu vergeben, entscheiden Lernende bei Textpaaren, welcher besser ist. Aus vielen Vergleichen entsteht eine Rangfolge.', { prozesse: 'Qualitätsvorstellung entwickeln, Kriterien implizit anwenden.', mehrwert: 'Paarvergleiche fallen leichter als absolute Urteile; die eigene Rangfolge lässt sich mit einer Fachkonferenz vergleichen.', grenzen: 'Lernwirkungen auf das eigene Schreiben sind in Studien uneinheitlich; Texte müssen anonym sein.', quellen: ['jones2015'], herkunft: 'Comparative Judgement', innovativ: true, phasen: ['kooperation', 'sicherung'] });
+  f('lehrroboter', 'G', 'Lernroboter unterrichten (Lernen durch Lehren)', 'Lernende bauen einem Roboter ein Wirkungsnetz; er beantwortet Fragen und schreibt einen Test – Fehler im Netz werden so sichtbar.', { prozesse: 'Kausales Denken, Lehren als generative Aktivität, Fehlersuche im eigenen Modell.', mehrwert: 'Der Roboter macht das eigene Denken „von außen“ sichtbar; Rückkopplungen werden automatisch erkannt.', grenzen: 'Nur qualitative Zusammenhänge (verstärkt/schwächt); der Roboter versteht keine Sprache, er folgt den Pfeilen.', quellen: ['biswas2010', 'fiorella2016'], herkunft: 'Teachable Agents (Betty’s Brain), eigene Umsetzung', innovativ: true, phasen: ['erarbeitung', 'sicherung'] });
+  // nur Konzept
+  f('peer_instruction', 'G', 'Peer Instruction (zweimal abstimmen)', 'Abstimmen – mit dem Nachbarn diskutieren – erneut abstimmen; der Wechsel der Antworten ist der Lernanlass.', { quellen: ['crouch2001'], herkunft: 'Mazur', grenzen: 'Braucht ein Abstimmungssystem für alle Geräte (Server/Plattform).', phasen: ['diagnose', 'kooperation'] });
+  f('zeichnen_lernen', 'E', 'Lernen durch Zeichnen', 'Lernende zeichnen einen Vorgang (z. B. Blutkreislauf) und vergleichen danach mit einer Referenzzeichnung.', { quellen: ['fiorella2016'], herkunft: 'Generatives Lernen', phasen: ['erarbeitung', 'sicherung'] });
+  f('bildvergleich', 'C', 'Vorher-nachher-Bildregler', 'Zwei Bilder (z. B. Gletscher 1950/2020) mit Schieberegler überblenden.', { herkunft: 'Geographie/Geschichte', grenzen: 'Bildrechte klären; nur freie Bilder (z. B. gemeinfrei, CC).', phasen: ['einstieg'] });
+  f('interaktive_fiktion', 'B', 'Interaktive Geschichte in der Fremdsprache', 'Lernende lesen eine Geschichte und entscheiden an Verzweigungen in der Fremdsprache, wie es weitergeht.', { herkunft: 'Interactive Fiction', phasen: ['uebung', 'ha'] });
+  f('video_fragen', 'C', 'Lernvideo mit eingebauten Fragen', 'Das Video stoppt an Schlüsselstellen und stellt eine Frage.', { herkunft: 'H5P Interactive Video', grenzen: 'Videos selbst produzieren oder Lizenz prüfen; externe Videoplattformen datenschutzrechtlich prüfen.', phasen: ['erarbeitung', 'ha'] });
+  f('datenkrimi', 'D', 'Datenkrimi mit offenen Daten', 'Eine Frage mit echten offenen Daten (z. B. Destatis, Deutscher Wetterdienst) untersuchen.', { herkunft: 'Data Literacy', grenzen: 'Daten vorab herunterladen und lokal einbinden, keine Live-Abfragen.', phasen: ['projekt', 'transfer'] });
+  f('graph_zeichnen', 'C', 'Graph mit dem Finger zeichnen', 'Lernende zeichnen den erwarteten Verlauf (z. B. Weg-Zeit) und vergleichen mit der Simulation.', { herkunft: 'Graph-Matching (Physikdidaktik)', phasen: ['einstieg', 'diagnose'] });
+
+  /* ---------- neue Demonstrationen ---------- */
+  LL.demo({ id: 'ek-roboter', titel: 'Bring dem Lernroboter den Klimawandel bei', emo: '🤖', fach: ['erdkunde', 'biologie', 'physik'], formate: ['lehrroboter', 'wirkungsnetz', 'systemmodell'], engine: 'lehrroboter', phasen: ['erarbeitung', 'sicherung'], niveau: 'Jg. 9/10, Oberstufe', innovativ: true,
+    kurz: 'Wirkungsnetz bauen, den Roboter befragen und einen Test schreiben lassen – inklusive Rückkopplung Eis–Albedo.',
+    cfg: { thema: 'der Treibhauseffekt mit der Temperatur der Erde', begriffe: ['Verbrennung fossiler Brennstoffe', 'CO₂ in der Luft', 'Treibhauseffekt', 'Temperatur der Erde', 'Eisflächen', 'Rückstrahlung von Sonnenlicht', 'Wälder'], start: [[0, 1, 1]],
+      fragen: [{ von: 0, nach: 3, soll: 1 }, { von: 6, nach: 3, soll: -1 }, { von: 3, nach: 5, soll: -1 }, { von: 0, nach: 4, soll: -1 }, { von: 4, nach: 3, soll: -1 }] },
+    did: { ziel: 'Ursachen und Wirkungen des menschengemachten Treibhauseffekts als Netz darstellen und Rückkopplungen erkennen.', kompetenzen: 'Systemkompetenz (Erdkunde); Erkenntnisgewinnung/Modellbildung (Naturwissenschaften).', prozesse: 'Lehren als generative Aktivität: Wer einem anderen etwas beibringt, muss sein Wissen ordnen. Fehlerhafte Antworten des Roboters zeigen Lücken im eigenen Netz.', mehrwert: 'Der Roboter zieht konsequent Schlüsse aus dem Netz – falsche Pfeile werden durch falsche Antworten sichtbar, ohne dass die Lösung verraten wird. Rückkopplungen werden automatisch erkannt.', diff: 'Einstieg mit vorgegebenen Pfeilen; Fortgeschrittene ergänzen eigene Begriffe (Ausbau) oder erklären die Eis-Albedo-Rückkopplung.', grenzen: 'Nur qualitative Wirkungen; reale Klimaprozesse sind vielschichtiger (Zeitverzögerungen, Stärke der Effekte).' } });
+  LL.demo({ id: 'm-kontrast', titel: 'Kontrastierende Fälle: Wer spielt am verlässlichsten?', emo: '🏀', fach: ['mathe'], formate: ['kontrastfaelle'], engine: 'kontrastfaelle', phasen: ['einstieg', 'erarbeitung'], niveau: 'Jg. 7/8', innovativ: true,
+    cfg: { intro: 'Drei Basketballerinnen haben in fünf Spielen gepunktet. Vergleiche die Fälle genau, <b>bevor</b> du die Fachbegriffe erfährst.',
+      faelle: [{ titel: '⛹️ Anna', html: '10 · 10 · 10 · 10 · 10<br><span class="klein">Summe 50</span>' }, { titel: '⛹️ Bea', html: '8 · 9 · 10 · 11 · 12<br><span class="klein">Summe 50</span>' }, { titel: '⛹️ Cleo', html: '2 · 4 · 10 · 16 · 18<br><span class="klein">Summe 50</span>' }],
+      merkmale: [{ t: 'der Mittelwert der Punkte' }, { t: 'wie weit die Werte auseinanderliegen', r: true }, { t: 'die Anzahl der Spiele' }, { t: 'wie stark einzelne Spiele vom Durchschnitt abweichen', r: true }, { t: 'die Summe aller Punkte' }],
+      frage: { f: 'Die Trainerin braucht im Finale eine Spielerin, auf die sie sich verlassen kann. Wen wählt sie?', o: ['Anna – ihre Werte streuen am wenigsten.', 'Cleo – sie hat die höchsten Einzelwerte.', 'Egal – alle haben denselben Mittelwert.'], r: 0, fb: ['Genau: gleicher Durchschnitt, aber am wenigsten Schwankung.', 'Hohe Spitzen, aber auch sehr schwache Spiele – wenig verlässlich.', 'Das ist die Pointe: Der Mittelwert allein reicht hier nicht.'] },
+      erklaerung: 'Für die <b>Streuung</b> gibt es Kennwerte:<ul><li><b>Spannweite</b> = größter − kleinster Wert: Anna 0, Bea 4, Cleo 16.</li><li><b>Mittlere (absolute) Abweichung</b> = Durchschnitt der Abstände zum Mittelwert: Anna 0, Bea (2+1+0+1+2) : 5 = 1,2, Cleo (8+6+0+6+8) : 5 = 5,6.</li></ul>Weil ihr den Unterschied vorher selbst entdeckt habt, trifft diese Erklärung auf vorbereitetes Wissen.' },
+    did: { ziel: 'Die Notwendigkeit von Streuungsmaßen erkennen und Spannweite sowie mittlere Abweichung verstehen.', kompetenzen: 'Daten und Zufall; Argumentieren.', prozesse: 'Vergleichen gleich-und-doch-verschieden → Unterschied benennen → Erklärung aufnehmen.', mehrwert: 'Die Erklärung kommt erst, wenn der Unterschied entdeckt ist; die Auswahl der Merkmale wird geprüft.', grenzen: 'Konstruierte Daten; Übertragung auf echte Daten anschließend üben.' } });
+  LL.demo({ id: 'd-vergleich', titel: 'Vergleichendes Urteilen: Welche Einleitung ist besser?', emo: '⚖️', fach: ['deutsch'], formate: ['vergleichsurteil', 'schreibkonferenz'], engine: 'vergleichsurteil', phasen: ['kooperation', 'sicherung'], niveau: 'Jg. 7–9', innovativ: true,
+    cfg: { aufgabe: 'Vier Einleitungen zur Frage „Sollte es an unserer Schule einen Tag pro Monat ohne Hausaufgaben geben?“ (für das Lernlabor verfasste Beispieltexte). Entscheide bei jedem Paar: Welche Einleitung ist besser?',
+      texte: [{ t: 'Fast jede Woche gibt es Tage, an denen Training, Musikschule und Hausaufgaben zusammenkommen. Sollte es deshalb an unserer Schule einen Tag pro Monat ohne Hausaufgaben geben? Ich meine: ja – wenn er gut geplant ist.', rang: 1 }, { t: 'In dieser Stellungnahme geht es um die Frage, ob es einen Tag ohne Hausaufgaben geben sollte. Ich bin dafür, weil man sich dann erholen kann.', rang: 2 }, { t: 'Hausaufgaben sind doof. Deshalb finde ich das gut.', rang: 4 }, { t: 'Hausaufgaben gibt es schon sehr lange. Schon früher mussten Kinder zu Hause lernen. Manche finden das gut, manche nicht.', rang: 3 }],
+      kriterien: ['klare Position', 'Begründung', 'interessanter Einstieg', 'Sprache'] },
+    did: { ziel: 'Qualitätsmerkmale einer Einleitung durch Vergleichen erkennen und benennen.', kompetenzen: 'Schreiben (Texte beurteilen und überarbeiten); Sprechen und Zuhören.', prozesse: 'Implizites Qualitätsurteil → Kriterien bewusst machen → mit Expertenurteil abgleichen.', mehrwert: 'Paarvergleiche sind leichter als Punktvergabe; die eigene Rangfolge wird automatisch berechnet und mit der Fachkonferenz verglichen.', diff: 'Mit Kriterien-Chips (Unterstützung) oder ganz ohne (Fortgeschrittene).', grenzen: 'Die „Fachkonferenz-Rangfolge“ ist ein Vorschlag; Plätze 3 und 4 sind diskutierbar. Echte Schülertexte nur anonymisiert verwenden.' } });
+  var AUGE = 'Licht fällt zuerst durch die durchsichtige <b>Hornhaut</b> ins Auge. Die farbige <b>Regenbogenhaut</b> (Iris) umgibt eine Öffnung, die <b>Pupille</b>. Im Dunkeln wird die Pupille größer, damit mehr Licht hineinkommt; bei Helligkeit wird sie kleiner. Hinter der Pupille liegt die <b>Linse</b>. Sie bündelt das Licht so, dass auf der <b>Netzhaut</b> an der Rückwand des Auges ein scharfes Bild entsteht – auf dem Kopf stehend und seitenverkehrt. In der Netzhaut liegen Sinneszellen: <b>Stäbchen</b> reagieren schon auf wenig Licht und ermöglichen das Hell-Dunkel-Sehen in der Dämmerung, <b>Zapfen</b> ermöglichen das Farbensehen. Über den <b>Sehnerv</b> gelangen die Signale ins Gehirn, das daraus ein aufrechtes Bild macht. Dort, wo der Sehnerv das Auge verlässt, gibt es keine Sinneszellen: den <b>blinden Fleck</b>.';
+  LL.demo({ id: 'b-vorab', titel: 'Vorab-Fragen: Wie funktioniert das Auge?', emo: '👁', fach: ['biologie', 'nw', 'physik'], formate: ['vorabfragen', 'textverstaendnis'], engine: 'vorabfragen', phasen: ['einstieg', 'erarbeitung'], niveau: 'Jg. 6–8', innovativ: true,
+    cfg: { titel: 'Unser Auge', text: AUGE, fragen: [
+      { f: 'Wo entsteht im Auge das Bild?', o: ['auf der Netzhaut', 'auf der Linse', 'in der Pupille'], r: 0 },
+      { f: 'Welche Sinneszellen ermöglichen das Farbensehen?', o: ['Zapfen', 'Stäbchen', 'Hornhautzellen'], r: 0 },
+      { f: 'Wie steht das Bild auf der Netzhaut?', o: ['auf dem Kopf und seitenverkehrt', 'genau so wie der Gegenstand', 'nur seitenverkehrt'], r: 0 },
+      { f: 'Was macht die Pupille, wenn es dunkel wird?', o: ['Sie wird größer.', 'Sie wird kleiner.', 'Sie bleibt gleich.'], r: 0 },
+      { f: 'Warum gibt es einen blinden Fleck?', o: ['Dort verlässt der Sehnerv das Auge – es gibt keine Sinneszellen.', 'Dort ist die Linse undurchsichtig.', 'Dort fällt nie Licht hin.'], r: 0 }] },
+    did: { ziel: 'Aufbau und Funktion des Auges aus einem Sachtext erschließen.', kompetenzen: 'Fachwissen (Sinnesorgane); Informationen aus Texten entnehmen.', prozesse: 'Vorwissen aktivieren und Erwartungen bilden → gezielt lesen → abrufen.', mehrwert: 'Raten ohne Bewertung senkt die Hürde; der Vorher-nachher-Vergleich macht Lernzuwachs sichtbar.', grenzen: 'Belegt v. a. für Faktenwissen; ersetzt keine Untersuchung am Modell oder Experiment.' } });
+  LL.demo({ id: 'cc-flasche', titel: 'Concept Cartoon: Schal um die kalte Limo?', emo: '🧣', fach: ['physik', 'nw'], formate: ['conceptcartoon'], engine: 'conceptcartoon', phasen: ['einstieg', 'diagnose'], niveau: 'Jg. 6–9',
+    cfg: { bild: '🧃🧣☀️', szene: 'Eine eiskalte Limo-Flasche aus dem Kühlschrank soll beim Ausflug möglichst lange kalt bleiben. Draußen sind es 25 °C.', richtig: 0, figuren: [
+      { name: 'Mia', emo: '🧒', aussage: 'Wickle sie in einen Wollschal! Der bremst, dass Wärme aus der Luft zur Flasche kommt.', erkl: 'Fachlich richtig: Wolle mit der eingeschlossenen Luft leitet Wärme schlecht. Der Wärmestrom von der warmen Umgebung zur kalten Flasche wird gebremst.' },
+      { name: 'Ben', emo: '👦', aussage: 'Bloß keinen Schal – der wärmt doch! Dann wird die Limo schneller warm.', erkl: 'Ein Schal erzeugt keine Wärme. Uns wärmt er nur, weil er die Wärme unseres Körpers zurückhält.' },
+      { name: 'Lena', emo: '👧', aussage: 'Der Schal hält die Kälte drinnen, weil Kälte nicht durch Wolle entweichen kann.', erkl: 'Ergebnis richtig, Begründung schief: Es fließt keine „Kälte“ hinaus, sondern Wärme hinein – immer vom Wärmeren zum Kälteren.' },
+      { name: 'Tom', emo: '🧑', aussage: 'Das ist egal – die Flasche wird so oder so gleich schnell warm.', erkl: 'Die Isolierung verändert, wie schnell Wärme übertragen wird. Am Ende wird die Flasche warm, aber langsamer.' }] },
+    did: { ziel: 'Wärmeleitung und Isolation erklären; die Vorstellung „Kälte fließt“ aufdecken.', kompetenzen: 'Fachwissen Wärmelehre; Argumentieren.', prozesse: 'Eigene Vorstellung festlegen und begründen, mit anderen Sichtweisen konfrontieren.', mehrwert: 'Begründung ist Pflicht vor der Auflösung; jede Figur erhält eine eigene, wertschätzende Erklärung.', diff: 'Stärkere planen anschließend einen Versuch mit zwei Flaschen und Thermometern.', grenzen: 'Am wirksamsten mit anschließender Diskussion und echtem Versuch.' } });
+  LL.demo({ id: 'cc-zucker', titel: 'Concept Cartoon: Wo ist der Zucker hin?', emo: '🍵', fach: ['chemie', 'nw'], formate: ['conceptcartoon'], engine: 'conceptcartoon', phasen: ['einstieg', 'diagnose'], niveau: 'Jg. 5–7',
+    cfg: { bild: '🍵🥄', szene: 'Zucker wird in heißen Tee gerührt. Nach kurzer Zeit ist er nicht mehr zu sehen.', richtig: 1, weiter: 'nw-aggregat', figuren: [
+      { name: 'Jonas', emo: '🧒', aussage: 'Der Zucker ist weg – er hat sich in nichts aufgelöst.', erkl: 'Stoffe verschwinden nicht: Der Tee schmeckt süß, und Tee und Zucker wiegen zusammen genauso viel wie vorher.' },
+      { name: 'Aylin', emo: '👧', aussage: 'Der Zucker ist noch da, nur in winzigen Teilchen zwischen den Wasserteilchen verteilt.', erkl: 'Teilchenmodell: Die Zuckerteilchen verteilen sich zwischen den Wasserteilchen – zu klein, um sie zu sehen. Beim Eindampfen bliebe der Zucker zurück.' },
+      { name: 'Paul', emo: '👦', aussage: 'Der Zucker ist zu Wasser geworden.', erkl: 'Beim Lösen entsteht kein neuer Stoff – der Zucker bleibt Zucker.' },
+      { name: 'Sara', emo: '🧑', aussage: 'Der Zucker ist geschmolzen, weil der Tee heiß ist.', erkl: 'Schmelzen heißt: fest → flüssig durch Wärme (Zucker schmilzt erst weit über 100 °C). Hier löst er sich – das klappt auch in kaltem Wasser, nur langsamer.' }] },
+    did: { ziel: 'Lösen mit dem Teilchenmodell erklären und von Schmelzen unterscheiden.', kompetenzen: 'Basiskonzept Materie; Fachsprache.', mehrwert: 'Typische Alltagsvorstellungen werden als Figuren sichtbar – niemand muss „seine“ falsche Antwort verteidigen.', grenzen: 'Diskussion und einfacher Versuch (Eindampfen) sollten folgen.' } });
+  LL.demo({ id: 'm-fermi', titel: 'Fermi-Aufgaben: Herzschläge und Schulstunden', emo: '❤️', fach: ['mathe', 'biologie'], formate: ['fermi', 'schaetzen'], engine: 'fermi', phasen: ['einstieg', 'transfer'], niveau: 'Jg. 6–10',
+    cfg: { aufgaben: [
+      { frage: 'Wie oft schlägt dein Herz in deinem ganzen Leben?', stufen: [[3e6, 'einige Millionen'], [3e8, 'einige Hundert Millionen'], [3e9, 'einige Milliarden'], [3e11, 'einige Hundert Milliarden']], einheit: 'Herzschläge', formel: 'Puls · 60 · 24 · 365 · Lebensjahre',
+        faktoren: [{ n: 'Puls (Schläge pro Minute)', min: 50, max: 100, step: 5, wert: 70 }, { n: 'Lebensjahre', min: 60, max: 100, step: 5, wert: 80 }], rechne: function (v) { return v[0] * 60 * 24 * 365 * v[1]; }, fazit: 'Selbst große Änderungen beim Puls verändern die Größenordnung nicht – „einige Milliarden“ bleibt.' },
+      { frage: 'Wie viele Stunden Unterricht hast du von Klasse 5 bis 10?', stufen: [[500, 'einige Hundert'], [5000, 'einige Tausend'], [50000, 'einige Zehntausend']], einheit: 'Stunden', formel: 'Schuljahre · Schulwochen · Unterrichtsstunden pro Woche · Minuten : 60',
+        faktoren: [{ n: 'Schuljahre', min: 5, max: 7, step: 1, wert: 6 }, { n: 'Schulwochen pro Jahr', min: 34, max: 40, step: 1, wert: 38 }, { n: 'Unterrichtsstunden pro Woche', min: 26, max: 36, step: 1, wert: 31 }, { n: 'Minuten pro Unterrichtsstunde', min: 45, max: 67.5, step: 22.5, wert: 45 }], rechne: function (v) { return v[0] * v[1] * v[2] * v[3] / 60; }, fazit: 'Fermi-Aufgaben trainieren, ein unüberschaubares Problem in schätzbare Teile zu zerlegen – es geht um die Größenordnung, nicht um die genaue Zahl.' }] },
+    did: { ziel: 'Größenordnungen sinnvoll abschätzen und Annahmen begründen.', kompetenzen: 'Modellieren; mit Größen umgehen.', prozesse: 'Bauchgefühl → Zerlegung → Sensitivität der Annahmen prüfen.', mehrwert: 'Regler zeigen sofort, welche Annahme das Ergebnis stark verändert – und welche kaum.', grenzen: 'Keine eindeutige Lösung; Annahmen gehören diskutiert.' } });
+  LL.demo({ id: 'po-textniveaus', titel: 'Der Bundestag – ein Text in drei Sprachniveaus', emo: '🏛', fach: ['politik', 'gl', 'deutsch'], formate: ['textniveaus', 'vorlesen_glossar', 'textverstaendnis'], engine: 'textniveaus', phasen: ['differenzierung', 'erarbeitung'], niveau: 'Jg. 7–10',
+    cfg: { titel: 'Der Deutsche Bundestag', fassungen: [
+      { n: '🟢 Einfache Sprache', text: 'Der Bundestag ist das Parlament von Deutschland. Die Menschen in Deutschland wählen den Bundestag. Das passiert normalerweise alle vier Jahre. Im Bundestag sitzen Abgeordnete. Sie beschließen Gesetze. Sie wählen auch den Bundeskanzler oder die Bundeskanzlerin.' },
+      { n: '🔵 Standardsprache', text: 'Der Bundestag ist das Parlament der Bundesrepublik Deutschland. Er wird in der Regel alle vier Jahre von den wahlberechtigten Bürgerinnen und Bürgern gewählt. Die Abgeordneten beschließen Gesetze, wählen die Bundeskanzlerin oder den Bundeskanzler und kontrollieren die Bundesregierung.' },
+      { n: '🟣 Fachsprache', text: 'Der Deutsche Bundestag ist das einzige unmittelbar vom Volk gewählte Verfassungsorgan auf Bundesebene. Zu seinen zentralen Funktionen zählen die Gesetzgebung, die Wahl der Bundeskanzlerin bzw. des Bundeskanzlers (Art. 63 GG) sowie die parlamentarische Kontrolle der Regierung, etwa durch Anfragen und Untersuchungsausschüsse. Die Wahlperiode beträgt vier Jahre (Art. 39 GG).' }],
+      glossar: { Parlament: 'die gewählte Volksvertretung, die Gesetze beschließt', Abgeordnete: 'gewählte Mitglieder des Parlaments', Gesetz: 'eine Regel, die für alle gilt und vom Parlament beschlossen wird', Verfassungsorgan: 'eine oberste staatliche Einrichtung, die im Grundgesetz festgelegt ist', 'Wahlperiode': 'die Zeit zwischen zwei Wahlen', 'Untersuchungsausschüsse': 'Gruppen von Abgeordneten, die mögliche Missstände in Regierung oder Verwaltung aufklären', kontrollieren: 'überprüfen, ob die Regierung ihre Aufgaben richtig erfüllt', Kontrolle: 'Überprüfung der Regierung durch das Parlament' },
+      fragen: [{ f: 'Wer wählt den Bundestag?', o: [{ t: 'die wahlberechtigten Bürgerinnen und Bürger', r: true }, { t: 'der Bundespräsident', fb: 'Der Bundespräsident wird selbst von der Bundesversammlung gewählt.' }, { t: 'die Bundesregierung', fb: 'Die Regierung wird vom Bundestag kontrolliert, nicht umgekehrt.' }] },
+        { f: 'Was gehört zu den Aufgaben des Bundestags?', o: [{ t: 'Gesetze beschließen', r: true }, { t: 'Urteile sprechen', fb: 'Das tun Gerichte.' }, { t: 'den Bundespräsidenten ernennen', fb: 'Der Bundespräsident wird von der Bundesversammlung gewählt.' }] }] },
+    did: { ziel: 'Aufgaben und Wahl des Bundestags verstehen – auf dem passenden sprachlichen Niveau.', kompetenzen: 'Sachkompetenz (Institutionen); Lesekompetenz; Fachsprache.', prozesse: 'Verstehen sichern (einfach) → Fachbegriffe aufbauen (standard) → fachsprachlich lesen (fach).', mehrwert: 'Alle lesen denselben Inhalt; Wechsel und Glossar machen den Weg zur Fachsprache individuell gehbar.', diff: 'Ist die Differenzierung selbst – Lernende wählen ihr Niveau und steigen auf.', grenzen: 'Drei gute Fassungen zu schreiben kostet Zeit; einfache Sprache muss fachlich korrekt bleiben.' } });
+  LL.demo({ id: 'm-rueckblick', titel: 'Rückblick-Roulette: vier Zeiträume, vier Fragen', emo: '🎲', fach: ['mathe'], formate: ['rueckblick', 'lernstand'], engine: 'rueckblick', phasen: ['wiederholung', 'einstieg'], niveau: 'Beispiel Jg. 8', innovativ: true,
+    cfg: { karten: [
+      { zeit: 'letzte Stunde', thema: 'Terme', f: 'Fasse zusammen: 3x + 5 + 2x − 1', a: '5x + 4' }, { zeit: 'letzte Stunde', thema: 'Terme', f: 'Multipliziere aus: 2(x + 7)', a: '2x + 14' },
+      { zeit: 'letzte Woche', thema: 'Gleichungen', f: 'Löse: 4x − 6 = 10', a: 'x = 4' }, { zeit: 'letzte Woche', thema: 'Gleichungen', f: 'Löse: 3(x − 2) = 12', a: 'x = 6' },
+      { zeit: 'letzter Monat', thema: 'Zinsrechnung', f: 'Wie viel Zinsen bringen 500 € in einem Jahr bei 2 %?', a: '10 €' }, { zeit: 'letzter Monat', thema: 'Zinsrechnung', f: 'Ein Kapital wächst in einem Jahr bei 3 % auf 618 €. Wie groß war es?', a: '600 € (600 · 1,03 = 618)' },
+      { zeit: 'letztes Halbjahr', thema: 'Prozent', f: 'Wie viel sind 15 % von 80?', a: '12' }, { zeit: 'letztes Halbjahr', thema: 'Brüche', f: 'Schreibe 3/4 als Prozentsatz.', a: '75 %' }] },
+    did: { ziel: 'Früher Gelerntes regelmäßig und gemischt abrufen.', kompetenzen: 'Prozessbezogen: Lernstrategien; inhaltlich je nach Fragenpool.', prozesse: 'Verteiltes, vermischtes Abrufen.', mehrwert: 'Fragen aus vier Zeiträumen werden automatisch gemischt; die Auswertung zeigt, welcher Zeitraum „verblasst“.', diff: 'Fragenpool je Kurs; schwächere Lernende bekommen zusätzliche Hilfekarten.', grenzen: 'Der Fragenpool muss gepflegt werden; Selbstbewertung kann ungenau sein.' } });
+  LL.demo({ id: 'm-zinseszins', titel: 'Reaktiver Text: Sparen mit Zinseszins', emo: '💶', fach: ['mathe', 'wirtschaft', 'arbeitslehre'], formate: ['reaktivtext', 'dyn_diagramm'], engine: 'reaktivtext', phasen: ['erarbeitung', 'transfer'], niveau: 'Jg. 8–10', innovativ: true,
+    cfg: { text: 'Wenn du jeden Monat [rate] € sparst und dein Guthaben mit [zins] % pro Jahr verzinst wird, hast du nach [jahre] Jahren rund [end] €. Davon hast du [eingezahlt] € selbst eingezahlt – [zinsen] € sind Zinsen.',
+      variablen: { rate: { min: 5, max: 200, step: 5, wert: 25, fmt: function (v) { return String(v); } }, zins: { min: 0, max: 8, step: 0.5, wert: 2, fmt: function (v) { return LL.fmt(v, 1); } }, jahre: { min: 1, max: 40, step: 1, wert: 10, fmt: function (v) { return String(v); } } },
+      rechne: function (v) { var R = 12 * v.rate, p = v.zins / 100, n = v.jahre, K = p ? R * (Math.pow(1 + p, n) - 1) / p : R * n, e = R * n, g = function (x) { return Math.round(x).toLocaleString('de-DE'); }; return { end: g(K), eingezahlt: g(e), zinsen: g(K - e) }; },
+      diagramm: function (v, LL) {
+        var R = 12 * v.rate, p = v.zins / 100, K = 0, guth = [[0, 0]], einz = [[0, 0]];
+        for (var j = 1; j <= v.jahre; j++) { K = K * (1 + p) + R; guth.push([j, K]); einz.push([j, R * j]); }
+        var ymax = Math.max(1000, Math.ceil(K / 1000) * 1000), Kd = LL.koordinaten({ xmin: 0, xmax: Math.max(5, v.jahre), ymin: 0, ymax: ymax, xschritt: v.jahre > 20 ? 5 : 1, yschritt: ymax / 5, xname: 'Jahre', yname: '€', h: 260 });
+        Kd.ebene.appendChild(Kd.linie(einz, '#94a3b8', 3)); Kd.ebene.appendChild(Kd.linie(guth, '#4f46e5', 3)); return Kd.svg;
+      },
+      fragen: [{ f: 'Stelle 50 € pro Monat, 3 % und 20 Jahre ein. Wie viel Euro sind Zinsen? (auf 100 € genau)', a: [4100], zahl: true, tol: 100, einheit: '€', loesung: 'Rund 16 120 € Guthaben, davon 12 000 € eingezahlt → rund 4 100 € Zinsen.' }, { f: 'Verdopple die Laufzeit auf 40 Jahre (sonst gleich). Wie viel Euro sind jetzt Zinsen? (auf 1000 € genau)', a: [21000], zahl: true, tol: 1000, einheit: '€', loesung: 'Rund 45 240 € Guthaben, 24 000 € eingezahlt → rund 21 000 € Zinsen: doppelte Zeit, aber gut fünfmal so viel Zinsen – das ist der Zinseszinseffekt.' }],
+      hinweis: 'vereinfachtes Modell: Einzahlung jeweils am Jahresende (12 × Monatsrate), gleichbleibender Zinssatz, ohne Steuern, Gebühren und Inflation. Graue Linie = eingezahlt, blaue Linie = Guthaben.' },
+    did: { ziel: 'Exponentielles Wachstum beim Zinseszins erkunden und mit linearem Einzahlen vergleichen.', kompetenzen: 'Funktionale Zusammenhänge; Modellieren; Finanzbildung.', prozesse: '„Was wäre, wenn …?“ – eine Größe verändern, Wirkung im Satz und im Diagramm sehen.', mehrwert: 'Text, Zahl und Graph sind verbunden; Lernende erleben, dass Zeit stärker wirkt als der Monatsbetrag.', grenzen: 'Kein Anlageberater: reale Produkte haben Kosten, Risiken und schwankende Zinsen.' } });
+
+  /* ---------- Prinzipien und Ideen ergänzen ---------- */
+  LL.prinzipien.push(
+    { n: 'Vorab-Testen (Pretesting)', ev: 'mittel', kurz: 'Fragen vor dem Lernen – auch falsch beantwortet – können das spätere Behalten verbessern.', digital: 'Vorab-Fragen ohne Bewertung, danach Text und erneute Fragen.', grenze: 'Vor allem für Faktenwissen untersucht; die Fragen müssen genau zum Lernstoff passen.', q: ['richland2009'], demos: ['b-vorab'] },
+    { n: 'Generatives Lernen (Lehren, Mapping, Zeichnen …)', ev: 'mittel', kurz: 'Lernende ordnen Inhalte selbst und verknüpfen sie mit Vorwissen – z. B. indem sie anderen etwas beibringen oder ein Netz zeichnen.', digital: 'Lernroboter unterrichten, Wirkungsnetze, Selbsterklärung.', grenze: 'Wirksamkeit hängt von Vorwissen und Anleitung ab; Zeichnen und Mapping brauchen Übung.', q: ['fiorella2016', 'biswas2010'], demos: ['ek-roboter'] },
+    { n: 'Kontrastierende Fälle – die „Zeit zum Erklären“', ev: 'mittel', kurz: 'Wer zuerst gezielt ausgewählte Fälle vergleicht, kann eine anschließende Erklärung besser nutzen.', digital: 'Fälle nebeneinander, Unterschiede ankreuzen, dann Erklärung.', grenze: 'Die Fälle müssen sorgfältig konstruiert sein; die Erklärung darf nicht fehlen.', q: ['schwartz1998'], demos: ['m-kontrast'] },
+    { n: 'Vergleichendes Urteilen', ev: 'mittel', kurz: 'Paarvergleiche liefern auch bei Lernenden zuverlässige Qualitätsurteile; der Lerneffekt fürs eigene Schreiben ist uneinheitlich belegt.', digital: 'Textpaare beurteilen, Rangfolge automatisch berechnen und vergleichen.', grenze: 'Datenschutz bei echten Texten; Kriterien müssen anschließend besprochen werden.', q: ['jones2015'], demos: ['d-vergleich'] });
+  [
+    { t: 'Lernroboter unterrichten', b: 'Lernende bringen einem Roboter ein Wirkungsnetz bei; er beantwortet Fragen und schreibt einen Test.', warum: 'Lehren zwingt zum Ordnen des eigenen Wissens; falsche Antworten des Roboters zeigen Lücken, ohne die Lösung zu verraten.', status: 'demo', demo: 'ek-roboter' },
+    { t: 'Erst vergleichen, dann erklären', b: 'Kontrastierende Fälle bereiten eine Erklärung vor.', warum: 'Die Erklärung trifft auf vorbereitetes Wissen.', status: 'demo', demo: 'm-kontrast' },
+    { t: 'Paarvergleich statt Punkte', b: 'Lernende beurteilen Textpaare; aus vielen Vergleichen entsteht eine Rangfolge.', warum: 'Qualitätsvorstellungen werden geschärft, bevor Kriterien formuliert werden.', status: 'demo', demo: 'd-vergleich' },
+    { t: 'Fragen vor dem Lernen', b: 'Vorab-Fragen ohne Bewertung, danach lesen und erneut beantworten.', warum: 'Auch falsche Vorab-Antworten können das Behalten verbessern.', status: 'demo', demo: 'b-vorab' },
+    { t: 'Concept Cartoons digital', b: 'Figuren mit plausiblen, aber verschiedenen Sichtweisen; Begründung vor der Auflösung.', warum: 'Fehlvorstellungen werden diskutierbar, ohne Einzelne bloßzustellen.', status: 'demo', demo: 'cc-flasche' },
+    { t: 'Rückblick-Roulette', b: 'Vier Fragen aus vier Zeiträumen als Stundenstart.', warum: 'Verteiltes und vermischtes Abrufen ohne Planungsaufwand.', status: 'demo', demo: 'm-rueckblick' },
+    { t: 'Reaktive Texte', b: 'Zahlen im Fließtext verändern, Ergebnisse rechnen mit.', warum: 'Verbindet Lesen mit Modellieren.', status: 'demo', demo: 'm-zinseszins' },
+    { t: 'Text in drei Sprachniveaus', b: 'Einfach – standard – fachlich, umschaltbar mit Glossar.', warum: 'Sprachsensibel differenzieren, ohne Inhalte zu trennen.', status: 'demo', demo: 'po-textniveaus' },
+    { t: 'Peer Instruction', b: 'Abstimmen, mit dem Nachbarn diskutieren, erneut abstimmen.', warum: 'Der Antwortwechsel nach der Diskussion ist ein starker Lernanlass (Physikdidaktik).', status: 'konzept', technik: 'Braucht ein Abstimmungssystem für alle Geräte; lokal nur als Partnerversion möglich.' },
+    { t: 'Graph mit dem Finger zeichnen', b: 'Erwarteten Verlauf (z. B. Weg-Zeit) skizzieren, dann mit der Simulation vergleichen.', warum: 'Macht Vorstellungen zu Graphen sichtbar – ideal vor dem Bewegungs-Labor.', status: 'konzept', technik: 'Zeichenfläche + Abweichungsmaß zur Simulationskurve.' },
+    { t: 'Interaktive Geschichten in der Fremdsprache', b: 'Lesen und an Verzweigungen in der Fremdsprache entscheiden.', warum: 'Lesen mit echtem Anlass; Wortschatz im Kontext.', status: 'konzept', technik: 'Baustein „Szenario“ mit fremdsprachigen Texten und Glossar.' },
+    { t: 'Lernvideo mit eingebauten Fragen', b: 'Das Video hält an und stellt eine Frage.', warum: 'Aus passivem Zuschauen wird aktives Abrufen.', status: 'konzept', technik: 'Eigene Videos lokal einbinden; keine externen Videoplattformen.' },
+    { t: 'Datenkrimi mit offenen Daten', b: 'Eine Frage mit echten Daten (Destatis, Wetterdienst) untersuchen.', warum: 'Datenkompetenz an relevanten Fragen.', status: 'konzept', technik: 'Daten vorab laden und in die Seite einbetten.' },
+    { t: 'Vorher-nachher-Bildregler', b: 'Zwei Bilder (z. B. Gletscher früher/heute) überblenden.', warum: 'Veränderungen werden unmittelbar sichtbar.', status: 'konzept', technik: 'Nur gemeinfreie oder frei lizenzierte Bilder.' }
+  ].forEach(function (i) { LL.ideen.push(i); });
+
+  /* ---------- Ziele und Tour ergänzen ---------- */
+  function ziel(id, demos, formate) { var z = LL.ziele.filter(function (x) { return x.id === id; })[0]; if (!z) return; demos.forEach(function (d) { if (z.demos.indexOf(d) < 0) z.demos.push(d); }); (formate || []).forEach(function (f) { if (z.formate.indexOf(f) < 0) z.formate.push(f); }); }
+  ziel('einstieg', ['cc-flasche', 'm-kontrast', 'b-vorab'], ['conceptcartoon', 'kontrastfaelle', 'vorabfragen']);
+  ziel('anschaulich', ['m-zinseszins'], ['reaktivtext']);
+  ziel('entdecken', ['ek-roboter'], ['lehrroboter']);
+  ziel('differenzieren', ['po-textniveaus'], ['textniveaus']);
+  ziel('verstanden', ['cc-zucker'], ['conceptcartoon']);
+  ziel('feedback', ['d-vergleich'], ['vergleichsurteil']);
+  ziel('schreiben', ['d-vergleich'], ['vergleichsurteil']);
+  ziel('kooperativ', ['cc-flasche', 'd-vergleich'], ['conceptcartoon']);
+  ziel('langfristig', ['m-rueckblick'], ['rueckblick']);
+  ziel('komplex', ['ek-roboter', 'm-fermi'], ['lehrroboter', 'fermi']);
+  LL.tour.splice(9, 0, { demo: 'ek-roboter', min: 3, zeigen: ['Einen Pfeil falsch setzen', 'Roboter den Test schreiben lassen', 'Rückkopplung Eis–Albedo entdecken'], sagen: 'Lernen durch Lehren: Der Roboter zieht konsequent Schlüsse – Fehler im eigenen Denkmodell werden sichtbar, ohne dass die Lösung verraten wird.', frage: 'Welche Zusammenhänge in Ihrem Fach ließen sich als Wirkungsnetz „unterrichten“?' });
+})();
+
 /* ===== seiten.js ===== */
 /* Seiten, Navigation (Hash-Router), Fortbildungs-Tour. */
 (function () {
   'use strict';
   var LL = window.LL, h = LL.h, s = LL.s, $ = LL.$;
   var INHALT, SEITEN = {};
-  LL.SIMS = ['linear', 'brueche', 'prozent', 'zufall', 'dreieck', 'mittelwert', 'ableitung', 'stromkreis', 'bewegung', 'brechung', 'pendel', 'raeuberbeute', 'birkenspanner', 'mendel', 'atombau', 'gleichungen', 'titration', 'stosstheorie', 'aggregat', 'bevoelkerung', 'markt', 'buergerhaushalt', 'logikgatter', 'binaer', 'sortieren_algo', 'getriebe', 'breakeven', 'rezept', 'farben', 'buehne', 'rhythmus', 'puls', 'niveaus', 'klimadiagramm'];
+  LL.SIMS = ['linear', 'brueche', 'prozent', 'zufall', 'dreieck', 'mittelwert', 'ableitung', 'stromkreis', 'bewegung', 'brechung', 'pendel', 'raeuberbeute', 'birkenspanner', 'mendel', 'atombau', 'gleichungen', 'titration', 'stosstheorie', 'aggregat', 'bevoelkerung', 'markt', 'buergerhaushalt', 'logikgatter', 'binaer', 'sortieren_algo', 'getriebe', 'breakeven', 'rezept', 'farben', 'buehne', 'rhythmus', 'puls', 'niveaus', 'klimadiagramm', 'lehrroboter', 'reaktivtext', 'fermi'];
   function alleDemos() { return Object.keys(LL.demos).map(function (k) { return LL.demos[k]; }); }
   function zahlen() {
     var f = LL.formate.length, st = { voll: 0, proto: 0, konzept: 0 };
