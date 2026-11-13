@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Kommandozeile der Medienbibliothek Mathematik/Physik.
+# Funktioniert direkt aus dem Repository, über ~/Unterrichtsmedien/Mathe-Physik/bin/media
+# oder als Symlink in ~/.local/bin/media.
+set -euo pipefail
+SELF="$(readlink -f "${BASH_SOURCE[0]}")"
+ROOT="$(cd "$(dirname "$SELF")/.." && pwd)"
+export MEDIA_LIB_ROOT="${MEDIA_LIB_ROOT:-$ROOT}"
+export PYTHONPATH="$ROOT${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m medialib "$@"

@@ -1,0 +1,13 @@
+# Arbeitsindex (wird automatisch aus metadata/katalog.jsonl aufgebaut)
+database/*.sqlite
+database/*.sqlite-wal
+database/*.sqlite-shm
+# Laufzeitdateien
+*.part
+*.tmp
+__pycache__/
+reports/*.log
+previews/*.png
+previews/_svg_render/
+exports/*
+!exports/.gitkeep

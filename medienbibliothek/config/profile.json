@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "standardprofil": "offen",
+  "hinweis": "Einsatzprofile steuern, welche Medien eine Suche, ein Export oder eine Prüfung zulässt. Ohne Angabe gilt das strengste Profil 'offen'. Keine Rechtsberatung.",
+  "profile": {
+    "offen": {
+      "beschreibung": "Für offen veröffentlichte Materialien (OER, öffentliche PDFs, Webseiten, Weitergabe). Nur Kategorie A (CC0, gemeinfrei, CC BY, CC BY-SA) und Eigenproduktionen mit verifizierter Lizenz.",
+      "kategorien": ["A", "E"],
+      "nc_erlaubt": false,
+      "nd_erlaubt": false,
+      "nur_verifiziert": true,
+      "speicherung": ["lokal", "extern"]
+    },
+    "unterricht": {
+      "beschreibung": "Für nichtkommerzielle Unterrichtsnutzung (eigene Klasse, geschützte Lernplattform wie IServ/Moodle). Zusätzlich Kategorie B (z. B. CC BY-NC) – deutlich gekennzeichnet, nicht als OER ausgeben.",
+      "kategorien": ["A", "B", "E"],
+      "nc_erlaubt": true,
+      "nd_erlaubt": false,
+      "nur_verifiziert": true,
+      "speicherung": ["lokal", "extern"]
+    },
+    "extern": {
+      "beschreibung": "Nur verlinkte Ressourcen (z. B. Simulationen, Comics), die einzeln unter den Bedingungen des Anbieters genutzt werden. Keine lokale Kopie, keine Bearbeitung.",
+      "kategorien": ["A", "B"],
+      "nc_erlaubt": true,
+      "nd_erlaubt": true,
+      "nur_verifiziert": true,
+      "speicherung": ["extern"]
+    },
+    "recherche": {
+      "beschreibung": "Nur zur Recherche: zeigt auch Kategorie C und ungeprüfte Kandidaten. Niemals für Materialerstellung verwenden.",
+      "kategorien": ["A", "B", "C", "E"],
+      "nc_erlaubt": true,
+      "nd_erlaubt": true,
+      "nur_verifiziert": false,
+      "speicherung": ["lokal", "extern", "kandidat"]
+    }
+  }
+}

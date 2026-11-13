@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medienbibliothek Mathe-Physik</title>
+<meta name="description" content="Lokale, lizenzgeprüfte Medienbibliothek für Unterrichtsmaterial in Mathematik und Physik">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1b2430; --muted:#5b6675; --line:#dfe3e8; --accent:#1f5fbf; --accent-ink:#fff;
+  --ok:#1e7b46; --ok-bg:#e6f4ec; --warn:#8a5a00; --warn-bg:#fff3d6; --bad:#a3261b; --bad-bg:#fde8e6; --own:#284f9e; --own-bg:#e7eefb;
+  --thumb:#ffffff; --shadow:0 1px 2px rgba(0,0,0,.06),0 2px 8px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161c; --panel:#1b212a; --ink:#e7ebf0; --muted:#9aa5b3; --line:#2c3440; --accent:#6aa0ff; --accent-ink:#0b1220;
+    --ok:#7fd3a0; --ok-bg:#163223; --warn:#ffcc66; --warn-bg:#332811; --bad:#ff8f84; --bad-bg:#3a1a17; --own:#9dbcff; --own-bg:#1b2742;
+    --thumb:#f4f5f7; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161c; --panel:#1b212a; --ink:#e7ebf0; --muted:#9aa5b3; --line:#2c3440; --accent:#6aa0ff; --accent-ink:#0b1220;
+  --ok:#7fd3a0; --ok-bg:#163223; --warn:#ffcc66; --warn-bg:#332811; --bad:#ff8f84; --bad-bg:#3a1a17; --own:#9dbcff; --own-bg:#1b2742;
+  --thumb:#f4f5f7; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:12px 16px}
+.wrap{max-width:1400px;margin:0 auto}
+h1{font-size:18px;margin:0 0 8px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h1 small{font-weight:400;color:var(--muted);font-size:13px}
+.search{display:flex;gap:8px}
+.search input{flex:1;min-width:0;font-size:16px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+select,button,.btn{font:inherit;font-size:14px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);max-width:100%}
+button,.btn{cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+button.primary,.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+label.chk{display:inline-flex;gap:6px;align-items:center;font-size:14px;color:var(--muted)}
+main{padding:16px}
+.info{color:var(--muted);font-size:13px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;cursor:pointer;text-align:left;padding:0}
+.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.thumb{background:var(--thumb);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.thumb img{max-width:100%;max-height:100%;object-fit:contain}
+.thumb .ph{color:#5b6675;font-size:13px;padding:12px;text-align:center}
+.card .body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:6px}
+.card .t{font-weight:600;font-size:14px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.badges{display:flex;flex-wrap:wrap;gap:4px}
+.b{font-size:11.5px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.b.A{background:var(--ok-bg);color:var(--ok);border-color:transparent}
+.b.B{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.b.C{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.b.E{background:var(--own-bg);color:var(--own);border-color:transparent}
+dialog{border:none;border-radius:12px;padding:0;width:min(1100px,96vw);max-height:94vh;background:var(--panel);color:var(--ink)}
+dialog::backdrop{background:rgba(10,15,25,.6)}
+.dlg{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:0}
+.dlg .view{background:var(--thumb);display:flex;align-items:center;justify-content:center;min-height:300px;padding:12px}
+.dlg .view img{max-width:100%;max-height:78vh;object-fit:contain}
+.dlg .meta{padding:16px;overflow:auto;max-height:94vh}
+.dlg h2{font-size:18px;margin:0 0 6px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px;margin:10px 0}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;overflow-wrap:anywhere}
+.credit{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;overflow-wrap:anywhere}
+.warn{background:var(--warn-bg);color:var(--warn);border-radius:8px;padding:8px 10px;font-size:13px;margin:8px 0}
+.bad{background:var(--bad-bg);color:var(--bad);border-radius:8px;padding:8px 10px;font-size:13px;margin:8px 0}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.close{position:absolute;right:10px;top:8px}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.more{display:flex;justify-content:center;margin:16px}
+@media (max-width:760px){
+  .dlg{grid-template-columns:1fr}
+  .dlg .view{min-height:200px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  header{padding:10px 16px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Medienbibliothek Mathematik &amp; Physik <small id="count"></small>
+      <button id="theme" type="button" style="margin-left:auto" aria-label="Hell/Dunkel umschalten">◐</button></h1>
+    <div class="search">
+      <input id="q" type="search" placeholder="Suchen, z. B. schiefer Wurf, Parabel, Feldlinien, Pythagoras …" aria-label="Suchbegriff" autocomplete="off">
+    </div>
+    <div class="filters">
+      <select id="fach" aria-label="Fach"><option value="">Alle Fächer</option><option value="mathematik">Mathematik</option><option value="physik">Physik</option></select>
+      <select id="thema" aria-label="Thema"><option value="">Alle Themen</option></select>
+      <select id="typ" aria-label="Medientyp"><option value="">Alle Medientypen</option></select>
+      <select id="stufe" aria-label="Klassenstufe">
+        <option value="">Alle Stufen</option><option value="5-6">Klasse 5–6</option><option value="7-8">Klasse 7–8</option>
+        <option value="9-10">Klasse 9–10</option><option value="11-11">EF (11)</option><option value="12-13">Q1/Q2 (12–13)</option>
+      </select>
+      <select id="profil" aria-label="Einsatzprofil / Lizenz">
+        <option value="offen">Profil: offen (OER, veröffentlichen)</option>
+        <option value="unterricht">Profil: Unterricht (inkl. nichtkommerziell)</option>
+        <option value="extern">Profil: nur externe Links</option>
+        <option value="alle">Alle inkl. ungeprüft (Recherche)</option>
+      </select>
+      <label class="chk"><input id="lokal" type="checkbox"> nur lokale Dateien</label>
+      <label class="chk"><input id="sw" type="checkbox"> S/W-tauglich</label>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <p class="info" id="info"></p>
+  <div class="grid" id="grid" aria-live="polite"></div>
+  <div class="more"><button id="more" type="button" hidden>Weitere anzeigen</button></div>
+</main>
+<dialog id="dlg" aria-labelledby="dt"><div style="position:relative">
+  <button class="close" type="button" id="dclose" aria-label="Schließen">✕</button>
+  <div class="dlg"><div class="view" id="dview"></div><div class="meta" id="dmeta"></div></div>
+</div></dialog>
+<noscript><p class="empty">Bitte JavaScript aktivieren.</p></noscript>
+<script src="metadata/katalog.js"></script>
+<script>
+(function(){
+"use strict";
+const M = window.MEDIEN || [], T = window.THEMEN || {};
+const $ = s => document.querySelector(s);
+const TYP = {diagramm:"Diagramm",grafik:"Grafik",foto:"Foto",animation:"Animation",video:"Video",cartoon:"Cartoon",comic:"Comic",
+  historisch:"Historisch",illustration:"Illustration",symbol:"Symbol",simulation:"Simulation","3d-modell":"3D-Modell"};
+const KAT = {A:"frei (A)",B:"eingeschränkt (B)",C:"ungeklärt (C)",E:"Eigenproduktion"};
+const fold = s => (s||"").toLowerCase().replace(/ß/g,"ss").normalize("NFKD").replace(/[̀-ͯ]/g,"");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+// Theme
+const th = store.get("mb-theme"); if (th) document.documentElement.dataset.theme = th;
+$("#theme").onclick = () => { const cur = document.documentElement.dataset.theme ||
+  (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const n = cur === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = n; store.set("mb-theme", n); };
+
+// Filter-Optionen
+const topLevel = Object.keys(T).filter(k => k.split(".").length === 2).sort((a,b)=>T[a].l.localeCompare(T[b].l,"de"));
+const thSel = $("#thema");
+for (const fach of ["mathematik","physik"]) {
+  const og = document.createElement("optgroup"); og.label = fach === "mathematik" ? "Mathematik" : "Physik";
+  for (const k of Object.keys(T).filter(k => T[k].f === fach && k.includes(".")).sort()) {
+    const o = document.createElement("option"); o.value = k;
+    o.textContent = (k.split(".").length > 2 ? "  · " : "") + T[k].l; og.appendChild(o);
+  }
+  thSel.appendChild(og);
+}
+const typen = [...new Set(M.map(m => m.ty))].filter(Boolean).sort();
+for (const t of typen) { const o = document.createElement("option"); o.value = t; o.textContent = TYP[t] || t; $("#typ").appendChild(o); }
+$("#count").textContent = `${M.length} Medien · ${M.filter(m=>m.sp==="lokal").length} lokal`;
+
+// Themen-Erweiterung: Begriff -> Themen-IDs (inkl. Unterthemen)
+const termIndex = [];
+for (const [k,v] of Object.entries(T)) for (const t of [v.l, ...(v.syn||[])]) { const f = fold(t); if (f.length > 2) termIndex.push([f,k]); }
+function expandTopics(q){
+  const fq = fold(q).trim(); if (!fq) return new Map();
+  const res = new Map();
+  for (const [term,k] of termIndex) {
+    if (fq === term) res.set(k, Math.max(res.get(k)||0, 1));
+    else if (term.length >= 5 && (fq.includes(term) || (fq.length >= 5 && term.startsWith(fq)))) res.set(k, Math.max(res.get(k)||0, .7));
+  }
+  for (const [k,s] of [...res]) for (const c of Object.keys(T)) if (c.startsWith(k + ".")) res.set(c, Math.max(res.get(c)||0, s*.85));
+  return res;
+}
+for (const m of M) m._txt = fold([m.t,m.b,m.alt,m.o,m.thl,(m.kw||[]).join(" "),m.au].join(" "));
+
+let shown = 60, last = [];
+function apply(){
+  const q = $("#q").value, fach = $("#fach").value, thema = $("#thema").value, typ = $("#typ").value,
+        stufe = $("#stufe").value, profil = $("#profil").value, lokal = $("#lokal").checked, sw = $("#sw").checked;
+  const words = fold(q).split(/[^0-9a-z]+/).filter(w => w.length > 1);
+  const tops = expandTopics(q);
+  let st = null; if (stufe) st = stufe.split("-").map(Number);
+  const out = [];
+  for (const m of M) {
+    if (fach && m.f !== fach) continue;
+    if (thema && !(m.th === thema || (m.th||"").startsWith(thema + ".") || (m.ut||[]).some(u => u.startsWith(thema)))) continue;
+    if (typ && m.ty !== typ) continue;
+    if (st && !(m.s[0] <= st[1] && m.s[1] >= st[0])) continue;
+    if (profil !== "alle" && !(m.prof||[]).includes(profil)) continue;
+    if (lokal && m.sp !== "lokal") continue;
+    if (sw && !m.sw) continue;
+    let score = 0;
+    if (words.length) {
+      let hit = 0; for (const w of words) if (m._txt.includes(w)) hit++;
+      const topic = Math.max(tops.get(m.th)||0, ...(m.ut||[]).map(u => (tops.get(u)||0)*.85));
+      if (!hit && !topic) continue;
+      score = topic*3 + hit/words.length*2 + (fold(m.t).includes(fold(q).trim()) ? 1 : 0);
+    }
+    score += (m.q||3)*.05;
+    out.push([score, m]);
+  }
+  out.sort((a,b) => b[0]-a[0] || (a[1].t||"").localeCompare(b[1].t||"","de"));
+  last = out.map(x => x[1]); shown = 60; render();
+  const hash = new URLSearchParams({q,fach,thema,typ,stufe,profil}); history.replaceState(null,"","#"+hash.toString());
+}
+function card(m){
+  const img = m.tn ? `<img loading="lazy" src="${esc(m.tn)}" alt="${esc(m.alt||m.t)}">` :
+     `<div class="ph">${m.sp==="extern" ? "Externe Ressource<br>(nur Link)" : "keine Vorschau"}</div>`;
+  return `<button class="card" type="button" data-id="${esc(m.id)}"><div class="thumb">${img}</div><div class="body">
+    <div class="t">${esc(m.t)}</div><div class="badges">
+    <span class="b">${esc(TYP[m.ty]||m.ty)}</span><span class="b">${esc(m.fmt||"")}</span>
+    <span class="b">Kl. ${m.s[0]}–${m.s[1]}</span><span class="b ${esc(m.lk)}">${esc(KAT[m.lk]||m.lk)}</span>
+    ${m.ls && !["verifiziert","eigen"].includes(m.ls) ? `<span class="b C">${esc(m.ls)}</span>`:""}</div></div></button>`;
+}
+function render(){
+  const g = $("#grid");
+  g.innerHTML = last.length ? last.slice(0, shown).map(card).join("") : `<div class="empty">Keine passenden Medien. Filter lockern oder Profil „Unterricht“ wählen.</div>`;
+  $("#more").hidden = last.length <= shown;
+  $("#info").textContent = `${last.length} Treffer` + ($("#profil").value === "offen" ? " · Profil „offen“: nur frei veröffentlichbare Medien (Kategorie A/Eigenproduktion)" : "");
+}
+function open(id){
+  const m = M.find(x => x.id === id); if (!m) return;
+  const isImg = m.sp === "lokal" && m.p && /\.(svg|png|jpe?g|gif|webp)$/i.test(m.p);
+  $("#dview").innerHTML = isImg ? `<img src="${esc(m.p)}" alt="${esc(m.alt||m.t)}">` :
+    (m.tn ? `<img src="${esc(m.tn)}" alt="${esc(m.alt||m.t)}">` : `<div class="ph">Externe Ressource – <a href="${esc(m.u)}" target="_blank" rel="noopener">beim Anbieter öffnen</a></div>`);
+  const warn = [];
+  if (m.lk === "B") warn.push(`<div class="warn">Eingeschränkte Lizenz (${esc(m.ln)}): nur nach den Bedingungen des Anbieters nutzen, nicht als OER veröffentlichen.</div>`);
+  if (m.lk === "C" || !["verifiziert","eigen"].includes(m.ls)) warn.push(`<div class="bad">Lizenz nicht ausreichend geprüft (${esc(m.ls)}) – nicht in Materialien verwenden.</div>`);
+  if (m.lk === "E") warn.push(`<div class="warn" style="background:var(--own-bg);color:var(--own)">Eigenproduktion: keine Drittrechte bekannt; Lizenz für Veröffentlichung selbst festlegen.</div>`);
+  const E = {personenrechte:"Erkennbare Personen – Persönlichkeitsrechte beachten.", marke:"Enthält Marken/Logos.", "nasa-logo":"NASA-Logos ausgenommen; keine Billigung suggerieren.", "us-pd":"Gemeinfreiheit nach US-Recht."};
+  for (const e of m.e||[]) if (E[e]) warn.push(`<div class="warn">${esc(E[e])}</div>`);
+  const sa = /SA/.test(m.l||"") ? `<div class="warn">ShareAlike: Bearbeitete Fassungen dieses Bildes unter derselben Lizenz weitergeben.</div>` : "";
+  $("#dmeta").innerHTML = `<h2 id="dt">${esc(m.t)}</h2>
+    ${m.b ? `<p>${esc(m.b)}</p>`:""}
+    ${warn.join("")}${sa}
+    <div><strong>Bildnachweis</strong></div><div class="credit" id="cr">${m.crh || esc(m.cr)}</div>
+    <div class="row"><button type="button" class="primary" data-copy="cr">Nachweis kopieren</button>
+      <button type="button" data-copy="html">als HTML kopieren</button>
+      ${m.p ? `<button type="button" data-copy="path">Dateipfad kopieren</button>`:""}
+      ${m.sp==="lokal" && m.p && m.lk!=="C" ? `<a class="btn" href="${esc(m.p)}" download>Datei laden</a>`:""}
+      ${m.u ? `<a class="btn" href="${esc(m.u)}" target="_blank" rel="noopener">Quelle</a>`:""}</div>
+    <dl class="kv">
+      <dt>ID</dt><dd>${esc(m.id)}</dd>
+      <dt>Thema</dt><dd>${esc(m.thl)}</dd>
+      <dt>Typ / Format</dt><dd>${esc(TYP[m.ty]||m.ty)} · ${esc(m.fmt)}${m.w ? ` · ${m.w}×${m.h} px`:""}${m.tr?" · transparent":""}${m.sw?" · S/W-tauglich":""}</dd>
+      <dt>Klassenstufe</dt><dd>${m.s[0]}–${m.s[1]}</dd>
+      <dt>Beschriftung</dt><dd>${esc(m.lab||"?")}</dd>
+      <dt>Urheber</dt><dd>${esc(m.au)}</dd>
+      <dt>Quelle</dt><dd>${esc(m.src)}</dd>
+      <dt>Lizenz</dt><dd>${m.lu ? `<a href="${esc(m.lu)}" target="_blank" rel="noopener">${esc(m.ln)}</a>` : esc(m.ln)} · Kat. ${esc(m.lk)} · ${esc(m.ls)} am ${esc(m.pd)}</dd>
+      <dt>Profile</dt><dd>${(m.prof||[]).join(", ") || "keins"}</dd>
+      <dt>Fachlich</dt><dd>${esc(m.fa||"")}${m.fh ? " – " + esc(m.fh):""}</dd>
+      <dt>Alt-Text</dt><dd>${esc(m.alt)}</dd>
+      ${m.p ? `<dt>Datei</dt><dd><code>${esc(m.p)}</code></dd>`:""}
+      ${m.o ? `<dt>Originaltitel</dt><dd>${esc(m.o)}</dd>`:""}
+    </dl>`;
+  $("#dmeta").querySelectorAll("[data-copy]").forEach(b => b.onclick = () => {
+    const what = b.dataset.copy; const txt = what === "cr" ? m.cr : what === "html" ? m.crh : m.p;
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(
+      () => { b.textContent = "Kopiert ✓"; setTimeout(() => b.textContent = what==="cr"?"Nachweis kopieren":what==="html"?"als HTML kopieren":"Dateipfad kopieren", 1500); },
+      () => { prompt("Zum Kopieren markieren:", txt); });
+  });
+  const d = $("#dlg"); if (d.showModal) d.showModal(); else d.setAttribute("open","");
+}
+$("#grid").addEventListener("click", e => { const c = e.target.closest(".card"); if (c) open(c.dataset.id); });
+$("#dclose").onclick = () => $("#dlg").close();
+$("#dlg").addEventListener("click", e => { if (e.target === $("#dlg")) $("#dlg").close(); });
+$("#more").onclick = () => { shown += 60; render(); };
+let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(apply, 150); });
+for (const id of ["fach","thema","typ","stufe","profil","lokal","sw"]) $("#"+id).addEventListener("change", apply);
+// Zustand aus URL
+const h = new URLSearchParams(location.hash.slice(1));
+for (const k of ["q","fach","thema","typ","stufe","profil"]) if (h.get(k)) $("#"+k).value = h.get(k);
+if (!M.length) $("#grid").innerHTML = `<div class="empty">Keine Katalogdaten gefunden. Im Bibliotheksordner <code>media web</code> ausführen.</div>`;
+else apply();
+})();
+</script>
+</body>
+</html>

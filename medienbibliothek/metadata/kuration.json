@@ -1,0 +1,446 @@
+{
+ "met-a9ebe6fd": {
+  "alt_text": "Foto eines goldfarbenen Messing-Astrolabiums mit Skalenring und Sternzeiger",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Astrolabium (historisches astronomisches Instrument)",
+  "unterthemen": [
+   "ph.experimente.messgeraete"
+  ]
+ },
+ "nasa-05a2c228": {
+  "alt_text": "Vollmond mit dunklen Mondmeeren und hellen Kratern vor schwarzem Hintergrund",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "schlagworte": [
+   "Mond",
+   "Vollmond",
+   "Mondoberfläche",
+   "Krater"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Vollmond"
+ },
+ "nasa-05b5aaee": {
+  "alt_text": "Astronautin schwebt mit einem Papier in der Hand im Labormodul der Internationalen Raumstation",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "schlagworte": [
+   "Schwerelosigkeit",
+   "ISS",
+   "freier Fall",
+   "Umlaufbahn"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Astronautin schwebt in der ISS (Schwerelosigkeit)",
+  "unterthemen": [
+   "ph.astronomie.raumfahrt"
+  ]
+ },
+ "nasa-15a91252": {
+  "entfernen": "Teleskop kaum erkennbar, wenig aussagekräftig",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-1c02e0d2": {
+  "alt_text": "Gekrümmter Erdhorizont mit Wolken und dünner Atmosphäre, darüber die Sonne im schwarzen Weltraum",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.erde_mond",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Erdatmosphäre im Gegenlicht der Sonne, aus dem All"
+ },
+ "nasa-312d2dd6": {
+  "alt_text": "Schwarz-weiße Tafel mit zwei Schlierenbildern von Flügelmodellen und sichtbaren Stoßwellen, Überschrift Effect of sweepback on shock waves",
+  "beschriftung": "en",
+  "medientyp": "historisch",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Historische Schlierenaufnahme: Stoßwellen an gepfeilten Flügelmodellen (1948)",
+  "unterthemen": [
+   "ph.mechanik.stroemung"
+  ]
+ },
+ "nasa-33b2b90c": {
+  "entfernen": "didaktisch wenig aussagekräftig (abstrakte Ringansicht)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-46144d7a": {
+  "alt_text": "Erdkugel mit Nordamerika, Wolken und Ozeanen vor schwarzem Hintergrund",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Die Erde aus dem All („Blue Marble“ 2012)"
+ },
+ "nasa-468d54ea": {
+  "entfernen": "thematisch unklar (Raketen-Rettungsturm-Test)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-4ed8e766": {
+  "entfernen": "Personenfoto ohne erkennbaren physikalischen Bezug",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-581e3c64": {
+  "alt_text": "Die Erde steigt über dem grauen Mondhorizont auf; NASA-Visualisierung nach der Apollo-8-Aufnahme",
+  "beschriftung": "ohne",
+  "didaktik": "Rekonstruktion/Visualisierung (2013) des berühmten Apollo-8-Fotos, kein Originalfoto.",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Erdaufgang über dem Mondhorizont („Earthrise“, Visualisierung)"
+ },
+ "nasa-5c61a18a": {
+  "alt_text": "Selbstaufnahme des Mars-Rovers auf rotbraunem, steinigem Marsboden, im Hintergrund der kleine Hubschrauber Ingenuity",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Mars-Rover Perseverance mit Hubschrauber Ingenuity",
+  "unterthemen": [
+   "ph.astronomie.raumfahrt"
+  ]
+ },
+ "nasa-73a0a3df": {
+  "alt_text": "Saturn-V-Rakete hebt mit hellem Feuerstrahl vom Startturm ab",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "schlagworte": [
+   "Rakete",
+   "Rückstoß",
+   "Raketenstart"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Start einer Saturn-V-Rakete (Apollo-Programm)",
+  "unterthemen": [
+   "ph.mechanik.impuls"
+  ]
+ },
+ "nasa-760e2e44": {
+  "alt_text": "Graue Reliefkarte der gesamten Marsoberfläche mit Vulkanen und Tälern",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Topografie des Mars (Schattenrelief)"
+ },
+ "nasa-99fea773": {
+  "alt_text": "Künstlerische Darstellung der Raumsonde Juno mit drei Solarflügeln vor dem gestreiften Jupiter und dem Großen Roten Fleck",
+  "beschriftung": "ohne",
+  "medientyp": "illustration",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Raumsonde Juno am Jupiter mit Großem Roten Fleck (Illustration)",
+  "unterthemen": [
+   "ph.astronomie.raumfahrt"
+  ]
+ },
+ "nasa-a915df62": {
+  "alt_text": "Goldbraune Sonnenscheibe mit hellen aktiven Regionen und Strukturen in der Sonnenatmosphäre",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Die Sonne im extremen Ultraviolett (Solar Dynamics Observatory)",
+  "unterthemen": [
+   "ph.astronomie.sterne"
+  ]
+ },
+ "nasa-ccd9412b": {
+  "alt_text": "Farbige Infrarotaufnahme des Adlernebels mit leuchtender Gaswolke und vielen Sternen",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Adlernebel im Infrarotlicht (WISE)",
+  "unterthemen": [
+   "ph.schwingungen.em_wellen"
+  ]
+ },
+ "nasa-d7aadce5": {
+  "alt_text": "Apollo-Mondlandefähre auf grauem Mondboden, davor ein Astronaut",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.raumfahrt",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Mondlandefähre auf der Mondoberfläche (Apollo-Programm)"
+ },
+ "nasa-fc2a131b": {
+  "entfernen": "Pluto im Sternfeld kaum erkennbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wel-c3bfa8ed": {
+  "alt_text": "Schwarz-Weiß-Foto einer gläsernen Leidener Flasche, eines frühen Kondensators",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Leidener Flasche aus Galvanis Apparatur",
+  "unterthemen": [
+   "ph.elektrizitaet.kondensator",
+   "ph.geschichte"
+  ]
+ },
+ "wel-edb1e9b0": {
+  "alt_text": "Schwarz-Weiß-Foto einer historischen Elektrisiermaschine mit Handkurbel und Glasscheibe auf Holzsockel",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Kleine Scheiben-Elektrisiermaschine aus Galvanis Apparatur",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wmc-05726647": {
+  "alt_text": "Roter Graph der Funktion f(x) = 2x³ − 3x² − 3x + 2 mit Hoch- und Tiefpunkt im Koordinatensystem",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.funktionen.potenz",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Graph einer ganzrationalen Funktion 3. Grades"
+ },
+ "wmc-188435f7": {
+  "alt_text": "Quadrat mit Seitenlänge 1 und roter Diagonale, beschriftet mit Wurzel 2",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Diagonale im Einheitsquadrat hat die Länge √2",
+  "unterthemen": [
+   "ma.geometrie.pythagoras",
+   "ma.arithmetik.zahlbereiche"
+  ]
+ },
+ "wmc-253b6e5a": {
+  "alt_text": "Quadrat der Seitenlänge a + b, aufgeteilt in die Teilflächen a², zweimal ab und b²",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "schlagworte": [
+   "binomische Formel",
+   "Flächenmodell",
+   "(a+b)²"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Erste binomische Formel als Flächenmodell"
+ },
+ "wmc-29cf7b94": {
+  "alt_text": "Graph einer kubischen Funktion mit erster und zweiter Ableitung, markierten Extrempunkten und Wendepunkt; englische Beschriftung",
+  "beschriftung": "en",
+  "hauptthema": "ma.analysis.ableitung",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   11,
+   12
+  ],
+  "titel": "Kurvendiskussion einer kubischen Funktion mit Ableitungen"
+ },
+ "wmc-2cbd569e": {
+  "entfernen": "RLC-Schaltung mit US-Schaltzeichen, passt nicht zum Thema Parallelschaltung Sek I",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-2e5e9d48": {
+  "alt_text": "Einheitskreis mit Winkeln in Grad und Bogenmaß und den zugehörigen Koordinaten (cos α | sin α)",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Einheitskreis mit exakten Sinus- und Kosinuswerten"
+ },
+ "wmc-2fad1420": {
+  "entfernen": "bengalische Beschriftung",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-3260fb33": {
+  "alt_text": "Orange Kreisscheibe und daneben dieselbe Scheibe in vier gleich große Viertel zerlegt",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Kreis in Viertel geteilt (Bruchteile)"
+ },
+ "wmc-342bbe31": {
+  "alt_text": "Animation: Auf einer Zahlentafel bis 120 werden nacheinander die Vielfachen von 2, 3, 5 und 7 gestrichen; übrig bleiben die Primzahlen",
+  "beschriftung": "en",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Sieb des Eratosthenes (Animation, englisch)"
+ },
+ "wmc-3662bafc": {
+  "entfernen": "unklarer Inhalt, kaum beschriftet",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-40eeaffd": {
+  "alt_text": "Zahlenstrahl mit gleichmäßigen Markierungen von 0 bis 7 und Pfeil nach rechts",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   5,
+   6
+  ],
+  "titel": "Zahlenstrahl mit natürlichen Zahlen 0 bis 7"
+ },
+ "wmc-470a5020": {
+  "entfernen": "schwer lesbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-502b1f07": {
+  "alt_text": "Grüne Strecke von P nach Q im Karogitter mit waagerechter Kathete dx und senkrechter Kathete dy",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Steigungsdreieck zwischen zwei Punkten P und Q"
+ },
+ "wmc-5ad42db7": {
+  "entfernen": "themenfremd (Börsenkurs)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-5dc75ff9": {
+  "alt_text": "Quadrat aufgeteilt in die Flächen x², y² und zwei Rechtecke xy",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Binomische Formel (x + y)² als Flächenmodell"
+ },
+ "wmc-672c85b7": {
+  "alt_text": "Mengendiagramm: natürliche Zahlen N innerhalb der ganzen Zahlen Z, diese innerhalb der rationalen Zahlen Q, alles innerhalb der reellen Zahlen R; daneben R ohne Q (irrationale Zahlen)",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Zahlbereiche als Mengendiagramm (N ⊂ Z ⊂ Q ⊂ R)"
+ },
+ "wmc-6f5302ee": {
+  "alt_text": "Graph eines exponentiellen Wachstums B(t) mit eingezeichneten Verdopplungen 3, 6, 12, 24 nach jeweils gleichen Zeitabständen",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Exponentielles Wachstum: Verdopplung in gleichen Zeitabständen"
+ },
+ "wmc-7328216e": {
+  "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-841a554f": {
+  "alt_text": "Animation mit der Überschrift Primzahlen: Auf einer Zahlentafel bis 120 werden die Vielfachen von 2, 3, 5 und 7 gestrichen; übrig bleiben die Primzahlen",
+  "beschriftung": "de",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Sieb des Eratosthenes (Animation, deutsch)"
+ },
+ "wmc-8979a953": {
+  "alt_text": "Zahlenstrahl von −5 bis 5 mit Mengen- und Intervallschreibweisen für die positiven und negativen reellen Zahlen",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   8,
+   11
+  ],
+  "titel": "Zahlenstrahl: positive und negative reelle Zahlen in Mengenschreibweise"
+ },
+ "wmc-8f592593": {
+  "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-91f7cc2f": {
+  "entfernen": "nicht schulrelevant (Domain Coloring komplexer Funktionen)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-95b7d887": {
+  "entfernen": "überladen, schwer lesbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-9a2d8524": {
+  "alt_text": "Graphen von b hoch x und log zur Basis b von x, gespiegelt an der Winkelhalbierenden y = x",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Exponential- und Logarithmusfunktion als Umkehrfunktionen"
+ },
+ "wmc-9bc7478e": {
+  "alt_text": "Schaltplan: Batterie mit drei parallel geschalteten Widerständen in Zickzack-Darstellung",
+  "beschriftung": "ohne",
+  "einschraenkungen": [
+   "us-schaltzeichen"
+  ],
+  "fachlich_hinweis": "Widerstände als Zickzack (ANSI) statt Rechteck (DIN EN 60617); für den deutschen Unterricht besser eig-157aea61 verwenden.",
+  "qualitaet": 2,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Parallelschaltung dreier Widerstände (US-Schaltzeichen)"
+ },
+ "wmc-a02f528a": {
+  "entfernen": "themenfremd (Klimastatistik)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-a468e677": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-a47cc124": {
+  "alt_text": "Graphen von u, v und u + v mit Steigungsdreiecken Δu, Δv und Δu + Δv an derselben Stelle",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.analysis.ableitung",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Summenregel der Ableitung (grafische Veranschaulichung)"
+ },
+ "wmc-b1318b7c": {
+  "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-b417b190": {
+  "alt_text": "Nach oben geöffnete Parabel im Koordinatensystem mit markiertem Scheitelpunkt S(3|−5)",
+  "beschriftung": "de",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Parabel mit Scheitelpunkt S(3|−5)"
+ },
+ "wmc-bf5bcd70": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-c17760e2": {
+  "entfernen": "nahezu Dublette von wmc-9a2d8524",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-d069d759": {
+  "alt_text": "Quadrat x² mit angesetzten Rechtecken (y/2)·x und den Ergänzungsquadraten (y/2)²",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "schlagworte": [
+   "quadratische Ergänzung",
+   "Flächenmodell"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Quadratische Ergänzung als Flächenmodell",
+  "unterthemen": [
+   "ma.funktionen.quadratisch"
+  ]
+ },
+ "wmc-de9e2ff9": {
+  "entfernen": "nicht lehrplanrelevant (Bogenlänge arcsin/arccos)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-e0e4c58c": {
+  "entfernen": "nicht lehrplanrelevant (Ford-Kreise)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-f12a1e71": {
+  "alt_text": "Schaltplan nach DIN: Spannungsquelle U0, zwei parallele Widerstände R1 und R2, Gesamtstrom I0 und Teilströme I1 und I2 als rote Pfeile",
+  "beschriftung": "ohne",
+  "fachlich_hinweis": "DIN-Schaltzeichen (Rechteck-Widerstände); Knotenregel I0 = I1 + I2 ablesbar.",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Parallelschaltung zweier Widerstände mit Teilströmen"
+ },
+ "wmc-fba59bfb": {
+  "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-fcc4ae64": {
+  "entfernen": "nicht schulrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-fe3589ca": {
+  "entfernen": "themenfremd (Versicherungsstatistik)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-fe57ddd1": {
+  "alt_text": "Nach unten geöffnete Parabel mit roter Sekante durch zwei Punkte; Funktionswerte f(x) und f(x̃) an der y-Achse markiert",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Sekante an einem Funktionsgraphen (mittlere Änderungsrate)"
+ }
+}
