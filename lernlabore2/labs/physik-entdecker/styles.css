@@ -1,0 +1,188 @@
+/* Physik-Entdecker – kindgerecht, tablet-optimiert, gute Kontraste */
+:root {
+  --hg: #f3f6fb;
+  --karte: #ffffff;
+  --tinte: #14213d;
+  --leise: #4a5568;
+  --linie: #cbd5e1;
+  --akzent: #2f6fde;
+  --akzent-tinte: #ffffff;
+  --mech: #c2410c;
+  --mech-hell: #ffedd5;
+  --strom: #1d4ed8;
+  --strom-hell: #dbeafe;
+  --gut: #15803d;
+  --gut-hell: #dcfce7;
+  --tipp: #92400e;
+  --tipp-hell: #fef3c7;
+  --boden: #e2e8f0;
+  --brett: #92400e;
+  --kugel: #f97316;
+  --batterie: #1f2937;
+  --batterie-kopf: #b45309;
+  --draht: #334155;
+  --gluehen: #facc15;
+  --radius: 22px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hg: #0f1726; --karte: #18233a; --tinte: #eef2f8; --leise: #b8c2d4; --linie: #33425f;
+    --akzent: #7aa7ff; --akzent-tinte: #0b1220; --mech: #fb923c; --mech-hell: #43280f; --strom: #93b4ff; --strom-hell: #1b2a4d;
+    --gut: #6ee7a0; --gut-hell: #12331f; --tipp: #fcd34d; --tipp-hell: #3b2c07; --boden: #273449; --brett: #d6a26a; --draht: #cbd5e1;
+    --batterie: #94a3b8; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--hg); color: var(--tinte); }
+body { font: 19px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.klein { font-size: 15px; color: var(--leise); }
+.app { max-width: 980px; margin: 0 auto; padding: 0 16px 24px; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+
+.kopf { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; flex-wrap: wrap; }
+.marke { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; }
+.marke svg { width: 40px; height: 40px; }
+.sitzung { font-size: 15px; }
+
+.fortschritt { background: var(--karte); border: 1px solid var(--linie); border-radius: var(--radius); padding: 12px 14px; }
+.schritte { list-style: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 0; padding: 0; }
+.punkt { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; color: var(--leise); font: inherit; font-size: 13px; cursor: pointer; padding: 4px 0; border-radius: 12px; min-height: 64px; }
+.punkt:disabled { cursor: not-allowed; opacity: .55; }
+.punkt-nr { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 18px; border: 3px solid var(--linie); background: var(--karte); color: var(--tinte); }
+.punkt.mechanik .punkt-nr { border-color: var(--mech); }
+.punkt.strom .punkt-nr { border-color: var(--strom); }
+.punkt.fertig.mechanik .punkt-nr { background: var(--mech); color: #fff; }
+.punkt.fertig.strom .punkt-nr { background: var(--strom); color: #fff; }
+.punkt.aktuell .punkt-nr { box-shadow: 0 0 0 4px color-mix(in srgb, var(--akzent) 35%, transparent); }
+.punkt.aktuell { color: var(--tinte); font-weight: 700; }
+.punkt:focus-visible { outline: 3px solid var(--akzent); outline-offset: 2px; }
+.balken { height: 12px; border-radius: 99px; background: var(--boden); margin-top: 10px; overflow: hidden; }
+.balken-fuellung { height: 100%; width: 0; background: linear-gradient(90deg, var(--mech), var(--strom)); border-radius: 99px; transition: width .4s ease; }
+.fortschritt-text { margin: 6px 0 0; text-align: center; font-weight: 700; font-size: 16px; }
+@media (max-width: 520px) { .punkt-text { display: none; } .punkt { min-height: 44px; } }
+
+.inhalt { margin-top: 16px; outline: none; }
+.karte { background: var(--karte); border: 1px solid var(--linie); border-radius: var(--radius); padding: 22px 20px; box-shadow: 0 10px 30px rgba(20,33,61,.06); }
+.karte.mechanik { border-top: 8px solid var(--mech); }
+.karte.strom { border-top: 8px solid var(--strom); }
+.karte h1 { font-size: clamp(26px, 5vw, 34px); line-height: 1.15; margin: 6px 0 8px; }
+.frage { font-size: 21px; margin: 0 0 16px; }
+.gross-text { font-size: 21px; }
+.aufgaben-kopf { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bereich-chip { font-weight: 800; font-size: 15px; padding: 4px 12px; border-radius: 99px; }
+.bereich-chip.mechanik { background: var(--mech-hell); color: var(--mech); }
+.bereich-chip.strom { background: var(--strom-hell); color: var(--strom); }
+.aufgaben-nr { color: var(--leise); font-size: 15px; font-weight: 600; }
+
+.bereiche { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 16px 0; }
+.bereich-karte { border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 4px; }
+.bereich-karte strong { font-size: 22px; }
+.bereich-karte.mechanik { background: var(--mech-hell); color: var(--mech); }
+.bereich-karte.strom { background: var(--strom-hell); color: var(--strom); }
+
+.knopf { appearance: none; border: 0; border-radius: 16px; font-family: inherit; font-weight: 700; font-size: 20px; line-height: 1.2; padding: 16px 22px; min-height: 60px; cursor: pointer; touch-action: manipulation; }
+.knopf.haupt { background: var(--akzent); color: var(--akzent-tinte); }
+.app[data-bereich="mechanik"] .knopf.haupt { background: var(--mech); color: #fff; }
+.app[data-bereich="strom"] .knopf.haupt { background: var(--strom); color: #fff; }
+@media (prefers-color-scheme: dark) { .app[data-bereich] .knopf.haupt { color: #0b1220; } }
+.knopf.zweit { background: transparent; color: var(--tinte); border: 2px solid var(--linie); }
+.knopf.gross { font-size: 22px; padding: 18px 28px; }
+.knopf:disabled { opacity: .45; cursor: not-allowed; }
+.knopf:focus-visible, .wahl:focus-visible, .rampe-knopf:focus-visible { outline: 4px solid var(--tinte); outline-offset: 3px; }
+
+.nav { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+.nav-rechts { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
+.nav-hinweis { margin: 0; font-size: 15px; color: var(--leise); }
+
+.wahl-gruppe { display: grid; gap: 12px; }
+.wahl { display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; border: 3px solid var(--linie); background: var(--karte); color: var(--tinte); border-radius: 18px; padding: 16px 18px; font-family: inherit; font-weight: 600; font-size: 20px; line-height: 1.3; min-height: 72px; cursor: pointer; touch-action: manipulation; }
+.wahl:hover { border-color: var(--akzent); }
+.wahl.gewaehlt { border-color: var(--akzent); background: color-mix(in srgb, var(--akzent) 12%, var(--karte)); }
+.karte.mechanik .wahl.gewaehlt { border-color: var(--mech); background: var(--mech-hell); }
+.karte.strom .wahl.gewaehlt { border-color: var(--strom); background: var(--strom-hell); }
+.wahl .mini { width: 80px; height: 50px; flex: none; }
+
+.rueckmeldung { border-radius: 18px; padding: 14px 18px; margin-top: 16px; font-size: 19px; }
+.rueckmeldung p { margin: 6px 0 0; }
+.rueckmeldung.gut { background: var(--gut-hell); color: var(--tinte); border: 3px solid var(--gut); }
+.rueckmeldung.gut strong { color: var(--gut); font-size: 22px; }
+.rueckmeldung.tipp { background: var(--tipp-hell); border: 3px solid var(--tipp); }
+.rueckmeldung.tipp strong { color: var(--tipp); font-size: 21px; }
+.rueckmeldung.neutral { background: color-mix(in srgb, var(--akzent) 10%, var(--karte)); }
+.rueckmeldung .knopf { margin-top: 10px; }
+.vergleich { font-style: italic; }
+
+.sim { display: grid; gap: 16px; grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 820px) { .sim { grid-template-columns: 1.6fr 1fr; } }
+.sim-buehne { background: color-mix(in srgb, var(--hg) 70%, var(--karte)); border: 1px solid var(--linie); border-radius: 18px; padding: 8px; position: relative; }
+.rampe-svg, .kreis-svg { width: 100%; height: auto; display: block; }
+.sim-steuer { display: grid; gap: 12px; }
+.rampen-wahl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rampe-knopf { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 3px solid var(--linie); background: var(--karte); color: var(--tinte); border-radius: 16px; padding: 8px 4px; font-family: inherit; font-weight: 700; font-size: 18px; min-height: 84px; cursor: pointer; }
+.rampe-knopf .mini { width: 64px; height: 40px; }
+.rampe-knopf.gewaehlt { border-color: var(--mech); background: var(--mech-hell); }
+.rampe-knopf .haken { position: absolute; top: 4px; right: 8px; color: var(--gut); font-weight: 900; }
+.stoppuhr { position: absolute; top: 12px; left: 14px; background: var(--karte); border: 2px solid var(--linie); border-radius: 12px; padding: 4px 10px; display: flex; gap: 8px; align-items: baseline; }
+.stoppuhr strong { font: 800 24px ui-monospace, Consolas, monospace; }
+.schalter-zeile { display: flex; align-items: center; gap: 10px; font-size: 17px; cursor: pointer; }
+.schalter-zeile input { width: 26px; height: 26px; accent-color: var(--mech); }
+.aufgaben-hinweis { font-weight: 700; color: var(--leise); }
+.aufgaben-hinweis.ok { color: var(--gut); }
+.messwerte { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 17px; }
+.messwerte caption { text-align: left; font-weight: 800; padding-bottom: 6px; }
+.messwerte th, .messwerte td { border-bottom: 1px solid var(--linie); padding: 8px 6px; text-align: left; }
+.tempo { display: block; height: 14px; background: var(--boden); border-radius: 99px; overflow: hidden; min-width: 80px; }
+.tempo-balken { display: block; height: 100%; background: var(--mech); border-radius: 99px; }
+.modell { margin-top: 16px; font-size: 16px; color: var(--leise); }
+.modell summary { cursor: pointer; font-weight: 700; }
+
+/* Stromkreis */
+.kreis-svg .draht { fill: none; stroke: var(--draht); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.kreis-svg .draht.lose { stroke-dasharray: 2 10; opacity: .8; }
+.kreis-svg .fluss { fill: none; stroke: var(--gluehen); stroke-width: 3; stroke-dasharray: 6 14; animation: fluss 0.9s linear infinite; }
+@keyframes fluss { to { stroke-dashoffset: -40; } }
+@media (prefers-reduced-motion: reduce) { .kreis-svg .fluss { animation: none; } .balken-fuellung { transition: none; } }
+.kreis-svg .glas { fill: #e2e8f0; stroke: #64748b; stroke-width: 3; transition: fill .2s; }
+.kreis-svg.an .glas { fill: var(--gluehen); stroke: #a16207; }
+.kreis-svg .faden { fill: none; stroke: #64748b; stroke-width: 2; }
+.kreis-svg.an .faden { stroke: #b45309; }
+.kreis-svg .schein { fill: var(--gluehen); opacity: .35; filter: blur(8px); }
+.kreis-svg .hebel { stroke: var(--draht); stroke-width: 8; stroke-linecap: round; }
+.kreis-svg .kontakt { fill: var(--karte); stroke: var(--draht); stroke-width: 4; }
+.kreis-svg .buchse { fill: var(--karte); stroke: #dc2626; stroke-width: 3; }
+.kreis-svg .beschriftung { font: 700 15px system-ui, sans-serif; fill: var(--tinte); }
+.kreis-svg .pol { font: 800 18px system-ui, sans-serif; fill: #fff; }
+.lampen-status { text-align: center; font-weight: 800; font-size: 20px; margin: 6px 0; color: var(--leise); }
+.lampen-status.an { color: var(--gut); }
+.knopf.schalt { background: var(--strom-hell); color: var(--strom); border: 3px solid var(--strom); width: 100%; }
+.knopf.schalt.aktiv { background: var(--strom); color: #fff; }
+@media (prefers-color-scheme: dark) { .knopf.schalt.aktiv { color: #0b1220; } }
+
+/* Abschluss & Urkunde */
+.ende h1.jubel { color: var(--akzent); text-align: center; font-size: clamp(28px, 6vw, 40px); }
+.urkunde { margin: 18px auto; max-width: 560px; text-align: center; border: 10px double #b7791f; border-radius: 18px; padding: 24px 18px; background: #fffaf0; color: #1f2937; position: relative; }
+.urkunde p { margin: 4px 0; }
+.urkunde-titel { font-size: 38px; font-weight: 900; letter-spacing: .08em; color: #b7791f; }
+.urkunde-name { font-size: 30px; font-weight: 800; min-height: 1.3em; border-bottom: 2px solid #b7791f; margin: 8px 40px !important; font-family: "Segoe Print", "Comic Sans MS", cursive; }
+.urkunde-thema { font-size: 26px; font-weight: 800; color: #1d4ed8; }
+.urkunde-klein { font-size: 14px; color: #4b5563; margin-top: 12px !important; }
+.siegel { position: absolute; right: 14px; top: 14px; width: 54px; height: 54px; border-radius: 50%; background: #f59e0b; color: #fff; display: grid; place-items: center; font-size: 28px; }
+.feld { margin: 14px 0; }
+.feld label { display: block; font-weight: 700; margin-bottom: 6px; }
+.feld input { font: inherit; font-size: 20px; padding: 12px; border-radius: 12px; border: 2px solid var(--linie); width: 100%; max-width: 360px; background: var(--karte); color: var(--tinte); }
+.zusammenfassung { padding-left: 18px; }
+
+.fuss { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 140%); background: var(--tinte); color: var(--karte); padding: 12px 18px; border-radius: 14px; font-weight: 600; max-width: calc(100vw - 32px); transition: transform .3s; z-index: 50; }
+.toast:not(.sichtbar) { visibility: hidden; }
+.toast.sichtbar { transform: translate(-50%, 0); }
+
+@media print {
+  body { background: #fff; }
+  .kopf, .fortschritt, .fuss, .nav, .feld, .modell, .toast, .ll-root, .ll-banner, .ende > h1, .ende > .gross-text { display: none !important; }
+  .karte { border: 0; box-shadow: none; }
+  .urkunde { margin-top: 40mm; }
+}

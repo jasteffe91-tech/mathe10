@@ -1,0 +1,25 @@
+{
+  "id": "beispiel-labor",
+  "version": "1.0",
+  "title": "Beispiel-Labor: Schwimmt oder sinkt?",
+  "subject": "Physik",
+  "audience": "Vorlage für neue Lernlabore",
+  "tasks": [
+    {
+      "task_id": "a1-vermutung",
+      "section": "Schwimmen und Sinken",
+      "title": "Vermutung: Schwimmt ein Apfel?",
+      "kind": "choice",
+      "options": [
+        { "value": "schwimmt", "label": "Er schwimmt." },
+        { "value": "sinkt", "label": "Er sinkt." }
+      ]
+    },
+    {
+      "task_id": "a2-begruendung",
+      "section": "Schwimmen und Sinken",
+      "title": "Begründung in eigenen Worten",
+      "kind": "text"
+    }
+  ]
+}

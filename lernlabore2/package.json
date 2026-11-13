@@ -1,0 +1,37 @@
+{
+  "name": "online-lernlabore-2",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Online-Lernlabore 2.0 – pseudonyme Lernstandsspeicherung für interaktive Lernlabore",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "db:reset": "node tools/local-db.mjs reset",
+    "db:stop": "node tools/local-db.mjs stop",
+    "dev": "node tools/dev-server/server.mjs",
+    "test:unit": "vitest run",
+    "test:db": "node --test tests/db/*.test.mjs",
+    "test:e2e": "node --test --test-concurrency=1 tests/e2e/*.test.mjs",
+    "test:python": "cd apps/local-teacher-tool && ../../.venv/bin/python -m pytest -q tests",
+    "test": "npm run typecheck && npm run test:unit && npm run test:db && npm run build && npm run test:e2e",
+    "lab:sql": "node scripts/manifest-to-sql.mjs",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:bundle": "node scripts/bundle-sql.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12",
+    "fake-indexeddb": "^6.2.5",
+    "pg": "^8.16.3",
+    "playwright": "^1.63.0",
+    "typescript": "^5.9.3",
+    "vitest": "4.1.12"
+  },
+  "dependencies": {
+    "qrcode-generator": "^1.4.4"
+  }
+}
