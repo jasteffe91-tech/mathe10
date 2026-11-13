@@ -19,6 +19,7 @@ unten als **manuell** markiert. Es wurden keine Ergebnisse erfunden.
 | Lasttest (Skript, lokal): 100 gleichzeitige Lernende × Anmeldung + Laden + 6 Speicherungen | einmalig | ✅ 600/600 gespeichert, 0 Fehler, Median 93 ms, max. 147 ms (nur lokal aussagekräftig) |
 | Windows-EXE-Bauplan (PyInstaller) unter Linux gebaut und gestartet | `pyinstaller lernlabor-lehrerprogramm.spec` | ✅ startet (zeigt Tresor-Dialog); unter Windows: manuell |
 | SQL-Gesamtdatei und Migrationsskript auf leerer Datenbank | `bundle-sql.mjs`, `migrate.mjs` | ✅ eingespielt, zweiter Lauf erkennt „bereits angewendet“ |
+| **GitHub Actions** (ubuntu-24.04, frische Umgebung): Workflow „Lernlabore 2.0 – Tests“ | automatisch bei Push | ✅ Lauf #1 vollständig erfolgreich (Typen, Unit, Datenbank, Build, Browser, Lehrerprogramm online) – [Lauf ansehen](https://github.com/jasteffe91-tech/mathe10/actions/runs/43504941170) |
 | Adapter für bestehende Stationen-Labore (temporäre Kopie von „Arbeit und Leistung“, Demo-Modus) | Playwright-Skript | ✅ Name ausgeblendet, Antwort gespeichert und wiederhergestellt |
 
 Während der Entwicklung gefundene und behobene Fehler (Auszug): zu frühe Neuzeichnung nach Auswahl (Weiter blieb grau),
@@ -75,7 +76,7 @@ Diese Punkte benötigen externe Zugänge oder Geräte und sind **noch offen**:
 | M5 | Echte Tablets/Smartphones (iPadOS-Safari, Android-Chrome), QR-Code mit Kamera scannen | keine Geräte | Zugangskarten drucken, mit iPad scannen |
 | M6 | Ausdruck Zugangskarten (Schnittlinien, Lesbarkeit) und Urkunde | kein Drucker | je ein Probedruck |
 | M7 | Veröffentlichung über GitHub Pages / Cloudflare Pages inkl. CSP im echten Browser | Deployment erst nach Merge | Branch nach `main` übernehmen, Seiten aufrufen, Browser-Konsole auf CSP-Fehler prüfen |
-| M8 | GitHub-Actions-Workflows (Tests, EXE, Migrationen) | laufen erst im Repository | Tab „Actions“ prüfen |
+| M8 | GitHub-Actions-Workflows „Windows-EXE“ und „Datenbank-Migrationen“ (der Test-Workflow lief bereits erfolgreich) | nur manuell auslösbar; Migrationen brauchen das Secret `SUPABASE_DB_URL` | Tab „Actions“ → Workflow → „Run workflow“ |
 | M9 | pg_cron-Löschlauf in Supabase | Erweiterung nur in Supabase | optional, siehe INSTALLATION.md |
 | M10 | Last mit echten Netzwerkbedingungen (30–100 Geräte im Schul-WLAN) | nur lokal getestet | Probelauf mit einer Klasse |
 
