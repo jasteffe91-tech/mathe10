@@ -1646,10 +1646,11 @@ $$;
 
 -- ---------------------------------------------------------------------
 -- Demonstrationsdaten (nur für Gruppen der Art „demo“)
--- Erzeugt fiktive Lernstände; die ersten p_leave_empty Teilnehmenden
--- (alphabetisch) bleiben leer für die Live-Vorführung.
+-- Erzeugt fiktive Lernstände. Für die Live-Vorführung bleiben leer:
+-- die in p_skip_ids genannten Teilnehmenden – oder, falls nicht angegeben,
+-- die ersten p_leave_empty (nach Kennung sortiert).
 -- ---------------------------------------------------------------------
-create or replace function public.teacher_seed_demo_results(p_group_id uuid, p_lab_id text, p_leave_empty int default 2)
+create or replace function public.teacher_seed_demo_results(p_group_id uuid, p_lab_id text, p_leave_empty int default 2, p_skip_ids uuid[] default null)
 returns jsonb
 language plpgsql volatile security definer set search_path = ''
 as $$
@@ -1679,7 +1680,8 @@ begin
     select p.id from lernlabor.participants p
     where p.group_id = p_group_id
       and not exists (select 1 from lernlabor.task_results r where r.participant_id = p.id and r.lab_id = p_lab_id)
-    order by p.pseudonym offset greatest(p_leave_empty, 0)
+      and (p_skip_ids is null or not (p.id = any (p_skip_ids)))
+    order by p.pseudonym offset case when p_skip_ids is null then greatest(p_leave_empty, 0) else 0 end
   loop
     v_k := 1 + floor(random() * v_total)::int;
     for v_t in

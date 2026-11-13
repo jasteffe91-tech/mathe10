@@ -129,3 +129,19 @@ def test_gui_online_ablauf_ohne_klarnamen_auf_dem_server(app):
     gg = next(x for x in t2.data["groups"] if x["id"] == g["id"])
     from lernlabor_lehrer.auswertung import build_rows
     assert any(z.nachname == "Musterfrau" and z.completed == 1 for z in build_rows(gg))
+
+
+@pytest.mark.skipif(not SERVER, reason="LERNLABOR_TEST_SERVER nicht gesetzt")
+def test_demo_klasse_online_max_und_erika_bleiben_frei(app):
+    app.settings["supabase_url"] = SERVER
+    app.settings["supabase_anon_key"] = ANON
+    app.settings["email"] = "lehrkraft@test.local"
+    app.make_client().login("lehrkraft@test.local", "test-passwort-123")
+    app.new_demo_group()
+    app.action_sync()
+    pump(app, lambda: not app.busy and app.group["server"]["synced_at"] and app.group.get("demo_seeded"))
+    app.action_fetch()
+    pump(app, lambda: not app.busy and app.group.get("results"))
+    rows = {z.name: z for z in app._rows}
+    assert rows["Max Mustermann"].completed == 0 and rows["Erika Musterfrau"].completed == 0
+    assert sum(1 for z in app._rows if z.completed > 0) == 10

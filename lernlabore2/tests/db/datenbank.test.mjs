@@ -327,6 +327,14 @@ describe('Gastmodus (Test 13) und Demo-Daten', () => {
     assert.equal(seed.participants_seeded, 10);
     const exp = await A.as(teacherA)('teacher_export_group', { p_group_id: demo.id });
     assert.equal(exp.group.kind, 'demo');
+    // gezielt freigehaltene Personen (für die Live-Vorführung)
+    const demo2 = await A.as(teacherA)('teacher_create_group', { p_label: 'DEMO 2', p_kind: 'demo' });
+    const ppl2 = makeParticipants(5, 'D', 12);
+    await A.as(teacherA)('teacher_register_participants', { p_group_id: demo2.id, p_participants: ppl2 });
+    const seed2 = await A.as(teacherA)('teacher_seed_demo_results', { p_group_id: demo2.id, p_lab_id: LAB, p_skip_ids: [ppl2[0].id, ppl2[1].id] });
+    assert.equal(seed2.participants_seeded, 3);
+    const exp2 = await A.as(teacherA)('teacher_export_group', { p_group_id: demo2.id });
+    assert.ok(!exp2.results.some((r) => r.participant_id === ppl2[0].id || r.participant_id === ppl2[1].id));
     assert.ok(exp.results.every((r) => r.answer.demo === true));
   });
 });

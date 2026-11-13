@@ -780,8 +780,9 @@ class App(tk.Tk):
             def job():
                 r = sync.sync_group(client, g)
                 if g["kind"] == "demo" and not g.get("demo_seeded"):
+                    frei = [p["id"] for p in g["participants"][:2]]  # Max Mustermann, Erika Musterfrau bleiben für die Live-Vorführung leer
                     for lab in g.get("lab_ids") or []:
-                        client.rpc("teacher_seed_demo_results", {"p_group_id": g["id"], "p_lab_id": lab, "p_leave_empty": 2})
+                        client.rpc("teacher_seed_demo_results", {"p_group_id": g["id"], "p_lab_id": lab, "p_skip_ids": frei})
                     g["demo_seeded"] = True
                 return r
 

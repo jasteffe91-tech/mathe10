@@ -38,6 +38,7 @@ copy('apps/teacher-dashboard/index.html', 'lehrkraft/index.html');
 copy('apps/teacher-dashboard/styles.css', 'lehrkraft/styles.css');
 copy('apps/student-portal/index.html', 'index.html');
 copy('apps/student-portal/start.css', 'start.css');
+copy('packages/lab-sdk/adapter/stationen-labor-adapter.js', 'sdk/stationen-labor-adapter.js');
 copy('labs/beispiel-labor/index.html', 'labore/beispiel-labor/index.html');
 copy('labs/beispiel-labor/lab.manifest.json', 'labore/beispiel-labor/lab.manifest.json');
 if (!existsSync(join(SITE, 'config.js'))) copy('config/config.example.js', 'config.js');
