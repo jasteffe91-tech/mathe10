@@ -22,6 +22,7 @@ from medialib.webexport import export_web  # noqa: E402
 ap = argparse.ArgumentParser()
 ap.add_argument("--etappe", type=int, default=12)
 ap.add_argument("--nur")
+ap.add_argument("--faktor", type=float, default=1.0, help="Auswahl bis Soll×Faktor aus bereits gefundenen Kandidaten")
 a = ap.parse_args()
 
 db = DB()
@@ -30,12 +31,17 @@ if a.nur:
     plan = [p for p in plan if re.search(a.nur, p["id"])]
 offen = [p for p in plan if (db.con.execute("SELECT status FROM plan_status WHERE plan_id=?", (p["id"],)).fetchone() or ["-"])[0] != "entdeckt"]
 print(f"{len(offen)} von {len(plan)} Planeinträgen noch zu entdecken", flush=True)
+# Zuerst den bereits gefundenen Kandidatenpool nutzen (kostet keine Suchanfragen)
+I.auswaehlen(db, plan, faktor=a.faktor)
+I.herunterladen(db, plan)
+I.svg_vorschauen(db)
+export_web(db)
 for i in range(0, max(len(offen), 1), a.etappe):
     etappe = offen[i:i + a.etappe]
     if etappe:
         I.entdecken(db, etappe)
     ids = "|".join(re.escape(p["id"]) for p in plan)
-    I.auswaehlen(db, plan)
+    I.auswaehlen(db, plan, faktor=a.faktor)
     I.herunterladen(db, plan)
     I.svg_vorschauen(db)
     export_web(db)

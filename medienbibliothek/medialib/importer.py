@@ -27,6 +27,11 @@ SCHLECHT = re.compile(
     r"poster|meme|sticker|emblem|seal of|siegel|tattoo|nsfw|nude|porn)",
     re.I,
 )
+FREMDSPRACHE = re.compile(
+    r"[-_ (](bn|ne|be|pt|es|fr|it|ru|uk|zh|ja|ko|ar|fa|he|hi|ta|ca|pl|cs|nl|sv|fi|tr|el|hu|ro|sr|hr|vi|id|th|eu|gl|et|"
+    r"lv|lt|sk|sl|bg|mk|ka|hy|az|kk|uz|ms|tl|sw|af|sq|bs|is|ga|cy|mt|lb|eo|da|no|nb|nn|ast|oc|br|sh|ur|te|ml|kn|mr|gu|pa)\)?$",
+    re.I,
+)
 QUALI_KAT = re.compile(r"featured pictures|quality images|valued images|exzellent|picture of the day|lesenswert", re.I)
 
 
@@ -92,7 +97,11 @@ def bewerte(c: dict, plan: dict, rang: int, limit: int) -> tuple[float, str]:
         return -1, "GIF größer als 8 MB"
     if fmt == "stl" and size > 12 * 1024 * 1024:
         return -1, "3D-Modell größer als 12 MB"
-    text = " ".join([c.get("originaltitel", ""), c.get("originalbeschreibung", "")[:400], " ".join(c.get("kategorien", [])[:30])])
+    titel = c.get("originaltitel", "")
+    if c.get("herkunft") == "commons" and plan.get("medientyp") not in ("historisch", "foto"):
+        if FREMDSPRACHE.search(titel) or re.search(r"[\u0370-\u03ff\u0400-\u04ff\u0590-\u06ff\u0900-\u0dff\u3040-\u9fff\uac00-\ud7af]", titel):
+            return -1, "Beschriftung vermutlich weder deutsch noch englisch (Sprachkennung/Schrift im Dateinamen)"
+    text = " ".join([titel, c.get("originalbeschreibung", "")[:400], " ".join(c.get("kategorien", [])[:30])])
     if SCHLECHT.search(c.get("originaltitel", "")) or SCHLECHT.search(" ".join(c.get("kategorien", [])[:15])):
         return -1, "Titel/Kategorie deutet auf ungeeigneten Inhalt (Logo, Karte, Flagge, Werbung …)"
     q = re.sub(r"\b\w+:\S+", " ", plan["suche"])
@@ -152,12 +161,20 @@ PRIORITAET = [
 
 
 def priorisieren(plan: list[dict]) -> list[dict]:
-    """Sortiert den Plan: andere Server zuerst, dann testrelevante Kernthemen, dann Einträge mit höherem Soll."""
+    """Sortiert den Plan: andere Server zuerst, dann testrelevante Kernthemen, danach reihum über alle
+    Fachbereiche (je Bereich zuerst die Einträge mit höherem Soll), damit früh die ganze Breite abgedeckt ist."""
+    pos: dict[str, int] = {}
+    rest = sorted((p for p in plan), key=lambda p: -p["max"])
+    for p in rest:
+        bereich = ".".join(p["thema"].split(".")[:2])
+        pos[p["id"]] = pos.get("_" + bereich, 0)
+        pos["_" + bereich] = pos[p["id"]] + 1
+
     def rang(p):
         for i, rx in enumerate(PRIORITAET):
             if re.search(rx, p["id"]):
-                return (i, 0)
-        return (len(PRIORITAET), -p["max"])
+                return (i, 0, 0)
+        return (len(PRIORITAET), pos[p["id"]], -p["max"])
     return sorted(plan, key=rang)
 
 
@@ -207,8 +224,8 @@ def entdecken(db: DB, plan: list[dict], nur: str | None = None, erneut: bool = F
     db.export_kandidaten()
 
 
-def auswaehlen(db: DB, plan: list[dict], nur: str | None = None, out=sys.stdout) -> int:
-    """Wählt je Planeintrag die besten noch nicht aufgenommenen Kandidaten."""
+def auswaehlen(db: DB, plan: list[dict], nur: str | None = None, out=sys.stdout, faktor: float = 1.0) -> int:
+    """Wählt je Planeintrag die besten noch nicht aufgenommenen Kandidaten (bis max·faktor)."""
     n = 0
     vorhanden_sha1 = {r[0] for r in db.con.execute("SELECT quelle_sha1 FROM medien WHERE quelle_sha1 IS NOT NULL")}
     gewaehlt_sha1 = set()
@@ -218,7 +235,7 @@ def auswaehlen(db: DB, plan: list[dict], nur: str | None = None, out=sys.stdout)
         schon = db.con.execute(
             "SELECT COUNT(*) FROM kandidaten WHERE plan_id=? AND status IN ('ausgewaehlt','importiert')", (p["id"],)
         ).fetchone()[0]
-        frei = p["max"] - schon
+        frei = int(round(p["max"] * faktor)) - schon
         if frei <= 0:
             continue
         rows = db.con.execute(

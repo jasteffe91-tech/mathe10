@@ -62,7 +62,7 @@ def test_a(p):
     r = suche("quadratische Funktion Parabel", "--fach", "mathematik", "--profil", "offen")
     p.append(f"Anfrage 'quadratische Funktion Parabel' (Mathematik, Profil offen): {r['treffer_gesamt']} Treffer")
     graphen = [t for t in r["treffer"] if t["medientyp"] in ("diagramm", "grafik") and t["speicherung"] == "lokal"
-               and t["thema"].startswith("ma.funktionen.quadratisch") or (t["medientyp"] in ("diagramm", "grafik") and "quadrat" in (t["thema"] or ""))]
+               and (t["thema"] or "").startswith("ma.funktionen") and not t.get("nur_verwandt")]
     for t in r["treffer"][:6]:
         p.append("  " + kurz(t))
     if len(graphen) < 2:
@@ -89,7 +89,8 @@ def test_a(p):
 <footer style="font-size:12px;margin-top:2em">{nachweis_html}</footer></body></html>"""
     ziel.mkdir(parents=True, exist_ok=True)
     (ziel / "arbeitsblatt.html").write_text(html, encoding="utf-8")
-    ok = rc == 0 and rc2 == 0 and len(dateien) == len(wahl) and all(i in (ziel / "medien" / "BILDNACHWEISE.md").read_text() or True for i in wahl)
+    nachweise = (ziel / "medien" / "BILDNACHWEISE.md").read_text(encoding="utf-8") if (ziel / "medien" / "BILDNACHWEISE.md").exists() else ""
+    ok = rc == 0 and rc2 == 0 and len(dateien) == len(wahl) and nachweise.count("Abb. ") == len(wahl)
     p.append(f"Arbeitsblatt erzeugt: {ziel / 'arbeitsblatt.html'} mit {len(dateien)} Abbildungen und Bildnachweisen")
     return ok, f"{len(graphen)} passende Graphen; {len(dateien)} eingebunden, Bildnachweise erzeugt (Profil offen)"
 

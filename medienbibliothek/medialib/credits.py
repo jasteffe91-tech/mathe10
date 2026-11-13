@@ -69,6 +69,8 @@ def bildnachweis(it: dict, fmt: str = "text", bearbeitung: str | None = None) ->
 
     q_open, q_close = ("„", "“")
     if liz.id == "PD-USGov":
+        if "nasa" not in t["urheber"].lower() and it.get("herkunft") == "nasa":
+            t["urheber"] = f"NASA/{t['urheber']}"
         teile = [f"Bild: {esc(t['urheber'])}", f"{q_open}{esc(t['titel'])}{q_close}",
                  link(t["quelle"], t["quelle_url"]), "gemeinfrei (" + link("NASA Media Usage Guidelines", t["lizenz_url"]) + ")"]
     elif liz.gemeinfrei:

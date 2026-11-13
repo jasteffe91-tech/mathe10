@@ -1,4 +1,96 @@
 {
+ "met-03eb74c5": {
+  "alt_text": "Schwarz-Weiß-Foto einer aufgeklappten runden Kompass-Sonnenuhr mit Windrose und Deckel",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Kompass-Sonnenuhr (historisches Instrument)",
+  "unterthemen": [
+   "ph.geschichte",
+   "ph.astronomie.erde_mond"
+  ]
+ },
+ "met-0734191f": {
+  "alt_text": "Schwarz-Weiß-Foto eines Vermessungskompasses mit Windrose und zwei senkrechten Visierplatten",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Vermessungskompass (historisches Instrument)",
+  "unterthemen": [
+   "ph.geschichte",
+   "ph.experimente.messgeraete"
+  ]
+ },
+ "met-1b6bfe61": {
+  "entfernen": "redundant zu met-2ca73f79",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "met-2219d1f3": {
+  "alt_text": "Farbiger historischer Himmelsglobus mit Sternbildern auf hölzernem Gestell",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.sterne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Himmelsglobus (historisches Instrument)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "met-2ca73f79": {
+  "alt_text": "Japanischer Farbholzschnitt eines ausziehbaren Fernrohrs in einer gemusterten Stofftasche, mit Schriftzeichen",
+  "beschriftung": "andere",
+  "medientyp": "historisch",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Fernrohr mit Tasche (japanischer Farbholzschnitt)"
+ },
+ "met-49c6ed89": {
+  "entfernen": "redundant (weitere Sonnenuhr)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "met-6293eee7": {
+  "alt_text": "Messingmikroskop auf Holzsockel neben einem pyramidenförmigen Holzkasten und Zubehör",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Historisches Mikroskop mit Aufbewahrungskasten",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "met-81f70494": {
+  "alt_text": "Vergoldeter Himmelsglobus auf einer Pferdefigur, mit Uhrwerk",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.sterne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Himmelsglobus mit Uhrwerk (historisches Instrument)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "met-85ef6c4e": {
+  "entfernen": "redundant (zweiter Himmelsglobus)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "met-8cbb5628": {
+  "alt_text": "Reich verziertes, vergoldetes historisches Mikroskop mit grünem Tubus",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Prunkmikroskop (historisches Instrument)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "met-8d2355d0": {
+  "entfernen": "nur Fernrohrständer, wenig aussagekräftig",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "met-a1751f1a": {
+  "entfernen": "redundant (weitere Sonnenuhr)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "met-a9ebe6fd": {
   "alt_text": "Foto eines goldfarbenen Messing-Astrolabiums mit Skalenring und Sternzeiger",
   "beschriftung": "ohne",
@@ -8,6 +100,25 @@
   "unterthemen": [
    "ph.experimente.messgeraete"
   ]
+ },
+ "met-b3e494f7": {
+  "entfernen": "redundant (weiteres Astrolabium)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "met-ccc45f4d": {
+  "alt_text": "Schwarz-Weiß-Foto einer quadratischen Sonnenuhrplatte mit Stundenziffern und schrägem Schattenstab",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Historische Sonnenuhr mit Stundenskala",
+  "unterthemen": [
+   "ph.geschichte",
+   "ph.optik.lichtausbreitung"
+  ]
+ },
+ "met-d45c2a00": {
+  "entfernen": "redundant (zweites Astrolabium)",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "nasa-05a2c228": {
   "alt_text": "Vollmond mit dunklen Mondmeeren und hellen Kratern vor schwarzem Hintergrund",
@@ -38,6 +149,14 @@
    "ph.astronomie.raumfahrt"
   ]
  },
+ "nasa-10eb141a": {
+  "alt_text": "Zeichnung des Hubble-Weltraumteleskops mit Solarflügeln über der Erde",
+  "beschriftung": "ohne",
+  "medientyp": "illustration",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Hubble-Weltraumteleskop in der Erdumlaufbahn (künstlerische Darstellung)"
+ },
  "nasa-15a91252": {
   "entfernen": "Teleskop kaum erkennbar, wenig aussagekräftig",
   "sichtgeprueft_am": "2026-11-13"
@@ -49,6 +168,10 @@
   "qualitaet": 3,
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Erdatmosphäre im Gegenlicht der Sonne, aus dem All"
+ },
+ "nasa-2b4292ab": {
+  "entfernen": "abstrakte Ringansicht, wenig aussagekräftig",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "nasa-312d2dd6": {
   "alt_text": "Schwarz-weiße Tafel mit zwei Schlierenbildern von Flügelmodellen und sichtbaren Stoßwellen, Überschrift Effect of sweepback on shock waves",
@@ -65,6 +188,20 @@
   "entfernen": "didaktisch wenig aussagekräftig (abstrakte Ringansicht)",
   "sichtgeprueft_am": "2026-11-13"
  },
+ "nasa-3aa6d743": {
+  "alt_text": "Erdkugel mit Europa, Afrika und Atlantik unter Wolken vor schwarzem Hintergrund",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Die Erde aus dem All: Europa und Afrika („Blue Marble“ 2014)"
+ },
+ "nasa-3e8ee513": {
+  "alt_text": "Saturn mit seinen breiten Ringen im Gegenlicht vor schwarzem Hintergrund",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Saturn mit Ringsystem (Cassini)"
+ },
  "nasa-46144d7a": {
   "alt_text": "Erdkugel mit Nordamerika, Wolken und Ozeanen vor schwarzem Hintergrund",
   "beschriftung": "ohne",
@@ -74,6 +211,14 @@
  },
  "nasa-468d54ea": {
   "entfernen": "thematisch unklar (Raketen-Rettungsturm-Test)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-4962adf0": {
+  "entfernen": "redundant zu nasa-73a0a3df",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-4b803123": {
+  "entfernen": "redundant zu nasa-a915df62",
   "sichtgeprueft_am": "2026-11-13"
  },
  "nasa-4ed8e766": {
@@ -98,6 +243,32 @@
    "ph.astronomie.raumfahrt"
   ]
  },
+ "nasa-5e8d30c2": {
+  "alt_text": "Weltraumteleskop mit ausgeklapptem Solarpaneel, gehalten vom Roboterarm über der Erde",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Hubble-Weltraumteleskop am Roboterarm des Space Shuttle (1990)",
+  "unterthemen": [
+   "ph.astronomie.raumfahrt"
+  ]
+ },
+ "nasa-620f3723": {
+  "alt_text": "Vier nebeneinanderliegende farbige Ausschnitte rötlicher Gasnebel mit Sternen",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.sterne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Vier bekannte Gasnebel (Infrarotaufnahmen)"
+ },
+ "nasa-63bc6c27": {
+  "entfernen": "redundant zu nasa-5c61a18a",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-68d3069b": {
+  "entfernen": "schmaler Bildstreifen, wenig aussagekräftig",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "nasa-73a0a3df": {
   "alt_text": "Saturn-V-Rakete hebt mit hellem Feuerstrahl vom Startturm ab",
   "beschriftung": "ohne",
@@ -120,6 +291,34 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Topografie des Mars (Schattenrelief)"
  },
+ "nasa-79b4404c": {
+  "alt_text": "Goldfolienverkleidetes Landebein der Mondfähre auf staubigem grauem Mondboden mit Fußabdrücken",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.raumfahrt",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Landebein der Apollo-11-Mondfähre auf dem Mondboden",
+  "unterthemen": [
+   "ph.astronomie.erde_mond"
+  ]
+ },
+ "nasa-8b305d11": {
+  "alt_text": "Grünlich leuchtende Polarlichtbänder über dem dunklen Erdhorizont",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Südlicht (Aurora australis), fotografiert von der ISS",
+  "unterthemen": [
+   "ph.astronomie.erde_mond"
+  ]
+ },
+ "nasa-998f2622": {
+  "alt_text": "Wabenförmige, goldbeschichtete Spiegelsegmente des Teleskops in einer Montagehalle",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Spiegel des James-Webb-Weltraumteleskops im Bau"
+ },
  "nasa-99fea773": {
   "alt_text": "Künstlerische Darstellung der Raumsonde Juno mit drei Solarflügeln vor dem gestreiften Jupiter und dem Großen Roten Fleck",
   "beschriftung": "ohne",
@@ -131,6 +330,13 @@
    "ph.astronomie.raumfahrt"
   ]
  },
+ "nasa-9dced5e4": {
+  "alt_text": "Nahaufnahme der Plutooberfläche mit hellen und dunklen Regionen und dünner Atmosphäre am Rand",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Zwergplanet Pluto (New Horizons)"
+ },
  "nasa-a915df62": {
   "alt_text": "Goldbraune Sonnenscheibe mit hellen aktiven Regionen und Strukturen in der Sonnenatmosphäre",
   "beschriftung": "ohne",
@@ -140,6 +346,25 @@
   "unterthemen": [
    "ph.astronomie.sterne"
   ]
+ },
+ "nasa-b5084982": {
+  "alt_text": "Längliche Zwerggalaxie mit leuchtend rosa und blauen Sternentstehungsgebieten vor dunklem Hintergrund",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.astronomie.galaxien",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Sternentstehung in einer Zwerggalaxie (Hubble-Aufnahme)",
+  "unterthemen": [
+   "ph.astronomie.sterne"
+  ]
+ },
+ "nasa-b8eac953": {
+  "entfernen": "abstrakte Ringansicht",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-bb070698": {
+  "entfernen": "abstrakte Ringansicht, wenig aussagekräftig",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "nasa-ccd9412b": {
   "alt_text": "Farbige Infrarotaufnahme des Adlernebels mit leuchtender Gaswolke und vielen Sternen",
@@ -151,6 +376,16 @@
    "ph.schwingungen.em_wellen"
   ]
  },
+ "nasa-cd62ff2b": {
+  "alt_text": "Vollmond, dessen oberer Rand leicht vom Erdschatten verdunkelt ist",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Partielle Mondfinsternis (25. April 2013)",
+  "unterthemen": [
+   "ph.optik.lichtausbreitung"
+  ]
+ },
  "nasa-d7aadce5": {
   "alt_text": "Apollo-Mondlandefähre auf grauem Mondboden, davor ein Astronaut",
   "beschriftung": "ohne",
@@ -159,9 +394,131 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Mondlandefähre auf der Mondoberfläche (Apollo-Programm)"
  },
+ "nasa-d976f108": {
+  "entfernen": "Bildinhalt unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-dbac1c48": {
+  "entfernen": "Personenfoto ohne physikalischen Bezug",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-dc43c0bd": {
+  "entfernen": "redundant zu nasa-8b305d11",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-e35d5e89": {
+  "entfernen": "redundant zu nasa-a915df62",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-e4dd7e20": {
+  "entfernen": "Bildinhalt für Schüler kaum deutbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-eb51fbf3": {
+  "entfernen": "Pluto im Sternfeld kaum erkennbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-eedfe7f2": {
+  "entfernen": "Pluto im Sternfeld kaum erkennbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "nasa-f9502ee8": {
+  "alt_text": "Ovale Kartenprojektion der gesamten rötlichen Marsoberfläche mit dunklen Regionen und Polkappen",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Marsoberfläche als Weltkarte (Hubble)"
+ },
  "nasa-fc2a131b": {
   "entfernen": "Pluto im Sternfeld kaum erkennbar",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wel-0539e00a": {
+  "alt_text": "Kolorierter Kupferstich mit galvanischen Elementen, Batterien und elektrischen Apparaten",
+  "beschriftung": "en",
+  "hauptthema": "ph.elektrizitaet.spannung",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Historische elektrische Geräte und Batterien (Kupferstich)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wel-2e310ff1": {
+  "entfernen": "schlechtere Reproduktion von wel-6463f804",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wel-31034b5e": {
+  "alt_text": "Tafel mit siebzehn kleinen Abbildungen historischer Apparate zur galvanischen Elektrizität",
+  "beschriftung": "en",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Apparate zum Galvanismus (Kupferstich)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wel-3542248a": {
+  "alt_text": "Goldfarbenes Wachsrelief: Halbporträt von Isaac Newton mit Perücke",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.geschichte",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Isaac Newton (Wachsrelief)",
+  "unterthemen": [
+   "ph.mechanik.newton"
+  ]
+ },
+ "wel-4f12377c": {
+  "alt_text": "Schwarz-weißer Stich: Astronom notiert Beobachtungen neben einem großen Teleskop und einer Pendeluhr",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Astronom am Teleskop einer Sternwarte (Stich)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wel-6463f804": {
+  "alt_text": "Gemälde: Nachts zeigt ein Forscher einer Familie, wie ein Vogel in einer Glaskugel ohne Luft ermattet; Kerzenlicht",
+  "beschriftung": "ohne",
+  "didaktik": "Starker Einstieg (Vakuum, Luftdruck, Ethik im Experiment).",
+  "hauptthema": "ph.mechanik.druck",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Das Experiment mit dem Vogel in der Luftpumpe (Joseph Wright of Derby, 1768)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wel-64cbe4b4": {
+  "alt_text": "Technischer Stich einer fahrbaren Dampfmaschine mit Schornstein und einer stationären Dampfmaschine mit Schwungrad",
+  "beschriftung": "en",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Dampflokomobil und stationäre Dampfmaschine (Stich)",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wel-a54bc292": {
+  "entfernen": "redundant zu wel-3542248a",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wel-b0c82348": {
+  "entfernen": "redundant zu wel-64cbe4b4",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wel-bf31d82b": {
+  "alt_text": "Kupferstich: strahlenförmige elektrische Entladung und Personen bei einem Experiment mit der Leidener Flasche",
+  "beschriftung": "andere",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Nollets Experiment mit der Leidener Flasche (Kupferstich)",
+  "unterthemen": [
+   "ph.geschichte",
+   "ph.elektrizitaet.kondensator"
+  ]
  },
  "wel-c3bfa8ed": {
   "alt_text": "Schwarz-Weiß-Foto einer gläsernen Leidener Flasche, eines frühen Kondensators",
@@ -171,6 +528,16 @@
   "titel": "Leidener Flasche aus Galvanis Apparatur",
   "unterthemen": [
    "ph.elektrizitaet.kondensator",
+   "ph.geschichte"
+  ]
+ },
+ "wel-e9b71073": {
+  "alt_text": "Stich eines sehr langen Fernrohrs ohne Röhre an einem Mast, ein Astronom beobachtet",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Luftfernrohr ohne Tubus (historischer Stich)",
+  "unterthemen": [
    "ph.geschichte"
   ]
  },
@@ -184,6 +551,14 @@
    "ph.geschichte"
   ]
  },
+ "wmc-01263b27": {
+  "entfernen": "Museumsobjekt, Pendelkugeln kaum erkennbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-04a6bf11": {
+  "entfernen": "nahezu Dublette von wmc-29cf7b94",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "wmc-05726647": {
   "alt_text": "Roter Graph der Funktion f(x) = 2x³ − 3x² − 3x + 2 mit Hoch- und Tiefpunkt im Koordinatensystem",
   "beschriftung": "ohne",
@@ -191,6 +566,40 @@
   "qualitaet": 4,
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Graph einer ganzrationalen Funktion 3. Grades"
+ },
+ "wmc-0747eefc": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-0bba6e59": {
+  "alt_text": "Schnittzeichnung eines Newton-Teleskops: Lichtstrahlen werden vom Hauptspiegel gebündelt und vom Fangspiegel seitlich ins Okular gelenkt",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Strahlengang im Newton-Spiegelteleskop",
+  "unterthemen": [
+   "ph.optik.spiegel"
+  ]
+ },
+ "wmc-0e2aee15": {
+  "entfernen": "nicht schulrelevant (komplexe Exponentialfunktion)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-0f36e600": {
+  "entfernen": "zu speziell (Lastabwurfrelais)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-12f7ddea": {
+  "entfernen": "redundant (weitere Sieb-Animation)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-16ffdd9f": {
+  "entfernen": "portugiesische Beschriftung; deutsche und englische Fassung vorhanden",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-17e7a1eb": {
+  "entfernen": "Rechte am abgebildeten Kunstwerk (Hirshman) ungeklärt",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-188435f7": {
   "alt_text": "Quadrat mit Seitenlänge 1 und roter Diagonale, beschriftet mit Wurzel 2",
@@ -202,6 +611,44 @@
    "ma.geometrie.pythagoras",
    "ma.arithmetik.zahlbereiche"
   ]
+ },
+ "wmc-18ffbb5d": {
+  "entfernen": "nahezu Dublette von wmc-841a554f",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-1975cc20": {
+  "alt_text": "Drei Formeln: p = m·v, F = Ableitung von p, F12 = −F21",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   10,
+   13
+  ],
+  "titel": "Newtonsche Axiome in Formelschreibweise"
+ },
+ "wmc-1a76b35f": {
+  "alt_text": "Animation: Ein blauer Punkt bewegt sich auf und ab, während die Sinuskurve seines Weges durchläuft",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Harmonische Schwingung: Punkt auf einer Sinuskurve (Animation)"
+ },
+ "wmc-1ca008b1": {
+  "entfernen": "redundant (weitere Sieb-Animation)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-1e164177": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-1fe5a87f": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-2050e05f": {
+  "entfernen": "zu speziell (Zweitor)",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-253b6e5a": {
   "alt_text": "Quadrat der Seitenlänge a + b, aufgeteilt in die Teilflächen a², zweimal ab und b²",
@@ -215,6 +662,22 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Erste binomische Formel als Flächenmodell"
  },
+ "wmc-265cff58": {
+  "entfernen": "themenfremde Karikatur (Richard Newton, 18. Jh.)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-268c7ee9": {
+  "entfernen": "für Schule nicht verständlich (MagLIF)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-26e4a674": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-27256851": {
+  "entfernen": "zu klein/unleserlich",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "wmc-29cf7b94": {
   "alt_text": "Graph einer kubischen Funktion mit erster und zweiter Ableitung, markierten Extrempunkten und Wendepunkt; englische Beschriftung",
   "beschriftung": "en",
@@ -227,6 +690,19 @@
   ],
   "titel": "Kurvendiskussion einer kubischen Funktion mit Ableitungen"
  },
+ "wmc-2b605ce7": {
+  "alt_text": "Gemälde: Isaac Newton mit langem grauem Haar und dunklem Gewand vor dunklem Hintergrund",
+  "beschriftung": "ohne",
+  "einschraenkungen": [],
+  "hauptthema": "ph.geschichte",
+  "medientyp": "historisch",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Isaac Newton (Porträt von Godfrey Kneller, 1689)",
+  "unterthemen": [
+   "ph.mechanik.newton"
+  ]
+ },
  "wmc-2cbd569e": {
   "entfernen": "RLC-Schaltung mit US-Schaltzeichen, passt nicht zum Thema Parallelschaltung Sek I",
   "sichtgeprueft_am": "2026-11-13"
@@ -238,9 +714,36 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Einheitskreis mit exakten Sinus- und Kosinuswerten"
  },
+ "wmc-2ec7ef22": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-2f4d7a3a": {
+  "alt_text": "Animation eines schwingenden Fadenpendels mit eingezeichneter Gewichtskraft m·g und ihren Komponenten sowie dem Auslenkwinkel α",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.schwingungen.pendel",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Fadenpendel mit Kraftzerlegung (Animation)",
+  "unterthemen": [
+   "ph.mechanik.kraefte"
+  ]
+ },
  "wmc-2fad1420": {
   "entfernen": "bengalische Beschriftung",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-3189399f": {
+  "alt_text": "Animation: Masse an Feder und Dämpfer kehrt ohne Überschwingen in die Ruhelage zurück; daneben der Graph x(t)",
+  "beschriftung": "en",
+  "hauptthema": "ph.schwingungen.gedaempft",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   11,
+   13
+  ],
+  "titel": "Feder-Masse-Dämpfer: aperiodischer Grenzfall (Animation)"
  },
  "wmc-3260fb33": {
   "alt_text": "Orange Kreisscheibe und daneben dieselbe Scheibe in vier gleich große Viertel zerlegt",
@@ -249,12 +752,27 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Kreis in Viertel geteilt (Bruchteile)"
  },
+ "wmc-331d2bef": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "wmc-342bbe31": {
   "alt_text": "Animation: Auf einer Zahlentafel bis 120 werden nacheinander die Vielfachen von 2, 3, 5 und 7 gestrichen; übrig bleiben die Primzahlen",
   "beschriftung": "en",
   "qualitaet": 4,
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Sieb des Eratosthenes (Animation, englisch)"
+ },
+ "wmc-36092e45": {
+  "entfernen": "unbekannte Person",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-365d8e1b": {
+  "alt_text": "Einheitskreis mit Radius 1, Winkel α und Punkt (cos α | sin α); darunter −1 ≤ sin α ≤ 1 und −1 ≤ cos α ≤ 1",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Einheitskreis: Definition von Sinus und Kosinus"
  },
  "wmc-3662bafc": {
   "entfernen": "unklarer Inhalt, kaum beschriftet",
@@ -271,9 +789,85 @@
   ],
   "titel": "Zahlenstrahl mit natürlichen Zahlen 0 bis 7"
  },
+ "wmc-43284d36": {
+  "entfernen": "zu speziell (Phasenebene)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-4498d5a3": {
+  "entfernen": "themenfremde Karikatur (Richard Newton, 18. Jh.)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-44c62e99": {
+  "entfernen": "themenfremd (Pandemiestatistik)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-45788538": {
+  "entfernen": "zu speziell (Motorschutzschalter)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-4603b0f1": {
+  "alt_text": "Zwei Gewichtsstücke 1 kg und 5 kg werden von einer Hand gezogen; Pfeile zeigen die Zugkraft",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.newton",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Trägheit: unterschiedliche Massen beim Anziehen (1 kg und 5 kg)"
+ },
+ "wmc-465d0d23": {
+  "entfernen": "dargestellte Person/Thema unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "wmc-470a5020": {
   "entfernen": "schwer lesbar",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-4aa0cfbe": {
+  "entfernen": "Achsen kaum beschriftet, didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-4bee9521": {
+  "entfernen": "bengalische Beschriftung",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-4c49f332": {
+  "alt_text": "Koordinatensystem mit Ball in der Höhe h0, waagerechtem Geschwindigkeitspfeil v0 und senkrechtem Pfeil g",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf.waagerecht",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Waagerechter Wurf: Anfangsgeschwindigkeit, Höhe und Fallbeschleunigung"
+ },
+ "wmc-4e2c9d6d": {
+  "alt_text": "Zwei Wurfparabeln mit gleicher Wurfweite: eine steile (obere Winkelgruppe) und eine flache (untere Winkelgruppe)",
+  "beschriftung": "de",
+  "hauptthema": "ph.mechanik.wurf.schraeg",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Schräger Wurf: obere und untere Winkelgruppe mit gleicher Wurfweite"
+ },
+ "wmc-4f3a9901": {
+  "alt_text": "Dreiteiliger Comic mit einem Biber, der über die ungeschriebenen Gesetze der Zeichentrick-Physik erzählt, z. B. erst fallen, wenn man nach unten schaut",
+  "beschriftung": "en",
+  "einsatzzweck": [
+   "einstieg",
+   "praesentation"
+  ],
+  "hauptthema": "ph.alltag",
+  "medientyp": "comic",
+  "qualitaet": 4,
+  "schlagworte": [
+   "Comic",
+   "Humor",
+   "Zeichentrick",
+   "Schwerkraft",
+   "Trägheit"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Comic: Cartoon-Physik (WikiWorld)",
+  "unterthemen": [
+   "ph.mechanik.newton",
+   "ph.mechanik.freier_fall"
+  ]
  },
  "wmc-502b1f07": {
   "alt_text": "Grüne Strecke von P nach Q im Karogitter mit waagerechter Kathete dx und senkrechter Kathete dy",
@@ -282,9 +876,53 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Steigungsdreieck zwischen zwei Punkten P und Q"
  },
+ "wmc-518612af": {
+  "alt_text": "Mehrere farbige Exponentialgraphen f, g, h, p, q im Koordinatengitter, steigend und fallend",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Exponentialfunktionen mit verschiedenen Parametern"
+ },
+ "wmc-55c6e0ab": {
+  "alt_text": "Hand mit Wasserpistole, waagerechte Abschussgeschwindigkeit v0 und Bahnkurve; Angaben zu Höhe, Wurfdauer und Wurfweite",
+  "beschriftung": "de",
+  "hauptthema": "ph.mechanik.wurf.waagerecht",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Waagerechter Wurf mit Wasserpistole (Bahnkurve mit Werten)"
+ },
+ "wmc-55f579d3": {
+  "entfernen": "US-Schaltzeichen, redundant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "wmc-5ad42db7": {
   "entfernen": "themenfremd (Börsenkurs)",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-5b048592": {
+  "entfernen": "redundant zu wmc-5b90bb62",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-5b90bb62": {
+  "alt_text": "Animation eines Kugelstoßpendels: die äußeren Kugeln schwingen abwechselnd, die mittleren bleiben in Ruhe; darunter ein aufgeschlagenes Buch",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Kugelstoßpendel (Newton-Pendel) in Bewegung (Animation)"
+ },
+ "wmc-5bdade1a": {
+  "entfernen": "zu speziell (Tarifschalter)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-5d6612f9": {
+  "alt_text": "Animation: Pendel über dem Nordpol der sich drehenden Erde, die Schwingungsebene bleibt im Raum fest",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Foucault-Pendel am Nordpol (Animation)",
+  "unterthemen": [
+   "ph.astronomie.erde_mond"
+  ]
  },
  "wmc-5dc75ff9": {
   "alt_text": "Quadrat aufgeteilt in die Flächen x², y² und zwei Rechtecke xy",
@@ -293,12 +931,92 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Binomische Formel (x + y)² als Flächenmodell"
  },
+ "wmc-5e3eb4de": {
+  "entfernen": "Achsen kaum beschriftet, didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-60c82b5c": {
+  "entfernen": "nicht schulrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-61a5a33f": {
+  "alt_text": "Zweistufiges Baumdiagramm mit Pfadwahrscheinlichkeiten 0,1 % und 99,9 % sowie bedingten Wahrscheinlichkeiten und Endwahrscheinlichkeiten",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Baumdiagramm zum Satz von Bayes (Beispiel mit seltener Eigenschaft)",
+  "unterthemen": [
+   "ma.stochastik.baumdiagramm"
+  ]
+ },
+ "wmc-643f34f5": {
+  "alt_text": "Draufsicht eines Hammerwerfers mit Kreisbahn und möglichen Flugrichtungen A bis E nach dem Loslassen",
+  "beschriftung": "ohne",
+  "didaktik": "Fehlvorstellung prüfen: Der Körper fliegt tangential weiter, nicht radial nach außen.",
+  "hauptthema": "ph.mechanik.newton",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Kreisbewegung und Trägheit: tangentiales Wegfliegen",
+  "unterthemen": [
+   "ph.mechanik.kreisbewegung"
+  ]
+ },
+ "wmc-65edc2dd": {
+  "alt_text": "Grüne, immer steiler ansteigende Exponentialkurve in einem Koordinatengitter mit markiertem Ursprung (0,0)",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Graph einer wachsenden Exponentialfunktion im Gitter"
+ },
+ "wmc-661637b3": {
+  "entfernen": "themenfremde Karikatur (Richard Newton, 18. Jh.)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
  "wmc-672c85b7": {
   "alt_text": "Mengendiagramm: natürliche Zahlen N innerhalb der ganzen Zahlen Z, diese innerhalb der rationalen Zahlen Q, alles innerhalb der reellen Zahlen R; daneben R ohne Q (irrationale Zahlen)",
   "beschriftung": "ohne",
   "qualitaet": 4,
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Zahlbereiche als Mengendiagramm (N ⊂ Z ⊂ Q ⊂ R)"
+ },
+ "wmc-694728fc": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-6aa095ea": {
+  "alt_text": "Animation: Ein rotierender Zeiger im Kreis erzeugt synchron die Sinus- und Kosinuskurve der Auslenkung",
+  "beschriftung": "ohne",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Zeigerdiagramm und Sinuskurve einer harmonischen Schwingung (Animation)",
+  "unterthemen": [
+   "ma.funktionen.trigonometrisch",
+   "ph.mechanik.kreisbewegung"
+  ]
+ },
+ "wmc-6abded02": {
+  "alt_text": "Flächenmodell zu (a + b)(a − b) = a² − b² mit farbig markierten Rechteck- und Quadratflächen",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "schlagworte": [
+   "binomische Formel",
+   "Flächenmodell",
+   "(a+b)(a−b)"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Dritte binomische Formel als Flächenmodell"
+ },
+ "wmc-6c1f0ffd": {
+  "alt_text": "Animation: Wurfbahnen im x-y-Diagramm, während der Abwurfwinkel schrittweise verändert wird",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf.schraeg",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Wurfbahnen bei veränderlichem Abwurfwinkel (Animation)"
+ },
+ "wmc-6f2821ef": {
+  "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-6f5302ee": {
   "alt_text": "Graph eines exponentiellen Wachstums B(t) mit eingezeichneten Verdopplungen 3, 6, 12, 24 nach jeweils gleichen Zeitabständen",
@@ -307,8 +1025,100 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Exponentielles Wachstum: Verdopplung in gleichen Zeitabständen"
  },
+ "wmc-6f5b6ef1": {
+  "entfernen": "nicht lehrplanrelevant (iterierte Exponentialfunktion)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-6fb5f6f8": {
+  "alt_text": "Zweistufiges Baumdiagramm mit 60 % und 40 % auf der ersten Stufe und bedingten Wahrscheinlichkeiten auf der zweiten",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Baumdiagramm zum Satz von Bayes (zweites Beispiel)",
+  "unterthemen": [
+   "ma.stochastik.baumdiagramm"
+  ]
+ },
+ "wmc-71238fc1": {
+  "alt_text": "Historische Zeichnung zweier Säulen mit Bahnkurven eines waagerecht abgeschossenen Körpers",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf.waagerecht",
+  "medientyp": "historisch",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Galileis Zeichnung zum waagerechten Wurf",
+  "unterthemen": [
+   "ph.geschichte"
+  ]
+ },
+ "wmc-712e42c4": {
+  "entfernen": "Dublette (aufgehellte Fassung) von wmc-2b605ce7",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-728bb193": {
+  "alt_text": "Viele farbige Wurfparabeln für Abwurfwinkel von 5° bis 85° und die umhüllende Kurve",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf.schraeg",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Wurfparabeln bei verschiedenen Abwurfwinkeln mit Hüllkurve"
+ },
  "wmc-7328216e": {
   "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-73892ffc": {
+  "entfernen": "zu speziell (Tarifschalter)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-738de719": {
+  "entfernen": "redundant zu wmc-0bba6e59",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-76338b10": {
+  "alt_text": "Zahlenstrahl von 0 bis 10 mit Markierung bei 5 und Pfeilen zu Vorgänger und Nachfolger",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   5,
+   6
+  ],
+  "titel": "Zahlenstrahl: Vorgänger und Nachfolger"
+ },
+ "wmc-791631f8": {
+  "entfernen": "nahezu Dublette von wmc-6f5302ee",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-7f333c79": {
+  "alt_text": "Parabelförmige Wurfbahn von einer Abwurfhöhe y0 aus, Abwurfgeschwindigkeit v unter dem Winkel θ, Wurfweite d",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf.schraeg",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Wurfweite beim schrägen Wurf aus einer Abwurfhöhe"
+ },
+ "wmc-805f2b9a": {
+  "alt_text": "Zwei Diagramme: oben fallende Geraden der Geschwindigkeit über der Zeit, unten Weg-Zeit-Kurven bis zum Stillstand, für drei Fälle I bis III",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.beschleunigung",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Geschwindigkeit und Weg beim Bremsen mit konstanter Verzögerung",
+  "unterthemen": [
+   "ph.mechanik.bewegung"
+  ]
+ },
+ "wmc-825186cb": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-83607a44": {
+  "entfernen": "nicht-deutsche/englische Beschriftung (Devanagari)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-837ac2db": {
+  "entfernen": "themenfremd",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-841a554f": {
@@ -317,6 +1127,29 @@
   "qualitaet": 5,
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Sieb des Eratosthenes (Animation, deutsch)"
+ },
+ "wmc-8481de94": {
+  "alt_text": "Mehrere Logarithmusgraphen im Gitter, alle durch den Punkt (1|0), steigend für Basis größer 1 und fallend für Basis kleiner 1",
+  "beschriftung": "en",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Logarithmusfunktionen zu verschiedenen Basen"
+ },
+ "wmc-853ee701": {
+  "entfernen": "themenfremd (politischer Infostand, Person)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-873b158e": {
+  "alt_text": "Zahlenstrahl von 0 bis 3 mit Ballons, in denen gleichwertige Brüche stehen, die zu Punkten auf dem Strahl gehören",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.arithmetik.brueche",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   5,
+   6
+  ],
+  "titel": "Brüche am Zahlenstrahl"
  },
  "wmc-8979a953": {
   "alt_text": "Zahlenstrahl von −5 bis 5 mit Mengen- und Intervallschreibweisen für die positiven und negativen reellen Zahlen",
@@ -329,16 +1162,82 @@
   ],
   "titel": "Zahlenstrahl: positive und negative reelle Zahlen in Mengenschreibweise"
  },
+ "wmc-8aa15ab8": {
+  "entfernen": "arabische Beschriftung",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-8b17a317": {
+  "alt_text": "Animation: Masse an einer Feder schwingt auf und ab, daneben bewegt sich ein Punkt auf einer Kreisbahn im Phasenraum",
+  "beschriftung": "en",
+  "hauptthema": "ph.schwingungen.federpendel",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   11,
+   13
+  ],
+  "titel": "Federpendel und Phasenraum (Animation)"
+ },
+ "wmc-8cce9133": {
+  "alt_text": "Drei Federn: entspannt, mit ruhender Masse und schwingender Masse; Kraftpfeile und Auslenkung werden angezeigt",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.schwingungen.federpendel",
+  "qualitaet": 5,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Federpendel mit Kräften (Animation)"
+ },
+ "wmc-8d6f45a3": {
+  "alt_text": "Fallende Exponentialkurve von A auf null; bei der Zeit τ ist der Wert auf etwa 0,37 A gesunken, Achse bis 5τ",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Exponentieller Abfall mit Zeitkonstante τ",
+  "unterthemen": [
+   "ph.elektrizitaet.kondensator",
+   "ph.atom.radioaktivitaet"
+  ]
+ },
+ "wmc-8ed4c8a5": {
+  "alt_text": "Graph von y = a^x mit a > 1; vom Funktionswert M wird waagerecht zum Graphen und senkrecht zur x-Achse der Wert p = log_a M abgelesen",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.funktionen.logarithmus",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Exponentialfunktion und Logarithmus: log_a M ablesen"
+ },
  "wmc-8f592593": {
   "entfernen": "didaktisch unklar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-90f1004b": {
+  "entfernen": "belarussische Beschriftung",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-91ed4fb1": {
+  "entfernen": "themenfremd (Pandemiestatistik)",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-91f7cc2f": {
   "entfernen": "nicht schulrelevant (Domain Coloring komplexer Funktionen)",
   "sichtgeprueft_am": "2026-11-13"
  },
+ "wmc-93d75bba": {
+  "alt_text": "Flächenmodell: Quadrat x² mit zwei Rechtecken 5x und Ergänzungsquadrat 5²",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.funktionen.quadratisch",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Quadratische Ergänzung am Beispiel x² + 10x (Flächenmodell, Schritt 1)",
+  "unterthemen": [
+   "ma.arithmetik.terme"
+  ]
+ },
  "wmc-95b7d887": {
   "entfernen": "überladen, schwer lesbar",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-95f327bc": {
+  "entfernen": "Rechte am abgebildeten Kunstwerk (Hirshman) ungeklärt",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-9a2d8524": {
@@ -347,6 +1246,14 @@
   "qualitaet": 4,
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Exponential- und Logarithmusfunktion als Umkehrfunktionen"
+ },
+ "wmc-9b0390e8": {
+  "entfernen": "Bildtext verweist auf nicht vorhandene Interaktion",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-9b2c3037": {
+  "entfernen": "redundant zu wmc-518612af",
+  "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-9bc7478e": {
   "alt_text": "Schaltplan: Batterie mit drei parallel geschalteten Widerständen in Zickzack-Darstellung",
@@ -359,8 +1266,28 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Parallelschaltung dreier Widerstände (US-Schaltzeichen)"
  },
+ "wmc-9cb64a24": {
+  "alt_text": "Graph einer ganzrationalen Funktion, die bei x = −4 die x-Achse schneidet und bei x = 1 nur berührt",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.funktionen.potenz",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Nullstellen mit Vielfachheit (einfache und doppelte Nullstelle)"
+ },
  "wmc-a02f528a": {
   "entfernen": "themenfremd (Klimastatistik)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-a0e9e431": {
+  "entfernen": "nicht schulrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-a1f22154": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-a2d0d2aa": {
+  "entfernen": "nicht lehrplanrelevant",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-a468e677": {
@@ -375,9 +1302,83 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Summenregel der Ableitung (grafische Veranschaulichung)"
  },
+ "wmc-a69adcfb": {
+  "entfernen": "nicht lehrplanrelevant (KdV-Notation)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-aa41db95": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-aad0b497": {
+  "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-ac42f10a": {
+  "alt_text": "Flächenmodell: Quadrat x² mit vier Rechtecken 2,5x und vier kleinen Ergänzungsquadraten zu einem großen Quadrat",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.funktionen.quadratisch",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Quadratische Ergänzung am Beispiel x² + 5x (Flächenmodell)",
+  "unterthemen": [
+   "ma.arithmetik.terme"
+  ]
+ },
+ "wmc-ac7e77e1": {
+  "entfernen": "nicht-deutsche/englische Beschriftung",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-acd9ff4f": {
+  "alt_text": "Hyperbel mit zwei Ästen im ersten und dritten Quadranten, Asymptoten sind die Koordinatenachsen",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.funktionen.potenz",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Graph der Funktion f(x) = 1/x (Hyperbel)",
+  "unterthemen": [
+   "ma.analysis.grenzwert"
+  ]
+ },
+ "wmc-b032ee16": {
+  "alt_text": "Animation eines Fadenpendels, die Kugel schwingt auf einem gestrichelten Kreisbogen hin und her",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.schwingungen.pendel",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Schwingendes Fadenpendel (Animation, ohne Beschriftung)"
+ },
  "wmc-b1318b7c": {
   "entfernen": "didaktisch unklar",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-b1bf8cdd": {
+  "entfernen": "redundant zu wmc-5b90bb62",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-b1f05788": {
+  "alt_text": "Farbige Cartoon-Zeichnung: Isaac Newton sitzt nachts unter einem Apfelbaum, Äpfel fallen, am Himmel der Mond",
+  "beschriftung": "ohne",
+  "einsatzzweck": [
+   "einstieg",
+   "praesentation",
+   "arbeitsblatt"
+  ],
+  "medientyp": "cartoon",
+  "qualitaet": 4,
+  "schlagworte": [
+   "Newton",
+   "Apfel",
+   "Gravitation",
+   "Cartoon",
+   "Unterrichtseinstieg"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Newton unter dem Apfelbaum (Cartoon)",
+  "unterthemen": [
+   "ph.mechanik.gravitation",
+   "ph.geschichte"
+  ]
  },
  "wmc-b417b190": {
   "alt_text": "Nach oben geöffnete Parabel im Koordinatensystem mit markiertem Scheitelpunkt S(3|−5)",
@@ -386,13 +1387,130 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Parabel mit Scheitelpunkt S(3|−5)"
  },
+ "wmc-b4ed2e7d": {
+  "alt_text": "Einheitskreis mit Radius zu einem Punkt auf dem Kreis und gestrichelten Loten auf die Achsen, ohne Beschriftung",
+  "beschriftung": "ohne",
+  "didaktik": "Unbeschriftet – geeignet als Beschriftungsaufgabe.",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Einheitskreis zur Definition von Sinus und Kosinus (ohne Beschriftung)"
+ },
+ "wmc-b86fdd41": {
+  "alt_text": "Strichzeichnung eines Kopfes, aus dem wirre Haare mit Formeln wie E = mc² wachsen; darunter das Wort FÍSICA",
+  "beschriftung": "andere",
+  "einsatzzweck": [
+   "einstieg",
+   "praesentation"
+  ],
+  "hauptthema": "ph.alltag",
+  "medientyp": "cartoon",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Cartoon: Kopf voller Physikformeln"
+ },
+ "wmc-b9f1cb25": {
+  "alt_text": "Schaltplan: Spannungsquelle mit drei parallel geschalteten rechteckigen Widerständen R1, R2, R3",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Parallelschaltung dreier Widerstände (DIN-Schaltzeichen)"
+ },
  "wmc-bf5bcd70": {
   "entfernen": "themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-c0897d35": {
+  "alt_text": "Mengendiagramm mit natürlichen, ganzen, rationalen, irrationalen, reellen, imaginären und komplexen Zahlen, englisch beschriftet",
+  "beschriftung": "en",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   9,
+   13
+  ],
+  "titel": "Zahlbereiche N, Z, Q, R, C mit irrationalen und imaginären Zahlen"
+ },
+ "wmc-c15fcece": {
+  "entfernen": "kein fachlicher Bezug (Pulp-Comic-Cover)",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-c17760e2": {
   "entfernen": "nahezu Dublette von wmc-9a2d8524",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-c192f48e": {
+  "entfernen": "redundant zu wmc-c2018906",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-c2018906": {
+  "alt_text": "Zeichnung aus Newtons Werk: Kanone auf einem Berg, Bahnen der Kugeln um die Erde bis zur Umlaufbahn",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.gravitation",
+  "medientyp": "historisch",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Newtons Kanonenkugel-Gedankenexperiment (historische Zeichnung)"
+ },
+ "wmc-c38a2b81": {
+  "alt_text": "Ineinander liegende farbige Ellipsen für natürliche, ganze, rationale, reelle und komplexe Zahlen",
+  "beschriftung": "en",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Zahlbereiche N ⊂ Z ⊂ Q ⊂ R ⊂ C (Mengendiagramm)"
+ },
+ "wmc-c7487033": {
+  "alt_text": "Comicartige Bildtafel in drei Feldern: Auto an der Ampel (Trägheit), Kugeln verschiedener Masse (F = m·a), Auto und Person mit Gegenkraft (actio = reactio)",
+  "beschriftung": "en",
+  "einsatzzweck": [
+   "einstieg",
+   "praesentation",
+   "arbeitsblatt"
+  ],
+  "medientyp": "comic",
+  "qualitaet": 4,
+  "schlagworte": [
+   "Newtonsche Gesetze",
+   "Comic",
+   "Trägheit",
+   "actio gleich reactio"
+  ],
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Newtons drei Gesetze als Bildgeschichte (englisch)"
+ },
+ "wmc-c7703a33": {
+  "entfernen": "Personenfoto, themenfremd",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-cad995ef": {
+  "entfernen": "redundant zu wmc-2b605ce7",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-cb1bff3b": {
+  "alt_text": "Animation: Zeiger im Kreis und zugehörige Sinuskurve der Auslenkung y",
+  "beschriftung": "ohne",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Harmonische Schwingung im Zeigerdiagramm (Animation, einfach)"
+ },
+ "wmc-cdd2e688": {
+  "alt_text": "Foto eines Kugelstoßpendels mit fünf Stahlkugeln an Fäden in einem Metallgestell",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.impuls",
+  "medientyp": "foto",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Kugelstoßpendel (Foto)"
+ },
+ "wmc-d0366f3a": {
+  "alt_text": "Würfel mit Kantenlänge 1, eingezeichneter Flächendiagonale √2 und Raumdiagonale √3",
+  "beschriftung": "ohne",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Raumdiagonale im Einheitswürfel: Länge √3",
+  "unterthemen": [
+   "ma.geometrie.pythagoras",
+   "ma.geometrie.koerper"
+  ]
  },
  "wmc-d069d759": {
   "alt_text": "Quadrat x² mit angesetzten Rechtecken (y/2)·x und den Ergänzungsquadraten (y/2)²",
@@ -408,12 +1526,111 @@
    "ma.funktionen.quadratisch"
   ]
  },
+ "wmc-d290626c": {
+  "entfernen": "redundant zu wmc-9a2d8524",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-d2a012b0": {
+  "alt_text": "Animation: periodisch angeregtes Feder-Masse-System, die Amplitude der Schwingung wächst an",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.schwingungen.resonanz",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   10,
+   13
+  ],
+  "titel": "Feder-Masse-System bei Resonanz (Animation)"
+ },
+ "wmc-d3b33e8d": {
+  "entfernen": "zu speziell (Tarifschalter)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-d3cc45b7": {
+  "entfernen": "polnische Beschriftung",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-da300693": {
+  "entfernen": "nicht schulrelevant (komplexer Logarithmus 3D)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-db4ba08b": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-dd191aef": {
+  "alt_text": "Grüne Wurfparabel mit roter Abwurfgeschwindigkeit, senkrechten Zeitmarken bei 1, 2, 4, 6, 8 s und Höhenangaben",
+  "beschriftung": "de",
+  "hauptthema": "ph.mechanik.wurf.schraeg",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Wurfparabel mit Höhen- und Zeitskala"
+ },
  "wmc-de9e2ff9": {
   "entfernen": "nicht lehrplanrelevant (Bogenlänge arcsin/arccos)",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-e0e4c58c": {
   "entfernen": "nicht lehrplanrelevant (Ford-Kreise)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-e23336be": {
+  "alt_text": "Diagramm Populationsgröße über der Zeit mit J-förmiger exponentieller Kurve und Schwingung um eine Tragfähigkeitsgrenze; englische Erläuterungen",
+  "beschriftung": "en",
+  "qualitaet": 2,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   11,
+   13
+  ],
+  "titel": "Exponentielles und logistisches Wachstum (Tragfähigkeit)"
+ },
+ "wmc-e2c64090": {
+  "alt_text": "Animation: drei Federpendel in Luft, Wasser und Öl mit unterschiedlich stark abklingenden Schwingungen und zugehörigen Graphen",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.schwingungen.gedaempft",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Federpendel bei verschiedenen Dämpfungen (Animation)"
+ },
+ "wmc-e57f8407": {
+  "alt_text": "Mehrere Wurfbahnen von der Spitze einer abfallenden Ebene mit den Winkeln α und β; die weiteste Bahn ist rot hervorgehoben",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf.schraeg",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   11,
+   13
+  ],
+  "titel": "Weitester Wurf auf einer schiefen Ebene"
+ },
+ "wmc-e8aba1e4": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-e96ecceb": {
+  "entfernen": "themenfremd (Pandemiestatistik)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-ed98f3ba": {
+  "entfernen": "themenfremd und für Schule ungeeignet (18.-Jh.-Druck)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-ef3e543c": {
+  "alt_text": "Zwei Funktionsgraphen, einer nähert sich von unten 1, der andere fällt gegen 0; Grenzwerte als Formeln eingetragen",
+  "beschriftung": "ohne",
+  "hauptthema": "ma.analysis.grenzwert",
+  "qualitaet": 3,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Graphen von x/(x+1) und 1/(x+1) mit Grenzwerten"
+ },
+ "wmc-ef75ec39": {
+  "entfernen": "zu speziell (Motorschutzschalter)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-efc72cdc": {
+  "entfernen": "redundant zu wmc-2b605ce7",
   "sichtgeprueft_am": "2026-11-13"
  },
  "wmc-f12a1e71": {
@@ -424,9 +1641,66 @@
   "sichtgeprueft_am": "2026-11-13",
   "titel": "Parallelschaltung zweier Widerstände mit Teilströmen"
  },
+ "wmc-f21f27df": {
+  "entfernen": "themenfremd (Fernsehquoten)",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-f6d36b3d": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-f7706f53": {
+  "alt_text": "Animation: Masse an einer Feder schwingt, daneben entsteht die Kosinuskurve mit Amplitude A und Phase φ; ω = Wurzel aus K/M",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.schwingungen.federpendel",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   10,
+   13
+  ],
+  "titel": "Ungedämpftes Feder-Masse-System mit x(t) = A·cos(ωt − φ) (Animation)",
+  "unterthemen": [
+   "ph.schwingungen.harmonisch"
+  ]
+ },
+ "wmc-f8c11eec": {
+  "entfernen": "nicht lehrplanrelevant",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-f8f86349": {
+  "entfernen": "redundant zu wmc-253b6e5a",
+  "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-f91bb401": {
+  "alt_text": "Schaltplan: Spannungsquelle U = 20 V als Kreis, ein rechteckiger Widerstand R und der Strom I1",
+  "beschriftung": "de",
+  "hauptthema": "ph.elektrizitaet.stromkreis",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "titel": "Einfacher Stromkreis mit Widerstand (Spannungsquelle 20 V)",
+  "unterthemen": [
+   "ph.elektrizitaet.widerstand"
+  ]
+ },
  "wmc-fba59bfb": {
   "entfernen": "didaktisch unklar",
   "sichtgeprueft_am": "2026-11-13"
+ },
+ "wmc-fcbcd0a9": {
+  "alt_text": "Parabelförmige Bahn zwischen senkrechten Pfeilen des Schwerefelds, darunter die Gleichung r(t) = r0 + v0·t + ½·g·t²",
+  "beschriftung": "ohne",
+  "hauptthema": "ph.mechanik.wurf",
+  "qualitaet": 4,
+  "sichtgeprueft_am": "2026-11-13",
+  "stufe": [
+   10,
+   13
+  ],
+  "titel": "Wurfparabel im homogenen Schwerefeld (Vektorgleichung)",
+  "unterthemen": [
+   "ph.mechanik.gravitation"
+  ]
  },
  "wmc-fcc4ae64": {
   "entfernen": "nicht schulrelevant",
