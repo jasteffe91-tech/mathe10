@@ -1,0 +1,113 @@
+/* Lehrkraft-Dashboard – ruhig, übersichtlich, desktop-optimiert, auch auf Tablets nutzbar */
+:root {
+  --hg: #f5f7fa; --karte: #fff; --tinte: #1a2333; --leise: #5b6577; --linie: #dde3ec;
+  --akzent: #1f4fbf; --akzent-hell: #e5edff; --ok: #157347; --ok-hell: #e3f5ea; --warn: #9a5b00; --warn-hell: #fff4dc;
+  --gefahr: #b42318; --gefahr-hell: #fde8e7; --radius: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hg: #0f1522; --karte: #182131; --tinte: #e8edf6; --leise: #a9b4c7; --linie: #2b3850;
+    --akzent: #8fb0ff; --akzent-hell: #1c2b4f; --ok: #6fd69b; --ok-hell: #13301f; --warn: #ffc670; --warn-hell: #3a2a0b;
+    --gefahr: #ff8a80; --gefahr-hell: #3d1614; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--hg); color: var(--tinte); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+.app { max-width: 1280px; margin: 0 auto; padding: 0 16px 40px; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.leise { color: var(--leise); }
+.klein { font-size: 14px; }
+h1, h2, h3 { line-height: 1.2; }
+h2 { font-size: 20px; margin: 0 0 12px; }
+
+.laden { padding: 60px 0; text-align: center; color: var(--leise); }
+.login { min-height: 80vh; display: grid; place-items: center; }
+.login-karte { background: var(--karte); border: 1px solid var(--linie); border-radius: 18px; padding: 28px; width: 100%; max-width: 420px; display: grid; gap: 8px; box-shadow: 0 12px 40px rgba(0,0,0,.06); }
+.login-karte h1 { margin: 0; font-size: 26px; }
+.login-karte input { font: inherit; padding: 12px; border: 2px solid var(--linie); border-radius: 10px; background: var(--karte); color: var(--tinte); }
+.meldung { min-height: 1.4em; margin: 8px 0; font-weight: 600; }
+.meldung.fehler { color: var(--gefahr); }
+
+.demo-banner { background: #ffe9b3; color: #3d2a00; border-radius: 0 0 12px 12px; padding: 8px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.hinweis-demo { background: var(--warn-hell); color: var(--warn); padding: 8px 12px; border-radius: 10px; font-weight: 600; }
+.kopf { display: flex; gap: 16px; align-items: flex-end; justify-content: space-between; padding: 16px 0 10px; flex-wrap: wrap; }
+.kopf-titel { display: flex; flex-direction: column; }
+.kopf-titel strong { font-size: 22px; }
+.auswahl { display: grid; grid-template-columns: auto minmax(180px, 320px); gap: 6px 10px; align-items: center; }
+.auswahl select, .aktionen select, .formular select, .formular input, .karte input[type=date], .karte input[type=email] { font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--linie); background: var(--karte); color: var(--tinte); min-height: 40px; }
+.kopf-rechts { display: flex; gap: 8px; flex-wrap: wrap; }
+.tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--linie); overflow-x: auto; }
+.tab { appearance: none; background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -2px; padding: 10px 16px; font-family: inherit; font-weight: 600; font-size: 16px; color: var(--leise); cursor: pointer; white-space: nowrap; }
+.tab.aktiv { color: var(--akzent); border-bottom-color: var(--akzent); }
+.tab:focus-visible, .knopf:focus-visible { outline: 3px solid var(--akzent); outline-offset: 2px; }
+.aktualisiert { font-size: 14px; color: var(--leise); margin: 8px 0; }
+.aktualisiert.fehler { color: var(--gefahr); font-weight: 600; }
+.ansicht { outline: none; display: grid; gap: 16px; }
+
+.knopf { appearance: none; border: 1px solid var(--linie); background: var(--karte); color: var(--tinte); font-family: inherit; font-weight: 600; font-size: 15px; padding: 10px 14px; border-radius: 10px; cursor: pointer; min-height: 40px; }
+.knopf:hover { border-color: var(--akzent); }
+.knopf.haupt { background: var(--akzent); border-color: var(--akzent); color: #fff; }
+@media (prefers-color-scheme: dark) { .knopf.haupt { color: #0b1220; } }
+.knopf.gefahr { color: var(--gefahr); border-color: var(--gefahr); }
+.knopf.klein-knopf { padding: 6px 10px; min-height: 34px; font-size: 14px; }
+.knopf[disabled] { opacity: .5; cursor: progress; }
+
+.karte { background: var(--karte); border: 1px solid var(--linie); border-radius: var(--radius); padding: 18px; }
+.raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; }
+@media (max-width: 520px) { .raster { grid-template-columns: 1fr; } .auswahl { grid-template-columns: 1fr; } }
+.kacheln { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.kachel { background: var(--karte); border: 1px solid var(--linie); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; }
+.kachel-wert { font-size: 28px; font-weight: 800; }
+.kachel-titel { color: var(--leise); font-size: 14px; }
+
+.tabelle { width: 100%; border-collapse: collapse; }
+.tabelle th, .tabelle td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--linie); vertical-align: middle; }
+.tabelle thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--leise); }
+.tabelle tr.gesperrt { opacity: .55; }
+.pseudo { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-weight: 700; white-space: nowrap; }
+.aktiv-punkt { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--ok); margin-left: 8px; vertical-align: middle; }
+.fbalken { position: relative; height: 22px; min-width: 140px; background: var(--hg); border: 1px solid var(--linie); border-radius: 99px; overflow: hidden; }
+.fbalken-fuellung { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, #4f7cf0, var(--akzent)); border-radius: 99px; }
+.fbalken-text { position: relative; display: block; text-align: center; font-size: 13px; font-weight: 700; line-height: 20px; mix-blend-mode: normal; text-shadow: 0 0 3px var(--karte); }
+.punkte { display: inline-flex; gap: 4px; }
+.tpunkt { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--linie); }
+.tpunkt.an { background: var(--ok); border-color: var(--ok); }
+.aktionen { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.zeile { display: grid; grid-template-columns: 180px 1fr; gap: 10px; align-items: center; }
+.aufgabe.schwierig { border-color: var(--warn); box-shadow: inset 4px 0 0 var(--warn); }
+.warnung { color: var(--warn); font-weight: 700; }
+.verteilung { display: grid; gap: 6px; margin-top: 10px; }
+.vzeile { display: grid; grid-template-columns: minmax(200px, 2fr) 3fr 40px; gap: 10px; align-items: center; }
+.vbalken { height: 16px; background: var(--hg); border-radius: 99px; overflow: hidden; border: 1px solid var(--linie); }
+.vfuellung { display: block; height: 100%; background: #94a3b8; }
+.vfuellung.ok { background: var(--ok); }
+.richtig { color: var(--ok); }
+.vzahl { text-align: right; font-weight: 700; }
+.scroll { overflow-x: auto; }
+.matrix td { font-size: 14px; min-width: 140px; }
+.matrix td.ok { background: var(--ok-hell); }
+.matrix td.nok { background: var(--warn-hell); }
+.liste { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.liste li { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--linie); flex-wrap: wrap; }
+.knopfreihe { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.formular { display: grid; grid-template-columns: max-content minmax(200px, 360px); gap: 8px 12px; align-items: center; margin: 12px 0; }
+@media (max-width: 600px) { .formular { grid-template-columns: 1fr; } .vzeile { grid-template-columns: 1fr; } .zeile { grid-template-columns: 1fr; } }
+.protokoll { font-size: 13px; max-height: 260px; overflow: auto; }
+
+.karten-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; margin-top: 12px; }
+.zugangskarte { border: 2px dashed #94a3b8; border-radius: 12px; padding: 10px 12px; display: flex; justify-content: space-between; gap: 10px; align-items: center; background: #fff; color: #111; break-inside: avoid; }
+.zk-text p { margin: 0; }
+.zk-titel { font-weight: 800; font-size: 15px; }
+.zk-label { font-size: 12px; color: #444; margin-top: 4px !important; }
+.zk-code { font: 800 24px ui-monospace, Consolas, monospace; letter-spacing: .06em; }
+.zk-klein { font-size: 11px; color: #444; }
+
+@media print {
+  body { background: #fff; }
+  .app > *:not(.ansicht), .ansicht > *:not(#karten-ausgabe), #karten-ausgabe .nicht-drucken, .demo-banner { display: none !important; }
+  #karten-ausgabe .karte { border: 0; padding: 0; }
+  .karten-raster { grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .zugangskarte { height: 52mm; }
+}

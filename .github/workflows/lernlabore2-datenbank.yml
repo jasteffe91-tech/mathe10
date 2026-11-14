@@ -1,0 +1,36 @@
+# Spielt neue Datenbank-Migrationen in Supabase ein – NUR manuell und getrennt nach Umgebung.
+# Einrichtung: GitHub → Settings → Environments → „test“ und „produktiv“ anlegen,
+# jeweils Secret SUPABASE_DB_URL hinterlegen (Verbindungszeichenkette mit Passwort).
+# Für „produktiv“ empfiehlt sich „Required reviewers“ (Freigabe vor dem Einspielen).
+name: "Lernlabore 2.0 – Datenbank-Migrationen"
+on:
+  workflow_dispatch:
+    inputs:
+      umgebung:
+        description: "Zielumgebung"
+        type: choice
+        options: [test, produktiv]
+        required: true
+      nur_anzeigen:
+        description: "Nur anzeigen, was eingespielt würde"
+        type: boolean
+        default: true
+permissions:
+  contents: read
+jobs:
+  migrate:
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.umgebung }}
+    defaults:
+      run:
+        working-directory: lernlabore2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci --omit=optional
+      - name: Migrationen
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: node scripts/migrate.mjs ${{ inputs.nur_anzeigen && '--status' || '' }}
