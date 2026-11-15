@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src https://labor-cloud.jasteffe91.workers.dev http://127.0.0.1:8818 http://localhost:8818; base-uri 'none'; form-action 'none'">
+<meta name="robots" content="noindex">
+<title>8b · Unsere Woche</title>
+<style>
+:root{--bg:#f6f3ee;--karte:#fff;--text:#1f2430;--leise:#5b6270;--linie:#e3ddd3;--akzent:#2f6f6a;--akzent2:#e7f1ef;--warm:#c8692c;--warm2:#fbeee4;--gut:#2e7d32;--rot:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#15181d;--karte:#1f242b;--text:#eceae6;--leise:#a7adb7;--linie:#343a43;--akzent:#6cc0b7;--akzent2:#1e3331;--warm:#f0a06b;--warm2:#3a2a20;--gut:#81c784;--rot:#f28b82}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+main{max-width:680px;margin:0 auto;padding:16px 16px 90px}
+h1{font-size:1.55rem;margin:.2em 0 .1em;line-height:1.2}
+h2{font-size:1.2rem;margin:0 0 .3em}
+p{margin:.4em 0}
+.klein{font-size:.88rem;color:var(--leise)}
+.kopf{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.marke{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--akzent);font-weight:700}
+.karte{background:var(--karte);border:1px solid var(--linie);border-radius:14px;padding:16px;margin:14px 0}
+.karte.warm{background:var(--warm2);border-color:transparent}
+.karte.ruhig{background:var(--akzent2);border-color:transparent}
+label.frage{display:block;font-weight:600;margin:14px 0 6px}
+label.frage:first-child{margin-top:0}
+textarea,input[type=text]{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--linie);border-radius:10px;padding:10px 12px}
+textarea{min-height:84px;resize:vertical}
+textarea:focus,input:focus{outline:2px solid var(--akzent);outline-offset:1px}
+.skala{display:flex;gap:6px;flex-wrap:wrap}
+.skala button{flex:1 1 0;min-width:52px;font-size:1.6rem;padding:8px 0 4px;border-radius:12px;border:2px solid var(--linie);background:var(--karte);cursor:pointer;line-height:1.1}
+.skala button small{display:block;font-size:.66rem;color:var(--leise);margin-top:2px}
+.skala button[aria-pressed=true]{border-color:var(--akzent);background:var(--akzent2)}
+.knopf{display:inline-block;font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 20px;background:var(--akzent);color:#fff;cursor:pointer}
+@media (prefers-color-scheme:dark){.knopf{color:#10201e}}
+.knopf.leise{background:transparent;color:var(--akzent);border:2px solid var(--akzent)}
+.knopf:disabled{opacity:.5;cursor:default}
+.reiter{display:flex;gap:6px;overflow-x:auto;margin:10px 0 0;padding-bottom:2px}
+.reiter button{flex:0 0 auto;font:inherit;font-size:.9rem;font-weight:600;border:1px solid var(--linie);background:var(--karte);color:var(--text);border-radius:999px;padding:7px 13px;cursor:pointer}
+.reiter button[aria-current=true]{background:var(--akzent);border-color:var(--akzent);color:#fff}
+@media (prefers-color-scheme:dark){.reiter button[aria-current=true]{color:#10201e}}
+.reiter button .ok{color:var(--gut)}
+.zeile{display:flex;gap:8px;margin:8px 0}
+.zeile input{flex:0 0 36%}
+@media (max-width:520px){.zeile{flex-direction:column}.zeile input{flex:auto}}
+.haken{display:flex;gap:8px;align-items:flex-start;font-size:.92rem;margin:6px 0 2px;color:var(--leise)}
+.haken input{width:20px;height:20px;margin-top:2px;flex:0 0 auto}
+.eintrag{border-top:1px dashed var(--linie);padding-top:10px;margin-top:10px}
+.eintrag:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.status{position:fixed;left:0;right:0;bottom:0;background:var(--karte);border-top:1px solid var(--linie);padding:10px 16px;font-size:.88rem;color:var(--leise);text-align:center}
+.weiter{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.fehler{color:var(--rot);font-weight:600;min-height:1.4em}
+.schloss{display:flex;gap:10px;align-items:flex-start}
+.schloss b{font-size:1.4rem;line-height:1}
+.codefeld{font-family:Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase}
+.versteckt{display:none!important}
+ul.liste{margin:.3em 0;padding-left:1.2em}
+</style>
+</head>
+<body>
+<main>
+  <div class="kopf"><span class="marke">Klasse 8b · Klassenleitung &amp; Glück</span><span class="klein" id="woche"></span></div>
+  <noscript><div class="karte warm"><b>Bitte im Browser öffnen</b> (Safari oder Chrome). In der Vorschau funktioniert die Seite nicht.</div></noscript>
+  <div id="ohnejs" class="karte warm"><b>Bitte im Browser öffnen</b> (Safari oder Chrome). In der Vorschau funktioniert die Seite nicht.</div>
+
+  <!-- Anmelden -->
+  <section id="s-anmelden" class="versteckt">
+    <h1>Unsere Woche</h1>
+    <p>Schau in Ruhe auf deine Woche und auf unsere Klasse. Du hast etwa <b>15 Minuten</b>.</p>
+    <div class="karte ruhig schloss"><b>🔒</b><div>
+      <p><b>Geschützter Raum.</b> Deine Mitschülerinnen und Mitschüler sehen nicht, was du schreibst.</p>
+      <p>Nur deine Klassenleitung liest deine Antworten und weiß, von wem sie sind – so kann sie dir helfen.
+      In der Klasse wird nur besprochen, was du dafür freigibst, und <b>ohne deinen Namen</b>.</p></div></div>
+    <div class="karte">
+      <label class="frage" for="kc">Klassencode</label>
+      <input type="text" id="kc" class="codefeld" autocomplete="off" autocapitalize="characters" placeholder="z. B. PH8B-00">
+      <label class="frage" for="pc">Dein persönlicher Code</label>
+      <input type="text" id="pc" class="codefeld" autocomplete="off" autocapitalize="characters" placeholder="XXXX-XXXX">
+      <p class="klein">Die Codes stehen auf deinem Kärtchen (dieselben wie im Physik-Labor).</p>
+      <p class="fehler" id="anm-fehler"></p>
+      <button class="knopf" id="anm-knopf">Los geht's</button>
+    </div>
+  </section>
+
+  <!-- Fragebogen -->
+  <section id="s-bogen" class="versteckt">
+    <nav class="reiter" id="reiter" aria-label="Teile"></nav>
+
+    <div class="teil" data-teil="ich">
+      <h1>1 · Meine Woche</h1>
+      <div class="karte">
+        <label class="frage">Wie geht es dir gerade?</label>
+        <div class="skala" data-feld="stimmung"></div>
+        <label class="frage" for="ich_gut">Was lief diese Woche gut für dich – in der Schule oder auch sonst?</label>
+        <textarea id="ich_gut" data-feld="ich_gut"></textarea>
+        <label class="frage" for="ich_stolz">Was hast <u>du</u> diese Woche gut gemacht? Worauf bist du ein bisschen stolz?</label>
+        <textarea id="ich_stolz" data-feld="ich_stolz" placeholder="z. B. Ich habe jemandem geholfen, ich war pünktlich, ich habe mich getraut …"></textarea>
+        <label class="frage">Wie gut hast du dich diese Woche an unsere Klassenregeln gehalten?</label>
+        <div class="skala" data-feld="regeln" data-art="zahl"></div>
+        <label class="frage" for="ich_besser">Was möchtest du nächste Woche anders oder besser machen?</label>
+        <textarea id="ich_besser" data-feld="ich_besser"></textarea>
+      </div>
+    </div>
+
+    <div class="teil" data-teil="klasse">
+      <h1>2 · Unsere Klasse</h1>
+      <p class="klein">Denk an Situationen, nicht an Personen. Schreib in Ich-Sätzen: „Mich hat gestört, dass …“</p>
+      <div class="karte">
+        <label class="frage">Wie wohl fühlst du dich gerade in unserer Klasse?</label>
+        <div class="skala" data-feld="klima"></div>
+        <label class="frage" for="kl_gut">Was lief in unserer Klasse diese Woche gut?</label>
+        <textarea id="kl_gut" data-feld="kl_gut"></textarea>
+        <label class="frage" for="kl_stoert">Was hat dich in der Klasse gestört?</label>
+        <textarea id="kl_stoert" data-feld="kl_stoert"></textarea>
+      </div>
+      <div class="karte warm">
+        <h2>🔒 Nur für die Klassenleitung</h2>
+        <p class="klein">Das wird <b>nicht</b> vorgelesen. Du darfst hier auch Namen nennen, wenn es wichtig ist.</p>
+        <label class="frage" for="vf_was">Gab es eine Situation, die nicht in Ordnung war? Was ist passiert?</label>
+        <textarea id="vf_was" data-feld="vf_was" placeholder="z. B. Jemand wurde ausgelacht, es gab Streit, jemand hat ständig gestört …"></textarea>
+        <label class="frage" for="vf_wer">Wer war beteiligt? <span class="klein">(freiwillig)</span></label>
+        <input type="text" id="vf_wer" data-feld="vf_wer" placeholder="Vornamen">
+      </div>
+    </div>
+
+    <div class="teil" data-teil="anliegen">
+      <h1>3 · Das sollten wir besprechen</h1>
+      <p>Was soll die Klasse gemeinsam klären? Das können Probleme sein, aber auch Wünsche und Ideen.</p>
+      <div class="karte" id="anliegen-liste"></div>
+      <div class="karte warm">
+        <h2>🔒 Nachricht an die Klassenleitung</h2>
+        <p class="klein">Möchtest du mir noch etwas sagen? Das liest nur deine Klassenleitung.</p>
+        <textarea data-feld="an_kl" placeholder="z. B. Mir geht es gerade nicht so gut, weil … · Ich hätte gern ein Gespräch."></textarea>
+        <label class="haken"><input type="checkbox" data-feld="gespraech"> Ich möchte gern unter vier Augen mit meiner Klassenleitung sprechen.</label>
+      </div>
+    </div>
+
+    <div class="teil" data-teil="glueck">
+      <h1>4 · Glück: Komplimente-Post</h1>
+      <p>Schreib bis zu fünf Mitschülerinnen oder Mitschülern ein ehrliches Kompliment. Sie bekommen es auf einem Kärtchen – <b>ohne deinen Namen</b>.</p>
+      <p class="klein">Ein gutes Kompliment ist konkret: nicht nur „du bist nett“, sondern „du hast mir in Mathe geholfen, als ich nicht weiterkam“. Nichts über Aussehen.</p>
+      <div class="karte" id="komplimente-liste"></div>
+      <div class="karte ruhig">
+        <label class="frage" for="vorsatz">Mein Mini-Vorsatz für die nächste Woche</label>
+        <input type="text" id="vorsatz" data-feld="vorsatz" placeholder="Nächste Woche will ich …">
+      </div>
+      <div class="karte">
+        <h2>Fertig?</h2>
+        <p>Wenn du alles geschrieben hast, tippe auf <b>Abgeben</b>. Du kannst danach trotzdem noch etwas ändern.</p>
+        <button class="knopf" id="abgeben">Abgeben</button>
+        <p class="klein" id="abgabe-info"></p>
+      </div>
+    </div>
+
+    <div class="weiter"><button class="knopf leise" id="zurueck">← Zurück</button><button class="knopf" id="vor">Weiter →</button></div>
+    <p class="klein" style="margin-top:24px">Angemeldet mit Code <span id="mein-code"></span> · <a href="#" id="abmelden">Abmelden</a> (z. B. wenn das Gerät jemand anderem gehört)</p>
+  </section>
+</main>
+<div class="status versteckt" id="status"></div>
+
+<script>/* CLOUD – Anmelden mit Zugangscode + automatisches Speichern in der Labor-Cloud (CROSS-010, 15.11.2026).
+   Gegenstück: 10_AUTOMATISIERUNG/digitallabor/cloud/worker.js (Cloudflare Worker + D1).
+   Das Labor behält seinen eigenen Arbeitsstand (z. B. Variable S + localStorage); dieser Baustein
+   - meldet mit Lerngruppe + Code an und lädt den Stand aus der Cloud,
+   - speichert höchstens alle 30 s, nur wenn sich etwas geändert hat, beim Verlassen der Seite sofort,
+   - packt den Stand (gzip, ca. 10× kleiner), entfernt vorher alle Namensfelder,
+   - sendet ohne Netz automatisch später nach.
+   Einbinden (siehe README im Ordner cloud/):
+     LABORCLOUD.init({ labor: 'ph8-mechanik', endpunkt: 'https://…workers.dev/', stand: function () { return S; },
+                       geaendert: function (info) { … Anzeige aktualisieren … } });
+     LABORCLOUD.anmelden('PH8B-2627', 'K7MQ-2X') → Promise { ok, stand (oder null bei neuem Code), fehler }
+     LABORCLOUD.merke()   nach jeder Änderung am Stand aufrufen
+   Wichtig: Die Seite braucht in ihrer CSP „connect-src <endpunkt>“, sonst blockiert der Browser das Speichern. */
+var LABORCLOUD = (function () {
+  'use strict';
+  var TIERE = ['Otter', 'Falke', 'Luchs', 'Biber', 'Dachs', 'Fuchs', 'Igel', 'Kranich', 'Marder', 'Panda', 'Robbe', 'Tiger', 'Wolf', 'Zebra', 'Adler', 'Delfin', 'Eule', 'Gecko', 'Koala', 'Lemur', 'Puma', 'Rabe', 'Specht', 'Uhu', 'Wal', 'Yak', 'Hai', 'Elch', 'Storch', 'Molch'];
+  var NAMEN = ['vorname', 'nachname', 'name'];
+  var E = { labor: 'standard', endpunkt: '', stand: null, geaendert: null, intervall: 30000, packen: true, namensfelder: NAMEN };
+  var Z = { gruppe: '', code: '', angemeldet: false, dirty: false, laeuft: false, letzter: 0, fehler: '', uhr: null };
+
+  /* ---------- Hilfen (ohne Seite testbar) ---------- */
+  function gruppeVon(v) { return String(v || '').trim().toUpperCase(); }
+  function codeVon(v) { return String(v || '').trim().replace(/\s+/g, '').toUpperCase(); }
+  function ohneNamen(stand, felder) {                 // flache Kopie ohne Namensfelder
+    var k = {}, f = felder || NAMEN;
+    for (var x in stand) if (Object.prototype.hasOwnProperty.call(stand, x)) k[x] = f.indexOf(x) >= 0 ? '' : stand[x];
+    return k;
+  }
+  function b64(bytes) { var s = '', T = 0x8000; for (var i = 0; i < bytes.length; i += T) s += String.fromCharCode.apply(null, bytes.subarray(i, i + T)); return btoa(s); }
+  function vonB64(t) { var s = atob(t), a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+  function strom(bytes, art) {
+    var st = new Blob([bytes]).stream().pipeThrough(art);
+    return new Response(st).arrayBuffer().then(function (b) { return new Uint8Array(b); });
+  }
+  function kannPacken() { return typeof CompressionStream === 'function' && typeof DecompressionStream === 'function'; }
+  function packe(obj) { return strom(new TextEncoder().encode(JSON.stringify(obj)), new CompressionStream('gzip')).then(b64); }
+  function entpacke(t) { return strom(vonB64(t), new DecompressionStream('gzip')).then(function (b) { return JSON.parse(new TextDecoder().decode(b)); }); }
+  function tierCode() { return TIERE[Math.floor(Math.random() * TIERE.length)] + '-' + (100 + Math.floor(Math.random() * 900)); }
+
+  /* ---------- Verbindung ---------- */
+  function endpunkt() {
+    var e = E.endpunkt || '', h = (typeof location !== 'undefined') ? location.hostname : '';
+    if (/ENDPUNKT/.test(e)) e = '';
+    if (h === 'localhost' || h === '127.0.0.1') {          // nur am eigenen Rechner: ?endpunkt=http://127.0.0.1:8818/
+      var m = /[?&]endpunkt=([^&]+)/.exec(location.search); if (m) e = decodeURIComponent(m[1]);
+    }
+    return e;
+  }
+  function anfrage(params, body) {
+    var u = endpunkt(); if (!u) return Promise.reject(new Error('keine Cloud eingerichtet'));
+    var q = Object.keys(params).map(function (k) { return k + '=' + encodeURIComponent(params[k]); }).join('&');
+    // ohne eigenen Content-Type → „einfache“ Anfrage, keine Vorab-Anfrage nötig
+    return fetch(u + (u.indexOf('?') < 0 ? '?' : '&') + q, body ? { method: 'POST', body: JSON.stringify(body), keepalive: JSON.stringify(body).length < 60000 } : {})
+      .then(function (r) { return r.json(); });
+  }
+  function melde() { if (typeof E.geaendert === 'function') try { E.geaendert(info()); } catch (e) { } }
+
+  /* ---------- Öffentliche Funktionen ---------- */
+  function init(o) {
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) E[k] = o[k];
+    if (Z.uhr) clearInterval(Z.uhr);
+    Z.uhr = setInterval(function () { speichere(false); }, E.intervall);
+    if (typeof document !== 'undefined') document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') speichere(false); });
+    if (typeof window !== 'undefined') { window.addEventListener('online', function () { speichere(false); }); window.addEventListener('pagehide', function () { speichere(false); }); }
+    return api;
+  }
+  // gespeicherte Anmeldung wieder aufnehmen (Seite neu geladen, Stand liegt noch im Gerät)
+  function fortsetzen(gruppe, code) { Z.gruppe = gruppeVon(gruppe); Z.code = codeVon(code); Z.angemeldet = !!(Z.gruppe && Z.code); if (Z.angemeldet) { Z.dirty = true; speichere(false); } melde(); }
+  function anmelden(gruppe, code) {
+    var g = gruppeVon(gruppe), c = codeVon(code);
+    if (g.length < 3) return Promise.resolve({ ok: false, fehler: 'Gib den Zugangscode deiner Klasse ein.' });
+    if (c.length < 4) return Promise.resolve({ ok: false, fehler: 'Gib deinen persönlichen Code ein.' });
+    if (!endpunkt()) return Promise.resolve({ ok: false, fehler: 'Die Online-Speicherung ist noch nicht eingerichtet.' });
+    return anfrage({ a: 'hole', klasse: g, id: c, labor: E.labor }).then(function (r) {
+      if (!r || !r.ok) return { ok: false, fehler: (r && r.fehler) || 'Anmelden hat nicht geklappt.' };
+      Z.gruppe = g; Z.code = c; Z.angemeldet = true; Z.fehler = ''; Z.letzter = r.zeit ? Date.parse(r.zeit) : 0; melde();
+      if (r.gz) return entpacke(r.gz).then(function (s) { return { ok: true, stand: s }; });
+      return { ok: true, stand: r.stand || null };
+    }).catch(function () { return { ok: false, fehler: 'Keine Verbindung zum Internet. Versuche es noch einmal.' }; });
+  }
+  // nur für Gruppen, in denen die Lehrkraft selbst erzeugte Tier-Codes erlaubt hat
+  function neuerCode(gruppe) {
+    var g = gruppeVon(gruppe);
+    if (g.length < 3) return Promise.resolve({ ok: false, fehler: 'Gib zuerst den Zugangscode deiner Klasse ein.' });
+    if (!endpunkt()) return Promise.resolve({ ok: false, fehler: 'Die Online-Speicherung ist noch nicht eingerichtet.' });
+    return anfrage({ a: 'neu', klasse: g }).then(function (r) {
+      if (!r || !r.ok) return { ok: false, fehler: (r && r.fehler) || 'Der Zugangscode stimmt nicht.' };
+      Z.gruppe = g; Z.code = codeVon(r.id); Z.angemeldet = true; Z.dirty = true; melde();
+      return { ok: true, code: r.id };
+    }).catch(function () { return { ok: false, fehler: 'Keine Verbindung zum Internet. Versuche es noch einmal.' }; });
+  }
+  function merke() { Z.dirty = true; }
+  function speichere(sofort) {
+    if (!Z.angemeldet || !endpunkt() || Z.laeuft || (!Z.dirty && !sofort) || typeof E.stand !== 'function') return Promise.resolve(false);
+    var stand = E.stand(); if (!stand) return Promise.resolve(false);
+    Z.laeuft = true; Z.dirty = false;
+    var roh = ohneNamen(stand, E.namensfelder), basis = { klasse: Z.gruppe, id: Z.code, labor: E.labor };
+    var p = (E.packen && kannPacken()) ? packe(roh).then(function (gz) { basis.gz = gz; return basis; }) : Promise.resolve((basis.stand = roh, basis));
+    return p.then(function (body) { return anfrage({ a: 'speichere' }, body); }).then(function (r) {
+      Z.laeuft = false;
+      if (r && r.ok) { Z.letzter = Date.now(); Z.fehler = ''; } else { Z.dirty = true; Z.fehler = (r && r.fehler) || 'Fehler beim Speichern'; }
+      melde(); return !!(r && r.ok);
+    }).catch(function () { Z.laeuft = false; Z.dirty = true; Z.fehler = 'keine Verbindung'; melde(); return false; });
+  }
+  function abmelden() { Z.angemeldet = false; Z.gruppe = ''; Z.code = ''; Z.dirty = false; Z.fehler = ''; Z.letzter = 0; melde(); }
+  function info() { return { angemeldet: Z.angemeldet, gruppe: Z.gruppe, code: Z.code, letzter: Z.letzter, fehler: Z.fehler, offen: Z.dirty, eingerichtet: !!endpunkt(), labor: E.labor }; }
+  function text() {
+    if (!endpunkt()) return '⚠️ Die Online-Speicherung ist noch nicht eingerichtet. Dein Stand bleibt auf diesem Gerät – sichere ihn als PDF.';
+    if (Z.fehler) return '⚠️ Noch nicht online gespeichert (' + Z.fehler + '). Das Labor versucht es automatisch wieder.';
+    if (Z.letzter) { var d = new Date(Z.letzter); return '☁️ Online gespeichert um ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ' Uhr.'; }
+    return '☁️ Dein Stand wird automatisch online gespeichert.';
+  }
+
+  var api = { init: init, anmelden: anmelden, fortsetzen: fortsetzen, neuerCode: neuerCode, merke: merke, speichere: speichere, abmelden: abmelden, info: info, text: text, endpunkt: endpunkt,
+    // für Tests
+    _: { gruppeVon: gruppeVon, codeVon: codeVon, ohneNamen: ohneNamen, packe: packe, entpacke: entpacke, tierCode: tierCode } };
+  return api;
+})();
+if (typeof module !== 'undefined') module.exports = LABORCLOUD;
+</script>
+<script>
+(function () {
+  'use strict';
+  var ENDPUNKT = 'https://labor-cloud.jasteffe91.workers.dev/';
+  var TEILE = [['ich', 'Ich'], ['klasse', 'Klasse'], ['anliegen', 'Besprechen'], ['glueck', 'Glück']];
+  var GESICHTER = [['😣', 'schlecht'], ['🙁', 'eher schlecht'], ['😐', 'geht so'], ['🙂', 'gut'], ['😄', 'sehr gut']];
+  var REGELN = [['1', 'kaum'], ['2', 'wenig'], ['3', 'teils'], ['4', 'meist'], ['5', 'immer']];
+  var N_ANLIEGEN = 3, N_KOMPLIMENTE = 5;
+
+  // Woche: Montag der aktuellen Woche (am Wochenende: kommender Montag) (?tag=JJJJ-MM-TT zum Testen) → Labor-Kennung kl8b-JJJJ-MM-TT
+  function montag() {
+    var m = /[?&]tag=(\d{4}-\d{2}-\d{2})/.exec(location.search);
+    var d = m ? new Date(m[1] + 'T12:00:00') : new Date();
+    d.setHours(12, 0, 0, 0); var w = (d.getDay() + 6) % 7; d.setDate(d.getDate() + (w >= 5 ? 7 - w : -w));   // Sa/So zählen schon zur nächsten Woche
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  var TAG = montag(), LABOR = 'kl8b-' + TAG, SPEICHER = 'kl8b-woche:' + TAG;
+  document.getElementById('woche').textContent = 'Woche ab ' + TAG.split('-').reverse().join('.');
+
+  function leer() {
+    var s = { v: 1, woche: TAG, teil: 0, abgegeben: '', anliegen: [], komplimente: [] };
+    for (var i = 0; i < N_ANLIEGEN; i++) s.anliegen.push({ text: '', besprechen: true });
+    for (var j = 0; j < N_KOMPLIMENTE; j++) s.komplimente.push({ fuer: '', text: '' });
+    return s;
+  }
+  var S = leer(), ANM = null;   // ANM = { g, c }
+  function lies() { try { var t = localStorage.getItem(SPEICHER); return t ? JSON.parse(t) : null; } catch (e) { return null; } }
+  function sichere() { try { localStorage.setItem(SPEICHER, JSON.stringify({ anm: ANM, s: S })); } catch (e) { } if (ANM) LABORCLOUD.merke(); }
+  function $(id) { return document.getElementById(id); }
+  function zeige(id, ja) { $(id).classList.toggle('versteckt', !ja); }
+
+  LABORCLOUD.init({ labor: LABOR, endpunkt: ENDPUNKT, intervall: 15000,
+    stand: function () { return ANM ? S : null; },
+    geaendert: function () { var st = $('status'); st.textContent = LABORCLOUD.text(); } });
+
+  /* ---------- Bausteine ---------- */
+  function baueSkalen() {
+    Array.prototype.forEach.call(document.querySelectorAll('.skala'), function (box) {
+      var f = box.getAttribute('data-feld'), werte = box.getAttribute('data-art') === 'zahl' ? REGELN : GESICHTER;
+      box.innerHTML = '';
+      werte.forEach(function (w, i) {
+        var b = document.createElement('button'); b.type = 'button';
+        b.innerHTML = (werte === REGELN ? '<span style="font-size:1.2rem;font-weight:700">' + w[0] + '</span>' : w[0]) + '<small>' + w[1] + '</small>';
+        b.setAttribute('aria-label', w[1]);
+        b.setAttribute('aria-pressed', S[f] === i + 1 ? 'true' : 'false');
+        b.onclick = function () { S[f] = i + 1; baueSkalen(); sichere(); };
+        box.appendChild(b);
+      });
+    });
+  }
+  function baueListen() {
+    var a = $('anliegen-liste'); a.innerHTML = '';
+    S.anliegen.forEach(function (x, i) {
+      var d = document.createElement('div'); d.className = 'eintrag';
+      d.innerHTML = '<label class="frage">Thema ' + (i + 1) + (i ? ' <span class="klein">(freiwillig)</span>' : '') + '</label>' +
+        '<textarea placeholder="' + ['z. B. Es ist im Unterricht oft zu laut.', 'z. B. Wir wünschen uns einen Ausflug.', ''][i] + '"></textarea>' +
+        '<label class="haken"><input type="checkbox"> Darf ohne meinen Namen in der Klasse besprochen werden.</label>';
+      var t = d.querySelector('textarea'), c = d.querySelector('input');
+      t.value = x.text; c.checked = x.besprechen !== false;
+      t.oninput = function () { x.text = t.value; sichere(); };
+      c.onchange = function () { x.besprechen = c.checked; sichere(); };
+      a.appendChild(d);
+    });
+    var k = $('komplimente-liste'); k.innerHTML = '';
+    S.komplimente.forEach(function (x, i) {
+      var d = document.createElement('div'); d.className = 'eintrag';
+      d.innerHTML = '<label class="frage">Kompliment ' + (i + 1) + '</label><div class="zeile"><input type="text" placeholder="Für (Vorname)"><input type="text" style="flex:1" placeholder="Was ich an dir schätze …"></div>';
+      var e = d.querySelectorAll('input');
+      e[0].value = x.fuer; e[1].value = x.text;
+      e[0].oninput = function () { x.fuer = e[0].value; sichere(); };
+      e[1].oninput = function () { x.text = e[1].value; sichere(); };
+      k.appendChild(d);
+    });
+  }
+  function fuelleFelder() {
+    Array.prototype.forEach.call(document.querySelectorAll('textarea[data-feld],input[data-feld]'), function (el) {
+      var f = el.getAttribute('data-feld');
+      if (el.type === 'checkbox') { el.checked = !!S[f]; el.onchange = function () { S[f] = el.checked; sichere(); }; }
+      else { el.value = S[f] || ''; el.oninput = function () { S[f] = el.value; sichere(); }; }
+    });
+  }
+  function fertig(t) {
+    if (t === 'ich') return !!(S.stimmung && (S.ich_gut || S.ich_stolz));
+    if (t === 'klasse') return !!(S.klima && (S.kl_gut || S.kl_stoert));
+    if (t === 'anliegen') return S.anliegen.some(function (x) { return x.text.trim(); });
+    if (t === 'glueck') return S.komplimente.some(function (x) { return x.text.trim(); });
+  }
+  function teil(n) {
+    S.teil = Math.max(0, Math.min(TEILE.length - 1, n));
+    Array.prototype.forEach.call(document.querySelectorAll('.teil'), function (el) { el.classList.toggle('versteckt', el.getAttribute('data-teil') !== TEILE[S.teil][0]); });
+    var r = $('reiter'); r.innerHTML = '';
+    TEILE.forEach(function (t, i) {
+      var b = document.createElement('button'); b.type = 'button';
+      b.innerHTML = (i + 1) + ' ' + t[1] + (fertig(t[0]) ? ' <span class="ok">✓</span>' : '');
+      b.setAttribute('aria-current', i === S.teil ? 'true' : 'false');
+      b.onclick = function () { teil(i); sichere(); scrollTo(0, 0); };
+      r.appendChild(b);
+    });
+    $('zurueck').style.visibility = S.teil ? 'visible' : 'hidden';
+    $('vor').style.visibility = S.teil < TEILE.length - 1 ? 'visible' : 'hidden';
+    $('abgabe-info').textContent = S.abgegeben ? '✅ Abgegeben. Danke! Du kannst noch Änderungen machen – sie werden automatisch mitgeschickt.' : '';
+  }
+  function starteBogen() {
+    zeige('s-anmelden', false); zeige('s-bogen', true); zeige('status', true);
+    $('mein-code').textContent = ANM.c;
+    baueSkalen(); baueListen(); fuelleFelder(); teil(S.teil || 0);
+  }
+  function ergaenze(s) {          // Stand aus Cloud/Gerät auf die aktuelle Form bringen
+    var e = leer();
+    for (var k in s) if (Object.prototype.hasOwnProperty.call(s, k)) e[k] = s[k];
+    while (e.anliegen.length < N_ANLIEGEN) e.anliegen.push({ text: '', besprechen: true });
+    while (e.komplimente.length < N_KOMPLIMENTE) e.komplimente.push({ fuer: '', text: '' });
+    return e;
+  }
+
+  /* ---------- Ablauf ---------- */
+  $('anm-knopf').onclick = function () {
+    var b = this; b.disabled = true; $('anm-fehler').textContent = '';
+    LABORCLOUD.anmelden($('kc').value, $('pc').value).then(function (r) {
+      b.disabled = false;
+      if (!r.ok) { $('anm-fehler').textContent = r.fehler; return; }
+      var i = LABORCLOUD.info(); ANM = { g: i.gruppe, c: i.code };
+      if (r.stand) S = ergaenze(r.stand);
+      sichere(); starteBogen();
+    });
+  };
+  $('pc').onkeydown = function (e) { if (e.key === 'Enter') $('anm-knopf').click(); };
+  $('vor').onclick = function () { teil(S.teil + 1); sichere(); scrollTo(0, 0); };
+  $('zurueck').onclick = function () { teil(S.teil - 1); sichere(); scrollTo(0, 0); };
+  $('abgeben').onclick = function () {
+    S.abgegeben = new Date().toISOString(); sichere();
+    LABORCLOUD.speichere(true).then(function (ok) {
+      teil(S.teil);
+      if (!ok) $('abgabe-info').textContent = '⚠️ Gerade keine Verbindung. Lass die Seite offen – sie schickt es automatisch, sobald das Internet wieder da ist.';
+    });
+  };
+  $('abmelden').onclick = function (e) {
+    e.preventDefault();
+    LABORCLOUD.speichere(true).then(function () {
+      LABORCLOUD.abmelden(); ANM = null; S = leer();
+      try { localStorage.removeItem(SPEICHER); } catch (x) { }
+      $('pc').value = ''; zeige('s-bogen', false); zeige('status', false); zeige('s-anmelden', true);
+    });
+  };
+
+  zeige('ohnejs', false);
+  var alt = lies();
+  if (alt && alt.anm && alt.s) { ANM = alt.anm; S = ergaenze(alt.s); LABORCLOUD.fortsetzen(ANM.g, ANM.c); starteBogen(); }
+  else { zeige('s-anmelden', true); if (alt && alt.anm) $('kc').value = alt.anm.g; }
+})();
+</script>
+</body>
+</html>
