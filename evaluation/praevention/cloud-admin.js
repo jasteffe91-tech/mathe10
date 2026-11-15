@@ -99,12 +99,16 @@
     return el('div', {},
       meldung,
       el('div', { class: 'karte' }, el('h2', {}, 'Zugangscode für die Klassenleitungen'),
-        e.zugangscode ? null : el('div', { class: 'hinweisbox sand' }, 'Noch kein Zugangscode festgelegt – bis dahin kann niemand abgeben.'),
+        e.zugangscode ? el('div', { class: 'hinweisbox' }, 'Aktueller Zugangscode: ', el('strong', {}, e.zugangscode), ' – der Fragebogen ist freigeschaltet.') : el('div', { class: 'hinweisbox sand' }, 'Noch kein Zugangscode gespeichert – bis dahin ist der Fragebogen gesperrt. Code eintragen (oder „Vorschlag erzeugen“) und auf „Zugangscode speichern“ klicken.'),
         el('p', { class: 'leise' }, 'Alle Klassenleitungen bekommen denselben Code (z. B. per Dienst-Mail). Er wird nicht mit den Antworten gespeichert. Ändern sperrt den alten Code sofort.'),
         el('div', { class: 'form-zeile' },
           el('label', { for: 'zugangscode' }, 'Zugangscode', code),
           el('button', { class: 'knopf zweit', type: 'button', onclick: () => { code.value = vorschlag(); } }, 'Vorschlag erzeugen'),
-          el('button', { class: 'knopf', type: 'button', onclick: () => setzen({ zugangscode: code.value }, 'Zugangscode gespeichert.') }, 'Speichern')),
+          el('button', { class: 'knopf', type: 'button', onclick: () => {
+            const c = code.value.trim().replace(/\s+/g, '-').replace(/[äÄ]/g, 'AE').replace(/[öÖ]/g, 'OE').replace(/[üÜ]/g, 'UE').replace(/ß/g, 'SS').toUpperCase();
+            if (!/^[A-Z0-9-]{6,32}$/.test(c)) return fehler('Der Zugangscode braucht 6–32 Zeichen: nur Buchstaben A–Z, Ziffern und Bindestrich.');
+            setzen({ zugangscode: c }, `Zugangscode „${c}“ gespeichert – der Fragebogen ist jetzt freigeschaltet.`);
+          } }, 'Zugangscode speichern')),
         el('p', { style: 'margin-top:14px' }, 'Link zum Fragebogen: ', el('strong', { style: 'overflow-wrap:anywhere' }, link))),
       el('div', { class: 'karte' }, el('h2', {}, 'Berichte und Export'),
         el('p', { class: 'leise' }, 'Der PDF-Bericht wird bei jedem Klick neu aus den aktuellen Daten erstellt – direkt in diesem Browser. Er eignet sich auch, um ihn Claude zur weiteren Analyse zu geben; er enthält keine personenbezogenen Daten.'),
@@ -119,7 +123,7 @@
       el('div', { class: 'karte' }, el('h2', {}, 'Einstellungen'),
         el('div', { class: 'form-zeile' },
           el('label', { for: 'erwartet' }, 'Erwartete Anzahl Klassenleitungen', erwartet),
-          el('button', { class: 'knopf zweit', type: 'button', onclick: () => setzen({ erwartet: erwartet.value }, 'Gespeichert.') }, 'Speichern')),
+          el('button', { class: 'knopf zweit', type: 'button', onclick: () => setzen({ erwartet: erwartet.value }, 'Erwartete Anzahl gespeichert.') }, 'Anzahl speichern')),
         el('hr', { style: 'border:0;border-top:1px solid var(--rand);margin:20px 0' }),
         el('p', {}, el('span', { class: 'status-punkt' + (e.offen ? '' : ' zu') }), e.offen ? 'Die Evaluation ist geöffnet – Abgaben sind möglich.' : 'Die Evaluation ist geschlossen – es werden keine Abgaben angenommen.'),
         el('button', { class: 'knopf' + (e.offen ? ' zweit' : ''), type: 'button', onclick: () => setzen({ offen: !e.offen }, e.offen ? 'Evaluation geschlossen.' : 'Evaluation geöffnet.') }, e.offen ? 'Evaluation schließen' : 'Evaluation wieder öffnen')),
