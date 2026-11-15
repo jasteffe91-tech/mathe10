@@ -91,8 +91,8 @@
     const empf = a.entscheidung;
     return el('div', {},
       el('div', { class: 'raster' },
-        el('div', { class: 'kennzahl' }, el('div', { class: 'wert' }, String(a.n)), el('div', { class: 'bez' }, LOKAL ? 'eingelesene Antwort-Codes' : 'eingegangene Evaluationen')),
-        el('div', { class: 'kennzahl' }, el('div', { class: 'wert' }, a.erwartet ? pct(a.quote) : '–'), el('div', { class: 'bez' }, a.erwartet ? `Rücklaufquote (erwartet: ${a.erwartet})` : `Rücklaufquote – erwartete Anzahl unter „${LOKAL ? 'Codes & Export' : 'Verwaltung'}“ eintragen`)),
+        el('div', { class: 'kennzahl' }, el('div', { class: 'wert' }, String(a.n)), el('div', { class: 'bez' }, LOKAL && !LOKAL.reiterName ? 'eingelesene Antwort-Codes' : 'eingegangene Evaluationen')),
+        el('div', { class: 'kennzahl' }, el('div', { class: 'wert' }, a.erwartet ? pct(a.quote) : '–'), el('div', { class: 'bez' }, a.erwartet ? `Rücklaufquote (erwartet: ${a.erwartet})` : `Rücklaufquote – erwartete Anzahl unter „${LOKAL ? (LOKAL.reiterName || 'Codes & Export') : 'Verwaltung'}“ eintragen`)),
         el('div', { class: 'kennzahl' }, el('div', { class: 'wert' }, el('span', { class: 'status-punkt' + (e.offen ? '' : ' zu') }), e.offen ? 'offen' : 'geschlossen'), el('div', { class: 'bez' }, 'Status der Evaluation')),
         el('div', { class: 'kennzahl' }, el('div', { class: 'wert' }, pct(a.q.q12.positiv)), el('div', { class: 'bez' }, 'befürworten eine dauerhafte Etablierung'))),
       el('div', { class: 'karte' },
@@ -191,7 +191,7 @@
     ['verwaltung', 'Verwaltung & Export', verwaltung],
   ];
 
-  if (LOKAL) REITER[4] = ['verwaltung', 'Codes & Export', (a, e) => LOKAL.verwaltung(a, e, { el, laden, pct })];
+  if (LOKAL) REITER[4] = ['verwaltung', LOKAL.reiterName || 'Codes & Export', (a, e) => LOKAL.verwaltung(a, e, { el, laden, pct })];
 
   function zeichne() {
     const a = daten.auswertung; const e = daten.einstellungen;

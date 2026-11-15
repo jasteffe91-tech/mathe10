@@ -6,6 +6,8 @@
   const main = document.getElementById('inhalt');
   // GitHub-Pages-Version (ohne Server): Abgabe als Antwort-Code, siehe werkzeuge/pages-bauen.js
   const STATISCH = window.EVAL_STATISCH || null;
+  // Cloudflare-Version: Seite auf GitHub Pages, Speicherung über den Worker (werkzeuge/cloud-bauen.js)
+  const CLOUD = window.EVAL_CLOUD || null;
 
   let DEF; // { meta, bereiche, fragen, maxText, maxKlasse }
   let zustand = { schritt: 0, antworten: {}, klasse: '', kennung: neueKennung() };
@@ -40,7 +42,12 @@
   // ---------- Start
   async function start() {
     try {
-      if (STATISCH) {
+      if (CLOUD) {
+        DEF = CLOUD.def;
+        const status = await (await fetch(CLOUD.api + '/api/status')).json();
+        if (!status.offen) return zeigeGeschlossen();
+        if (!status.zugangEingerichtet) return zeigeGeschlossen('Die Evaluation ist noch nicht freigeschaltet.');
+      } else if (STATISCH) {
         DEF = STATISCH.def;
         if (!STATISCH.offen) return zeigeGeschlossen();
       } else {
@@ -61,9 +68,9 @@
     zeichne();
   }
 
-  function zeigeGeschlossen() {
+  function zeigeGeschlossen(text) {
     main.replaceChildren(el('div', { class: 'karte danke' },
-      el('h1', {}, 'Die Evaluation ist derzeit geschlossen.'),
+      el('h1', {}, text || 'Die Evaluation ist derzeit geschlossen.'),
       el('p', { class: 'leise' }, 'Vielen Dank für dein Interesse. Bei Fragen wende dich bitte an WIDE (BL Abt. II).')));
   }
 
@@ -106,7 +113,9 @@
         el('p', {}, 'Liebe Klassenleitungen des 8. Jahrgangs, die Mitarbeiterinnen der Jugendhilfe der Stadt Voerde haben in euren Klassen ein Präventionsangebot durchgeführt. Eure Einschätzung hilft der Abteilungsleitung zu entscheiden, ob und in welcher Form das Angebot künftig in Abteilung II fortgeführt wird – auch, ob es schon in Jahrgang 7 sinnvoll wäre.'),
         el('ul', { class: 'liste-kurz' },
           el('li', {}, 'Dauer: etwa 5–7 Minuten, 5 kurze Bereiche'),
-          STATISCH
+          CLOUD
+            ? el('li', {}, 'Anonym: Es werden weder Name noch Klasse, IP-Adresse oder Uhrzeit gespeichert. Die Antworten werden verschlüsselt übertragen und in einer Datenbank mit Serverstandort EU abgelegt.')
+            : STATISCH
             ? el('li', {}, 'Am Ende erhältst du einen Antwort-Code, den du per E-Mail an WIDE schickst. Ausgewertet wird nur zusammengefasst. Weil die E-Mail deinen Absender zeigt, ist die Abgabe nicht vollständig anonym.')
             : el('li', {}, 'Anonym: keine Registrierung, kein Name, keine Speicherung von IP-Adresse oder Uhrzeit'),
           STATISCH ? el('li', {}, 'Deine Antworten verlassen dieses Gerät nur über den Code, den du selbst verschickst.') : null,
@@ -114,12 +123,40 @@
           el('li', {}, ['Fragen mit ', el('span', { class: 'pflicht', 'aria-hidden': 'true' }, '*'), ' sind Pflichtfragen, alle Textfelder sind freiwillig'])),
         schonAbgegeben ? el('div', { class: 'hinweisbox sand' }, 'Hinweis: Von diesem Gerät wurde bereits eine Evaluation abgegeben. Bitte nur einmal pro Klasse teilnehmen.',
           STATISCH && schonAbgegeben.startsWith('PRAEV1') ? el('div', { style: 'margin-top:10px' }, el('button', { class: 'knopf zweit klein', type: 'button', onclick: () => zeigeCode(schonAbgegeben) }, 'Meinen Antwort-Code erneut anzeigen')) : null) : null),
-      el('div', { class: 'karte' },
+      CLOUD ? zugangKarte() : el('div', { class: 'karte' },
         el('div', { class: 'frage', style: 'margin-bottom:0' },
           el('label', { class: 'frage-titel', for: 'klasse' }, 'Klasse', el('span', { class: 'optional' }, '(freiwillig)')),
           el('p', { class: 'hilfe' }, 'Die Angabe ist freiwillig. Sie wird nur als Liste der beteiligten Klassen angezeigt und nicht mit deinen Antworten verknüpft ausgewertet oder exportiert.'),
           klasse)),
-      el('div', { class: 'knopfleiste' }, el('span'), el('button', { class: 'knopf', type: 'button', onclick: () => geh(1) }, 'Los geht’s →')));
+      el('div', { class: 'knopfleiste' }, el('span'), el('button', { class: 'knopf', type: 'button', id: 'los', onclick: (e) => (CLOUD ? zugangPruefen(e.currentTarget) : geh(1)) }, 'Los geht’s →')));
+  }
+
+  // ---------- Zugangscode (Cloudflare-Version)
+  function zugangKarte() {
+    const feld = el('input', { type: 'text', id: 'zugangscode', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', maxlength: '32', value: zustand.zugangscode || '',
+      'aria-describedby': 'zugang-fehler', oninput: (e) => { zustand.zugangscode = e.target.value; speichereEntwurf(); },
+      onkeydown: (e) => { if (e.key === 'Enter') document.getElementById('los').click(); } });
+    return el('div', { class: 'karte' },
+      el('div', { class: 'frage', style: 'margin-bottom:0' },
+        el('label', { class: 'frage-titel', for: 'zugangscode' }, 'Zugangscode', el('span', { class: 'pflicht', title: 'Pflichtfeld' }, '*')),
+        el('p', { class: 'hilfe' }, 'Den Zugangscode hast du von WIDE (BL Abt. II) erhalten. Er ist für alle Klassenleitungen gleich und wird nicht mit deinen Antworten gespeichert.'),
+        feld,
+        el('div', { class: 'meldung fehler', id: 'zugang-fehler', role: 'alert' })));
+  }
+  async function zugangPruefen(knopf) {
+    const fehler = document.getElementById('zugang-fehler');
+    const code = (zustand.zugangscode || '').trim();
+    if (!code) { fehler.textContent = 'Bitte den Zugangscode eingeben.'; document.getElementById('zugangscode').focus(); return; }
+    knopf.disabled = true; fehler.textContent = '';
+    try {
+      const r = await fetch(CLOUD.api + '/api/zugang', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Evaluation': '1' }, body: JSON.stringify({ zugangscode: code }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d.fehler || 'Der Zugangscode konnte nicht geprüft werden.');
+      geh(1);
+    } catch (err) {
+      fehler.textContent = err.message === 'Failed to fetch' || err.message === 'Load failed' ? 'Keine Verbindung zum Server. Bitte später erneut versuchen.' : err.message;
+      knopf.disabled = false;
+    }
   }
 
   function frageElement(f) {
@@ -212,9 +249,9 @@
       return;
     }
     try {
-      const r = await fetch('/api/antworten', {
+      const r = await fetch((CLOUD ? CLOUD.api : '') + '/api/antworten', {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Evaluation': '1' },
-        body: JSON.stringify({ kennung: zustand.kennung, antworten }),
+        body: JSON.stringify({ kennung: zustand.kennung, antworten, zugangscode: CLOUD ? (zustand.zugangscode || '').trim() : undefined }),
       });
       const d = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(d.fehler || 'Die Abgabe ist fehlgeschlagen.');
@@ -222,7 +259,7 @@
       danke();
     } catch (err) {
       meldung.className = 'meldung fehler';
-      meldung.textContent = (err.message === 'Failed to fetch' ? 'Keine Verbindung zum Server.' : err.message) + ' Deine Antworten bleiben erhalten – bitte erneut versuchen.';
+      meldung.textContent = (err.message === 'Failed to fetch' || err.message === 'Load failed' ? 'Keine Verbindung zum Server.' : err.message) + ' Deine Antworten bleiben erhalten – bitte erneut versuchen.';
       sendetGerade = false; knopf.disabled = false; knopf.textContent = 'Erneut absenden';
     }
   }
