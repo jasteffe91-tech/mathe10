@@ -1,0 +1,15 @@
+# Start: docker compose up -d   (vorher ADMIN_PASSWORD_HASH in .env eintragen)
+services:
+  evaluation:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"   # nur lokal; HTTPS über Reverse-Proxy (z. B. Caddy/Nginx) davor schalten
+    environment:
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+      TRUST_PROXY: "1"
+      COOKIE_SECURE: "true"
+    volumes:
+      - evaluation-data:/data
+volumes:
+  evaluation-data:
