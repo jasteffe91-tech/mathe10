@@ -296,6 +296,34 @@ html{font-size:19px}
 .kette span{background:#fff;border:2px solid var(--teal);border-radius:12px;padding:.4rem .8rem;text-align:center}
 .kette b{font-size:1.6rem;color:var(--or)}
 @media (max-width:600px){html{font-size:17px}.lueckentext{line-height:2.1}.lueck{white-space:normal}}
+/* ---------- Expertenlabor (v2, 16.11.2026) ---------- */
+.planreihe{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;margin:.6rem 0}
+.planreihe figure{margin:0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:.3rem;text-align:center}
+.planreihe .plan{width:100%;max-width:170px;height:auto}
+.planreihe figcaption{font-size:.8rem;font-weight:700;color:#5E6B75}
+.tresor{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;background:#2F3B45;color:#fff;border-radius:12px;padding:1rem;margin:.5rem 0}
+.tresor .satzhilfe{color:#E3E8EC;margin-top:.4rem}
+.tresor .satzhilfe.gut{color:#9FE3C9;font-weight:700}.tresor .satzhilfe.schlecht{color:#FFC7B8;font-weight:700}
+.tresorbild{font-size:3rem;line-height:1}
+.tresorbild.wackel{animation:wackel .4s}
+@keyframes wackel{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+@media (prefers-reduced-motion:reduce){.tresorbild.wackel{animation:none}}
+input.code{font-size:1.6rem;letter-spacing:.5em;width:7.5em;max-width:100%;padding:.3rem .5rem;border-radius:8px;border:2px solid #E4A72E;font-weight:800;text-align:center;margin-right:.5rem}
+.geheim{background:#FFF6D6;border:2px dashed #E4A72E;border-radius:10px;padding:.8rem 1rem;margin:.5rem 0}
+.pass{margin-bottom:.5rem}
+.passkopf{font-weight:800;margin-bottom:.3rem}
+.passreihe{display:flex;flex-wrap:wrap;gap:.4rem}
+.abz{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .6rem;border-radius:999px;background:#E3E8EC;color:#76838D;font-size:.85rem;font-weight:700;filter:grayscale(1);opacity:.7}
+.abz.hat{background:#7A4FB5;color:#fff;filter:none;opacity:1}
+.abz.gold.hat{background:#E4A72E;color:#16202A}
+.abzico{font-size:1.1rem}
+.expgr .abkopf span:first-child{color:#7A4FB5}
+.expkarte{border-left:5px solid #7A4FB5}
+.ebalken{margin:.5rem 0}
+.ezeile{display:grid;grid-template-columns:6.5em 1fr;gap:.2rem .6rem;align-items:center;margin:.35rem 0}
+.ezeile span{grid-column:2;font-size:.85rem}
+.ebar{display:flex;height:20px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.ebar i{display:block;height:100%}.elicht{background:#FFD43B}.ewaerme{background:#E4572E}
 
 </style>
 </head>
@@ -853,11 +881,196 @@ var GLOSSAR = [
 ];
 
 /* =====================================================================
+   EXPERTENLABOR (Lernabschnitt 4, v2, 16.11.2026) – für alle, die mit 1–12 fertig sind.
+   Zählt NICHT zu den 57 Pflichtaufgaben (siehe zaehlt() in app.js). Eigener Fortschritt + Abzeichen.
+   Spielerisch: Escape-Room mit Tresor-Code, Detektiv-Fälle, Abzeichen-Pass.
+   Tieftauchen (🤿): Begründen, Übertragen, Probleme lösen.
+   Schlüssel (k) nie umbenennen.
+   ===================================================================== */
+ABSCHNITTE.push({ nr: 4, titel: 'Expertenlabor 🧪', kurz: 'Experten', zeit: 105, text: 'Für alle, die mit Station 1–12 fertig sind: Escape-Room, Detektiv-Fälle, Kurzschluss und Sicherung, Energie-Detektive. Sammle 4 Abzeichen!' });
+
+function planReihe(liste) {
+  return '<div class="planreihe">' + liste.map(function (p, i) { return '<figure>' + plan(p) + '<figcaption>Plan ' + (i + 1) + '</figcaption></figure>'; }).join('') + '</div>';
+}
+var ZIFFERN = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+var PASS_INFO = { b: 'info', html: '<div class="pass" aria-live="polite"></div><b>Regel im Expertenlabor:</b> Eine Antwort zählt nur als <b>ganzer, eigener Satz</b>. Die Wörter-Knöpfe sind nur eine Hilfe. 🤿 <b>Tieftauchen</b> heißt: Hier musst du richtig nachdenken und begründen.' };
+
+var EXPERTEN = [
+/* ---------------------------------------------------------------- 13 */
+{ id: 'st13', nr: 13, ab: 4, titel: 'Escape-Room: Das Labor von Professorin Volta', zeit: 25, ico: '🗝️',
+  abz: { ico: '🗝️', name: 'Code-Knacker' },
+  problem: '<p>Professorin Volta hat ihr Labor abgeschlossen. 🔒 Der Schlüssel liegt in einem <b>Tresor</b>.</p><p>Der Tresor hat einen <b>Code mit 4 Ziffern</b>. Jedes Rätsel verrät dir <b>eine Ziffer</b>.</p><p><b>Kannst du den Tresor knacken?</b></p>',
+  bloecke: [
+    PASS_INFO,
+    { b: 'a', nr: '13.1', lv: 1, ph: '🧩 Rätsel 1', titel: 'Die Schaltpläne', art: 'mcs',
+      frage: 'Schau dir die 4 Schaltpläne an. Benutze den Finger-Trick! <b>In wie vielen Plänen leuchtet die Lampe?</b>' +
+        planReihe([{ oben: 'L', unten: 'B', rechts: 'S1' }, { oben: 'L', unten: 'B', rechts: 'S0' }, { oben: 'L', unten: 'B' }, { oben: 'L', unten: '-', rechts: 'S1' }]),
+      items: [{ k: 's13.r1', t: 'Ziffer 1: Die Lampe leuchtet in … Plänen.', opt: ['0', '1', '2', '3', '4'], loes: '2' }],
+      hilfen: [['Hilfe 1', 'Ein Plan braucht eine <b>Batterie</b> und einen <b>geschlossenen</b> Weg. Ein Schalter ist <b>nicht</b> nötig!'], ['Hilfe 2', 'Plan 1: zu ✓ · Plan 2: Schalter offen · Plan 3: ohne Schalter, aber geschlossen · Plan 4: keine Batterie.']] },
+    { b: 'a', nr: '13.2', lv: 1, ph: '🧩 Rätsel 2', titel: 'Die Leiter-Fahndung', art: 'mcs',
+      frage: 'Auf dem Labortisch liegen: <b>Alufolie · Radiergummi · 1-Euro-Münze · Holzlöffel · Schlüssel · Glasmurmel · Plastiklineal · Wollsocke</b>.<br><b>Wie viele davon sind Leiter?</b>',
+      items: [{ k: 's13.r2', t: 'Ziffer 2: Es sind … Leiter.', opt: ['1', '2', '3', '4', '5', '6'], loes: '3' }],
+      hilfen: [['Hilfe 1', 'Leiter sind fast immer aus <b>Metall</b>. Welche Dinge sind aus Metall?']] },
+    { b: 'a', nr: '13.3', lv: 2, ph: '🧩 Rätsel 3', titel: 'Die Party-Lampen', art: 'mcs',
+      frage: 'In der Küche hängen <b>5 Lampen parallel</b>. Im Flur hängt eine Lichterkette mit <b>4 Lampen in Reihe</b>.<br>In der Küche geht <b>1 Lampe</b> kaputt. Im Flur geht auch <b>1 Lampe</b> kaputt.<br><b>Wie viele Lampen leuchten jetzt noch – in Küche und Flur zusammen?</b>',
+      items: [{ k: 's13.r3', t: 'Ziffer 3: Es leuchten noch … Lampen.', opt: ['0', '3', '4', '5', '7', '8'], loes: '4' }],
+      hilfen: [['Hilfe 1', 'Parallel: Jede Lampe hat einen <b>eigenen Weg</b>. In Reihe: Es gibt nur <b>einen</b> Weg für alle.'], ['Hilfe 2', 'Küche: 5 − 1 = ? · Flur: Wenn der einzige Weg unterbrochen ist, leuchten wie viele?']] },
+    { b: 'a', nr: '13.4', lv: 2, ph: '🧩 Rätsel 4', titel: 'Der starke Magnet', art: 'mcs',
+      frage: 'Ein Elektromagnet mit Eisenkern hat <b>50 Windungen</b> und <b>1 Batterie</b>. Er hält <b>2 Nägel</b>.<br>Jetzt nimmt Professorin Volta <b>doppelt so viele Windungen</b> und <b>doppelt so viele Batterien</b>. <b>Wie viele Nägel hält er jetzt?</b>',
+      items: [{ k: 's13.r4', t: 'Ziffer 4: Er hält … Nägel.', opt: ['2', '3', '4', '6', '8', '9'], loes: '8' }],
+      hilfen: [['Hilfe 1', 'Doppelt so viele Windungen → doppelt so viele Nägel. Und dann noch doppelt so viele Batterien …'], ['Hilfe 2', 'Du kannst es in <b>Simulation H</b> (Station 9) testen: 100 Windungen, 2 Batterien, mit Eisenkern.']] },
+    { b: 'a', nr: '13.5', lv: 1, ph: '🔒 Tresor', art: 'tresor', k: 's13.code', loes: '2348',
+      frage: 'Setze deine 4 Ziffern zusammen (Rätsel 1, 2, 3, 4) und tippe den Code ein.',
+      geheim: '<b>🎉 Der Tresor ist offen!</b> Darin liegt ein Zettel von Professorin Volta:<br><i>„Gut gemacht! Aber eine echte Forscherin, ein echter Forscher kann auch <b>erklären</b>, warum. Löse noch Aufgabe 13.6 – dann gehört dir das Code-Knacker-Abzeichen. 🗝️“</i>' },
+    { b: 'a', nr: '13.6', lv: 3, ph: '🤿 Tieftauchen', titel: 'Erkläre Rätsel 3', art: 'text', k: 's13.erkl',
+      frage: 'Tom sagt: „Im Flur leuchten noch 3 Lampen. Es ist ja nur eine kaputt.“ <b>Erkläre Tom, warum er falsch liegt.</b> Erkläre auch, warum es in der Küche anders ist.',
+      platz: 'Im Flur leuchtet keine Lampe mehr, weil … In der Küche ist es anders, weil …', wort: 'in Reihe · parallel · nur ein Weg · eigener Weg · unterbrochen · Stromkreis' },
+    { b: 'a', nr: '13.7', lv: 'S', ph: '★ Extra', titel: 'Erfinde ein Tresor-Rätsel', art: 'text', k: 's13.sp',
+      frage: 'Erfinde selbst ein Rätsel für den Tresor. Die Lösung muss <b>eine Ziffer</b> sein. Schreibe die Frage und die Lösung auf. Vielleicht löst es jemand aus deiner Klasse!',
+      platz: 'Mein Rätsel: … Lösung: …' }
+  ] },
+
+/* ---------------------------------------------------------------- 14 */
+{ id: 'st14', nr: 14, ab: 4, titel: 'Schaltungs-Detektive', zeit: 25, ico: '🕵️',
+  abz: { ico: '🕵️', name: 'Schaltungs-Detektiv' },
+  problem: '<p>In der Stadt stecken überall <b>Schaltungen</b>: im Bus, in der Bank, im Auto, im Treppenhaus.</p><p>Man sieht die Kabel nicht. Aber man kann es herausfinden – wenn man genau beobachtet. 🔎</p><p><b>Welche Schaltung steckt dahinter?</b></p>',
+  bloecke: [
+    PASS_INFO,
+    { b: 'a', nr: '14.1', lv: 1, ph: '🔎 Fälle lösen', art: 'zuordnung', k: 's14z', opt: ['UND-Schaltung', 'ODER-Schaltung', 'Wechselschaltung', 'Reihenschaltung', 'Parallelschaltung'], tipp: 'frage dich: Müssen <b>beide</b> Schalter zu sein? Oder reicht <b>einer</b>?',
+      frage: 'Lies jeden Fall. Welche Schaltung steckt dahinter? Ordne zu. Klicke dann auf „Prüfen“.',
+      items: [{ k: 's14z.1', t: '🏦 Ein Bankschließfach geht nur auf, wenn die Kundin <b>und</b> die Bank ihren Schlüssel drehen.', alt: 'Bankschließfach', soll: 'UND-Schaltung' },
+              { k: 's14z.2', t: '🚌 Im Bus gibt es viele Halte-Knöpfe. Egal welchen man drückt – vorne leuchtet „Wagen hält“.', alt: 'Halte-Knöpfe im Bus', soll: 'ODER-Schaltung' },
+              { k: 's14z.3', t: '🚪 In einem langen Flur kann man das Licht am Anfang <b>und</b> am Ende an- und ausschalten.', alt: 'langer Flur', soll: 'Wechselschaltung' },
+              { k: 's14z.4', t: '🔌 Im Kinderzimmer geht die Lampe kaputt. Das Radio an der anderen Steckdose läuft weiter.', alt: 'Steckdosen im Zimmer', soll: 'Parallelschaltung' },
+              { k: 's14z.5', t: '🎄 Bei einer alten Lichterkette ist eine Lampe kaputt. Jetzt ist die ganze Kette dunkel.', alt: 'alte Lichterkette', soll: 'Reihenschaltung' },
+              { k: 's14z.6', t: '✂️ Eine große Papier-Schneidemaschine schneidet nur, wenn man mit <b>beiden</b> Händen je einen Knopf drückt.', alt: 'Schneidemaschine', soll: 'UND-Schaltung' },
+              { k: 's14z.7', t: '🚗 Das Licht im Auto geht an, wenn die Fahrertür <b>oder</b> die Beifahrertür offen ist.', alt: 'Innenlicht im Auto', soll: 'ODER-Schaltung' }] },
+    { b: 'info', html: '<b>Teste deine Fälle:</b> Mit Simulation E kannst du die UND- und die ODER-Schaltung ausprobieren. Spiele Fall 6 (Schneidemaschine) und Fall 7 (Auto) nach!' },
+    { b: 'sim', sim: 'E' },
+    { b: 'a', nr: '14.2', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's14.m',
+      frage: 'Wähle das passende Wort. Klicke dann auf „Prüfen“.',
+      text: 'Bei der UND-Schaltung sind die zwei Schalter [[*hintereinander (in Reihe)|nebeneinander (parallel)]]. Bei der ODER-Schaltung sind die zwei Schalter [[hintereinander (in Reihe)|*nebeneinander (parallel)]]. Bei der Schneidemaschine nimmt man die [[*UND-Schaltung|ODER-Schaltung]], denn so sind beide Hände sicher weg vom Messer.' },
+    { b: 'a', nr: '14.3', lv: 2, ph: '🔎 Entscheiden', titel: 'Das sichere Auto', art: 'mcs',
+      frage: 'Im Auto gibt es zwei Schaltungen. Wähle jeweils die passende Schaltung und begründe <b>eine</b> davon.',
+      items: [{ k: 's14.a1', t: '① Das Auto startet nur, wenn der Schlüssel gedreht ist <b>und</b> der Fuß auf der Bremse steht.', opt: ['UND-Schaltung', 'ODER-Schaltung'], loes: 'UND-Schaltung' },
+              { k: 's14.a2', t: '② Die Gurt-Warnlampe leuchtet, wenn die Fahrerin nicht angeschnallt ist <b>oder</b> der Beifahrer nicht angeschnallt ist.', opt: ['UND-Schaltung', 'ODER-Schaltung'], loes: 'ODER-Schaltung' }],
+      begr: { k: 's14.a3', frage: 'Begründe eine Entscheidung mit „weil“.', platz: 'Bei ① nimmt man die …-Schaltung, weil …', wort: 'beide · einer reicht · hintereinander · nebeneinander · Schalter · zu' } },
+    { b: 'a', nr: '14.4', lv: 3, ph: '🤿 Tieftauchen', titel: 'Die Alarmanlage', art: 'text', k: 's14.alarm',
+      frage: 'Ein Fahrradkeller hat <b>ein Fenster und eine Tür</b>. An beiden ist ein Schalter. Er geht <b>zu</b>, wenn man das Fenster oder die Tür öffnet. Die <b>Sirene</b> soll losgehen, wenn ein Dieb das Fenster <b>oder</b> die Tür öffnet.<br><b>Welche Schaltung brauchst du? Beschreibe, wie die zwei Schalter verbunden sind. Begründe.</b>',
+      platz: 'Ich brauche die …-Schaltung. Die Schalter sind … verbunden. Denn …', wort: 'ODER-Schaltung · UND-Schaltung · nebeneinander (parallel) · hintereinander · Sirene · ein Schalter reicht' },
+    { b: 'a', nr: '14.5', lv: 'S', ph: '★ Extra', titel: 'Drei Stockwerke', art: 'text', k: 's14.sp',
+      frage: 'Mit zwei Umschaltern kann man das Licht im Treppenhaus unten und oben schalten (Station 7). Aber was ist bei <b>drei</b> Stockwerken? Forsche nach: Was ist ein <b>Kreuzschalter</b>? (Buch, Internet oder fragt eine Elektrikerin/einen Elektriker.)',
+      platz: 'Bei drei Stockwerken braucht man … Ein Kreuzschalter …' }
+  ] },
+
+/* ---------------------------------------------------------------- 15 */
+{ id: 'st15', nr: 15, ab: 4, titel: 'Kurzschluss und Sicherung', zeit: 30, ico: '🧯',
+  abz: { ico: '🧯', name: 'Sicherheits-Profi' },
+  problem: '<p>Bei Lina zu Hause geht in der Küche plötzlich <b>alles aus</b>. Licht, Kühlschrank, Radio – alles dunkel! 😮</p><p>Papa sagt: „Die <b>Sicherung</b> ist rausgeflogen. Gut so!“</p><p><b>Was ist eine Sicherung? Und warum ist es gut, dass sie rausfliegt?</b></p>',
+  bloecke: [
+    PASS_INFO,
+    { b: 'a', nr: '15.1', lv: 1, ph: '🤔 Vermutung', art: 'mcs',
+      frage: 'Was glaubst du? Jemand legt eine <b>Brücke</b> (ein Stück Draht) direkt neben die Lampe. Jetzt kann der Strom an der Lampe <b>vorbei</b> fließen. Es gibt noch kein Richtig oder Falsch.',
+      items: [{ k: 's15.v1', t: 'Die Lampe …', opt: ['leuchtet heller.', 'leuchtet genauso.', 'leuchtet nicht mehr.'] },
+              { k: 's15.v2', t: 'Das Kabel …', opt: ['bleibt kalt.', 'wird heiß.'] }] },
+    { b: 'info', html: '<b>So geht es:</b> ① Schalte den Strom ein. ② Baue die <b>Brücke</b> ein (Knopf oder auf die gestrichelte Linie klicken). ③ Beobachte Lampe, Kabel und Thermometer. ④ Probiere es <b>mit</b> und <b>ohne</b> Sicherung. ⑤ Speichere jede Beobachtung.' },
+    { b: 'sim', sim: 'I' },
+    { b: 'a', nr: '15.2', lv: 1, ph: '🔬 Versuch', art: 'messung', tab: 'mI', min: 3,
+      frage: 'Speichere <b>mindestens 3</b> Beobachtungen: ① Strom an, <b>ohne</b> Brücke · ② Brücke, <b>ohne</b> Sicherung · ③ Brücke, <b>mit</b> Sicherung. ★ Bonus: Setze eine neue Sicherung ein, <b>bevor</b> du die Brücke entfernst. Was passiert?' },
+    { b: 'a', nr: '15.3', lv: 1, ph: '📝 Auswertung', art: 'luecke', k: 's15.l',
+      frage: 'Schau in deine Tabelle. Wähle das passende Wort. Klicke dann auf „Prüfen“.',
+      text: 'Bei einem Kurzschluss fließt der Strom [[*an der Lampe vorbei|durch die Lampe]]. Die Lampe [[leuchtet heller|*leuchtet nicht]]. Ohne Sicherung wird das Kabel [[kalt|*heiß]]. Das ist gefährlich, denn es kann ein [[*Brand|Regenbogen]] entstehen.',
+      hilfen: [['Hilfe 1', 'Schau in die Zeile „Brücke: ja · Sicherung: keine“. Was steht bei Lampe und Kabel?']] },
+    { b: 'a', nr: '15.4', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's15.m',
+      frage: 'Wähle das passende Wort. Klicke dann auf „Prüfen“.',
+      text: 'Eine Sicherung [[*unterbricht|verstärkt]] den Stromkreis, wenn zu viel Strom fließt. Sie ist absichtlich die [[stärkste|*schwächste]] Stelle im Stromkreis. Bevor man eine neue Sicherung einsetzt, muss man zuerst [[*den Fehler beheben|die Lampe herausdrehen]].' },
+    { b: 'a', nr: '15.5', lv: 2, ph: '🔎 Entscheiden', titel: 'Kurzschluss-Alarm', art: 'urteile', k: 's15u', labels: ['⚡ Kurzschluss', '✅ kein Kurzschluss'],
+      frage: 'Ist das ein Kurzschluss? Entscheide bei jeder Karte. Klicke dann auf „Auswerten“.',
+      items: [
+        { ico: '🐁', t: 'Eine Maus hat die Hülle von einem Kabel angeknabbert. Die zwei Drähte berühren sich.', ja: true, e: 'Die Drähte berühren sich direkt – der Strom nimmt den kurzen Weg am Gerät vorbei.' },
+        { ico: '💡', t: 'Eine Lampe ist aus der Fassung herausgedreht.', ja: false, e: 'Hier ist der Stromkreis offen. Es fließt gar kein Strom – das Gegenteil von einem Kurzschluss.' },
+        { ico: '📎', t: 'Eine Büroklammer liegt quer über beiden Polen einer Batterie.', ja: true, e: 'Die Büroklammer verbindet Plus und Minus direkt. Sie und die Batterie werden heiß.' },
+        { ico: '🔘', t: 'Der Lichtschalter ist offen.', ja: false, e: 'Ein offener Schalter unterbricht den Stromkreis. Das ist ganz normal.' },
+        { ico: '🔌', t: 'Ein Gerät in der Steckdose ist kaputt. Innen berühren sich die zwei Leitungen. Die Sicherung fliegt raus.', ja: true, e: 'Der Strom nimmt im Gerät einen kurzen Weg. Die Sicherung schützt die Leitungen in der Wand.' },
+        { ico: '🔋', t: 'Die Batterie ist leer.', ja: false, e: 'Eine leere Batterie gibt keine Energie mehr. Das ist kein Kurzschluss.' } ] },
+    { b: 'a', nr: '15.6', lv: 3, ph: '🤿 Tieftauchen', titel: 'Die Sicherung fliegt immer raus', art: 'text', k: 's15.tief1',
+      frage: 'Immer wenn Papa den alten Wasserkocher einschaltet, fliegt die Sicherung raus. Onkel Kai sagt: „Steck doch einfach einen Draht in den Sicherungskasten, dann hält es!“<br><b>Was sollte die Familie tun? Was auf keinen Fall? Begründe.</b>',
+      platz: 'Die Familie sollte … Auf keinen Fall …, weil …', wort: 'Wasserkocher · kaputt · Elektriker · Kurzschluss · Kabel wird heiß · Brand · Sicherung schützt' },
+    { b: 'a', nr: '15.7', lv: 3, ph: '🤿 Tieftauchen', titel: 'Die schwächste Stelle', art: 'text', k: 's15.tief2',
+      frage: 'Die Sicherung ist absichtlich die <b>schwächste Stelle</b> im Stromkreis. Ist das nicht komisch? <b>Erkläre, warum das klug ist.</b> Tipp: Denke an die Kabel in der Wand.',
+      platz: 'Das ist klug, weil … Sonst würden …', wort: 'Sicherung · Kabel in der Wand · heiß · Brand · unterbricht · zuerst' },
+    { b: 'a', nr: '15.8', lv: 'S', ph: '★ Extra', titel: 'Der Sicherungskasten', art: 'text', k: 's15.sp',
+      frage: 'Schau zu Hause <b>zusammen mit einem Erwachsenen</b> in den Sicherungskasten. ⚠️ Nur anschauen, nichts anfassen! Wie viele Sicherungen gibt es? Was steht daneben? Warum gibt es wohl so viele?',
+      platz: 'Bei uns gibt es … Sicherungen. Daneben steht … Es gibt so viele, weil …' }
+  ] },
+
+/* ---------------------------------------------------------------- 16 */
+{ id: 'st16', nr: 16, ab: 4, titel: 'Energie-Detektive', zeit: 25, ico: '🔋',
+  abz: { ico: '🔋', name: 'Energie-Detektiv' },
+  problem: '<p>Lina hat gelernt: Energie wird <b>nicht verbraucht</b>, sondern <b>umgewandelt</b>.</p><p>Aber dann fragt sie sich: „Warum sollen wir dann <b>Energie sparen</b>? 🤔“</p><p><b>Werde Energie-Detektivin oder Energie-Detektiv und finde es heraus!</b></p>',
+  bloecke: [
+    PASS_INFO,
+    { b: 'a', nr: '16.1', lv: 1, ph: '🧩 Zuordnen', art: 'zuordnung', k: 's16z', opt: ['Licht', 'Wärme', 'Bewegung', 'Schall'], tipp: 'frage dich: Wofür kauft man das Gerät?',
+      frage: 'Wofür braucht man das Gerät? In welche Energieform soll es die elektrische Energie vor allem umwandeln? Ordne zu.',
+      items: [{ k: 's16z.1', t: '🍞 Toaster', alt: 'Toaster', soll: 'Wärme' }, { k: 's16z.2', t: '🌀 Ventilator', alt: 'Ventilator', soll: 'Bewegung' },
+              { k: 's16z.3', t: '🔦 Taschenlampe', alt: 'Taschenlampe', soll: 'Licht' }, { k: 's16z.4', t: '🔊 Lautsprecher', alt: 'Lautsprecher', soll: 'Schall' },
+              { k: 's16z.5', t: '👕 Bügeleisen', alt: 'Bügeleisen', soll: 'Wärme' }, { k: 's16z.6', t: '🛴 E-Roller', alt: 'E-Roller', soll: 'Bewegung' }, { k: 's16z.7', t: '🔔 Türklingel', alt: 'Türklingel', soll: 'Schall' }] },
+    { b: 'info', html: '<b>🔎 Beweisstück: Glühlampe gegen LED</b> – Von <b>100 Teilen</b> elektrischer Energie werden ungefähr …' +
+        '<div class="ebalken"><div class="ezeile"><b>Glühlampe</b><div class="ebar"><i class="elicht" style="width:5%"></i><i class="ewaerme" style="width:95%"></i></div><span>💡 5 Licht · 🔥 95 Wärme</span></div>' +
+        '<div class="ezeile"><b>LED</b><div class="ebar"><i class="elicht" style="width:30%"></i><i class="ewaerme" style="width:70%"></i></div><span>💡 30 Licht · 🔥 70 Wärme</span></div></div>' +
+        '<span class="satzhilfe">gerundete Werte – je nach Lampe etwas anders. Darum braucht eine LED für <b>gleich viel Licht</b> viel weniger Energie. Erinnerst du dich? In Simulation G wurde die Glühlampe 70 °C heiß, die LED blieb kühl.</span>' },
+    { b: 'a', nr: '16.2', lv: 2, ph: '🔎 Beweise lesen', art: 'mcs',
+      frage: 'Lies das Beweisstück oben genau.',
+      items: [{ k: 's16.b1', t: 'Bei der Glühlampe werden von 100 Teilen Energie … Teile zu Wärme.', opt: ['5', '30', '70', '95'], loes: '95' },
+              { k: 's16.b2', t: 'Für gleich viel Licht braucht die LED …', opt: ['mehr Energie als die Glühlampe.', 'weniger Energie als die Glühlampe.', 'gleich viel Energie.'], loes: 'weniger Energie als die Glühlampe.' }] },
+    { b: 'a', nr: '16.3', lv: 1, ph: '💡 Merksatz', art: 'luecke', k: 's16.m',
+      frage: 'Wähle das passende Wort. Klicke dann auf „Prüfen“.',
+      text: 'Energie wird nicht verbraucht, sondern [[*umgewandelt|vernichtet]]. Ein Teil wird aber in Formen umgewandelt, die wir [[*nicht nutzen|gut nutzen]] – zum Beispiel Wärme bei der Glühlampe. Energie sparen heißt: Für denselben Nutzen braucht man [[mehr|*weniger]] elektrische Energie.' },
+    { b: 'a', nr: '16.4', lv: 2, ph: '🔎 Entscheiden', titel: 'Der Spar-Check', art: 'urteile', k: 's16u', labels: ['💚 spart Energie', '💸 verschwendet Energie'],
+      frage: 'Spart das Energie – oder wird Energie verschwendet? Entscheide bei jeder Karte. Klicke dann auf „Auswerten“.',
+      items: [
+        { ico: '💡', t: 'Beim Verlassen des Zimmers das Licht ausmachen.', ja: true, e: 'Licht in einem leeren Zimmer nützt niemandem.' },
+        { ico: '📺', t: 'Den Fernseher die ganze Nacht im Stand-by lassen.', ja: false, e: 'Auch im Stand-by braucht das Gerät die ganze Zeit etwas Energie.' },
+        { ico: '🔄', t: 'Eine alte Glühlampe gegen eine LED tauschen.', ja: true, e: 'Die LED macht aus derselben Energie viel mehr Licht und weniger Wärme.' },
+        { ico: '🧊', t: 'Die Kühlschranktür lange offen lassen.', ja: false, e: 'Warme Luft strömt hinein. Der Kühlschrank muss mehr arbeiten.' },
+        { ico: '👚', t: 'Wäsche an der Leine trocknen statt im Trockner.', ja: true, e: 'Wind und Sonne trocknen die Wäsche ohne elektrische Energie.' },
+        { ico: '🔌', t: 'Das Ladegerät in der Steckdose lassen, obwohl kein Handy dran ist.', ja: false, e: 'Viele Ladegeräte brauchen auch ohne Handy etwas Energie und werden warm.' } ] },
+    { b: 'a', nr: '16.5', lv: 3, ph: '🤿 Tieftauchen', titel: 'Die Energie-Kette', art: 'text', k: 's16.kette',
+      frage: 'Verfolge die Energie wie eine Detektivin oder ein Detektiv: <b>Wind → Windrad → Kabel → Steckdose → Föhn</b>.<br>In welcher Form steckt die Energie an jeder Stelle? Wohin geht sie am Ende?',
+      platz: 'Im Wind steckt Bewegungsenergie. Das Windrad wandelt sie in … Im Kabel … Der Föhn wandelt sie in …', wort: 'Bewegungsenergie · elektrische Energie · Wärme · Schall · umwandeln · Generator' },
+    { b: 'a', nr: '16.6', lv: 3, ph: '🤿 Tieftauchen', titel: 'Der leere Akku', art: 'text', k: 's16.akku',
+      frage: 'Lina sagt: „Mein Handy-Akku ist leer. Die Energie ist jetzt <b>weg</b>.“<br><b>Wo ist die Energie wirklich hin?</b> Schreibe 2–3 Sätze. Tipp: Was hat das Handy die ganze Zeit gemacht? Wie fühlt es sich an?',
+      platz: 'Die Energie ist nicht weg. Sie wurde umgewandelt in … Das merkt man daran, dass …', wort: 'Licht · Schall · Wärme · Display · warm · umgewandelt · Umgebung' },
+    { b: 'a', nr: '16.7', lv: 'S', ph: '★ Extra', titel: 'Stromfresser-Jagd', art: 'text', k: 's16.sp',
+      frage: 'Gehe zu Hause auf Jagd: Finde <b>3 Geräte</b>, die warm werden, obwohl sie gar keine Wärme machen sollen. Schreibe auf, was dort mit der Energie passiert.',
+      platz: '1. … wird warm, obwohl … 2. … 3. …' }
+  ] }
+];
+EXPERTEN.forEach(function (s) { STATIONEN.push(s); });
+
+MESSTAB.mI = { kopf: ['Nr.', 'Brücke', 'Sicherung', 'Lampe', 'Kabel'], br: [0.5, 1.4, 1.5, 1.2, 1.2],
+  zeilen: function () { return S.mI.map(function (r, i) { return [i + 1, r.br ? 'ja (Kurzschluss)' : 'nein', r.si, r.l ? 'leuchtet' : 'leuchtet nicht', r.k]; }); } };
+
+GLOSSAR.push({ w: 'Sicherung', art: 'die', pl: 'die Sicherungen', ico: '🧯', formen: ['Sicherung', 'Sicherungen'], erkl: 'Sie unterbricht den Stromkreis, wenn zu viel Strom fließt – zum Beispiel bei einem Kurzschluss. Sie schützt vor Bränden.', en: 'fuse', tr: 'sigorta', ar: 'مصهر (فيوز)', uk: 'запобіжник', ru: 'предохранитель' });
+
+/* Abzeichen-Pass: wird in aktualisiereStatus() gefüllt */
+function passHtml() {
+  var alle = 0, h = '<div class="passkopf">🎖️ Dein Experten-Pass</div><div class="passreihe">';
+  EXPERTEN.forEach(function (st) {
+    var f = AUFG.filter(function (a) { return a.st === st && a.lv !== 'S'; }), ok = f.length && f.every(istFertig);
+    if (ok) alle++;
+    h += '<span class="abz' + (ok ? ' hat' : '') + '" title="' + (ok ? 'geschafft' : 'Station ' + st.nr + ' fertig machen') + '"><span class="abzico">' + st.abz.ico + '</span>' + st.abz.name + '</span>';
+  });
+  h += '<span class="abz gold' + (alle === EXPERTEN.length ? ' hat' : '') + '"><span class="abzico">🏆</span>Elektro-Experte/Expertin</span></div>';
+  return h;
+}
+
+/* =====================================================================
    APP: Zustand, Darstellung der Aufgaben, Prüfen, Navigation
    ===================================================================== */
 "use strict";
 var KEY = 'nw6a-labor-elehre-v1', MAXALTER = 3 * 3600 * 1000;
-var TABN = ['mA', 'mB', 'mC', 'mD', 'mE', 'mF', 'mG', 'mH'];
+var TABN = ['mA', 'mB', 'mC', 'mD', 'mE', 'mF', 'mG', 'mH', 'mI'];
 var NNBSP = String.fromCharCode(0x202f);
 function neuerZustand() { var s = { v: 2, t: Date.now(), d: { klasse: '6a' }, seite: 0, exportiert: false }; TABN.forEach(function (n) { s[n] = []; }); return s; }
 function ergaenze(s) { if (!s.d || typeof s.d !== 'object') s.d = {}; TABN.forEach(function (n) { if (!Array.isArray(s[n])) s[n] = []; }); return s; }
@@ -898,8 +1111,9 @@ STATIONEN.forEach(function (st) {
   });
 });
 var LV = { 1: '● Basis', 2: '●● Plus', 3: '●●● Profi', S: '★ Extra' };
-function zaehlt(a) { return a.lv !== 'S'; }               // Sprinter sind freiwillig
-function basis(a) { return a.lv === 1 || a.lv === 2; }     // Basisaufgaben (Warnung, wenn offen)
+function zaehlt(a) { return a.lv !== 'S' && a.st.ab !== 4; }  // Sprinter und Expertenlabor (Abschnitt 4) sind freiwillig – Pflicht bleibt 57
+function lokal(a) { return a.lv !== 'S'; }                  // für Fortschritt je Station/Abschnitt (auch Expertenlabor)
+function basis(a) { return (a.lv === 1 || a.lv === 2) && a.st.ab !== 4; }     // Basisaufgaben (Warnung, wenn offen)
 
 /* ---------- Einheiten und Prüfen ---------- */
 var EINH = { J: 1, kJ: 1e3, MJ: 1e6, W: 1, kW: 1e3, N: 1, kN: 1e3, m: 1, cm: 0.01, km: 1000, s: 1, min: 60, kg: 1 };
@@ -976,6 +1190,10 @@ function aufgabeHtml(a) {
     case 'messung':
       h += '<div class="auftrag">' + a.frage + '</div><div class="tabplatz" data-tab="' + a.tab + '"></div><p class="satzhilfe">mindestens ' + a.min + ' Messungen</p>';
       break;
+    case 'tresor':
+      h += '<div class="tresor"><div class="tresorbild" id="tb-' + a.k + '" aria-hidden="true">🔒</div><div><input class="code" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="_ _ _ _" data-k="' + a.k + '" aria-label="Tresor-Code mit 4 Ziffern">' +
+        '<button class="knopf" data-tresor="' + a.k + '">🔓 Öffnen</button><div class="satzhilfe" id="ti-' + a.k + '" aria-live="polite"></div></div></div><div class="geheim" id="tg-' + a.k + '" hidden>' + a.geheim + '</div>';
+      break;
     case 'ichkann':
       h += ICH.map(function (t, i) {
         return '<div class="ichzeile"><div>' + t + '</div><div class="auswahl" role="radiogroup" aria-label="' + esc(t) + '">' + STUFEN.map(function (s, j) {
@@ -992,7 +1210,7 @@ function stationHtml(st, idx) {
   var ab = ABSCHNITTE.filter(function (x) { return x.nr === st.ab; })[0];
   var h = '<section class="seite" id="' + st.id + '" data-titel="' + st.nr + '">';
   h += '<div class="stationskopf"><div class="nr">' + st.nr + '</div><div><div class="abschnittmarke">' + (ab ? 'Lernabschnitt ' + ab.nr + ' · ' + ab.titel : 'Abschluss') + '</div><h1>' + st.titel + '</h1><div class="zeit">ca. ' + st.zeit + ' Minuten · ' + st.bloecke.filter(function (b) { return b.b === 'a' && b.lv !== 'S'; }).length + ' Aufgaben + Extra</div></div></div>';
-  h += '<div class="problem"><div class="problemico" aria-hidden="true">' + st.ico + '</div><div><div class="problemmarke">' + (st.ab === 0 ? 'ZUM ABSCHLUSS' : 'DIE FRAGE') + ' <button class="lies" data-lies="1" title="Vorlesen" aria-label="Text vorlesen">🔊</button></div><div class="ptext">' + st.problem + '</div></div></div>';
+  h += '<div class="problem"><div class="problemico" aria-hidden="true">' + st.ico + '</div><div><div class="problemmarke">' + (st.ab === 0 ? 'ZUM ABSCHLUSS' : st.ab === 4 ? 'DEINE MISSION' : 'DIE FRAGE') + ' <button class="lies" data-lies="1" title="Vorlesen" aria-label="Text vorlesen">🔊</button></div><div class="ptext">' + st.problem + '</div></div></div>';
   st.bloecke.forEach(function (b) {
     if (b.b === 'a') h += aufgabeHtml(b);
     else if (b.b === 'info') h += '<div class="info">' + b.html + '</div>';
@@ -1015,6 +1233,7 @@ function istFertig(a) {
     case 'zuordnung': return a.items.every(function (it) { return wert(it.k); });
     case 'messung': return S[a.tab].length >= a.min;
     case 'luecke': return LUECKEN[a.k].every(function (g, i) { return wert(a.k + '.' + i); });
+    case 'tresor': return !!S.d[a.k + '.ok'];
     case 'ichkann': return ICH.every(function (t, i) { return wert(a.k + i); });
   }
   return false;
@@ -1029,6 +1248,7 @@ function begonnen(a) {
     case 'zuordnung': return a.items.some(function (it) { return wert(it.k); });
     case 'messung': return S[a.tab].length > 0;
     case 'luecke': return LUECKEN[a.k].some(function (g, i) { return wert(a.k + '.' + i); });
+    case 'tresor': return !!wert(a.k) || !!S.d[a.k + '.versuche'];
     case 'ichkann': return ICH.some(function (t, i) { return wert(a.k + i); });
   }
   return false;
@@ -1103,6 +1323,7 @@ function teile(a) {
     case 'zuordnung': T.push({ l: 'Zuordnung', v: a.items.map(function (it) { return (it.alt || plain(it.t)) + ': ' + (S.d[it.k] || '–') + (S.d[it.k] ? (S.d[it.k] === it.soll ? ' (richtig)' : ' (falsch)') : ''); }).join('\n') }); break;
     case 'messung': T.push({ tab: a.tab }); break;
     case 'luecke': T.push({ l: 'Lückentext', v: lueckeText(a) }); break;
+    case 'tresor': T.push({ l: 'Tresor-Code', v: (wert(a.k) || '–') + (S.d[a.k + '.ok'] ? ' – Tresor geöffnet' : ' – noch nicht geöffnet') + ' (' + (S.d[a.k + '.versuche'] || 0) + ' Versuche)' }); break;
     case 'ichkann': T.push({ l: 'Selbsteinschätzung', v: ICH.map(function (t, i) { return t + ' – ' + (S.d[a.k + i] || 'nicht angekreuzt'); }).join('\n') }); break;
   }
   return T;
@@ -1130,13 +1351,15 @@ function messwertDazu(name, zeile) {
 var SEITEN_IDS = ['start'].concat(STATIONEN.map(function (s) { return s.id; })).concat(['abgabe']);
 function baueNav() {
   var h = '<button data-geh="0" id="nav0" class="navstart">Start</button>';
-  ABSCHNITTE.forEach(function (ab) {
-    h += '<div class="abgr" title="' + ab.titel + ' (ca. ' + ab.zeit + ' min)"><div class="abkopf"><span>' + ab.nr + ' · ' + ab.kurz + '</span><span class="abproz" id="abp' + ab.nr + '"></span></div><div class="abbtns">';
+  function gruppe(ab) {
+    h += '<div class="abgr' + (ab.nr === 4 ? ' expgr' : '') + '" title="' + ab.titel + ' (ca. ' + ab.zeit + ' min)"><div class="abkopf"><span>' + ab.nr + ' · ' + ab.kurz + '</span><span class="abproz" id="abp' + ab.nr + '"></span></div><div class="abbtns">';
     STATIONEN.forEach(function (st, i) { if (st.ab === ab.nr) h += '<button data-geh="' + (i + 1) + '" id="nav' + (i + 1) + '" aria-label="Station ' + st.nr + ': ' + esc(st.titel) + '">' + st.nr + '</button>'; });
     h += '</div><div class="abbar"><i id="abb' + ab.nr + '"></i></div></div>';
-  });
-  var i9 = STATIONEN.length, letzte = STATIONEN[i9 - 1];
-  h += '<div class="abgr"><div class="abkopf"><span>Abschluss</span></div><div class="abbtns"><button data-geh="' + i9 + '" id="nav' + i9 + '" aria-label="Station ' + letzte.nr + ': ' + esc(letzte.titel) + '">' + letzte.nr + '</button><button class="abgabeknopf" data-geh="' + (i9 + 1) + '" id="nav' + (i9 + 1) + '">✓ Abgabe</button></div></div>';
+  }
+  ABSCHNITTE.forEach(function (ab) { if (ab.nr !== 4) gruppe(ab); });
+  var iA = STATIONEN.findIndex(function (s) { return s.ab === 0; }), letzte = STATIONEN[iA], iG = STATIONEN.length + 1;
+  h += '<div class="abgr"><div class="abkopf"><span>Abschluss</span></div><div class="abbtns"><button data-geh="' + (iA + 1) + '" id="nav' + (iA + 1) + '" aria-label="Station ' + letzte.nr + ': ' + esc(letzte.titel) + '">' + letzte.nr + '</button><button class="abgabeknopf" data-geh="' + iG + '" id="nav' + iG + '">✓ Abgabe</button></div></div>';
+  ABSCHNITTE.forEach(function (ab) { if (ab.nr === 4) gruppe(ab); });
   $('nav').innerHTML = h;
 }
 function aktualisiereStatus() {
@@ -1147,13 +1370,14 @@ function aktualisiereStatus() {
     if (el2) { el2.textContent = t; el2.className = c; }
   });
   ABSCHNITTE.forEach(function (ab) {
-    var s = stand(function (a) { return a.st.ab === ab.nr && zaehlt(a); });
+    var s = stand(function (a) { return a.st.ab === ab.nr && lokal(a); });
     var b = $('abb' + ab.nr), p = $('abp' + ab.nr); if (b) b.style.width = s.proz + '%'; if (p) p.textContent = s.proz + ' %';
   });
   STATIONEN.forEach(function (st, i) {
-    var s = stand(function (a) { return a.st === st && zaehlt(a); }), b = $('nav' + (i + 1));
+    var s = stand(function (a) { return a.st === st && lokal(a); }), b = $('nav' + (i + 1));
     if (b) { b.classList.toggle('fertig', s.fertig === s.gesamt); b.classList.toggle('teil', s.fertig > 0 && s.fertig < s.gesamt); }
   });
+  document.querySelectorAll('.pass').forEach(function (p) { p.innerHTML = passHtml(); });
   var g = stand(zaehlt); $('fort').style.width = g.proz + '%'; $('fortBalken').setAttribute('aria-valuenow', g.proz);
   var fz = $('fortZahl'); if (fz) fz.textContent = g.fertig + ' von ' + g.gesamt + ' Aufgaben';
 }
@@ -1183,7 +1407,8 @@ function fehlendeBasis() { return AUFG.filter(function (a) { return basis(a) && 
 function baueUebersicht() {
   var tab = '<table class="mess standtab"><thead><tr><th>Station</th><th style="text-align:left">Thema</th><th>Abschnitt</th><th>erledigt</th><th>Messwerte</th></tr></thead><tbody>';
   STATIONEN.forEach(function (st, i) {
-    var s = stand(function (a) { return a.st === st && zaehlt(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (x, y) { return x + y; }, 0);
+    if (st.ab === 4 && !AUFG.some(function (a) { return a.st === st && begonnen(a); })) return;
+    var s = stand(function (a) { return a.st === st && lokal(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (x, y) { return x + y; }, 0);
     tab += '<tr><td><a href="#" data-geh="' + (i + 1) + '">' + st.nr + '</a></td><td style="text-align:left">' + st.titel + '</td><td>' + (st.ab || '–') + '</td><td>' + s.fertig + ' / ' + s.gesamt + (s.fertig === s.gesamt ? ' ✓' : '') + '</td><td>' + (mess || '–') + '</td></tr>';
   });
   tab += '</tbody></table>';
@@ -1193,6 +1418,7 @@ function baueUebersicht() {
   var h = '<h2>Vorschau: Das steht in deinem Protokoll</h2><p><b>' + esc(nameText()) + '</b> · Klasse ' + esc(S.d.klasse || '6a') + ' · ' + heute().de + '</p>';
   STATIONEN.forEach(function (st) {
     var liste = AUFG.filter(function (a) { return a.st === st; });
+    if (st.ab === 4 && !liste.some(begonnen)) return;
     if (!liste.some(begonnen)) { h += '<h3>Station ' + st.nr + ' · ' + esc(st.titel) + '</h3><p class="fehlt">noch nicht begonnen</p>'; return; }
     h += '<h3>Station ' + st.nr + ' · ' + esc(st.titel) + '</h3><dl>';
     liste.forEach(function (a) {
@@ -1207,6 +1433,24 @@ function baueUebersicht() {
   });
   $('uebersicht').innerHTML = h;
   $('dateiname').textContent = 'Dateiname: ' + dateiname('voll');
+}
+
+/* ---------- Tresor (Expertenlabor 13.5) ---------- */
+function tresorPruefen(k, still) {
+  var a = AUFG.filter(function (x) { return x.art === 'tresor' && x.k === k; })[0], c = wert(k).replace(/\D/g, ''), info = $('ti-' + k);
+  function auf() { $('tb-' + k).textContent = '🔓'; $('tg-' + k).hidden = false; info.textContent = '✓ Richtig! Der Code ist ' + a.loes + '.'; info.className = 'satzhilfe gut'; }
+  if (still) { if (S.d[k + '.ok']) auf(); return; }
+  if (c.length !== 4) { info.textContent = 'Der Code hat genau 4 Ziffern.'; return; }
+  S.d[k + '.versuche'] = (S.d[k + '.versuche'] || 0) + 1;
+  if (c === a.loes) { S.d[k + '.ok'] = true; auf(); speichern(); return; }
+  delete S.d[k + '.ok'];
+  var falsch = [];
+  for (var i = 0; i < 4; i++) if (c[i] !== a.loes[i]) falsch.push(i + 1);
+  info.className = 'satzhilfe schlecht';
+  info.textContent = S.d[k + '.versuche'] < 3 ? '✗ Der Tresor bleibt zu. ' + (4 - falsch.length) + ' von 4 Ziffern stimmen. Prüfe deine Rätsel!' :
+    '✗ Noch nicht. Schau dir noch einmal ' + (falsch.length > 1 ? 'die Rätsel ' : 'Rätsel ') + falsch.join(' und ') + ' an – lies die Hilfen!';
+  $('tb-' + k).classList.remove('wackel'); void $('tb-' + k).offsetWidth; $('tb-' + k).classList.add('wackel');
+  speichern();
 }
 
 /* =====================================================================
@@ -1841,7 +2085,116 @@ function zeichneH() {
 }
 SIMZEICHNE.H = zeichneH;
 
-function baueSims() { baueA(); baueB(); baueC(); baueD(); baueE(); baueF(); baueG(); baueH(); var lager = $('simlager'); 'ABCDEFGH'.split('').forEach(function (k) { lager.appendChild(SIMEL[k]); }); }
+function baueSims() { baueA(); baueB(); baueC(); baueD(); baueE(); baueF(); baueG(); baueH(); baueI(); var lager = $('simlager'); 'ABCDEFGHI'.split('').forEach(function (k) { lager.appendChild(SIMEL[k]); }); }
+
+/* ================= I: Kurzschluss und Sicherung (Expertenlabor, 16.11.2026) ================= */
+/* Modell: Brücke parallel zur Lampe = Kurzschluss. Ohne Sicherung wird das Kabel heiß (bis 95 °C),
+   mit Sicherung brennt sie nach kurzer Zeit durch und unterbricht den Kreis. Keine echten Messwerte. */
+var simI = { an: false, br: false, si: true, kaputt: false, temp: 20, timer: null, brennt: null };
+function flussI() {
+  if (!simI.an || (simI.si && simI.kaputt)) return 'kein';
+  return simI.br ? 'kurz' : 'normal';
+}
+function pruefeDurchbrennenI() {
+  if (flussI() !== 'kurz' || !simI.si || simI.brennt) return;
+  simI.brennt = setTimeout(function () {
+    simI.brennt = null;
+    if (flussI() === 'kurz' && simI.si) { simI.kaputt = true; tickI(); }
+  }, reduziert ? 0 : 700);
+}
+function tickI() {
+  var ziel = flussI() === 'kurz' ? 95 : 20;
+  simI.temp = reduziert ? ziel : simI.temp + (ziel - simI.temp) * 0.22;
+  if (Math.abs(simI.temp - ziel) < 1) simI.temp = ziel;
+  zeichneI();
+  clearTimeout(simI.timer); simI.timer = simI.temp !== ziel ? setTimeout(tickI, 140) : null;
+}
+function mischeI(temp) {
+  var x = Math.max(0, Math.min(1, (temp - 25) / 65)), a = [52, 67, 79], b = [226, 54, 18];
+  return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * x); }).join(',') + ')';
+}
+function baueI() {
+  var d = simBlock('i', 'Simulation I · Kurzschluss und Sicherung', 'Stromkreis mit Lampe, Brücke und Sicherung', 330,
+    '<div class="knoepfe"><button class="knopf" id="i_an">⚡ Strom einschalten</button><button class="knopf grau" id="i_br">🔧 Brücke einbauen</button>' +
+    '<button class="knopf grau" id="i_si">Sicherung ausbauen</button><button class="knopf grau" id="i_neu" disabled>🧯 Neue Sicherung einsetzen</button><button class="knopf" id="i_mess">＋ Speichern</button></div>' +
+    '<div class="simmeldung" id="i_msg" aria-live="polite"></div>');
+  SIMEL.I = d;
+  $q(d, '#i_an').addEventListener('click', function () { simI.an = !simI.an; pruefeDurchbrennenI(); tickI(); });
+  function brueckeUm() { simI.br = !simI.br; pruefeDurchbrennenI(); tickI(); }
+  $q(d, '#i_br').addEventListener('click', brueckeUm);
+  klickSvg($q(d, 'svg'), function (k) { if (k === 'bruecke') brueckeUm(); });
+  $q(d, '#i_si').addEventListener('click', function () { simI.si = !simI.si; simI.kaputt = false; pruefeDurchbrennenI(); tickI(); });
+  $q(d, '#i_neu').addEventListener('click', function () { simI.kaputt = false; pruefeDurchbrennenI(); tickI(); });
+  $q(d, '#i_mess').addEventListener('click', function () {
+    if (!simI.an) { meldung('i_msg', 'Schalte zuerst den Strom ein.', 'warn'); return; }
+    if (simI.timer || simI.brennt) { meldung('i_msg', 'Warte kurz, bis sich nichts mehr verändert. Dann speichern.', 'warn'); return; }
+    var z = { br: simI.br, si: !simI.si ? 'keine (nur Draht)' : simI.kaputt ? 'durchgebrannt' : 'heil', l: flussI() === 'normal', k: simI.temp >= 60 ? 'heiß 🔥 (' + Math.round(simI.temp) + ' °C)' : 'normal (' + Math.round(simI.temp) + ' °C)' };
+    if (S.mI.some(function (r) { return r.br === z.br && r.si === z.si; })) { meldung('i_msg', 'Diese Einstellung hast du schon gespeichert. Ändere etwas.', 'warn'); return; }
+    if (messwertDazu('mI', z)) meldung('i_msg', '✓ Gespeichert. Probiere eine andere Einstellung.', 'gut');
+  });
+}
+function zeichneI() {
+  var svg = $('i_svg'); if (!svg) return; svg.innerHTML = '';
+  var f = flussI(), an = f !== 'kein', kurz = f === 'kurz', heiss = mischeI(simI.temp);
+  var p = batterie(svg, 270, 240, false), aussen = kurz || simI.temp > 25 ? heiss : null;
+  // linke Seite (Minuspol) mit Sicherung
+  if (simI.si) {
+    draht(svg, [p.minus, [120, p.minus[1]], [120, 214]], an, aussen, true);
+    draht(svg, [[120, 166], [120, 120], [250, 120]], an, aussen, true);
+    svg.appendChild(el('rect', { x: 102, y: 166, width: 36, height: 48, rx: 7, fill: '#FBF7EC', stroke: '#8C969E', 'stroke-width': 2.5 }));
+    if (simI.kaputt) {
+      svg.appendChild(el('path', { d: 'M120,168 L120,184 M120,198 L120,212', stroke: '#C87533', 'stroke-width': 2.5 }));
+      svg.appendChild(el('circle', { cx: 120, cy: 191, r: 6, fill: '#3A3A3A', opacity: 0.55 }));
+      svg.appendChild(t(146, 196, 'durchgebrannt!', 13, '#B3261E', { 'font-weight': 700 }));
+    } else svg.appendChild(el('path', { d: 'M120,168 L120,212', stroke: '#C87533', 'stroke-width': 2.5 }));
+    svg.appendChild(t(18, 194, 'Sicherung', 13, '#5E6B75', { 'font-weight': 700 }));
+  } else {
+    draht(svg, [p.minus, [120, p.minus[1]], [120, 120], [250, 120]], an, aussen, true);
+    svg.appendChild(t(18, 194, 'ohne', 13, '#B3261E', { 'font-weight': 700 })); svg.appendChild(t(18, 210, 'Sicherung', 13, '#B3261E', { 'font-weight': 700 }));
+  }
+  // rechte Seite (Pluspol)
+  draht(svg, [p.plus, [580, p.plus[1]], [580, 120], [450, 120]], an, aussen);
+  // Lampen-Zuleitungen
+  draht(svg, [[250, 120], [338, 120], [338, 102]], f === 'normal', null, true);
+  draht(svg, [[450, 120], [362, 120], [362, 102]], f === 'normal');
+  lampe(svg, 350, 60, f === 'normal' ? 1 : 0);
+  punkt(svg, 250, 120); punkt(svg, 450, 120);
+  // Brücke
+  var g = el('g', { 'class': 'klickbar', 'data-klick': 'bruecke' });
+  g.appendChild(el('rect', { x: 236, y: 128, width: 228, height: 62, fill: 'transparent' }));
+  svg.appendChild(g);
+  if (simI.br) {
+    draht(svg, [[250, 120], [250, 176], [450, 176], [450, 120]], kurz, kurz ? heiss : '#E07A00', true);
+    svg.appendChild(t(296, 202, '🔧 Brücke = Kurzschluss', 14, '#E07A00', { 'font-weight': 700 }));
+  } else {
+    g.appendChild(el('polyline', { points: '250,120 250,176 450,176 450,120', fill: 'none', stroke: '#B8C2C9', 'stroke-width': 3, 'stroke-dasharray': '7 6' }));
+    g.appendChild(t(270, 202, 'hier klicken: Brücke einbauen', 13, '#76838D'));
+  }
+  // Thermometer am Kabel
+  var h = Math.round((simI.temp - 10) / 90 * 150);
+  svg.appendChild(el('rect', { x: 628, y: 70, width: 22, height: 160, rx: 11, fill: '#fff', stroke: '#8C969E', 'stroke-width': 2 }));
+  svg.appendChild(el('rect', { x: 633, y: 225 - h, width: 12, height: h, rx: 6, fill: simI.temp >= 60 ? '#E4572E' : '#2B6CB0' }));
+  svg.appendChild(el('circle', { cx: 639, cy: 240, r: 15, fill: simI.temp >= 60 ? '#E4572E' : '#2B6CB0' }));
+  svg.appendChild(t(604, 60, 'Kabel: ' + Math.round(simI.temp) + ' °C', 13, '#16202A', { 'font-weight': 700 }));
+  if (simI.temp >= 70) { svg.appendChild(t(588, 196, '🔥', 26)); svg.appendChild(t(92, 278, '🔥', 22)); svg.appendChild(t(360, 300, '🔥', 22)); }
+  // Statuszeile
+  var zeile = !simI.an ? 'Strom aus' : f === 'normal' ? '✓ Strom fließt durch die Lampe' : kurz ? '⚠ Kurzschluss: Der Strom fließt an der Lampe vorbei!' : '✋ Die Sicherung hat den Stromkreis unterbrochen';
+  svg.appendChild(t(20, 322, zeile, 15, kurz ? '#B3261E' : '#0E7C7B', { 'font-weight': 700 }));
+  // Knöpfe und Meldung
+  $('i_an').textContent = simI.an ? '⏹ Strom ausschalten' : '⚡ Strom einschalten';
+  $('i_br').textContent = simI.br ? '🔧 Brücke entfernen' : '🔧 Brücke einbauen';
+  $('i_si').textContent = simI.si ? 'Sicherung ausbauen (nur Draht)' : '🧯 Sicherung einbauen';
+  $('i_neu').disabled = !(simI.si && simI.kaputt);
+  var m;
+  if (!simI.an) m = 'Schalte den Strom ein.';
+  else if (f === 'normal') m = 'Die Lampe leuchtet. Das Kabel bleibt normal warm (' + Math.round(simI.temp) + ' °C).';
+  else if (kurz && !simI.si) m = '<b>Gefahr!</b> Die Lampe ist aus, aber das Kabel wird immer heißer (' + Math.round(simI.temp) + ' °C). Es könnte brennen! 🔥';
+  else if (kurz) m = 'Kurzschluss! Viel Strom fließt … Beobachte die Sicherung!';
+  else if (simI.br) m = 'Die Sicherung ist <b>durchgebrannt</b> und hat den Stromkreis unterbrochen. Das Kabel kühlt ab. Was musst du tun, bevor du eine neue Sicherung einsetzt?';
+  else m = 'Die Sicherung ist durchgebrannt. Die Brücke ist weg – jetzt kannst du eine <b>neue Sicherung</b> einsetzen.';
+  meldung('i_msg', m, kurz && !simI.si ? 'warn' : '');
+}
+SIMZEICHNE.I = zeichneI;
 
 /* Zeichenbreiten Helvetica / Helvetica-Bold (Adobe-AFM, WinAnsi ab Code 32) */
 var BR_N=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584,350,556,350,222,556,333,1000,556,556,333,1000,667,333,1000,350,611,350,350,222,222,333,333,350,556,1000,333,1000,500,333,944,350,500,667,278,333,556,556,556,556,260,556,333,737,370,556,584,333,737,333,400,584,333,333,333,556,537,278,333,333,365,556,834,834,834,611,667,667,667,667,667,667,1000,722,667,667,667,667,278,278,278,278,722,722,778,778,778,778,778,584,778,722,722,722,722,667,667,611,556,556,556,556,556,556,889,500,556,556,556,556,278,278,278,278,556,556,556,556,556,556,556,584,611,556,556,556,556,500,556,500];
@@ -1959,8 +2312,10 @@ function bauePdf(modus) {
   // Arbeitsstand
   var g = stand(zaehlt);
   absatz('Arbeitsstand: ' + g.fertig + ' von ' + g.gesamt + ' Aufgaben erledigt (' + g.proz + ' %, ohne Extra-Aufgaben)', 11, true, '#0E7C7B', 0, false, 4);
-  tabelle(['Station', 'Thema', 'Abschnitt', 'erledigt', 'Messwerte'], STATIONEN.map(function (st) {
-    var s = stand(function (a) { return a.st === st && zaehlt(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (a, b) { return a + b; }, 0);
+  var ex = stand(function (a) { return a.st.ab === 4 && lokal(a); });
+  if (ex.fertig || AUFG.some(function (a) { return a.st.ab === 4 && begonnen(a); })) absatz('Expertenlabor (freiwillig): ' + ex.fertig + ' von ' + ex.gesamt + ' Aufgaben · Abzeichen: ' + (EXPERTEN.filter(function (st) { return AUFG.filter(function (a) { return a.st === st && lokal(a); }).every(istFertig); }).map(function (st) { return st.abz.name; }).join(', ') || 'noch keins'), 10, true, '#7A4FB5', 0, false, 4);
+  tabelle(['Station', 'Thema', 'Abschnitt', 'erledigt', 'Messwerte'], STATIONEN.filter(function (st) { return st.ab !== 4 || AUFG.some(function (a) { return a.st === st && begonnen(a); }); }).map(function (st) {
+    var s = stand(function (a) { return a.st === st && lokal(a); }), mess = st.bloecke.filter(function (b) { return b.art === 'messung'; }).map(function (b) { return S[b.tab].length; }).reduce(function (a, b) { return a + b; }, 0);
     var sp = AUFG.filter(function (a) { return a.st === st && a.lv === 'S' && begonnen(a); }).length;
     return [st.nr, st.titel, st.ab || '–', s.fertig + ' / ' + s.gesamt + (sp ? ' + Extra' : ''), mess || '–'];
   }), [0.7, 3.6, 0.9, 1.4, 1]);
@@ -1968,13 +2323,14 @@ function bauePdf(modus) {
 
   STATIONEN.forEach(function (st) {
     var liste = AUFG.filter(function (a) { return a.st === st; }), los = liste.some(begonnen);
+    if (st.ab === 4 && !los) return;
     platz(los ? 80 : 30);
     y -= 8; rechteck(RL, y - 22, BREIT, 22, los ? '#0E7C7B' : '#9AA5AE');
     text(RL + 10, y - 15.5, 'Station ' + st.nr + ' · ' + st.titel + (los ? '' : '  –  noch nicht begonnen'), 12, true, '#FFFFFF'); y -= 30;
     if (!los) return;
     liste.forEach(function (a) {
       var fertig = istFertig(a), an = begonnen(a);
-      if (!an && (a.lv === 'S' || a.offen)) return;
+      if (!an && (a.lv === 'S' || a.offen || a.st.ab === 4)) return;
       var kopf = a.nr + ' · ' + { 1: 'Basis', 2: 'Plus', 3: 'Profi', S: 'Extra' }[a.lv] + (a.lv === 'S' ? '' : ' · ' + a.ph) + (a.titel ? ' · ' + a.titel : '');
       if (!an) { platz(16); absatz(kopf + '   [offen]', 9, true, '#B3261E', 0, false, 3); return; }
       platz(40);
@@ -2082,17 +2438,19 @@ function ladeAusPdf(datei) {
 function init() {
   $('nojs').remove();
   $('abgabe').insertAdjacentHTML('beforebegin', STATIONEN.map(stationHtml).join(''));
+  var ABSCHLUSS = STATIONEN.filter(function (s) { return s.ab === 0; })[0];
   $('abkarten').innerHTML = ABSCHNITTE.map(function (ab) {
     var st = STATIONEN.filter(function (s) { return s.ab === ab.nr; });
-    return '<div class="abkarte"><div class="abnr">' + ab.nr + '</div><div><b>' + ab.titel + '</b><div class="satzhilfe">' + ab.text + ' · ca. ' + ab.zeit + ' Minuten</div><ul>' +
+    return '<div class="abkarte' + (ab.nr === 4 ? ' expkarte' : '') + '"><div class="abnr">' + ab.nr + '</div><div><b>' + ab.titel + '</b><div class="satzhilfe">' + ab.text + ' · ca. ' + ab.zeit + ' Minuten</div><ul>' +
       st.map(function (s) { return '<li>' + s.ico + ' Station ' + s.nr + ': ' + s.titel + ' <span class="satzhilfe">(' + s.zeit + ' min)</span></li>'; }).join('') + '</ul></div></div>';
-  }).join('') + '<div class="abkarte klein"><div class="abnr">🏆</div><div><b>Abschluss</b><div class="satzhilfe">Station ' + STATIONEN[STATIONEN.length - 1].nr + ': ' + STATIONEN[STATIONEN.length - 1].titel + ' · ca. ' + STATIONEN[STATIONEN.length - 1].zeit + ' Minuten</div></div></div>';
+  }).join('') + '<div class="abkarte klein"><div class="abnr">🏆</div><div><b>Abschluss</b><div class="satzhilfe">Station ' + ABSCHLUSS.nr + ': ' + ABSCHLUSS.titel + ' · ca. ' + ABSCHLUSS.zeit + ' Minuten</div></div></div>';
   baueNav(); baueSims(); binde(document); markiereWoerter(document); baueWoerterbuch(); bindeHilfen();
   $('zurueckLetzte').addEventListener('click', function () { geh(STATIONEN.length); });
   zeigeTabellen();
   AUFG.forEach(function (a) {
     if (a.art === 'urteile' && S.d[a.k + '.ausgewertet']) urteilAuswerten(a.k, true);
     if (a.art === 'zuordnung' && S.d[a.k + '.ok']) zuordPruefen(a.k, true);
+    if (a.art === 'tresor') tresorPruefen(a.k, true);
   });
   Object.keys(PRUEF).forEach(function (k) { if (S.d[k + '.ok']) zeigePruefung(k, true); });
 
@@ -2101,6 +2459,7 @@ function init() {
     var p = e.target.closest('[data-pruefe]'); if (p) { zeigePruefung(p.dataset.pruefe); return; }
     var u = e.target.closest('[data-urteil]'); if (u) { urteilAuswerten(u.dataset.urteil); return; }
     var z = e.target.closest('[data-zuord]'); if (z) { zuordPruefen(z.dataset.zuord); return; }
+    var tr = e.target.closest('[data-tresor]'); if (tr) { tresorPruefen(tr.dataset.tresor); return; }
     var w = e.target.closest('[data-weg]'); if (w) { var q = w.dataset.weg.split(':'); S[q[0]].splice(Number(q[1]), 1); zeigeTabellen(q[0]); speichern(); return; }
     var zw = e.target.closest('[data-zwischen]'); if (zw) { pdfLaden('zwischen'); return; }
     if (e.target.closest('.toastzu')) { $('toast').classList.remove('zeigen'); return; }
@@ -2108,6 +2467,7 @@ function init() {
   $('starten').addEventListener('click', function () {
     if (!(S.d.vorname || '').trim() || !(S.d.nachname || '').trim()) { alert('Bitte trage deinen Vor- und Nachnamen ein – er steht später auf deinem Protokoll.'); (S.d.vorname ? $('nachname') : $('vorname')).focus(); return; }
     var erste = 1; for (var i = 0; i < STATIONEN.length; i++) { var st = STATIONEN[i]; if (AUFG.some(function (a) { return a.st === st && zaehlt(a) && !istFertig(a); })) { erste = i + 1; break; } }
+    if (erste === 1 && !AUFG.some(function (a) { return zaehlt(a) && !istFertig(a); })) for (var j = 0; j < STATIONEN.length; j++) { var sx = STATIONEN[j]; if (sx.ab === 4 && AUFG.some(function (a) { return a.st === sx && lokal(a) && !istFertig(a); })) { erste = j + 1; break; } }
     geh(erste);
   });
   $('pdfVoll').addEventListener('click', function () { pdfLaden('voll'); });
