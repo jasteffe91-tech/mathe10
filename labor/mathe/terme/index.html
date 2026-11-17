@@ -404,6 +404,18 @@ details.loesung[open]{border-style:solid}
     <p class="satzhilfe">Du musst nicht alles in einer Stunde schaffen. Am Ende jeder Stunde speicherst du deinen <b>Zwischenstand als PDF</b> und lädst ihn bei IServ hoch. In der nächsten Stunde machst du weiter.</p>
   </div>
 
+  <div class="karte" id="anmeldung">
+    <h2>Anmelden mit deinem Zugangscode</h2>
+    <p class="satzhilfe">Den Klassencode und deinen persönlichen Code bekommst du von deiner Lehrkraft. Dein Stand wird dann automatisch online gespeichert. Deine Namen bleiben nur auf diesem Gerät.</p>
+    <div class="zeile">
+      <div><label class="feld" for="bKl">Klassencode</label><input type="text" id="bKl" autocomplete="off" size="12"></div>
+      <div><label class="feld" for="bPc">Persönlicher Code</label><input type="text" id="bPc" autocomplete="off" size="12"></div>
+      <div><button class="knopf" id="bAnmelden">Anmelden</button></div>
+    </div>
+    <p class="warnung" id="bMeld"></p>
+    <p class="satzhilfe" id="syncInfo"></p>
+  </div>
+
   <div class="karte">
     <h2>Wer arbeitet hier?</h2>
     <div class="zeile">
@@ -1133,6 +1145,7 @@ function speichern() {
   S.t = Date.now();
   clearTimeout(speicherTimer);
   speicherTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 250);
+  if (typeof syncMerke === 'function') syncMerke();
   aktualisiereStatus();
 }
 function $(id) { return document.getElementById(id); }
@@ -2240,6 +2253,165 @@ function ladeAusPdf(datei) {
   r.readAsArrayBuffer(datei);
 }
 
+/* CLOUD – Anmelden mit Zugangscode + automatisches Speichern in der Labor-Cloud (CROSS-010, 15.11.2026).
+   Gegenstück: 10_AUTOMATISIERUNG/digitallabor/cloud/worker.js (Cloudflare Worker + D1).
+   Das Labor behält seinen eigenen Arbeitsstand (z. B. Variable S + localStorage); dieser Baustein
+   - meldet mit Lerngruppe + Code an und lädt den Stand aus der Cloud,
+   - speichert höchstens alle 30 s, nur wenn sich etwas geändert hat, beim Verlassen der Seite sofort,
+   - packt den Stand (gzip, ca. 10× kleiner), entfernt vorher alle Namensfelder,
+   - sendet ohne Netz automatisch später nach.
+   Einbinden (siehe README im Ordner cloud/):
+     LABORCLOUD.init({ labor: 'ph8-mechanik', endpunkt: 'https://…workers.dev/', stand: function () { return S; },
+                       geaendert: function (info) { … Anzeige aktualisieren … } });
+     LABORCLOUD.anmelden('PH8B-2627', 'K7MQ-2X') → Promise { ok, stand (oder null bei neuem Code), fehler }
+     LABORCLOUD.merke()   nach jeder Änderung am Stand aufrufen
+   Wichtig: Die Seite braucht in ihrer CSP „connect-src <endpunkt>“, sonst blockiert der Browser das Speichern. */
+var LABORCLOUD = (function () {
+  'use strict';
+  var TIERE = ['Otter', 'Falke', 'Luchs', 'Biber', 'Dachs', 'Fuchs', 'Igel', 'Kranich', 'Marder', 'Panda', 'Robbe', 'Tiger', 'Wolf', 'Zebra', 'Adler', 'Delfin', 'Eule', 'Gecko', 'Koala', 'Lemur', 'Puma', 'Rabe', 'Specht', 'Uhu', 'Wal', 'Yak', 'Hai', 'Elch', 'Storch', 'Molch'];
+  var NAMEN = ['vorname', 'nachname', 'name'];
+  var E = { labor: 'standard', endpunkt: '', stand: null, geaendert: null, intervall: 30000, packen: true, namensfelder: NAMEN };
+  var Z = { gruppe: '', code: '', angemeldet: false, dirty: false, laeuft: false, letzter: 0, fehler: '', uhr: null };
+
+  /* ---------- Hilfen (ohne Seite testbar) ---------- */
+  function gruppeVon(v) { return String(v || '').trim().toUpperCase(); }
+  function codeVon(v) { return String(v || '').trim().replace(/\s+/g, '').toUpperCase(); }
+  function ohneNamen(stand, felder) {                 // flache Kopie ohne Namensfelder
+    var k = {}, f = felder || NAMEN;
+    for (var x in stand) if (Object.prototype.hasOwnProperty.call(stand, x)) k[x] = f.indexOf(x) >= 0 ? '' : stand[x];
+    return k;
+  }
+  function b64(bytes) { var s = '', T = 0x8000; for (var i = 0; i < bytes.length; i += T) s += String.fromCharCode.apply(null, bytes.subarray(i, i + T)); return btoa(s); }
+  function vonB64(t) { var s = atob(t), a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+  function strom(bytes, art) {
+    var st = new Blob([bytes]).stream().pipeThrough(art);
+    return new Response(st).arrayBuffer().then(function (b) { return new Uint8Array(b); });
+  }
+  function kannPacken() { return typeof CompressionStream === 'function' && typeof DecompressionStream === 'function'; }
+  function packe(obj) { return strom(new TextEncoder().encode(JSON.stringify(obj)), new CompressionStream('gzip')).then(b64); }
+  function entpacke(t) { return strom(vonB64(t), new DecompressionStream('gzip')).then(function (b) { return JSON.parse(new TextDecoder().decode(b)); }); }
+  function tierCode() { return TIERE[Math.floor(Math.random() * TIERE.length)] + '-' + (100 + Math.floor(Math.random() * 900)); }
+
+  /* ---------- Verbindung ---------- */
+  function endpunkt() {
+    var e = E.endpunkt || '', h = (typeof location !== 'undefined') ? location.hostname : '';
+    if (/ENDPUNKT/.test(e)) e = '';
+    if (h === 'localhost' || h === '127.0.0.1') {          // nur am eigenen Rechner: ?endpunkt=http://127.0.0.1:8818/
+      var m = /[?&]endpunkt=([^&]+)/.exec(location.search); if (m) e = decodeURIComponent(m[1]);
+    }
+    return e;
+  }
+  function anfrage(params, body) {
+    var u = endpunkt(); if (!u) return Promise.reject(new Error('keine Cloud eingerichtet'));
+    var q = Object.keys(params).map(function (k) { return k + '=' + encodeURIComponent(params[k]); }).join('&');
+    // ohne eigenen Content-Type → „einfache“ Anfrage, keine Vorab-Anfrage nötig
+    return fetch(u + (u.indexOf('?') < 0 ? '?' : '&') + q, body ? { method: 'POST', body: JSON.stringify(body), keepalive: JSON.stringify(body).length < 60000 } : {})
+      .then(function (r) { return r.json(); });
+  }
+  function melde() { if (typeof E.geaendert === 'function') try { E.geaendert(info()); } catch (e) { } }
+
+  /* ---------- Öffentliche Funktionen ---------- */
+  function init(o) {
+    for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) E[k] = o[k];
+    if (Z.uhr) clearInterval(Z.uhr);
+    Z.uhr = setInterval(function () { speichere(false); }, E.intervall);
+    if (typeof document !== 'undefined') document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') speichere(false); });
+    if (typeof window !== 'undefined') { window.addEventListener('online', function () { speichere(false); }); window.addEventListener('pagehide', function () { speichere(false); }); }
+    return api;
+  }
+  // gespeicherte Anmeldung wieder aufnehmen (Seite neu geladen, Stand liegt noch im Gerät)
+  function fortsetzen(gruppe, code) { Z.gruppe = gruppeVon(gruppe); Z.code = codeVon(code); Z.angemeldet = !!(Z.gruppe && Z.code); if (Z.angemeldet) { Z.dirty = true; speichere(false); } melde(); }
+  function anmelden(gruppe, code) {
+    var g = gruppeVon(gruppe), c = codeVon(code);
+    if (g.length < 3) return Promise.resolve({ ok: false, fehler: 'Gib den Zugangscode deiner Klasse ein.' });
+    if (c.length < 4) return Promise.resolve({ ok: false, fehler: 'Gib deinen persönlichen Code ein.' });
+    if (!endpunkt()) return Promise.resolve({ ok: false, fehler: 'Die Online-Speicherung ist noch nicht eingerichtet.' });
+    return anfrage({ a: 'hole', klasse: g, id: c, labor: E.labor }).then(function (r) {
+      if (!r || !r.ok) return { ok: false, fehler: (r && r.fehler) || 'Anmelden hat nicht geklappt.' };
+      Z.gruppe = g; Z.code = c; Z.angemeldet = true; Z.fehler = ''; Z.letzter = r.zeit ? Date.parse(r.zeit) : 0; melde();
+      if (r.gz) return entpacke(r.gz).then(function (s) { return { ok: true, stand: s }; });
+      return { ok: true, stand: r.stand || null };
+    }).catch(function () { return { ok: false, fehler: 'Keine Verbindung zum Internet. Versuche es noch einmal.' }; });
+  }
+  // nur für Gruppen, in denen die Lehrkraft selbst erzeugte Tier-Codes erlaubt hat
+  function neuerCode(gruppe) {
+    var g = gruppeVon(gruppe);
+    if (g.length < 3) return Promise.resolve({ ok: false, fehler: 'Gib zuerst den Zugangscode deiner Klasse ein.' });
+    if (!endpunkt()) return Promise.resolve({ ok: false, fehler: 'Die Online-Speicherung ist noch nicht eingerichtet.' });
+    return anfrage({ a: 'neu', klasse: g }).then(function (r) {
+      if (!r || !r.ok) return { ok: false, fehler: (r && r.fehler) || 'Der Zugangscode stimmt nicht.' };
+      Z.gruppe = g; Z.code = codeVon(r.id); Z.angemeldet = true; Z.dirty = true; melde();
+      return { ok: true, code: r.id };
+    }).catch(function () { return { ok: false, fehler: 'Keine Verbindung zum Internet. Versuche es noch einmal.' }; });
+  }
+  function merke() { Z.dirty = true; }
+  function speichere(sofort) {
+    if (!Z.angemeldet || !endpunkt() || Z.laeuft || (!Z.dirty && !sofort) || typeof E.stand !== 'function') return Promise.resolve(false);
+    var stand = E.stand(); if (!stand) return Promise.resolve(false);
+    Z.laeuft = true; Z.dirty = false;
+    var roh = ohneNamen(stand, E.namensfelder), basis = { klasse: Z.gruppe, id: Z.code, labor: E.labor };
+    var p = (E.packen && kannPacken()) ? packe(roh).then(function (gz) { basis.gz = gz; return basis; }) : Promise.resolve((basis.stand = roh, basis));
+    return p.then(function (body) { return anfrage({ a: 'speichere' }, body); }).then(function (r) {
+      Z.laeuft = false;
+      if (r && r.ok) { Z.letzter = Date.now(); Z.fehler = ''; } else { Z.dirty = true; Z.fehler = (r && r.fehler) || 'Fehler beim Speichern'; }
+      melde(); return !!(r && r.ok);
+    }).catch(function () { Z.laeuft = false; Z.dirty = true; Z.fehler = 'keine Verbindung'; melde(); return false; });
+  }
+  function abmelden() { Z.angemeldet = false; Z.gruppe = ''; Z.code = ''; Z.dirty = false; Z.fehler = ''; Z.letzter = 0; melde(); }
+  function info() { return { angemeldet: Z.angemeldet, gruppe: Z.gruppe, code: Z.code, letzter: Z.letzter, fehler: Z.fehler, offen: Z.dirty, eingerichtet: !!endpunkt(), labor: E.labor }; }
+  function text() {
+    if (!endpunkt()) return '⚠️ Die Online-Speicherung ist noch nicht eingerichtet. Dein Stand bleibt auf diesem Gerät – sichere ihn als PDF.';
+    if (Z.fehler) return '⚠️ Noch nicht online gespeichert (' + Z.fehler + '). Das Labor versucht es automatisch wieder.';
+    if (Z.letzter) { var d = new Date(Z.letzter); return '☁️ Online gespeichert um ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ' Uhr.'; }
+    return '☁️ Dein Stand wird automatisch online gespeichert.';
+  }
+
+  var api = { init: init, anmelden: anmelden, fortsetzen: fortsetzen, neuerCode: neuerCode, merke: merke, speichere: speichere, abmelden: abmelden, info: info, text: text, endpunkt: endpunkt,
+    // für Tests
+    _: { gruppeVon: gruppeVon, codeVon: codeVon, ohneNamen: ohneNamen, packe: packe, entpacke: entpacke, tierCode: tierCode } };
+  return api;
+})();
+if (typeof module !== 'undefined') module.exports = LABORCLOUD;
+
+/* =====================================================================
+   Anbindung an die Labor-Cloud (Cloudflare, CROSS-010): Anmelden mit Zugangscode von der Lehrkraft,
+   automatisches Speichern. Die Technik steckt im gemeinsamen Baustein kern/cloud.js (LABORCLOUD).
+   Namensfelder (vorname, nachname) werden NICHT gesendet; sie bleiben auf dem Gerät für die PDF.
+   ENDPUNKT wird beim Bauen (bauen.py) eingesetzt.
+   ===================================================================== */
+var ENDPUNKT = 'https://labor-cloud.jasteffe91.workers.dev/';
+var LABOR_KENNUNG = 'm8e-terme';
+function syncMerke() { if (typeof LABORCLOUD !== 'undefined') LABORCLOUD.merke(); }
+function syncAnz() { var e = document.getElementById('syncInfo'); if (e) e.textContent = LABORCLOUD.text(); }
+// Stand für die Cloud: Namen im Abschnitt d werden geleert (cloud.js entfernt nur Namen auf oberster Ebene)
+function syncStand() {
+  if (!S || !S.ok) return null;
+  var k = JSON.parse(JSON.stringify(S));
+  k.d = Object.assign({}, S.d || {}, { vorname: '', nachname: '' });
+  return k;
+}
+function syncMeld(s) { var e = document.getElementById('bMeld'); if (e) e.textContent = s; }
+function initSync() {
+  LABORCLOUD.init({ labor: LABOR_KENNUNG, endpunkt: ENDPUNKT, stand: syncStand, geaendert: syncAnz });
+  if (S.ok && S.kcode) LABORCLOUD.fortsetzen(S.kcode, S.pcode);
+  syncAnz();
+  $('bAnmelden').addEventListener('click', function () {
+    var kl = $('bKl').value.trim().toUpperCase(), pc = $('bPc').value.trim().toUpperCase();
+    if (kl.length < 4 || pc.length < 4) return syncMeld('Gib den Klassencode und deinen persönlichen Code ein.');
+    if (!LABORCLOUD.endpunkt()) return syncMeld('⚠️ Die Online-Speicherung ist noch nicht eingerichtet.');
+    syncMeld('Einen Moment …');
+    LABORCLOUD.anmelden(kl, pc).then(function (r) {
+      if (!r.ok) return syncMeld('⚠️ ' + r.fehler);
+      var lokal = S.d || {}, neu = r.stand ? ergaenze(r.stand) : S;   // Stand aus der Cloud oder neuer Stand
+      neu.d = neu.d || {};
+      ['vorname', 'nachname'].forEach(function (k) { neu.d[k] = lokal[k] || neu.d[k] || ''; });
+      neu.ok = true; neu.kcode = kl; neu.pcode = pc; neu.t = Date.now();
+      try { localStorage.setItem(KEY, JSON.stringify(neu)); } catch (e) {}
+      location.reload();                                   // Seite neu aufbauen mit dem Stand
+    });
+  });
+}
+
 /* =====================================================================
    START: Seite aufbauen, Ereignisse verbinden
    ===================================================================== */
@@ -2270,6 +2442,7 @@ function init() {
     if (e.target.closest('.toastzu')) { $('toast').classList.remove('zeigen'); return; }
   });
   $('starten').addEventListener('click', function () {
+    if (!S.ok) { alert('Melde dich zuerst oben mit deinem Klassencode und deinem persönlichen Code an.'); $('bKl').focus(); return; }
     if (!(S.d.vorname || '').trim() || !(S.d.nachname || '').trim()) { alert('Bitte trage deinen Vor- und Nachnamen ein – er steht später auf deinem Protokoll.'); (S.d.vorname ? $('nachname') : $('vorname')).focus(); return; }
     if (!S.d.ort) { alert('Bitte wähle noch aus: Wo arbeitest du gerade? (Unterricht am PC, am iPad oder Hausaufgabe) – das steht später auf deiner PDF.'); $('ort').focus(); return; }
     var erste = 1; for (var i = 0; i < STATIONEN.length; i++) { var st = STATIONEN[i]; if (AUFG.some(function (a) { return a.st === st && a.lv === 1 && !istFertig(a); })) { erste = i + 1; break; } }
@@ -2298,6 +2471,7 @@ function init() {
     $('neuBeginnen').addEventListener('click', function () { clearTimeout(speicherTimer); try { localStorage.removeItem(KEY); } catch (e) {} S = neuerZustand(); location.reload(); });
   }
   bindeZusatz();
+  initSync();
   aktualisiereStatus();
   geh(0);
 }
