@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.supabase.co http://localhost:* http://127.0.0.1:*; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>Online-Lernlabore</title>
+<meta name="description" content="Interaktive Lernlabore mit automatischer, pseudonymer Lernstandsspeicherung">
+<link rel="stylesheet" href="start.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%232f6fde'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="kopf">
+  <strong>Online-Lernlabore</strong>
+  <div id="sitzung"></div>
+</header>
+<main class="haupt">
+  <section class="karte gross" id="schueler">
+    <h1>Willkommen im Lernlabor!</h1>
+    <p>Du hast eine Zugangskarte mit einem Code bekommen? Dann kann es losgehen.</p>
+    <button type="button" class="knopf" id="anmelden">Mit Zugangscode anmelden</button>
+    <p class="leise">Du brauchst keinen Namen und keine E-Mail-Adresse.</p>
+  </section>
+  <section class="karte">
+    <h2>Für Lehrkräfte</h2>
+    <p><a href="lehrkraft/">Zum Lehrkraft-Dashboard</a> – pseudonyme Lernstände, Aufgabenanalyse, Gastzugänge.</p>
+    <p class="leise klein">Die Zuordnung zu Namen erfolgt ausschließlich im lokalen Lehrerprogramm auf dem eigenen Rechner.</p>
+  </section>
+  <section class="karte">
+    <h2>Lernlabore</h2>
+    <ul>
+      <li><a href="labore/physik-entdecker/">Physik-Entdecker: Bewegung und Strom</a> (Klasse 4)</li>
+    </ul>
+  </section>
+</main>
+<footer class="fuss leise klein">Online-Lernlabore 2.0 · keine Werbung, kein Tracking · gespeichert wird nur der pseudonyme Lernstand</footer>
+<script src="config.js"></script>
+<script type="module" src="start.js"></script>
+</body>
+</html>

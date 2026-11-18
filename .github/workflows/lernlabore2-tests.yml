@@ -1,0 +1,51 @@
+# Online-Lernlabore 2.0 – automatische Tests (Datenbank, SDK, Browser, Lehrerprogramm)
+name: "Lernlabore 2.0 – Tests"
+on:
+  push:
+    paths: ["lernlabore2/**", ".github/workflows/lernlabore2-*.yml"]
+  pull_request:
+    paths: ["lernlabore2/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lernlabore2-tests-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: lernlabore2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: lernlabore2/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Systempakete (PostgreSQL-Server, virtueller Bildschirm)
+        run: sudo apt-get update && sudo apt-get install -y postgresql xvfb
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Typprüfung und Unit-Tests (SDK, Physikmodell)
+        run: npm run typecheck && npm run test:unit
+      - name: Datenbanktests (RLS, Zugriffsschutz, Idempotenz, Gastmodus)
+        run: npm run test:db
+      - name: Webseiten bauen
+        run: npm run build
+      - name: Browser-Ende-zu-Ende-Tests
+        run: npm run test:e2e
+      - name: Lehrerprogramm (inkl. Online-Ablauf gegen Testserver)
+        run: |
+          python -m pip install -r apps/local-teacher-tool/requirements.txt pytest==9.2.0
+          node tools/local-db.mjs reset
+          node tools/dev-server/server.mjs --port 8787 --seed > devserver.log 2>&1 &
+          sleep 3
+          cd apps/local-teacher-tool
+          LERNLABOR_TEST_SERVER=http://localhost:8787 LERNLABOR_TEST_DB_URL=postgres://postgres@127.0.0.1:54329/lernlabore_test \
+            xvfb-run -a python -m pytest -q tests

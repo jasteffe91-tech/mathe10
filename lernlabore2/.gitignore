@@ -1,0 +1,15 @@
+node_modules/
+.lokal/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+apps/local-teacher-tool/build/
+apps/local-teacher-tool/dist/
+apps/local-teacher-tool/*.spec.bak
+test-results/
+# Niemals Schülerdaten oder Tresordateien einchecken
+*.llv
+*.llv.bak
+**/schuelerliste*.csv
+!tests/fixtures/*.csv

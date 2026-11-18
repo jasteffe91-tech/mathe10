@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Beispiel-Labor</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 19px/1.5 system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 56px 16px 80px; }
+  button.wahl { font: inherit; padding: 14px 18px; margin: 6px 6px 6px 0; border-radius: 12px; border: 2px solid #94a3b8; background: Canvas; color: CanvasText; cursor: pointer; }
+  button.wahl[aria-pressed="true"] { border-color: #2f6fde; outline: 3px solid #2f6fde; }
+  textarea { font: inherit; width: 100%; min-height: 120px; padding: 10px; border-radius: 12px; }
+  .speichern { font: inherit; padding: 12px 18px; border-radius: 12px; border: 0; background: #2f6fde; color: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+<!--
+  Dieses Beispiel zeigt, wie wenig Code ein Lernlabor für die Anbindung braucht.
+  Es benutzt das SDK als klassisches Skript (globales Objekt „Lernlabor“) – ganz ohne Build-Schritt.
+-->
+<h1>Beispiel: Schwimmt oder sinkt?</h1>
+<p id="fortschritt">Fortschritt: –</p>
+
+<h2>1. Was glaubst du: Schwimmt ein Apfel im Wasser?</h2>
+<div role="group" aria-label="Vermutung">
+  <button class="wahl" data-wert="schwimmt" aria-pressed="false">Er schwimmt.</button>
+  <button class="wahl" data-wert="sinkt" aria-pressed="false">Er sinkt.</button>
+</div>
+
+<h2>2. Warum glaubst du das?</h2>
+<label for="begruendung" class="vh">Begründung</label>
+<textarea id="begruendung" maxlength="1000"></textarea>
+<p><button class="speichern" id="fertig">Antwort abgeben</button></p>
+
+<script src="../../config.js"></script>
+<script src="../../sdk/lernlabor-sdk.js"></script>
+<script>
+(async function () {
+  // 1) Labor initialisieren – Anmeldung, Laden und Speicheranzeige übernimmt das SDK
+  const manifest = await fetch('lab.manifest.json').then(function (r) { return r.json(); });
+  const lab = await Lernlabor.initializeLab({ labId: manifest.id, labVersion: manifest.version, manifest: manifest });
+
+  // 2) Gespeicherten Stand anzeigen (Fortsetzen nach Unterbrechung)
+  function zeige() {
+    const v = lab.getResult('a1-vermutung');
+    document.querySelectorAll('.wahl').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(!!v && v.answer.choice === b.dataset.wert));
+    });
+    const b = lab.getResult('a2-begruendung');
+    if (b && document.activeElement !== document.getElementById('begruendung')) document.getElementById('begruendung').value = b.answer.text || '';
+    const p = lab.getProgress();
+    document.getElementById('fortschritt').textContent = 'Fortschritt: ' + p.completed + ' von ' + p.total + ' (' + p.percent + ' %)';
+  }
+  lab.on('results', zeige);
+  zeige();
+
+  // 3) Nach jedem abgeschlossenen Arbeitsschritt speichern
+  document.querySelectorAll('.wahl').forEach(function (b) {
+    b.addEventListener('click', function () { lab.completeTask('a1-vermutung', { choice: b.dataset.wert }); });
+  });
+  document.getElementById('fertig').addEventListener('click', function () {
+    const text = document.getElementById('begruendung').value.trim();
+    if (text) lab.completeTask('a2-begruendung', { text: text });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{
+  "$schema": "../../docs/lab-manifest.schema.json",
+  "id": "physik-entdecker",
+  "version": "1.0",
+  "title": "Physik-Entdecker: Bewegung und Strom",
+  "subject": "Physik / Sachunterricht",
+  "audience": "Klasse 4 (9–10 Jahre)",
+  "tasks": [
+    {
+      "task_id": "m1-vermutung",
+      "section": "Mechanik: Die rollende Kugel",
+      "title": "Vermutung: Auf welcher Rampe rollt die Kugel am schnellsten nach unten?",
+      "kind": "choice",
+      "graded": false,
+      "options": [
+        { "value": "flach", "label": "Auf der flachen Rampe" },
+        { "value": "mittel", "label": "Auf der mittleren Rampe" },
+        { "value": "steil", "label": "Auf der steilen Rampe" }
+      ]
+    },
+    {
+      "task_id": "m2-versuch",
+      "section": "Mechanik: Die rollende Kugel",
+      "title": "Versuch: Kugel auf drei Rampen rollen lassen",
+      "kind": "simulation"
+    },
+    {
+      "task_id": "m3-auswertung",
+      "section": "Mechanik: Die rollende Kugel",
+      "title": "Auswertung: Was hast du beobachtet?",
+      "kind": "choice",
+      "graded": true,
+      "options": [
+        { "value": "steil", "label": "Auf der steilen Rampe war die Kugel am schnellsten unten." },
+        { "value": "flach", "label": "Auf der flachen Rampe war die Kugel am schnellsten unten." },
+        { "value": "gleich", "label": "Die Kugel war auf allen Rampen gleich schnell unten." }
+      ],
+      "solution": { "correct": ["steil"] }
+    },
+    {
+      "task_id": "e1-vermutung",
+      "section": "Strom: Bring die Lampe zum Leuchten!",
+      "title": "Vermutung: Was braucht die Lampe, damit sie leuchtet?",
+      "kind": "choice",
+      "graded": false,
+      "options": [
+        { "value": "batterie", "label": "Nur eine Batterie" },
+        { "value": "kreis", "label": "Einen geschlossenen Kreis aus Batterie, Kabeln und Lampe" },
+        { "value": "kabel", "label": "Nur ein Kabel" },
+        { "value": "weiss-nicht", "label": "Ich weiß es noch nicht" }
+      ]
+    },
+    {
+      "task_id": "e2-versuch",
+      "section": "Strom: Bring die Lampe zum Leuchten!",
+      "title": "Versuch: Stromkreis schließen und öffnen",
+      "kind": "simulation"
+    },
+    {
+      "task_id": "e3-auswertung",
+      "section": "Strom: Bring die Lampe zum Leuchten!",
+      "title": "Auswertung: Warum leuchtet die Lampe nur manchmal?",
+      "kind": "choice",
+      "graded": true,
+      "options": [
+        { "value": "kreis", "label": "Die Lampe leuchtet nur, wenn der Weg für den Strom rundherum geschlossen ist." },
+        { "value": "muede", "label": "Die Lampe braucht manchmal eine Pause." },
+        { "value": "batterie-aus", "label": "Die Batterie schaltet sich von selbst aus." }
+      ],
+      "solution": { "correct": ["kreis"] }
+    }
+  ]
+}
