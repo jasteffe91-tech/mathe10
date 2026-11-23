@@ -216,6 +216,34 @@ ul.liste{margin:.3em 0;padding-left:1.2em}
       </div>
     </div>
 
+    <!-- Sitzordnung (nur in der Woche ab 23.11.2026) -->
+    <div class="teil" data-teil="sitz">
+      <h1>Sitzordnung</h1>
+      <p>Wir planen eine neue Sitzordnung. Sag ehrlich, was dir hilft. <span class="klein">🔒 Das liest nur die Klassenleitung.</span></p>
+      <p class="klein">Ich versuche, möglichst viele Wünsche zu erfüllen – alle gleichzeitig geht aber nicht immer. Wichtig ist auch, dass alle gut lernen können.</p>
+      <div class="karte">
+        <label class="frage">Möchtest du an deinem jetzigen Platz bleiben?</label>
+        <div class="wahl" data-feld="sitz_bleiben" data-optionen="Ja, gern|Lieber wechseln|Egal"></div>
+        <label class="frage">Wo möchtest du am liebsten sitzen?</label>
+        <div class="wahl" data-feld="sitz_reihe" data-optionen="Vorne|In der Mitte|Hinten|Egal"></div>
+        <label class="frage">Und auf welcher Seite?</label>
+        <div class="wahl" data-feld="sitz_seite" data-optionen="Fensterseite|Mitte|Türseite|Egal"></div>
+        <label class="frage" for="sitz_warum">Warum? Gibt es etwas, das ich beim Platz beachten sollte?</label>
+        <textarea id="sitz_warum" data-feld="sitz_warum" placeholder="z. B. Ich sehe die Tafel von hinten schlecht · vorne kann ich mich besser konzentrieren · ich brauche Ruhe …"></textarea>
+      </div>
+      <div class="karte">
+        <label class="frage">Neben wem möchtest du gern sitzen? <span class="klein">(bis zu 3, der wichtigste Wunsch zuerst)</span></label>
+        <div id="sitz-wunsch-liste"></div>
+        <label class="frage">Mit wem kannst du gut <u>arbeiten</u> – auch wenn ihr nicht befreundet seid?</label>
+        <div id="sitz-arbeit-liste"></div>
+      </div>
+      <div class="karte warm">
+        <h2>🔒 Neben wem lieber nicht?</h2>
+        <p class="klein">Das bleibt geheim. Niemand erfährt, wer was geschrieben hat. Ein Grund hilft mir, muss aber nicht sein.</p>
+        <div id="sitz-nicht-liste"></div>
+      </div>
+    </div>
+
     <!-- 5 Besprechen -->
     <div class="teil" data-teil="anliegen">
       <h1>Das sollten wir besprechen</h1>
@@ -431,7 +459,7 @@ if (typeof module !== 'undefined') module.exports = LABORCLOUD;
     'Du hast etwas Schwieriges geschafft und wirst vor der Klasse gelobt.',
     'Kurz vor einer Klassenarbeit merkst du: Ich habe zu wenig gelernt.'];
   // Zusatzteile nur in bestimmten Wochen (Montag der Woche) – für weitere Wochen hier ergänzen
-  var SONDER = { '2026-11-23': { tdot: true, noten: true, gefuehle: true, dauer: '35–40 Minuten' } };
+  var SONDER = { '2026-11-23': { tdot: true, noten: true, sitz: true, gefuehle: true, dauer: '40–45 Minuten' } };
 
   // Woche: Montag der aktuellen Woche (am Wochenende: kommender Montag) (?tag=JJJJ-MM-TT zum Testen) → Labor-Kennung kl8b-JJJJ-MM-TT
   function montag() {
@@ -444,6 +472,7 @@ if (typeof module !== 'undefined') module.exports = LABORCLOUD;
   var TEILE = [['ich', 'Ich'], ['klasse', 'Klasse']];
   if (W.tdot) TEILE.push(['tdot', 'Tag d. offenen Tür']);
   if (W.noten) TEILE.push(['noten', 'Quartalsnoten']);
+  if (W.sitz) TEILE.push(['sitz', 'Sitzordnung']);
   TEILE.push(['anliegen', 'Besprechen']);
   if (W.gefuehle) TEILE.push(['gefuehle', 'Glück: Gefühle']);
   TEILE.push(['glueck', W.gefuehle ? 'Komplimente & Abgeben' : 'Glück']);
@@ -458,7 +487,10 @@ if (typeof module !== 'undefined') module.exports = LABORCLOUD;
     tdot_lob: [3, { wer: '', wofuer: '' }],
     noten_gut: [3, { fach: '', note: '' }],
     noten_sorge: [3, { fach: '', note: '', grund: '' }],
-    situationen: [SITUATIONEN.length, { gefuehl: '', hilft: '' }]
+    situationen: [SITUATIONEN.length, { gefuehl: '', hilft: '' }],
+    sitz_wunsch: [3, { wer: '', warum: '' }],
+    sitz_arbeit: [2, { wer: '' }],
+    sitz_nicht: [3, { wer: '', warum: '' }]
   };
   function leer() {
     var s = { v: 2, woche: TAG, teil: 0, abgegeben: '', gef_frei: true, tdot_was: [], gef_woche: [] };
@@ -553,6 +585,9 @@ if (typeof module !== 'undefined') module.exports = LABORCLOUD;
     baueZeilen('noten-sorge-liste', 'noten_sorge', [['fach', 'text', 'Fach'], ['note', 'note'], ['grund', 'text', 'Woran liegt es?', 'breit']]);
     baueZeilen('situationen-liste', 'situationen', [['gefuehl', 'text', 'Ich würde mich … fühlen'], ['hilft', 'text', 'Das würde mir helfen …', 'breit']],
       function (i) { return '<p class="situation"><span>' + (i + 1) + '.</span> ' + SITUATIONEN[i] + '</p>'; });
+    baueZeilen('sitz-wunsch-liste', 'sitz_wunsch', [['wer', 'text', 'Vor- und Nachname'], ['warum', 'text', 'Warum? (freiwillig)', 'breit']]);
+    baueZeilen('sitz-arbeit-liste', 'sitz_arbeit', [['wer', 'text', 'Vor- und Nachname', 'breit']]);
+    baueZeilen('sitz-nicht-liste', 'sitz_nicht', [['wer', 'text', 'Vor- und Nachname'], ['warum', 'text', 'Warum? (freiwillig)', 'breit']]);
   }
   function fuelleFelder() {
     alle('textarea[data-feld],input[data-feld]', function (el) {
@@ -567,6 +602,7 @@ if (typeof module !== 'undefined') module.exports = LABORCLOUD;
     if (t === 'klasse') return !!(S.klima && (S.kl_gut || S.kl_stoert));
     if (t === 'tdot') return !!(S.tdot_da && (S.tdot_da === 'Nein' || S.tdot_was.length));
     if (t === 'noten') return !!(S.noten_zufrieden && S.noten_vorsatz);
+    if (t === 'sitz') return !!(S.sitz_bleiben && S.sitz_reihe && voll(S.sitz_wunsch, 'wer'));
     if (t === 'anliegen') return voll(S.anliegen, 'text');
     if (t === 'gefuehle') return !!(S.gef_woche.length && voll(S.situationen, 'gefuehl') && (S.hilft_wut || S.hilft_trauer || S.hilft_stress));
     if (t === 'glueck') return voll(S.komplimente, 'text') || !!S.abgegeben;
