@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Umgezogen</title>
+<style>
+  body { font: 17px/1.5 system-ui, -apple-system, sans-serif; margin: 0; padding: 32px 20px; background: #f8fafc; color: #1f2937; }
+  main { max-width: 520px; margin: 0 auto; }
+  a { color: #1d4ed8; word-break: break-all; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Diese Seite ist umgezogen</h1>
+  <p id="info">Du wirst gleich weitergeleitet. Dein Arbeitsstand auf diesem Gerät wird dabei mitgenommen.</p>
+  <p>Neue Adresse: <a id="link" href="https://unterrichtslabor.jasteffe91.workers.dev/">https://unterrichtslabor.jasteffe91.workers.dev/</a></p>
+</main>
+<script>
+/* Umzug GitHub -> Cloudflare: Diese Seite liegt unter der ALTEN Adresse.
+   Sie sammelt die gespeicherten Stände der Unterrichtsseiten (nur bekannte Schlüssel, nichts anderes),
+   packt sie in den Adress-Anker #umzug=… und leitet auf dieselbe Seite unter der neuen Adresse weiter.
+   Der Anker wird nie an einen Server geschickt. Der Stand bleibt hier zusätzlich als Sicherung liegen. */
+(function () {
+  var NEU = "https://unterrichtslabor.jasteffe91.workers.dev", BASIS = "/mathe10", PRE = ["m10g-sprint", "ka1-10g", "ki-eier", "ki-sprint", "kinoreise.", "kl8b-woche:", "lernbuero-bildergeschichten5", "deutschlabor-herbst6", "midwestlab", "mathe10g-labor", "labor.", "q2gk-", "mathe8e-", "themenlabor10", "nw6a-labor", "ph10e-labor", "mechlab8o:", "weltall8d-labor", "lernlabor:", "terme8e-", "zinsen8e-", "mr-rallye", "herbstein-rallye", "pimaldaumen.", "rillenreise.", "stadtfuchs.", "towerfall.", "blitzheld.", "praevention-", "ki-umfrage-", "laborcloud"], MAX = 1900000;
+  var pfad = location.pathname.indexOf(BASIS) === 0 ? location.pathname.slice(BASIS.length) : location.pathname;
+  var ziel = NEU + (pfad.charAt(0) === '/' ? pfad : '/' + pfad) + location.search;
+  var link = document.getElementById('link'); link.href = ziel; link.textContent = ziel;
+  function eigen(k) { for (var i = 0; i < PRE.length; i++) if (k.indexOf(PRE[i]) === 0) return true; return false; }
+  var d = {};
+  try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (eigen(k)) d[k] = localStorage.getItem(k); } } catch (e) {}
+  var anker = location.hash ? '&h=' + encodeURIComponent(location.hash) : '';
+  var json = JSON.stringify({ v: 1, k: d });
+  function b64(bytes) {
+    var s = '', CH = 0x8000;
+    for (var i = 0; i < bytes.length; i += CH) s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+    return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function los(teil) {
+    if (teil.length > MAX) {
+      document.getElementById('info').textContent = 'Dein gespeicherter Stand ist zu groß für die automatische Übergabe. ' +
+        'Bitte sichere ihn im Labor als PDF/Datei (falls möglich) und melde dich bei deiner Lehrkraft. Die neue Seite erreichst du über den Link.';
+      return;
+    }
+    location.replace(ziel + '#umzug=' + teil + anker);
+  }
+  var roh = new TextEncoder().encode(json);
+  if (typeof CompressionStream === 'function') {
+    new Response(new Blob([roh]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer()
+      .then(function (buf) { los('z' + b64(new Uint8Array(buf))); })
+      .catch(function () { los('r' + b64(roh)); });
+  } else {
+    los('r' + b64(roh));
+  }
+})();
+</script>
+</body>
+</html>
